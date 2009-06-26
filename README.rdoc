@@ -4,6 +4,8 @@
 Insanely fast (and small) server-side JavaScript web development framework
 built on node.js and the V8 JavaScript engine.
 
+* Stay tuned, coming soon :)
+
 == License 
 
 (The MIT License)
