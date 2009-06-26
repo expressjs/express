@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="/Library/Ruby/Gems/1.8/gems/visionmedia-jspec-2.3.1/lib/jspec.css" />
+		<script src="/Library/Ruby/Gems/1.8/gems/visionmedia-jspec-2.3.1/lib/jspec.js"></script>
+		<script src="../lib/yourlib.core.js"></script>
+		<script>
+			function runSuites() {
+				JSpec
+				.exec('spec.core.js')
+				.run()
+				.report()
+			}
+		</script>
+	</head>
+	<body class="jspec" onLoad="runSuites();">
+		<div id="jspec-top"><h2 id="jspec-title">JSpec <em><script>document.write(JSpec.version)</script></em></h2></div>
+		<div id="jspec"></div>
+		<div id="jspec-bottom"></div>
+	</body>
+</html>
