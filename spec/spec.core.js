@@ -46,4 +46,11 @@ describe 'Express'
       Express.hashToArray(headers).should.eql [['Content-Type', 'text/plain']]
     end
   end
+  
+  describe '.arrayToHash()'
+    it 'should map an assoc array to an object'
+      headers = [['Content-Type', 'text/plain']]
+      Express.arrayToHash(headers).should.eql { 'Content-Type' : 'text/plain' }
+    end
+  end
 end
