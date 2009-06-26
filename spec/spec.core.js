@@ -11,4 +11,11 @@ describe 'Express'
       Express.contentsOf(function(){ return 'foo' }).should.include 'return', 'foo'
     end
   end
+  
+  describe '.header()'
+    it 'should set / get headers'
+      Express.header('Content-Type', 'text/html')
+      Express.header('Content-Type').should.eql 'text/html'
+    end
+  end
 end

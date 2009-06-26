@@ -1,7 +1,8 @@
 
 = Express
 
-Insanely fast (and small) server-side JavaScript web development framework. 
+Insanely fast (and small) server-side JavaScript web development framework
+built on node.js and the V8 JavaScript engine.
 
 == License 
 
