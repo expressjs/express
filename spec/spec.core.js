@@ -39,4 +39,11 @@ describe 'Express'
       Express.response.status.should.eql 403
     end
   end
+  
+  describe '.hashToArray()'
+    it 'should map hash key / value pairs to an array'
+      headers = { 'Content-Type' : 'text/plain' }
+      Express.hashToArray(headers).should.eql [['Content-Type', 'text/plain']]
+    end
+  end
 end
