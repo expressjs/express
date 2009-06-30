@@ -6,6 +6,13 @@ built on node.js and the V8 JavaScript engine.
 
 * Stay tuned, coming soon :)
 
+== Features (so far)
+
+* Sexy DSL
+* Mime helpers
+* Routing (string matching, regexp with captures, param key substitution, etc)
+* Full test coverage
+
 == License 
 
 (The MIT License)
