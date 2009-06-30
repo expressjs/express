@@ -5,5 +5,5 @@ load('lib/express.core.js')
 JSpec
 .exec('spec/spec.core.js')
 .exec('spec/spec.routing.js')
-.run({ formatter : JSpec.formatters.Terminal })
+.run({ failuresOnly : true, formatter : JSpec.formatters.Terminal })
 .report()
