@@ -6,6 +6,19 @@ describe 'Express'
     end
   end
   
+  describe '.parseNestedParams()'
+    it 'should parse nested params hash provided by node'
+      params = { 'user[name]' : 'tj', 'user[info][email]' : 'tj@vision-media.ca' }
+      nested = { user : {
+        name : 'tj',
+        info : {
+          email : 'tj@vision-media.ca'
+        }
+      }}
+      Express.parseNestedParams(params).should.eql nested
+    end
+  end
+  
   describe '.argsArray()'
     it 'should return an array of arguments'
       Express.argsArray(-{ return arguments }('foo', 'bar')).should.eql ['foo', 'bar']
