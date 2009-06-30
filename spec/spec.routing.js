@@ -22,7 +22,7 @@ describe 'Express'
         
     describe '.routeMatches()'
       before_each
-        request = { method : 'GET', uri : { path : '/user/1/edit'}}
+        request = { method : 'GET', uri : { path : '/user/1/edit' }}
       end
       
       it 'should return true when the route passed is valid for the request passed'
@@ -48,6 +48,13 @@ describe 'Express'
       it 'should return false when path is invalid regexp'
         route = { path : /user\/(\d+)\/view/, method : 'get' }
         Express.routeMatches(route, request).should.be_false
+      end
+    end
+    
+    describe '.pathToRegexp()'
+      it 'should return a regexp with capture groups when using the :foo syntax'
+        Express.pathToRegexp('/user/:name').should.eql(/user\/(.*?)/)
+        Express.pathToRegexp('/user/:name/edit').should.eql(/user\/(.*?)\/edit/)
       end
     end
   end

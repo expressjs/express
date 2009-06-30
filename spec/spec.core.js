@@ -22,6 +22,12 @@ describe 'Express'
     end
   end
   
+  describe '.escapeRegexp()'
+    it 'should escape regexp special characters'
+      Express.escapeRegexp('/users/(name)').should.eql '\\/users\\/\\(name\\)'
+    end
+  end
+  
   describe '.contentsOf()'
     it 'should return the body of a function as a string'
       Express.contentsOf(function(){ return 'foo' }).should.include 'return', 'foo'
