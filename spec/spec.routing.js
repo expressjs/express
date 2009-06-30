@@ -58,6 +58,13 @@ describe 'Express'
         Express.pathToRegexp('/user/:name/edit').should.eql(/^\/user\/(.*?)\/edit$/i)
         Express.regexpKeys.should.have_length 1
       end
+      
+      it 'should populate Express.regexpKeys with key names'
+        Express.pathToRegexp('user/:name/:op')
+        Express.regexpKeys.should.eql ['name', 'op']
+        Express.pathToRegexp('admin/:page')
+        Express.regexpKeys.should.eql ['page']
+      end
     end
   end
 end
