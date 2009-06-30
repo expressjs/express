@@ -53,9 +53,9 @@ describe 'Express'
     
     describe '.pathToRegexp()'
       it 'should return a regexp with capture groups when using the :foo syntax'
-        Express.pathToRegexp('/user/:name').should.eql(/^\/user\/(.*?)$/)
+        Express.pathToRegexp('/user/:name').should.eql(/^\/user\/(.*?)$/i)
         Express.regexpKeys.should.have_length 1
-        Express.pathToRegexp('/user/:name/edit').should.eql(/^\/user\/(.*?)\/edit$/)
+        Express.pathToRegexp('/user/:name/edit').should.eql(/^\/user\/(.*?)\/edit$/i)
         Express.regexpKeys.should.have_length 1
       end
     end
