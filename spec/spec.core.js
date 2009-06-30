@@ -26,6 +26,10 @@ describe 'Express'
     it 'should escape regexp special characters'
       Express.escapeRegexp('/users/(name)').should.eql '\\/users\\/\\(name\\)'
     end
+    
+    it 'should accept a string of space-delimited characters'
+      Express.escapeRegexp('/foo/#bar?user[name]=tj', '/ [ ]').should.eql '\\/foo\\/#bar?user\\[name\\]=tj'
+    end
   end
   
   describe '.contentsOf()'
