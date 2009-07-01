@@ -19,6 +19,30 @@ describe 'Express'
         Express.normalizePath('  /foo/').should.eql 'foo'
       end
     end
+    
+    describe '.routeMethod()'
+      it 'should match route / request methods'
+        Express.routeMethod({ method : 'get' }, { method : 'GET' }).should.be_true
+        Express.routeMethod({ method : 'post' }, { method : 'GET' }).should.be_false
+      end
+    end
+    
+    describe '.routeProvides()'
+      it 'should match a route providing the correct encoding'
+        route = { options : {}}
+        request = { headers : { 'Accept' : 'text/html' }}
+        Express.routeProvides(route, request).should.be_true
+        route = { options : { provides : 'text/html' }}
+        request = { headers : { 'Accept' : 'application/javascript,text/html,text/plain' }}
+        Express.routeProvides(route, request).should.be_true
+        request.headers['Accept'] = 'text/plain'
+        Express.routeProvides(route, request).should.be_false
+        route.options.provides = 'text/plain'
+        Express.routeProvides(route, request).should.be_true
+        route.options.provides = ['text/html', 'text/plain']
+        Express.routeProvides(route, request).should.be_true
+      end
+    end
         
     describe '.routeMatches()'
       before_each
