@@ -58,6 +58,13 @@ describe 'Express'
     end
   end
   
+  describe '.parseCookie()'
+    it 'should parse cookie fields'
+      cookie = 'expires=Fri, 31-Dec-2010 23:59:59 GMT; path=/; domain=.example.net'
+      Express.parseCookie(cookie).should.eql { expires : 'Fri, 31-Dec-2010 23:59:59 GMT', path : '/', domain : '.example.net' }
+    end
+  end
+  
   describe '.argsArray()'
     it 'should return an array of arguments'
       Express.argsArray(-{ return arguments }('foo', 'bar')).should.eql ['foo', 'bar']
