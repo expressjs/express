@@ -59,7 +59,7 @@ describe 'Express'
   end
   
   describe '.parseCookie()'
-    it 'should parse cookie fields'
+    it 'should parse cookie pairs'
       cookie = 'expires=Fri, 31-Dec-2010 23:59:59 GMT; path=/; q=foo%3dbar; domain=example.net'
       parts = Express.parseCookie(cookie)
       parts.expires.should.eql 'Fri, 31-Dec-2010 23:59:59 GMT'
