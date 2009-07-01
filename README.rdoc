@@ -11,7 +11,34 @@ built on node.js and the V8 JavaScript engine.
 * Sexy DSL
 * Mime helpers
 * Routing (string matching, regexp with captures, param key substitution, etc)
+* Nested parameter parsing (user[name]=tj == { user : { name : 'tj' }})
 * Full test coverage
+
+== Examples
+
+  // GET /user/tj/edit
+  
+  get('user/:name/:operation', function(){
+   return param('operation') + 'ing ' + param('name')
+  })
+
+  // GET /articles
+  
+  get('articles', function(){
+    return 'list of articles'
+  })
+
+  // GET /articles/12
+  
+  get(/articles\/(\d+)/, function(){
+    return 'article id ' + captures[1]
+  })
+
+  // GET /articles/foo
+  
+  get('articles/:name', function(){
+    return 'article name ' + param('name')
+  })
 
 == License 
 
