@@ -10,9 +10,14 @@ built on node.js and the V8 JavaScript engine.
 
 * Sexy DSL
 * Mime helpers
-* Routing (string matching, regexp with captures, param key substitution, etc)
 * Nested parameter parsing (user[name]=tj == { user : { name : 'tj' }})
 * Full test coverage
+* Routing
+  * string matching
+  * regexp with captures
+  * param key substitution
+  * pre-conditions
+  * etc
 
 == Examples
 
