@@ -12,12 +12,13 @@ describe 'Express'
       nested = { 
         foo : 'bar',
         user : {
-          name : 'tj',
           info : {
             email : 'tj@vision-media.ca',
             city : 'Victoria'
-          }
-      }}
+          },
+          name : 'tj'
+        }
+      }
       Express.parseNestedParams(params).should.eql nested
     end
   end
