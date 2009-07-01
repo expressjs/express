@@ -6,5 +6,6 @@ load('lib/express.mime.js')
 JSpec
 .exec('spec/spec.core.js')
 .exec('spec/spec.routing.js')
+.exec('spec/spec.mime.js')
 .run({ failuresOnly : true, formatter : JSpec.formatters.Terminal })
 .report()

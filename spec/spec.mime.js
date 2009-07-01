@@ -8,5 +8,10 @@ describe 'Express'
     it 'should return null when invalid'
       Express.mime('foobar').should.be_null
     end
+    
+    it 'should parse extension of basename or path passed'
+      Express.mime('images/profile.png').should.eql 'image/png'
+      Express.mime('foo.bar.something-else.png').should.eql 'image/png'
+    end
   end
 end
