@@ -50,17 +50,11 @@ describe 'Express'
   describe '.parseNestedParams()'
     it 'should parse nested params hash provided by node'
       params = { 'foo' : 'bar', 'user[name]' : 'tj', 'user[info][email]' : 'tj@vision-media.ca', 'user[info][city]' : 'Victoria' }
-      nested = { 
-        foo : 'bar',
-        user : {
-          info : {
-            email : 'tj@vision-media.ca',
-            city : 'Victoria'
-          },
-          name : 'tj'
-        }
-      }
-      Express.parseNestedParams(params).should.eql nested
+      nested = Express.parseNestedParams(params)
+      nested.foo.should.eql 'bar'
+      nested.user.name.should.eql 'tj'
+      nested.user.info.email.should.eql 'tj@vision-media.ca'
+      nested.user.info.city.should.eql 'Victoria'
     end
   end
   
