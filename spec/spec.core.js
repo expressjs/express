@@ -149,6 +149,22 @@ describe 'Express'
     end
   end
   
+  describe '.respond()'
+    after_each
+      Express.response.status = 200
+    end
+    
+    it 'should set response status and return body'
+      Express.respond('Not Found').should.eql 'Not Found'
+      Express.response.status.should.eql 404
+    end
+    
+    it 'should allow specific status to be passed'
+      Express.respond('File cannot be found', 404).should.eql 'File cannot be found'
+      Express.response.status.should.eql 404
+    end
+  end
+  
   describe '.hashToArray()'
     it 'should map hash key / value pairs to an array'
       headers = { 'Content-Type' : 'text/plain' }
