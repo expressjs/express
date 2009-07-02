@@ -19,6 +19,11 @@ built on node.js and the V8 JavaScript engine.
   * pre-conditions
   * etc
 
+== Coming Soon
+
+* View templating system
+* Jack integration
+
 == Examples
 
   // GET /user/tj/edit
