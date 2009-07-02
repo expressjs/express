@@ -12,6 +12,8 @@ built on node.js and the V8 JavaScript engine.
 * Mime helpers
 * Nested parameter parsing (user[name]=tj == { user : { name : 'tj' }})
 * Full test coverage
+* Cookie support
+* Non polluting (so you can use it with your fav JavaScript libraries :) )
 * Routing
   * string matching
   * regexp with captures

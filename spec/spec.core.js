@@ -69,6 +69,25 @@ describe 'Express'
     end
   end
   
+  describe '.cookie()'
+    before_each
+      cookie = 'expires=Fri, 31-Dec-2010 23:59:59 GMT; path=/; q=foo%3dbar; domain=example.net'
+      Express.request = {}
+      Express.request.cookie = Express.parseCookie(cookie)
+    end
+    
+    it 'should return cookie value when key passed'
+      Express.cookie('path').should.eql '/'
+      Express.cookie('domain').should.eql 'example.net'
+    end
+    
+    it 'should set response cookies when value passed'
+      Express.cookie('foo', 'bar')
+      Express.response.cookie.foo.key.should.eql 'foo'
+      Express.response.cookie.foo.value.should.eql 'bar'
+    end
+  end
+  
   describe '.argsArray()'
     it 'should return an array of arguments'
       Express.argsArray(-{ return arguments }('foo', 'bar')).should.eql ['foo', 'bar']
