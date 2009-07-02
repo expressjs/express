@@ -164,11 +164,11 @@ describe 'Express'
     it 'should invoke hook callbacks'
       var one, two
       Express.hookCallbacks = { 'test' : [
-        function(){ one = true },
+        function(a, b){ one = [a, b] },
         function(){ two = true }
       ] }
-      Express.hook('test')
-      one.should.be_true
+      Express.hook('test', 1, 2)
+      one.should.eql [1, 2]
       two.should.be_true
     end
   end
