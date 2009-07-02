@@ -53,6 +53,13 @@ built on node.js and the V8 JavaScript engine.
       'User deleted' :
         'Failed to delete user'
   })
+  
+== Setting Headers
+
+  get ('foo', function(){
+    header('Content-Type', 'text/html')
+    '<p>bar</p>'
+  })
 
 == License 
 
