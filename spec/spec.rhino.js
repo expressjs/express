@@ -1,5 +1,5 @@
 
-load('/Library/Ruby/Gems/1.8/gems/visionmedia-jspec-2.3.1/lib/jspec.js')
+load('/Library/Ruby/Gems/1.8/gems/visionmedia-jspec-2.4.2/lib/jspec.js')
 load('lib/express.core.js')
 load('lib/express.mime.js')
 load('lib/express.view.js')
