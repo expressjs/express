@@ -120,8 +120,11 @@ describe 'Express'
   
   describe '.header()'
     it 'should set / get headers'
+      Express.request = {}
+      Express.request.headers = { 'Accept' : 'text/plain' }
       Express.header('Content-Type', 'text/html')
       Express.header('Content-Type').should.eql 'text/html'
+      Express.header('Accept').should.eql 'text/plain'
     end
   end
   

@@ -54,7 +54,7 @@ built on node.js and the V8 JavaScript engine.
         'Failed to delete user'
   })
   
-== Setting Headers
+== Headers
 
   get ('foo', function(){
     header('Content-Type', 'text/html')
