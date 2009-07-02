@@ -3,12 +3,14 @@
 		<script src="jspec.js"></script>
 		<script src="../lib/express.core.js"></script>
 		<script src="../lib/express.mime.js"></script>
+		<script src="../lib/express.view.js"></script>
 		<script>
 			function runSuites() {
 				JSpec
 				.exec('spec.core.js')
 				.exec('spec.routing.js')
 				.exec('spec.mime.js')
+				.exec('spec.view.js')
 				.run()
 				.reportToServer()
 			}
