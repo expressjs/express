@@ -159,4 +159,17 @@ describe 'Express'
       Express.arrayToHash(headers).should.eql { 'Content-Type' : 'text/plain' }
     end
   end
+  
+  describe '.hook()'
+    it 'should invoke hook callbacks'
+      var one, two
+      Express.hookCallbacks = { 'test' : [
+        function(){ one = true },
+        function(){ two = true }
+      ] }
+      Express.hook('test')
+      one.should.be_true
+      two.should.be_true
+    end
+  end
 end
