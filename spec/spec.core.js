@@ -154,14 +154,16 @@ describe 'Express'
       Express.response.status = 200
     end
     
-    it 'should set response status and return body'
-      Express.respond('Not Found').should.eql 'Not Found'
+    it 'should set response status and body'
+      -{ Express.respond('Page or file cannot be found', 'Not Found') }.should.throw_error
       Express.response.status.should.eql 404
+      Express.response.body.should.eql 'Page or file cannot be found'
     end
     
     it 'should allow specific status to be passed'
-      Express.respond('File cannot be found', 404).should.eql 'File cannot be found'
+      -{ Express.respond('File cannot be found', 404) }.should.throw_error
       Express.response.status.should.eql 404
+      Express.response.body.should.eql 'File cannot be found'
     end
   end
   
