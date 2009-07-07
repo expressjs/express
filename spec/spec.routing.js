@@ -21,13 +21,6 @@ describe 'Express'
       end
     end
     
-    describe '.routeMethod()'
-      it 'should match route / request methods'
-        Express.routeMethod({ method : 'get' }, { method : 'GET' }).should.be_true
-        Express.routeMethod({ method : 'post' }, { method : 'GET' }).should.be_false
-      end
-    end
-    
     describe '.routeProvides()'
       it 'should match a route providing the correct encoding'
         route = { options : {}}
