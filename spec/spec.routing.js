@@ -91,5 +91,11 @@ describe 'Express'
       end
     end
     
+    describe 'get()'
+      get('/user/:name', function(){
+        'User ' + param('name')
+      })
+    end
+    
   end
 end
