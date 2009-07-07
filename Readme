@@ -56,12 +56,9 @@
         'Failed to delete user'
   })
   
-== Headers
+== Public API
 
-  get ('foo', function(){
-    header('Content-Type', 'text/html')
-    '<p>bar</p>'
-  })
+  * Coming Soon
 
 == License 
 
