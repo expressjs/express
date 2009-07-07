@@ -16,12 +16,20 @@ use({
     }
   },
   
-  onFoo : function(one, two) {
-    return 'bar ' + one + ' ' + two
+  onFoo : {
+    'return bar' : function(one, two) {
+      return 'bar ' + one + ' ' + two
+    }
   },
   
-  onFooImmutable : function(immutable, arg) {
-    return 'just ' + immutable + ' ' + arg
+  onFooImmutable : {
+    'test one' : function(immutable, arg) {
+      return 'one ' + immutable
+    },
+    
+    'test two' : function(immutable, arg) {
+      return immutable + ' two'
+    }
   }
 })
 
@@ -61,7 +69,7 @@ describe 'Express'
     
     describe 'hookImmutable'
       it 'should call hook implementations sequencially passing the first argument passed'
-        Express.hook('onFooImmutable', 'a', 'test').should.eql ['just a test']
+        Express.hookImmutable('onFooImmutable', 'test').should.eql 'one test two'
       end
     end
   end
