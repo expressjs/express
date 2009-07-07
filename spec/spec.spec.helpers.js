@@ -21,6 +21,11 @@ describe 'Express'
           mockResponse({ status : 404 }).status.should.eql 404
         end
       end
+      
+      describe ''
+        get('users', function(){ 'User list' })
+        get('/users').body.should.eql 'User list'
+      end
     end
   end
 end
