@@ -80,10 +80,11 @@ describe 'Express'
   describe '.header()'
     it 'should set / get headers'
       Express.request = {}
-      Express.request.headers = { 'Accept' : 'text/plain' }
+      Express.request.headers = { 'accept' : 'text/plain' }
       Express.header('Content-Type', 'text/html')
       Express.header('Content-Type').should.eql 'text/html'
       Express.header('Accept').should.eql 'text/plain'
+      Express.header('accept').should.eql 'text/plain'
     end
   end
   
@@ -150,6 +151,15 @@ describe 'Express'
       Express.hook('test', 1, 2)
       one.should.eql [1, 2]
       two.should.be_true
+    end
+  end
+  
+  describe '.redirect()'
+    it 'should redirect to the url specified'
+      get('foo', function(){ redirect('http://google.com') })
+      response = get('foo')
+      response.headers.location.should.eql 'http://google.com'
+      response.status.should.eql 302
     end
   end
 end
