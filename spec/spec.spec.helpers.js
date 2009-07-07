@@ -24,7 +24,7 @@ describe 'Express'
       
       describe ''
         get('users', function(){ 'User list' })
-        //.body.should.eql 'User list'
+        get('users').body.should.eql 'User list'
       end
     end
   end

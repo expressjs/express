@@ -1,6 +1,6 @@
 
 __loading__ = []
-__loadDelay__ = 500
+__loadDelay__ = 700
 
 readFile = function(path, callback) {
   __loading__.push(path)

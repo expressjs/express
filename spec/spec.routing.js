@@ -6,7 +6,8 @@ describe 'Express'
         Express.routes = []
         foo = Express.routeFunctionFor('get')
         foo('/some/path', function(){ return 'body' })
-        Express.routes.should.have_length 1
+        foo('/something/else', function(){ return 'body' })
+        Express.routes.should.have_length 2
       end
     end
     
