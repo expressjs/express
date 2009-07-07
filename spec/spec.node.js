@@ -1,6 +1,6 @@
 
 __loading__ = []
-__loadDelay__ = 700
+__loadDelay__ = 800
 
 readFile = function(path, callback) {
   __loading__.push(path)
@@ -24,17 +24,19 @@ load = function(path) {
 
 load('/Users/tjholowaychuk/scripts/gems/JSpec/lib/jspec.js')
 load('lib/express.core.js')
-load('lib/express.mime.js')
-load('lib/express.view.js')
 load('lib/express.mocks.js')
+load('lib/express.mime.js')
+load('lib/express.cookie.js')
+load('lib/express.view.js')
 
 setTimeout(function(){
   JSpec
   .exec('spec/spec.core.js')
   .exec('spec/spec.routing.js')
-  .exec('spec/spec.mime.js')
-  .exec('spec/spec.view.js')
   .exec('spec/spec.mocks.js')
+  .exec('spec/spec.mime.js')
+  .exec('spec/spec.cookie.js')
+  .exec('spec/spec.view.js')
   setTimeout(function(){ 
     JSpec.run({ formatter : JSpec.formatters.Terminal, failuresOnly : true })
     setTimeout(function() {

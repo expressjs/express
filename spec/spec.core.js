@@ -23,29 +23,12 @@ describe 'Express'
   
   describe '.parseCookie()'
     it 'should parse cookie pairs'
-      cookie = 'expires=Fri, 31-Dec-2010 23:59:59 GMT; path=/; q=foo%3dbar; domain=example.net'
+      var cookie = 'expires=Fri, 31-Dec-2010 23:59:59 GMT; path=/; q=foo%3dbar; domain=example.net'
       parts = Express.parseCookie(cookie)
       parts.expires.should.eql 'Fri, 31-Dec-2010 23:59:59 GMT'
       parts.path.should.eql '/'
       parts.q.should.eql 'foo=bar'
       parts.domain.should.eql 'example.net'
-    end
-  end
-  
-  describe '.cookie()'
-    before_each
-      cookie = 'path=/; q=foo%3dbar; domain=.example.net'
-      Express.response.cookie = Express.parseCookie(cookie)
-    end
-    
-    it 'should return cookie value when key passed'
-      Express.cookie('path').should.eql '/'
-      Express.cookie('domain').should.eql '.example.net'
-    end
-    
-    it 'should set response cookies when value passed'
-      Express.cookie('foo', 'bar')
-      Express.cookie('foo').should.eql 'bar'
     end
   end
   
@@ -142,19 +125,6 @@ describe 'Express'
     it 'should map an assoc array to an object'
       headers = [['Content-Type', 'text/plain']]
       Express.arrayToHash(headers).should.eql { 'Content-Type' : 'text/plain' }
-    end
-  end
-  
-  describe '.hook()'
-    it 'should invoke hook callbacks'
-      var one, two
-      Express.hookCallbacks = { 'test' : [
-        function(a, b){ one = [a, b] },
-        function(){ two = true }
-      ] }
-      Express.hook('test', 1, 2)
-      one.should.eql [1, 2]
-      two.should.be_true
     end
   end
   
