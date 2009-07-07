@@ -18,6 +18,7 @@
   * Faux method support for RESTful apps
   * Extendable using Express 'Modules'
   * Static file serving
+  * View support
   * Non polluting so you can use it with your fav JavaScript libraries :)
   * Routing
     * string matching       
@@ -26,11 +27,6 @@
     * pre-conditions
     * overidding
     * etc
-
-== Coming Soon
-
-  * View templating system
-  * Jack integration
 
 == Examples
 
