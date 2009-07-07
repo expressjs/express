@@ -118,6 +118,19 @@ describe 'Express'
         })
         get('admin/report/users').body.should.eql 'report users'
       end
+      
+      it 'should match strings literally'
+        get('foo', function(){ 'bar' })
+        get('foobar').body.should.not.eql 'bar'
+      end
+      
+      it 'should match using regexp and populate captures array'
+        get(/foo(bar)?/, function(){
+          captures[1] ? 'got bar' : 'no bar'
+        })
+        get('foo').body.should.eql 'no bar'
+        get('foobar').body.should.eql 'got bar'
+      end
     end
     
   end
