@@ -47,7 +47,7 @@ describe 'Express'
         
     describe '.routeMatches()'
       before_each
-        request = { method : 'GET', uri : { path : '/user/1/edit' }}
+        request = mockRequest({ uri : { path : '/user/1/edit' }})
       end
       
       it 'should return true when the route passed is valid for the request passed'
@@ -55,7 +55,7 @@ describe 'Express'
         Express.routeMatches(route, request).should.be_true
       end
       
-      it 'should return false when invalid method'
+      it 'should return false when method is incorrect'
         route = { path : '/user/1/edit', method : 'post' }
         Express.routeMatches(route, request).should.be_false
       end

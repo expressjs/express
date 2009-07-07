@@ -32,24 +32,24 @@ describe 'Express'
       
       describe 'post()'
         it 'should post route when available'
-          post('users', function(){ 'User list' })
-          post('users').body.should.eql 'User list'
+          post('users/delete', function(){ 'Users deleted' })
+          post('users/delete').body.should.eql 'Users deleted'
           post('other').status.should.eql 404          
         end
       end
 
       describe 'put()'
         it 'should put route when available'
-          put('users', function(){ 'User list' })
-          put('users').body.should.eql 'User list'
+          put('user/update', function(){ 'Updated' })
+          put('user/update').body.should.eql 'Updated'
           put('other').status.should.eql 404          
         end
       end
       
       describe 'del()'
         it 'should delete route when available'
-          del('users', function(){ 'User list' })
-          del('users').body.should.eql 'User list'
+          del('user', function(){ 'Deleted' })
+          del('user').body.should.eql 'Deleted'
           del('other').status.should.eql 404          
         end
       end
