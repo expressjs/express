@@ -111,6 +111,13 @@ describe 'Express'
         get('/user/tj').body.should.eql 'tj'
         get('/user/joe').body.should.eql 'joe'
       end
+      
+      it 'should populate several param keys'
+        get('/admin/:section/:page', function(){
+          param('section') + ' ' + param('page')
+        })
+        get('admin/report/users').body.should.eql 'report users'
+      end
     end
     
   end
