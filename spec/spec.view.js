@@ -1,6 +1,6 @@
 
 describe 'Express'
-  describe 'views'
+  describe 'View'
     
   end
 end

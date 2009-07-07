@@ -28,6 +28,7 @@ load('lib/express.mocks.js')
 load('lib/express.mime.js')
 load('lib/express.cookie.js')
 load('lib/express.view.js')
+load('lib/express.session.js')
 
 setTimeout(function(){
   JSpec
@@ -37,6 +38,7 @@ setTimeout(function(){
   .exec('spec/spec.modules.js')
   .exec('spec/spec.mime.js')
   .exec('spec/spec.cookie.js')
+  .exec('spec/spec.session.js')
   .exec('spec/spec.view.js')
   setTimeout(function(){ 
     JSpec.run({ formatter : JSpec.formatters.Terminal, failuresOnly : true })
