@@ -1,5 +1,9 @@
 
 describe 'Express'
+  before_each
+    Express.routes = []
+  end
+  
   describe '.version'
     it 'should be properly formatted'
       Express.version.should.match /\d+\.\d+\.\d+/
@@ -160,6 +164,13 @@ describe 'Express'
       response = get('foo')
       response.headers.location.should.eql 'http://google.com'
       response.status.should.eql 302
+    end
+  end
+  
+  describe '.home'
+    it 'should redirect home'
+      get('foo', function(){ redirect(home) })
+      get('foo').headers.location.should.eql '/'
     end
   end
 end
