@@ -24,12 +24,12 @@ describe 'Express'
     describe '.routeProvides()'
       it 'should match a route providing the correct encoding'
         route = { options : {}}
-        request = { headers : { 'Accept' : 'text/html' }}
+        request = mockRequest({ headers : { 'accept' : 'text/html' }})
         Express.routeProvides(route, request).should.be_true
         route = { options : { provides : 'text/html' }}
-        request = { headers : { 'Accept' : 'application/javascript,text/html,text/plain' }}
+        request = mockRequest({ headers : { 'accept' : 'application/javascript,text/html,text/plain' }})
         Express.routeProvides(route, request).should.be_true
-        request.headers['Accept'] = 'text/plain'
+        request = mockRequest({ headers : { 'accept' : 'text/plain' }})
         Express.routeProvides(route, request).should.be_false
         route.options.provides = 'text/plain'
         Express.routeProvides(route, request).should.be_true
