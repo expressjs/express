@@ -34,6 +34,7 @@ setTimeout(function(){
   .exec('spec/spec.core.js')
   .exec('spec/spec.routing.js')
   .exec('spec/spec.mocks.js')
+  .exec('spec/spec.modules.js')
   .exec('spec/spec.mime.js')
   .exec('spec/spec.cookie.js')
   .exec('spec/spec.view.js')
