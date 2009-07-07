@@ -26,6 +26,7 @@ load('/Users/tjholowaychuk/scripts/gems/JSpec/lib/jspec.js')
 load('lib/express.core.js')
 load('lib/express.mime.js')
 load('lib/express.view.js')
+load('lib/express.spec.helpers.js')
 
 setTimeout(function(){
   JSpec
@@ -33,6 +34,7 @@ setTimeout(function(){
   .exec('spec/spec.routing.js')
   .exec('spec/spec.mime.js')
   .exec('spec/spec.view.js')
+  .exec('spec/spec.spec.helpers.js')
   setTimeout(function(){ 
     JSpec.run({ formatter : JSpec.formatters.Terminal, failuresOnly : true })
     setTimeout(function() {
