@@ -85,5 +85,33 @@ describe 'Express'
       end
     end
     
+    describe 'routing functions'
+      before_each
+        Express.routes = []
+      end
+      
+      it 'should set last expression as response body'
+        get('user', function(){ 'tj' })
+        get('user').body.should.eql 'tj'
+      end
+      
+      it 'should disregard leading and trailing slashes'
+        get('/one', function(){ 'tj' })
+        get('one').body.should.eql 'tj'
+        
+        get('/two/', function(){ 'tj' })
+        get('two').body.should.eql 'tj'
+        
+        get('three/', function(){ 'tj' })
+        get('three').body.should.eql 'tj'
+      end
+      
+      it 'should populate params hash when using param keys'
+        get('/user/:name', function(){ param('name') })
+        get('/user/tj').body.should.eql 'tj'
+        get('/user/joe').body.should.eql 'joe'
+      end
+    end
+    
   end
 end
