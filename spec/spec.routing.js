@@ -85,7 +85,7 @@ describe 'Express'
       end
     end
     
-    describe 'routing functions'
+    describe 'resting functions'
       before_each
         Express.routes = []
       end
