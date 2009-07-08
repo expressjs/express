@@ -10,6 +10,17 @@ describe 'Express'
     end
   end
   
+  describe '.parseParams()'
+    it 'should parse a string of parameters'
+      string = 'user[name]=tj&user[pass]=test&foo=some bar stuff&cookies=awesome'
+      params = Express.parseParams(string)
+      params.user.name.should.eql 'tj'
+      params.user.pass.should.eql 'test'
+      params.foo.should.eql 'some bar stuff'
+      params.cookies.should.eql 'awesome'
+    end
+  end
+  
   describe '.parseNestedParams()'
     it 'should parse nested params hash provided by node'
       params = { 'foo' : 'bar', 'user[name]' : 'tj', 'user[info][email]' : 'tj@vision-media.ca', 'user[info][city]' : 'Victoria' }
@@ -66,12 +77,9 @@ describe 'Express'
   
   describe '.header()'
     it 'should set / get headers'
-      Express.request = {}
-      Express.request.headers = { 'accept' : 'text/plain' }
       Express.header('Content-Type', 'text/html')
       Express.header('Content-Type').should.eql 'text/html'
-      Express.header('Accept').should.eql 'text/plain'
-      Express.header('accept').should.eql 'text/plain'
+      Express.header('content-type').should.eql 'text/html'
     end
   end
   

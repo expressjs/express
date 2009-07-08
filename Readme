@@ -19,7 +19,6 @@
   * Extendable using Express 'Modules'
   * Static file serving
   * View support
-  * Non polluting so you can use it with your fav JavaScript libraries :)
   * Routing
     * string matching       
     * regexp with captures  
@@ -54,6 +53,22 @@
     User.destroy(params('id')) ? 
       'User deleted' :
         'Failed to delete user'
+  })
+  
+  // GET /login
+  
+  get('login', function() {
+    '<form method="post" action="/login">        \
+    <input type="text" name="user[name]" />      \
+    <input type="password" name="user[pass]" />  \
+    <input type="submit" value="Login"/>         \
+    </form>'
+  })
+  
+  // POST /login
+
+  post('login', function() {
+    'Welcome ' + param('user').name
   })
   
 == Public API
