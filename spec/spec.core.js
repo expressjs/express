@@ -172,7 +172,11 @@ describe 'Express'
   
   describe 'MethodOverride'
     it 'should override request method when _method param is present'
-      
+      request = mockRequest({
+        body : '_method=delete'
+      })
+      del('foo', function(){ 'Deleted' })
+      post('foo', { request : request }).body.should.eql 'Deleted'
     end
   end
   
