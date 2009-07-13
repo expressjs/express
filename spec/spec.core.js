@@ -172,10 +172,10 @@ describe 'Express'
     end
     
     describe '.back'
-      it 'should redirect to the reeferrer'
+      it 'should redirect to the referrer'
         uri = 'http://vision-media.ca'
         request = mockRequest({ headers : [['Referer', uri]] })
-        get('foo', function(){ redirect(back) })
+        get('foo', function(){ p(back); redirect(back) })
         get('foo', { request : request }).headers.location.should.eql uri
         Express.back.should.eql uri
       end
