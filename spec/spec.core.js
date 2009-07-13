@@ -165,7 +165,8 @@ describe 'Express'
   
   describe 'ContentLength'
     it 'should set the content length header'
-      
+      get('foo', function(){ 'foo bar' })
+      get('foo').headers['content-length'].should.eql 7
     end
   end
   
