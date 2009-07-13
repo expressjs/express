@@ -83,6 +83,15 @@ describe 'Express'
     end
   end
   
+  describe '.arg()'
+    it 'should return the given path segment'
+      Express.request = mockRequest({ uri : { path : 'some/foo-bar/baz' }})
+      Express.arg(0).should.eql 'some'
+      Express.arg(1).should.eql 'foo-bar'
+      Express.arg(2).should.eql 'baz'
+    end
+  end
+  
   describe '.status()'
     after_each
       Express.response.status = 200
