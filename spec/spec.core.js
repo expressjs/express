@@ -90,6 +90,10 @@ describe 'Express'
       Express.arg(1).should.eql 'foo-bar'
       Express.arg(2).should.eql 'baz'
     end
+    
+    it 'should return null when segment does not exist'
+      Express.arg(12).should.be_null
+    end
   end
   
   describe '.status()'
