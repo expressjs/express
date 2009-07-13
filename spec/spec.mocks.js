@@ -52,6 +52,11 @@ describe 'Express'
         del('other').status.should.eql 404          
       end
     end
-          
+    
+    it 'should allow request to be passed'
+      post('user', function(){ request.test })
+      post('user', { request : { test : '1' }}).body.should.eql '1'
+    end
+
   end
 end

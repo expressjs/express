@@ -159,7 +159,7 @@ describe 'Express'
           body : 'user[name]=foo%20bar&status=1'
         })
       post('foo', function(){ param('user').name + ' ' + param('status') })
-      post('foo').body.should.eql 'foo bar 1'
+      post('foo', { request : request }).body.should.eql 'foo bar 1'
     end
   end
 end
