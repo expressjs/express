@@ -171,8 +171,8 @@ describe 'Express'
           headers : [['Content-Type', 'application/x-www-form-urlencoded']],
           body : 'user[name]=foo%20bar&status=1'
         })
-      post('foo', function(){ param('user').name + ' ' + param('status') })
-      post('foo', { request : request }).body.should.eql 'foo bar 1'
+      post('admin', function(){ param('user').name + ' ' + param('status') })
+      post('admin', { request : request }).body.should.eql 'foo bar 1'
     end
 
     it 'should parse JSON bodies'
@@ -194,6 +194,10 @@ describe 'Express'
   
   describe 'MethodOverride'
     it 'should override request method when _method param is present'
+      request = mockRequest({ 
+          headers : [['Content-Type', 'application/x-www-form-urlencoded']],
+          body : '_method=delete'
+        })
       del('foo', function(){ 'Deleted' })
       post('foo', { request : { body : '_method=delete' }}).body.should.eql 'Deleted'
     end
