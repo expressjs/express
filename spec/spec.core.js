@@ -161,6 +161,15 @@ describe 'Express'
       post('foo', function(){ param('user').name + ' ' + param('status') })
       post('foo', { request : request }).body.should.eql 'foo bar 1'
     end
+
+    it 'should parse JSON bodies'
+      request = mockRequest({ 
+          headers : [['Content-Type', 'application/json']],
+          body : '{ foo : "bar" }'
+        })
+      post('foo', function(){ param('foo') })
+      post('foo', { request : request }).body.should.eql 'bar'
+    end
   end
   
   describe 'ContentLength'
