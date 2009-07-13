@@ -158,10 +158,20 @@ describe 'Express'
     end
   end
   
-  describe '.home'
-    it 'should redirect home'
-      get('foo', function(){ redirect(home) })
-      get('foo').headers.location.should.eql '/'
+  describe 'RedirectHelpers'
+    describe '.home'
+      it 'should redirect home'
+        get('foo', function(){ redirect(home) })
+        get('foo').headers.location.should.eql '/'
+      end
+    end
+    
+    describe '.back'
+      it 'should redirect to the reeferrer'
+        request = mockRequest({ headers : [['Referer', 'http://vision-media.ca']] })
+        get('foo', function(){ redirect(back) })
+        get('foo', { request : request }).headers.location.should.eql 'http://vision-media.ca'
+      end
     end
   end
   
