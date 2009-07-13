@@ -54,8 +54,8 @@ describe 'Express'
     end
     
     it 'should allow request to be passed'
-      post('user', function(){ request.test })
-      post('user', { request : { test : '1' }}).body.should.eql '1'
+      post('article', function(){ request.test })
+      post('article', { request : { test : '1' }}).body.should.eql '1'
     end
 
   end

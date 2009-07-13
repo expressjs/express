@@ -185,10 +185,4 @@ describe 'Express'
     end
   end
   
-  describe 'RedirectHelpers'
-    it 'should set home'
-      
-    end
-  end
-  
 end
