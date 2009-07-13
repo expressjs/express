@@ -162,4 +162,33 @@ describe 'Express'
       post('foo', { request : request }).body.should.eql 'foo bar 1'
     end
   end
+  
+  describe 'ContentLength'
+    it 'should set the content length header'
+      
+    end
+  end
+  
+  describe 'MethodOverride'
+    it 'should override request method when _method param is present'
+      
+    end
+  end
+  
+  describe 'DefaultContentType'
+    it 'should default to text/html'
+      
+    end
+    
+    it 'should be overridable'
+      
+    end
+  end
+  
+  describe 'RedirectHelpers'
+    it 'should set home'
+      
+    end
+  end
+  
 end
