@@ -78,6 +78,13 @@
     'Welcome ' + param('user').name
   })
   
+== Settings
+
+  * basepath         : defaults to '/'
+  * defaultRoute     : responds with page not found
+  * mime.defaultType : defaults to 'application/octet-stream'
+  * cookie.maxAge    : defaults to 3600 milliseconds
+    
 == Public API
 
   * Coming Soon
