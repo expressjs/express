@@ -164,13 +164,20 @@ describe 'Express'
         get('foo', function(){ redirect(home) })
         get('foo').headers.location.should.eql '/'
       end
+      
+      it 'should not always set location'
+        get('foo', function(){ 'bar' })
+        get('foo').headers.should.not.have_property 'location'
+      end
     end
     
     describe '.back'
       it 'should redirect to the reeferrer'
-        request = mockRequest({ headers : [['Referer', 'http://vision-media.ca']] })
+        uri = 'http://vision-media.ca'
+        request = mockRequest({ headers : [['Referer', uri]] })
         get('foo', function(){ redirect(back) })
-        get('foo', { request : request }).headers.location.should.eql 'http://vision-media.ca'
+        get('foo', { request : request }).headers.location.should.eql uri
+        Express.back.should.eql uri
       end
     end
   end
