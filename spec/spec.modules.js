@@ -1,8 +1,10 @@
 
 use({
   name : 'foo',
-  init : function() {
+  init : function(a, b) {
+    argA = a, argB = b
     initCalled = true
+    initContext = this
   },
   
   settings : {
@@ -31,7 +33,7 @@ use({
       return immutable + ' two'
     }
   }
-})
+}, 'foo', 'bar')
 
 describe 'Express'
   describe 'Modules'
@@ -41,6 +43,15 @@ describe 'Express'
     
     it 'should call init when passed to use()'
       initCalled.should.be_true
+    end
+    
+    it 'should pass args to init'
+      argA.should.eql 'foo'
+      argB.should.eql 'bar'
+    end
+    
+    it 'should have module context'
+      initContext.name.should.eql 'foo'
     end
     
     it 'should merge utilities'
