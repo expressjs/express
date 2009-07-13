@@ -1,6 +1,10 @@
 
 describe 'Express'
   describe 'Mocks'
+    before_each
+      Express.routes = []
+    end
+    
     describe 'mockRequest()'
       it 'should return a mock request'
         mockRequest().method.should.eql 'GET'
@@ -53,9 +57,16 @@ describe 'Express'
       end
     end
     
-    it 'should allow request to be passed'
-      post('article', function(){ request.test })
-      post('article', { request : { test : '1' }}).body.should.eql '1'
+    describe 'options'
+      it 'should allow request to be passed'
+        post('article', function(){ request.test })
+        post('article', { request : { test : '1' }}).body.should.eql '1'
+      end
+      
+      it 'should override request body'
+        post('article', function(){ request.body })
+        post('article', { request : { body : 'foo' }}).body.should.eql 'foo'
+      end
     end
 
   end
