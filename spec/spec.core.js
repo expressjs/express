@@ -172,9 +172,7 @@ describe 'Express'
   
   describe 'MethodOverride'
     it 'should override request method when _method param is present'
-      request = mockRequest({
-        body : '_method=delete'
-      })
+      request = mockRequest({ body : '_method=delete' })
       del('foo', function(){ 'Deleted' })
       post('foo', { request : request }).body.should.eql 'Deleted'
     end
@@ -182,11 +180,13 @@ describe 'Express'
   
   describe 'DefaultContentType'
     it 'should default to text/html'
-      
+      get('foo', function(){ 'bar' })
+      get('foo').headers['content-type'].should.eql 'text/html'
     end
     
     it 'should be overridable'
-      
+      get('foo', function(){ header('Content-Type', 'application/json'); 'bar' })
+      get('foo').headers['content-type'].should.eql 'application/json'
     end
   end
   
