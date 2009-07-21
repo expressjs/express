@@ -159,6 +159,10 @@ describe 'Express'
   end
   
   describe 'RedirectHelpers'
+    before_each
+      Express.response.headers = {}
+    end
+    
     describe '.home'
       it 'should redirect home'
         get('foo', function(){ redirect(home) })
@@ -175,7 +179,7 @@ describe 'Express'
       it 'should redirect to the referrer'
         uri = 'http://vision-media.ca'
         request = mockRequest({ headers : [['Referer', uri]] })
-        get('foo', function(){ p(back); redirect(back) })
+        get('foo', function(){ redirect(back) })
         get('foo', { request : request }).headers.location.should.eql uri
         Express.back.should.eql uri
       end
