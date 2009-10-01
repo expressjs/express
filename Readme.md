@@ -2,7 +2,7 @@
 # Express
 
   Insanely fast (and small) server-side JavaScript web development framework
-  built on node.js and the V8 JavaScript engine.
+  built on **node.js** and the **V8 JavaScript engine**.
 
   * Stay tuned, coming soon :)
 
@@ -31,30 +31,30 @@
 
   Extensive benchmarking will wait until a development version
   has been released. However for simple an average route and response
-  body Ruby's Sinatra scored 1454 request per second using Thin, while
-  Express scored 2762.
+  body Ruby's Sinatra scored **1454** request per second using Thin, while
+  Express scored **2762**.
 
 ## Examples
 
-    // GET /user/tj/edit
+GET /user/tj/edit
   
     get('user/:name/:operation', function(){
       param('operation') + 'ing ' + param('name')
     })
 
-    // GET /articles
+GET /articles
   
     get('articles', function(){
       'list of articles'
     })
 
-    // GET /articles/12
+GET /articles/12
   
     get(/articles\/(\d+)/, function(){
       'article id ' + captures[1]
     })
   
-    // POST /user/:id
+POST /user/:id
   
     post('user/:id', function(){
       User.destroy(params('id')) ? 
@@ -62,7 +62,7 @@
           'Failed to delete user'
     })
   
-    // GET /login
+GET /login
   
     get('login', function() {
       '<form method="post" action="/login">        \
@@ -72,7 +72,7 @@
       </form>'
     })
   
-    // POST /login
+POST /login
     
     post('login', function() {
       'Welcome ' + param('user').name
