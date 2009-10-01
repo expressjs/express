@@ -1,12 +1,12 @@
 
-= Express
+# Express
 
   Insanely fast (and small) server-side JavaScript web development framework
   built on node.js and the V8 JavaScript engine.
 
   * Stay tuned, coming soon :)
 
-== Features (so far)
+## Features (so far)
 
   * Sexy DSL
   * Mime helpers
@@ -27,69 +27,75 @@
     * overidding
     * etc
     
-== Performance
+## Performance
 
   Extensive benchmarking will wait until a development version
   has been released. However for simple an average route and response
   body Ruby's Sinatra scored 1454 request per second using Thin, while
   Express scored 2762.
 
-== Examples
+## Examples
 
-  // GET /user/tj/edit
+    // GET /user/tj/edit
   
-  get('user/:name/:operation', function(){
-    param('operation') + 'ing ' + param('name')
-  })
+    get('user/:name/:operation', function(){
+      param('operation') + 'ing ' + param('name')
+    })
 
-  // GET /articles
+    // GET /articles
   
-  get('articles', function(){
-    'list of articles'
-  })
+    get('articles', function(){
+      'list of articles'
+    })
 
-  // GET /articles/12
+    // GET /articles/12
   
-  get(/articles\/(\d+)/, function(){
-    'article id ' + captures[1]
-  })
+    get(/articles\/(\d+)/, function(){
+      'article id ' + captures[1]
+    })
   
-  // POST /user/:id
+    // POST /user/:id
   
-  post('user/:id', function(){
-    User.destroy(params('id')) ? 
-      'User deleted' :
-        'Failed to delete user'
-  })
+    post('user/:id', function(){
+      User.destroy(params('id')) ? 
+        'User deleted' :
+          'Failed to delete user'
+    })
   
-  // GET /login
+    // GET /login
   
-  get('login', function() {
-    '<form method="post" action="/login">        \
-    <input type="text" name="user[name]" />      \
-    <input type="password" name="user[pass]" />  \
-    <input type="submit" value="Login"/>         \
-    </form>'
-  })
+    get('login', function() {
+      '<form method="post" action="/login">        \
+      <input type="text" name="user[name]" />      \
+      <input type="password" name="user[pass]" />  \
+      <input type="submit" value="Login"/>         \
+      </form>'
+    })
   
-  // POST /login
-
-  post('login', function() {
-    'Welcome ' + param('user').name
-  })
-  
-== Settings
-
-  * basepath         : defaults to '/'
-  * defaultRoute     : responds with page not found
-  * mime.defaultType : defaults to 'application/octet-stream'
-  * cookie.maxAge    : defaults to 3600 milliseconds
+    // POST /login
     
-== Public API
+    post('login', function() {
+      'Welcome ' + param('user').name
+    })
+  
+## Settings
+
+    * basepath         : defaults to '/'
+    * defaultRoute     : responds with page not found
+    * mime.defaultType : defaults to 'application/octet-stream'
+    * cookie.maxAge    : defaults to 3600 milliseconds
+    
+## Public API
 
   * Coming Soon
+  
+## Testing
 
-== License 
+Install [JSpec](http://jspec.info), edit the path to JSpec on your machine, and run:
+
+    $ node spec/spec.node.js
+
+## License 
 
 (The MIT License)
 
