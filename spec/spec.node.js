@@ -22,7 +22,7 @@ load = function(path) {
   })
 }
 
-load('/Users/tjholowaychuk/scripts/gems/JSpec/lib/jspec.js')
+load('/Library/Ruby/Gems/1.8/gems/visionmedia-jspec-2.11.2/lib/jspec.js')
 load('lib/express.core.js')
 load('lib/express.mocks.js')
 load('lib/express.mime.js')
