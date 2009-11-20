@@ -94,6 +94,10 @@ POST /login
 Install [JSpec](http://jspec.info), edit the path to JSpec on your machine, and run:
 
     $ node spec/spec.node.js
+    
+## More Information
+
+  * [Mojo](http://github.com/visionmedia/mojo) JavaScript Mustache Templates
 
 ## License 
 
