@@ -1,10 +1,11 @@
-
+process.mixin(GLOBAL, require("sys"))
+var posix = require("posix");
 __loading__ = []
 __loadDelay__ = 800
 
 readFile = function(path, callback) {
   __loading__.push(path)
-  var promise = node.fs.cat(path, "utf8")
+  var promise = posix.cat(path, "utf8")
   promise.addErrback(function(){ throw "failed to read file `" + path + "'" })
   promise.addCallback(function(contents){
     setTimeout(function(){
@@ -22,7 +23,7 @@ load = function(path) {
   })
 }
 
-load('/Library/Ruby/Gems/1.8/gems/visionmedia-jspec-2.11.2/lib/jspec.js')
+load('../jspec-2.11.2/lib/jspec.js')
 load('lib/express.core.js')
 load('lib/express.mocks.js')
 load('lib/express.mime.js')
