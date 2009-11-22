@@ -91,7 +91,7 @@ POST /login
   
 ## Testing
 
-Install [JSpec](http://jspec.info), edit the path to JSpec on your machine, and run:
+Install [JSpec](http://jspec.info) - note that this currently requires version jspec-2.11.2 (later versions do not work yet), edit the path to JSpec (in spec/spec.node.js) on your machine, and run:
 
     $ node spec/spec.node.js
     
