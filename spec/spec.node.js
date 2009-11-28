@@ -1,38 +1,21 @@
+require.paths.unshift("../jspec-2.11.2/lib", "./lib");
 process.mixin(GLOBAL, require("sys"))
-var posix = require("posix");
-__loading__ = []
-__loadDelay__ = 800
 
+require("jspec")
+require("express")
+require("express.mocks")
+
+var posix = require("posix");
 readFile = function(path, callback) {
-  __loading__.push(path)
   var promise = posix.cat(path, "utf8")
   promise.addErrback(function(){ throw "failed to read file `" + path + "'" })
   promise.addCallback(function(contents){
-    setTimeout(function(){
-      if (__loading__[0] == path)
-        __loading__.shift(), callback(contents)
-      else
-        setTimeout(arguments.callee, 50)
-    }, 50)
-  })  
-}
-
-load = function(path) {
-  readFile(path, function(contents){
-    eval(contents)
+    callback(contents)
   })
+  promise.wait()
 }
 
-load('../jspec-2.11.2/lib/jspec.js')
-load('lib/express.core.js')
-load('lib/express.mocks.js')
-load('lib/express.mime.js')
-load('lib/express.cookie.js')
-load('lib/express.view.js')
-load('lib/express.session.js')
-
-setTimeout(function(){
-  JSpec
+JSpec
   .exec('spec/spec.core.js')
   .exec('spec/spec.routing.js')
   .exec('spec/spec.mocks.js')
@@ -41,11 +24,6 @@ setTimeout(function(){
   .exec('spec/spec.cookie.js')
   .exec('spec/spec.session.js')
   .exec('spec/spec.view.js')
-  setTimeout(function(){ 
-    JSpec.run({ formatter : JSpec.formatters.Terminal, failuresOnly : true })
-    setTimeout(function() {
-      JSpec.report()
-    }, __loadDelay__ / 3)
-  }, __loadDelay__ / 3)
-}, __loadDelay__ / 3)
+JSpec.run({ formatter : JSpec.formatters.Terminal, failuresOnly : true })
+JSpec.report()
 
