@@ -15,7 +15,9 @@ describe 'Express'
     
     describe 'onRequest'
       it 'should parse cookie fields'
-        get('foo', function(){ cookie('q') })
+        get('foo', function() {
+            utilities.cookie('q')
+        })
         response = get('foo', { headers : [['Cookie', 'path=/; q=something; domain=.example.net']] })
         response.body.should.eql 'something'
       end
