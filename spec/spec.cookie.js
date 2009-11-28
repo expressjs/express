@@ -18,7 +18,10 @@ describe 'Express'
         get('foo', function() {
             cookie('q')
         })
-        response = get('foo', { headers : [['Cookie', 'path=/; q=something; domain=.example.net']] })
+        request = mockRequest({ 
+          headers : [['Cookie', 'path=/; q=something; domain=.example.net']]
+        })
+        response = get('foo', { request:  request })
         response.body.should.eql 'something'
       end
     end
