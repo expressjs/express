@@ -43,7 +43,7 @@ but is far too embarrassing to show the world.
 
 ## Examples
 
-See examples/simple.js for a working server. Just type "node examples/simple.js" and then go to http://localhost:3000/hello/world.
+See examples/simple.js for a working server. Just type "node examples/simple.js" and then go to http://localhost:3000/hello/world
 
 GET /user/tj/edit
   
@@ -103,6 +103,12 @@ POST /login
 Install [JSpec](http://jspec.info) - note that this currently requires version jspec-2.11.2 (later versions do not work yet), edit the path to JSpec (in spec/spec.node.js) on your machine, and run:
 
     $ node spec/spec.node.js
+    
+Run individual tests files:
+
+    $ node spec/spec.node.js core
+    
+Will run the tests in spec/spec.core.js only.
     
 ## More Information
 
