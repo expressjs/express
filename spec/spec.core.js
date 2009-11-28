@@ -145,7 +145,7 @@ describe 'Express'
   describe '.arrayToHash()'
     it 'should map an assoc array to an object'
       headers = [['Content-Type', 'text/plain']]
-      Express.arrayToHash(headers).should.eql { 'Content-Type' : 'text/plain' }
+      Express.arrayToHash(headers).should.eql { 'content-type' : 'text/plain' }
     end
   end
   
@@ -178,9 +178,9 @@ describe 'Express'
     describe '.back'
       it 'should redirect to the referrer'
         uri = 'http://vision-media.ca'
-        request = mockRequest({ headers : [['Referer', uri]] })
         get('foo', function(){ redirect(back) })
-        get('foo', { request : request }).headers.location.should.eql uri
+        request = mockRequest({ headers : [['Referer', uri]] })
+        get('foo', { request: request }).headers.location.should.eql uri
         Express.back.should.eql uri
       end
     end
