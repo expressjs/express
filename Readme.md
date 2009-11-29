@@ -26,13 +26,6 @@
     * pre-conditions
     * overidding
     * etc
-    
-## Limitations
-
-Note that the current version does not cope with url handlers that do not return a string.
-So, any asynchronous operations made in your handler won't get executed properly (i.e. the handler will return,
-terminating the http response, before your callbacks return). This will be fixed very soon - I have a dodgy hack coded up that works,
-but is far too embarrassing to show the world.
 
 ## Performance
 
@@ -43,7 +36,9 @@ but is far too embarrassing to show the world.
 
 ## Examples
 
-See examples/simple.js for a working server. Just type "node examples/simple.js" and then go to http://localhost:3000/hello/world
+See examples/simple.js for a working server that uses a synchronous handler. 
+Just type "node examples/simple.js" and then go to http://localhost:3000/hello/world
+For an asynchronous example, run "node examples/async.js" and then go to http://localhost:3000/hello/world/2000
 
 GET /user/tj/edit
   
