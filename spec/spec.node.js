@@ -27,6 +27,7 @@ JSpec
   .exec('spec/spec.cookie.js')
   .exec('spec/spec.session.js')
   .exec('spec/spec.view.js')  
+  .exec('spec/spec.async.js')
 }
 JSpec.run({ formatter : JSpec.formatters.Terminal, failuresOnly : true })
 JSpec.report()
