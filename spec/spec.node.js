@@ -17,7 +17,7 @@ readFile = function(path, callback) {
 print = puts
 
 if (process.ARGV[2])
-  JSpec.exec('spec/spec.'+process.ARGV[2]+'.js')  
+  JSpec.exec('spec/spec.' + process.ARGV[2] + '.js')  
 else
   JSpec
     .exec('spec/spec.core.js')
