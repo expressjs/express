@@ -121,6 +121,14 @@ describe 'Express'
       Express.response.status = 200
     end
     
+    it 'should default response status to 200'
+      get('/foo', function(){
+        halt('Foo bar')
+      })
+      get('/foo').status.should.eql 200
+      get('/foo').body.should.eql 'Foo bar'
+    end
+    
     it 'should set response status and body'
       get('/foo', function(){
         halt('Page or file cannot be found', 'Not Found')
