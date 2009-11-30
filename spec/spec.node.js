@@ -5,16 +5,21 @@ require("jspec")
 require("express")
 require("express.mocks")
 
-readFile = function(path, callback) {
-  var promise = require('posix').cat(path, "utf8")
+var posix = require('posix')
+
+quit = process.exit
+print = puts
+
+readFile = function(path) {
+  var promise = posix.cat(path, "utf8")
+  var result = ''
   promise.addErrback(function(){ throw "failed to read file `" + path + "'" })
   promise.addCallback(function(contents){
-    callback(contents)
+    result = contents
   })
   promise.wait()
+  return result
 }
-
-print = puts
 
 if (process.ARGV[2])
   JSpec.exec('spec/spec.' + process.ARGV[2] + '.js')  
