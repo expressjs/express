@@ -122,15 +122,19 @@ describe 'Express'
     end
     
     it 'should set response status and body'
-      -{ Express.halt('Page or file cannot be found', 'Not Found') }.should.throw_error
-      Express.response.status.should.eql 404
-      Express.response.body.should.eql 'Page or file cannot be found'
+      get('/foo', function(){
+        halt('Page or file cannot be found', 'Not Found')
+      })
+      get('/foo').status.should.eql 404
+      get('/foo').body.should.eql 'Page or file cannot be found'
     end
     
     it 'should allow specific status to be passed'
-      -{ Express.halt('File cannot be found', 404) }.should.throw_error
-      Express.response.status.should.eql 404
-      Express.response.body.should.eql 'File cannot be found'
+      get('/foo', function(){
+        halt('Page or file cannot be found', 'Not Found')
+      })
+      get('/foo').status.should.eql 404
+      get('/foo').body.should.eql 'Page or file cannot be found'
     end
   end
 
