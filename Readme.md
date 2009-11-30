@@ -95,15 +95,16 @@ POST /login
   
 ## Testing
 
-Install [JSpec](http://jspec.info) - note that this currently requires version jspec-2.11.2 (later versions do not work yet), edit the path to JSpec (in spec/spec.node.js) on your machine, and run:
+To run all specifications:
 
-    $ node spec/spec.node.js
+    $ make test
     
-Run individual tests files:
+Run individual suites:
 
     $ node spec/spec.node.js core
-    
-Will run the tests in spec/spec.core.js only.
+    $ node spec/spec.node.js mime
+    $ node spec/spec.node.js routing
+    ...
     
 ## More Information
 
