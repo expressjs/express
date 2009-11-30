@@ -1,4 +1,4 @@
-require.paths.unshift("../jspec-2.11.2/lib", "./lib");
+require.paths.unshift("./spec/lib", "./lib");
 process.mixin(GLOBAL, require("sys"))
 
 require("jspec")
