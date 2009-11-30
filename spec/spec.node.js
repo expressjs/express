@@ -3,7 +3,7 @@ process.mixin(GLOBAL, require("sys"))
 
 require("jspec")
 require("express")
-require("express.mocks")
+require("express/spec/mocks")
 
 var posix = require('posix')
 

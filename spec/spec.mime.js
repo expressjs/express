@@ -1,6 +1,4 @@
 
-use(Express.Mime)
-
 describe 'Express'
   describe 'Mime'
     describe '.mime()'

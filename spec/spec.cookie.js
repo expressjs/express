@@ -1,6 +1,4 @@
 
-use(Express.Cookie)
-
 describe 'Express'
   describe 'Cookie'
     before_each
