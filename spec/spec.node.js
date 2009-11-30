@@ -15,6 +15,8 @@ readFile = function(path, callback) {
   promise.wait()
 }
 
+print = puts
+
 if (process.ARGV[2]) {
   JSpec.exec('spec/spec.'+process.ARGV[2]+'.js')  
 } else {
@@ -29,6 +31,6 @@ JSpec
   .exec('spec/spec.view.js')  
   .exec('spec/spec.async.js')
 }
-JSpec.run({ formatter : JSpec.formatters.Terminal, failuresOnly : true })
+JSpec.run({ formatter : JSpec.formatters.Terminal, failuresOnly : false })
 JSpec.report()
 
