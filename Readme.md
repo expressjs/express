@@ -93,7 +93,11 @@ POST /login
 
   * Coming Soon
   
-## Testing
+## Running Tests
+
+Express uses the [JSpec](http://jspec.info) BDD JavaScript testing
+framework to write and run elegant spec suites. JSpec is froozen 
+to spec/lib and does not require seperate installation.
 
 To run all specifications:
 
