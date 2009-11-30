@@ -116,19 +116,19 @@ describe 'Express'
     end
   end
   
-  describe '.respond()'
+  describe '.halt()'
     after_each
       Express.response.status = 200
     end
     
     it 'should set response status and body'
-      -{ Express.respond('Page or file cannot be found', 'Not Found') }.should.throw_error
+      -{ Express.halt('Page or file cannot be found', 'Not Found') }.should.throw_error
       Express.response.status.should.eql 404
       Express.response.body.should.eql 'Page or file cannot be found'
     end
     
     it 'should allow specific status to be passed'
-      -{ Express.respond('File cannot be found', 404) }.should.throw_error
+      -{ Express.halt('File cannot be found', 404) }.should.throw_error
       Express.response.status.should.eql 404
       Express.response.body.should.eql 'File cannot be found'
     end
