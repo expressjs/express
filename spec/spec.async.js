@@ -10,7 +10,7 @@ describe 'Express'
         require('jspec.timers')
         get('pants', function() {
           setTimeout(function() {
-            Express.server.finished('asynchronous thing done')
+            halt('asynchronous thing done')
           }, 50)
         })
         var response = get('pants')

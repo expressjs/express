@@ -6,7 +6,7 @@ use(Express.Logger)
 
 get('/wait/:ms', function() {
 	setTimeout(function() {
-	  Express.server.finished('Waited ' + param('ms') + ' milliseconds before replying')
+	  halt('Waited ' + param('ms') + ' milliseconds before replying')
 	}, param('ms'))
 });
 
