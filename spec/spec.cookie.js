@@ -17,7 +17,7 @@ describe 'Express'
             cookie('q')
         })
         request = mockRequest({ 
-          headers : [['Cookie', 'path=/; q=something; domain=.example.net']]
+          headers : { 'cookie': 'path=/; q=something; domain=.example.net' }
         })
         response = get('foo', { request:  request })
         response.body.should.eql 'something'
