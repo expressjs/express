@@ -204,7 +204,10 @@
             }
          })
          
-         quit(results.stats.failures)
+         var promise = new process.Promise
+         results.stats.failures == 0 ?
+           promise.emitSuccess("", "") :
+             promise.emitError(results.stats.failures, "")
        },
 
       /**
@@ -1604,7 +1607,7 @@
     load : function(file, callback) {
       if (any(hook('loading', file), haveStopped)) return
       if ('readFile' in main)
-        return readFile(file)
+        return readFile(file, callback)
       else if (this.hasXhr()) {
         var request = this.xhr()
         request.open('GET', file, false)
@@ -1628,7 +1631,9 @@
 
     exec : function(file) {
       if (any(hook('executing', file), haveStopped)) return this
-      eval('with (JSpec){' + this.preprocess(this.load(file)) + '}')
+      this.load(file, function(contents){
+         eval('with (JSpec){' + JSpec.preprocess(contents) + '}')
+      })
       return this
     }
   }
