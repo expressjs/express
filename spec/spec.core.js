@@ -1,4 +1,3 @@
-
 describe 'Express'
   before_each
     Express.routes = []
@@ -43,13 +42,13 @@ describe 'Express'
     end
   end
   
-  describe '.argsArray()'
+  describe '.toArray()'
     it 'should return an array of arguments'
-      Express.argsArray(-{ return arguments }('foo', 'bar')).should.eql ['foo', 'bar']
+      Express.toArray(-{ return arguments }('foo', 'bar')).should.eql ['foo', 'bar']
     end
     
     it 'should allow an offset'
-      Express.argsArray(-{ return arguments }('foo', 'bar'), 1).should.eql ['bar']
+      Express.toArray(-{ return arguments }('foo', 'bar'), 1).should.eql ['bar']
     end
   end
   
@@ -117,38 +116,24 @@ describe 'Express'
     end
   end
   
-  describe '.respond()'
+  describe '.halt()'
     after_each
       Express.response.status = 200
     end
     
     it 'should set response status and body'
-      -{ Express.respond('Page or file cannot be found', 'Not Found') }.should.throw_error
+      -{ Express.halt('Page or file cannot be found', 'Not Found') }.should.throw_error
       Express.response.status.should.eql 404
       Express.response.body.should.eql 'Page or file cannot be found'
     end
     
     it 'should allow specific status to be passed'
-      -{ Express.respond('File cannot be found', 404) }.should.throw_error
+      -{ Express.halt('File cannot be found', 404) }.should.throw_error
       Express.response.status.should.eql 404
       Express.response.body.should.eql 'File cannot be found'
     end
   end
-  
-  describe '.hashToArray()'
-    it 'should map hash key / value pairs to an array'
-      headers = { 'Content-Type' : 'text/plain' }
-      Express.hashToArray(headers).should.eql [['Content-Type', 'text/plain']]
-    end
-  end
-  
-  describe '.arrayToHash()'
-    it 'should map an assoc array to an object'
-      headers = [['Content-Type', 'text/plain']]
-      Express.arrayToHash(headers).should.eql { 'content-type' : 'text/plain' }
-    end
-  end
-  
+
   describe '.redirect()'
     it 'should redirect to the url specified'
       get('foo', function(){ redirect('http://google.com') })
@@ -179,7 +164,7 @@ describe 'Express'
       it 'should redirect to the referrer'
         uri = 'http://vision-media.ca'
         get('foo', function(){ redirect(back) })
-        request = mockRequest({ headers : [['Referer', uri]] })
+        request = mockRequest({ headers : { 'Referer': uri }})
         get('foo', { request: request }).headers.location.should.eql uri
         Express.back.should.eql uri
       end
@@ -190,7 +175,7 @@ describe 'Express'
     it 'should parse urlencoded bodies'
       request = mockRequest({
           method: 'POST',
-          headers : [['Content-Type', 'application/x-www-form-urlencoded']],
+          headers : { 'content-type': 'application/x-www-form-urlencoded' },
           body : 'user[name]=foo%20bar&status=1'
         })
       post('admin', function(){ param('user').name + ' ' + param('status') })
@@ -200,7 +185,7 @@ describe 'Express'
     it 'should parse JSON bodies'
       request = mockRequest({
           method: 'POST',
-          headers : [['Content-Type', 'application/json']],
+          headers : { 'content-type': 'application/json' },
           body : '{ foo : "bar" }'
         })
       post('foo', function(){ param('foo') })
@@ -219,7 +204,7 @@ describe 'Express'
     it 'should override request method when _method param is present'
       request = mockRequest({
           method: 'POST',
-          headers : [['Content-Type', 'application/x-www-form-urlencoded']],
+          headers : { 'content-type': 'application/x-www-form-urlencoded' },
           body : '_method=delete'
         })
       del('foo', function(){ 'Deleted' })
@@ -238,5 +223,4 @@ describe 'Express'
       get('foo').headers['content-type'].should.eql 'application/json'
     end
   end
-  
 end

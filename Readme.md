@@ -1,6 +1,11 @@
 
-# Express
-
+      __                               
+     /                                 
+    (___       ___  ___  ___  ___  ___ 
+    |    (_/_ |   )|   )|___)|___ |___ 
+    |__   / / |__/ |    |__   __/  __/ 
+              |
+              
   Insanely fast (and small) server-side JavaScript web development framework
   built on **node.js** and the **V8 JavaScript engine**.
 
@@ -93,17 +98,22 @@ POST /login
 
   * Coming Soon
   
-## Testing
+## Running Tests
 
-Install [JSpec](http://jspec.info) - note that this currently requires version jspec-2.11.2 (later versions do not work yet), edit the path to JSpec (in spec/spec.node.js) on your machine, and run:
+Express uses the [JSpec](http://jspec.info) BDD JavaScript testing
+framework to write and run elegant spec suites. JSpec is froozen 
+to spec/lib and does not require seperate installation.
 
-    $ node spec/spec.node.js
+To run all specifications:
+
+    $ make test
     
-Run individual tests files:
+Run individual suites:
 
     $ node spec/spec.node.js core
-    
-Will run the tests in spec/spec.core.js only.
+    $ node spec/spec.node.js mime
+    $ node spec/spec.node.js routing
+    ...
     
 ## More Information
 
