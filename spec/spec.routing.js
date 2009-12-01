@@ -121,7 +121,9 @@ describe 'Express'
       
       it 'should match strings literally'
         get('foo', function(){ 'bar' })
-        get('foobar').body.should.not.eql 'bar'
+        var response = get('foobar')
+        response.status.should.eql 404
+        response.body.should.eql 'Page or file cannot be found'
       end
       
       it 'should match using regexp and populate captures array'

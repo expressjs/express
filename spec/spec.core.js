@@ -176,7 +176,7 @@ describe 'Express'
       it 'should redirect to the referrer'
         uri = 'http://vision-media.ca'
         get('foo', function(){ redirect(back) })
-        request = mockRequest({ headers : { 'Referer': uri }})
+        request = mockRequest({ headers : { 'referer': uri }})
         get('foo', { request: request }).headers.location.should.eql uri
         Express.back.should.eql uri
       end
