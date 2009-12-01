@@ -43,6 +43,7 @@
 
 See examples/simple.js for a working server that uses a synchronous handler. 
 Just type "node examples/simple.js" and then go to http://localhost:3000/i/like/cheese
+
 For an asynchronous example, run "node examples/async.js" and then go to http://localhost:3000/wait/2000
 
 GET /user/tj/edit
