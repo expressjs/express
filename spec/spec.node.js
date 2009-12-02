@@ -25,5 +25,6 @@ if (process.ARGV[2])
 else
   JSpec
     .exec('spec/spec.core.js')
+    .exec('spec/spec.core.routing.js')
 JSpec.run({ formatter: JSpec.formatters.Terminal, failuresOnly: true })
 JSpec.report()
