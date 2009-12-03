@@ -24,5 +24,19 @@ describe 'Express'
       end
     end
     
+    describe 'with an exception thrown'
+      it 'should provide display route method and path in the stacktrace'
+        GLOBAL[method]('/user', {}, function(){
+          throw new Error('access denied')
+        })
+        -{ GLOBAL[method]('/user') }.should.throw_error
+        try { GLOBAL[method]('/user') }
+        catch (e){ 
+          e.stack.should.include('get')
+          e.stack.should.include('"/user"')
+        }
+      end
+    end
+    
   end
 end
