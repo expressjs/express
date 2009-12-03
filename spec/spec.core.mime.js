@@ -1,5 +1,9 @@
 
 describe 'Express'
+  before_each
+    reset()
+  end
+  
   describe 'mime()'
     describe 'when given an extension with leading dot'
       it 'should return the associated mime type'
@@ -26,7 +30,6 @@ describe 'Express'
       end
       
       it 'should default to "application/octet-stream" otherwise'
-        set('default mime type', null)
         mime('meow').should.eql 'application/octet-stream'
       end
     end
