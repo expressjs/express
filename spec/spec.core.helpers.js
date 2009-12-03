@@ -18,5 +18,14 @@ describe 'Express'
       })
       get('/user/12/edit').body.should.eql 'editing user 12'
     end
+    
+    it 'should allow optional placeholders'
+      get('/user/:id?', function(){
+        return param('id') ? 'user ' + param('id') : 'users'
+      })
+      get('/user/12').body.should.eql 'user 12'
+      get('/user/').body.should.eql 'users'
+      get('/user').body.should.eql 'users'
+    end
   end
 end
