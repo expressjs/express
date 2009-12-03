@@ -1,5 +1,4 @@
 require.paths.unshift("./spec/lib", "./lib");
-process.mixin(GLOBAL, require("sys"))
 
 require("jspec")
 require("express")
