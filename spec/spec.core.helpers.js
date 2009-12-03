@@ -44,6 +44,13 @@ describe 'Express'
     end
   end
   
+  describe 'status()'
+    it 'should set the response status'
+      get('/user', function(){ status(500) })
+      get('/user').status.should.eql 500
+    end
+  end
+  
   describe 'halt()'
     describe 'when given no arguments'
       it 'should respond with 404 Not Found'
