@@ -26,5 +26,5 @@ else
     .exec('spec/spec.core.routing.js')
     .exec('spec/spec.core.helpers.js')
     .exec('spec/spec.core.mime.js')
-JSpec.run({ formatter: JSpec.formatters.Terminal, failuresOnly: false })
+JSpec.run({ formatter: JSpec.formatters.Terminal, failuresOnly: true })
 JSpec.report()
