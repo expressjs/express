@@ -71,8 +71,14 @@ describe 'Express'
     
     describe 'when given an invalid status code'
       it 'should throw an InvalidStatusCode exception'
+        // TODO: throw_error(InvalidStatusCode, ...) when jspec is fixed
         get('/user', function(){ halt(123123) })
         -{ get('/user') }.should.throw_error(/InvalidStatusCode: 123123/)
+        try { get('/user') }
+        catch (e) {
+          e.should.be_an_instance_of ExpressError
+          e.should.be_an_instance_of InvalidStatusCode
+        }
       end
     end
   end

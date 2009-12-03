@@ -87,6 +87,7 @@ describe 'Express'
     
     describe 'with an unmatchable request path'
       it 'should throw a NotFoundError'
+        // TODO: throw_error(NotFoundError, ...) when jspec is fixed
         -{ get('/something') }.should.throw_error(/NotFoundError: failed to find get "\/something"/)
         try { get('/something') }
         catch (e) {
