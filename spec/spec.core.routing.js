@@ -99,5 +99,16 @@ describe 'Express'
       end
     end
     
+    describe 'with an unmatchable request path'
+      it 'should throw a NotFoundError'
+        -{ get('/something') }.should.throw_error(/NotFoundError: failed to find get "\/something"/)
+        try { get('/something') }
+        catch (e) {
+          e.should.be_an_instance_of ExpressError
+          e.should.be_an_instance_of NotFoundError
+        }
+      end
+    end
+    
   end
 end
