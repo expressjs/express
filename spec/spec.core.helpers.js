@@ -34,5 +34,13 @@ describe 'Express'
       get('/report.csv').body.should.eql 'report as csv'
       get('/report.pdf').body.should.eql 'report as pdf'
     end
+    
+    it 'should allow optional placeholders in middle segments'
+      get('/user/:id?/edit', function(){
+        return param('id') ? 'editing ' + param('id') : 'editing your account'
+      })
+      get('/user/12/edit').body.should.eql 'editing 12'
+      get('/user/edit').body.should.eql 'editing your account'
+    end
   end
 end
