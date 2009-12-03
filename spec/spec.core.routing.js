@@ -85,20 +85,6 @@ describe 'Express'
       end
     end
     
-    describe 'with an exception thrown'
-      it 'should provide display route method and path in the stacktrace'
-        get('/user', {}, function(){
-          throw new Error('access denied')
-        })
-        -{ get('/user') }.should.throw_error
-        try { get('/user') }
-        catch (e){
-          e.stack.should.include('get')
-          e.stack.should.include('("/user")')
-        }
-      end
-    end
-    
     describe 'with an unmatchable request path'
       it 'should throw a NotFoundError'
         -{ get('/something') }.should.throw_error(/NotFoundError: failed to find get "\/something"/)
