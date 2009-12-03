@@ -25,5 +25,5 @@ else
   JSpec
     .exec('spec/spec.core.js')
     .exec('spec/spec.core.routing.js')
-JSpec.run({ formatter: JSpec.formatters.Terminal, failuresOnly: true })
+JSpec.run({ formatter: JSpec.formatters.Terminal, failuresOnly: false })
 JSpec.report()
