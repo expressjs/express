@@ -19,10 +19,6 @@ describe 'Express'
       var user = { user: { name: 'tj', email: { primary: 'tj@vision-media.ca' }}}
       parseParams('user[name]=tj&user[email][primary]=tj@vision-media.ca').should.eql user
     end
-    
-    it 'should parse anonymous pairs'
-      parseParams('users[]=tj&users[]=joe').should.eql { users: ['tj', 'joe'] }
-    end
   end
   
   describe 'toArray()'
