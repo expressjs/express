@@ -29,25 +29,14 @@ describe 'Express'
   end
   
   describe 'configure()'
-    describe 'given a function'
-      it 'should be called for any environment'
-        var called = false
-        configure(function(){
-          called = true
-        })
-        configure('development')
-        called.should.be_true
-      end
-    end
-    
-    describe 'given several calls functions'
+    describe 'given several calls'
       it 'should call them in sequence'
         var order = []
         configure(function(){
-          called.push('a')
+          order.push('a')
         })
         configure(function(){
-          called.push('b')
+          order.push('b')
         })
         configure('development')
         order.should.eql ['a', 'b']
@@ -86,6 +75,13 @@ describe 'Express'
         order.should.eql ['a', 'c', 'd']
       end
     end
-
+    
+    describe 'given no arguments'
+      it 'should throw an error'
+        // TODO: tighter spec once JSpec is fixed
+        -{ configure() }.should.throw_error
+      end
+    end
   end
+  
 end
