@@ -6,4 +6,4 @@ get('/i/like/:object', function() {
   'You like "' + param('object') + '"'
 })
 
-Express.start()
+Express.server.start()
