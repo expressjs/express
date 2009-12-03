@@ -2,8 +2,8 @@
 require.paths.unshift("./lib")
 require('express')
 
-get('/i/like/:object', function() {
-  'You like "' + param('object') + '"'
+get('/hello', function() {
+  return 'Whats up!'
 })
 
-Express.server.start()
+Express.server.run()
