@@ -5,13 +5,11 @@ require("jspec")
 require("express")
 require("express/spec")
 
-var posix = require('posix')
-
 quit = process.exit
 print = puts
 
 readFile = function(path) {
-  var promise = posix.cat(path, "utf8")
+  var promise = require('posix').cat(path, "utf8")
   var result = ''
   promise.addErrback(function(){ throw "failed to read file `" + path + "'" })
   promise.addCallback(function(contents){
