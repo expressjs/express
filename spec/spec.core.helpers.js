@@ -51,6 +51,35 @@ describe 'Express'
     end
   end
   
+  describe 'header()'
+    describe 'when given a field name and value'
+      it 'should set the header'
+        get('/user', function(){
+          header('x-foo', 'bar')
+        })
+        get('/user').headers.should.have_property 'x-foo', 'bar'
+      end  
+    end
+    
+    describe 'when given a field name'
+      it 'should return a response headers current value'
+        get('/user', function(){
+          header('x-foo', 'bar')
+          return header('x-foo')
+        })
+        get('/user').body.should.eql 'bar'
+      end
+      
+      it 'should base case-insensitive'
+        get('/user', function(){
+          header('X-Foo', 'bar')
+          return header('x-Foo')
+        })
+        get('/user').body.should.eql 'bar'
+      end
+    end
+  end
+  
   describe 'halt()'
     describe 'when given no arguments'
       it 'should respond with 404 Not Found'
