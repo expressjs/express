@@ -59,6 +59,32 @@ describe 'Express'
       end
     end
     
+    describe 'with several similar routes'
+      it 'should match them properly'
+        get('/foo', function(){
+          return 'bar'
+        })
+        get('/foos', function(){
+          return 'baz'
+        })
+        get('/foo').body.should.eql 'bar'
+        get('/foos').body.should.eql 'baz'
+      end
+    end
+    
+    describe 'with several identical routes'
+      it 'should match the first route'
+        get('/foo', function(){
+          return 'bar'
+        })
+        get('/foo', function(){
+          return 'baz'
+        })
+        get('/foo').body.should.eql 'bar'
+        get('/foo').body.should.eql 'bar'        
+      end
+    end
+    
     describe 'with an exception thrown'
       it 'should provide display route method and path in the stacktrace'
         get('/user', {}, function(){
