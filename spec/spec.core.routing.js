@@ -7,19 +7,19 @@ describe 'Express'
     
     describe 'with callback function'
       it 'should respond with a body string'
-        this[method]('/user', function(){
+        GLOBAL[method]('/user', function(){
           return 'test'
         })
-        this[method]('/user').body.should.eql 'test'
+        GLOBAL[method]('/user').body.should.eql 'test'
       end
     end
     
     describe 'with options and callback function'
       it 'should respond with a body string'
-        this[method]('/user', {}, function(){
+        GLOBAL[method]('/user', {}, function(){
           return 'test with options'
         })
-        this[method]('/user').body.should.eql 'test with options'
+        GLOBAL[method]('/user').body.should.eql 'test with options'
       end
     end
     
