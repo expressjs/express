@@ -17,9 +17,9 @@ describe 'Express'
     describe 'with options and callback function'
       it 'should respond with a body string'
         this[method]('/user', {}, function(){
-          return 'test'
+          return 'test with options'
         })
-        this[method]('/user').body.should.eql 'test'
+        this[method]('/user').body.should.eql 'test with options'
       end
     end
     
