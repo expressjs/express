@@ -174,5 +174,12 @@ describe 'Express'
       get('/user/12/edit').body.should.eql 'editing 12'
       get('/user/edit').body.should.eql 'editing your account'
     end
+    
+    it 'should work with several routes'
+      get('/user/:id', function(){ return param('id') })
+      get('/product/:name', function(){ return param('name') })
+      get('/user/12').body.should.eql '12'
+      get('/product/ipod').body.should.eql 'ipod'
+    end
   end
 end
