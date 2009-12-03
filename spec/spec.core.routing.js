@@ -68,7 +68,7 @@ describe 'Express'
         try { get('/user') }
         catch (e){ 
           e.stack.should.include('get')
-          e.stack.should.include('"/user"')
+          e.stack.should.include('user')
         }
       end
     end
