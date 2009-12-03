@@ -66,9 +66,10 @@ describe 'Express'
         })
         -{ get('/user') }.should.throw_error
         try { get('/user') }
-        catch (e){ 
+        catch (e){
+          print(e.stack)
           e.stack.should.include('get')
-          e.stack.should.include('user')
+          e.stack.should.include('("/user")')
         }
       end
     end
