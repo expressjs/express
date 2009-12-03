@@ -25,6 +25,19 @@ describe 'Express'
     end
   end
   
+  describe 'extname()'
+    it 'should return the a files extension'
+      extname('image.png').should.eql 'png'
+      extname('image.large.png').should.eql 'png'
+      extname('/path/to/image.large.png').should.eql 'png'
+    end
+    
+    it 'should return null when not found'
+      extname('path').should.be_null
+      extname('/just/a/path').should.be_null
+    end
+  end
+  
   describe 'dirname()'
     it 'should return the directory path'
       dirname('/path/to/images/foo.bar.png').should.eql '/path/to/images'
