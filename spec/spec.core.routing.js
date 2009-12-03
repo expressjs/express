@@ -23,6 +23,24 @@ describe 'Express'
       end
     end
     
+    describe 'with a trailing slash in request path'
+      it 'should still match'
+        get('/user', {}, function(){
+          return 'test with options'
+        })
+        get('/user/').body.should.eql 'test with options'
+      end
+    end
+    
+    describe 'with a trailing slash in route path'
+      it 'should still match'
+        get('/user/', {}, function(){
+          return 'test with options'
+        })
+        get('/user').body.should.eql 'test with options'
+      end
+    end
+    
     describe 'with an exception thrown'
       it 'should provide display route method and path in the stacktrace'
         get('/user', {}, function(){
