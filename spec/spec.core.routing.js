@@ -5,12 +5,23 @@ describe 'Express'
       method = 'get'
     end
     
-    it 'should accept a path with callback function'
-      -{ this[method]('/user', function(){}) }.should.not.throw_error 
+    describe 'with callback function'
+      it 'should respond with a body string'
+        this[method]('/user', function(){
+          return 'test'
+        })
+        this[method]('/user').body.should.eql 'test'
+      end
     end
     
-    it 'should accept options hash and a callback function'
-      -{ this[method]('/user', {}, function(){}) }.should.not.throw_error 
+    describe 'with options and callback function'
+      it 'should respond with a body string'
+        this[method]('/user', {}, function(){
+          return 'test'
+        })
+        this[method]('/user').body.should.eql 'test'
+      end
     end
+    
   end
 end
