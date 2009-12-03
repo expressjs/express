@@ -8,4 +8,4 @@ get('/user/:id?', function() {
   return 'Your user account'
 })
 
-Express.server.run()
+run()
