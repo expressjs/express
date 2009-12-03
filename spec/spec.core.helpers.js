@@ -24,8 +24,15 @@ describe 'Express'
         return param('id') ? 'user ' + param('id') : 'users'
       })
       get('/user/12').body.should.eql 'user 12'
-      get('/user/').body.should.eql 'users'
       get('/user').body.should.eql 'users'
+    end
+    
+    it 'should allow placeholders as part of a segment'
+      get('/report.:format', function(){
+        return 'report as ' + param('format')
+      })
+      get('/report.csv').body.should.eql 'report as csv'
+      get('/report.pdf').body.should.eql 'report as pdf'
     end
   end
 end
