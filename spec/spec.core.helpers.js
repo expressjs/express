@@ -48,6 +48,7 @@ describe 'Express'
     describe 'when given no arguments'
       it 'should respond with 404 Not Found'
         get('/user', function(){ halt() })
+        p(get('/user').body)
         get('/user').body.should.include('Not Found')
         get('/user').status.should.eql 404
       end
