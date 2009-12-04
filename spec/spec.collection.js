@@ -7,14 +7,11 @@ describe 'Express'
       it 'should return a Collection'
         $(['foo', 'bar']).should.be_an_instance_of Collection
       end
-      
-      it 'should have length'
-        $(['foo', 'bar']).length.should.eql 2
-      end
-      
-      it 'should have indexed values'
-        $(['foo', 'bar'])[0].should.eql 'foo'
-        $(['foo', 'bar'])[1].should.eql 'bar'
+    end
+    
+    describe '$(object)'
+      it 'should return a Collection'
+        $({ foo: 'bar' }).should.be_an_instance_of Collection
       end
     end
     
@@ -31,6 +28,12 @@ describe 'Express'
         $(['foo', 'bar']).at(1).should.eql 'bar'
         $(['foo', 'bar']).at(2).should.be_null
       end
+      
+      it 'should work with objects'
+        $({ foo: 'bar', baz: 'raz' }).at(0).should.eql 'bar'
+        $({ foo: 'bar', baz: 'raz' }).at(1).should.eql 'raz'
+        $({ foo: 'bar', baz: 'raz' }).at(0).should.be_null
+      end
     end
     
     describe '#each()'
@@ -40,6 +43,14 @@ describe 'Express'
           result.push(i, val)
         })
         result.should.eql [0, 'foo', 1, 'bar']
+      end
+      
+      it 'should work with objects'
+        var result = []
+        $({ foo: 'bar', baz: 'raz' }).each(function(k, val){
+          result.push(k, val)
+        })
+        result.should.eql ['foo', 'bar', 'baz', 'bar']
       end
       
       it 'should return the collection'
