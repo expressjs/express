@@ -78,5 +78,16 @@ describe 'Express'
         collection.at(1).should.eql 'RAZ'
       end
     end
+    
+    describe '#first()'
+      it 'should return the first value'
+        $(['foo']).first().should.eql 'foo'
+      end
+      
+      it 'should work with objects'
+        $({ foo: 'bar' }).first().should.eql 'bar'
+      end  
+    end
+    
   end
 end
