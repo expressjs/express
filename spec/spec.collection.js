@@ -32,5 +32,19 @@ describe 'Express'
         $(['foo', 'bar']).at(2).should.be_null
       end
     end
+    
+    describe '#each()'
+      it 'should iterate passing index and value'
+        var result = []
+        $(['foo', 'bar']).each(function(i, val){
+          result.push(i, val)
+        })
+        result.should.eql [0, 'foo', 1, 'bar']
+      end
+      
+      it 'should return the collection'
+        $([]).each(function(){}).should.be_an_instance_of Collection
+      end
+    end
   end
 end
