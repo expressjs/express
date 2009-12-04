@@ -26,7 +26,7 @@ describe 'Express'
     end
     
     describe '#at()'
-      it 'should return the element at the given index'
+      it 'should return the value at the given index'
         $(['foo', 'bar']).at(0).should.eql 'foo'
         $(['foo', 'bar']).at(1).should.eql 'bar'
         $(['foo', 'bar']).at(2).should.be_null
