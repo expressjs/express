@@ -89,5 +89,19 @@ describe 'Express'
       end  
     end
     
+    describe '#slice()'
+      it 'should return a slice of values'
+        var collection = $(['foo', 'bar', 'baz']).slice(1, 3)
+        collection.at(0).should.eql 'bar'
+        collection.at(1).should.eql 'baz'
+      end
+      
+      it 'should work with objects'
+        var collection = $({ foo: 1, bar: 2, baz: 3, raz: 4 }).slice(1, 3)
+        collection.at(0).should.eql 2
+        collection.at(1).should.eql 3        
+      end
+    end
+    
   end
 end
