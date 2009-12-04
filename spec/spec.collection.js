@@ -57,5 +57,19 @@ describe 'Express'
         $([]).each(function(){}).should.be_an_instance_of Collection
       end
     end
+    
+    describe '#map()'
+      it 'should iterate collecting results into a new collection'
+        var collection = $(['foo', 'bar']).map(function(val){ return val.toUpperCase() })
+        collection.at(0).should.eql 'FOO'
+        collection.at(1).should.eql 'BAR'
+      end
+      
+      it 'should work with objects'
+        var collection = $({ foo: 'bar', baz: 'raz' }).map(function(val){ return val.toUpperCase() })
+        collection.at(0).should.eql 'BAR'
+        collection.at(1).should.eql 'RAZ'
+      end
+    end
   end
 end
