@@ -94,6 +94,25 @@ describe 'Express'
       end  
     end
     
+    describe '#find()'
+      it 'should return the value of the first match'
+        var result = $(['foo', 'bar']).find(function(val){ return val.charAt(0) == 'b' })
+        result.should.eql 'bar'
+      end
+      
+      it 'should return null when nothing matches'
+        var result = $(['foo', 'bar']).find(function(val){ return val.charAt(0) == 'a' })
+        result.should.be_null
+      end
+      
+      it 'should work with objects'
+        var result = $({ foo: 'bar', baz: 'raz' }).find(function(val, key){
+          return val.charAt(0) == 'r'
+        })
+        result.should.eql 'raz'
+      end
+    end
+    
     describe '#slice()'
       it 'should return a slice of values'
         var collection = $(['foo', 'bar', 'baz']).slice(1, 3)
