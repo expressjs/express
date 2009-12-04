@@ -58,6 +58,13 @@ describe 'Express'
       end
     end
     
+    describe '#reduce()'
+      it 'should iterate with memo object'
+        var sum = $([1,2,3]).reduce(0, function(sum, n){ return sum + n })
+        sum.should.eql 6
+      end
+    end
+    
     describe '#map()'
       it 'should iterate collecting results into a new collection'
         var collection = $(['foo', 'bar']).map(function(val){ return val.toUpperCase() })
