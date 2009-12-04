@@ -187,5 +187,11 @@ describe 'Express'
       end
     end
     
+    describe '#toArray()'
+      it 'should return an array'
+        $(['foo', 'bar']).keys().toArray().should.eql [0, 1]
+      end
+    end
+    
   end
 end
