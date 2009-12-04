@@ -84,6 +84,11 @@ describe 'Express'
         $(['foo']).first().should.eql 'foo'
       end
       
+      it 'should return the first n values'
+        $([5,4,3,2,1]).first(2).at(0).should.eql 5
+        $([5,4,3,2,1]).first(2).at(1).should.eql 4
+      end
+      
       it 'should work with objects'
         $({ foo: 'bar' }).first().should.eql 'bar'
       end  
