@@ -175,5 +175,17 @@ describe 'Express'
       end
     end
     
+    describe '#keys()'
+      it 'should return indices when array-like'
+        $(['foo', 'bar']).keys().at(0).should.eql 0
+        $(['foo', 'bar']).keys().at(1).should.eql 1
+      end
+      
+      it 'should return keys when an object'
+        $({ foo: 'bar', baz: 'raz' }).keys().at(0).should.eql 'foo'
+        $({ foo: 'bar', baz: 'raz' }).keys().at(1).should.eql 'baz'
+      end
+    end
+    
   end
 end
