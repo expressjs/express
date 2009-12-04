@@ -123,6 +123,20 @@ describe 'Express'
       end
     end
     
+    describe '#select()'
+      it 'should return values which evaluate to true'
+        var result = $([1,2,3,4,5]).select(function(n){ return n % 2 })
+        result.at(0).should.eql 0
+        result.at(1).should.eql 2
+        result.at(2).should.eql 4
+      end
+      
+      it 'should return a Collection'
+        var result = $([1,2,3,4,5]).select(function(n){ return n % 2 })
+        result.should.be_an_instance_of Collection
+      end
+    end
+    
     describe '#slice()'
       it 'should return a slice of values'
         var collection = $(['foo', 'bar', 'baz']).slice(1, 3)
