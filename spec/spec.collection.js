@@ -32,14 +32,14 @@ describe 'Express'
       it 'should work with objects'
         $({ foo: 'bar', baz: 'raz' }).at(0).should.eql 'bar'
         $({ foo: 'bar', baz: 'raz' }).at(1).should.eql 'raz'
-        $({ foo: 'bar', baz: 'raz' }).at(0).should.be_null
+        $({ foo: 'bar', baz: 'raz' }).at(2).should.be_null
       end
     end
     
     describe '#each()'
       it 'should iterate passing index and value'
         var result = []
-        $(['foo', 'bar']).each(function(i, val){
+        $(['foo', 'bar']).each(function(val, i){
           result.push(i, val)
         })
         result.should.eql [0, 'foo', 1, 'bar']
@@ -47,10 +47,10 @@ describe 'Express'
       
       it 'should work with objects'
         var result = []
-        $({ foo: 'bar', baz: 'raz' }).each(function(k, val){
-          result.push(k, val)
+        $({ foo: 'bar', baz: 'raz' }).each(function(val, key){
+          result.push(key, val)
         })
-        result.should.eql ['foo', 'bar', 'baz', 'bar']
+        result.should.eql ['foo', 'bar', 'baz', 'raz']
       end
       
       it 'should return the collection'
