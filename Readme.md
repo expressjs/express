@@ -19,6 +19,7 @@
   * Extendable using Express 'Modules'
   * Static file serving
   * View support
+  * Collections and chainable iterators
   * Routing
     * string matching       
     * regexp with captures  
@@ -94,6 +95,16 @@ POST /login
 
   * Coming Soon
   
+## Collections
+
+Express ships with the Collection class, allowing
+you to chain iterations on array-like objects.
+
+    $(['tj', 'matt', 'taylor'])
+      .select(function(name){ return name.charAt(0) == 't' })
+      .reject(function(name){ return name.length < 4 })
+      .first()
+
 ## Running Tests
 
 Express uses the [JSpec](http://jspec.info) BDD JavaScript testing
