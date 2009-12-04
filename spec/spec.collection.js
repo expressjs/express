@@ -168,7 +168,6 @@ describe 'Express'
     describe '#grep()'
       it 'should select values matching the regular expression passed'
         var result = $(['foo', 'bar', 'foobar', 'baz']).grep(/foo(bar)?/)
-        p(result)
         result.at(0).should.eql 'foo'
         result.at(1).should.eql 'foobar'
         result.at(2).should.be_null
@@ -190,6 +189,18 @@ describe 'Express'
     describe '#toArray()'
       it 'should return an array'
         $(['foo', 'bar']).keys().toArray().should.eql [0, 1]
+      end
+    end
+    
+    describe '#min()'
+      it 'should return the min value'
+        $([4,5,2,3,62]).min().should.eql 2
+      end
+    end
+    
+    describe 'max()'
+      it 'should return the max value'
+        $([3,5,2,3,43,2]).max().should.eql 43
       end
     end
     
