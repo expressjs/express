@@ -186,6 +186,20 @@ describe 'Express'
       end
     end
     
+    describe '#sort()'
+      it 'should sort using a function'
+        var result = $([4,2,3,1]).sort(function(n, other){
+          return n < other ? -1 :
+            n > other ? 1 :
+              0
+        })
+        result.at(0).should.eql 1
+        result.at(1).should.eql 2
+        result.at(2).should.eql 3
+        result.at(3).should.eql 4
+      end
+    end
+    
     describe '#toArray()'
       it 'should return an array'
         $(['foo', 'bar']).keys().toArray().should.eql [0, 1]
