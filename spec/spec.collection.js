@@ -113,6 +113,16 @@ describe 'Express'
       end
     end
     
+    describe '#any()'
+      it 'should return true when found'
+        $(['foo', 'bar']).any(function(val){ return val.charAt(0) == 'b' }).should.be_true
+      end
+      
+      it 'should return false when not found'
+        $(['foo', 'bar']).any(function(val){ return val.charAt(0) == 'r' }).should.be_false
+      end
+    end
+    
     describe '#slice()'
       it 'should return a slice of values'
         var collection = $(['foo', 'bar', 'baz']).slice(1, 3)
