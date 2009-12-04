@@ -165,5 +165,15 @@ describe 'Express'
       end
     end
     
+    describe '#grep()'
+      it 'should select values matching the regular expression passed'
+        var result = $(['foo', 'bar', 'foobar', 'baz']).grep(/foo(bar)?/)
+        p(result)
+        result.at(0).should.eql 'foo'
+        result.at(1).should.eql 'foobar'
+        result.at(2).should.be_null
+      end
+    end
+    
   end
 end
