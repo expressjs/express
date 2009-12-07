@@ -113,6 +113,20 @@ describe 'Express'
       end
     end
     
+    describe '#all()'
+      it 'should return true when all evaluate to true'
+        $(['foo', 'foobar']).all(function(val){ return val.charAt(0) == 'f' }).should.be_true
+      end
+      
+      it 'should return false when any evaluate to false'
+        $(['foo', 'bar', 'foobar']).all(function(val){ return val.charAt(0) == 'f' }).should.be_false
+      end
+      
+      it 'should work with objects'
+        $({ a: 'foo', b: 'foobar' }).all(function(val){ return val.charAt(0) == 'f' }).should.be_true
+      end
+    end
+    
     describe '#any()'
       it 'should return true when found'
         $(['foo', 'bar']).any(function(val){ return val.charAt(0) == 'b' }).should.be_true
