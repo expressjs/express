@@ -121,6 +121,11 @@ describe 'Express'
       it 'should return false when not found'
         $(['foo', 'bar']).any(function(val){ return val.charAt(0) == 'r' }).should.be_false
       end
+      
+      it 'should work with objects'
+        $({ foo: 'bar' }).any(function(val){ return val.charAt(0) == 'b' }).should.be_true
+        $({ foo: 'bar' }).any(function(val){ return val.charAt(0) == 'c' }).should.be_false
+      end
     end
     
     describe '#select()'
@@ -183,20 +188,6 @@ describe 'Express'
       it 'should return keys when an object'
         $({ foo: 'bar', baz: 'raz' }).keys().at(0).should.eql 'foo'
         $({ foo: 'bar', baz: 'raz' }).keys().at(1).should.eql 'baz'
-      end
-    end
-    
-    describe '#sort()'
-      it 'should sort using a function'
-        var result = $([4,2,3,1]).sort(function(n, other){
-          return n < other ? -1 :
-            n > other ? 1 :
-              0
-        })
-        result.at(0).should.eql 1
-        result.at(1).should.eql 2
-        result.at(2).should.eql 3
-        result.at(3).should.eql 4
       end
     end
     
