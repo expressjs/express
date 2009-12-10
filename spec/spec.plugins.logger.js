@@ -9,7 +9,7 @@ describe 'Express'
       it 'should output in common log format'
         GLOBAL.stub('puts')
         GLOBAL.should.receive('puts')
-        use(require('express/plugins/logger').Logger)
+        use(require('express/plugins/common-logger').Logger)
         get('/style.css', function(){
           contentType('css')
           return 'body { background: #000; }'
