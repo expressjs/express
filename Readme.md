@@ -33,7 +33,10 @@
   Extensive benchmarking will wait until a development version
   has been released. However for simple an average route and response
   body Ruby's Sinatra scored **1454** request per second using Thin, while
-  Express scored **2762**.
+  Express scored **3600**.
+  
+  Currently Express can chew through **1000** simple requests with a 
+  concurrency of **40** in **0.262** seconds.
 
 ## Examples
 
