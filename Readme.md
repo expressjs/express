@@ -31,16 +31,22 @@
 
 ## Examples
 
-  require.paths.unshift("./lib")
-  require('express')
-  
-  set('views', dirname(__filename) + '/views')
-  
-  get('/user/:id?', function() {
-    if (param('id'))
-      return 'Viewing user ' + param('id')
-    return 'Your user account'
-  })
+    require.paths.unshift("./lib")
+    require('express')
+    require('express/plugins')
+    
+    use(MethodOverride)
+    use(ContentLength)
+    use(Logger)
+    set('views', dirname(__filename) + '/views')
+    
+    get('/user/:id?', function() {
+      if (param('id'))
+        return 'Viewing user ' + param('id')
+      return 'Your user account'
+    })
+    
+    run()
   
 ## Settings
 
@@ -59,6 +65,18 @@ you to chain iterations on array-like objects and objects.
       .select(function(name){ return name.charAt(0) == 't' })
       .reject(function(name){ return name.length < 4 })
       .first()
+      
+## Plugins
+
+Express middleware and extensions take the form of a **Plugin**. 
+The difference with middleware and **Plugins** is that they may
+interact with eachother, and Express in ways simple middleware cannot.
+
+Currently the following core plugins are available:
+  
+  * CommonLogger
+  * MethodOverride
+  * ContentLength
 
 ## Running Tests
 
