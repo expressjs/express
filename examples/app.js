@@ -9,9 +9,10 @@ use(ContentLength)
 set('views', dirname(__filename) + '/views')
 
 get('/user/:id?', function() {
-  if (param('id'))
-    return 'Viewing user ' + param('id')
-  return 'Your user account'
+  var body = param('id') ? 
+    'Viewing user ' + param('id') : 
+      'Your user account'
+  render('layout.html.ejs', { locals: { title: 'User', body: body }})
 })
 
 run()
