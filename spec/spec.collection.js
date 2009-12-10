@@ -231,6 +231,16 @@ describe 'Express'
       end
     end
     
+    describe '#length()'
+      it 'should work with arrays'
+        $([1,2,3]).length().should.eql 3
+      end
+      
+      it 'should work with objects'
+        $({ a: 'b', c: 'd', e: 'f' }).length().should.eql 3
+      end
+    end
+    
     describe '#chunk()'
       it 'should group into chunks of the given size'
         $([1,1,2,2,3,3]).chunk(2).toArray().should.eql [[1,1],[2,2],[3,3]]
