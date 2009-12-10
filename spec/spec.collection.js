@@ -312,6 +312,14 @@ describe 'Express'
       end
     end
     
+    describe '#sample()'
+      it 'should return a random value'
+        var a = $([1,2,3,4]).sample()
+        var b = $([1,2,3,4]).sample()
+        a.should.not.eql b
+      end
+    end
+    
     describe '#toString()'
       it 'should output [Collection ...] for array'
         $([1,2,3]).toString().should.eql '[Collection 1,2,3]'
