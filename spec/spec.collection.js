@@ -209,6 +209,14 @@ describe 'Express'
       it 'should return an array'
         $(['foo', 'bar']).keys().toArray().should.eql [0, 1]
       end
+      
+      it 'should work on nested collections'
+        $([$(['foo']), $(['bar'])]).toArray().should.eql [['foo'], ['bar']]
+      end
+      
+      it 'should work with objects'
+        $({ foo: 'bar', baz: { name: 'wahoo' }}).toArray().should.eql ['bar', { name: 'wahoo' }]
+      end
     end
     
     describe '#min()'
