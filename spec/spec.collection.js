@@ -254,5 +254,19 @@ describe 'Express'
       end
     end
     
+    describe '#toString()'
+      it 'should output [Collection ...] for array'
+        $([1,2,3]).toString().should.eql '[Collection 1,2,3]'
+      end
+      
+      it 'should output [Collection [object Object]] for object'
+        $({ foo: "bar" }).toString().should.eql '[Collection [object Object]]'
+      end
+      
+      it 'should output [Collection [[Collection ...]]] for nested collections'
+        $([$([1,2,3])]).toString().should.eql '[Collection [Collection 1,2,3]]'
+      end
+    end
+    
   end
 end
