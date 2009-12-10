@@ -254,6 +254,48 @@ describe 'Express'
       end
     end
     
+    describe '#merge()'
+      it 'should merge two array collections'
+        var a = $([1,2,3])
+        var b = $([4,5,6])
+        a.merge(b).toArray().should.eql [1,2,3,4,5,6]
+        
+        var a = $([1,2,3])
+        var b = [4,5,6]
+        a.merge(b).toArray().should.eql [1,2,3,4,5,6]
+      end
+      
+      it 'should merge two object collections'
+        var a = $({ a: 'b' })
+        var b = $({ c: 'd' })
+        a.merge(b).arr.should.eql { a: 'b', c: 'd' }
+        
+        var a = $({ a: 'b' })
+        var b = { c: 'd' }
+        a.merge(b).arr.should.eql { a: 'b', c: 'd' }
+      end
+      
+      it 'should merge an array and object collection'
+        var a = $([1,2])
+        var b = $({ a: 'b', c: 'd' })
+        a.merge(b).arr.should.eql [1, 2, 'b', 'd']
+        
+        var a = $([1,2])
+        var b = { a: 'b', c: 'd' }
+        a.merge(b).arr.should.eql [1, 2, 'b', 'd']
+      end
+      
+      it 'should merge an object and array collection'
+        var a = $({ a: 'b', c: 'd' })
+        var b = $([1,2])
+        a.merge(b).arr.should.eql { a: 'b', c: 'd', 0: 1, 1: 2 }
+        
+        var a = $({ a: 'b', c: 'd' })
+        var b = [1,2]
+        a.merge(b).arr.should.eql { a: 'b', c: 'd', 0: 1, 1: 2 }
+      end
+    end
+    
     describe '#toString()'
       it 'should output [Collection ...] for array'
         $([1,2,3]).toString().should.eql '[Collection 1,2,3]'
