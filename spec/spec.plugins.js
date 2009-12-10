@@ -15,8 +15,17 @@ describe 'Express'
       use(CSSColors)
     end
     
+    describe 'Event'
+      describe '#init()'
+        it 'should accept arbitrary data'
+          var event = new Event('foo', { bar: 'baz' })
+          event.bar.should.eql 'baz'
+        end
+      end
+    end
+    
     describe 'events'
-      describe 'onResponse'
+      describe 'response'
         it 'should be triggered before headers and body are sent'
           get('/style.css', function(){
             contentType('css')
