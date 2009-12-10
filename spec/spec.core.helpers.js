@@ -99,24 +99,24 @@ describe 'Express'
     describe 'when given no arguments'
       it 'should respond with 404 Not Found'
         get('/user', function(){ halt() })
-        get('/user').body.should.include('Not Found')
         get('/user').status.should.eql 404
+        get('/user').body.should.include('Not Found')
       end
     end
     
     describe 'when given a status code'
       it 'should respond with that status and its associated default body'
         get('/user', function(){ halt(400) })
+        get('/user').status.should.eql 400
         get('/user').body.should.include('Bad Request')
-        get('/user').status.should.eql 400        
       end
     end
     
     describe 'when given a status code and body'
       it 'should respond with the status and its body'
         get('/user', function(){ halt(400, 'Oh noes!') })
-        get('/user').body.should.include('Oh noes!')
         get('/user').status.should.eql 400
+        get('/user').body.should.include('Oh noes!')
       end
     end
     
