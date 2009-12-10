@@ -37,68 +37,29 @@
 
 ## Examples
 
-See examples/simple.js for a working server that uses a synchronous handler. 
-Just type "node examples/simple.js" and then go to http://localhost:3000/i/like/cheese
-
-For an asynchronous example, run "node examples/async.js" and then go to http://localhost:3000/wait/2000
-
-GET /user/tj/edit
+  require.paths.unshift("./lib")
+  require('express')
   
-    get('user/:name/:operation', function(){
-      param('operation') + 'ing ' + param('name')
-    })
-
-GET /articles
+  set('views', dirname(__filename) + '/views')
   
-    get('articles', function(){
-      'list of articles'
-    })
-
-GET /articles/12
-  
-    get(/articles\/(\d+)/, function(){
-      'article id ' + captures[1]
-    })
-  
-POST /user/:id
-  
-    post('user/:id', function(){
-      User.destroy(params('id')) ? 
-        'User deleted' :
-          'Failed to delete user'
-    })
-  
-GET /login
-  
-    get('login', function() {
-      '<form method="post" action="/login">        \
-      <input type="text" name="user[name]" />      \
-      <input type="password" name="user[pass]" />  \
-      <input type="submit" value="Login"/>         \
-      </form>'
-    })
-  
-POST /login
-    
-    post('login', function() {
-      'Welcome ' + param('user').name
-    })
+  get('/user/:id?', function() {
+    if (param('id'))
+      return 'Viewing user ' + param('id')
+    return 'Your user account'
+  })
   
 ## Settings
 
-    * basepath         : defaults to '/'
-    * defaultRoute     : responds with page not found
-    * mime.defaultType : defaults to 'application/octet-stream'
-    * cookie.maxAge    : defaults to 3600 milliseconds
-    
-## Public API
-
-  * Coming Soon
+  set('views', '/path/to/views')
+  set('views') // => '/path/to/views'
   
+  enable('foo')
+  disable('bar')
+    
 ## Collections
 
 Express ships with the Collection class, allowing
-you to chain iterations on array-like objects.
+you to chain iterations on array-like objects and objects.
 
     $(['tj', 'matt', 'taylor'])
       .select(function(name){ return name.charAt(0) == 't' })
@@ -122,10 +83,6 @@ Run individual suites:
     $ node spec/spec.node.js routing
     ...
     
-## More Information
-
-  * [Mojo](http://github.com/visionmedia/mojo) JavaScript Mustache Templates
-
 ## License 
 
 (The MIT License)

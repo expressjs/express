@@ -23,9 +23,9 @@ if (process.ARGV[2])
 else
   JSpec
     .exec('spec/spec.core.js')
-    .exec('spec/spec.core.routing.js')
-    .exec('spec/spec.core.helpers.js')
-    .exec('spec/spec.core.mime.js')
+    .exec('spec/spec.routing.js')
+    .exec('spec/spec.helpers.js')
+    .exec('spec/spec.mime.js')
     .exec('spec/spec.collection.js')
 JSpec.run({ formatter: JSpec.formatters.Terminal, failuresOnly: true })
 JSpec.report()
