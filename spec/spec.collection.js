@@ -248,5 +248,11 @@ describe 'Express'
       end
     end
     
+    describe '#sum()'
+      it 'should return the sum of the numeric values'
+        $([1,2,3]).sum().should.eql 6
+      end
+    end
+    
   end
 end
