@@ -86,12 +86,11 @@ describe 'Express'
         get('/user').body.should.eql 'localhost:3000'
       end
       
-      it 'should base case-insensitive'
+      it 'should be case-insensitive'
         get('/user', function(){
-          header('X-Foo', 'bar')
-          return header('x-Foo')
+          return header('Host')
         })
-        get('/user').body.should.eql 'bar'
+        get('/user').body.should.eql 'localhost:3000'
       end
     end
   end
