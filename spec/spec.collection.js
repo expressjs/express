@@ -111,6 +111,12 @@ describe 'Express'
       end  
     end
     
+    describe '#drop()'
+      it 'should drop the first n values'
+        $(1..5).drop(2).arr.should.eql 3..5
+      end
+    end
+    
     describe '#find()'
       it 'should return the value of the first match'
         var result = $(['foo', 'bar']).find(function(val){ return val.charAt(0) == 'b' })
