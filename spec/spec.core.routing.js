@@ -81,7 +81,6 @@ describe 'Express'
           return 'baz'
         })
         get('/foo').body.should.eql 'bar'
-        get('/foo').body.should.eql 'bar'        
       end
     end
     
@@ -95,14 +94,9 @@ describe 'Express'
     end
     
     describe 'with an unmatchable request path'
-      it 'should throw a NotFoundError'
-        // TODO: throw_error(NotFoundError, ...) when jspec is fixed
-        -{ get('/something') }.should.throw_error(/NotFoundError: failed to find get "\/something"/)
-        try { get('/something') }
-        catch (e) {
-          e.should.be_an_instance_of ExpressError
-          e.should.be_an_instance_of NotFoundError
-        }
+      it 'should respond with 404 Not Found'
+        get('/something').status.should.eql 404
+        get('/something').body.should.eql 'Not Found'
       end
     end
     
