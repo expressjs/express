@@ -2,10 +2,10 @@
 describe 'Express'
   before_each
     reset()
-    use(require('express/plugins/common-logger').Logger)
+    use(require('express/plugins/common-logger').CommonLogger)
   end
   
-  describe 'Logger'
+  describe 'CommonLogger'
     describe 'on'
       describe 'response'
         it 'should output in common log format'

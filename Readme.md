@@ -37,7 +37,7 @@
     
     use(MethodOverride)
     use(ContentLength)
-    use(Logger)
+    use(CommonLogger)
     set('views', dirname(__filename) + '/views')
     
     get('/user/:id?', function() {
