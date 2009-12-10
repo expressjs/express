@@ -134,6 +134,16 @@ describe 'Express'
     end
   end
   
+  describe 'contentType()'
+    it 'should set Content-Type header with mime type passed'
+      get('/style.css', function(){
+        contentType('css')
+        return 'body { background: white; }'
+      })
+      get('/style.css').headers['content-type'].should.eql 'text/css'
+    end
+  end
+  
   describe 'param()'
     it 'should return a route placeholder value'
       get('/user/:id', function(){
