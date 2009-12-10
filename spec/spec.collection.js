@@ -277,6 +277,12 @@ describe 'Express'
       end
     end
     
+    describe '#avg()'
+      it 'should return the average of numeric values'
+        $([3,1]).avg().should.eql 2
+      end
+    end
+    
     describe '#merge()'
       it 'should merge two array collections'
         var a = $([1,2,3])
