@@ -83,14 +83,14 @@ describe 'Express'
         get('/user', function(){
           return header('host')
         })
-        get('/user', { headers: { host: 'localhost' }}).body.should.eql 'localhost'
+        get('/user').body.should.eql 'localhost'
       end
       
       it 'should be case-insensitive'
         get('/user', function(){
           return header('Host')
         })
-        get('/user', { headers: { host: 'localhost' }}).body.should.eql 'localhost'
+        get('/user').body.should.eql 'localhost'
       end
     end
   end
