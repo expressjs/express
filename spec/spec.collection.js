@@ -296,6 +296,22 @@ describe 'Express'
       end
     end
     
+    describe '#clone()'
+      it 'should clone an array collection'
+        var a = $([1,2,3])
+        var b = a.clone()
+        a.should.not.equal b
+        b.arr.should.eql [1,2,3]
+      end
+      
+      it 'should clone an object collection'
+        var a = $({ foo: 'bar' })
+        var b = a.clone()
+        a.should.not.equal b
+        b.arr.should.eql { foo: 'bar' }
+      end
+    end
+    
     describe '#toString()'
       it 'should output [Collection ...] for array'
         $([1,2,3]).toString().should.eql '[Collection 1,2,3]'
