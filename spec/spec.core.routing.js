@@ -85,6 +85,15 @@ describe 'Express'
       end
     end
     
+    describe 'with no response body'
+      it 'should throw a InvalidResponseBody'
+        get('/user', function(){
+          Express.server.respond()
+        })
+        -{ get('/user') }.should.throw_error(/InvalidResponseBody: get "\/user" did not respond with a body string/)
+      end
+    end
+    
     describe 'with an unmatchable request path'
       it 'should throw a NotFoundError'
         // TODO: throw_error(NotFoundError, ...) when jspec is fixed
