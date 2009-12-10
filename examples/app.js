@@ -3,9 +3,9 @@ require.paths.unshift("./lib")
 require('express')
 require('express/plugins')
 
+use(Profiler)
 use(MethodOverride)
 use(ContentLength)
-use(CommonLogger)
 set('views', dirname(__filename) + '/views')
 
 get('/user/:id?', function() {

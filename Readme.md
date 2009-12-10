@@ -77,6 +77,7 @@ Currently the following core plugins are available:
   * CommonLogger
   * MethodOverride
   * ContentLength
+  * Profiler
 
 ## Running Tests
 
