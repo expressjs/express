@@ -18,6 +18,7 @@
   * Environment based configuration
   * Light-weight JavaScript class implementation via js-oo
   * Collections and chainable iterators
+  * View support (ejs, mustache)
 
 ## Performance
 
