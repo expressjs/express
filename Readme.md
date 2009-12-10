@@ -8,25 +8,16 @@
 
 ## Features (so far)
 
-  * Sexy DSL
+  * Sexy DSL with robust sinatra-like routing
+  * High performance
   * Mime helpers
   * Nested parameter parsing
   * Full test coverage
+  * Extremely readable specs
   * Test helpers (mock requests etc)
-  * Cookie support
-  * Session support
-  * Faux method support for RESTful apps
-  * Extendable using Express 'Modules'
-  * Static file serving
-  * View support
+  * Environment based configuration
+  * Light-weight JavaScript class implementation via js-oo
   * Collections and chainable iterators
-  * Routing
-    * string matching       
-    * regexp with captures  
-    * param key substitution
-    * pre-conditions
-    * overidding
-    * etc
 
 ## Performance
 
