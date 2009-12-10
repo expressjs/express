@@ -12,7 +12,14 @@ describe 'Express'
           put('/user', function(){
             return 'updated user'
           })
-          post('/user', { __method__: 'put' }).body.should.eql 'updated user'
+          post('/user', { uri: { params: { __method__: 'put' }}}).body.should.eql 'updated user'
+        end
+        
+        it 'should force __method__ to lowercase to conform to internal uses'
+          put('/user', function(){
+            return 'updated user'
+          })
+          post('/user', { uri: { params: { __method__: 'PUT' }}}).body.should.eql 'updated user'
         end
       end
     end

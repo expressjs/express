@@ -189,5 +189,13 @@ describe 'Express'
       get('/user/12').body.should.eql '12'
       get('/product/ipod').body.should.eql 'ipod'
     end
+    
+    it 'should access request.uri.params'
+      get('/user', function(){
+        return param('page') || 'First page'
+      })
+      get('/user').body.should.eql 'First page'
+      get('/user', { uri: { params: { page: '2' }}}).body.should.eql '2'
+    end
   end
 end
