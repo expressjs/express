@@ -343,9 +343,8 @@ describe 'Express'
     
     describe '#sample()'
       it 'should return a random value'
-        var a = $([1,2,3,4]).sample()
-        var b = $([1,2,3,4]).sample()
-        a.should.not.eql b
+        Math.stub('random').and_return(0.1)
+        $([1,2,3,4]).sample().should.eql 1
       end
     end
     
