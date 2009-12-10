@@ -28,6 +28,7 @@ else
     .exec('spec/spec.mime.js')
     .exec('spec/spec.collection.js')
     .exec('spec/spec.plugins.js')
-    .exec('spec/spec.plugins.logger.js')
+    .exec('spec/spec.plugins.common-logger.js')
+    .exec('spec/spec.plugins.content-length.js')
 JSpec.run({ formatter: JSpec.formatters.Terminal, failuresOnly: true })
 JSpec.report()
