@@ -2,6 +2,7 @@
 require.paths.unshift("./lib")
 require('express')
 
+use(require('express/plugins/logger').Logger)
 set('views', dirname(__filename) + '/views')
 
 get('/user/:id?', function() {
