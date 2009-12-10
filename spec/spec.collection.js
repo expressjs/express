@@ -94,6 +94,23 @@ describe 'Express'
       end  
     end
     
+    describe '#last()'
+      it 'should return the last value'
+        $(['foo', 'bar']).last().should.eql 'bar'
+      end
+      
+      it 'should return the last n values'
+        $([5,4,3,2,1]).last(2).at(0).should.eql 2
+        $([5,4,3,2,1]).last(2).at(1).should.eql 1
+      end
+      
+      it 'should work with objects'
+        $({ a: 'foo', b: 'bar' }).last(2).at(0).should.eql 'foo'
+        $({ a: 'foo', b: 'bar' }).last(2).at(1).should.eql 'bar'
+        $({ a: 'foo', b: 'bar' }).last().should.eql 'bar'
+      end  
+    end
+    
     describe '#find()'
       it 'should return the value of the first match'
         var result = $(['foo', 'bar']).find(function(val){ return val.charAt(0) == 'b' })
