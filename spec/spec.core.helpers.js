@@ -79,12 +79,11 @@ describe 'Express'
     end
     
     describe 'when given a field name'
-      it 'should return a response headers current value'
+      it 'should return a request header value'
         get('/user', function(){
-          header('x-foo', 'bar')
-          return header('x-foo')
+          return header('host')
         })
-        get('/user').body.should.eql 'bar'
+        get('/user').body.should.eql 'localhost:3000'
       end
       
       it 'should base case-insensitive'
