@@ -1,5 +1,5 @@
 
-CSSVariables = Plugin.extend({
+CSSColors = Plugin.extend({
   on: {
     response: function(e) {
       if (e.response.headers['content-type'] == mime('css'))
@@ -12,7 +12,7 @@ describe 'Express'
   describe 'use()'
     before_each
       reset()
-      use(CSSVariables)
+      use(CSSColors)
     end
     
     describe 'events'
