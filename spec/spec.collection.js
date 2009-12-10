@@ -217,9 +217,16 @@ describe 'Express'
       end
     end
     
-    describe 'max()'
+    describe '#max()'
       it 'should return the max value'
         $([3,5,2,3,43,2]).max().should.eql 43
+      end
+    end
+    
+    describe '#chunk()'
+      it 'should group into chunks of the given size'
+        $([1,1,2,2,3,3]).chunk(2).toArray().should.eql [[1,1],[2,2],[3,3]]
+        $([1,1,2,2,3,3]).chunk(4).toArray().should.eql [[1,1,2,2],[3,3]]
       end
     end
     
