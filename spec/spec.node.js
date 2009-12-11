@@ -28,7 +28,7 @@ else
     .exec('spec/spec.mime.js')
     .exec('spec/spec.view.js')
     .exec('spec/spec.collection.js')
-    .exec('spec/spec.collection.libxml.js')
+    .exec('spec/spec.element-collection.js')
     .exec('spec/spec.plugins.js')
     .exec('spec/spec.plugins.common-logger.js')
     .exec('spec/spec.plugins.content-length.js')
