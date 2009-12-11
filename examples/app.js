@@ -11,7 +11,7 @@ set('views', dirname(__filename) + '/views')
 get('/user/:id?', function() {
   render('user.haml.html', {
     locals: {
-      id: param('id')
+      name: param('id') ? 'User ' + param('id') : 'You' 
     }
   })
 })
