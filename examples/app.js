@@ -16,10 +16,10 @@ get('/hello', function(){
   return '<h1>World<h1>'
 })
 
-get('/user/:id?', function() {
+get('/user/:id?', function(id) {
   render('user.haml.html', {
     locals: {
-      name: param('id') ? 'User ' + param('id') : 'You' 
+      name: id ? 'User ' + id : 'You' 
     }
   })
 })
