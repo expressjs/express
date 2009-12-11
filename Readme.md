@@ -11,6 +11,7 @@
   * Sexy DSL with robust sinatra-like routing
   * High performance
   * Mime helpers
+  * Redirection helpers
   * Nested parameter parsing
   * Full test coverage
   * Extremely readable specs
@@ -49,38 +50,9 @@
     
     run()
   
-## Settings
+## Documentation
 
-  set('views', '/path/to/views')
-  set('views') // => '/path/to/views'
-  
-  enable('foo')
-  disable('bar')
-    
-## Collections
-
-Express ships with the Collection class, allowing
-you to chain iterations on array-like objects and objects.
-
-    $(['tj', 'matt', 'taylor'])
-      .select(function(name){ return name.charAt(0) == 't' })
-      .reject(function(name){ return name.length < 4 })
-      .first()
-      
-## Plugins
-
-Express middleware and extensions take the form of a **Plugin**. 
-The difference with middleware and **Plugins** is that they may
-interact with eachother, and Express in ways simple middleware cannot.
-
-Currently the following core plugins are available:
-  
-  * CommonLogger
-  * MethodOverride
-  * ContentLength
-  * Profiler
-  * Redirect
-  * Hooks
+View the [Wiki](http://github.com/visionmedia/express/wiki) for detailed documentation.
 
 ## Running Tests
 
