@@ -12,6 +12,13 @@ describe 'Express'
       end
     end
     
+    describe '#at()'
+      it 'should return the first element'
+        $('<p>foo</p>').at(0).name().should.eql 'body'
+        $('<p>foo</p>').at(0).children()[0].name().should.eql 'p'
+      end
+    end
+    
     describe '#toString()'
       it 'should output [ElementCollection ...]'
         $('<p>foo</p>').toString().should.match(/\[ElementCollection/)
