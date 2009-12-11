@@ -15,7 +15,7 @@ describe 'Express'
     
     it 'should defer using a function'
       set('root', 'spec')
-      set('views', function(){ set('root') + '/views' })
+      set('views', function(){ return set('root') + '/views' })
       set('views').should.eql 'spec/views'
     end
   end
