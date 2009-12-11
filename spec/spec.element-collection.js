@@ -35,5 +35,19 @@ describe 'Express'
       end
     end
     
+    describe '#children()'
+      it 'should return children'
+        $('<p><em>foo</em><strong>bar</strong></p>').children().length().should.eql 1
+        $('<p><em>foo</em><strong>bar</strong></p>').xpath('descendant-or-self::p').children().length().should.eql 2
+      end
+    end
+    
+    describe '#parents()'
+      it 'should return parents'
+        $('<ul><li></li></ul><ul><li></li></ul>').xpath('descendant-or-self::li').parents().length().should.eql 2
+        $('<ul><li></li></ul><ul><li></li></ul>').xpath("descendant-or-self::*/*[name() = 'ul' and (position() = 1)]/descendant::li").parents().length().should.eql 1
+      end
+    end
+    
   end
 end
