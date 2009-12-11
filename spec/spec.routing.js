@@ -93,6 +93,42 @@ describe 'Express'
       end
     end
     
+    describe 'with a placeholder'
+      it 'should still match'
+        get('/user/:id', function(){ return 'yay' })
+        get('/user/12').body.should.eql 'yay'
+      end
+      
+      it 'should not match with an additional path segment'
+        get('/user/:id', function(){ return 'yay' })
+        get('/user/12/edit').body.should.eql 'Not Found'
+      end
+    end
+    
+    describe 'with several placeholders'
+      it 'should still match'
+        get('/user/:id/:op', function(){ return 'yay' })
+        get('/user/12/edit').body.should.eql 'yay'
+      end
+    end
+    
+    describe 'with an optional placeholder'
+      it 'should match with a value'
+        get('/user/:id?', function(){ return 'yay' })
+        get('/user/1').body.should.eql 'yay'
+      end
+      
+      it 'should match without a value'
+        get('/user/:id?', function(){ return 'yay' })
+        get('/user').body.should.eql 'yay'
+      end
+      
+      it 'should not match with an additional path segment'
+        get('/user/:id?', function(){ return 'yay' })
+        get('/user/12/edit').body.should.eql 'Not Found'
+      end
+    end
+    
     describe 'with an unmatchable request path'
       it 'should respond with 404 Not Found'
         get('/something').status.should.eql 404
