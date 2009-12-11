@@ -61,5 +61,17 @@ describe 'Express'
       end
     end
     
+    describe '#next()'
+      it 'should return the next element'
+        $('<em>foo</em><p>bar</p>').xpath('descendant-or-self::em').next().text().should.eql 'bar'
+      end
+    end
+    
+    describe '#prev()'
+      it 'should return the previous element'
+        $('<em>foo</em><p>bar</p>').xpath('descendant-or-self::p').prev().text().should.eql 'foo'
+      end
+    end
+    
   end
 end
