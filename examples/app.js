@@ -7,6 +7,7 @@ configure(function(){
   use(Profiler)
   use(MethodOverride)
   use(ContentLength)
+  use(Redirect)
   set('root', dirname(__filename))
   enable('cache views')
 })

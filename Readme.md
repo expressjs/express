@@ -79,6 +79,7 @@ Currently the following core plugins are available:
   * MethodOverride
   * ContentLength
   * Profiler
+  * Redirect
   * Hooks
 
 ## Running Tests
