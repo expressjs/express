@@ -4,7 +4,7 @@
   Insanely fast (and small) server-side JavaScript web development framework
   built on **node.js** and the **V8 JavaScript engine**.
 
-  * Stay tuned, coming soon :)
+  Visit the [Wiki](http://wiki.github.com/visionmedia/express) for documentation
 
 ## Features (so far)
 
@@ -50,10 +50,6 @@
     
     run()
   
-## Documentation
-
-View the [Wiki](http://github.com/visionmedia/express/wiki) for detailed documentation.
-
 ## Running Tests
 
 Express uses the [JSpec](http://jspec.info) BDD JavaScript testing
