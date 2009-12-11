@@ -12,11 +12,17 @@ describe 'Express'
       end
       
       it 'should wrap with <html><body>.. when not present'
-        $('<p>foo</p>').at(0).name().should.eql 'body'
+        $('<p>foo</p>').at(0).name().should.eql 'html'
       end
       
       it 'should not wrap with <html><body> when already present'
-        $('<html><body></body></html>').at(0).name().should.eql 'body'
+        $('<html><body></body></html>').at(0).name().should.eql 'html'
+      end
+    end
+    
+    describe '#name()'
+      it 'should return the first elements name'
+        $('<html><body></body></html>').name().should.eql 'html'
       end
     end
     
