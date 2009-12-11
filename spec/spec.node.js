@@ -1,5 +1,5 @@
-require.paths.unshift("./spec/lib", "./lib");
 
+require.paths.unshift('spec', 'spec/lib', 'lib')
 require("jspec")
 require("express")
 require("express/spec")
@@ -26,8 +26,9 @@ else
     .exec('spec/spec.routing.js')
     .exec('spec/spec.helpers.js')
     .exec('spec/spec.mime.js')
-    .exec('spec/spec.collection.js')
     .exec('spec/spec.view.js')
+    .exec('spec/spec.collection.js')
+    .exec('spec/spec.collection.libxml.js')
     .exec('spec/spec.plugins.js')
     .exec('spec/spec.plugins.common-logger.js')
     .exec('spec/spec.plugins.content-length.js')
