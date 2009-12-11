@@ -1,0 +1,34 @@
+
+describe 'Express'
+  before_each
+    reset()
+    use(require('express/plugins/hooks').Hooks)
+  end
+  
+  describe 'Hooks'
+    describe 'before()'
+      it 'should be called before every request'
+        GLOBAL.before(function(e){
+          e.response.body = 'foo'
+        })
+        GLOBAL.before(function(e){
+          e.response.body += 'bar'
+        })
+        get('/user', function(){})
+        get('/user').body.should.eql 'foobar'
+      end
+    end
+    
+    describe 'after()'
+      it 'should be called after every request'
+        var body
+        GLOBAL.after(function(e){
+          body = e.response.body
+        })
+        get('/user', function(){ return 'test' })
+        get('/user').body.should.eql 'test'
+        body.should.eql 'test'
+      end
+    end
+  end
+end
