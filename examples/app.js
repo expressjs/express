@@ -9,7 +9,6 @@ use(ContentLength)
 set('views', dirname(__filename) + '/views')
 
 get('/user/:id?', function() {
-  contentType('html')
   render('user.ejs.html', {
     locals: {
       id: param('id')
