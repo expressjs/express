@@ -32,6 +32,7 @@ else
     .exec('spec/spec.plugins.common-logger.js')
     .exec('spec/spec.plugins.content-length.js')
     .exec('spec/spec.plugins.method-override.js')
+    .exec('spec/spec.plugins.redirect.js')
     .exec('spec/spec.plugins.hooks.js')
 JSpec.run({ formatter: JSpec.formatters.Terminal, failuresOnly: true })
 JSpec.report()
