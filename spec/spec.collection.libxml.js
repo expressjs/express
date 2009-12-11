@@ -13,8 +13,8 @@ describe 'Express'
     end
     
     describe '#toString()'
-      it 'should output [Collection ...] for array'
-        $('<p>foo</p>').toString().should.eql '[ElementCollection <p>foo</p>]'
+      it 'should output [ElementCollection ...]'
+        $('<p>foo</p>').toString().should.match(/\[ElementCollection/)
       end
     end
     
