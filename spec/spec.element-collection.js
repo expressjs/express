@@ -49,5 +49,11 @@ describe 'Express'
       end
     end
     
+    describe 'parent()'
+      it 'should return the first parent'
+        $('<ul><li></li></ul><ul><li></li></ul>').xpath('descendant-or-self::li').parent().length().should.eql 1
+      end
+    end
+    
   end
 end
