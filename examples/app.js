@@ -7,6 +7,7 @@ require('express/plugins')
 use(MethodOverride)
 use(ContentLength)
 set('views', dirname(__filename) + '/views')
+enable('cache views')
 
 get('/user/:id?', function() {
   render('user.haml.html', {
