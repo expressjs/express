@@ -49,9 +49,15 @@ describe 'Express'
       end
     end
     
-    describe 'parent()'
+    describe '#parent()'
       it 'should return the first parent'
         $('<ul><li></li></ul><ul><li></li></ul>').xpath('descendant-or-self::li').parent().length().should.eql 1
+      end
+    end
+    
+    describe '#text()'
+      it 'should return an elements text'
+        $('<p>foo bar</p>').text().should.eql 'foo bar'
       end
     end
     
