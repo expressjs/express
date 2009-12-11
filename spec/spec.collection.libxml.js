@@ -12,5 +12,11 @@ describe 'Express'
       end
     end
     
+    describe '#toString()'
+      it 'should output [Collection ...] for array'
+        $('<p>foo</p>').toString().should.eql '[ElementCollection <p>foo</p>]'
+      end
+    end
+    
   end
 end
