@@ -103,6 +103,13 @@ describe 'Express'
         get('/user/:id', function(){ return 'yay' })
         get('/user/12/edit').body.should.eql 'Not Found'
       end
+      
+      it 'should pass it to the route function'
+        get('/user/:id', function(id){
+          return id
+        })
+        get('/user/12').body.should.eql '12'
+      end
     end
     
     describe 'with several placeholders'
@@ -110,12 +117,27 @@ describe 'Express'
         get('/user/:id/:op', function(){ return 'yay' })
         get('/user/12/edit').body.should.eql 'yay'
       end
+      
+      it 'should pass them to the route function'
+        get('/user/:id/:op', function(id, op){
+          return op + 'ing user ' + id
+        })
+        get('/user/12/edit').body.should.eql 'editing user 12'
+      end
     end
     
     describe 'with an optional placeholder'
       it 'should match with a value'
         get('/user/:id?', function(){ return 'yay' })
         get('/user/1').body.should.eql 'yay'
+      end
+      
+      it 'should pass it to the route function'
+        get('/user/:id?', function(id){
+          return id || 'You'
+        })
+        get('/user/12').body.should.eql '12'
+        get('/user').body.should.eql 'You'
       end
       
       it 'should match without a value'
@@ -126,6 +148,23 @@ describe 'Express'
       it 'should not match with an additional path segment'
         get('/user/:id?', function(){ return 'yay' })
         get('/user/12/edit').body.should.eql 'Not Found'
+      end
+    end
+    
+    describe 'with partial placeholder'
+      it 'should still match'
+        get('/report.:format', function(){
+          return 'yay'
+        })
+        get('/report.csv').body.should.eql 'yay'
+        get('/report.pdf').body.should.eql 'yay'
+      end
+      
+      it 'should not match without value'
+        get('/report.:format', function(){
+          return 'yay'
+        })
+        get('/report.').body.should.eql 'Not Found'
       end
     end
     
