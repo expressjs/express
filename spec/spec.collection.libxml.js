@@ -26,9 +26,12 @@ describe 'Express'
       end
     end
     
-    describe '#toString()'
-      it 'should output [ElementCollection ...]'
-        $('<p>foo</p>').toString().should.match(/\[ElementCollection/)
+    describe '#xpath()'
+      it 'should find children matching the given xpath'
+        $('<li>1</li><li>2</li>').xpath('descendant-or-self::li').length().should.eql 2
+        $('<li>1</li><li>2</li>').xpath('descendant-or-self::li').at(0).name().should.eql 'li'
+        var items = $('<li><p>Foo</p></li><li><p>Bar</p></li>').xpath('descendant-or-self::li')
+        items.xpath('descendant-or-self::p').length().should.eql 2
       end
     end
     
