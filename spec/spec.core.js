@@ -12,6 +12,12 @@ describe 'Express'
       set('raise exceptions', true)
       set('raise exceptions').should.be_true
     end
+    
+    it 'should defer using a function'
+      set('root', 'spec')
+      set('views', function(){ set('root') + '/views' })
+      set('views').should.eql 'spec/views'
+    end
   end
   
   describe 'enable()'
