@@ -10,12 +10,13 @@ describe 'Express'
         $('<p>foo</p>').should.be_an_instance_of Collection
         $('<p>foo</p>').should.be_an_instance_of ElementCollection
       end
-    end
-    
-    describe '#at()'
-      it 'should return the first element'
+      
+      it 'should wrap with <html><body>.. when not present'
         $('<p>foo</p>').at(0).name().should.eql 'body'
-        $('<p>foo</p>').at(0).children()[0].name().should.eql 'p'
+      end
+      
+      it 'should not wrap with <html><body> when already present'
+        $('<html><body></body></html>').at(0).name().should.eql 'body'
       end
     end
     
