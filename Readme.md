@@ -33,19 +33,29 @@
 
 ## Examples
 
-    require.paths.unshift("./lib")
+    require.paths.unshift('lib')
     require('express')
     require('express/plugins')
     
-    use(MethodOverride)
-    use(ContentLength)
-    use(CommonLogger)
-    set('views', dirname(__filename) + '/views')
+    configure(function(){
+      use(MethodOverride)
+      use(ContentLength)
+      use(Redirect)
+      set('root', dirname(__filename))
+      enable('cache views')
+    })
     
-    get('/user/:id?', function() {
-      if (param('id'))
-        return 'Viewing user ' + param('id')
-      return 'Your user account'
+    get('/hello', function(){
+      contentType('html')
+      return '<h1>World<h1>'
+    })
+    
+    get('/user/:id?', function(id) {
+      render('user.haml.html', {
+        locals: {
+          name: id ? 'User ' + id : 'You' 
+        }
+      })
     })
     
     run()
