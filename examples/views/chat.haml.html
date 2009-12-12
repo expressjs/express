@@ -1,0 +1,5 @@
+%h1 Chat
+  %form{ method: 'post' }
+    %input{ type: 'hidden', name: '__method__', value: 'put' }
+    %input{ type: 'text', name: 'message' }
+    %input{ type: 'submit', value: 'Send' }

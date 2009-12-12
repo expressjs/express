@@ -4,25 +4,22 @@ require('express')
 require('express/plugins')
 
 configure(function(){
-  use(Profiler)
   use(MethodOverride)
   use(ContentLength)
-  use(Redirect)
   set('root', dirname(__filename))
   enable('cache views')
 })
 
-get('/hello', function(){
-  contentType('html')
-  return '<h1>World<h1>'
+get('/chat', function(){
+  render('chat.haml.html')
 })
 
-get('/user/:id?', function(id) {
-  render('user.haml.html', {
-    locals: {
-      name: id ? 'User ' + id : 'You' 
-    }
-  })
+post('/chat', function(){
+  p(Express.server.request.uri.params)
+})
+
+put('/chat', function(){
+  p(Express.server.request.uri.params)
 })
 
 run()
