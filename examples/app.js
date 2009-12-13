@@ -10,13 +10,24 @@ configure(function(){
   enable('cache views')
 })
 
+var messages = []
+
 get('/chat', function(){
-  render('chat.haml.html')
+  render('chat.haml.html', {
+    locals: {
+      messages: messages
+    }
+  })
 })
 
-put('/chat', function(){
-  p(Express.server.request.body)
-  p(param('message'))
+post('/chat', function(){
+  messages.push(param('message'))
+  halt(200)
+})
+
+get('/chat/messages', function(){
+  contentType('json')
+  return jsonEncode(messages)
 })
 
 run()

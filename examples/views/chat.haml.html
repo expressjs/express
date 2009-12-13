@@ -1,5 +1,31 @@
 %h1 Chat
+  %ul#messages
   %form{ method: 'post' }
     %input{ type: 'hidden', name: '__method__', value: 'put' }
     %input{ type: 'text', name: 'message' }
     %input{ type: 'submit', value: 'Send' }
+  :javascript
+    $(function(){
+      // Send message
+      $('form').submit(function(){
+        var message = $('input[name=message]')
+        if (message.val()) 
+          $.post('/chat', { message: message.val() }, function(){
+            message.val('')
+          })
+        else
+          message.css('border', '1px solid red')
+        return false
+      })
+      
+      // Poll
+      setInterval(function(){
+        $.getJSON('/chat/messages', function(messages){
+          $('#messages').empty()
+          $.each(messages, function(i, msg){
+            $('#messages')
+              .append('<li>' + msg + '</li>')
+          })
+        })
+      }, 400)
+    })
