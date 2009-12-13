@@ -15,7 +15,7 @@ get('/chat', function(){
 })
 
 post('/chat', function(){
-  p(Express.server.request.uri.params)
+  p(Express.server.request.body)
 })
 
 put('/chat', function(){
