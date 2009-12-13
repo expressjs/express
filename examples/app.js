@@ -14,12 +14,9 @@ get('/chat', function(){
   render('chat.haml.html')
 })
 
-post('/chat', function(){
-  p(Express.server.request.body)
-})
-
 put('/chat', function(){
-  p(Express.server.request.uri.params)
+  p(Express.server.request.body)
+  p(param('message'))
 })
 
 run()
