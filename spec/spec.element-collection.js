@@ -35,6 +35,12 @@ describe 'Express'
       end
     end
     
+    describe '#search()'
+      it 'should find children matching the given css selector'
+        $('<ul><li>foo</li><li>bar</li></ul>').search('ul > li:nth-child(2)').text().should.eql 'bar'
+      end
+    end
+    
     describe '#children()'
       it 'should return children'
         $('<p><em>foo</em><strong>bar</strong></p>').children().length().should.eql 1
