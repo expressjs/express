@@ -7,4 +7,7 @@ test:
 app:
 	@$(NODE) examples/app.js
 	
+benchmark:
+	@$(NODE) benchmarks/collection.js
+	
 .PHONY: test
