@@ -32,4 +32,76 @@ suite('Collection with array', 100, function(){
   benchmark('#each', function(){
     $(array).each(function(){})
   })
+  
+  benchmark('#map', function(){
+    $(array).map(function(n){ return ++n })
+  })
+  
+  benchmark('#find', function(){
+    $(array).find(function(n){ return n > 5000 })
+  })
+  
+  benchmark('#select', function(){
+    $(array).select(function(n){ return n % 2 })
+  })
+  
+  benchmark('#first', function(){
+    $(array).first(5000)
+  })
+  
+  benchmark('#slice', function(){
+    $(array).slice(100, 5000)
+  })
+  
+  benchmark('#drop', function(){
+    $(array).drop(5000)
+  })
+  
+  benchmark('#length', function(){
+    $(array).length()
+  })
+  
+  benchmark('#keys', function(){
+    $(array).keys()
+  })
+  
+  benchmark('#toArray()', function(){
+    $(array).toArray()
+  })
+  
+  benchmark('#min', function(){
+    $(array).min()
+  })
+  
+  benchmark('#max', function(){
+    $(array).max()
+  })
+  
+  benchmark('#sum', function(){
+    $(array).sum()
+  })
+  
+  benchmark('#avg', function(){
+    $(array).avg()
+  })
+  
+  benchmark('#clone', function(){
+    $(array).clone()
+  })
+  
+  benchmark('#merge', function(){
+    $(array).merge({ foo: 'bar' })
+  })
+  
+  benchmark('#sample', function(){
+    $(array).sample()
+  })
+  
+  benchmark('#chunk', function(){
+    $(array).chunk(5)
+  })
+  
+  benchmark('#at', function(){
+    $(array).at(5000)
+  })
 })
