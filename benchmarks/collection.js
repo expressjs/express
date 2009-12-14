@@ -15,7 +15,7 @@ range = function(a, b) {
 }
 
 suite('Collection with array', 100, function(){
-  array = range(0, 50000)
+  array = range(0, 10000)
   
   benchmark('for', function(){
     for (var i = 0, len = array.length; i < len; ++i) ;
