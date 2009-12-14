@@ -19,6 +19,7 @@
   * Environment based configuration
   * Light-weight JavaScript class implementation via js-oo
   * Collections and chainable iterators
+  * ElementCollections / markup parsing via libxmljs and css selector traversal support via css2xpath
   * View support (ejs, haml, mustache)
 
 ## Performance
