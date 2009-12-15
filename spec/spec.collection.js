@@ -22,6 +22,22 @@ describe 'Express'
       end
     end
     
+    describe 'shorthand expressions'
+      describe 'with 3 or less chars'
+        it 'should be considered binary operator between a / b'
+          $(5..1).sort('-').toArray().should.eql 1..5
+          $(5..1).reduce(0, '+').should.eql 15
+        end
+      end
+      
+      describe 'with over 3 chars'
+        it 'should be considered a return expression'
+          $(5..1).sort('a - b').toArray().should.eql 1..5
+          $(5..1).reduce(0, 'a + b').should.eql 15
+        end
+      end
+    end
+    
     describe '#at()'
       it 'should return the value at the given index'
         $(['foo', 'bar']).at(0).should.eql 'foo'
