@@ -22,7 +22,7 @@ get('/', function(){
 })
 
 get('/chat', function(){
-  render('chat.haml.html', {
+  this.render('chat.haml.html', {
     locals: {
       messages: messages
     }
@@ -30,7 +30,7 @@ get('/chat', function(){
 })
 
 post('/chat', function(){
-  messages.push(param('message'))
+  messages.push(this.param('message'))
   this.halt(200)
 })
 
@@ -39,25 +39,16 @@ get('/chat/messages', function(){
   return JSON.encode(messages)
 })
 
-StaticFile = Class({
-  init: function(path) {
-    this.path = path
-  },
-  
-  send: function() {
-    var self = this
-    path.exists(this.path, function(exists){
-      if (!exists) halt()
-      posix.cat(self.path).addCallback(function(content){
-        contentType(self.path)
-        halt(200, content)
-      })
-    })
-  }
-})
-
 get('/public/:file', function(file){
-  (new StaticFile(dirname(__filename) + '/public/' + file)).send()
+  var self = this
+  file = dirname(__filename) + '/public/' + file
+  path.exists(file, function(exists){
+    if (!exists) self.halt()
+    posix.cat(file).addCallback(function(content){
+      self.contentType(file)
+      self.halt(200, content)
+    })
+  })
 })
 
 get('/error', function(){
