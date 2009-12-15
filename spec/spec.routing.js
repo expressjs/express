@@ -172,10 +172,9 @@ describe 'Express'
       describe 'with "helpful 404" enabled'
         it 'should show the help html'
           enable('helpful 404')
-          get('/something').status.should.eql 500
+          get('/something').status.should.eql 404
           get('/something').body.should.include('<h1>Express</h1>')
           get('/something').body.should.include('<h2><em>404</em> Not Found</h2>')
-          get('/something').body.should.include("get('/something'")
         end
       end
       
