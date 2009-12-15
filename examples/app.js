@@ -18,7 +18,7 @@ var messages = [],
     posix = require('posix')
 
 get('/', function(){
-  redirect('/chat')
+  this.redirect('/chat')
 })
 
 get('/chat', function(){
@@ -31,11 +31,11 @@ get('/chat', function(){
 
 post('/chat', function(){
   messages.push(param('message'))
-  halt(200)
+  this.halt(200)
 })
 
 get('/chat/messages', function(){
-  contentType('json')
+  this.contentType('json')
   return JSON.encode(messages)
 })
 
