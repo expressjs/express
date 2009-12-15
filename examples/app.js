@@ -28,7 +28,7 @@ post('/chat', function(){
 
 get('/chat/messages', function(){
   contentType('json')
-  return jsonEncode(messages)
+  return JSON.encode(messages)
 })
 
 run()
