@@ -15,6 +15,10 @@ configure(function(){
 
 var messages = []
 
+get('/', function(){
+  redirect('/chat')
+})
+
 get('/chat', function(){
   render('chat.haml.html', {
     locals: {
