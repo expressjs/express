@@ -35,5 +35,6 @@ else
     .exec('spec/spec.plugins.method-override.js')
     .exec('spec/spec.plugins.redirect.js')
     .exec('spec/spec.plugins.hooks.js')
+    .exec('spec/spec.plugins.cookie.js')
 JSpec.run({ formatter: JSpec.formatters.Terminal, failuresOnly: true })
 JSpec.report()
