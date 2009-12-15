@@ -12,7 +12,7 @@ describe 'Express'
           GLOBAL.stub('puts')
           GLOBAL.should.receive('puts')
           get('/style.css', function(){
-            contentType('css')
+            this.contentType('css')
             return 'body { background: #000; }'
           })
           get('/style.css')
