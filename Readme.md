@@ -77,6 +77,9 @@ Run individual suites:
     $ node spec/spec.node.js mime
     $ node spec/spec.node.js routing
     ...
+
+Express is currently being developed with node --version:
+    v0.1.20-1-g1107a1b
     
 ## License 
 
