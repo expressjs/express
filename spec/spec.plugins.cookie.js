@@ -6,7 +6,7 @@ describe 'Express'
   end
   
   describe 'Cookie'
-    describe 'parse()'
+    describe 'parseCookie()'
       it 'should parse cookie key/value pairs'
         var attrs = 'expires=Fri, 31-Dec-2010 23:59:59 GMT; path=/; domain=.example.net'
         var expected = {
@@ -14,7 +14,7 @@ describe 'Express'
           path: '/',
           domain: '.example.net'
         }
-        parse(attrs).should.eql expected
+        parseCookie(attrs).should.eql expected
       end
       
       it 'should normalize keys to lowercase'
@@ -24,7 +24,7 @@ describe 'Express'
           path: '/',
           domain: '.example.net'
         }
-        parse(attrs).should.eql expected
+        parseCookie(attrs).should.eql expected
       end
       
       it 'should disregard ad-hoc whitespace'
@@ -34,7 +34,7 @@ describe 'Express'
           path: '/',
           domain: '.example.net'
         }
-        parse(attrs).should.eql expected
+        parseCookie(attrs).should.eql expected
       end
     end
     
