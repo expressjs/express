@@ -3,6 +3,8 @@ describe 'Express'
   before_each
     reset()
     use(require('express/plugins/cookie').Cookie)
+    compileCookie = require('express/plugins/cookie').compileCookie
+    parseCookie = require('express/plugins/cookie').parseCookie
   end
   
   describe 'Cookie'
@@ -59,7 +61,7 @@ describe 'Express'
       describe 'request'
         it 'should parse the Cookie header'
           get('/user', function(){
-            return Express.server.request.cookie['foo']
+            return this.cookie('foo')
           })
           get('/user', { headers: { cookie: 'foo=bar' }}).body.should.eql 'bar'
         end
@@ -68,8 +70,8 @@ describe 'Express'
       describe 'response'
         it 'should set the Set-Cookie header'
           get('/user', function(){ 
-            cookie('SID', '732423sdfs73243')
-            cookie('path', '/')
+            this.cookie('SID', '732423sdfs73243')
+            this.cookie('path', '/')
             return ''  
           })
           get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/'
@@ -87,7 +89,7 @@ describe 'Express'
     describe 'cookie()'
       it 'should get request cookie values'
         get('/user', function(){
-          return cookie('foo')
+          return this.cookie('foo')
         })
         get('/user', { headers: { cookie: 'foo=bar' }}).body.should.eql 'bar'
       end

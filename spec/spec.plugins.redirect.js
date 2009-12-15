@@ -9,7 +9,7 @@ describe 'Express'
     describe 'redirect()'
       it 'should set status to 302'
         get('/logout', function(){
-          redirect('/')
+          this.redirect('/')
         })
         get('/logout').status.should.eql 302
         get('/logout').headers['location'].should.eql '/'
