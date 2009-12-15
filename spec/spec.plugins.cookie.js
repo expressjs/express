@@ -3,7 +3,6 @@ describe 'Express'
   before_each
     reset()
     use(require('express/plugins/cookie').Cookie)
-    parse = require('express/plugins/cookie').parse
   end
   
   describe 'Cookie'
@@ -38,7 +37,7 @@ describe 'Express'
         parse(attrs).should.eql expected
       end
     end
-  
+    
     describe 'on'
       describe 'request'
         it 'should parse the Cookie header'
@@ -49,5 +48,15 @@ describe 'Express'
         end
       end
     end
+    
+    describe 'cookie()'
+      it 'should get request cookie values'
+        get('/user', function(){
+          return cookie('foo')
+        })
+        get('/user', { headers: { cookie: 'foo=bar' }}).body.should.eql 'bar'
+      end
+    end
+      
   end
 end
