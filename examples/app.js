@@ -31,4 +31,8 @@ get('/chat/messages', function(){
   return JSON.encode(messages)
 })
 
+get('/error', function(){
+  throw new Error('oh noes!')
+})
+
 run()
