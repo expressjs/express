@@ -384,8 +384,8 @@ describe 'Express'
     end
     
     describe '#join()'
-      it 'should join a collection with ", " by default'
-        $([1,2,3]).join().should.eql '1, 2, 3'
+      it 'should join a collection with "" by default'
+        $([1,2,3]).join().should.eql '123'
       end
       
       it 'should join with an arbitrary string'
