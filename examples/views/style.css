@@ -1,0 +1,44 @@
+body {                                                       
+  font-family: "Helvetica Neue", "Lucida Grande", "Arial";   
+  font-size: 13px;                                           
+  text-align: center;                                        
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);         
+  color: #555;                                               
+}                                                            
+h1, h2 {                                                     
+  margin: 0;                                                 
+  font-size: 22px;                                           
+  color: #343434;                                            
+}                                                            
+h1 em, h2 em {                                               
+  padding: 0 5px;                                            
+  font-weight: normal;                                       
+}                                                            
+h1 {                                                         
+  text-shadow: 1px 2px 2px #ddd;                             
+  font-size: 60px;                                           
+}                                                            
+#wrapper {                                                   
+  margin: 50px auto;                                         
+  width: 500px;                                              
+  text-align: left;                                          
+}                                                            
+ul {                                                         
+  margin: 0;                                                 
+  padding: 0;                                                
+}                                                            
+ul li {                                                      
+  margin: 5px 0;                                             
+  padding: 3px 8px;                                          
+  list-style: none;                                          
+  border: 1px solid #eee;                                    
+  -webkit-border-radius: 3px;                                
+  -mox-border-radius: 3px;                                   
+  -webkit-transition-property: color, padding;               
+  -webkit-transition-duration: 0.1s;                         
+}                                                            
+ul li:hover {                                                
+  padding: 3px 20px;                                         
+  cursor: pointer;                                           
+  color: #2E2E2E;                                            
+}                                                                              
