@@ -74,6 +74,13 @@ describe 'Express'
           })
           get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/'
         end
+        
+        it 'should not set the Set-Cookie header when nothing is available'
+          get('/user', function(){ 
+            return ''  
+          })
+          get('/user').headers.should.not.have_property 'set-cookie'
+        end
       end
     end
     
