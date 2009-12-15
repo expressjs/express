@@ -64,7 +64,7 @@ describe 'Express'
         sum.should.eql 6
       end
       
-      it 'should allow expression shorthand'
+      it 'should allow shorthand expressions'
         $([1,2,3]).reduce(0, '+').should.eql 6
         $([1,2,3]).reduce(0, 'a + b').should.eql 6
       end
@@ -81,6 +81,10 @@ describe 'Express'
         var collection = $({ foo: 'bar', baz: 'raz' }).map(function(val){ return val.toUpperCase() })
         collection.at(0).should.eql 'BAR'
         collection.at(1).should.eql 'RAZ'
+      end
+      
+      it 'should allow shorthand expressions'
+        $(['foo', 'bar']).map('a.toUpperCase()').toArray().should.eql ['FOO', 'BAR']
       end
     end
     
@@ -138,6 +142,10 @@ describe 'Express'
           return val.charAt(0) == 'r'
         })
         result.should.eql 'raz'
+      end
+      
+      it 'should allow shorthand expressions'
+        $(['foo', 'bar']).find("a.charAt(0) == 'b'").should.eql 'bar'
       end
     end
     
