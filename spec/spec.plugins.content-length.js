@@ -17,7 +17,7 @@ describe 'Express'
         
         it 'should not override when manually set'
           get('/style.css', function(){
-            header('content-length', 10)
+            this.header('content-length', 10)
             return 'body { background: #000; }'
           })
           get('/style.css').headers['content-length'].should.eql 10
