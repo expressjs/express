@@ -24,7 +24,7 @@ else
   JSpec
     .exec('spec/spec.core.js')
     .exec('spec/spec.routing.js')
-    .exec('spec/spec.helpers.js')
+    .exec('spec/spec.request.js')
     .exec('spec/spec.mime.js')
     .exec('spec/spec.view.js')
     .exec('spec/spec.collection.js')
