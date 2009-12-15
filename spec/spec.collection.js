@@ -63,6 +63,11 @@ describe 'Express'
         var sum = $([1,2,3]).reduce(0, function(sum, n){ return sum + n })
         sum.should.eql 6
       end
+      
+      it 'should allow expression shorthand'
+        $([1,2,3]).reduce(0, '+').should.eql 6
+        $([1,2,3]).reduce(0, 'a + b').should.eql 6
+      end
     end
     
     describe '#map()'
