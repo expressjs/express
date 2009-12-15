@@ -33,6 +33,17 @@ get('/chat/messages', function(){
   return JSON.encode(messages)
 })
 
+get('/public/:file', function(file){
+  var path = dirname(__filename) + '/public/' + file
+  require('path').exists(path, function(exists){
+    if (!exists) halt()
+    require('posix').cat(path).addCallback(function(content){
+      contentType(path)
+      halt(200, content)
+    })
+  })
+})
+
 get('/error', function(){
   throw new Error('oh noes!')
 })
