@@ -34,7 +34,11 @@ suite('Collection with [0..10,000]', 100, function(){
   })
   
   benchmark('#map', function(){
-    $(array).map(function(n){ return ++n })
+    $(array).map(function(n){ return n += 1 })
+  })
+  
+  benchmark('#map shorthand', function(){
+    $(array).map('a += 1')
   })
   
   benchmark('#find', function(){
