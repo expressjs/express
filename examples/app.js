@@ -4,7 +4,7 @@ require('express')
 require('express/plugins')
 
 configure(function(){
-  use(Profiler)
+  use(CommonLogger)
   use(MethodOverride)
   use(ContentLength)
   set('root', dirname(__filename))
