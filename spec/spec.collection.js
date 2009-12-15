@@ -161,6 +161,10 @@ describe 'Express'
       it 'should work with objects'
         $({ a: 'foo', b: 'foobar' }).all(function(val){ return val.charAt(0) == 'f' }).should.be_true
       end
+      
+      it 'should allow shorthand expressions'
+        $(['foo', 'bar']).all('a.length > 2').should.be_true
+      end
     end
     
     describe '#any()'
@@ -176,6 +180,10 @@ describe 'Express'
         $({ foo: 'bar' }).any(function(val){ return val.charAt(0) == 'b' }).should.be_true
         $({ foo: 'bar' }).any(function(val){ return val.charAt(0) == 'c' }).should.be_false
       end
+      
+      it 'should allow shorthand expressions'
+        $(['foo', 'bar']).any('a.length > 2').should.be_true
+      end
     end
     
     describe '#select()'
@@ -190,6 +198,10 @@ describe 'Express'
         var result = $([1,2,3,4,5]).select(function(n){ return n % 2 })
         result.should.be_an_instance_of Collection
       end
+      
+      it 'should allow shorthand expressions'
+        $([1,2,3,4,5]).select('a % 2').toArray().should.eql [1,3,5]
+      end
     end
     
     describe '#reject()'
@@ -203,6 +215,10 @@ describe 'Express'
       it 'should return a Collection'
         var result = $([1,2,3,4,5]).reject(function(n){ return n % 2 })
         result.should.be_an_instance_of Collection
+      end
+      
+      it 'should allow shorthand expressions'
+        $(['foo', 'bar']).reject('a.charAt(0) == "b"').toArray().should.eql ['foo']
       end
     end
         
