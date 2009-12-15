@@ -17,10 +17,9 @@ describe 'Express'
       
       it 'should currectly format any Date objects'
         var data = {
-          expires: new Date
+          expires: new Date('May 25, 1987 11:13:00')
         }
-        print(new Date('October 13, 1975 11:13:00'))
-        compileCookie(data).should.eql 'expires='
+        compileCookie(data).should.eql 'expires=Mon, 25-May-1987 11:13:00 GMT'
       end
     end
   
