@@ -29,9 +29,20 @@ describe 'Express'
       end
       
       it 'should disregard ad-hoc whitespace'
-        var attrs = 'Expires   = Fri, 31-Dec-2010 23:59:59 GMT ;   Path=/ ;   DOMAIN  = .example.net'
+        var attrs = '  expires    = Fri, 31-Dec-2010 23:59:59 GMT  ;  path   = /; domain = .example.net  '
         var expected = {
           expires: 'Fri, 31-Dec-2010 23:59:59 GMT',
+          path: '/',
+          domain: '.example.net'
+        }
+        parse(attrs).should.eql expected
+      end
+      
+      it 'should allow quoted values'
+        var attrs = 'expires=Fri, 31-Dec-2010 23:59:59 GMT; data="some ;.= random data"; path=/; domain=.example.net'
+        var expected = {
+          expires: 'Fri, 31-Dec-2010 23:59:59 GMT',
+          data: 'some ;.= random data',
           path: '/',
           domain: '.example.net'
         }
