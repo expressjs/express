@@ -6,6 +6,16 @@ describe 'Express'
   end
   
   describe 'Cookie'
+    describe 'compileCookie()'
+      it 'should return a cookie string'
+        var data = {
+          path: '/',
+          domain: '.vision-media.ca'
+        }
+        compileCookie(data).should.eql 'path=/; domain=.vision-media.ca'
+      end
+    end
+  
     describe 'parseCookie()'
       it 'should parse cookie key/value pairs'
         var attrs = 'expires=Fri, 31-Dec-2010 23:59:59 GMT; path=/; domain=.example.net'
