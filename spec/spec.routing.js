@@ -189,6 +189,7 @@ describe 'Express'
     describe 'with an exception thrown'
       describe 'with "show exceptions" enabled'
         it 'should show the exception html'
+          disable('throw exceptions')
           enable('show exceptions')
           get('/user', function(){
             throw new Error('Access Denied')
@@ -200,8 +201,9 @@ describe 'Express'
       end
       
       describe 'with "show exceptions" disabled'
-        disable('show exceptions')
         it 'should show the regular body'
+          disable('throw exceptions')
+          disable('show exceptions')
           get('/user', function(){
             throw new Error('Access Denied')
           })

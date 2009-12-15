@@ -15,20 +15,11 @@ describe 'Express'
       use(CSSColors)
     end
     
-    describe 'Event'
-      describe '#init()'
-        it 'should accept arbitrary data'
-          var event = new Event('foo', { bar: 'baz' })
-          event.bar.should.eql 'baz'
-        end
-      end
-    end
-    
     describe 'events'
       describe 'response'
         it 'should be triggered before headers and body are sent'
           get('/style.css', function(){
-            contentType('css')
+            this.contentType('css')
             return 'body { color: black; }'
           })
           get('/style.css').body.should.eql 'body { color: #000; }'
