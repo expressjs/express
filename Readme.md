@@ -4,7 +4,8 @@
   Insanely fast (and small) server-side JavaScript web development framework
   built on **node.js** and the **V8 JavaScript engine**.
 
-  Visit the [Wiki](http://wiki.github.com/visionmedia/express) for documentation
+  * Visit the [Wiki](http://wiki.github.com/visionmedia/express) for documentation
+  * Visit the [Google Group](http://groups.google.com/group/express-js) for discussion
 
 ## Features (so far)
 
