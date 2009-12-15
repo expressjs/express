@@ -4,7 +4,7 @@ require('express')
 require('express/plugins')
 
 configure(function(){
-  use(CommonLogger)
+  use(Profiler)
   use(MethodOverride)
   use(ContentLength)
   set('root', dirname(__filename))
@@ -13,7 +13,9 @@ configure(function(){
   enable('cache views')
 })
 
-var messages = []
+var messages = [],
+    path = require('path'),
+    posix = require('posix')
 
 get('/', function(){
   redirect('/chat')
@@ -37,15 +39,25 @@ get('/chat/messages', function(){
   return JSON.encode(messages)
 })
 
-get('/public/:file', function(file){
-  var path = dirname(__filename) + '/public/' + file
-  require('path').exists(path, function(exists){
-    if (!exists) halt()
-    require('posix').cat(path).addCallback(function(content){
-      contentType(path)
-      halt(200, content)
+StaticFile = Class({
+  init: function(path) {
+    this.path = path
+  },
+  
+  send: function() {
+    var self = this
+    path.exists(this.path, function(exists){
+      if (!exists) halt()
+      posix.cat(self.path).addCallback(function(content){
+        contentType(self.path)
+        halt(200, content)
+      })
     })
-  })
+  }
+})
+
+get('/public/:file', function(file){
+  (new StaticFile(dirname(__filename) + '/public/' + file)).send()
 })
 
 get('/error', function(){
