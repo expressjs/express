@@ -383,6 +383,20 @@ describe 'Express'
       end
     end
     
+    describe '#join()'
+      it 'should join a collection with ", " by default'
+        $([1,2,3]).join().should.eql '1, 2, 3'
+      end
+      
+      it 'should join with an arbitrary string'
+        $([1,2,3]).join(' ').should.eql '1 2 3'
+      end
+      
+      it 'should work with objects'
+        $({ foo: 'bar', baz: 'raz' }).join(' ').should.eql 'bar raz'
+      end
+    end
+    
     describe '#toString()'
       it 'should output [Collection ...] for array'
         $([1,2,3]).toString().should.eql '[Collection 1,2,3]'
