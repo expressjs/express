@@ -64,6 +64,17 @@ describe 'Express'
           get('/user', { headers: { cookie: 'foo=bar' }}).body.should.eql 'bar'
         end
       end
+      
+      describe 'response'
+        it 'should set the Set-Cookie header'
+          get('/user', function(){ 
+            cookie('SID', '732423sdfs73243')
+            cookie('path', '/')
+            return ''  
+          })
+          get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/'
+        end
+      end
     end
     
     describe 'cookie()'
