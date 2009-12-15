@@ -169,9 +169,21 @@ describe 'Express'
     end
     
     describe 'with an unmatchable request path'
-      it 'should respond with 404 Not Found'
-        get('/something').status.should.eql 404
-        get('/something').body.should.eql 'Not Found'
+      describe 'with "helpful 404" enabled'
+        it 'should show the help html'
+          enable('helpful 404')
+          get('/something').status.should.eql 500
+          get('/something').body.should.include('<h1>Express</h1>')
+          get('/something').body.should.include('<h2><em>404</em> Not Found</h2>')
+          get('/something').body.should.include("get('/something'")
+        end
+      end
+      
+      describe 'with "helpful 404" disabled'
+        it 'should respond with 404 Not Found'
+          get('/something').status.should.eql 404
+          get('/something').body.should.eql 'Not Found'
+        end
       end
     end
     
