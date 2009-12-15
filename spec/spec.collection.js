@@ -383,6 +383,20 @@ describe 'Express'
       end
     end
     
+    describe '#sort()'
+      it 'should sort a collection'
+        $([3,1,2]).sort().toArray().should.eql [1,2,3]
+      end
+      
+      it 'should sort with a function'
+        $([3,1,2]).sort(function(a, b){ return b - a }).toArray().should.eql [3,2,1]
+      end
+      
+      it 'should allow shorthand expressions'
+        $([3,1,2]).sort('-').toArray().should.eql [1,2,3]
+      end
+    end
+    
     describe '#join()'
       it 'should join a collection with "" by default'
         $([1,2,3]).join().should.eql '123'
