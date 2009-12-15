@@ -377,6 +377,12 @@ describe 'Express'
       end
     end
     
+    describe '#reverse()'
+      it 'should reverse a collection'
+        $([1,2,3]).reverse().toArray().should.eql [3,2,1]
+      end
+    end
+    
     describe '#toString()'
       it 'should output [Collection ...] for array'
         $([1,2,3]).toString().should.eql '[Collection 1,2,3]'
