@@ -41,8 +41,11 @@ describe 'Express'
   
     describe 'on'
       describe 'request'
-        it 'should parse cookies'
-          // TODO
+        it 'should parse the Cookie header'
+          get('/user', function(){
+            return Express.server.request.cookie['foo']
+          })
+          get('/user', { headers: { cookie: 'foo=bar' }}).body.should.eql 'bar'
         end
       end
     end
