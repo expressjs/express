@@ -35,6 +35,14 @@ describe 'Express'
           $(5..1).sort('a - b').toArray().should.eql 1..5
           $(5..1).reduce(0, 'a + b').should.eql 15
         end
+        
+        it 'should consider a single word a property on a'
+          $(['foo', 'foobar']).map('length').toArray().should.eql [3, 6]
+        end
+        
+        it 'should consider a single function a method on a'
+          $(['foo', 'foobar']).map('charAt(0)').toArray().should.eql ['f', 'f']
+        end
       end
     end
     
