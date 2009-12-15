@@ -27,6 +27,7 @@
         $.each(messages, function(i, msg){
           $('#messages')
             .append('<li>' + msg + '</li>')
+            .get(0).scrollTop = $('#messages').get(0).scrollHeight
         })
       })
     }, 400)

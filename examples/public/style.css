@@ -38,7 +38,7 @@ ul li:hover {
   color: #2E2E2E;
 }
 ul {
-  max-height: 400px;
+  max-height: 350px;
   overflow-x: hidden;
 }
 input[type=text] {
