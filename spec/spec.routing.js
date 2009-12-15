@@ -175,5 +175,29 @@ describe 'Express'
       end
     end
     
+    describe 'with an exception thrown'
+      describe 'with "show exceptions" enabled'
+        it 'should show the exception html'
+          enable('show exceptions')
+          get('/user', function(){
+            throw new Error('Access Denied')
+          })
+          get('/user').status.should.eql 500
+          get('/user').body.should.include('<h1>Express</h1>')
+          get('/user').body.should.include('<h2><em>500</em> Error: Access Denied</h2>')
+        end
+      end
+      
+      describe 'with "show exceptions" disabled'
+        it 'should show the regular body'
+          get('/user', function(){
+            throw new Error('Access Denied')
+          })
+          get('/user').status.should.eql 500
+          get('/user').body.should.include('Internal Server Error')
+        end
+      end
+    end
+    
   end
 end
