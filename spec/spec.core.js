@@ -8,9 +8,9 @@ describe 'Express'
   
   describe 'set()'
     it 'should set an option'
-      set('raise exceptions').should.be_null
-      set('raise exceptions', true)
-      set('raise exceptions').should.be_true
+      set('throw exceptions').should.be_null
+      set('throw exceptions', true)
+      set('throw exceptions').should.be_true
     end
     
     it 'should defer using a function'

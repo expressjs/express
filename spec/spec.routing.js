@@ -189,12 +189,33 @@ describe 'Express'
       end
       
       describe 'with "show exceptions" disabled'
+        disable('show exceptions')
         it 'should show the regular body'
           get('/user', function(){
             throw new Error('Access Denied')
           })
           get('/user').status.should.eql 500
           get('/user').body.should.include('Internal Server Error')
+        end
+      end
+      
+      describe 'with "throw exceptions" enabled'
+        it 'should propegate to the global scope'
+          enable('throw exceptions')
+          get('/user', function(){
+            throw new Error('Access Denied')
+          })
+          -{ get('/user') }.should.throw_error
+        end
+      end
+      
+      describe 'with "throw exceptions" disabled'
+        it 'should not propegate to the global scope'
+          disable('throw exceptions')
+          get('/user', function(){
+            throw new Error('Access Denied')
+          })
+          -{ get('/user') }.should.not.throw_error
         end
       end
     end
