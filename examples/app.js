@@ -8,7 +8,6 @@ configure(function(){
   use(MethodOverride)
   use(ContentLength)
   set('root', dirname(__filename))
-  enable('throw exceptions')
   enable('show exceptions')
   enable('cache views')
 })
