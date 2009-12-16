@@ -168,6 +168,63 @@ describe 'Express'
       end
     end
     
+    describe 'with a single splat'
+      it 'should match a single segment'
+        get('/public/*', function(file){
+          return file
+        })
+        get('/public/app.js').body.should.eql 'app.js'
+      end
+      
+      it 'should not match when there is nothing to capture'
+        get('/public/*', function(file){
+          return file
+        })
+        get('/public/').status.should.eql 404
+        get('/public').status.should.eql 404
+      end
+      
+      it 'should match a multiple segments'
+        get('/public/*', function(file){
+          return file
+        })
+        get('/public/javascripts/app.js').body.should.eql 'javascripts/app.js'
+      end
+    end
+    
+    describe 'with several splats'
+      it 'should greedily match'
+        get('/public/*.*', function(path, ext){
+          return 'path: ' + path + ' ext: ' + ext
+        })
+        get('/public/app.js').body.should.eql 'path: app ext: js'
+      end
+      
+      it 'should not match when there is nothing to capture'
+        get('/public/*.*', function(file){
+          return file
+        })
+        get('/public/foo.').status.should.eql 404
+        get('/public/foo').status.should.eql 404
+        get('/public/').status.should.eql 404
+        get('/public').status.should.eql 404
+      end
+      
+      it 'should greedily match several segments'
+        get('/public/*.*', function(path, ext){
+          return 'path: ' + path + ' ext: ' + ext
+        })
+        get('/public/javascripts/app.js').body.should.eql 'path: javascripts/app ext: js'
+      end
+      
+      it 'should greedily match several segments'
+        get('/public/*/*.*', function(dir, path, ext){
+          return 'dir: ' + dir + ' path: ' + path + ' ext: ' + ext
+        })
+        get('/public/javascripts/app.js').body.should.eql 'dir: javascripts path: app ext: js'
+      end
+    end
+    
     describe 'with an unmatchable request path'
       describe 'with "helpful 404" enabled'
         it 'should show the help html'
