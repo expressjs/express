@@ -149,6 +149,13 @@ describe 'Express'
         get('/user/:id?', function(){ return 'yay' })
         get('/user/12/edit').body.should.eql 'Not Found'
       end
+      
+      it 'should match without leading character'
+        get('/report.:format?', function(format){ return format || 'none' })
+        get('/report.csv').body.should.eql 'csv'
+        get('/report').body.should.eql 'none'
+      end
+      
     end
     
     describe 'with partial wild-card'
