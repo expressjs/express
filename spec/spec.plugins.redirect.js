@@ -14,6 +14,14 @@ describe 'Express'
         get('/logout').status.should.eql 302
         get('/logout').headers['location'].should.eql '/'
       end
+      
+      it 'should allow optional status code'
+        get('/logout', function(){
+          this.redirect('/', 303)
+        })
+        get('/logout').status.should.eql 303
+        get('/logout').headers['location'].should.eql '/'
+      end
     end
     
     describe 'redirect("back")'
