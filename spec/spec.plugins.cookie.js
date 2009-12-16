@@ -66,6 +66,25 @@ describe 'Express'
           get('/user', { headers: { cookie: 'foo=bar' }}).body.should.eql 'bar'
         end
       end
+      
+      describe 'response'
+        it 'should populate Set-Cookie'
+          get('/user', function(){
+            this.cookie('SID', '732423sdfs73243', { path: '/', secure: true })
+            return ''  
+          })
+          get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/; secure'
+        end
+        
+        it 'should join multiple cookies'
+          get('/user', function(){
+            this.cookie('SID', '732423sdfs73243', { path: '/', secure: true })
+            this.cookie('foo', 'bar')
+            return ''  
+          })
+          get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/; secure, foo=bar'
+        end
+      end
     end
     
     describe 'cookie()'
@@ -74,14 +93,6 @@ describe 'Express'
           return this.cookie('foo')
         })
         get('/user', { headers: { cookie: 'foo=bar' }}).body.should.eql 'bar'
-      end
-      
-      it 'should populate Set-Cookie'
-        get('/user', function(){
-          this.cookie('SID', '732423sdfs73243', { path: '/', secure: true })
-          return ''  
-        })
-        get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/; secure'
       end
     end
       
