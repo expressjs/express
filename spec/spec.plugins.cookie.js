@@ -69,7 +69,7 @@ describe 'Express'
       
       describe 'response'
         it 'should set the Set-Cookie header'
-          get('/user', function(){ 
+          get('/user', function(){
             this.cookie('SID', '732423sdfs73243')
             this.cookie('path', '/')
             return ''  
