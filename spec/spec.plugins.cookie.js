@@ -19,41 +19,37 @@ describe 'Express'
       
       it 'should currectly format any Date objects'
         var data = {
-          expires: new Date('May 25, 1987 11:13:00')
+          expires: new Date('May 25, 1987 11:13:00'),
+          path: '/foo',
+          domain: '.vision-media.ca'
         }
-        compileCookie(data).should.eql 'expires=Mon, 25-May-1987 11:13:00 GMT'
+        compileCookie(data).should.eql 'expires=Mon, 25-May-1987 11:13:00 GMT; path=/foo; domain=.vision-media.ca'
+      end
+      
+      it 'should convert true to a key without a value'
+        var data = {
+          path: '/',
+          secure: true,
+          httpOnly: true
+        }
+        compileCookie(data).should.eql 'path=/; secure; httpOnly'
       end
     end
   
     describe 'parseCookie()'
       it 'should parse cookie key/value pairs'
-        var attrs = 'expires=Fri, 31-Dec-2010 23:59:59 GMT; path=/; domain=.example.net'
-        var expected = {
-          expires: 'Fri, 31-Dec-2010 23:59:59 GMT',
-          path: '/',
-          domain: '.example.net'
-        }
-        parseCookie(attrs).should.eql expected
+        var attrs = 'sid=1232431234234; data=foo'
+        parseCookie(attrs).should.eql { sid: '1232431234234', data: 'foo' }
       end
       
       it 'should normalize keys to lowercase'
-        var attrs = 'Expires=Fri, 31-Dec-2010 23:59:59 GMT; Path=/; DOMAIN=.example.net'
-        var expected = {
-          expires: 'Fri, 31-Dec-2010 23:59:59 GMT',
-          path: '/',
-          domain: '.example.net'
-        }
-        parseCookie(attrs).should.eql expected
+        var attrs = 'SID=1232431234234; data=foo'
+        parseCookie(attrs).should.eql { sid: '1232431234234', data: 'foo' }
       end
       
-      it 'should disregard ad-hoc whitespace'
-        var attrs = '  expires    = Fri, 31-Dec-2010 23:59:59 GMT  ;  path   = /; domain = .example.net  '
-        var expected = {
-          expires: 'Fri, 31-Dec-2010 23:59:59 GMT',
-          path: '/',
-          domain: '.example.net'
-        }
-        parseCookie(attrs).should.eql expected
+      it 'should disregard ad-hoc invalid whitespace'
+        var attrs = ' SID     =  1232431234234 ;  data =  foo'
+        parseCookie(attrs).should.eql { sid: '1232431234234', data: 'foo' }
       end
     end
     
