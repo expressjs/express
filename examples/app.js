@@ -8,8 +8,6 @@ configure(function(){
   use(ContentLength)
   use(CommonLogger)
   set('root', dirname(__filename))
-  enable('helpful 404')
-  enable('show exceptions')
   enable('cache views')
 })
 
