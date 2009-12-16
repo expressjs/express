@@ -51,12 +51,12 @@
     })
     
     get('/hello', function(){
-      contentType('html')
+      this.contentType('html')
       return '<h1>World<h1>'
     })
     
     get('/user/:id?', function(id) {
-      render('user.haml.html', {
+      this.render('user.haml.html', {
         locals: {
           name: id ? 'User ' + id : 'You' 
         }
