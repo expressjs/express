@@ -93,6 +93,16 @@ describe 'Express'
       end
     end
     
+    describe 'with regular expression'
+      it 'should match'
+        get(/^\/user\/(\d+)\/(\w+)/, function(id, operation){
+          return [id, operation].join(', ')
+        })
+        get('/user/12/edit').body.should.eql '12, edit'
+        get('/user/12').status.should.eql 404
+      end
+    end
+    
     describe 'with a wild-card'
       it 'should still match'
         get('/user/:id', function(){ return 'yay' })
@@ -154,6 +164,12 @@ describe 'Express'
         get('/report.:format?', function(format){ return format || 'none' })
         get('/report.csv').body.should.eql 'csv'
         get('/report').body.should.eql 'none'
+      end
+      
+      it 'should allow common regexp literals'
+        get('/user/(\\d+)', function(id){ return id })
+        get('/user/12').body.should.eql '12'
+        get('/user/asdf').status.should.eql 404
       end
       
     end
