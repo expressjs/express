@@ -14,7 +14,7 @@ range = function(a, b) {
   return array
 }
 
-suite('Collection with [0..10,000]', 100, function(){
+suite('Collection with [0..10,000]', 1000, function(){
   array = range(0, 10000)
   
   benchmark('for', function(){
@@ -25,47 +25,47 @@ suite('Collection with [0..10,000]', 100, function(){
     for (var i = 0; i < array.length; ++i) ;
   })
   
-  benchmark('forEach', function(){
+  benchmark('forEach()', function(){
     array.forEach(function(){})
   })
   
-  benchmark('#each', function(){
+  benchmark('#each()', function(){
     $(array).each(function(){})
   })
   
-  benchmark('#map', function(){
+  benchmark('#map()', function(){
     $(array).map(function(n){ return n += 1 })
   })
   
-  benchmark('#map shorthand', function(){
+  benchmark('#map() with shorthand', function(){
     $(array).map('a += 1')
   })
   
-  benchmark('#find', function(){
+  benchmark('#find()', function(){
     $(array).find(function(n){ return n > 5000 })
   })
   
-  benchmark('#select', function(){
+  benchmark('#select()', function(){
     $(array).select(function(n){ return n % 2 })
   })
   
-  benchmark('#first', function(){
+  benchmark('#first()', function(){
     $(array).first(5000)
   })
   
-  benchmark('#slice', function(){
+  benchmark('#slice()', function(){
     $(array).slice(100, 5000)
   })
   
-  benchmark('#drop', function(){
+  benchmark('#drop()', function(){
     $(array).drop(5000)
   })
   
-  benchmark('#length', function(){
+  benchmark('#length()', function(){
     $(array).length()
   })
   
-  benchmark('#keys', function(){
+  benchmark('#keys()', function(){
     $(array).keys()
   })
   
@@ -73,39 +73,39 @@ suite('Collection with [0..10,000]', 100, function(){
     $(array).toArray()
   })
   
-  benchmark('#min', function(){
+  benchmark('#min()', function(){
     $(array).min()
   })
   
-  benchmark('#max', function(){
+  benchmark('#max()', function(){
     $(array).max()
   })
   
-  benchmark('#sum', function(){
+  benchmark('#sum()', function(){
     $(array).sum()
   })
   
-  benchmark('#avg', function(){
+  benchmark('#avg()', function(){
     $(array).avg()
   })
   
-  benchmark('#clone', function(){
+  benchmark('#clone()', function(){
     $(array).clone()
   })
   
-  benchmark('#merge', function(){
+  benchmark('#merge()', function(){
     $(array).merge({ foo: 'bar' })
   })
   
-  benchmark('#sample', function(){
+  benchmark('#sample()', function(){
     $(array).sample()
   })
   
-  benchmark('#chunk', function(){
+  benchmark('#chunk()', function(){
     $(array).chunk(5)
   })
   
-  benchmark('#at', function(){
+  benchmark('#at()', function(){
     $(array).at(5000)
   })
 })
