@@ -4,30 +4,6 @@ describe 'Express'
     reset()
   end
   
-  describe '#init()'
-    describe 'when content-type is "application/x-www-form-urlencoded"'
-      it 'should parse body as urlencoded params'
-        post('/login', function(){
-          return this.param('name')
-        })
-        var response = post('/login', { body: 'name=tj', headers: { 'content-type': 'application/x-www-form-urlencoded' }})
-        response.status.should.eql 200
-        response.body.should.eql 'tj'
-      end
-      
-      describe 'with charset'
-        it 'should parse body as urlencoded params'
-          post('/login', function(){
-            return this.param('name')
-          })
-          var response = post('/login', { body: 'name=tj', headers: { 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8' }})
-          response.status.should.eql 200
-          response.body.should.eql 'tj'
-        end
-      end
-    end
-  end
-
   describe 'status()'
     it 'should set the response status'
       get('/user', function(){ this.status(500) })

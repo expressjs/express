@@ -34,6 +34,7 @@ else
     .exec('spec/spec.plugins.common-logger.js')
     .exec('spec/spec.plugins.content-length.js')
     .exec('spec/spec.plugins.method-override.js')
+    .exec('spec/spec.plugins.body-decoder.js')
     .exec('spec/spec.plugins.redirect.js')
     .exec('spec/spec.plugins.hooks.js')
     .exec('spec/spec.plugins.cookie.js')
