@@ -142,10 +142,10 @@ describe 'Express'
     end
     
     it 'should work with splats'
-      get('/public/*.*', function(){
-        return this.param('splat').join(', ')
+      get('/:path/*.*', function(path, file, ext){
+        return [path, file, ext].join(', ')
       })
-      get('/public/app.js').body.should.eql 'app, js'
+      get('/public/app.js').body.should.eql 'public, app, js'
     end
   end
 end
