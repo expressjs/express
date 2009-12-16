@@ -35,8 +35,15 @@ post('/chat', function(){
 })
 
 get('/chat/messages', function(){
-  this.contentType('json')
-  return JSON.encode(messages)
+  var self = this,
+      previousLength = messages.length,
+      timer = setInterval(function(){
+    if (messages.length > previousLength)
+      self.contentType('json'),
+      previousLength = messages.length,
+      self.halt(200, JSON.encode(messages)),
+      clearInterval(timer)
+  }, 100)
 })
 
 get('/public/:file', function(file){

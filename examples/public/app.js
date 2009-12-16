@@ -13,8 +13,8 @@ $(function(){
     return false
   })
   
-  // Poll
-  setInterval(function(){
+  // Longpoll
+  ;(function poll(){
     $.getJSON('/chat/messages', function(messages){
       $('#messages').empty()
       $.each(messages, function(i, msg){
@@ -22,6 +22,7 @@ $(function(){
           .append('<li>' + msg + '</li>')
           .get(0).scrollTop = $('#messages').get(0).scrollHeight
       })
+      poll()
     })
-  }, 400)
+  })()
 })
