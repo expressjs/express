@@ -26,12 +26,15 @@
 ## Performance
 
   Extensive benchmarking will wait until a development version
-  has been released. However for simple an average route and response
-  body Ruby's Sinatra scored **1454** request per second using Thin, while
-  Express scored **3600**.
+  has been released. 
   
-  Currently Express can chew through **1000** simple requests with a 
-  concurrency of **40** in **0.262** seconds.
+  Currently Express can chew through a request with a two Haml views (_page and layout_) 
+  requested *2000* times with concurrency of *80* in *2.7* seconds and *723* 
+  requests per second.
+  
+  An identical Sinatra application was served with the *Thin* HTTP server
+  and scored *8.3* seconds and *238* requests per second. In this situation
+  Express is currently *68%* faster than Sinatra.
 
 ## Examples
 
