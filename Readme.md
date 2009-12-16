@@ -30,7 +30,7 @@
   
   Currently Express can chew through a request with a two Haml views (*page and layout*) 
   requested **2000** times with concurrency of **80** in **2.4** seconds and **814**
-  requests per second.
+  requests per second. With no caching involved.
   
   An identical Sinatra application was served with the **Thin** HTTP server
   and scored **8.3** seconds and **238** requests per second. In this situation
