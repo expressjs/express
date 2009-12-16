@@ -93,7 +93,7 @@ describe 'Express'
       end
     end
     
-    describe 'with a placeholder'
+    describe 'with a wild-card'
       it 'should still match'
         get('/user/:id', function(){ return 'yay' })
         get('/user/12').body.should.eql 'yay'
@@ -112,7 +112,7 @@ describe 'Express'
       end
     end
     
-    describe 'with several placeholders'
+    describe 'with several wild-cards'
       it 'should still match'
         get('/user/:id/:op', function(){ return 'yay' })
         get('/user/12/edit').body.should.eql 'yay'
@@ -126,7 +126,7 @@ describe 'Express'
       end
     end
     
-    describe 'with an optional placeholder'
+    describe 'with an optional wild-card'
       it 'should match with a value'
         get('/user/:id?', function(){ return 'yay' })
         get('/user/1').body.should.eql 'yay'
@@ -151,7 +151,7 @@ describe 'Express'
       end
     end
     
-    describe 'with partial placeholder'
+    describe 'with partial wild-card'
       it 'should still match'
         get('/report.:format', function(){
           return 'yay'
