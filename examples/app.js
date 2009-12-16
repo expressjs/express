@@ -16,7 +16,7 @@ configure(function(){
 var messages = [],
     path = require('path'),
     posix = require('posix')
-
+    
 get('/', function(){
   this.redirect('/chat')
 })
