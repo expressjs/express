@@ -10,29 +10,29 @@ describe 'Express'
   describe 'Cookie'
     describe 'compileCookie()'
       it 'should return a cookie string'
-        var data = {
+        var options = {
           path: '/',
           domain: '.vision-media.ca'
         }
-        compileCookie(data).should.eql 'path=/; domain=.vision-media.ca'
+        compileCookie('foo', 'bar', options).should.eql 'foo=bar; path=/; domain=.vision-media.ca'
       end
       
       it 'should currectly format any Date objects'
-        var data = {
+        var options = {
           expires: new Date('May 25, 1987 11:13:00'),
           path: '/foo',
           domain: '.vision-media.ca'
         }
-        compileCookie(data).should.eql 'expires=Mon, 25-May-1987 11:13:00 GMT; path=/foo; domain=.vision-media.ca'
+        compileCookie('foo', 'bar', options).should.eql 'foo=bar; expires=Mon, 25-May-1987 11:13:00 GMT; path=/foo; domain=.vision-media.ca'
       end
       
       it 'should convert true to a key without a value'
-        var data = {
+        var options = {
           path: '/',
           secure: true,
           httpOnly: true
         }
-        compileCookie(data).should.eql 'path=/; secure; httpOnly'
+        compileCookie('foo', 'bar', options).should.eql 'foo=bar; path=/; secure; httpOnly'
       end
     end
   
@@ -42,14 +42,14 @@ describe 'Express'
         parseCookie(attrs).should.eql { sid: '1232431234234', data: 'foo' }
       end
       
-      it 'should normalize keys to lowercase'
-        var attrs = 'SID=1232431234234; data=foo'
-        parseCookie(attrs).should.eql { sid: '1232431234234', data: 'foo' }
+      it 'should preserve case'
+        var attrs = 'SID=1232431234234; Data=foo'
+        parseCookie(attrs).should.eql { SID: '1232431234234', Data: 'foo' }
       end
       
       it 'should disregard ad-hoc invalid whitespace'
         var attrs = ' SID     =  1232431234234 ;  data =  foo'
-        parseCookie(attrs).should.eql { sid: '1232431234234', data: 'foo' }
+        parseCookie(attrs).should.eql { SID: '1232431234234', data: 'foo' }
       end
     end
     
@@ -62,24 +62,6 @@ describe 'Express'
           get('/user', { headers: { cookie: 'foo=bar' }}).body.should.eql 'bar'
         end
       end
-      
-      describe 'response'
-        it 'should set the Set-Cookie header'
-          get('/user', function(){
-            this.cookie('SID', '732423sdfs73243')
-            this.cookie('path', '/')
-            return ''  
-          })
-          get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/'
-        end
-        
-        it 'should not set the Set-Cookie header when nothing is available'
-          get('/user', function(){ 
-            return ''  
-          })
-          get('/user').headers.should.not.have_property 'set-cookie'
-        end
-      end
     end
     
     describe 'cookie()'
@@ -88,6 +70,14 @@ describe 'Express'
           return this.cookie('foo')
         })
         get('/user', { headers: { cookie: 'foo=bar' }}).body.should.eql 'bar'
+      end
+      
+      it 'should populate Set-Cookie'
+        get('/user', function(){
+          this.cookie('SID', '732423sdfs73243', { path: '/', secure: true })
+          return ''  
+        })
+        get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/; secure'
       end
     end
       
