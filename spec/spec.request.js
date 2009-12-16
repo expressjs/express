@@ -140,5 +140,12 @@ describe 'Express'
       get('/user').body.should.eql 'First page'
       get('/user', { uri: { params: { page: '2' }}}).body.should.eql '2'
     end
+    
+    it 'should work with splats'
+      get('/public/*.*', function(){
+        return this.param('splat').join(', ')
+      })
+      get('/public/app.js').body.should.eql 'app, js'
+    end
   end
 end
