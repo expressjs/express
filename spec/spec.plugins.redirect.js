@@ -7,19 +7,19 @@ describe 'Express'
   
   describe 'Redirect'
     describe 'redirect()'
-      it 'should set status to 302'
+      it 'should set status to 303'
         get('/logout', function(){
           this.redirect('/')
         })
-        get('/logout').status.should.eql 302
+        get('/logout').status.should.eql 303
         get('/logout').headers['location'].should.eql '/'
       end
       
       it 'should allow optional status code'
         get('/logout', function(){
-          this.redirect('/', 303)
+          this.redirect('/', 304)
         })
-        get('/logout').status.should.eql 303
+        get('/logout').status.should.eql 304
         get('/logout').headers['location'].should.eql '/'
       end
     end
