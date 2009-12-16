@@ -34,6 +34,10 @@ describe 'Express'
         }
         compileCookie('foo', 'bar', options).should.eql 'foo=bar; path=/; secure; httpOnly'
       end
+      
+      it 'should compile without options'
+        compileCookie('foo', 'bar').should.eql 'foo=bar'
+      end
     end
   
     describe 'parseCookie()'
