@@ -22,6 +22,13 @@
   * Collections and chainable iterators
   * ElementCollections / markup parsing via libxmljs and css selector traversal support via css2xpath
   * View support (ejs, haml, mustache)
+  
+## Installation
+
+Currently Express must be cloned (or downloaded), you can use the following command to
+get rolling and initialize the submodule dependencies:
+
+    $ git clone git://github.com/visionmedia/express.git && cd express && git submodule update --init && make app
 
 ## Performance
 
