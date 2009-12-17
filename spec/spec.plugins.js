@@ -1,5 +1,10 @@
 
 CSSColors = Plugin.extend({
+  extend: {
+    init: function() {
+      this.initialized = true
+    }
+  },
   on: {
     response: function(event) {
       if (event.response.headers['content-type'] == mime('css'))
@@ -13,6 +18,10 @@ describe 'Express'
     before_each
       reset()
       use(CSSColors)
+    end
+    
+    it 'should call .init on plugins when available'
+      CSSColors.initialized.should.be_true
     end
     
     describe 'events'
