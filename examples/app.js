@@ -28,7 +28,7 @@ get('/chat', function(){
 })
 
 post('/chat', function(){
-  messages.push(this.param('message'))
+  messages.push(escape(this.param('message')))
   this.halt(200)
 })
 
