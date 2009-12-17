@@ -7,6 +7,7 @@ configure(function(){
   use(MethodOverride)
   use(ContentLength)
   use(CommonLogger)
+  use(Redirect)
   set('root', dirname(__filename))
   enable('cache views')
 })
