@@ -45,7 +45,7 @@ Or with the [gh](http://github.com/visionmedia/gh) utility:
   
   An identical Sinatra application was served with the **Thin** HTTP server
   and scored **8.3** seconds and **238** requests per second. In this situation
-  Express is currently **72%** faster than Sinatra.
+  Express is currently **3.5** times faster than Sinatra.
 
 ## Examples
 
