@@ -12,8 +12,7 @@ configure(function(){
 })
 
 var messages = [],
-    path = require('path'),
-    posix = require('posix')
+    StaticFile = require('express/static').File
     
 get('/', function(){
   this.redirect('/chat')
@@ -45,15 +44,7 @@ get('/chat/messages', function(){
 })
 
 get('/public/:file', function(file){
-  var self = this
-  file = dirname(__filename) + '/public/' + file
-  path.exists(file, function(exists){
-    if (!exists) self.halt()
-    posix.cat(file).addCallback(function(content){
-      self.contentType(file)
-      self.halt(200, content)
-    })
-  })
+  (new StaticFile(dirname(__filename) + '/public/' + file)).send(this)
 })
 
 get('/error', function(){

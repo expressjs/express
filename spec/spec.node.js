@@ -27,6 +27,7 @@ else
     .exec('spec/spec.helpers.js')
     .exec('spec/spec.request.js')
     .exec('spec/spec.mime.js')
+    .exec('spec/spec.static.js')
     .exec('spec/spec.collection.js')
     .exec('spec/spec.element-collection.js')
     .exec('spec/spec.plugins.js')
