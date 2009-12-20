@@ -44,7 +44,7 @@ get('/chat/messages', function(){
 })
 
 get('/public/:file', function(file){
-  (new StaticFile(dirname(__filename) + '/public/' + file)).send(this)
+  this.sendfile(dirname(__filename) + '/public/' + file)
 })
 
 get('/error', function(){
