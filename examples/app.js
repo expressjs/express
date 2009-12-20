@@ -43,7 +43,7 @@ get('/chat/messages', function(){
   }, 100)
 })
 
-get('/public/:file', function(file){
+get('/public/*', function(file){
   this.sendfile(dirname(__filename) + '/public/' + file)
 })
 
