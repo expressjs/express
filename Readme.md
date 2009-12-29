@@ -94,7 +94,7 @@ Run individual suites:
     ...
 
 Express is currently being developed with node --version:
-    v0.1.21-19-g3a21e60
+    v0.1.21-66-g59a78d6
     
 ## License 
 
