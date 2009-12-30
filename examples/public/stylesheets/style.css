@@ -14,8 +14,14 @@ h1 {
   text-shadow: 1px 2px 2px #ddd;
   font-size: 60px;
 }
+img {
+  position: absolute;
+  top: -25px;
+  left: 120px;
+}
 #wrapper {
-  margin: 50px auto;
+  position: relative;
+  margin: 100px auto;
   width: 500px;
   text-align: left;
 }
@@ -38,7 +44,7 @@ ul li:hover {
   color: #2E2E2E;
 }
 ul {
-  max-height: 350px;
+  max-height: 300px;
   overflow-x: hidden;
 }
 input[type=text] {
