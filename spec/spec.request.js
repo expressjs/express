@@ -38,6 +38,27 @@ describe 'Express'
         end
       end
     end
+    
+    describe '#accepts()'
+      describe 'when the Accept header is present'
+        it 'should return true if the mime type is acceptable'
+          get('/user', function(){ return this.accepts('jpeg').toString() })
+          get('/user', { headers: { accept: 'image/jpeg' }}).body.should.eql 'true'
+        end
+        
+        it 'should return false if the mime type is not present'
+          get('/user', function(){ return this.accepts('html').toString() })
+          get('/user', { headers: { accept: 'image/jpeg' }}).body.should.eql 'false'
+        end
+      end
+      
+      describe 'when the Accept header is not present'
+        it 'should return true'
+          get('/user', function(){ return this.accepts('jpeg').toString() })
+          get('/user', { headers: { accept: null }}).body.should.eql 'true'
+        end
+      end
+    end
 
     describe '#halt()'
       describe 'when given no arguments'
