@@ -19,7 +19,7 @@ get('/', function(){
 })
 
 get('/chat', function(){
-  this.render('chat.haml.htmls', {
+  this.render('chat.haml.html', {
     locals: {
       messages: messages
     }
