@@ -47,6 +47,10 @@ get('/public/*', function(file){
   this.sendfile(dirname(__filename) + '/public/' + file)
 })
 
+get('/error/view', function(){
+  this.render('does.not.exist')
+})
+
 get('/error', function(){
   throw new Error('oh noes!')
 })
