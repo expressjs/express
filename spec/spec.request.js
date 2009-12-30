@@ -5,14 +5,14 @@ describe 'Express'
   end
   
   describe 'Request'
-    describe 'status()'
+    describe '#status()'
       it 'should set the response status'
         get('/user', function(){ this.status(500) })
         get('/user').status.should.eql 500
       end
     end
 
-    describe 'header()'
+    describe '#header()'
       describe 'when given a field name and value'
         it 'should set the header'
           get('/user', function(){
@@ -39,7 +39,7 @@ describe 'Express'
       end
     end
 
-    describe 'halt()'
+    describe '#halt()'
       describe 'when given no arguments'
         it 'should respond with 404 Not Found'
           get('/user', function(){ this.halt() })
@@ -78,7 +78,7 @@ describe 'Express'
       end
     end
 
-    describe 'contentType()'
+    describe '#contentType()'
       it 'should set Content-Type header with mime type passed'
         get('/style.css', function(){
           this.contentType('css')
@@ -88,7 +88,7 @@ describe 'Express'
       end
     end
 
-    describe 'param()'
+    describe '#param()'
       it 'should return a route placeholder value'
         get('/user/:id', function(){
           return 'user ' + this.param('id')
