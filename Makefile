@@ -10,4 +10,4 @@ app:
 benchmark:
 	@$(NODE) benchmarks/collection.js
 	
-.PHONY: test
+.PHONY: test benchmark app
