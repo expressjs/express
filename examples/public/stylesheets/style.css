@@ -14,7 +14,7 @@ h1 {
   text-shadow: 1px 2px 2px #ddd;
   font-size: 60px;
 }
-img {
+img.bubble {
   position: absolute;
   top: -25px;
   left: 120px;
