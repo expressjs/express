@@ -59,7 +59,7 @@ describe 'Express'
         end
       end
     end
-
+    
     describe '#halt()'
       describe 'when given no arguments'
         it 'should respond with 404 Not Found'
