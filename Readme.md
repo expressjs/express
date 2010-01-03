@@ -99,6 +99,7 @@ Express is currently being developed with node --version:
 ## More Information
 
   * [JavaScript Extensions &amp; Utilities](http://github.com/visionmedia/ext.js)
+  * [JavaScript Sass](http://github.com/visionmedia/sass.js)
     
 ## Contributors
 
