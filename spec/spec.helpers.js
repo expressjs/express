@@ -66,4 +66,10 @@ describe 'Express'
       dirname('/path/to/images/foo.bar.png').should.eql '/path/to/images'
     end
   end
+  
+  describe 'basename()'
+    it 'should return a files basename'
+      basename('foo/bar/baz.image.png').should.eql 'baz.image.png'
+    end
+  end
 end

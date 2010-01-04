@@ -27,7 +27,7 @@ get('/chat', function(){
 })
 
 post('/chat', function(){
-  messages.push(escape(this.param('message')))
+  messages.push(escape(this.param('message')).replace(/:\)/g, '<img src="http://icons3.iconfinder.netdna-cdn.com/data/icons/ledicons/emoticon_smile.png">'))
   this.halt(200)
 })
 
@@ -45,6 +45,10 @@ get('/chat/messages', function(){
 
 get('/public/*', function(file){
   this.sendfile(dirname(__filename) + '/public/' + file)
+})
+
+get('/error/view', function(){
+  this.render('does.not.exist')
 })
 
 get('/error', function(){

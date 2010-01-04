@@ -435,6 +435,25 @@ describe 'Express'
       end
     end
     
+    describe '#includes()'
+      it 'should return true when the value is present'
+        $([1,2,3]).includes(2).should.be_true
+      end
+      
+      it 'should return true when all values are present'
+        $([1,2,3]).includes(2, 3).should.be_true
+      end
+      
+      it 'should return false when the value is not present'
+        $([1,2,3]).includes(4).should.be_false
+      end
+      
+      it 'should return false when the any value is not present'
+        $([1,2,3]).includes(1,2,4).should.be_false
+        $([1,2,3]).includes(1,4,2).should.be_false
+      end
+    end
+    
     describe '#toString()'
       it 'should output [Collection ...] for array'
         $([1,2,3]).toString().should.eql '[Collection 1,2,3]'

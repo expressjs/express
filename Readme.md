@@ -96,10 +96,16 @@ Run individual suites:
 Express is currently being developed with node --version:
     v0.1.21-66-g59a78d6
     
+## More Information
+
+  * [JavaScript Extensions &amp; Utilities](http://github.com/visionmedia/ext.js)
+  * [JavaScript Sass](http://github.com/visionmedia/sass.js)
+    
 ## Contributors
 
-* TJ Holowaychuk (visionmedia) &lt;tj@vision-media.ca&gt;
-* Ciaran Jessup (ciaranj) &lt;ciaranj@gmail.com&gt;
+  * TJ Holowaychuk (visionmedia) &lt;tj@vision-media.ca&gt;
+  * Ciaran Jessup (ciaranj) &lt;ciaranj@gmail.com&gt;
+  * Gareth Jones (csausdev) &lt;gareth.jones@sensis.com.au&gt;
     
 ## License 
 
