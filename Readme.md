@@ -93,7 +93,7 @@ Run individual suites:
     $ node spec/node.js routing
     ...
     
-Runnning libxmljs related specs, if you have an architecture issue
+Running libxmljs related specs, if you have an architecture issue
 then you will need to rebuild _spec/support/libxmljs.node_.
 
 Express is currently being developed with node --version:
