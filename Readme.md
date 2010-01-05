@@ -92,6 +92,9 @@ Run individual suites:
     $ node spec/spec.node.js mime
     $ node spec/spec.node.js routing
     ...
+    
+Runnning libxmljs related specs, if you have an architecture issue
+then you will need to rebuild _spec/support/libxmljs.node_.
 
 Express is currently being developed with node --version:
     v0.1.21-66-g59a78d6
