@@ -1,5 +1,5 @@
 
-// Mock Timers - Copyright TJ Holowaychuk <tj@vision-media.ca> (MIT Licensed)
+// JSpec - Mock Timers - Copyright TJ Holowaychuk <tj@vision-media.ca> (MIT Licensed)
 
 ;(function(){
   

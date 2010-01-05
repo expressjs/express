@@ -1,5 +1,5 @@
 
-require.paths.unshift('spec', 'spec/lib', 'lib')
+require.paths.unshift('spec', 'lib', 'spec/lib', 'spec/support/libxmljs')
 require("jspec")
 require("express")
 require("express/spec")
@@ -8,13 +8,12 @@ quit = process.exit
 print = puts
 
 readFile = function(path) {
-  var promise = require('posix').cat(path, "utf8")
-  var result = ''
-  promise.addErrback(function(){ throw "failed to read file `" + path + "'" })
-  promise.addCallback(function(contents){
-    result = contents
-  })
-  promise.wait()
+  var result
+  require('posix')
+    .cat(path, "utf8")
+    .addCallback(function(contents){ result = contents })
+    .addErrback(function(){ throw new Error("failed to read file `" + path + "'") })
+    .wait()
   return result
 }
 
@@ -39,5 +38,5 @@ else
     .exec('spec/spec.plugins.redirect.js')
     .exec('spec/spec.plugins.hooks.js')
     .exec('spec/spec.plugins.cookie.js')
-JSpec.run({ formatter: JSpec.formatters.Terminal, failuresOnly: true })
+JSpec.run({ reporter: JSpec.reporters.Terminal, failuresOnly: true })
 JSpec.report()

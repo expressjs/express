@@ -8,7 +8,10 @@
   var OriginalXMLHttpRequest = 'XMLHttpRequest' in this ? 
                                  XMLHttpRequest :
                                    function(){}
-
+  var OriginalActiveXObject = 'ActiveXObject' in this ?
+                                 ActiveXObject :
+                                   undefined
+                                   
   // --- MockXMLHttpRequest
 
   var MockXMLHttpRequest = function() {
@@ -66,11 +69,15 @@
      */
 
     send : function(data) {
+      var self = this
       this.data = data
       this.readyState = 4
       if (this.method == 'HEAD') this.responseText = null
       this.responseHeaders['content-length'] = (this.responseText || '').length
       if(this.async) this.onreadystatechange()
+      lastRequest = function(){
+        return self
+      }
     }
   }
   
@@ -132,6 +139,7 @@
   function mockRequest() {
     return { and_return : function(body, type, status, headers) {
       XMLHttpRequest = MockXMLHttpRequest
+      ActiveXObject = false
       status = status || 200
       headers = headers || {}
       headers['content-type'] = type
@@ -152,6 +160,7 @@
   
   function unmockRequest() {
     XMLHttpRequest = OriginalXMLHttpRequest
+    ActiveXObject = OriginalActiveXObject
   }
   
   JSpec.include({
@@ -175,7 +184,8 @@
     DSLs : {
       snake : {
         mock_request: mockRequest,
-        unmock_request: unmockRequest
+        unmock_request: unmockRequest,
+        last_request: function(){ return lastRequest() }
       }
     }
 
