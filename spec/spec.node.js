@@ -1,5 +1,5 @@
 
-require.paths.unshift('spec', 'spec/lib', 'lib')
+require.paths.unshift('spec', 'lib', 'spec/lib', 'spec/support/libxmljs')
 require("jspec")
 require("express")
 require("express/spec")

@@ -1,7 +1,7 @@
 
 NODE = node
 
-test:
+test: spec/support/libxmljs/libxmljs.node
 	@$(NODE) spec/spec.node.js
 	
 app:
@@ -9,5 +9,8 @@ app:
 	
 benchmark:
 	@$(NODE) benchmarks/collection.js
+	
+spec/support/libxmljs/libxmljs.node:
+	@scons -C spec/support/libxmljs libxmljs.node
 	
 .PHONY: test benchmark app
