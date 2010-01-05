@@ -1,6 +1,6 @@
-[submodule "support/haml"]
-	path = support/haml
-	url = git://github.com/creationix/haml-js.git
+[submodule "spec/support/libxmljs"]
+	path = spec/support/libxmljs
+	url = git://github.com/sprsquish/libxmljs.git
 [submodule "lib/support/haml"]
 	path = lib/support/haml
 	url = git://github.com/creationix/haml-js.git
