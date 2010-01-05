@@ -8,13 +8,12 @@ quit = process.exit
 print = puts
 
 readFile = function(path) {
-  var promise = require('posix').cat(path, 'utf8')
-  var result = ''
-  promise.addErrback(function(){ throw "failed to read file `" + path + "'" })
-  promise.addCallback(function(contents){
-    result = contents
-  })
-  promise.wait()
+  var result
+  require('posix')
+    .cat(path, "utf8")
+    .addCallback(function(contents){ result = contents })
+    .addErrback(function(){ throw new Error("failed to read file `" + path + "'") })
+    .wait()
   return result
 }
 
