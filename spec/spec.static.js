@@ -11,7 +11,11 @@ describe 'Express'
       end
       
       it 'should throw an InvalidPathError when .. is found'
-        -{ new StaticFile('/../foobar') }.should.throw_error(/InvalidPathError/)
+        // TODO: use throw_error when fixed...
+        try { new StaticFile('/../foobar') }
+        catch (e) {
+          e.should.be_an_instance_of InvalidPathError
+        }
       end
     end
   end
