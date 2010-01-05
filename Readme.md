@@ -88,9 +88,9 @@ To run all specifications:
     
 Run individual suites:
 
-    $ node spec/spec.node.js core
-    $ node spec/spec.node.js mime
-    $ node spec/spec.node.js routing
+    $ node spec/node.js core
+    $ node spec/node.js mime
+    $ node spec/node.js routing
     ...
     
 Runnning libxmljs related specs, if you have an architecture issue

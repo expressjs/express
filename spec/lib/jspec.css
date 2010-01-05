@@ -114,12 +114,12 @@ body.jspec {
   background: url(images/sprites.png) 3px -7px no-repeat;
 }
 #jspec-report td.fail {
-  background: url(images/sprites.png) 3px -47px no-repeat;
+  background: url(images/sprites.png) 3px -158px no-repeat;
   font-weight: bold;
   color: #FC0D0D;
 }
 #jspec-report td.requires-implementation {
-  background: url(images/sprites.png) 3px -87px no-repeat;
+  background: url(images/sprites.png) 3px -333px no-repeat;
 }
 #jspec-report tr.description td {
   margin-top: 25px;

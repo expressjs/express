@@ -15,7 +15,8 @@
     
     commands: {
       quit: ['Terminate the shell', function(){ _quit() }],
-      exit: ['Terminate the shell', function(){ _quit() }]
+      exit: ['Terminate the shell', function(){ _quit() }],
+      p: ['Inspect an object', function(o){ return o.toSource() }]
     },
     
     /**
@@ -27,7 +28,9 @@
     start : function() {
       for (var name in this.commands)
         if (this.commands.hasOwnProperty(name))
-          this.main.__defineGetter__(name, this.commands[name][1])
+          this.commands[name][1].length ?
+            this.main[name] = this.commands[name][1] :
+              this.main.__defineGetter__(name, this.commands[name][1])
     }
   }
   

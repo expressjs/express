@@ -8,7 +8,7 @@ quit = process.exit
 print = puts
 
 readFile = function(path) {
-  var promise = require('posix').cat(path, "utf8")
+  var promise = require('posix').cat(path, 'utf8')
   var result = ''
   promise.addErrback(function(){ throw "failed to read file `" + path + "'" })
   promise.addCallback(function(contents){
@@ -39,5 +39,5 @@ else
     .exec('spec/spec.plugins.redirect.js')
     .exec('spec/spec.plugins.hooks.js')
     .exec('spec/spec.plugins.cookie.js')
-JSpec.run({ formatter: JSpec.formatters.Terminal, failuresOnly: true })
+JSpec.run({ reporter: JSpec.reporters.Terminal, failuresOnly: true })
 JSpec.report()

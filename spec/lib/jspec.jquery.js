@@ -47,7 +47,7 @@ JSpec
     },
 
     have_classes : function(actual) {
-      return !JSpec.any(JSpec.argumentsToArray(arguments, 1), function(arg){
+      return !JSpec.any(JSpec.toArray(arguments, 1), function(arg){
         return !JSpec.does(actual, 'have_class', arg)
       })
     },

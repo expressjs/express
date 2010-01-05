@@ -2,7 +2,7 @@
 NODE = node
 
 test: spec/support/libxmljs/libxmljs.node
-	@$(NODE) spec/spec.node.js
+	@$(NODE) spec/node.js
 	
 app:
 	@$(NODE) examples/app.js
