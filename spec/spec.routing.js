@@ -86,10 +86,14 @@ describe 'Express'
     
     describe 'with no response body'
       it 'should throw a InvalidResponseBody'
+        // TODO: use throw_error when fixed...
         get('/user', function(){
           this.respond()
         })
-        -{ get('/user') }.should.throw_error(/InvalidResponseBody: get "\/user" did not respond with a body string/)
+        try { get('/user') }
+        catch (e) {
+          e.should.be_an_instance_of InvalidResponseBody
+        }
       end
     end
     

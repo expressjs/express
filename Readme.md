@@ -82,7 +82,9 @@ Express uses the [JSpec](http://jspec.info) BDD JavaScript testing
 framework to write and run elegant spec suites. JSpec is froozen 
 to spec/lib and does not require seperate installation.
 
-To run all specifications:
+To run all specifications run the following command. This will ensure
+git submodules are initialized and updated, as well as building test
+related dependencies such as libxmljs.
 
     $ make test
     
@@ -93,9 +95,6 @@ Run individual suites:
     $ node spec/node.js routing
     ...
     
-Runnning libxmljs related specs, if you have an architecture issue
-then you will need to rebuild _spec/support/libxmljs.node_.
-
 Express is currently being developed with node --version:
     v0.1.21-66-g59a78d6
     

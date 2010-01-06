@@ -1,7 +1,10 @@
 
 NODE = node
 
-test: spec/support/libxmljs/libxmljs.node
+init: lib/support/js-oo/Readme.md
+	@git submodule update --init
+
+test: init spec/support/libxmljs/libxmljs.node
 	@$(NODE) spec/node.js
 	
 app:
@@ -13,4 +16,4 @@ benchmark:
 spec/support/libxmljs/libxmljs.node:
 	@scons -C spec/support/libxmljs libxmljs.node
 	
-.PHONY: test benchmark app
+.PHONY: init test benchmark app
