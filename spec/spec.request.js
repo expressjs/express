@@ -158,7 +158,7 @@ describe 'Express'
         get('/user', function(){
           return this.param('page') || 'First page'
         })
-        get('/user?page=2').body.should.eql 'First page'
+        get('/user').body.should.eql 'First page'
         get('/user?page=2').body.should.eql '2'
       end
 
