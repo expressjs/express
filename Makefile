@@ -1,7 +1,7 @@
 
 NODE = node
 
-init: lib/support/js-oo/Readme.md
+init:
 	@git submodule update --init
 
 test: init spec/support/libxmljs/libxmljs.node
