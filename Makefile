@@ -2,7 +2,7 @@
 NODE = node
 
 init:
-	@git submodule update --init
+	@git submodule init && git submodule update
 
 test: init spec/support/libxmljs/libxmljs.node
 	@$(NODE) spec/node.js all
