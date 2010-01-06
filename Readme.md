@@ -88,6 +88,14 @@ related dependencies such as libxmljs.
 
     $ make test
     
+To run independant specs (which do not require building of external apis etc) use:
+
+    $ make test-independant
+    
+To run dependant specs (which require building of external apis etc) use:
+
+    $ make test-dependant
+    
 Run individual suites:
 
     $ node spec/node.js core
