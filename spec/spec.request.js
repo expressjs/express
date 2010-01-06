@@ -154,12 +154,12 @@ describe 'Express'
         get('/product/ipod').body.should.eql 'ipod'
       end
 
-      it 'should access request.uri.params'
+      it 'should access request.url.params'
         get('/user', function(){
           return this.param('page') || 'First page'
         })
-        get('/user').body.should.eql 'First page'
-        get('/user', { uri: { params: { page: '2' }}}).body.should.eql '2'
+        get('/user?page=2').body.should.eql 'First page'
+        get('/user?page=2').body.should.eql '2'
       end
 
       it 'should work with splats'
