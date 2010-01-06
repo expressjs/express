@@ -55,4 +55,8 @@ get('/error', function(){
   throw new Error('oh noes!')
 })
 
+get('/simple', function(){
+  return 'Hello :)'
+})
+
 run()

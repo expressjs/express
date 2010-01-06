@@ -17,26 +17,49 @@ readFile = function(path) {
   return result
 }
 
-if (process.ARGV[2])
-  JSpec.exec('spec/spec.' + process.ARGV[2] + '.js')  
-else
-  JSpec
-    .exec('spec/spec.core.js')
-    .exec('spec/spec.routing.js')
-    .exec('spec/spec.helpers.js')
-    .exec('spec/spec.request.js')
-    .exec('spec/spec.mime.js')
-    .exec('spec/spec.static.js')
-    .exec('spec/spec.collection.js')
-    .exec('spec/spec.element-collection.js')
-    .exec('spec/spec.plugins.js')
-    .exec('spec/spec.plugins.view.js')
-    .exec('spec/spec.plugins.common-logger.js')
-    .exec('spec/spec.plugins.content-length.js')
-    .exec('spec/spec.plugins.method-override.js')
-    .exec('spec/spec.plugins.body-decoder.js')
-    .exec('spec/spec.plugins.redirect.js')
-    .exec('spec/spec.plugins.hooks.js')
-    .exec('spec/spec.plugins.cookie.js')
-JSpec.run({ reporter: JSpec.reporters.Terminal, failuresOnly: true })
-JSpec.report()
+function run(specs) {
+  specs.forEach(function(spec){
+    JSpec.exec('spec/spec.' + spec + '.js')
+  })
+}
+
+specs = {
+  independant: [
+    'core',
+    'routing',
+    'helpers',
+    'request',
+    'mime',
+    'static',
+    'collection',
+    'plugins',
+    'plugins.view',
+    'plugins.common-logger',
+    'plugins.content-length',
+    'plugins.method-override',
+    'plugins.body-decoder',
+    'plugins.redirect',
+    'plugins.hooks',
+    'plugins.cookie',
+    ],
+  dependant: [
+    'element-collection'
+  ]
+}
+
+switch (process.ARGV[2]) {
+  case 'independant':
+    run(specs.independant)
+    break
+  case 'dependant':
+    run(specs.dependant)
+    break
+  case 'all':
+    run(specs.independant)
+    run(specs.dependant)
+    break
+  default: 
+    run([process.ARGV[2]])
+}
+
+JSpec.run({ reporter: JSpec.reporters.Terminal, failuresOnly: true }).report()

@@ -88,6 +88,14 @@ related dependencies such as libxmljs.
 
     $ make test
     
+To run independant specs (which do not require building of external apis etc) use:
+
+    $ make test-independant
+    
+To run dependant specs (which require building of external apis etc) use:
+
+    $ make test-dependant
+    
 Run individual suites:
 
     $ node spec/node.js core
@@ -96,12 +104,13 @@ Run individual suites:
     ...
     
 Express is currently being developed with node --version:
-    v0.1.21-66-g59a78d6
+    v0.1.24-13-ge2abc5f
     
 ## More Information
 
   * [JavaScript Extensions &amp; Utilities](http://github.com/visionmedia/ext.js)
   * [JavaScript Sass](http://github.com/visionmedia/sass.js)
+  * [Scons Build System](http://www.scons.org/) (some development dependencies rely on this, ex libxmljs)
     
 ## Contributors
 
