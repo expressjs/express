@@ -107,6 +107,24 @@ describe 'Express'
         get('/style.css').headers['content-type'].should.eql 'text/css'
       end
     end
+    
+    describe '#attachment()'
+      it 'should set Content-Disposition to attachment'
+        get('/report', function(){
+          this.attachment()
+          return 'foo'
+        })
+        get('/report').headers['content-disposition'].should.eql 'attachment'
+      end
+
+      it 'should set attachment filename'
+        get('/report', function(){
+          this.attachment('report.pdf')
+          return 'foo'
+        })
+        get('/report').headers['content-disposition'].should.eql 'attachment; filename="report.pdf"'
+      end
+    end
 
     describe '#param()'
       it 'should return a route placeholder value'
