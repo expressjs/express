@@ -18,6 +18,7 @@ app:
 	
 benchmark:
 	@$(NODE) benchmarks/collection.js
+	@$(NODE) benchmarks/views.js
 	
 spec/support/libxmljs/libxmljs.node:
 	@scons -C spec/support/libxmljs libxmljs.node
