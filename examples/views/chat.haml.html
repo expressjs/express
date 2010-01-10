@@ -1,7 +1,7 @@
 %h1 Chat
 %img.bubble{ src: '/public/images/bubble.png' }
 %ul#messages
-  :foreach{ array: messages, value: 'msg' }
+  :each msg in messages
     %li= msg
 %form{ method: 'post' }
   %input{ type: 'hidden', name: '_method', value: 'put' }
