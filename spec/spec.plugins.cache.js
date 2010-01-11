@@ -43,13 +43,9 @@ describe 'Express'
             store.set('foo', 'baz')
             store.get('foo').should.eql 'baz'
           end
-        end
-        
-        describe 'given a key only'
-          it 'should delete previous data'
-            store.set('foo', 'bar')
-            store.set('foo')
-            store.get('foo').should.be_null
+          
+          it 'should return data'
+            store.set('foo', 'bar').should.eql 'bar'
           end
         end
         
@@ -61,6 +57,8 @@ describe 'Express'
         
         describe 'given an abitrary value'
           it 'should throw an error'
+            -{ store.set('foo', null) }.should.throw_error
+            -{ store.set('foo', undefined) }.should.throw_error
             -{ store.set('foo', {}) }.should.throw_error
           end
         end
