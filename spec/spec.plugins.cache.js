@@ -2,7 +2,8 @@
 describe 'Express'
   before_each
     reset()
-    require('express/plugins/cache')
+    use(require('express/plugins/cache').Cache)
+    cache = require('express/plugins/cache')
   end
   
   describe 'Cache'
@@ -13,6 +14,16 @@ describe 'Express'
             return this.cache.toString()
           })
           get('/item').body.should.eql '[Memory Store]'
+        end
+      end
+    end
+  end
+  
+  describe 'Store'
+    describe 'Memory'
+      describe '#toString()'
+        it 'should return [Memory Store]'
+          (new cache.Store.Memory).toString().should.eql '[Memory Store]'
         end
       end
     end
