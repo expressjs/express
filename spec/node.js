@@ -33,6 +33,7 @@ specs = {
     'static',
     'collection',
     'plugins',
+    'plugins.cache',
     'plugins.view',
     'plugins.common-logger',
     'plugins.content-length',
