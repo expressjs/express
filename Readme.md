@@ -58,7 +58,7 @@ Or with the [gh](http://github.com/visionmedia/gh) utility:
       use(ContentLength)
       use(Redirect)
       set('root', dirname(__filename))
-      enable('cache views')
+      enable('cache view contents')
     })
     
     get('/hello', function(){
