@@ -1,8 +1,8 @@
 
 NODE = node
 
-init: lib/support/js-oo/Readme.md
-	@git submodule update --init
+init:
+	@git submodule init && git submodule update
 
 test: init spec/support/libxmljs/libxmljs.node
 	@$(NODE) spec/node.js all
@@ -18,6 +18,7 @@ app:
 	
 benchmark:
 	@$(NODE) benchmarks/collection.js
+	@$(NODE) benchmarks/views.js
 	
 spec/support/libxmljs/libxmljs.node:
 	@scons -C spec/support/libxmljs libxmljs.node

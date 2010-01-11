@@ -58,7 +58,7 @@ Or with the [gh](http://github.com/visionmedia/gh) utility:
       use(ContentLength)
       use(Redirect)
       set('root', dirname(__filename))
-      enable('cache views')
+      enable('cache view contents')
     })
     
     get('/hello', function(){
@@ -79,8 +79,8 @@ Or with the [gh](http://github.com/visionmedia/gh) utility:
 ## Running Tests
 
 Express uses the [JSpec](http://jspec.info) BDD JavaScript testing
-framework to write and run elegant spec suites. JSpec is froozen 
-to spec/lib and does not require seperate installation.
+framework to write and run elegant spec suites. JSpec is frozen 
+to spec/lib and does not require separate installation.
 
 To run all specifications run the following command. This will ensure
 git submodules are initialized and updated, as well as building test
@@ -88,11 +88,11 @@ related dependencies such as libxmljs.
 
     $ make test
     
-To run independant specs (which do not require building of external apis etc) use:
+To run independent specs (which do not require building of external apis etc) use:
 
     $ make test-independant
     
-To run dependant specs (which require building of external apis etc) use:
+To run dependent specs (which require building of external apis etc) use:
 
     $ make test-dependant
     

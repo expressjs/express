@@ -14,7 +14,7 @@ range = function(a, b) {
   return array
 }
 
-suite('Collection with [0..10,000]', 1000, function(){
+suite('Collection with [0..10,000]', 100, function(){
   array = range(0, 10000)
   
   benchmark('for', function(){

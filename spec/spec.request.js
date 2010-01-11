@@ -107,6 +107,24 @@ describe 'Express'
         get('/style.css').headers['content-type'].should.eql 'text/css'
       end
     end
+    
+    describe '#attachment()'
+      it 'should set Content-Disposition to attachment'
+        get('/report', function(){
+          this.attachment()
+          return 'foo'
+        })
+        get('/report').headers['content-disposition'].should.eql 'attachment'
+      end
+
+      it 'should set attachment filename'
+        get('/report', function(){
+          this.attachment('report.pdf')
+          return 'foo'
+        })
+        get('/report').headers['content-disposition'].should.eql 'attachment; filename="report.pdf"'
+      end
+    end
 
     describe '#param()'
       it 'should return a route placeholder value'
@@ -154,12 +172,13 @@ describe 'Express'
         get('/product/ipod').body.should.eql 'ipod'
       end
 
-      it 'should access request.url.params'
+      it 'should work with a query string'
         get('/user', function(){
           return this.param('page') || 'First page'
         })
         get('/user').body.should.eql 'First page'
         get('/user?page=2').body.should.eql '2'
+        get('/user?foo[]=bar&page=5').body.should.eql '5'
       end
 
       it 'should work with splats'

@@ -8,7 +8,7 @@ configure(function(){
   use(ContentLength)
   use(CommonLogger)
   set('root', dirname(__filename))
-  enable('cache views')
+  enable('cache view contents')
 })
 
 var messages = [],
