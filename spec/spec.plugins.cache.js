@@ -56,10 +56,8 @@ describe 'Express'
         end
         
         describe 'given an abitrary value'
-          it 'should throw an error'
-            -{ store.set('foo', null) }.should.throw_error
-            -{ store.set('foo', undefined) }.should.throw_error
-            -{ store.set('foo', {}) }.should.throw_error
+          it 'should serialize as JSON'
+            store.set('user', { name: 'tj' }).should.eql { name: 'tj' }
           end
         end
       end
@@ -69,6 +67,11 @@ describe 'Express'
           it 'should return cached value'
             store.set('foo', 'bar')
             store.get('foo').should.eql 'bar'
+          end
+          
+          it 'should unserialize JSON data'
+            store.set('user', { name: 'tj' })
+            store.get('user').should.eql { name: 'tj' }
           end
         end
         
