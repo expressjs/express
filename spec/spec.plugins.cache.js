@@ -89,11 +89,6 @@ describe 'Express'
             store.clear('foo')
             store.get('foo').should.be_null
           end
-          
-          it 'should return deleted data'
-            store.set('foo', 'bar')
-            store.clear('foo').should.eql 'bar'
-          end
         end
         
         describe 'given wildcards'
@@ -103,12 +98,6 @@ describe 'Express'
             store.clear('user:*')
             store.get('user:one').should.be_null
             store.get('user:two').should.be_null
-          end
-          
-          it 'should return deleted data'
-            store.set('user:one', '1')
-            store.set('user:two', '2')
-            store.clear('user:*').should.eql { 'user:one': '1', 'user:two': '2' }
           end
         end
       end
