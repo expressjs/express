@@ -49,16 +49,15 @@ Or with the [gh](http://github.com/visionmedia/gh) utility:
 
 ## Examples
 
-    require.paths.unshift('lib')
+Below is a minimal app example when express is already within your load path.
+
     require('express')
     require('express/plugins')
     
     configure(function(){
       use(MethodOverride)
       use(ContentLength)
-      use(Redirect)
       set('root', dirname(__filename))
-      enable('cache view contents')
     })
     
     get('/hello', function(){

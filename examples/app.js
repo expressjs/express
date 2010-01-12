@@ -8,6 +8,7 @@ configure(function(){
   use(ContentLength)
   use(CommonLogger)
   set('root', dirname(__filename))
+  enable('cache static files')
   enable('cache view contents')
 })
 
@@ -27,7 +28,10 @@ get('/chat', function(){
 })
 
 post('/chat', function(){
-  messages.push(escape(this.param('message')).replace(/:\)/g, '<img src="http://icons3.iconfinder.netdna-cdn.com/data/icons/ledicons/emoticon_smile.png">'))
+  messages
+    .push(escape(this.param('message'))
+    .replace(/(http:\/\/[^\s]+)/g, '<a href="$1" target="express-chat">$1</a>')
+    .replace(/:\)/g, '<img src="http://icons3.iconfinder.netdna-cdn.com/data/icons/ledicons/emoticon_smile.png">'))
   this.halt(200)
 })
 

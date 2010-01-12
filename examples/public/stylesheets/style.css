@@ -82,3 +82,14 @@ input[type=submit]:active {
 input[name=name] {
   width: 80px;
 }
+a {
+  color: #1ABFF1;
+  -webkit-transition-property: padding;
+  -webkit-transition-duration: 0.15s;
+}
+a:hover {
+  padding: 0 5px;
+}
+a:hover:before {
+  content: 'visit: ';
+}
