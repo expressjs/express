@@ -8,7 +8,7 @@ configure(function(){
   use(ContentLength)
   use(CommonLogger)
   set('root', dirname(__filename))
-  //enable('cache static files')
+  enable('cache static files')
   enable('cache view contents')
 })
 
