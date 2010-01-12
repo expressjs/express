@@ -7,3 +7,6 @@
 [submodule "lib/support/js-oo"]
 	path = lib/support/js-oo
 	url = git://github.com/visionmedia/js-oo.git
+[submodule "lib/support/sass"]
+	path = lib/support/sass
+	url = git://github.com/visionmedia/sass.js.git
