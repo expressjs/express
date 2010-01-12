@@ -51,6 +51,10 @@ get('/public/*', function(file){
   this.sendfile(dirname(__filename) + '/public/' + file)
 })
 
+get('/*.css', function(file){
+  this.render(file + '.sass.css', { layout: false })
+})
+
 get('/error/view', function(){
   this.render('does.not.exist')
 })
