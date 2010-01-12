@@ -8,8 +8,8 @@ require('express')
 print = puts
 
 engine = {
-  ejs: require('support/ejs/ejs'),
-  haml: require('support/haml/lib/haml')
+  ejs: require('ejs'),
+  haml: require('haml')
 }
 
 options = { locals: { article: { title: 'Foo', body: 'bar' }}}
