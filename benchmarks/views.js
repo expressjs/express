@@ -9,7 +9,8 @@ print = puts
 
 engine = {
   ejs: require('ejs'),
-  haml: require('haml')
+  haml: require('haml'),
+  sass: require('sass')
 }
 
 options = { locals: { article: { title: 'Foo', body: 'bar' }}}
@@ -24,6 +25,15 @@ haml = '          \n\
 %p= article.body  \n\
 '
 
+sass = '                \n\
+body                    \n\
+  ul                    \n\
+    li                  \n\
+      a                 \n\
+        :color #ff0000  \n\
+      :list-style none  \n\
+'
+
 suite('Template Engines', 1000, function(){
   benchmark('ejs', function(){
     engine.ejs.render(ejs, options)
@@ -31,5 +41,9 @@ suite('Template Engines', 1000, function(){
   
   benchmark('haml', function(){
     engine.haml.render(haml, options)
+  })
+  
+  benchmark('sass', function(){
+    engine.sass.render(sass)
   })
 })
