@@ -20,7 +20,7 @@ get('/upload', function(){
 })
 
 post('/upload', function(){
-  require('sys').p(this.params)
+  require('sys').p(this.param('images'))
   this.render('upload.haml.html')
 })
 
@@ -31,6 +31,5 @@ get('/public/*', function(file){
 get('/*.css', function(file){
   this.render(file + '.sass.css', { layout: false })
 })
-
 
 run()
