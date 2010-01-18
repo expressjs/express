@@ -1,8 +1,8 @@
 %h1 Upload
 %form{ method: 'post', enctype: 'multipart/form-data' }
-  %input{ type: 'file', name: 'image[0]' }
-  %input{ type: 'file', name: 'image[1]' }
-  %input{ type: 'file', name: 'image[2]' }
+  %input{ type: 'file', name: 'images[0]' }
+  %input{ type: 'file', name: 'images[1]' }
+  %input{ type: 'file', name: 'images[2]' }
   .panel
     %input{ type: 'text', name: 'user[name]', value: 'Name' }
     %input{ type: 'submit', value: 'Upload' }
