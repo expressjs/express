@@ -1,4 +1,8 @@
 %h1 Upload
 %form{ method: 'post' }
-  %input{ type: 'file', name: 'image' }
-  %input{ type: 'submit', value: 'Upload' }
+  %input{ type: 'file', name: 'image[]' }
+  %input{ type: 'file', name: 'image[]' }
+  %input{ type: 'file', name: 'image[]' }
+  .panel
+    %input{ type: 'text', name: 'name', value: 'Name' }
+    %input{ type: 'submit', value: 'Upload' }

@@ -50,6 +50,11 @@ input[type=submit]:active
 input[name=name]
   :width 80px
   
+form
+  .panel
+    :float left
+    :clear both
+  
 a
   :color #1ABFF1
   :-webkit-transition-property padding
