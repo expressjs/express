@@ -19,6 +19,10 @@ get('/upload', function(){
   this.render('upload.haml.html')
 })
 
+post('/upload', function(){
+  
+})
+
 get('/public/*', function(file){
   this.sendfile(dirname(__filename) + '/public/' + file)
 })
