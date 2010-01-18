@@ -20,8 +20,7 @@ get('/upload', function(){
 })
 
 post('/upload', function(){
-  require('sys').p(this.param('images'))
-  this.render('upload.haml.html')
+  this.redirect('/upload')
 })
 
 get('/public/*', function(file){
