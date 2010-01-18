@@ -20,6 +20,8 @@ get('/upload', function(){
 })
 
 post('/upload', function(){
+  require('sys').p(this.params)
+  require('sys').p(this.param('user'))
   this.redirect('/upload')
 })
 
