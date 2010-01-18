@@ -21,8 +21,7 @@ get('/upload', function(){
 
 post('/upload', function(){
   require('sys').p(this.params)
-  require('sys').p(this.param('user'))
-  this.redirect('/upload')
+  this.render('upload.haml.html')
 })
 
 get('/public/*', function(file){
