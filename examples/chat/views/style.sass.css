@@ -2,7 +2,7 @@ body
   :font-family "Helvetica Neue", "Lucida Grande", "Arial"
   :font-size 13px
   :text-align center
-  :-webkit-text-stroke 1px rgba(255, 255, 255, 0.1)
+  =text-stroke 1px rgba(255, 255, 255, 0.1)
   :color #555
   
 h1, h2
@@ -34,10 +34,8 @@ ul
     :padding 3px 8px
     :list-style none
     :border 1px solid #eee
-    :-webkit-border-radius 3px
-    :-mox-border-radius 3px
-    :-webkit-transition-property color
-    :-webkit-transition-duration 0.1s
+    =border-radius 3px
+    =border-radius 3px
   li:hover
     :cursor pointer
     :color #2E2E2E
@@ -46,16 +44,13 @@ input[type=text]
   :padding 5px
   :border 1px solid #ddd
   :outline none
-  :-webkit-border-radius 2px
-  :-moz-border-radius 2px
+  =border-radius 2px
 input[type=text]:focus
   :border-color #00C3FF
 
 input[type=submit]
-  :-webkit-border-radius 2px
-  :-moz-border-radius 2px
-  :-webkit-box-shadow 0 1px 2px #ddd
-  :-moz-box-shadow 0 1px 2px #ddd
+  =border-radius 2px
+  =box-shadow 0 1px 2px #ddd
   :padding 6px 10px
   :border solid 1px #999
   :background -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ddd))
@@ -75,8 +70,8 @@ input[name=name]
   
 a
   :color #1ABFF1
-  :-webkit-transition-property padding
-  :-webkit-transition-duration 0.15s
+  =transition-property padding
+  =transition-duration 0.15s
 a:hover
   :padding 0 5px
 a:hover:before

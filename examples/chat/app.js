@@ -9,7 +9,7 @@ configure(function(){
   use(CommonLogger)
   set('root', dirname(__filename))
   enable('cache static files')
-  enable('cache view contents')
+  //enable('cache view contents')
 })
 
 var messages = [],
