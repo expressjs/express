@@ -1,6 +1,8 @@
 
 NODE = node
 
+all: test
+
 init:
 	@git submodule init && git submodule update
 
