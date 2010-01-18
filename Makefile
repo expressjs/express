@@ -1,6 +1,8 @@
 
 NODE = node
 
+all: test
+
 init:
 	@git submodule init && git submodule update
 
@@ -13,8 +15,13 @@ test-independant: init
 test-dependant: init spec/support/libxmljs/libxmljs.node
 	@$(NODE) spec/node.js dependant
 	
-app:
-	@$(NODE) examples/app.js
+app: app-chat
+	
+app-chat:
+	@$(NODE) examples/chat/app.js
+	
+app-upload:
+	@$(NODE) examples/upload/app.js
 	
 benchmark:
 	@$(NODE) benchmarks/collection.js

@@ -45,4 +45,23 @@ describe 'Express'
       basename('foo/bar/baz.image.png').should.eql 'baz.image.png'
     end
   end
+  
+  describe 'mergeParam()'
+    describe 'with empty params'
+      it 'should merge the given key and value'
+        params = {}
+        mergeParam('user[names][first]', 'tj', params)
+        params.user.names.first.should.eql 'tj'
+      end
+    end
+    
+    describe 'with populated params'
+      it 'should merge not overwrite'
+        params = { user: { name: 'tj' }}
+        mergeParam('user[email]', 'tj@vision-media.ca', params)
+        params.user.name.should.eql 'tj'
+        params.user.email.should.eql 'tj@vision-media.ca'
+      end
+    end
+  end
 end

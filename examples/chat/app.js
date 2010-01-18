@@ -9,7 +9,7 @@ configure(function(){
   use(CommonLogger)
   set('root', dirname(__filename))
   enable('cache static files')
-  enable('cache view contents')
+  //enable('cache view contents')
 })
 
 var messages = [],
@@ -49,6 +49,10 @@ get('/chat/messages', function(){
 
 get('/public/*', function(file){
   this.sendfile(dirname(__filename) + '/public/' + file)
+})
+
+get('/*.css', function(file){
+  this.render(file + '.sass.css', { layout: false })
 })
 
 get('/error/view', function(){

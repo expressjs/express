@@ -1,0 +1,11 @@
+%h1 Upload
+:if typeof images !== 'undefined'
+  .images
+    :each img in images
+      %img{ src: img }
+%form{ method: 'post', enctype: 'multipart/form-data' }
+  %input{ type: 'file', name: 'images[0]' }
+  %input{ type: 'file', name: 'images[1]' }
+  %input{ type: 'file', name: 'images[2]' }
+  .panel
+    %input{ type: 'submit', value: 'Upload' }
