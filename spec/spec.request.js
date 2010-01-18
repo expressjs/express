@@ -174,7 +174,7 @@ describe 'Express'
 
       it 'should work with a query string'
         get('/user', function(){
-          return this.param('page') || 'First page'
+          return String(this.param('page') || 'First page')
         })
         get('/user').body.should.eql 'First page'
         get('/user?page=2').body.should.eql '2'
