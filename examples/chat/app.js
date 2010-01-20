@@ -12,8 +12,7 @@ configure(function(){
   //enable('cache view contents')
 })
 
-var messages = [],
-    StaticFile = require('express/static').File
+var messages = []
     
 get('/', function(){
   this.redirect('/chat')
