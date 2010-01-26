@@ -20,6 +20,9 @@ get('/upload', function(){
 })
 
 post('/upload', function(){
+  $(this.param('images')).each(function(image){
+    puts('uploaded ' + image.filename + ' to ' + image.tempfile)
+  })
   this.redirect('/upload')
 })
 
