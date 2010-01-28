@@ -21,6 +21,7 @@ get('/', function(){
 get('/chat', function(){
   this.render('chat.haml.html', {
     locals: {
+      title: 'Chat',
       messages: messages
     }
   })
