@@ -42,6 +42,7 @@ specs = {
     'plugins.redirect',
     'plugins.hooks',
     'plugins.cookie',
+    'plugins.session',
     ],
   dependant: [
     'element-collection'
