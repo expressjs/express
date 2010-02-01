@@ -53,6 +53,7 @@ input[name=name]
 form
   .panel
     :float left
+    :width 100%
     :clear both
   
 a
