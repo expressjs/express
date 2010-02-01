@@ -21,6 +21,13 @@ describe 'Express'
     end
   end
   
+  describe 'uid()'
+    it 'should return a string of random characters'
+      uid().should.not.eql uid()
+      uid().length.should.be_greater_than 20
+    end
+  end
+  
   describe 'extname()'
     it 'should return the a files extension'
       extname('image.png').should.eql 'png'
