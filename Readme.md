@@ -116,6 +116,7 @@ Express is currently being developed with node --version:
   * TJ Holowaychuk (visionmedia) &lt;tj@vision-media.ca&gt;
   * Ciaran Jessup (ciaranj) &lt;ciaranj@gmail.com&gt;
   * Gareth Jones (csausdev) &lt;gareth.jones@sensis.com.au&gt;
+  * Aaron Heckmann (aheckmann) &lt;aaron.heckmann+github@gmail.com&gt;
     
 ## License 
 
