@@ -7,8 +7,11 @@ configure(function(){
   use(MethodOverride)
   use(ContentLength)
   use(CommonLogger)
+  use(Cookie)
+  use(Session)
   set('root', dirname(__filename))
   enable('cache static files')
+  enable('session reap interval')
   //enable('cache view contents')
 })
 
