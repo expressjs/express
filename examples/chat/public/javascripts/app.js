@@ -5,7 +5,7 @@ $(function(){
     var message = $('input[name=message]'),
         name = $('input[name=name]')
     if (message.val()) 
-      $.post('/chat', { message: $.trim(name.val()) + ': ' + message.val() }, function(){
+      $.post('/chat', { name: name.val(), message: message.val() }, function(){
         message.val('')
       })
     else

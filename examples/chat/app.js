@@ -8,10 +8,9 @@ configure(function(){
   use(ContentLength)
   use(CommonLogger)
   use(Cookie)
-  use(Session)
+  use(Session, { reapInterval: 10000, expires: 60000 })
   set('root', dirname(__filename))
   enable('cache static files')
-  enable('session reap interval')
   //enable('cache view contents')
 })
 
@@ -25,14 +24,16 @@ get('/chat', function(){
   this.render('chat.haml.html', {
     locals: {
       title: 'Chat',
-      messages: messages
+      messages: messages,
+      name: this.session.name
     }
   })
 })
 
 post('/chat', function(){
+  this.session.name = this.param('name')
   messages
-    .push(escape(this.param('message'))
+    .push(escape(this.param('name')) + ': ' + escape(this.param('message'))
     .replace(/(http:\/\/[^\s]+)/g, '<a href="$1" target="express-chat">$1</a>')
     .replace(/:\)/g, '<img src="http://icons3.iconfinder.netdna-cdn.com/data/icons/ledicons/emoticon_smile.png">'))
   this.halt(200)

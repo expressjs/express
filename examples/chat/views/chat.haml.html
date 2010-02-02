@@ -5,6 +5,6 @@
     %li= msg
 %form{ method: 'post' }
   %input{ type: 'hidden', name: '_method', value: 'put' }
-  %input{ type: 'text', name: 'name', value: 'guest' }
+  %input{ type: 'text', name: 'name', value: name || 'guest' }
   %input{ type: 'text', name: 'message' }
   %input{ type: 'submit', value: 'Send' }
