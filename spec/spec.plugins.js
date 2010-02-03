@@ -1,4 +1,6 @@
 
+var mime = require('express/mime')
+
 CSSColors = Plugin.extend({
   extend: {
     init: function() {
@@ -7,7 +9,7 @@ CSSColors = Plugin.extend({
   },
   on: {
     response: function(event) {
-      if (event.response.headers['content-type'] == mime('css'))
+      if (event.response.headers['content-type'] == mime.type('css'))
         event.response.body = event.response.body.replace('black', '#000')
     }
   }
