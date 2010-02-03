@@ -22,9 +22,9 @@ describe 'Express'
       end
     end
   
-    describe 'MemoryStore'
+    describe 'Store.Memory'
       before_each
-        memory = new (require('express/plugins/session').MemoryStore)
+        memory = new (require('express/plugins/session').Store.Memory)
       end
       
       it 'should persist'
