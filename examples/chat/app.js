@@ -8,7 +8,7 @@ configure(function(){
   use(ContentLength)
   use(CommonLogger)
   use(Cookie)
-  use(Session, { reapInterval: 10000, expires: 60000 })
+  use(Session)
   set('root', dirname(__filename))
   enable('cache static files')
   //enable('cache view contents')
@@ -69,6 +69,10 @@ get('/error', function(){
 
 get('/simple', function(){
   return 'Hello :)'
+})
+
+get('/favicon.ico', function(){
+  this.halt()
 })
 
 run()
