@@ -22,7 +22,7 @@ describe 'Express'
       end
     end
   
-    describe 'Store.Memory'
+    describe 'session Store.Memory'
       before_each
         memory = new (require('express/plugins/session').Store.Memory)
       end
