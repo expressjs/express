@@ -1,4 +1,22 @@
 
+0.1.0 / 2010-02-03
+==================
+
+  * Changed; Hooks (before / after) pass request as arg as well as evaluated in their context
+  * Updated node support to 0.1.27 Closes #169
+  * Updated dirname(__filename) -> __dirname
+  * Updated libxmljs support to v0.2.0
+  * Added session support with memory store / reaping
+  * Added quick uid() helper
+  * Added multi-part upload support
+  * Added Sass.js support / submodule
+  * Added production env caching view contents and static files
+  * Added static file caching. Closes #136
+  * Added cache plugin with memory stores
+  * Added support to StaticFile so that it works with non-textual files.
+  * Removed dirname() helper
+  * Removed several globals (now their modules must be required)
+
 0.0.2 / 2010-01-10
 ==================
 
