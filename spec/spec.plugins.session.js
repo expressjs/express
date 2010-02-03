@@ -3,7 +3,8 @@ describe 'Express'
   before_each
     reset()
     use(require('express/plugins/cookie').Cookie)
-    use(require('express/plugins/session').Session)
+    use(Session = require('express/plugins/session').Session)
+    Session.store.clear()
   end
   
   describe 'Session'
