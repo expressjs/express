@@ -40,6 +40,12 @@ describe 'Express'
         get('/login', headers).body.should.eql 'tj'
       end
       
+      describe '#toString()'
+        it 'should return [Memory Store]'
+          memory.toString().should.eql '[Memory Store]'
+        end
+      end
+      
       describe '#fetch()'
         describe 'when the session does not exist'
           it 'should return a new Session'
