@@ -65,6 +65,14 @@ describe 'Express'
         end
       end
       
+      describe '#length()'
+        it 'should return the number of session'
+          memory.commit({ id: '1' })
+          memory.commit({ id: '2' })
+          memory.length().should.eql 2
+        end
+      end
+      
       describe '#destroy()'
         it 'should destroy a single session'
           memory.commit({ id: '1' })
