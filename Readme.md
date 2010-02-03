@@ -11,6 +11,7 @@
 
   * Sexy DSL with robust sinatra-like routing
   * High performance
+  * Session support
   * Mime helpers
   * Redirection helpers
   * Nested parameter parsing
@@ -21,7 +22,7 @@
   * Light-weight JavaScript class implementation via js-oo
   * Collections and chainable iterators
   * ElementCollections / markup parsing via libxmljs and css selector traversal support via css2xpath
-  * View support (ejs, haml, mustache)
+  * View support (ejs, haml, sass, etc)
   
 ## Installation
 
