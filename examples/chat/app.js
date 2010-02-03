@@ -28,7 +28,8 @@ get('/chat', function(){
     locals: {
       title: 'Chat',
       messages: messages,
-      name: this.session.name
+      name: this.session.name,
+      usersOnline: Session.store.length()
     }
   })
 })

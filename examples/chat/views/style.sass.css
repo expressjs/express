@@ -76,3 +76,6 @@ a:hover
   :padding 0 5px
 a:hover:before
   :content 'visit: '
+  
+#online
+  :font-size 12px
