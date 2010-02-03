@@ -4,7 +4,7 @@
 ;(function(){
 
   JSpec = {
-    version   : '3.1.0',
+    version   : '3.2.1',
     assert    : true,
     cache     : {},
     suites    : [],
@@ -1046,7 +1046,7 @@
      */
 
     expect : function(actual) {
-      assert = function(matcher, args, negate) {
+      function assert(matcher, args, negate) {
         var expected = toArray(args, 1)
         matcher.negate = negate  
         assertion = new JSpec.Assertion(matcher, actual, expected, negate)
@@ -1056,11 +1056,11 @@
         return assertion.result
       }
       
-      to = function(matcher) {
+      function to(matcher) {
         return assert(matcher, arguments, false)
       }
       
-      not_to = function(matcher) {
+      function not_to(matcher) {
         return assert(matcher, arguments, true)
       }
       
@@ -1692,7 +1692,7 @@
           case Number:
           case RegExp:
           case Function:
-            state = actual.toString().match(arg.toString())
+            state = actual.toString().indexOf(arg) !== -1
             break
          
           case Object:

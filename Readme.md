@@ -58,7 +58,7 @@ Below is a minimal app example when express is already within your load path.
     configure(function(){
       use(MethodOverride)
       use(ContentLength)
-      set('root', dirname(__filename))
+      set('root', __dirname)
     })
     
     get('/hello', function(){
@@ -104,7 +104,7 @@ Run individual suites:
     ...
     
 Express is currently being developed with node --version:
-    v0.1.24-13-ge2abc5f
+    v0.1.27
     
 ## More Information
 

@@ -11,12 +11,13 @@ configure(function(){
   use(CommonLogger)
   use(Cookie)
   use(Session, { lifetime: fiveMinutes, reapInterval: oneMinute })
-  set('root', dirname(__filename))
+  set('root', __dirname)
   enable('cache static files')
   //enable('cache view contents')
 })
 
-var messages = []
+var messages = [],
+    utils = require('express/utils')
     
 get('/', function(){
   this.redirect('/chat')
@@ -35,7 +36,7 @@ get('/chat', function(){
 post('/chat', function(){
   this.session.name = this.param('name')
   messages
-    .push(escape(this.param('name')) + ': ' + escape(this.param('message'))
+    .push(utils.escape(this.param('name')) + ': ' + utils.escape(this.param('message'))
     .replace(/(http:\/\/[^\s]+)/g, '<a href="$1" target="express-chat">$1</a>')
     .replace(/:\)/g, '<img src="http://icons3.iconfinder.netdna-cdn.com/data/icons/ledicons/emoticon_smile.png">'))
   this.halt(200)
@@ -54,7 +55,7 @@ get('/chat/messages', function(){
 })
 
 get('/public/*', function(file){
-  this.sendfile(dirname(__filename) + '/public/' + file)
+  this.sendfile(__dirname + '/public/' + file)
 })
 
 get('/*.css', function(file){

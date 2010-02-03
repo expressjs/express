@@ -27,7 +27,7 @@ specs = {
   independant: [
     'core',
     'routing',
-    'helpers',
+    'utils',
     'request',
     'mime',
     'static',
