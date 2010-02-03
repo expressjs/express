@@ -7,7 +7,7 @@ configure(function(){
   use(MethodOverride)
   use(ContentLength)
   use(CommonLogger)
-  set('root', dirname(__filename))
+  set('root', __dirname)
   enable('cache static files')
   //enable('cache view contents')
 })
@@ -48,7 +48,7 @@ get('/chat/messages', function(){
 })
 
 get('/public/*', function(file){
-  this.sendfile(dirname(__filename) + '/public/' + file)
+  this.sendfile(__dirname + '/public/' + file)
 })
 
 get('/*.css', function(file){
