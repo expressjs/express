@@ -12,6 +12,8 @@ h1, h2
 h1
   :text-shadow 1px 2px 2px #ddd
   :font-size 60px
+h2
+  :margin-top 15px
   
 #wrapper
   :position relative
@@ -54,13 +56,4 @@ form
   .panel
     :float left
     :width 100%
-    :clear both
-  
-a
-  :color #1ABFF1
-  :-webkit-transition-property padding
-  :-webkit-transition-duration 0.15s
-a:hover
-  :padding 0 5px
-a:hover:before
-  :content 'visit: '
+    :margin-bottom 15px
