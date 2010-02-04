@@ -88,19 +88,28 @@ describe 'Express'
     end
     
     describe 'key[]'
+      describe 'with a single value'
+        it 'should still be an array'
+          params = {}
+          utils.mergeParam('images[]', '1', params)
+          params.images.should.eql ['1']
+        end
+      end
+    
       describe 'with empty params'
         it 'should merge correctly'
           params = {}
-          utils.mergeParam('images[]', 1, params)
-          params.images.should.eql [1]
+          utils.mergeParam('images[]', '1', params)
+          utils.mergeParam('images[]', '2', params)
+          params.images.should.eql ['1', '2']
         end
       end
       
       describe 'with populated params'
         it 'should convert to an array'
           params = { images: 'foo.png'}
-          utils.mergeParam('images[]', 1, params)
-          params.images.should.eql ['foo.png', 1]
+          utils.mergeParam('images[]', '1', params)
+          params.images.should.eql ['foo.png', '1']
         end
       end
       
@@ -110,7 +119,7 @@ describe 'Express'
           utils.mergeParam('images[]', '1', params)
           utils.mergeParam('images[]', '2', params)
           utils.mergeParam('images[]', '3', params)
-          params.images.should.eql [1,2,3]
+          params.images.should.eql ['1', '2', '3']
         end
       end
       
@@ -120,7 +129,7 @@ describe 'Express'
           utils.mergeParam('user[tj][images][]', '1', params)
           utils.mergeParam('user[tj][images][]', '2', params)
           utils.mergeParam('user[tj][images][]', '3', params)
-          params.user.should.eql { tj: { images: [1,2,3] }}
+          params.user.should.eql { tj: { images: ['1', '2', '3'] }}
         end
       end
     end
