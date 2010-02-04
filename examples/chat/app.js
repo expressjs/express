@@ -8,7 +8,7 @@ configure(function(){
       oneMinute = 60000
   use(MethodOverride)
   use(ContentLength)
-  use(CommonLogger)
+  use(Profiler)
   use(Cookie)
   use(Cache, { lifetime: fiveMinutes, reapInterval: oneMinute })
   use(Session, { lifetime: fiveMinutes, reapInterval: oneMinute })
