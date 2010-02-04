@@ -13,8 +13,6 @@ configure(function(){
   use(Cache, { lifetime: fiveMinutes, reapInterval: oneMinute })
   use(Session, { lifetime: fiveMinutes, reapInterval: oneMinute })
   set('root', __dirname)
-  enable('cache static files')
-  //enable('cache view contents')
 })
 
 var messages = [],
