@@ -104,6 +104,16 @@ describe 'Express'
           params.images.should.eql ['1', '2', '3']
         end
       end
+      
+      describe 'when nested'
+        it 'should marge correctly'
+          params = {}
+          utils.mergeParam('user[tj][images][]', '1', params)
+          utils.mergeParam('user[tj][images][]', '2', params)
+          utils.mergeParam('user[tj][images][]', '3', params)
+          params.user.should.eql { tj: { images: ['1', '2', '3'] }}
+        end
+      end
     end
     
   end
