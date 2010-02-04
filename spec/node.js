@@ -64,4 +64,5 @@ switch (process.ARGV[2]) {
     run([process.ARGV[2]])
 }
 
+Express.environment = 'test'
 JSpec.run({ reporter: JSpec.reporters.Terminal, failuresOnly: true }).report()
