@@ -68,5 +68,15 @@ describe 'Express'
         params.user.email.should.eql 'tj@vision-media.ca'
       end
     end
+    
+    describe 'key[number]'
+      it 'should work'
+        params = { images: { one: 'foo.png' }}
+        utils.mergeParam('images[0]', 'bar.png', params)
+        params.images.one.should.eql 'foo.png'
+        params.images[0].should.eql 'bar.png'
+      end
+    end
+    
   end
 end
