@@ -8,7 +8,6 @@ configure(function(){
   use(ContentLength)
   use(CommonLogger)
   set('root', __dirname)
-  enable('cache view contents')
 })
 
 get('/', function(){
