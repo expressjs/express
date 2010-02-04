@@ -69,6 +69,15 @@ describe 'Express'
       end
     end
     
+    describe 'with an object as value'
+      it 'should preserve it'
+        params = {}
+        utils.mergeParam('images[]', { name: '1' }, params)
+        utils.mergeParam('images[]', { name: '2' }, params)
+        params.images.should.eql [{ name: '1', name: '2' }]
+      end
+    end
+    
     describe 'key[number]'
       it 'should merge correctly'
         params = { images: { one: 'foo.png' }}
@@ -95,7 +104,7 @@ describe 'Express'
         end
       end
       
-      describe 'with an object'
+      describe 'with several merges'
         it 'should push values'
           params = {}
           utils.mergeParam('images[]', '1', params)
