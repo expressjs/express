@@ -74,7 +74,7 @@ describe 'Express'
         params = {}
         utils.mergeParam('images[]', { name: 1 }, params)
         utils.mergeParam('images[]', { name: 2 }, params)
-        params.images.should.eql [{ name: 1, name: 2 }]
+        params.images.should.eql [{ name: 1}, { name: 2 }]
       end
     end
     
