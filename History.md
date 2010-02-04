@@ -1,4 +1,17 @@
 
+0.2.0 / 2010-02-03
+==================
+
+  * Added parseParam() support for name[] etc. (allows for file inputs with "multiple" attr) Closes #180
+  * Added Both Cache and Session option "reapInterval" may be "reapEvery". Closes #174
+  * Added expiration support to cache api with reaper. Closes #133
+  * Added cache Store.Memory#reap()
+  * Added Cache; cache api now uses first class Cache instances
+  * Added abstract session Store. Closes #172
+  * Changed; cache Memory.Store#get() utilizing Collection
+  * Renamed MemoryStore -> Store.Memory
+  * Fixed use() of the same plugin several time will always use latest options. Closes #176
+
 0.1.0 / 2010-02-03
 ==================
 
