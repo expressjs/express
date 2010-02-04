@@ -106,15 +106,13 @@ describe 'Express'
     
     describe '#reap()'
       it 'should destroy caches older than the given age in milliseconds'
-        // memory.commit({ id: '1', lastAccess: Number(new Date) - 300 })
-        // memory.commit({ id: '2', lastAccess: Number(new Date) - 250 })
-        // memory.commit({ id: '3', lastAccess: Number(new Date) - 100 })
-        // memory.commit({ id: '4', lastAccess: Number(new Date) })
-        // memory.reap(200)
-        // memory.store.should.not.have_property '1'
-        // memory.store.should.not.have_property '2'
-        // memory.store.should.have_property '3'
-        // memory.store.should.have_property '4'
+        store.set('user:one', '1')
+        store.data['user:one'].created = Number(new Date) - 300
+        store.set('user:two', '2')
+        store.data['user:two'].created = Number(new Date) - 100
+        store.reap(200)
+        store.get('user:one').should.be_null
+        store.get('user:two').should.not.be_null
       end
     end
   end
