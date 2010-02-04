@@ -70,11 +70,39 @@ describe 'Express'
     end
     
     describe 'key[number]'
-      it 'should work'
+      it 'should merge correctly'
         params = { images: { one: 'foo.png' }}
         utils.mergeParam('images[0]', 'bar.png', params)
         params.images.one.should.eql 'foo.png'
         params.images[0].should.eql 'bar.png'
+      end
+    end
+    
+    describe 'key[]'
+      describe 'with empty params'
+        it 'should merge correctly'
+          params = {}
+          utils.mergeParam('images[]', '1', params)
+          params.images.should.eql ['1']
+        end
+      end
+      
+      describe 'with populated params'
+        it 'should convert to an array'
+          params = { images: 'foo.png'}
+          utils.mergeParam('images[]', '1', params)
+          params.images.should.eql ['foo.png', '1']
+        end
+      end
+      
+      describe 'with an object'
+        it 'should push values'
+          params = {}
+          utils.mergeParam('images[]', '1', params)
+          utils.mergeParam('images[]', '2', params)
+          utils.mergeParam('images[]', '3', params)
+          params.images.should.eql ['1', '2', '3']
+        end
       end
     end
     
