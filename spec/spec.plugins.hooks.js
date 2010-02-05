@@ -17,6 +17,15 @@ describe 'Express'
         get('/user', function(){})
         get('/user').body.should.eql 'foobar'
       end
+      
+      it 'should be able to halt the request'
+        GLOBAL.before(function(){
+          this.halt(404, 'woo!')
+        })
+        get('/user', function(){ return 'fail' })
+        get('/user').status.should.eql 404
+        get('/user').body.should.eql 'woo!'
+      end
     end
     
     describe 'after()'
