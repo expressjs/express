@@ -9,6 +9,7 @@ configure(function(){
   use(MethodOverride)
   use(ContentLength)
   use(CommonLogger)
+  use(Cookie)
   use(Cache, { lifetime: fiveMinutes, reapInterval: oneMinute })
   use(Session, { lifetime: fiveMinutes, reapInterval: oneMinute })
   set('root', __dirname)
