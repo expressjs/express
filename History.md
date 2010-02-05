@@ -1,4 +1,13 @@
 
+0.2.1 / 2010-02-05
+==================
+
+  * Added "plot" format option for Profiler (for gnuplot processing)
+  * Added request number to Profiler plugin
+  * Fixed binary encoding for multi-part file uploads, was previously defaulting to UTF8
+  * Fixed issue with routes not firing when not files are present. Closes #184
+  * Fixed process.Promise -> events.Promise
+
 0.2.0 / 2010-02-03
 ==================
 
