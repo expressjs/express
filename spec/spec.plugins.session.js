@@ -2,6 +2,7 @@
 describe 'Express'
   before_each
     reset()
+    use(require('express/plugins/cookie').Cookie)
     use(Session = require('express/plugins/session').Session)
     Session.store.clear()
   end
