@@ -3,6 +3,8 @@ describe 'Express'
   before_each
     reset()
     use(require('express/plugins/hooks').Hooks)
+    callbacks.before = []
+    callbacks.after = []
   end
   
   describe 'Hooks'
