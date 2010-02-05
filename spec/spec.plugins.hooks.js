@@ -2,9 +2,10 @@
 describe 'Express'
   before_each
     reset()
-    use(require('express/plugins/hooks').Hooks)
-    callbacks.before = []
-    callbacks.after = []
+    hooks = require('express/plugins/hooks')
+    use(hooks.Hooks)
+    hooks.callbacks.before = []
+    hooks.callbacks.after = []
   end
   
   describe 'Hooks'
