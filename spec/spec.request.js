@@ -58,6 +58,18 @@ describe 'Express'
           get('/user', { headers: { accept: null }}).body.should.eql 'true'
         end
       end
+      
+      describe 'should allow multiple arguments'
+        it 'should return true if any mime type is present'
+          get('/user', function(){ return this.accepts('jpeg', 'png').toString() })
+          get('/user', { headers: { accept: 'image/gif,image/png' }}).body.should.eql 'true'
+        end
+        
+        it 'should return false if none of the mime types are present'
+          get('/user', function(){ return this.accepts('jpeg', 'png').toString() })
+          get('/user', { headers: { accept: 'text/plain,text/html' }}).body.should.eql 'false'
+        end
+      end
     end
     
     describe '#halt()'
