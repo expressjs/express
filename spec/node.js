@@ -43,6 +43,7 @@ specs = {
     'plugins.hooks',
     'plugins.cookie',
     'plugins.session',
+    'plugins.flash',
     ],
   dependant: [
     'element-collection'
