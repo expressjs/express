@@ -57,3 +57,12 @@ form
     :float left
     :width 100%
     :margin-bottom 15px
+    
+.messages
+  :margin 0
+  :padding 0
+  :border 1px solid #eee
+  =box-shadow 2px 2px 5px #eee
+  li
+    :padding 5px 10px
+    :list-style none

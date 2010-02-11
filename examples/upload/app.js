@@ -7,6 +7,9 @@ configure(function(){
   use(MethodOverride)
   use(ContentLength)
   use(CommonLogger)
+  use(Cookie)
+  use(Session)
+  use(Flash)
   set('root', __dirname)
 })
 
@@ -15,12 +18,18 @@ get('/', function(){
 })
 
 get('/upload', function(){
-  this.render('upload.haml.html')
+  this.render('upload.haml.html', {
+    locals: {
+      flashes: this.flash('info')
+    }  
+  })
 })
 
 post('/upload', function(){
+  var self = this
   $(this.param('images')).each(function(image){
-    puts('uploaded ' + image.filename + ' to ' + image.tempfile)
+    puts(image.filename + ' -> ' + image.tempfile)
+    self.flash('info', 'Uploaded ' + image.filename)
   })
   this.redirect('/upload')
 })
