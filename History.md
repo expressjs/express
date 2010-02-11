@@ -1,4 +1,15 @@
 
+0.3.0 / 2010-02-11
+==================
+
+  * Updated haml / sass submodules. Closes #200
+  * Added flash message support. Closes #64
+  * Added accepts() now allows multiple args. fixes #117
+  * Added support for plugins to halt. Closes #189
+  * Added alternate layout support. Closes #119
+  * Removed Route#run(). Closes #188
+  * Fixed broken specs due to use(Cookie) missing
+
 0.2.1 / 2010-02-05
 ==================
 
