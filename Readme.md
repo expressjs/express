@@ -37,16 +37,10 @@ Or with the [gh](http://github.com/visionmedia/gh) utility:
 
 ## Performance
 
-  Extensive benchmarking will wait until a development version
-  has been released. 
+  Extensive performance enhancements have not yet been made,
+  since we are focusing on the framework it-self at the moment. 
   
-  Currently Express can chew through a request with a two Haml views (*page and layout*) 
-  requested **2000** times with concurrency of **80** in **2.4** seconds and **814**
-  requests per second. With no caching involved.
-  
-  An identical Sinatra application was served with the **Thin** HTTP server
-  and scored **8.3** seconds and **238** requests per second. In this situation
-  Express is currently **3.5** times faster than Sinatra.
+  However if you are interested view the premature [benchmarks for Express framework](http://vision-media.ca/resources/nodejs/express-nodejs-web-development-framework-performance).
 
 ## Examples
 
