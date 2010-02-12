@@ -1,4 +1,14 @@
 
+0.4.0 / 2010-02-11
+==================
+
+  * Added flash() example to sample upload app
+  * Added high level restful http client module (express/http)
+  * Changed; RESTful route functions double as HTTP clients. Closes #69
+  * Changed; throwing error when routes are added at runtime
+  * Changed; defaulting render() context to the current Request. Closes #197
+  * Updated haml submodule
+
 0.3.0 / 2010-02-11
 ==================
 
