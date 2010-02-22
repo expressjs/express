@@ -105,6 +105,7 @@ Express is currently being developed with node --version:
   * [JavaScript Extensions &amp; Utilities](http://github.com/visionmedia/ext.js)
   * [JavaScript Sass](http://github.com/visionmedia/sass.js)
   * [Scons Build System](http://www.scons.org/) (some development dependencies rely on this, ex libxmljs)
+  * Featured in [Advanced JavaScript e-book](http://www.dev-mag.com/2010/02/18/advanced-javascript/) for only $4
     
 ## Contributors
 
