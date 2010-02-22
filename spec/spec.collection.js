@@ -384,6 +384,7 @@ describe 'Express'
         var b = a.clone()
         a.should.not.equal b
         b.arr.should.eql [1,2,3]
+        b.arr.should.not.equal a.arr
       end
       
       it 'should clone an object collection'
@@ -391,6 +392,7 @@ describe 'Express'
         var b = a.clone()
         a.should.not.equal b
         b.arr.should.eql { foo: 'bar' }
+        b.arr.should.not.equal a.arr
       end
     end
     
