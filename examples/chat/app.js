@@ -15,8 +15,6 @@ configure(function(){
   set('root', __dirname)
 })
 
-require('express/http')
-
 var messages = [],
     utils = require('express/utils')
     
