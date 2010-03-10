@@ -17,7 +17,4 @@ app-chat:
 app-upload:
 	@$(NODE) examples/upload/app.js
 	
-benchmark:
-	@$(NODE) benchmarks/views.js
-	
-.PHONY: init test benchmark app
+.PHONY: init test app
