@@ -14,14 +14,13 @@
   * Session support
   * Mime helpers
   * Redirection helpers
-  * Nested parameter parsing
-  * Full test coverage
-  * Extremely readable specs
+  * Multipart file upload support
   * Test helpers (mock requests etc)
   * Environment based configuration
   * Light-weight JavaScript class implementation via js-oo
-  * Collections and chainable iterators
   * View support (ejs, haml, sass, etc)
+  * Full test coverage
+  * Extremely readable specs
   
 ## Installation
 
