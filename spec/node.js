@@ -22,7 +22,6 @@ specs = {
     'request',
     'mime',
     'static',
-    'collection',
     'plugins',
     'plugins.cache',
     'plugins.view',

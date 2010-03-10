@@ -7,3 +7,6 @@
 [submodule "lib/support/sass"]
 	path = lib/support/sass
 	url = git://github.com/visionmedia/sass.js.git
+[submodule "lib/support/ext"]
+	path = lib/support/ext
+	url = git://github.com/visionmedia/ext.js.git

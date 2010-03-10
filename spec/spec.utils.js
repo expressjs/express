@@ -55,8 +55,8 @@ describe 'Express'
     describe 'with empty params'
       it 'should merge the given key and value'
         params = {}
-        utils.mergeParam('user[names][first]', 'tj', params)
-        params.user.names.first.should.eql 'tj'
+        utils.mergeParam('user[names][firstName]', 'tj', params)
+        params.user.names.firstName.should.eql 'tj'
       end
     end
     
