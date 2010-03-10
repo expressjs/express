@@ -26,11 +26,10 @@ get('/upload', function(){
 })
 
 post('/upload', function(){  
-  var self = this;
-  $(this.param('images')).each(function(image){
+  this.param('images').each(function(image){
     puts(image.filename + ' -> ' + image.tempfile)
-    self.flash('info', 'Uploaded ' + image.filename)
-  })  
+    this.flash('info', 'Uploaded ' + image.filename)
+  }, this)
   this.redirect('/upload')
 })
 
