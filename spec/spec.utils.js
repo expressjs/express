@@ -4,21 +4,6 @@ describe 'Express'
     utils = require('express/utils')
   end
   
-  describe 'toArray()'
-    describe 'when given an array'
-      it 'should return the array'
-        utils.toArray([1,2,3]).should.eql [1,2,3]
-      end
-    end
-    
-    describe 'when given an object with indexed values and length'
-      it 'should return an array'
-        var args = -{ return arguments }('foo', 'bar')
-        utils.toArray(args).should.eql ['foo', 'bar']
-      end
-    end
-  end
-  
   describe 'escape()'
     it 'should escape html'
       utils.escape('<p>this & that').should.eql '&lt;p&gt;this &amp; that'
