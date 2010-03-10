@@ -18,7 +18,6 @@ app-upload:
 	@$(NODE) examples/upload/app.js
 	
 benchmark:
-	@$(NODE) benchmarks/collection.js
 	@$(NODE) benchmarks/views.js
 	
 .PHONY: init test benchmark app
