@@ -14,14 +14,13 @@
   * Session support
   * Mime helpers
   * Redirection helpers
-  * Nested parameter parsing
-  * Full test coverage
-  * Extremely readable specs
+  * Multipart file upload support
   * Test helpers (mock requests etc)
   * Environment based configuration
   * Light-weight JavaScript class implementation via js-oo
-  * Collections and chainable iterators
   * View support (ejs, haml, sass, etc)
+  * Full test coverage
+  * Extremely readable specs
   
 ## Installation
 
@@ -71,23 +70,15 @@ Below is a minimal app example when express is already within your load path.
   
 ## Running Tests
 
+First we need to ensure all submodules are updated:
+    
+    $ make init
+
 Express uses the [JSpec](http://jspec.info) BDD JavaScript testing
 framework to write and run elegant spec suites. JSpec is frozen 
 to spec/lib and does not require separate installation.
 
-To run all specifications run the following command. This will ensure
-git submodules are initialized and updated, as well as building test
-related dependencies such as libxmljs.
-
     $ make test
-    
-To run independent specs (which do not require building of external apis etc) use:
-
-    $ make test-independant
-    
-To run dependent specs (which require building of external apis etc) use:
-
-    $ make test-dependant
     
 Run individual suites:
 

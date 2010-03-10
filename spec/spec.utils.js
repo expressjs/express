@@ -4,21 +4,6 @@ describe 'Express'
     utils = require('express/utils')
   end
   
-  describe 'toArray()'
-    describe 'when given an array'
-      it 'should return the array'
-        utils.toArray([1,2,3]).should.eql [1,2,3]
-      end
-    end
-    
-    describe 'when given an object with indexed values and length'
-      it 'should return an array'
-        var args = -{ return arguments }('foo', 'bar')
-        utils.toArray(args).should.eql ['foo', 'bar']
-      end
-    end
-  end
-  
   describe 'escape()'
     it 'should escape html'
       utils.escape('<p>this & that').should.eql '&lt;p&gt;this &amp; that'
@@ -32,31 +17,12 @@ describe 'Express'
     end
   end
   
-  describe 'extname()'
-    it 'should return the a files extension'
-      utils.extname('image.png').should.eql 'png'
-      utils.extname('image.large.png').should.eql 'png'
-      utils.extname('/path/to/image.large.png').should.eql 'png'
-    end
-    
-    it 'should return null when not found'
-      utils.extname('path').should.be_null
-      utils.extname('/just/a/path').should.be_null
-    end
-  end
-  
-  describe 'basename()'
-    it 'should return a files basename'
-      utils.basename('foo/bar/baz.image.png').should.eql 'baz.image.png'
-    end
-  end
-  
   describe 'mergeParam()'
     describe 'with empty params'
       it 'should merge the given key and value'
         params = {}
-        utils.mergeParam('user[names][first]', 'tj', params)
-        params.user.names.first.should.eql 'tj'
+        utils.mergeParam('user[names][firstName]', 'tj', params)
+        params.user.names.firstName.should.eql 'tj'
       end
     end
     

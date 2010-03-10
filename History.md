@@ -1,4 +1,16 @@
 
+0.5.0 / 2010-03-10
+==================
+
+  * Added ext dependency (library of js extensions)
+  * Removed extname() / basename() utils. Use path module
+  * Removed toArray() util. Use arguments.values
+  * Removed escapeRegexp() util. Use RegExp.escape()
+  * Removed process.mixin() dependency. Use utils.mixin()
+  * Removed Collection
+  * Removed ElementCollection
+  * Shameless self promotion of ebook "Advanced JavaScript" (http://dev-mag.com)  ;)
+
 0.4.0 / 2010-02-11
 ==================
 

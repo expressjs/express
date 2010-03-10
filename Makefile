@@ -6,7 +6,7 @@ all: test
 init:
 	@git submodule init && git submodule update
 
-test: init
+test:
 	@$(NODE) spec/node.js all
 	
 app: app-chat
@@ -17,8 +17,4 @@ app-chat:
 app-upload:
 	@$(NODE) examples/upload/app.js
 	
-benchmark:
-	@$(NODE) benchmarks/collection.js
-	@$(NODE) benchmarks/views.js
-	
-.PHONY: init test benchmark app
+.PHONY: init test app
