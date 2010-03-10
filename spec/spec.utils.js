@@ -17,25 +17,6 @@ describe 'Express'
     end
   end
   
-  describe 'extname()'
-    it 'should return the a files extension'
-      utils.extname('image.png').should.eql 'png'
-      utils.extname('image.large.png').should.eql 'png'
-      utils.extname('/path/to/image.large.png').should.eql 'png'
-    end
-    
-    it 'should return null when not found'
-      utils.extname('path').should.be_null
-      utils.extname('/just/a/path').should.be_null
-    end
-  end
-  
-  describe 'basename()'
-    it 'should return a files basename'
-      utils.basename('foo/bar/baz.image.png').should.eql 'baz.image.png'
-    end
-  end
-  
   describe 'mergeParam()'
     describe 'with empty params'
       it 'should merge the given key and value'
