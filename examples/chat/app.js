@@ -16,7 +16,8 @@ configure(function(){
 })
 
 var messages = [],
-    utils = require('express/utils')
+    utils = require('express/utils'),
+    http = require('express/http')
     
 get('/', function(){
   this.redirect('/chat')
