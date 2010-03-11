@@ -24,14 +24,10 @@
   
 ## Installation
 
-Currently Express must be cloned (or downloaded), you can use the following command to
-get rolling and initialize the submodule dependencies:
-
-    $ git clone git://github.com/visionmedia/express.git && cd express && git submodule update --init && make app
-    
-Or with the [gh](http://github.com/visionmedia/gh) utility:
-
-    $ gh clone visionmedia express && cd express && git submodule update --init && make app
+  Install the [Kiwi package manager for nodejs](http://github.com/visionmedia/kiwi)
+  and run:
+  
+      $ kiwi -v install express
 
 ## Performance
 
