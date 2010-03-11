@@ -38,7 +38,7 @@
 
 ## Examples
 
-Below is a tiny Express application. View the [[Wiki]](http://wiki.github.com/visionmedia/express/) for detailed information.
+Below is a tiny Express application. View the [Wiki](http://wiki.github.com/visionmedia/express/) for detailed information.
 
     var kiwi = require('kiwi'),
        express = kiwi.require('express')
