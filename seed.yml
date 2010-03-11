@@ -5,3 +5,5 @@
   dependencies:
     - ext >= 0.2.1
     - oo >= 1.2.0
+    - sass >= 0.3.0
+    - haml >= 0.1.2
