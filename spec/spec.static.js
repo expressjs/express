@@ -14,7 +14,8 @@ describe 'Express'
         // TODO: use throw_error when fixed...
         try { new StaticFile('/../foobar') }
         catch (e) {
-          e.should.be_an_instance_of InvalidPathError
+          e.name.should.eql 'InvalidPathError'
+          e.message.should.eql "`/../foobar' is not a valid path"
         }
       end
     end
