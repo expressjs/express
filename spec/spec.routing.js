@@ -84,19 +84,6 @@ describe 'Express'
       end
     end
     
-    describe 'with no response body'
-      it 'should throw a InvalidResponseBody'
-        // TODO: use throw_error when fixed...
-        get('/user', function(){
-          this.respond()
-        })
-        try { get('/user') }
-        catch (e) {
-          e.should.be_an_instance_of InvalidResponseBody
-        }
-      end
-    end
-    
     describe 'with regular expression'
       it 'should match'
         get(/^\/user\/(\d+)\/(\w+)/, function(id, operation){

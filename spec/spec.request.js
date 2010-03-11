@@ -107,18 +107,6 @@ describe 'Express'
           get('/user').body.should.include('Oh noes!')
         end
       end
-
-      describe 'when given an invalid status code'
-        it 'should throw an InvalidStatusCode exception'
-          // TODO: use throw_error when fixed...
-          get('/user', function(){ this.halt(123123) })
-          try { get('/user') }
-          catch (e) {
-            e.should.be_an_instance_of ExpressError
-            e.should.be_an_instance_of InvalidStatusCode
-          }
-        end
-      end
     end
 
     describe '#contentType()'
