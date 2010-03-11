@@ -38,30 +38,16 @@
 
 ## Examples
 
-Below is a minimal app example when express is already within your load path.
+Below is a tiny Express application. View the [[Wiki]](http://wiki.github.com/visionmedia/express/) for detailed information.
 
-    require('express')
-    require('express/plugins')
-    
-    configure(function(){
-      use(MethodOverride)
-      use(ContentLength)
-      set('root', __dirname)
-    })
-    
-    get('/hello', function(){
+    var kiwi = require('kiwi'),
+       express = kiwi.require('express')
+
+    get('/hello-world', function(){
       this.contentType('html')
-      return '<h1>World<h1>'
+      return '<h1>Hello World</h1>'
     })
-    
-    get('/user/:id?', function(id) {
-      this.render('user.haml.html', {
-        locals: {
-          name: id ? 'User ' + id : 'You' 
-        }
-      })
-    })
-    
+
     run()
   
 ## Running Tests
