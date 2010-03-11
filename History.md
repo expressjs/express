@@ -1,4 +1,21 @@
 
+0.6.0 / 2010-03-11
+==================
+
+  * Added seed.yml for kiwi package management support
+  * Added HTTP client query string support when method is GET. Closes #205
+  
+  * Added support for arbitrary view engines.
+    For example "foo.engine.html" will now require('engine'),
+    the exports from this module are cached after the first require().
+    
+  * Added async plugin support
+  
+  * Removed usage of RESTful route funcs as http client
+    get() etc, use http.get() and friends
+  
+  * Removed custom exceptions
+
 0.5.0 / 2010-03-10
 ==================
 

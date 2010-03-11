@@ -70,13 +70,9 @@ Below is a minimal app example when express is already within your load path.
   
 ## Running Tests
 
-First we need to ensure all submodules are updated:
-    
-    $ make init
-
 Express uses the [JSpec](http://jspec.info) BDD JavaScript testing
 framework to write and run elegant spec suites. JSpec is frozen 
-to spec/lib and does not require separate installation.
+to spec/lib and **does not** require separate installation.
 
     $ make test
     

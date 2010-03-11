@@ -3,9 +3,6 @@ NODE = node
 
 all: test
 
-init:
-	@git submodule init && git submodule update
-
 test:
 	@$(NODE) spec/node.js all
 	
@@ -17,4 +14,4 @@ app-chat:
 app-upload:
 	@$(NODE) examples/upload/app.js
 	
-.PHONY: init test app
+.PHONY: test app
