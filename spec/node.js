@@ -25,7 +25,6 @@ specs = {
     'plugins',
     'plugins.cache',
     'plugins.view',
-    'plugins.common-logger',
     'plugins.content-length',
     'plugins.method-override',
     'plugins.body-decoder',
