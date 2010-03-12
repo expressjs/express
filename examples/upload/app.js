@@ -10,7 +10,7 @@ configure(function(){
   kiwi.seed('sass')
   use(MethodOverride)
   use(ContentLength)
-  use(CommonLogger)
+  use(Logger)
   use(Cookie)
   use(Session)
   use(Flash)
