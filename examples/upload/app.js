@@ -10,10 +10,10 @@ configure(function(){
   kiwi.seed('sass')
   use(MethodOverride)
   use(ContentLength)
-  use(Logger)
   use(Cookie)
   use(Session)
   use(Flash)
+  use(Logger)
   set('root', __dirname)
 })
 
