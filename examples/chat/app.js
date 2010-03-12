@@ -17,7 +17,7 @@ configure(function(){
   use(Cookie)
   use(Cache, { lifetime: fiveMinutes, reapInterval: oneMinute })
   use(Session, { lifetime: fiveMinutes, reapInterval: oneMinute })
-  use(Logger)
+  use(Logger, { format: 'combined' })
   set('root', __dirname)
 })
 
