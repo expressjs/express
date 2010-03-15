@@ -22,7 +22,7 @@ configure(function(){
 })
 
 get('/', function(){
-  this.redirect('/chat')
+  this.pass('/chat')
 })
 
 get('/chat', function(){
