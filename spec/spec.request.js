@@ -202,16 +202,29 @@ describe 'Express'
     
     describe '#pass()'
       it 'should pass control to the next matching route'
-        get('/user', function () { 
+        get('/user', function(){ 
           this.pass()
         })
-        get('/user', function () { 
+        get('/user', function(){
           this.pass()
           return 'nodejs'
         })
-        get('/user', function () { return 'success'})
+        get('/user', function(){ return 'success'})
         get('/user').body.should.eql 'success'
       end
-    end    
+      
+      describe 'given a string'
+        it 'should pass to the given route'
+          get('/user', function(){
+            this.pass('/user/1')
+          })
+          get('/user/:id', function(){
+            return 'Supa doopa usa'
+          })
+          get('/user').body.should.eql 'Supa doopa usa'
+        end
+      end
+    end
+        
   end
 end
