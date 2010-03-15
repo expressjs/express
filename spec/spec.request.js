@@ -198,6 +198,20 @@ describe 'Express'
         })
         get('/public/app.js').body.should.eql 'public, app, js'
       end
+    end
+    
+    describe '#pass()'
+      it 'should pass control to the next matching route'
+        get('/user', function () { 
+          this.pass()
+        })
+        get('/user', function () { 
+          this.pass()
+          return 'nodejs'
+        })
+        get('/user', function () { return 'success'})
+        get('/user').body.should.eql 'success'
+      end
     end    
   end
 end
