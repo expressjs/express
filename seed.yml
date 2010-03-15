@@ -1,7 +1,7 @@
 ---
   name: Express
   description: Sinatra inspired web development framework
-  version: 0.6.0
+  version: 0.7.0
   dependencies:
     - ext >= 0.2.2
     - oo >= 1.2.0

@@ -1,4 +1,12 @@
 
+0.7.0 / 2010-03-15
+==================
+
+  * Added Request#pass() support (finds the next matching route, or the given path)
+  * Added Logger plugin (default "common" format replaces CommonLogger)
+  * Removed Profiler plugin
+  * Removed CommonLogger plugin
+
 0.6.0 / 2010-03-11
 ==================
 
