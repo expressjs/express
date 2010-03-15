@@ -42,15 +42,25 @@ Below is a tiny Express application. View the [Wiki](http://wiki.github.com/visi
 
     var kiwi = require('kiwi'),
        express = kiwi.require('express')
-
-    get('/', function(){
-      this.pass('/hello-world')
-      // or this.redirect('/hello-world')
+       
+    configure(function(){
+      // push "haml" and "sass" to node's load path, so
+      // that the View engine can require() them
+      kiwi.seed('haml')
+      kiwi.seed('sass')
     })
 
-    get('/hello-world', function(){
-      this.contentType('html')
-      return '<h1>Hello World</h1>'
+    get('/user', function(){
+      this.redirect('/user/' + this.currentUser.id)
+    })
+    
+    get('/user/:id', function(id){
+      this.render('user.haml.html', {
+        locals: {
+          user: this.currentUser,
+          usersOnline: Session.store.length()
+        }
+      })
     })
 
     run()
