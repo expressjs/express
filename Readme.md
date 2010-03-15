@@ -64,6 +64,13 @@ Below is a tiny Express application. View the [Wiki](http://wiki.github.com/visi
     })
 
     run()
+    
+If you do wish to use **haml**, **sass** or other template engines
+install kiwi and run:
+
+    $ kiwi install haml
+    $ kiwi install sass
+    ...
   
 ## Running Tests
 
