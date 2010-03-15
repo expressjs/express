@@ -3,7 +3,7 @@
   description: Sinatra inspired web development framework
   version: 0.7.0
   dependencies:
-    - ext >= 0.2.2
+    - ext >= 0.2.3
     - oo >= 1.2.0
     - sass >= 0.3.0
     - haml >= 0.1.2
