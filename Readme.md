@@ -43,6 +43,11 @@ Below is a tiny Express application. View the [Wiki](http://wiki.github.com/visi
     var kiwi = require('kiwi'),
        express = kiwi.require('express')
 
+    get('/', function(){
+      this.pass('/hello-world')
+      // or this.redirect('/hello-world')
+    })
+
     get('/hello-world', function(){
       this.contentType('html')
       return '<h1>Hello World</h1>'
