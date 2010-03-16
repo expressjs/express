@@ -46,6 +46,7 @@ or
 
 Below is a tiny Express application. View the [Wiki](http://wiki.github.com/visionmedia/express/) for detailed information.
 
+    require.paths.unshift('express/lib')
     require('express')
     
     get('/user', function(){
