@@ -1,0 +1,12 @@
+[submodule "support/oo"]
+	path = support/oo
+	url = git://github.com/visionmedia/js-oo.git
+[submodule "support/ext"]
+	path = support/ext
+	url = git://github.com/visionmedia/ext.js.git
+[submodule "support/sass"]
+	path = support/sass
+	url = git://github.com/visionmedia/sass.js.git
+[submodule "support/haml"]
+	path = support/haml
+	url = git://github.com/creationix/haml-js.git
