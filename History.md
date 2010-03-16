@@ -1,4 +1,10 @@
 
+0.7.3 / 2010-03-16
+==================
+
+  * Added package.json
+  * Fixed requiring of haml / sass due to kiwi removal
+
 0.7.2 / 2010-03-16
 ==================
 

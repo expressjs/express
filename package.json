@@ -1,7 +1,7 @@
 {
   "name": "Express",
   "description": "Sinatra inspired web development framework",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "directories": {
     "lib": "lib"
