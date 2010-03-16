@@ -28,6 +28,12 @@
   and run:
   
       $ kiwi -v install express
+      
+or
+
+  Install via git clone:
+  
+      $ git://github.com/visionmedia/express.git && cd express && git submodule update
 
 ## Performance
 
@@ -40,16 +46,8 @@
 
 Below is a tiny Express application. View the [Wiki](http://wiki.github.com/visionmedia/express/) for detailed information.
 
-    var kiwi = require('kiwi'),
-       express = kiwi.require('express')
-       
-    configure(function(){
-      // push "haml" and "sass" to node's load path, so
-      // that the View engine can require() them
-      kiwi.seed('haml')
-      kiwi.seed('sass')
-    })
-
+    require('express')
+    
     get('/user', function(){
       this.redirect('/user/' + this.currentUser.id)
     })
