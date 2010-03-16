@@ -4,12 +4,9 @@ require('express')
 require('express/plugins')
 
 var messages = [],
-    utils = require('express/utils'),
-    kiwi = require('kiwi')
-
+    utils = require('express/utils')
+    
 configure(function(){
-  kiwi.seed('haml')
-  kiwi.seed('sass')
   use(MethodOverride)
   use(ContentLength)
   use(Cookie)
