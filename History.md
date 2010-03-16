@@ -1,4 +1,10 @@
 
+0.7.1 / 2010-03-16
+==================
+
+  * Changed; Express now using submodules again until a PM is adopted
+  * Changed; chat example using millisecond conversions from ext
+
 0.7.0 / 2010-03-15
 ==================
 
