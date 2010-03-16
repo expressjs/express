@@ -1,4 +1,10 @@
 
+0.7.4 / 2010-03-16
+==================
+
+  * Fixed session reaper
+  * Changed; class.js replacing js-oo Class implementation (quite a bit faster, no browser cruft)
+
 0.7.3 / 2010-03-16
 ==================
 
