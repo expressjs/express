@@ -1,4 +1,10 @@
 
+0.7.5 / 2010-03-16
+==================
+
+  * Added Request#flash() support without args, now returns all flashes
+  * Updated ext submodule
+
 0.7.4 / 2010-03-16
 ==================
 
