@@ -14,7 +14,6 @@
   * Session support
   * Cache API
   * RESTful HTTP client
-  * View support
   * Mime helpers
   * Redirection helpers
   * Multipart file upload support
