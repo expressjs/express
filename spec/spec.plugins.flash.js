@@ -9,7 +9,7 @@ describe 'Express'
   end
   
   describe 'Flash'
-    describe 'flash()'
+    describe '#flash()'
       describe 'given a type and msg'
         it 'should push a flash message'
           var headers = { headers: { cookie: 'sid=123' }}
