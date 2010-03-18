@@ -39,6 +39,23 @@ describe 'Express'
       end
     end
     
+    describe '#isXHR'
+      it 'should return false unless X-Requested-With is "XMLHttpRequest"'
+        get('/', function(){ return this.isXHR ? 'yay' : 'nope' })
+        get('/').body.should.eql 'nope'
+      end
+      
+      it 'should return true when X-Requested-With is "XMLHttpRequest"'
+        get('/', function(){ return this.isXHR ? 'yay' : 'nope' })
+        get('/', { headers: { 'x-requested-with': 'XMLHttpRequest' }}).body.should.eql 'yay'
+      end
+      
+      it 'should be case insensitive'
+        get('/', function(){ return this.isXHR ? 'yay' : 'nope' })
+        get('/', { headers: { 'x-requested-with': 'xmlhttprequest' }}).body.should.eql 'yay'
+      end
+    end
+    
     describe '#accepts()'
       describe 'when the Accept header is present'
         it 'should return true if the mime type is acceptable'

@@ -39,7 +39,7 @@ or
 
   Install via git clone:
   
-      $ git://github.com/visionmedia/express.git && cd express && git submodule update --init
+      $ git clone git://github.com/visionmedia/express.git && cd express && git submodule update --init
 
 ## Performance
 
