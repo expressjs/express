@@ -80,7 +80,7 @@ describe 'Express'
               this.render('hello.haml.html')
             })
             get('/cached', function(){
-              return this.cache.get('spec/fixtures/hello.haml.html') ? 'yes' : 'no'
+              return this.cache.get('view:spec/fixtures/hello.haml.html') ? 'yes' : 'no'
             })
             get('/cached').body.should.eql 'no'
             get('/')
