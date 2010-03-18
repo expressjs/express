@@ -1,0 +1,63 @@
+#!/usr/bin/env node
+
+var arg,
+    dir = '.',
+    fs = require('fs'),
+    sys = require('sys'),
+    args = process.argv.slice(2)
+
+// Parse arguments
+
+while (arg = args.shift())
+  switch (arg) {
+    case '-h':
+    case '--help':
+     sys.print('Usage: express [options] [dir]\n')
+     break
+    default:
+      dir = arg
+  }
+  
+// Helpers
+
+function confirm(msg, fn) {
+  sys.print(msg)
+  process.stdio.open()
+  process.stdio.addListener('data', function(chunk){
+    switch (chunk.trim().toLowerCase()) {
+      case 'yes':
+      case 'y':
+        return process.stdio.close(),
+               fn(true)
+      case 'no':
+      case 'n':
+        return process.stdio.close(),
+               fn(false)
+      default:
+        sys.print(msg)
+    }
+  })
+}
+
+function createTemplateIn(dir, mode) {
+  fs.writeFile(dir + '/app.js', '// your app here')
+  fs.mkdir(dir + '/views', mode)
+  fs.mkdir(dir + '/public', mode, function(err){
+    if (err) throw err
+    fs.mkdir(dir + '/public/javascripts', mode)
+    fs.mkdir(dir + '/public/stylesheets', mode)
+    fs.mkdir(dir + '/public/images', mode)
+  })
+}
+
+// Setup template
+
+fs.readdir(dir, function(err, files){
+  if (err) throw err
+  if (files.length)
+    confirm(dir + ' is not empty, continue? ', function(ok){
+      if (ok) createTemplateIn(dir, 0666)
+    })
+  else
+    createTemplateIn(dir, 0666)
+})
