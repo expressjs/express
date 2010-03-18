@@ -51,7 +51,7 @@ describe 'Express'
             this.sendfile('spec/fixtures/' + file)
           })
           get('/cached', function(){
-            return this.cache.get('spec/fixtures/user.json') ? 'yes' : 'no'
+            return this.cache.get('static:spec/fixtures/user.json') ? 'yes' : 'no'
           })
           get('/cached').body.should.eql 'no'
           get('/public/user.json').body.should.include '"name":'
