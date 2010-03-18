@@ -12,6 +12,7 @@ configure(function(){
   use(Cookie)
   use(Cache, { lifetime: (5).minutes, reapInterval: (1).minute })
   use(Session, { lifetime: (15).minutes, reapInterval: (1).minute })
+  use(Static)
   use(Logger)
   set('root', __dirname)
 })
@@ -50,10 +51,6 @@ get('/chat/messages', function(){
       self.halt(200, JSON.encode(messages)),
       clearInterval(timer)
   }, 100)
-})
-
-get('/public/*', function(file){
-  this.sendfile(__dirname + '/public/' + file)
 })
 
 get('/*.css', function(file){

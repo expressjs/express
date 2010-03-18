@@ -21,7 +21,6 @@ specs = {
     'utils',
     'request',
     'mime',
-    'static',
     'plugins',
     'plugins.cache',
     'plugins.view',
@@ -33,6 +32,7 @@ specs = {
     'plugins.cookie',
     'plugins.session',
     'plugins.flash',
+    'plugins.static',
     ]
 }
 

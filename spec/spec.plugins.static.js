@@ -2,7 +2,8 @@
 describe 'Express'
   describe 'StaticFile'
     before
-      StaticFile = require('express/static').File
+      StaticFile = require('express/plugins/static').File
+      use(require('express/plugins/static').Static, { path: 'spec/fixtures' })
     end
     
     describe '#constructor'
@@ -17,6 +18,12 @@ describe 'Express'
           e.name.should.eql 'InvalidPathError'
           e.message.should.eql "`/../foobar' is not a valid path"
         }
+      end
+    end
+    
+    describe 'GET /public/*'
+      it 'should transfer static files'
+        get('/public/user.json').body.should.include '"name":'
       end
     end
     
