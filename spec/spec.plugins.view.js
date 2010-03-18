@@ -122,6 +122,19 @@ describe 'Express'
           end
         end
         
+        describe 'when context is passed'
+          it 'should evaluate in context to that object'
+            get('/article', function(){
+              this.render('article.haml.html', {
+                context: {
+                  name: 'Writing a Node.js Web Application'
+                }
+              })
+            })
+            get('/article').body.should.include '<h2>Writing a Node.js Web Application'
+          end
+        end
+        
       end
       
     end
