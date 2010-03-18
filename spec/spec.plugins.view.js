@@ -57,6 +57,23 @@ describe 'Express'
           end
         end
         
+        describe 'when "cache view contents" is enabled'
+          it 'should read the views into memory only once'
+            enable('cache view contents')
+            get('/', function(){
+              this.render('hello.haml.html')
+            })
+            get('/cached', function(){
+              return this.cache.get('spec/fixtures/hello.haml.html') ? 'yes' : 'no'
+            })
+            get('/cached').body.should.eql 'no'
+            get('/')
+            get('/cached').body.should.eql 'yes'
+            get('/')
+            get('/cached').body.should.eql 'yes'
+          end
+        end
+        
       end
       
     end
