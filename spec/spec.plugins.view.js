@@ -83,6 +83,21 @@ describe 'Express'
           end
         end
         
+        describe 'when locals are passed'
+          it 'should have direct access to locals'
+            get('/user', function(){
+              this.render('user.haml.html', {
+                locals: {
+                  name: 'tj',
+                  email: 'tj@vision-media.ca'
+                }
+              })
+            })
+            get('/').should.include '<h1>tj</h1>'
+            get('/').should.include '<p>tj@vision-media.ca</p>'
+          end
+        end
+        
       end
       
     end
