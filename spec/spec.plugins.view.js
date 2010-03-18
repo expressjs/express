@@ -19,7 +19,7 @@ describe 'Express'
       
       describe 'given a valid view name'
         describe 'and layout of the same type exists'
-          it 'should render the view'
+          it 'should render the layout and view'
             get('/', function(){
               this.render('hello.haml.html')
             })
@@ -34,6 +34,16 @@ describe 'Express'
               this.render('hello.haml.html', { layout: 'front' })
             })
             -{ get('/') }.should.throw_error 'No such file or directory'
+          end
+        end
+        
+        describe 'given a custom layout name'
+          it 'should render the layout and view'
+            get('/', function(){
+              this.render('hello.haml.html', { layout: 'page' })
+            })
+            get('/').body.should.include '<title>Express'
+            get('/').body.should.include '<h2>Hello'
           end
         end
       end
