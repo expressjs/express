@@ -39,6 +39,17 @@ function confirm(msg, fn) {
   })
 }
 
+function createTemplateIn(dir, mode) {
+  fs.writeFile(dir + '/app.js', '// your app here')
+  fs.mkdir(dir + '/views', mode)
+  fs.mkdir(dir + '/public', mode, function(err){
+    if (err) throw err
+    fs.mkdir(dir + '/public/javascripts', mode)
+    fs.mkdir(dir + '/public/stylesheets', mode)
+    fs.mkdir(dir + '/public/images', mode)
+  })
+}
+
 // Setup template
 
 fs.readdir(dir, function(err, files){
@@ -50,14 +61,3 @@ fs.readdir(dir, function(err, files){
   else
     createTemplateIn(dir, 0666)
 })
-
-function createTemplateIn(dir, mode) {
-  fs.writeFile(dir + '/app.js', 'test')
-  fs.mkdir(dir + '/views', mode)
-  fs.mkdir(dir + '/public', mode, function(err){
-    if (err) throw err
-    fs.mkdir(dir + '/public/javascripts', mode)
-    fs.mkdir(dir + '/public/stylesheets', mode)
-    fs.mkdir(dir + '/public/images', mode)
-  })
-}
