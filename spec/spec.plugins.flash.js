@@ -13,7 +13,7 @@ describe 'Express'
       describe 'given a type and msg'
         it 'should push a flash message'
           var headers = { headers: { cookie: 'sid=123' }}
-          post('/', function(){ return this.flash('info', 'email sent') })
+          post('/', function(){ return this.flash('info', 'emil sent') })
           get('/', function(){ return this.flash('info').join(', ') })
           post('/', headers)
           post('/', headers)
