@@ -74,6 +74,15 @@ describe 'Express'
           end
         end
         
+        describe 'when engine cannot be found'
+          it 'should throw an error'
+            get('/', function(){
+              this.render('user.invalid.html')
+            })
+            -{ get('/') }.should.throw_error "Cannot find module 'invalid'"
+          end
+        end
+        
       end
       
     end
