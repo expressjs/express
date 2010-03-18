@@ -10,6 +10,7 @@ configure(function(){
   use(Session)
   use(Flash)
   use(Logger)
+  use(Static)
   set('root', __dirname)
 })
 
@@ -31,10 +32,6 @@ post('/upload', function(){
     this.flash('info', 'Uploaded ' + image.filename)
   }, this)
   this.redirect('/upload')
-})
-
-get('/public/*', function(file){
-  this.sendfile(__dirname + '/public/' + file)
 })
 
 get('/*.css', function(file){
