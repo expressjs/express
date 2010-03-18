@@ -109,8 +109,8 @@ describe 'Express'
                 }
               })
             })
-            get('/').should.include '<h1>tj</h1>'
-            get('/').should.include '<p>tj@vision-media.ca</p>'
+            get('/user').body.should.include '<h1>tj'
+            get('/user').body.should.include '<p>tj@vision-media.ca'
           end
           
           it 'should have direct access to locals within the layout'
@@ -123,9 +123,9 @@ describe 'Express'
                 }
               })
             })
-            get('/').should.include '<title>Viewing tj'
-            get('/').should.include '<h1>tj</h1>'
-            get('/').should.include '<p>tj@vision-media.ca</p>'
+            get('/user').body.should.include '<title>Viewing tj'
+            get('/user').body.should.include '<h1>tj'
+            get('/user').body.should.include '<p>tj@vision-media.ca'
           end
         end
         
