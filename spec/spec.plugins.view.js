@@ -26,6 +26,14 @@ describe 'Express'
             get('/').body.should.include '<html><body>'
             get('/').body.should.include '<h2>Hello'
           end
+          
+          it 'should default context to the current request'
+            get('/', function(){
+              this.title = 'Welcome'
+              this.render('page.haml.html', { layout: false })
+            })
+            get('/').body.should.include '<title>Welcome'
+          end
         end
         
         describe 'and layout of the same type does not exist'
@@ -40,6 +48,7 @@ describe 'Express'
         describe 'given a custom layout name'
           it 'should render the layout and view'
             get('/', function(){
+              this.title = 'Express'
               this.render('hello.haml.html', { layout: 'page' })
             })
             get('/').body.should.include '<title>Express'
