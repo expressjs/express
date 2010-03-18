@@ -96,6 +96,21 @@ describe 'Express'
             get('/').should.include '<h1>tj</h1>'
             get('/').should.include '<p>tj@vision-media.ca</p>'
           end
+          
+          it 'should have direct access to locals within the layout'
+            get('/user', function(){
+              this.render('user.haml.html', {
+                layout: 'layout.user',
+                locals: {
+                  name: 'tj',
+                  email: 'tj@vision-media.ca'
+                }
+              })
+            })
+            get('/').should.include '<title>Viewing tj'
+            get('/').should.include '<h1>tj</h1>'
+            get('/').should.include '<p>tj@vision-media.ca</p>'
+          end
         end
         
       end
