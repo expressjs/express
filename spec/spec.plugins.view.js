@@ -46,6 +46,17 @@ describe 'Express'
             get('/').body.should.include '<h2>Hello'
           end
         end
+        
+        describe 'when layout: false'
+          it 'should render the view only'
+            get('/', function(){
+              this.render('hello.haml.html', { layout: false })
+            })
+            get('/').body.should.not.include '<body>'
+            get('/').body.should.include '<h2>Hello'
+          end
+        end
+        
       end
       
     end
