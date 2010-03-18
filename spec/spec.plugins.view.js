@@ -34,6 +34,13 @@ describe 'Express'
             })
             get('/').body.should.include '<title>Welcome'
           end
+          
+          it 'should set the content type based on the last path segment'
+            get('/', function(){
+              this.render('hello.haml.html')
+            })
+            get('/').headers['content-type'].should.eql 'text/html'
+          end
         end
         
         describe 'and layout of the same type does not exist'
