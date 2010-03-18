@@ -2,7 +2,8 @@
 describe 'Express'
   describe 'StaticFile'
     before
-      StaticFile = require('express/static').File
+      StaticFile = require('express/plugins/static').File
+      use(require('express/plugins/static').Static)
     end
     
     describe '#constructor'
