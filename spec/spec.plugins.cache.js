@@ -33,18 +33,25 @@ describe 'Express'
     describe '#set()'
       describe 'given a key and value'
         it 'should set the cache data'
-          store.set('foo', 'bar')
-          store.get('foo').should.eql 'bar'
+          var result
+          store.set('foo', 'bar', function(){
+            store.get('foo', function(val){
+              result = val
+            })
+          })
+          result.should.eql 'bar'
         end
         
         it 'should override existing data'
-          store.set('foo', 'bar')
-          store.set('foo', 'baz')
-          store.get('foo').should.eql 'baz'
-        end
-        
-        it 'should return data'
-          store.set('foo', 'bar').should.eql 'bar'
+          var result
+          store.set('foo', 'bar', function(){
+            store.set('foo', 'baz', function(){
+              store.get('foo', function(val){
+                result = val
+              })
+            })
+          })
+          result.should.eql 'baz'
         end
       end
       
@@ -56,30 +63,41 @@ describe 'Express'
       
       describe 'given an abitrary value'
         it 'should serialize as JSON'
-          store.set('user', { name: 'tj' }).should.eql { name: 'tj' }
+          var result
+          store.set('user', { name: 'tj' }, function(val){
+            result = val
+          })
+          result.should.eql { name: 'tj' }
         end
       end
     end
     
     describe '#get()'
       describe 'given a key'
-        it 'should return cached value'
-          store.set('foo', 'bar')
-          store.get('foo').should.eql 'bar'
-        end
-        
         it 'should unserialize JSON data'
-          store.set('user', { name: 'tj' })
-          store.get('user').should.eql { name: 'tj' }
+          var result
+          store.set('user', { name: 'tj' }, function(){
+            store.get('user', function(val){
+              result = val
+            })
+          })
+          result.should.eql { name: 'tj' }
         end
       end
       
       describe 'given wildcards'
-        it 'should return a set of caches'
-          store.set('user:1', 'a')
-          store.set('user:2', 'b')
-          store.set('foo', 'bar')
-          store.get('user:*').should.eql { 'user:1': 'a', 'user:2': 'b' }
+        it 'should pass a set of caches'
+          var result
+          store.set('user:1', 'a', function(){
+            store.set('user:2', 'b', function(){
+              store.set('foo', 'bar', function(){
+                store.get('user:*', function(val){
+                  result = val
+                })
+              })
+            })
+          })
+          result.should.eql { 'user:1': 'a', 'user:2': 'b' }
         end
       end
     end
@@ -87,19 +105,34 @@ describe 'Express'
     describe '#clear()'
       describe 'given a key'
         it 'should delete previous data'
-          store.set('foo', 'bar')
-          store.clear('foo')
-          store.get('foo').should.be_null
+          var result
+          store.set('foo', 'bar', function(){
+            store.clear('foo', function(){
+              store.get('foo', function(val){
+                result = val
+              })
+            })
+          })
+          result.should.be_null
         end
       end
       
       describe 'given wildcards'
         it 'should clear a set of caches'
-          store.set('user:one', '1')
-          store.set('user:two', '2')
-          store.clear('user:*')
-          store.get('user:one').should.be_null
-          store.get('user:two').should.be_null
+          var results = []
+          store.set('user:one', '1', function(){
+            store.set('user:two', '2', function(){
+              store.clear('user:*', function(){
+                store.get('user:one', function(val){
+                  results.push(val)
+                  store.get('user:two', function(val){
+                    results.push(val)
+                  })
+                })
+              })
+            })  
+          })
+          results.should.eql [null, null]
         end
       end
     end
@@ -107,12 +140,16 @@ describe 'Express'
     describe '#reap()'
       it 'should destroy caches older than the given age in milliseconds'
         store.set('user:one', '1')
-        store.data['user:one'].created = Number(new Date) - 300
+        store.data['user:one'].created = Number((5).minutes.ago)
         store.set('user:two', '2')
-        store.data['user:two'].created = Number(new Date) - 100
-        store.reap(200)
-        store.get('user:one').should.be_null
-        store.get('user:two').should.not.be_null
+        store.data['user:two'].created = Number((2).seconds.ago)
+        store.reap((1).minute)
+        store.get('user:one', function(val){
+          val.should.be_null
+        })
+        store.get('user:two', function(val){
+          val.should.not.be_null
+        })
       end
     end
   end
