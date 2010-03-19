@@ -4,6 +4,7 @@ describe 'Express'
     reset()
     use(require('express/plugins/cookie').Cookie)
     use(Session = require('express/plugins/session').Session)
+    Base = require('express/plugins/session').Base
     Session.store.clear()
   end
   
@@ -14,17 +15,28 @@ describe 'Express'
         get('/login').headers['set-cookie'].should.match(/^sid=(\w+);/)
       end
     end
-    
-    describe 'when sid cookie is present'
+
+    describe 'when existing sid cookie is present'
       it 'should not set sid'
+        Session.store.commit(new Base(123))
         get('/login', function(){ return '' })
         get('/login', { headers: { cookie: 'sid=123' }}).headers.should.not.have_property 'set-cookie'
       end
     end
-  
+    
+    describe 'when unknown sid cookie is present'
+      it 'should set new sid'
+        get('/login', function(){ return '' })
+        var headers= get('/login', { headers: { cookie: 'sid=123' }}).headers
+        
+        headers.should.have_property 'set-cookie'
+        headers['set-cookie'].should.not.be '123'
+      end
+    end    
+
     describe 'session Store.Memory'
       before_each
-        memory = new (require('express/plugins/session').Store.Memory)
+        Session.store= memory = new (require('express/plugins/session').Store.Memory)
       end
       
       it 'should persist'
@@ -34,6 +46,7 @@ describe 'Express'
         get('/login', function(){
           return this.session.name
         })
+        memory.commit(new Base(123))
         var headers = { headers: { cookie: 'sid=123' }}
         post('/login', headers)
         get('/login', headers).status.should.eql 200
@@ -49,14 +62,22 @@ describe 'Express'
       describe '#fetch()'
         describe 'when the session does not exist'
           it 'should return a new Session'
-            memory.fetch('1').should.have_property 'lastAccess'
+           var result
+            memory.fetch('1', function(error,session){
+              result= session
+            })
+            result.should.have_property 'lastAccess'
           end
         end
         
         describe 'when the session does exist'
           it 'should return the previous session'
-            memory.commit({ id: '1', same: true })
-            memory.fetch('1').should.have_property 'same', true
+            var result
+            memory.commit(new Base('1'))
+            memory.fetch('1', function(error, session){
+              result = session
+            })
+            result.id.should.eql '1'
           end
         end
       end
@@ -73,9 +94,13 @@ describe 'Express'
       
       describe '#length()'
         it 'should return the number of session'
+          var length
           memory.commit({ id: '1' })
           memory.commit({ id: '2' })
-          memory.length().should.eql 2
+          memory.length(function(error, len) {
+            length = len
+          })
+          length.should.eql 2
         end
       end
       
