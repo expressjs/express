@@ -1,4 +1,11 @@
 
+0.8.0 / 2010-03-19
+==================
+
+  * Added coffeescript example app. Closes #242
+  * Changed; cache api now async friendly. Closes #240
+  * Removed deprecated 'express/static' support. Use 'express/plugins/static'
+
 0.7.6 / 2010-03-19
 ==================
 
