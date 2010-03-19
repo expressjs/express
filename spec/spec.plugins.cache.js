@@ -139,9 +139,9 @@ describe 'Express'
     
     describe '#reap()'
       it 'should destroy caches older than the given age in milliseconds'
-        store.set('user:one', '1', function(){})
+        store.set('user:one', '1')
         store.data['user:one'].created = Number((5).minutes.ago)
-        store.set('user:two', '2', function(){})
+        store.set('user:two', '2')
         store.data['user:two'].created = Number((2).seconds.ago)
         store.reap((1).minute)
         store.get('user:one', function(val){
