@@ -132,20 +132,24 @@ describe 'Express'
               })
             })  
           })
-          results.should.eql [null, nukk]
+          results.should.eql [null, null]
         end
       end
     end
     
     describe '#reap()'
       it 'should destroy caches older than the given age in milliseconds'
-        store.set('user:one', '1')
-        store.data['user:one'].created = Number(new Date) - 300
-        store.set('user:two', '2')
-        store.data['user:two'].created = Number(new Date) - 100
-        store.reap(200)
-        store.get('user:one').should.be_null
-        store.get('user:two').should.not.be_null
+        store.set('user:one', '1', function(){})
+        store.data['user:one'].created = Number((5).minutes.ago)
+        store.set('user:two', '2', function(){})
+        store.data['user:two'].created = Number((2).seconds.ago)
+        store.reap((1).minute)
+        store.get('user:one', function(val){
+          val.should.be_null
+        })
+        store.get('user:two', function(val){
+          val.should.not.be_null
+        })
       end
     end
   end
