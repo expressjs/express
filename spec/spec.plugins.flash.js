@@ -6,6 +6,9 @@ describe 'Express'
     use(require('express/plugins/session').Session)
     use(require('express/plugins/flash').Flash)
     Session.store.clear()
+    var sess= new Base(123);
+    sess.same= true;
+    Session.store.commit(sess, function(){})
   end
   
   describe 'Flash'
