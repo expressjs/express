@@ -18,9 +18,7 @@ describe 'Express'
 
     describe 'when existing sid cookie is present'
       it 'should not set sid'
-        var sess= new Base(123);
-        sess.same= true;
-        Session.store.commit(sess)
+        Session.store.commit(new Base(123))
         get('/login', function(){ return '' })
         get('/login', { headers: { cookie: 'sid=123' }}).headers.should.not.have_property 'set-cookie'
       end
@@ -48,9 +46,7 @@ describe 'Express'
         get('/login', function(){
           return this.session.name
         })
-        var sess= new Base(123);
-        sess.same= true;
-        memory.commit(sess)
+        memory.commit(new Base(123))
         var headers = { headers: { cookie: 'sid=123' }}
         post('/login', headers)
         get('/login', headers).status.should.eql 200
@@ -77,13 +73,11 @@ describe 'Express'
         describe 'when the session does exist'
           it 'should return the previous session'
             var result
-            var sess= new Base(1);
-            sess.same= true;
-            memory.commit(sess)
+            memory.commit(new Base('1'))
             memory.fetch('1', function(error, session){
-              result= session
+              result = session
             })
-            result.should.have_property 'same', true
+            result.id.should.eql '1'
           end
         end
       end
@@ -100,13 +94,13 @@ describe 'Express'
       
       describe '#length()'
         it 'should return the number of session'
-          var len
+          var length
           memory.commit({ id: '1' })
           memory.commit({ id: '2' })
-          memory.length(function(error, l) {
-                 len= l
+          memory.length(function(error, len) {
+            length = len
           })
-          len.should.eql 2
+          length.should.eql 2
         end
       end
       
