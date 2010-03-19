@@ -1,4 +1,21 @@
 
+0.7.6 / 2010-03-19
+==================
+
+  * Added Request#isXHR. Closes #229
+  * Added `make install` (for the executable)
+  * Added `express` executable for setting up simple app templates
+  * Added "GET /public/*" to Static plugin, defaulting to <root>/public
+  * Added Static plugin
+  * Fixed; Request#render() only calls cache.get() once
+  * Fixed; Namespacing View caches with "view:"
+  * Fixed; Namespacing Static caches with "static:"
+  * Fixed; Both example apps now use the Static plugin
+  * Fixed set("views"). Closes #239
+  * Fixed missing space for combined log format
+  * Deprecated Request#sendfile() and 'express/static'
+  * Removed Server#running
+
 0.7.5 / 2010-03-16
 ==================
 
