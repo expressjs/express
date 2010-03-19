@@ -1,5 +1,6 @@
 
 NODE = node
+COFFEE = coffee
 
 all: test
 	
@@ -16,5 +17,11 @@ app-chat:
 	
 app-upload:
 	@$(NODE) examples/upload/app.js
+	
+app-coffee-upload: compile-coffee
+	@$(NODE) examples/coffee-upload/app.js
+	
+compile-coffee:
+	@$(COFFEE) examples/coffee-upload/app.coffee
 	
 .PHONY: install test app
