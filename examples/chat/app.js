@@ -22,20 +22,17 @@ get('/', function(){
 })
 
 get('/chat', function(){ 
-  var self= this;
-  //TODO: The current memory session store only persists sessions
-  // on response completion *AFTER* this method completes so
-  // the length will be out by 1 for each new session created.
-  Session.store.length(function(error, length){
+  var self = this
+  Session.store.length(function(err, len){
     self.render('chat.haml.html', {
       locals: {
         title: 'Chat',
         messages: messages,
         name: self.session.name,
-        usersOnline: length
+        usersOnline: len
       }
     })
-  });
+  })
 })
 
 post('/chat', function(){
