@@ -17,7 +17,7 @@ configure(function(){
   set('root', __dirname)
 })
 
-get('/', function(){
+get('/', function(){ 
   this.pass('/chat')
 })
 
