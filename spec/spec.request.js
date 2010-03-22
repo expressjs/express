@@ -72,7 +72,7 @@ describe 'Express'
       describe 'when the Accept header is not present'
         it 'should return true'
           get('/user', function(){ return this.accepts('jpeg').toString() })
-          get('/user', { headers: { accept: null }}).body.should.eql 'true'
+          get('/user', { headers: { accept: '' }}).body.should.eql 'true'
         end
       end
       
