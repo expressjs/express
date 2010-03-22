@@ -12,9 +12,17 @@ describe 'Express'
       end
     end
     
+    describe 'set("partials")'
+      it 'should default to <root>/views/partials'
+        set('root', 'spec')
+        set('partials').should.eql 'spec/views/partials'
+      end
+    end
+    
     describe '#partial()'
       before_each
         set('views', 'spec/fixtures')
+        set('partials', 'spec/fixtures/partials')
       end
       
       describe 'given a valid view name'
