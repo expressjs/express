@@ -12,6 +12,23 @@ describe 'Express'
       end
     end
     
+    describe '#partial()'
+      before_each
+        set('views', 'spec/fixtures')
+      end
+      
+      describe 'given a valid view name'
+        it 'should render a partial'
+          get('/', function(){
+            this.render('list.haml.html', { locals: { items: ['foo', 'bar'] }})
+          })
+          get('/').body.should.include '<ul>'
+          get('/').body.should.include '<li>foo'
+          get('/').body.should.include '<li>bar'
+        end
+      end
+    end
+    
     describe '#render()'
       before_each
         set('views', 'spec/fixtures')
