@@ -36,6 +36,17 @@ describe 'Express'
           get('/').body.should.include '<li>foo'
           get('/').body.should.include '<li>bar'
         end
+        
+        it 'should render collections with a given object name'
+          get('/', function(){
+            return this.partial('video.haml.html', {
+              collection: ['im a movie', 'im another movie'],
+              as: 'vid'
+            })
+          })
+          get('/').body.should.include '<li>im a movie'
+          get('/').body.should.include '<li>im another movie'
+        end
       end
     end
     
