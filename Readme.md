@@ -85,7 +85,7 @@ Run individual suites:
     ...
     
 Express is currently being developed with node --version:
-    v0.1.32
+    v0.1.33
     
 ## More Information
 
