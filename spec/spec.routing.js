@@ -36,10 +36,34 @@ describe 'Express'
           return isNaN(val) ? false : val
         })
         get('/user/:user_id', function(id){
-          require('sys').p(id)
           return String(typeof id === 'number')
         })
-        get('/user/12').body.should.eql 'true'
+        get('/user/99').body.should.eql 'true'
+      end
+      
+      it 'should pass when false is explictly returned'
+        param('user_id', function(val){
+          val = parseInt(val)
+          return isNaN(val) ? false : val
+        })
+        get('/user/:user_id', function(id){
+          return String(typeof id === 'number')
+        })
+        get('/user/:name', function(name){
+          return name
+        })
+        get('/user/99').body.should.eql 'true'
+        get('/user/tj').body.should.eql 'tj'
+      end
+      
+      it 'should evaluate in context to the request'
+        param('user_id', function(val){
+          this.pass()
+        })
+        get('/user/:user_id', function(id){
+          return String(typeof id === 'number')
+        })
+        get('/user/99').status.should.eql 404
       end
     end
   end
