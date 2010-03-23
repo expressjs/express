@@ -121,26 +121,6 @@ describe 'Express'
           end
         end
         
-        describe 'when "cache view contents" is enabled'
-          it 'should read the views into memory only once'
-            enable('cache view contents')
-            get('/', function(){
-              this.render('hello.haml.html')
-            })
-            get('/cached', function(){
-              var self = this
-              this.cache.get('view:spec/fixtures/hello.haml.html', function(val){
-                self.halt(200, val ? 'yes' : 'no')
-              })
-            })
-            get('/cached').body.should.eql 'no'
-            get('/')
-            get('/cached').body.should.eql 'yes'
-            get('/')
-            get('/cached').body.should.eql 'yes'
-          end
-        end
-        
         describe 'when engine cannot be found'
           it 'should throw an error'
             get('/', function(){
