@@ -174,6 +174,15 @@ describe 'Express'
         get('/report.pdf').body.should.eql 'yay'
       end
       
+      it 'should match when mid-segment'
+        get('/user-:name-:id', function(name, id){
+          return name + ' ' + id
+        })
+        get('/user-tj-1').body.should.eql 'tj 1'
+        get('/user--1').status.should.eql 404
+        get('/user-tj-').status.should.eql 404
+      end
+      
       it 'should not match without value'
         get('/report.:format', function(){
           return 'yay'
