@@ -84,8 +84,10 @@ Run individual suites:
     $ node spec/node.js routing
     ...
     
-Express is currently being developed with node --version:
+The latest release of Express is compatible with node --version:
     v0.1.33
+    
+EDGE Express we do our best to keep up to date with node's EDGE
     
 ## More Information
 
