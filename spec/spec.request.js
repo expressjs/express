@@ -244,6 +244,17 @@ describe 'Express'
     end
     
     describe '#error()'
+      describe 'when an error route is defined'
+        it 'should be called'
+          disable('throw exceptions')
+          error(function(){
+            this.halt(500, 'FAIL!')
+          })
+          get('/', function(){ this.error(new Error('whoop')) })
+          get('/').body.should.eql 'FAIL!'
+        end
+      end
+      
       describe 'when accepting "html"'
         describe 'with "show exceptions" enabled'
           it 'should render the show-exceptions page'
