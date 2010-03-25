@@ -303,6 +303,41 @@ describe 'Express'
         end
       end
     end
+    
+    describe '#notFound()'
+      describe 'when accepting "html"'
+        describe 'with "helpful 404" enabled'
+          it 'should render the not-found page'
+            enable('helpful 404')
+            get('/', function(){ this.notFound() })
+            get('/').body.should.include '<em>404</em> Not Found'
+            get('/').status.should.eql 404
+          end
+        end
+      end
+      
+      describe 'when not accepting "html"'
+        describe 'with "helpful 404" enabled'
+          it 'should render defaulat 404 status body'
+            var headers = { headers: { accept: 'text/plain' }}
+            enable('helpful 404')
+            get('/', function(){ this.notFound() })
+            get('/', headers).body.should.eql 'Not Found'
+            get('/', headers).status.should.eql 404
+          end
+        end
+      end
+      
+      describe 'when "helpful 404" is disabled'
+        it 'should render defaulat 404 status body'
+          var headers = { headers: { accept: 'text/plain' }}
+          enable('helpful 404')
+          get('/', function(){ this.notFound() })
+          get('/', headers).body.should.eql 'Not Found'
+          get('/', headers).status.should.eql 404
+        end
+      end
+    end
         
   end
 end
