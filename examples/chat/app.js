@@ -21,7 +21,7 @@ get('/', function(){
   this.pass('/chat')
 })
 
-get('/chat', function(){ 
+get('/chat', function(){
   var self = this
   Session.store.length(function(err, len){
     self.render('chat.haml.html', {
