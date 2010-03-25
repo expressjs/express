@@ -269,6 +269,17 @@ describe 'Express'
             get('/', headers).status.should.eql 500
           end
         end
+        
+        describe 'with "throw exceptions" enabled'
+          it 'should re-throw the exception'
+            enable('show exceptions')
+            enable('throw exceptions')
+            get('/', function(){
+              this.error(new Error('fail!'))
+            })
+            -{ get('/') }.should.throw_error Error, 'fail!'
+          end
+        end
       end
       
       describe 'with "show exceptions" disabled'
@@ -279,6 +290,16 @@ describe 'Express'
           })
           get('/').body.should.eql 'Internal Server Error'
           get('/').status.should.eql 500
+        end
+      end
+      
+      describe 'with "throw exceptions" enabled'
+        it 'should re-throw the exception'
+          enable('throw exceptions')
+          get('/', function(){
+            this.error(new Error('fail!'))
+          })
+          -{ get('/') }.should.throw_error Error, 'fail!'
         end
       end
     end
