@@ -305,6 +305,16 @@ describe 'Express'
     end
     
     describe '#notFound()'
+      describe 'when a notFound route is defined'
+        it 'should be called'
+          notFound(function(){
+            this.halt(404, 'Sorry your page was not found')
+          })
+          get('/', function(){ this.notFound() })
+          get('/').body.should.eql 'Sorry your page was not found'
+        end
+      end
+    
       describe 'when accepting "html"'
         describe 'with "helpful 404" enabled'
           it 'should render the not-found page'
