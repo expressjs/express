@@ -57,6 +57,17 @@ describe 'Express'
           get('/').body.should.include '<li>im a movie'
           get('/').body.should.include '<li>im another movie'
         end
+        
+        it 'should pass __isFirst__, __isLast__, and __index__ to partials as locals'
+          get('/', function(){
+            return this.partial('article.haml.html', {
+              collection: ['a', 'b', 'c']
+            })
+          })
+          get('/').body.should.include '<li class="first">a'
+          get('/').body.should.include '<li class="1">b'
+          get('/').body.should.include '<li class="last">c'
+        end
       end
     end
     
