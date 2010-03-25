@@ -242,6 +242,46 @@ describe 'Express'
         end
       end
     end
+    
+    describe '#error()'
+      describe 'when accepting "html"'
+        describe 'with "show exceptions" enabled'
+          it 'should render the show-exceptions page'
+            disable('throw exceptions')
+            enable('show exceptions')
+            get('/', function(){
+              this.error(new Error('fail!'))
+            })
+            get('/').body.should.include '<em>500</em> Error: fail!'
+            get('/').status.should.eql 500
+          end
+        end
+        
+        describe 'when not accepting "html"'
+          it 'should render the default 500 status body'
+            var headers = { headers: { accept: 'text/plain' }}
+            disable('throw exceptions')
+            enable('show exceptions')
+            get('/', function(){
+              this.error(new Error('fail!'))
+            })
+            get('/', headers).body.should.eql 'Internal Server Error'
+            get('/', headers).status.should.eql 500
+          end
+        end
+      end
+      
+      describe 'with "show exceptions" disabled'
+        it 'should render the default 500 status body'
+          disable('throw exceptions')
+          get('/', function(){
+            this.error(new Error('fail!'))
+          })
+          get('/').body.should.eql 'Internal Server Error'
+          get('/').status.should.eql 500
+        end
+      end
+    end
         
   end
 end
