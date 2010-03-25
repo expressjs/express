@@ -3,6 +3,8 @@
 
 (function(){
   
+  var lastRequest
+  
   // --- Original XMLHttpRequest
   
   var OriginalXMLHttpRequest = 'XMLHttpRequest' in this ? 
