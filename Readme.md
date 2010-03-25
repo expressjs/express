@@ -25,6 +25,7 @@
   * View support (ejs, haml, sass, etc)
   * Full test coverage
   * Logger plugin with several formats
+  * Upload size restrictions
   * Extremely readable specs
   
 ## Installation
