@@ -65,6 +65,19 @@ describe 'Express'
         set('views', 'spec/fixtures')
       end
       
+      describe 'given a callback'
+        it 'should be passed the rendered content'
+          get('/', function(){
+            this.render('hello.haml.html', {}, function(err, content){
+              if (err) this.error(err)
+              else this.halt(203, content)
+            })
+          })
+          get('/').body.should.include '<html><body>'
+          get('/').status.should.eql 203
+        end
+      end
+      
       describe 'given a valid view name'
         describe 'and layout of the same type exists'
           it 'should render the layout and view'
