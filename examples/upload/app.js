@@ -12,6 +12,7 @@ configure(function(){
   use(Logger)
   use(Static)
   set('root', __dirname)
+  set('max upload size', (5).megabytes)
 })
 
 get('/', function(){
