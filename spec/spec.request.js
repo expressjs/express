@@ -246,12 +246,15 @@ describe 'Express'
     describe '#error()'
       describe 'when an error route is defined'
         it 'should be called'
+          var err
           disable('throw exceptions')
-          error(function(){
+          global.error(function(e){
+            err = e
             this.halt(500, 'FAIL!')
           })
           get('/', function(){ this.error(new Error('whoop')) })
           get('/').body.should.eql 'FAIL!'
+          err.message.should.eql 'whoop'
         end
       end
       
