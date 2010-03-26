@@ -76,13 +76,13 @@ describe 'Express'
           get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/; secure'
         end
         
-        it 'should join multiple cookies'
+        it 'should set multiple cookies'
           get('/user', function(){
             this.cookie('SID', '732423sdfs73243', { path: '/', secure: true })
             this.cookie('foo', 'bar')
             return ''  
           })
-          get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/; secure, foo=bar; path=/'
+          get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/; secure\nset-cookie: foo=bar; path=/'
         end
       end
     end
