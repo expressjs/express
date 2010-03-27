@@ -17,7 +17,7 @@ get '/', ->
   @redirect('/upload')
 
 get '/upload', ->
-  @render 'upload.haml.html', {
+  @render 'upload.html.haml', {
     locals: {
       flashes: @flash 'info'
     }
@@ -30,6 +30,6 @@ post '/upload', ->
   @redirect '/upload'
 
 get '/*.css', (file) ->
-  @render file + '.sass.css', { layout: no }
+  @render file + '.css.sass', { layout: no }
 
 run()

@@ -20,7 +20,7 @@ get('/', function(){
 })
 
 get('/upload', function(){
-  this.render('upload.haml.html', {
+  this.render('upload.html.haml', {
     locals: {
       flashes: this.flash('info')
     }  
@@ -36,7 +36,7 @@ post('/upload', function(){
 })
 
 get('/*.css', function(file){
-  this.render(file + '.sass.css', { layout: false })
+  this.render(file + '.css.sass', { layout: false })
 })
 
 run()
