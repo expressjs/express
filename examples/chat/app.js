@@ -24,7 +24,7 @@ get('/', function(){
 get('/chat', function(){
   var self = this
   Session.store.length(function(err, len){
-    self.render('chat.haml.html', {
+    self.render('chat.html.haml', {
       locals: {
         title: 'Chat',
         messages: messages,
@@ -57,7 +57,7 @@ get('/chat/messages', function(){
 })
 
 get('/*.css', function(file){
-  this.render(file + '.sass.css', { layout: false })
+  this.render(file + '.css.sass', { layout: false })
 })
 
 get('/error/view', function(){
