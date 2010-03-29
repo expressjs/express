@@ -84,7 +84,7 @@ describe 'Express'
               else this.halt(203, content)
             })
           })
-          get('/').body.should.include '<html><body>'
+          get('/').body.should.include '<html>\n<body>'
           get('/').status.should.eql 203
         end
       end
@@ -95,7 +95,7 @@ describe 'Express'
             get('/', function(){
               this.render('hello.html.haml')
             })
-            get('/').body.should.include '<html><body>'
+            get('/').body.should.include '<html>\n<body>'
             get('/').body.should.include '<h2>Hello'
           end
           

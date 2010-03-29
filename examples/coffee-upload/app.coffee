@@ -12,6 +12,7 @@ configure ->
   use Logger
   use Static
   set 'root', __dirname
+  set 'views', __dirname + '/../upload/views'
 
 get '/', ->
   @redirect('/upload')
