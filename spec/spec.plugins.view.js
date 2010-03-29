@@ -30,7 +30,7 @@ describe 'Express'
       describe 'given a valid view name'
         it 'should render a partial'
           get('/', function(){
-            this.render('list.haml.html', { locals: { items: ['foo', 'bar'] }})
+            this.render('list.html.haml', { locals: { items: ['foo', 'bar'] }})
           })
           get('/').body.should.include '<ul>'
           get('/').body.should.include '<li>foo'
@@ -39,7 +39,7 @@ describe 'Express'
         
         it 'should render collections'
           get('/', function(){
-            return this.partial('item.haml.html', {
+            return this.partial('item.html.haml', {
               collection: ['foo', 'bar']
             })
           })
@@ -49,7 +49,7 @@ describe 'Express'
         
         it 'should render collections with a given object name'
           get('/', function(){
-            return this.partial('video.haml.html', {
+            return this.partial('video.html.haml', {
               collection: ['im a movie', 'im another movie'],
               as: 'vid'
             })
@@ -60,7 +60,7 @@ describe 'Express'
         
         it 'should pass __isFirst__, __isLast__, and __index__ to partials as locals'
           get('/', function(){
-            return this.partial('article.haml.html', {
+            return this.partial('article.html.haml', {
               collection: ['a', 'b', 'c']
             })
           })
@@ -79,7 +79,7 @@ describe 'Express'
       describe 'given a callback'
         it 'should be passed the rendered content'
           get('/', function(){
-            this.render('hello.haml.html', {}, function(err, content){
+            this.render('hello.html.haml', {}, function(err, content){
               if (err) this.error(err)
               else this.halt(203, content)
             })
@@ -93,7 +93,7 @@ describe 'Express'
         describe 'and layout of the same type exists'
           it 'should render the layout and view'
             get('/', function(){
-              this.render('hello.haml.html')
+              this.render('hello.html.haml')
             })
             get('/').body.should.include '<html><body>'
             get('/').body.should.include '<h2>Hello'
@@ -102,14 +102,14 @@ describe 'Express'
           it 'should default context to the current request'
             get('/', function(){
               this.title = 'Welcome'
-              this.render('page.haml.html', { layout: false })
+              this.render('page.html.haml', { layout: false })
             })
             get('/').body.should.include '<title>Welcome'
           end
           
           it 'should set the content type based on the last path segment'
             get('/', function(){
-              this.render('hello.haml.html')
+              this.render('hello.html.haml')
             })
             get('/').headers['content-type'].should.eql 'text/html'
           end
@@ -118,7 +118,7 @@ describe 'Express'
         describe 'and layout of the same type does not exist'
           it 'should throw an error'
             get('/', function(){
-              this.render('hello.haml.html', { layout: 'front' })
+              this.render('hello.html.haml', { layout: 'front' })
             })
             -{ get('/') }.should.throw_error 'No such file or directory'
           end
@@ -128,7 +128,7 @@ describe 'Express'
           it 'should render the layout and view'
             get('/', function(){
               this.title = 'Express'
-              this.render('hello.haml.html', { layout: 'page' })
+              this.render('hello.html.haml', { layout: 'page' })
             })
             get('/').body.should.include '<title>Express'
             get('/').body.should.include '<h2>Hello'
@@ -138,7 +138,7 @@ describe 'Express'
         describe 'when layout: false'
           it 'should render the view only'
             get('/', function(){
-              this.render('hello.haml.html', { layout: false })
+              this.render('hello.html.haml', { layout: false })
             })
             get('/').body.should.not.include '<body>'
             get('/').body.should.include '<h2>Hello'
@@ -148,7 +148,7 @@ describe 'Express'
         describe 'when engine cannot be found'
           it 'should throw an error'
             get('/', function(){
-              this.render('user.invalid.html')
+              this.render('user.html.invalid')
             })
             -{ get('/') }.should.throw_error "Cannot find module 'invalid'"
           end
@@ -157,7 +157,7 @@ describe 'Express'
         describe 'when locals are passed'
           it 'should have direct access to locals'
             get('/user', function(){
-              this.render('user.haml.html', {
+              this.render('user.html.haml', {
                 locals: {
                   name: 'tj',
                   email: 'tj@vision-media.ca'
@@ -170,7 +170,7 @@ describe 'Express'
           
           it 'should have direct access to locals within the layout'
             get('/user', function(){
-              this.render('user.haml.html', {
+              this.render('user.html.haml', {
                 layout: 'layout.user',
                 locals: {
                   name: 'tj',
@@ -187,7 +187,7 @@ describe 'Express'
         describe 'when context is passed'
           it 'should evaluate in context to that object'
             get('/article', function(){
-              this.render('article.haml.html', {
+              this.render('article.html.haml', {
                 context: {
                   name: 'Writing a Node.js Web Application'
                 }
