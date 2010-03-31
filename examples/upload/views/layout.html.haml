@@ -7,8 +7,8 @@
   %body
     #wrapper
       %h1 Upload
-      :if flashes
+      - if (flashes)
         %ul.messages.info
-          :each msg in flashes
+          - each msg in flashes
             %li= msg
-      .body= body
+      .body!= body
