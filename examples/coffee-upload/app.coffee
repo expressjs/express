@@ -3,6 +3,8 @@ require.paths.unshift 'lib'
 require 'express'
 require 'express/plugins'
 
+sys: require 'sys'
+
 configure ->
   use MethodOverride
   use ContentLength
@@ -26,7 +28,7 @@ get '/upload', ->
 
 post '/upload', ->
   @param('images').each (image) =>
-    puts image.filename + ' -> ' + image.tempfile
+    sys.puts image.filename + ' -> ' + image.tempfile
     @flash 'info', 'Uploaded ' + image.filename
   @redirect '/upload'
 

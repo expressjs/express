@@ -4,7 +4,7 @@ require("jspec")
 require("express")
 require("express/spec")
 
-print = puts
+print = require('sys').puts
 quit = process.exit
 readFile = require('fs').readFileSync
 
