@@ -23,7 +23,7 @@ describe 'Express'
           path: '/foo',
           domain: '.vision-media.ca'
         }
-        compileCookie('foo', 'bar', options).should.eql 'foo=bar; expires=Mon, 25-May-1987 11:13:00 GMT; path=/foo; domain=.vision-media.ca'
+        compileCookie('foo', 'bar', options).should.eql 'foo=bar; expires=Mon, 25 May 1987 18:13:00 GMT; path=/foo; domain=.vision-media.ca'
       end
       
       it 'should convert true to a key without a value'
