@@ -10,3 +10,6 @@
 [submodule "lib/support/haml"]
 	path = lib/support/haml
 	url = git://github.com/visionmedia/haml.js.git
+[submodule "lib/support/multipart"]
+	path = lib/support/multipart
+	url = git://github.com/isaacs/multipart-js.git
