@@ -17,9 +17,9 @@ describe 'Express'
         compileCookie('foo', 'bar', options).should.eql 'foo=bar; path=/; domain=.vision-media.ca'
       end
       
-      it 'should currectly format any Date objects'
+      it 'should correctly format any Date objects'
         var options = {
-          expires: new Date('May 25, 1987 11:13:00'),
+          expires: new Date(Date.parse('May 25, 1987 11:13:00 PDT')),
           path: '/foo',
           domain: '.vision-media.ca'
         }
