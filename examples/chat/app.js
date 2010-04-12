@@ -4,7 +4,8 @@ require('express')
 require('express/plugins')
 
 var messages = [],
-    utils = require('express/utils')
+    utils = require('express/utils'),
+    http = require('express/http')
     
 configure(function(){
   use(Logger)
