@@ -22,17 +22,16 @@ while (arg = args.shift())
 
 function confirm(msg, fn) {
   sys.print(msg)
-  process.stdio.open()
-  process.stdio.addListener('data', function(chunk){
+  var stdin = process.openStdin()
+  stdin.setEncoding('utf8')
+  stdin.addListener('data', function(chunk){
     switch (chunk.trim().toLowerCase()) {
       case 'yes':
       case 'y':
-        return process.stdio.close(),
-               fn(true)
+        return stdin.destroy(), fn(true)
       case 'no':
       case 'n':
-        return process.stdio.close(),
-               fn(false)
+        return stdin.destroy(), fn(false)
       default:
         sys.print(msg)
     }
