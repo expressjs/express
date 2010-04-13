@@ -27,6 +27,7 @@
   * Logger plugin with several formats
   * Upload size restrictions
   * Extremely readable specs
+  * Cookie support
   
 ## Installation
 
@@ -44,7 +45,7 @@ or
 ## Performance
 
   Extensive performance enhancements have not yet been made,
-  since we are focusing on the framework it-self at the moment. 
+  since we are focusing on the framework itself at the moment. 
   
   However if you are interested view the premature [benchmarks for Express framework](http://vision-media.ca/resources/nodejs/express-nodejs-web-development-framework-performance).
 
@@ -86,7 +87,7 @@ Run individual suites:
     ...
     
 The latest release of Express is compatible with node --version:
-    v0.1.33
+    v0.1.90
     
 EDGE Express we do our best to keep up to date with node's EDGE
     
