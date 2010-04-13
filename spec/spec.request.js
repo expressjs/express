@@ -203,7 +203,7 @@ describe 'Express'
       it 'should work with a query string'
         get('/user', function(){
           var page = this.param('page')
-          return page ? String(page) : 'First page'
+          return page === undefined ? 'First page' : String(page)
         })
         get('/user').body.should.eql 'First page'
         get('/user?page=0').body.should.eql '0'
