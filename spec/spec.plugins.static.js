@@ -74,5 +74,31 @@ describe 'Express'
       end
     end
     
+    describe '#download()' 
+      describe 'when the file exists'
+        it 'should set attachment filename'
+          get('/report', function(){
+            this.download('report.pdf')
+            return 'foo'
+          })
+          get('/report').headers['content-disposition'].should.eql 'attachment; filename="report.pdf"'
+        end
+        
+        it 'should transfer the file'
+          get('/public/*', function(file){
+            this.download('spec/fixtures/' + file)
+          })
+          get('/public/user.json').body.should.include '"name":'
+        end
+        
+        it 'should automatically set the content type based on extension'
+          get('/public/*', function(file){
+            this.download('spec/fixtures/' + file)
+          })
+          get('/public/user.json').headers['content-type'].should.eql 'application/json'
+        end
+      end
+    end
+    
   end
 end
