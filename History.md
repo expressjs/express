@@ -2,7 +2,17 @@
 0.9.0 / 2010-04-14
 ==================
 
+  * Added DSL level error() route support
+  * Added DSL level notFound() route support
+  * Added Request#error()
+  * Added Request#notFound()
+  * Added Request#render() callback function. Closes #258
+  * Added "max upload size" setting
+  * Added "magic" variables to collection partials (\_\_index\_\_, \_\_length\_\_, \_\_isFirst\_\_, \_\_isLast\_\_). Closes #254
   * Added [haml.js](http://github.com/visionmedia/haml.js) submodule; removed haml-js
+  * Added callback function support to Request#halt() as 3rd/4th arg
+  * Added preprocessing of route param wildcards using param(). Closes #251
+  * Added view partial support (with collections etc)
   * Fixed bug preventing falsey params (such as ?page=0). Closes #286
   * Fixed setting of multiple cookies. Closes #199
   * Changed; view naming convention is now NAME.TYPE.ENGINE (for example page.html.haml)
@@ -11,74 +21,14 @@
   * Changed; Event is no longer global
   * Changed; "sys" module is no longer global
   * Changed; moved Request#download to Static plugin where it belongs
+  * Changed; Request instance created before body parsing. Closes #262
+  * Changed; Pre-caching views in memory when "cache view contents" is enabled. Closes #253
+  * Changed; Pre-caching view partials in memory when "cache view partials" is enabled
   * Updated support to node --version 0.1.90
   * Updated dependencies
-  
-  * Added "magic" variables to collection partials (__index__, __length__, __isFirst__, __isLast__). Closes #254
-  * Request instance created before body parsing. Closes #262
-  * Fixed post param issue
-  * Fixed mocks to work with new routing api
-  * .
-  * Docs
-  * Merge branch 'upload-limit'
-  * Added "max upload size" setting
-  * Updated ext. Closes #256
-  * Added Request#render() callback function. Closes #258
-  * Merge branch 'integration'
-  * fn -> callback
-  * Typo
-  * Merge branch 'master' of git://github.com/aheckmann/express into integration
-  * Updated to JSpec 4.0.0
-  * error() is passed the exception
-  * fn -> callback
-  * Added DSL level error() route support
-  * Added DSL level notFound() route support
-  * Added specs for Request#notFound()
-  * More Request#error() specs
-  * Added specs for Request#error()
-  * Merge branch 'errors'
-  * Added publish Request#notFound()
-  * Removed Express.error(), Added public Request#error()
-  * Request#halt() accepts callback function as 3rd/4th arg
-  * Merge branch 'error-handling'
-  * Misc error handling improvements
-  * Removed unused variable
-  * Merge branch 'error-handling'
-  * Caching notFound / showException modules
-  * Express.error() now acts as the core exception handler
-  * request response event is now fired in reverse.
-  * Handle when a plugin response fails
-  * next -> callback
-  * Styling
   * Removed set("session cookie") in favour of use(Session, { cookie: { ... }})
-  * Docs for stable / edge
-  * Merge branch 'route-wildcards'
-  * Added preprocessing of route param wildcards using param(). Closes #251
-  * Added specs for param()
-  * Added more route wildcard specs
-  * Merge branch 'pre-cache-views'
-  * Pre-caching views in memory. Closes #253
-  * Started pre caching of views
-  * Merge branch 'integration'
-  * Added assertion to ensure that partials dir is relative to set("views")
-  * Re-using variables
-  * Using set("views") when setting set("partials")
-  * partialscache -> partials
-  * preload partials add settings bug fix, partial now works when cache view contents is true
-  * add cache view partials
-  * Removed utils.mixin() use Object#mergeDeep()
-  * Merge branch 'partials'
-  * Chat sample app using partials as an example
-  * Added partial "as" option
-  * Partial collection should not introduce newlines
-  * Added partial collection support
-  * Started view partial support
-  * Updated ext submodule
-  * Removed Request#_blendInNodeRequest()
-  * Merge branch 'net2_fixes' of git://github.com/ciaranj/express
-  * Updated support to v0.1.33
-  * Various minor fixes required to make express work post the net2 merge branch
-
+  * Removed utils.mixin(); use Object#mergeDeep()
+  
 0.8.0 / 2010-03-19
 ==================
 
