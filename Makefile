@@ -5,7 +5,7 @@ COFFEE = coffee
 all: test
 	
 install: bin/express
-	install bin/express /usr/local/bin/express
+	ln -s bin/express /usr/local/bin/express
 
 test:
 	@$(NODE) spec/node.js all
