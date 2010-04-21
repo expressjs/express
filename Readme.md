@@ -96,6 +96,7 @@ EDGE Express we do our best to keep up to date with node's EDGE
   * [JavaScript Extensions &amp; Utilities](http://github.com/visionmedia/ext.js)
   * [JavaScript Sass](http://github.com/visionmedia/sass.js)
   * Featured in [Advanced JavaScript e-book](http://www.dev-mag.com/2010/02/18/advanced-javascript/) for only $4
+  * [0.9.0 release details](http://tjholowaychuk.com/post/522036176/express-0-9-0-released) 
     
 ## Contributors
 
