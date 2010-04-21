@@ -25,6 +25,7 @@ function create_template() {
   layout_template > $dir/views/layout.html.haml
   front_template > $dir/views/front.html.haml
   sass_template > $dir/views/style.css.sass
+  echo template created in $dir
 }
 
 #
