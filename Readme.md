@@ -23,6 +23,7 @@
   * Persistent flash messages
   * Route passing
   * View support (ejs, haml, sass, etc)
+  * View partials
   * Full test coverage
   * Logger plugin with several formats
   * Upload size restrictions
