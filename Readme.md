@@ -57,6 +57,10 @@ Below is a tiny Express application. View the [Wiki](http://wiki.github.com/visi
     require.paths.unshift('express/lib')
     require('express')
     
+    configure(function(){
+      set('root', __dirname)
+    })
+    
     get('/user', function(){
       this.redirect('/user/' + this.currentUser.id)
     })
