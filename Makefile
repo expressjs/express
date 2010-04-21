@@ -16,9 +16,12 @@ test:
 	
 app: app-chat
 	
+prof:
+	@$(NODE) --prof --prof_auto examples/chat/app.js
+	
 app-chat:
 	@$(NODE) examples/chat/app.js
-	
+
 app-upload:
 	@$(NODE) examples/upload/app.js
 	
