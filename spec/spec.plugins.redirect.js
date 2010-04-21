@@ -12,7 +12,7 @@ describe 'Express'
           this.redirect('/')
         })
         get('/logout').status.should.eql 303
-        get('/logout').headers['location'].should.eql '/'
+        get('/logout').headers['Location'].should.eql '/'
       end
       
       it 'should allow optional status code'
@@ -20,7 +20,7 @@ describe 'Express'
           this.redirect('/', 304)
         })
         get('/logout').status.should.eql 304
-        get('/logout').headers['location'].should.eql '/'
+        get('/logout').headers['Location'].should.eql '/'
       end
     end
     
@@ -30,7 +30,7 @@ describe 'Express'
           this.redirect('back')
         })
         var response = get('/logout', { headers: { referrer: '/login' }})
-        response.headers['location'].should.eql '/login'
+        response.headers['Location'].should.eql '/login'
       end
       
       it 'should check referer header'
@@ -38,7 +38,7 @@ describe 'Express'
           this.redirect('back')
         })
         var response = get('/logout', { headers: { referer: '/login' }})
-        response.headers['location'].should.eql '/login'
+        response.headers['Location'].should.eql '/login'
       end
     end
     
@@ -48,7 +48,7 @@ describe 'Express'
         get('/logout', function(){
           this.redirect('home')
         })
-        get('/logout').headers['location'].should.eql '/login'
+        get('/logout').headers['Location'].should.eql '/login'
       end
       
       it 'should check set("basepath")'
@@ -56,14 +56,14 @@ describe 'Express'
         get('/logout', function(){
           this.redirect('home')
         })
-        get('/logout').headers['location'].should.eql '/web/'
+        get('/logout').headers['Location'].should.eql '/web/'
       end
       
       it 'should default to "/"'
         get('/logout', function(){
           this.redirect('home')
         })
-        get('/logout').headers['location'].should.eql '/'
+        get('/logout').headers['Location'].should.eql '/'
       end
     end
   end

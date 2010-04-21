@@ -12,7 +12,7 @@ describe 'Express'
     describe 'when sid cookie is not present'
       it 'should set sid cookie'
         get('/login', function(){ return '' })
-        get('/login').headers['set-cookie'].should.match(/^sid=(\w+);/)
+        get('/login').headers['Set-Cookie'].should.match(/^sid=(\w+);/)
       end
     end
 
@@ -20,7 +20,7 @@ describe 'Express'
       it 'should not set sid'
         Session.store.commit(new Base(123))
         get('/login', function(){ return '' })
-        get('/login', { headers: { cookie: 'sid=123' }}).headers.should.not.have_property 'set-cookie'
+        get('/login', { headers: { cookie: 'sid=123' }}).headers.should.not.have_property 'Set-Cookie'
       end
     end
     
@@ -29,7 +29,7 @@ describe 'Express'
         get('/login', function(){ return '' })
         var headers= get('/login', { headers: { cookie: 'sid=123' }}).headers
         
-        headers.should.have_property 'set-cookie'
+        headers.should.have_property 'Set-Cookie'
         headers['set-cookie'].should.not.be '123'
       end
     end    
