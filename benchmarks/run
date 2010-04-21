@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SLEEP=${SLEEP-5}
+SLEEP=${SLEEP-2}
 ABFLAGS=${ABFLAGS-"-n 5000 -c 50"}
 ADDR=${ADDR-http://127.0.0.1:3000/}
 AB=${AB-ab}
@@ -21,13 +21,12 @@ bm(){
       $NODE benchmarks/express/$file &
       ;;
   esac
-  log $type $file started as process $!
-  log allowing $SLEEP seconds to startup
+  pid=$!
   sleep $SLEEP
-  log $AB $ABFLAGS $ADDR
   $AB $ABFLAGS -e benchmarks/$type/$file.csv $ADDR > benchmarks/$type/$file.out
-  kill -KILL $!
+  kill -KILL $pid
 }
 
 log ab $ABFLAGS $ADDR
 bm express simple.js
+bm express static.js

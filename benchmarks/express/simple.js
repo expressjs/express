@@ -2,8 +2,8 @@
 require.paths.unshift('lib')
 require('express')
 
-get('/simple', function(){
-  return 'Hello :)'
+get('/', function(){
+  return 'Hello World'
 })
 
 run()
