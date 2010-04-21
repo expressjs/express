@@ -8,13 +8,13 @@ var messages = [],
     http = require('express/http')
     
 configure(function(){
-  use(Logger)
-  use(MethodOverride)
-  use(ContentLength)
-  use(Cookie)
-  use(Cache, { lifetime: (5).minutes, reapInterval: (1).minute })
-  use(Session, { lifetime: (15).minutes, reapInterval: (1).minute })
-  use(Static)
+  // use(Logger)
+  // use(MethodOverride)
+  // use(ContentLength)
+  // use(Cookie)
+  // use(Cache, { lifetime: (5).minutes, reapInterval: (1).minute })
+  // use(Session, { lifetime: (15).minutes, reapInterval: (1).minute })
+  // use(Static)
   set('root', __dirname)
 })
 
