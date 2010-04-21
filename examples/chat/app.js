@@ -8,7 +8,7 @@ var messages = [],
     http = require('express/http')
     
 configure(function(){
-  use(Logger, { format: 'request' })
+  use(Logger)
   use(MethodOverride)
   use(ContentLength)
   use(Cookie)
