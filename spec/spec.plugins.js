@@ -9,7 +9,7 @@ CSSColors = Plugin.extend({
   },
   on: {
     response: function(event) {
-      if (event.response.headers['content-type'] == mime.type('css'))
+      if (event.response.headers['Content-Type'] === mime.type('css'))
         event.response.body = event.response.body.replace('black', '#000')
     }
   }

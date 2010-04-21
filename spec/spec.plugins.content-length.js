@@ -12,15 +12,15 @@ describe 'Express'
           get('/style.css', function(){
             return 'body { background: #000; }'
           })
-          get('/style.css').headers['content-length'].should.eql 26
+          get('/style.css').headers['Content-Length'].should.eql 26
         end
         
         it 'should not override when manually set'
           get('/style.css', function(){
-            this.header('content-length', 10)
+            this.header('Content-Length', 10)
             return 'body { background: #000; }'
           })
-          get('/style.css').headers['content-length'].should.eql 10
+          get('/style.css').headers['Content-Length'].should.eql 10
         end
       end
     end

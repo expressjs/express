@@ -132,7 +132,7 @@ describe 'Express'
           this.contentType('css')
           return 'body { background: white; }'
         })
-        get('/style.css').headers['content-type'].should.eql 'text/css'
+        get('/style.css').headers['Content-Type'].should.eql 'text/css'
       end
     end
     
@@ -142,7 +142,7 @@ describe 'Express'
           this.attachment()
           return 'foo'
         })
-        get('/report').headers['content-disposition'].should.eql 'attachment'
+        get('/report').headers['Content-Disposition'].should.eql 'attachment'
       end
 
       it 'should set attachment filename'
@@ -150,7 +150,7 @@ describe 'Express'
           this.attachment('report.pdf')
           return 'foo'
         })
-        get('/report').headers['content-disposition'].should.eql 'attachment; filename="report.pdf"'
+        get('/report').headers['Content-Disposition'].should.eql 'attachment; filename="report.pdf"'
       end
     end
 

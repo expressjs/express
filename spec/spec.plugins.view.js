@@ -111,7 +111,7 @@ describe 'Express'
             get('/', function(){
               this.render('hello.html.haml')
             })
-            get('/').headers['content-type'].should.eql 'text/html'
+            get('/').headers['Content-Type'].should.eql 'text/html'
           end
         end
         

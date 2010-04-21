@@ -73,7 +73,7 @@ describe 'Express'
             this.cookie('SID', '732423sdfs73243', { path: '/', secure: true })
             return ''  
           })
-          get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/; secure'
+          get('/user').headers['Set-Cookie'].should.eql 'SID=732423sdfs73243; path=/; secure'
         end
         
         it 'should set multiple cookies'
@@ -82,7 +82,7 @@ describe 'Express'
             this.cookie('foo', 'bar')
             return ''  
           })
-          get('/user').headers['set-cookie'].should.eql 'SID=732423sdfs73243; path=/; secure\nset-cookie: foo=bar; path=/'
+          get('/user').headers['Set-Cookie'].should.eql 'SID=732423sdfs73243; path=/; secure\nSet-Cookie: foo=bar; path=/'
         end
       end
     end
