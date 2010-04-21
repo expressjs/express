@@ -1,4 +1,6 @@
 
+AB = ab
+ABFLAGS = -n 3000 -c 50
 NODE = node
 COFFEE = coffee
 PREFIX = /usr/local
@@ -30,5 +32,8 @@ app-coffee-upload: compile-coffee
 	
 compile-coffee:
 	@$(COFFEE) examples/coffee-upload/app.coffee
-	
+
+benchmark: benchmarks/run
+	@./benchmarks/run
+
 .PHONY: install test app

@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+SLEEP=${SLEEP-5}
+ABFLAGS=${ABFLAGS-"-n 5000 -c 50"}
+ADDR=${ADDR-http://127.0.0.1:3000/}
+AB=${AB-ab}
+RUBY=${RUBY-ruby}
+NODE=${NODE-node}
+PHP=${PHP-php}
+
+log(){
+  echo "... $@"
+}
+
+bm(){
+  local type=$1
+  local file=$2
+  log benchmarking $type $file
+  case $type in
+    express)
+      $NODE benchmarks/express/$file &
+      ;;
+  esac
+  log $type $file started as process $!
+  log allowing $SLEEP seconds to startup
+  sleep $SLEEP
+  log $AB $ABFLAGS $ADDR
+  $AB $ABFLAGS -e benchmarks/$type/$file.csv $ADDR > benchmarks/$type/$file.out
+  kill -KILL $!
+}
+
+log ab $ABFLAGS $ADDR
+bm express simple.js
