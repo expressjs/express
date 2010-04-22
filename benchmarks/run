@@ -30,6 +30,8 @@ bm(){
 
 log ab $ABFLAGS $ADDR
 bm node simple.js
+bm node static.js
+bm node static.large.js
 bm express simple.js
 bm express static.js
 bm express static.large.js
