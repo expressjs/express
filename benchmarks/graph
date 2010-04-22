@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+#
+# Output gnuplot script.
+# 
+# <title> <node> <express> <sinatra>
+#
+
+function plot() {
+  cat <<-EOF
+set terminal png
+set output "benchmarks/graphs/$1.png"
+set title "$1"
+set size 1,0.7
+set grid y
+set key left top
+set xlabel "request percentage"
+set xlabel "response time (ms)"
+plot "benchmarks/$2" using 10 with lines title "node", \\
+     "benchmarks/$3" using 10 with lines title "express", \\
+     "benchmarks/$4" using 10 with lines title "sinatra thin"
+EOF
+}
+
+mkdir -p benchmarks/graphs
+
+for type in simple static static.large; do
+  echo ... generating benchmarks/graphs/$type.png
+  plot $type \
+       express/$type.js.plot \
+       node/$type.js.plot \
+       thin/$type.ru.plot \
+       > benchmarks/graphs/$type.p
+  gnuplot benchmarks/graphs/$type.p
+done

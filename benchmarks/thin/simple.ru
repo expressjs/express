@@ -1,9 +1,9 @@
 
 require 'rubygems'
-require 'rack'
+require 'sinatra'
 
-app = lambda do |env|
-  [200, { 'Content-Type' => 'text/plain' }, 'Hello World']
+get '/' do
+  'Hello World'
 end
 
-run app
+run Sinatra::Application
