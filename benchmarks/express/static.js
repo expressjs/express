@@ -9,7 +9,7 @@ configure(function(){
 })
 
 get('/', function(){
-  this.sendfile('benchmarks/shared/jquery.js')
+  this.sendfile('benchmarks/shared/jquery.js', { bufferSize: 8 * 1024 })
 })
 
 run()
