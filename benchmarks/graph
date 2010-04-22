@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+COL=${COL-9}
+
 #
 # Log <msg ...>
 # 
@@ -26,9 +28,9 @@ set grid y
 set key left top
 set xlabel "request"
 set ylabel "response time (ms)"
-plot "benchmarks/$2" using 10 with lines title "node", \\
-     "benchmarks/$3" using 10 with lines title "express", \\
-     "benchmarks/$4" using 10 with lines title "sinatra thin"
+plot "benchmarks/$2" using $COL with lines title "node", \\
+     "benchmarks/$3" using $COL with lines title "express", \\
+     "benchmarks/$4" using $COL with lines title "sinatra thin"
 EOF
 }
 
