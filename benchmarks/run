@@ -40,7 +40,7 @@ bm(){
   esac
   pid=$!
   sleep $SLEEP
-  $AB $ABFLAGS -g benchmarks/$type/$file.plot $ADDR > benchmarks/$type/$file.out
+  $AB $ABFLAGS -g benchmarks/$type/$file.dat $ADDR > benchmarks/$type/$file.out
   log $(cat benchmarks/$type/$file.out | grep Requests)
   kill -KILL $pid
 }

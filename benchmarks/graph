@@ -1,12 +1,22 @@
 #!/usr/bin/env bash
 
 #
-# Output gnuplot script.
+# Log <msg ...>
+# 
+# <msg ...>
+#
+
+log(){
+  echo "... $@"
+}
+
+#
+# Output gnuplot script for line graph.
 # 
 # <title> <node> <express> <sinatra>
 #
 
-function plot() {
+function line() {
   cat <<-EOF
 set terminal png
 set output "benchmarks/graphs/$1.png"
@@ -22,14 +32,51 @@ plot "benchmarks/$2" using 10 with lines title "node", \\
 EOF
 }
 
+#
+# Output gnuplot script for bar graph.
+# 
+# <title> <node> <express> <sinatra>
+#
+
+function bar() {
+cat <<-EOF
+set terminal png
+set output "benchmarks/graphs/$1.rps.png"
+set title "$1"
+set size 0.7,0.5
+set grid y
+set key left top
+set ylabel "requests per second"
+plot "benchmarks/$1.rps.dat" using 2: xtic(1) with histogram title ""
+EOF
+}
+
 mkdir -p benchmarks/graphs
 
 for type in simple static static.large; do
-  echo ... generating benchmarks/graphs/$type.png
-  plot $type \
-       node/$type.js.plot \
-       express/$type.js.plot \
-       thin/$type.ru.plot \
-       > benchmarks/graphs/$type.p
-  gnuplot benchmarks/graphs/$type.p
+  plot=benchmarks/graphs/$type.p
+  log generating benchmarks/graphs/$type.png
+  line $type \
+       node/$type.js.dat \
+       express/$type.js.dat \
+       thin/$type.ru.dat \
+       > $plot
+  gnuplot $plot
+  
+  log generating benchmarks/graphs/$type.rps.png
+  plot=benchmarks/graphs/$type.rps.p
+  dat=benchmarks/$type.rps.dat
+  :> $dat
+  for server in node express thin; do
+    case $server in
+      node|express) ext=js ;;
+      thin) ext=ru ;;
+    esac
+    rps=$(cat benchmarks/$server/$type.$ext.out | grep "Requests per second:" | awk '{ print $4 }')
+    echo $server $rps >> $dat
+  done
+  bar $type > $plot
+  gnuplot $plot
 done
+
+rm benchmarks/graphs/*.p
