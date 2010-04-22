@@ -27,8 +27,8 @@ mkdir -p benchmarks/graphs
 for type in simple static static.large; do
   echo ... generating benchmarks/graphs/$type.png
   plot $type \
-       express/$type.js.plot \
        node/$type.js.plot \
+       express/$type.js.plot \
        thin/$type.ru.plot \
        > benchmarks/graphs/$type.p
   gnuplot benchmarks/graphs/$type.p
