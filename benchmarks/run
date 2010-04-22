@@ -18,7 +18,7 @@ bm(){
       node benchmarks/express/$file &
       ;;
     thin)
-      thin -R benchmarks/thin/simple.ru -p 3000 start &
+      thin -R benchmarks/thin/$file -p 3000 start &
       ;;
   esac
   pid=$!
@@ -33,3 +33,4 @@ bm express simple.js
 bm express static.js
 bm thin simple.ru
 bm thin simple.sinatra.ru
+bm thin static.sinatra.ru
