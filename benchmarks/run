@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 
 SLEEP=${SLEEP-2}
-ABFLAGS=${ABFLAGS-"-n 5000 -c 50"}
+ABFLAGS=${ABFLAGS-"-n 2000 -c 50"}
 ADDR=${ADDR-http://127.0.0.1:3000/}
 AB=${AB-ab}
-RUBY=${RUBY-ruby}
-NODE=${NODE-node}
-PHP=${PHP-php}
 
 log(){
   echo "... $@"
@@ -18,7 +15,10 @@ bm(){
   log benchmarking $type $file
   case $type in
     express)
-      $NODE benchmarks/express/$file &
+      node benchmarks/express/$file &
+      ;;
+    thin)
+      thin -R benchmarks/thin/simple.ru -p 3000 start &
       ;;
   esac
   pid=$!
@@ -30,3 +30,4 @@ bm(){
 log ab $ABFLAGS $ADDR
 bm express simple.js
 bm express static.js
+bm thin simple.ru
