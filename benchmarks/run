@@ -14,8 +14,8 @@ bm(){
   local file=$2
   log benchmarking $type $file
   case $type in
-    express)
-      node benchmarks/express/$file &
+    node|express)
+      node benchmarks/$type/$file &
       ;;
     thin)
       thin -R benchmarks/thin/$file -p 3000 start &
@@ -29,8 +29,11 @@ bm(){
 }
 
 log ab $ABFLAGS $ADDR
+bm node simple.js
 bm express simple.js
 bm express static.js
+bm express static.large.js
 bm thin simple.ru
 bm thin simple.sinatra.ru
 bm thin static.sinatra.ru
+bm thin static.sinatra.large.ru
