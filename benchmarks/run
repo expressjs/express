@@ -31,6 +31,8 @@ bm(){
 log ab $ABFLAGS $ADDR
 bm express simple.js
 bm express static.js
+bm express static.large.js
 bm thin simple.ru
 bm thin simple.sinatra.ru
 bm thin static.sinatra.ru
+bm thin static.sinatra.large.ru
