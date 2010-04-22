@@ -24,6 +24,7 @@ bm(){
   pid=$!
   sleep $SLEEP
   $AB $ABFLAGS -e benchmarks/$type/$file.csv $ADDR > benchmarks/$type/$file.out
+  log $(cat benchmarks/$type/$file.out | grep Requests)
   kill -KILL $pid
 }
 
