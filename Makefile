@@ -35,5 +35,9 @@ compile-coffee:
 
 benchmark: benchmarks/run
 	@./benchmarks/run
+	@./benchmarks/graph
 
-.PHONY: install test app
+graphs:
+	@./benchmarks/graph
+
+.PHONY: install test app benchmark graphs
