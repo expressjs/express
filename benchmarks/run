@@ -31,3 +31,4 @@ log ab $ABFLAGS $ADDR
 bm express simple.js
 bm express static.js
 bm thin simple.ru
+bm thin simple.sinatra.ru
