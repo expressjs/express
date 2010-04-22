@@ -5,9 +5,26 @@ ABFLAGS=${ABFLAGS-"-n 2000 -c 50"}
 ADDR=${ADDR-http://127.0.0.1:3000/}
 AB=${AB-ab}
 
+#
+# Log <msg ...>
+# 
+# <msg ...>
+#
+
 log(){
   echo "... $@"
 }
+
+#
+# Benchmark <type> and <file>
+# 
+#   - starts the server
+#   - allows $SLEEP seconds for startup
+#   - runs $AB
+#   - kills the server process
+# 
+# <type> <file>
+#
 
 bm(){
   local type=$1
