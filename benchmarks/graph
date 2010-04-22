@@ -28,9 +28,9 @@ set grid y
 set key left top
 set xlabel "request"
 set ylabel "response time (ms)"
-plot "benchmarks/$2" using $COL with lines title "node", \\
-     "benchmarks/$3" using $COL with lines title "express", \\
-     "benchmarks/$4" using $COL with lines title "sinatra thin"
+plot "benchmarks/$2" using $COL smooth sbezier with lines title "node", \\
+     "benchmarks/$3" using $COL smooth sbezier with lines title "express", \\
+     "benchmarks/$4" using $COL smooth sbezier with lines title "sinatra thin"
 EOF
 }
 
