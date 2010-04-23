@@ -262,7 +262,7 @@ describe 'Express'
       
       describe 'when not accepting common mime types'
         it 'should render the default 500 status body'
-          var headers = { headers: { accept: 'text/plain' }}
+          var headers = { headers: { accept: 'text/xml' }}
           disable('throw exceptions')
           enable('show exceptions')
           get('/', function(){
@@ -280,6 +280,16 @@ describe 'Express'
             enable('show exceptions')
             get('/', function(){
               this.error(new Error('fail!'))
+            })
+            get('/').body.should.include '<em>500</em> Error: fail!'
+            get('/').status.should.eql 500
+          end
+          
+          it 'should render the show-exceptions page with errors thrown within the route'
+            disable('throw exceptions')
+            enable('show exceptions')
+            get('/', function(){
+              throw new Error('fail!')
             })
             get('/').body.should.include '<em>500</em> Error: fail!'
             get('/').status.should.eql 500
@@ -320,7 +330,7 @@ describe 'Express'
             get('/', function(){
               this.error(new Error('fail!'))
             })
-            get('/', { headers: { accept: 'application/json' }}).body.should.include '{ "error": { "message": "fail!" }}'
+            get('/', { headers: { accept: 'application/json' }}).body.should.include '{"error":{"message":"fail!"'
             get('/').status.should.eql 500 
           end
         end
