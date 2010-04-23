@@ -43,13 +43,6 @@ or
   
       $ git clone git://github.com/visionmedia/express.git && cd express && git submodule update --init
 
-## Performance
-
-  Extensive performance enhancements have not yet been made,
-  since we are focusing on the framework itself at the moment. 
-  
-  However if you are interested view the premature [benchmarks for Express framework](http://vision-media.ca/resources/nodejs/express-nodejs-web-development-framework-performance).
-
 ## Examples
 
 Below is a tiny Express application. View the [Wiki](http://wiki.github.com/visionmedia/express/) for detailed information.
@@ -101,7 +94,8 @@ EDGE Express we do our best to keep up to date with node's EDGE
   * [JavaScript Extensions &amp; Utilities](http://github.com/visionmedia/ext.js)
   * [JavaScript Sass](http://github.com/visionmedia/sass.js)
   * Featured in [Advanced JavaScript e-book](http://www.dev-mag.com/2010/02/18/advanced-javascript/) for only $4
-  * [0.9.0 release details](http://tjholowaychuk.com/post/522036176/express-0-9-0-released) 
+  * [0.9.0 release details](http://tjholowaychuk.com/post/522036176/express-0-9-0-released)
+  * [Express vs Sinatra Benchmarks](http://tjholowaychuk.com/post/543953703/express-vs-sinatra-benchmarks)
     
 ## Contributors
 
