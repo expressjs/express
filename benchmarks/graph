@@ -55,7 +55,7 @@ EOF
 
 mkdir -p benchmarks/graphs
 
-for type in simple static static.large; do
+for type in simple haml sass static static.large; do
   plot=benchmarks/graphs/$type.p
   log generating benchmarks/graphs/$type.png
   line $type \

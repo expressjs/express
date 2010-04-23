@@ -52,6 +52,10 @@ bm node static.large.js
 bm express simple.js
 bm express static.js
 bm express static.large.js
+bm express haml.js
+bm express sass.js
 bm thin simple.ru
 bm thin static.ru
 bm thin static.large.ru
+bm thin haml.ru
+bm thin sass.ru
