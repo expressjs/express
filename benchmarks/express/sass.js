@@ -10,7 +10,7 @@ configure(function(){
 })
 
 get('/', function(){
-  this.render('page.html.haml')
+  this.render('style.css.sass', { layout: false })
 })
 
 run()
