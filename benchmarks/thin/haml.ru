@@ -8,7 +8,7 @@ configure do
 end
 
 get '/' do
-  haml :page
+  haml :page, :ugly => true
 end
 
 run Sinatra::Application
