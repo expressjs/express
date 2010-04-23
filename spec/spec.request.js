@@ -260,6 +260,19 @@ describe 'Express'
         end
       end
       
+      describe 'when not accepting common mime types'
+        it 'should render the default 500 status body'
+          var headers = { headers: { accept: 'text/plain' }}
+          disable('throw exceptions')
+          enable('show exceptions')
+          get('/', function(){
+            this.error(new Error('fail!'))
+          })
+          get('/', headers).body.should.eql 'Internal Server Error'
+          get('/', headers).status.should.eql 500
+        end
+      end
+      
       describe 'when accepting "html"'
         describe 'with "show exceptions" enabled'
           it 'should render the show-exceptions page'
@@ -273,19 +286,6 @@ describe 'Express'
           end
         end
         
-        describe 'when not accepting "html"'
-          it 'should render the default 500 status body'
-            var headers = { headers: { accept: 'text/plain' }}
-            disable('throw exceptions')
-            enable('show exceptions')
-            get('/', function(){
-              this.error(new Error('fail!'))
-            })
-            get('/', headers).body.should.eql 'Internal Server Error'
-            get('/', headers).status.should.eql 500
-          end
-        end
-        
         describe 'with "throw exceptions" enabled'
           it 'should re-throw the exception'
             enable('show exceptions')
@@ -294,6 +294,34 @@ describe 'Express'
               this.error(new Error('fail!'))
             })
             -{ get('/') }.should.throw_error Error, 'fail!'
+          end
+        end
+      end
+      
+      describe 'when accepting "text/plain"'
+        describe 'with "show exceptions" enabled'
+          it 'should render a text representation of the error'
+            disable('throw exceptions')
+            enable('show exceptions')
+            get('/', function(){
+              this.error(new Error('fail!'))
+            })
+            get('/', { headers: { accept: 'text/plain' }}).body.should.include '500 Error: fail!'
+            get('/').status.should.eql 500
+          end
+        end
+      end
+      
+      describe 'when accepting "application/json"'
+        describe 'with "show exceptions" enabled'
+          it 'should render a text representation of the error'
+            disable('throw exceptions')
+            enable('show exceptions')
+            get('/', function(){
+              this.error(new Error('fail!'))
+            })
+            get('/', { headers: { accept: 'application/json' }}).body.should.include '{ "error": { "message": "fail!" }}'
+            get('/').status.should.eql 500 
           end
         end
       end
