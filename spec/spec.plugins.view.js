@@ -120,7 +120,7 @@ describe 'Express'
             get('/', function(){
               this.render('hello.html.haml', { layout: 'front' })
             })
-            -{ get('/') }.should.throw_error 'No such file or directory'
+            -{ get('/') }.should.throw_error 'ENOENT, No such file or directory'
           end
         end
         

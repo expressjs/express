@@ -4,7 +4,7 @@ require('express')
 require('express/plugins')
 
 configure(function(){
-  enable('cache view contents')
+  //enable('cache view contents')
   set('root', __dirname)
   set('views', __dirname + '/../shared')
 })
