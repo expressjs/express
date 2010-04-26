@@ -81,7 +81,7 @@ describe 'Express'
           get('/', function(){
             this.render('hello.html.haml', {}, function(err, content){
               if (err) this.error(err)
-              else this.halt(203, content)
+              else this.respond(203, content)
             })
           })
           get('/').body.should.include '<html>\n<body>'
