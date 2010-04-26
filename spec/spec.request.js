@@ -11,6 +11,19 @@ describe 'Express'
         get('/user').status.should.eql 500
       end
     end
+    
+    describe '#charset'
+      describe 'when defined'
+        it 'should append "; charset=CHARSET'
+          get('/user', function(){
+            this.contentType('html')
+            this.charset = 'UTF-8'
+            return '∂'
+          })
+          get('/user').headers['Content-Type'].should.eql 'text/html; charset=UTF-8'
+        end
+      end
+    end
 
     describe '#header()'
       describe 'when given a field name and value'
