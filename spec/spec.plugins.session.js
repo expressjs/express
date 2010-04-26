@@ -17,7 +17,7 @@ describe 'Express'
       
       describe 'and requesting /favicon.ico'
         it 'should not set sid cookie'
-          get('/favicon.ico', function(){ this.halt() })
+          get('/favicon.ico', function(){ this.respond() })
           get('/favicon.ico').headers.should.not.have_property 'set-cookie'
         end
       end

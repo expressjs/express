@@ -113,32 +113,6 @@ describe 'Express'
       end
     end
     
-    describe '#halt()'
-      describe 'when given no arguments'
-        it 'should respond with 404 Not Found'
-          get('/user', function(){ this.halt() })
-          get('/user').status.should.eql 404
-          get('/user').body.should.include('Not Found')
-        end
-      end
-
-      describe 'when given a status code'
-        it 'should respond with that status and its associated default body'
-          get('/user', function(){ this.halt(400) })
-          get('/user').status.should.eql 400
-          get('/user').body.should.include('Bad Request')
-        end
-      end
-
-      describe 'when given a status code and body'
-        it 'should respond with the status and its body'
-          get('/user', function(){ this.halt(400, 'Oh noes!') })
-          get('/user').status.should.eql 400
-          get('/user').body.should.include('Oh noes!')
-        end
-      end
-    end
-
     describe '#contentType()'
       it 'should set Content-Type header with mime type passed'
         get('/style.css', function(){
@@ -265,7 +239,7 @@ describe 'Express'
           disable('throw exceptions')
           global.error(function(e){
             err = e
-            this.halt(500, 'FAIL!')
+            this.respond(500, 'FAIL!')
           })
           get('/', function(){ this.error(new Error('whoop')) })
           get('/').body.should.eql 'FAIL!'
@@ -375,7 +349,7 @@ describe 'Express'
       describe 'when a notFound route is defined'
         it 'should be called'
           notFound(function(){
-            this.halt(404, 'Sorry your page was not found')
+            this.respond(404, 'Sorry your page was not found')
           })
           get('/', function(){ this.notFound() })
           get('/').body.should.eql 'Sorry your page was not found'

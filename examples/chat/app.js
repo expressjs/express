@@ -42,7 +42,7 @@ post('/chat', function(){
     .push(utils.escape(this.param('name')) + ': ' + utils.escape(this.param('message'))
     .replace(/(http:\/\/[^\s]+)/g, '<a href="$1" target="express-chat">$1</a>')
     .replace(/:\)/g, '<img src="http://icons3.iconfinder.netdna-cdn.com/data/icons/ledicons/emoticon_smile.png">'))
-  this.halt(200)
+  this.respond(200)
 })
 
 get('/chat/messages', function(){
@@ -52,7 +52,7 @@ get('/chat/messages', function(){
     if (messages.length > previousLength)
       self.contentType('json'),
       previousLength = messages.length,
-      self.halt(200, JSON.encode(messages)),
+      self.respond(200, JSON.encode(messages)),
       clearInterval(timer)
   }, 100)
 })
@@ -74,7 +74,7 @@ get('/simple', function(){
 })
 
 get('/favicon.ico', function(){
-  this.halt()
+  this.notFound()
 })
 
 run()
