@@ -24,6 +24,9 @@ prof:
 app-chat:
 	@$(NODE) examples/chat/app.js
 
+app-hello-world:
+	@$(NODE) examples/hello-world/app.js
+
 app-upload:
 	@$(NODE) examples/upload/app.js
 	
