@@ -1,2 +1,8 @@
 <h1><%= title %></h1>
-<p>test</p>
+<% if (items && items.length) { %>
+    <ul>
+        <% for (var i = 0; i < items.length; ++i) { %>
+            <li><%= items[i] %></li>
+        <% } %>
+    </ul>
+<% } %>

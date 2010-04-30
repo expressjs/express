@@ -9,7 +9,8 @@ configure(function(){
 get('/', function(){
   this.render('front.html.ejs', {
     locals: {
-      title: 'Hello World'
+      title: 'Hello World',
+      items: ['one', 'two', 'three']
     }
   })
 })
