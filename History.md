@@ -1,4 +1,34 @@
 
+0.10.0 / 2010-04-30
+==================
+
+  * Added charset support via Request#charset (automatically assigned to 'UTF-8' when respond()'s
+    encoding is set to 'utf8' or 'utf-8'.
+  * Added "encoding" option to Request#render(). Closes #299
+  * Added "dump exceptions" setting, which is enabled by default.
+  * Added simple ejs template engine support
+  * Added error reponse support for text/plain, application/json. Closes #297
+  * Added callback function param to Request#error()
+  * Added Request#sendHead()
+  * Added Request#stream()
+  * Added support for Request#respond(304, null) for empty response bodies
+  * Added ETag support to Request#sendfile()
+  * Added options to Request#sendfile(), passed to fs.createReadStream()
+  * Added filename arg to Request#download()
+  * Performance enhanced due to pre-reversing plugins so that plugins.reverse() is not called on each request
+  * Performance enhanced by preventing several calls to toLowerCase() in Router#match()
+  * Changed; Request#sendfile() now streams
+  * Changed; Renamed Request#halt() to Request#respond(). Closes #289
+  * Changed; Using sys.inspect() instead of JSON.encode() for error output
+  * Changed; run() returns the http.Server instance. Closes #298
+  * Changed; Defaulting Server#host to null (INADDR_ANY)
+  * Changed; Logger "common" format scale of 0.4f
+  * Removed Logger "request" format
+  * Fixed; Catching ENOENT in view caching, preventing error when "views/partials" is not found
+  * Fixed several issues with http client
+  * Fixed Logger Content-Length output
+  * Fixed bug preventing Opera from retaining the generated session id. Closes #292
+
 0.9.0 / 2010-04-14
 ==================
 

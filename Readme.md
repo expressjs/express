@@ -15,6 +15,7 @@
   * Cache API
   * RESTful HTTP client
   * Mime helpers
+  * ETag support
   * Redirection helpers
   * Multipart file upload support
   * Test helpers (mock requests etc)
