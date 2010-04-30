@@ -1,4 +1,6 @@
 
+ejs = require('ejs')
+
 describe 'Express'
   before_each
     reset()
@@ -18,6 +20,18 @@ describe 'Express'
         set('partials').should.eql 'spec/views/partials'
         set('views', 'magicland')
         set('partials').should.eql 'magicland/partials'
+      end
+    end
+    
+    describe 'ejs'
+      it 'should work without options'
+        var str = '<h2><%= "Title" %></h2>'
+        ejs.render(str).should.eql '<h2>Title</h2>'
+      end
+      
+      it 'should work with locals'
+        var str = '<h2><%= title %></h2>'
+        ejs.render(str, { locals: { title: 'Title' }}).should.eql '<h2>Title</h2>'
       end
     end
     
