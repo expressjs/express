@@ -1,4 +1,15 @@
 
+0.11.0 / 2010-05-06
+==================
+
+  * Added support for layouts using different engines
+    - this.render('page.html.haml', { layout: 'super-cool-layout.html.ejs' })
+    - this.render('page.html.haml', { layout: 'foo' }) // assumes 'foo.html.haml'
+    - this.render('page.html.haml', { layout: false }) // no layout
+  * Updated ext submodule
+  * Updated haml submodule
+  * Fixed EJS partial support by passing along the context. Issue #307
+
 0.10.1 / 2010-05-03
 ==================
 
