@@ -10,6 +10,7 @@ get('/', function(){
   this.render('front.html.ejs', {
     locals: {
       title: 'Hello World',
+      name: 'Joe',
       items: ['one', 'two', 'three']
     }
   })

@@ -1,0 +1,5 @@
+<ul>
+  <% for (idx in items) { %>
+    <%= this.partial("item.html.ejs", { locals: { item: items[idx] }}) %>
+  <% } %>
+</ul>
