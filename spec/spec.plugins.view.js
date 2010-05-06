@@ -42,45 +42,89 @@ describe 'Express'
       end
       
       describe 'given a valid view name'
-        it 'should render a partial'
-          get('/', function(){
-            this.render('list.html.haml', { locals: { items: ['foo', 'bar'] }})
-          })
-          get('/').body.should.include '<ul>'
-          get('/').body.should.include '<li>foo'
-          get('/').body.should.include '<li>bar'
-        end
-        
-        it 'should render collections'
-          get('/', function(){
-            return this.partial('item.html.haml', {
-              collection: ['foo', 'bar']
+        describe 'with EJS'
+          it 'should render a partial'
+            get('/', function(){
+              this.render('list.html.ejs', { locals: { items: ['foo', 'bar'] }})
             })
-          })
-          get('/').body.should.include '<li>foo'
-          get('/').body.should.include '<li>bar'
-        end
-        
-        it 'should render collections with a given object name'
-          get('/', function(){
-            return this.partial('video.html.haml', {
-              collection: ['im a movie', 'im another movie'],
-              as: 'vid'
+            get('/').body.should.include '<ul>'
+            get('/').body.should.include '<li>foo'
+            get('/').body.should.include '<li>bar'
+          end
+          
+          it 'should render collections'
+            get('/', function(){
+              return this.partial('item.html.ejs', {
+                collection: ['foo', 'bar']
+              })
             })
-          })
-          get('/').body.should.include '<li>im a movie'
-          get('/').body.should.include '<li>im another movie'
-        end
-        
-        it 'should pass __isFirst__, __isLast__, and __index__ to partials as locals'
-          get('/', function(){
-            return this.partial('article.html.haml', {
-              collection: ['a', 'b', 'c']
+            get('/').body.should.include '<li>foo'
+            get('/').body.should.include '<li>bar'
+          end
+          
+          it 'should render collections with a given object name'
+            get('/', function(){
+              return this.partial('video.html.ejs', {
+                collection: ['im a movie', 'im another movie'],
+                as: 'vid'
+              })
             })
-          })
-          get('/').body.should.include '<li class="first">a'
-          get('/').body.should.include '<li class="1">b'
-          get('/').body.should.include '<li class="last">c'
+            get('/').body.should.include '<li>im a movie'
+            get('/').body.should.include '<li>im another movie'
+          end
+          
+          it 'should pass __isFirst__, __isLast__, and __index__ to partials as locals'
+            get('/', function(){
+              return this.partial('article.html.ejs', {
+                collection: ['a', 'b', 'c']
+              })
+            })
+            get('/').body.should.include '<li class="first">a'
+            get('/').body.should.include '<li class="1">b'
+            get('/').body.should.include '<li class="last">c'
+          end
+        end
+        describe 'with Haml'
+          it 'should render a partial'
+            get('/', function(){
+              this.render('list.html.haml', { locals: { items: ['foo', 'bar'] }})
+            })
+            get('/').body.should.include '<ul>'
+            get('/').body.should.include '<li>foo'
+            get('/').body.should.include '<li>bar'
+          end
+          
+          it 'should render collections'
+            get('/', function(){
+              return this.partial('item.html.haml', {
+                collection: ['foo', 'bar']
+              })
+            })
+            get('/').body.should.include '<li>foo'
+            get('/').body.should.include '<li>bar'
+          end
+          
+          it 'should render collections with a given object name'
+            get('/', function(){
+              return this.partial('video.html.haml', {
+                collection: ['im a movie', 'im another movie'],
+                as: 'vid'
+              })
+            })
+            get('/').body.should.include '<li>im a movie'
+            get('/').body.should.include '<li>im another movie'
+          end
+          
+          it 'should pass __isFirst__, __isLast__, and __index__ to partials as locals'
+            get('/', function(){
+              return this.partial('article.html.haml', {
+                collection: ['a', 'b', 'c']
+              })
+            })
+            get('/').body.should.include '<li class="first">a'
+            get('/').body.should.include '<li class="1">b'
+            get('/').body.should.include '<li class="last">c'
+          end
         end
       end
     end
