@@ -149,6 +149,14 @@ describe 'Express'
           end
         end
         
+        describe 'given a layout name with a different engine'
+          get('/', function(){
+              this.render('hello.html.haml', { layout: 'layout.html.ejs' })
+          })
+          get('/').body.should.include '<h2>Hello'
+          get('/').body.should.include '<p>'
+        end
+        
         describe 'when layout: false'
           it 'should render the view only'
             get('/', function(){
