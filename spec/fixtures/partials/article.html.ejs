@@ -3,7 +3,7 @@
     <li class="first"><%= article %></li>
   <% } else if (__isLast__) { %>
     <li class="last"><%= article %></li>
-  <% } else if (!__isLast__ && !__isFirst__) { %>
+  <% } else { %>
     <li class="<%= __index__ %>"><%= article %></li>
   <% } %>
 </ul>
