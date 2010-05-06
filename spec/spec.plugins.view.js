@@ -149,6 +149,16 @@ describe 'Express'
           end
         end
         
+        describe 'given a full layout name'
+          it 'should render a layout of a different engine'
+            get('/', function(){
+                this.render('hello.html.haml', { layout: 'layout.html.ejs' })
+            })
+            get('/').body.should.include '<h2>Hello'
+            get('/').body.should.include '<p>'
+          end
+        end
+        
         describe 'when layout: false'
           it 'should render the view only'
             get('/', function(){
@@ -185,7 +195,7 @@ describe 'Express'
           it 'should have direct access to locals within the layout'
             get('/user', function(){
               this.render('user.html.haml', {
-                layout: 'layout.user',
+                layout: 'layout-user',
                 locals: {
                   name: 'tj',
                   email: 'tj@vision-media.ca'
