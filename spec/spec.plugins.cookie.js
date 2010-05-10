@@ -55,6 +55,11 @@ describe 'Express'
         var attrs = ' SID     =  1232431234234 ;  data =  foo'
         parseCookie(attrs).should.eql { SID: '1232431234234', data: 'foo' }
       end
+
+      it 'should support complex quoted values'
+        var attrs = 'SID="123456789"; fbs_0011223355="uid=0987654321&name=Test+User"'
+        parseCookie(attrs).should.eql { SID: '123456789', "fbs_0011223355": 'uid=0987654321&name=Test User' }
+      end
     end
     
     describe 'on'
