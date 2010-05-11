@@ -82,7 +82,7 @@ describe 'Express'
             this.cookie('foo', 'bar')
             return ''  
           })
-          get('/user').headers['Set-Cookie'].should.eql 'SID=732423sdfs73243; path=/; secure\nSet-Cookie: foo=bar; path=/'
+          get('/user').headers['Set-Cookie'].should.eql 'SID=732423sdfs73243; path=/; secure\r\nSet-Cookie: foo=bar; path=/'
         end
       end
     end
