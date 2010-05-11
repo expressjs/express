@@ -61,6 +61,11 @@ describe 'Express'
         parseCookie(attrs).should.eql { SID: '123456789', fbs_0011223355: 'uid=0987654321&name=Test User' }
       end
       
+      it 'should not override when a duplicate key is found'
+        var attrs = 'SID=1234; SID=9999'
+        parseCookie(attrs).should.eql { SID: '1234' }
+      end
+      
       it 'should support malformed cookies'
         var attrs = 'SID'
         parseCookie(attrs).should.eql {}
