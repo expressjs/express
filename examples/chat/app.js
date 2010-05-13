@@ -4,7 +4,8 @@ require('express')
 require('express/plugins')
 
 var messages = [],
-    utils = require('express/utils')
+    utils = require('express/utils'),
+    http = require('express/http')
     
 configure(function(){
   use(Logger)
@@ -24,7 +25,7 @@ get('/', function(){
 get('/chat', function(){
   var self = this
   Session.store.length(function(err, len){
-    self.render('chat.haml.html', {
+    self.render('chat.html.haml', {
       locals: {
         title: 'Chat',
         messages: messages,
@@ -41,7 +42,7 @@ post('/chat', function(){
     .push(utils.escape(this.param('name')) + ': ' + utils.escape(this.param('message'))
     .replace(/(http:\/\/[^\s]+)/g, '<a href="$1" target="express-chat">$1</a>')
     .replace(/:\)/g, '<img src="http://icons3.iconfinder.netdna-cdn.com/data/icons/ledicons/emoticon_smile.png">'))
-  this.halt(200)
+  this.respond(200)
 })
 
 get('/chat/messages', function(){
@@ -51,13 +52,13 @@ get('/chat/messages', function(){
     if (messages.length > previousLength)
       self.contentType('json'),
       previousLength = messages.length,
-      self.halt(200, JSON.encode(messages)),
+      self.respond(200, JSON.encode(messages)),
       clearInterval(timer)
   }, 100)
 })
 
 get('/*.css', function(file){
-  this.render(file + '.sass.css', { layout: false })
+  this.render(file + '.css.sass', { layout: false })
 })
 
 get('/error/view', function(){
@@ -73,7 +74,7 @@ get('/simple', function(){
 })
 
 get('/favicon.ico', function(){
-  this.halt()
+  this.notFound()
 })
 
 run()

@@ -15,6 +15,7 @@
   * Cache API
   * RESTful HTTP client
   * Mime helpers
+  * ETag support
   * Redirection helpers
   * Multipart file upload support
   * Test helpers (mock requests etc)
@@ -23,10 +24,12 @@
   * Persistent flash messages
   * Route passing
   * View support (ejs, haml, sass, etc)
+  * View partials
   * Full test coverage
   * Logger plugin with several formats
   * Upload size restrictions
   * Extremely readable specs
+  * Cookie support
   
 ## Installation
 
@@ -41,19 +44,16 @@ or
   
       $ git clone git://github.com/visionmedia/express.git && cd express && git submodule update --init
 
-## Performance
-
-  Extensive performance enhancements have not yet been made,
-  since we are focusing on the framework it-self at the moment. 
-  
-  However if you are interested view the premature [benchmarks for Express framework](http://vision-media.ca/resources/nodejs/express-nodejs-web-development-framework-performance).
-
 ## Examples
 
 Below is a tiny Express application. View the [Wiki](http://wiki.github.com/visionmedia/express/) for detailed information.
 
     require.paths.unshift('express/lib')
     require('express')
+    
+    configure(function(){
+      set('root', __dirname)
+    })
     
     get('/user', function(){
       this.redirect('/user/' + this.currentUser.id)
@@ -86,15 +86,17 @@ Run individual suites:
     ...
     
 The latest release of Express is compatible with node --version:
-    v0.1.33
+    v0.1.94
     
-EDGE Express we do our best to keep up to date with node's EDGE
+With _EDGE_ Express we do our best to keep up to date with node's _EDGE_
     
 ## More Information
 
   * [JavaScript Extensions &amp; Utilities](http://github.com/visionmedia/ext.js)
   * [JavaScript Sass](http://github.com/visionmedia/sass.js)
   * Featured in [Advanced JavaScript e-book](http://www.dev-mag.com/2010/02/18/advanced-javascript/) for only $4
+  * [0.9.0 release details](http://tjholowaychuk.com/post/522036176/express-0-9-0-released)
+  * [Express vs Sinatra Benchmarks](http://tjholowaychuk.com/post/543953703/express-vs-sinatra-benchmarks)
     
 ## Contributors
 

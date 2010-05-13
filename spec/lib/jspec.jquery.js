@@ -24,7 +24,7 @@ JSpec
   
   // --- Matchers
   
-  matchers : {
+  matchers : {    
     have_tag      : "jQuery(expected, actual).length === 1",
     have_one      : "alias have_tag",
     have_tags     : "jQuery(expected, actual).length > 1",
@@ -36,7 +36,8 @@ JSpec
     have_value    : "jQuery(actual).val() === expected",
     be_enabled    : "!jQuery(actual).attr('disabled')",
     have_class    : "jQuery(actual).hasClass(expected)",
-    
+    be_animated   : "jQuery(actual).queue().length > 0",        
+        
     be_visible : function(actual) {
       return jQuery(actual).css('display') != 'none' &&
              jQuery(actual).css('visibility') != 'hidden' &&
@@ -46,7 +47,7 @@ JSpec
     be_hidden : function(actual) {
       return !JSpec.does(actual, 'be_visible')
     },
-
+    
     have_classes : function(actual) {
       return !JSpec.any(JSpec.toArray(arguments, 1), function(arg){
         return !JSpec.does(actual, 'have_class', arg)
@@ -56,6 +57,12 @@ JSpec
     have_attr : function(actual, attr, value) {
       return value ? jQuery(actual).attr(attr) == value:
                      jQuery(actual).attr(attr)
+    },
+    
+    have_event_handlers : function(actual, expected) {
+      return jQuery(actual).data('events') ?
+        jQuery(actual).data('events').hasOwnProperty(expected) :
+          false
     },
     
     'be disabled selected checked' : function(attr) {

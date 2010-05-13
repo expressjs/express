@@ -1,0 +1,9 @@
+<h1><%= title %></h1>
+<%= this.partial("greeting.html.ejs", { locals: { name: name } }) %>
+<% if (items && items.length) { %>
+    <ul>
+        <% for (var i = 0; i < items.length; ++i) { %>
+            <li><%= items[i] %></li>
+        <% } %>
+    </ul>
+<% } %>

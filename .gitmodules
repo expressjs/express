@@ -1,15 +1,15 @@
-[submodule "lib/support/oo"]
-	path = lib/support/oo
-	url = git://github.com/visionmedia/js-oo.git
 [submodule "lib/support/ext"]
 	path = lib/support/ext
 	url = git://github.com/visionmedia/ext.js.git
 [submodule "lib/support/sass"]
 	path = lib/support/sass
 	url = git://github.com/visionmedia/sass.js.git
-[submodule "lib/support/haml"]
-	path = lib/support/haml
-	url = git://github.com/creationix/haml-js.git
 [submodule "lib/support/class"]
 	path = lib/support/class
 	url = git://github.com/visionmedia/class.js.git
+[submodule "lib/support/haml"]
+	path = lib/support/haml
+	url = git://github.com/visionmedia/haml.js.git
+[submodule "lib/support/multipart"]
+	path = lib/support/multipart
+	url = git://github.com/isaacs/multipart-js.git

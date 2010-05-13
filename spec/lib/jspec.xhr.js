@@ -2,28 +2,29 @@
 // JSpec - XHR - Copyright TJ Holowaychuk <tj@vision-media.ca> (MIT Licensed)
 
 (function(){
-  
+
   var lastRequest
-  
+
   // --- Original XMLHttpRequest
-  
-  var OriginalXMLHttpRequest = 'XMLHttpRequest' in this ? 
+
+  var OriginalXMLHttpRequest = 'XMLHttpRequest' in this ?
                                  XMLHttpRequest :
                                    function(){}
   var OriginalActiveXObject = 'ActiveXObject' in this ?
                                  ActiveXObject :
                                    undefined
-                                   
+
   // --- MockXMLHttpRequest
 
   var MockXMLHttpRequest = function() {
     this.requestHeaders = {}
   }
-  
+
   MockXMLHttpRequest.prototype = {
     status: 0,
     async: true,
     readyState: 0,
+	  responseXML: null,
     responseText: '',
     abort: function(){},
     onreadystatechange: function(){},
@@ -35,7 +36,7 @@
     getAllResponseHeaders : function(){
       return this.responseHeaders
     },
-    
+
     /**
      * Return case-insensitive value for header _name_.
      */
@@ -43,7 +44,7 @@
     getResponseHeader : function(name) {
       return this.responseHeaders[name.toLowerCase()]
     },
-    
+
     /**
      * Set case-insensitive _value_ for header _name_.
      */
@@ -51,7 +52,7 @@
     setRequestHeader : function(name, value) {
       this.requestHeaders[name.toLowerCase()] = value
     },
-    
+
     /**
      * Open mock request.
      */
@@ -65,7 +66,7 @@
       if (async != undefined) this.async = async
       if (this.async) this.onreadystatechange()
     },
-    
+
     /**
      * Send request _data_.
      */
@@ -77,14 +78,26 @@
       if (this.method == 'HEAD') this.responseText = null
       this.responseHeaders['content-length'] = (this.responseText || '').length
       if(this.async) this.onreadystatechange()
+	    this.populateResponseXML()
       lastRequest = function(){
         return self
       }
-    }
+    },
+
+	/**
+	 * Parse request body and populate responseXML if response-type is xml
+	 * Based on the standard specification : http://www.w3.org/TR/XMLHttpRequest/
+	 */
+	populateResponseXML: function() {
+		var type = this.getResponseHeader("content-type")
+		if (!type || !this.responseText || !type.match(/(text\/xml|application\/xml|\+xml$)/g))
+			return
+		this.responseXML = JSpec.parseXML(this.responseText)
+	  }
   }
-  
+
   // --- Response status codes
-  
+
   JSpec.statusCodes = {
     100: 'Continue',
     101: 'Switching Protocols',
@@ -128,7 +141,7 @@
     504: 'Gateway Timeout',
     505: 'HTTP Version Not Supported'
   }
-  
+
   /**
    * Mock XMLHttpRequest requests.
    *
@@ -137,7 +150,7 @@
    * @return {hash}
    * @api public
    */
-  
+
   function mockRequest() {
     return { and_return : function(body, type, status, headers) {
       XMLHttpRequest = MockXMLHttpRequest
@@ -153,18 +166,18 @@
       })
     }}
   }
-  
+
   /**
    * Unmock XMLHttpRequest requests.
    *
    * @api public
    */
-  
+
   function unmockRequest() {
     XMLHttpRequest = OriginalXMLHttpRequest
     ActiveXObject = OriginalActiveXObject
   }
-  
+
   JSpec.include({
     name: 'Mock XHR',
 
@@ -180,9 +193,9 @@
     afterSpec : function() {
       unmockRequest()
     },
-    
+
     // --- DSLs
-    
+
     DSLs : {
       snake : {
         mock_request: mockRequest,

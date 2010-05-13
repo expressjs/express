@@ -1,4 +1,80 @@
 
+0.11.0 / 2010-05-06
+==================
+
+  * Added support for layouts using different engines
+    - this.render('page.html.haml', { layout: 'super-cool-layout.html.ejs' })
+    - this.render('page.html.haml', { layout: 'foo' }) // assumes 'foo.html.haml'
+    - this.render('page.html.haml', { layout: false }) // no layout
+  * Updated ext submodule
+  * Updated haml submodule
+  * Fixed EJS partial support by passing along the context. Issue #307
+
+0.10.1 / 2010-05-03
+==================
+
+  * Fixed binary uploads.
+
+0.10.0 / 2010-04-30
+==================
+
+  * Added charset support via Request#charset (automatically assigned to 'UTF-8' when respond()'s
+    encoding is set to 'utf8' or 'utf-8'.
+  * Added "encoding" option to Request#render(). Closes #299
+  * Added "dump exceptions" setting, which is enabled by default.
+  * Added simple ejs template engine support
+  * Added error reponse support for text/plain, application/json. Closes #297
+  * Added callback function param to Request#error()
+  * Added Request#sendHead()
+  * Added Request#stream()
+  * Added support for Request#respond(304, null) for empty response bodies
+  * Added ETag support to Request#sendfile()
+  * Added options to Request#sendfile(), passed to fs.createReadStream()
+  * Added filename arg to Request#download()
+  * Performance enhanced due to pre-reversing plugins so that plugins.reverse() is not called on each request
+  * Performance enhanced by preventing several calls to toLowerCase() in Router#match()
+  * Changed; Request#sendfile() now streams
+  * Changed; Renamed Request#halt() to Request#respond(). Closes #289
+  * Changed; Using sys.inspect() instead of JSON.encode() for error output
+  * Changed; run() returns the http.Server instance. Closes #298
+  * Changed; Defaulting Server#host to null (INADDR_ANY)
+  * Changed; Logger "common" format scale of 0.4f
+  * Removed Logger "request" format
+  * Fixed; Catching ENOENT in view caching, preventing error when "views/partials" is not found
+  * Fixed several issues with http client
+  * Fixed Logger Content-Length output
+  * Fixed bug preventing Opera from retaining the generated session id. Closes #292
+
+0.9.0 / 2010-04-14
+==================
+
+  * Added DSL level error() route support
+  * Added DSL level notFound() route support
+  * Added Request#error()
+  * Added Request#notFound()
+  * Added Request#render() callback function. Closes #258
+  * Added "max upload size" setting
+  * Added "magic" variables to collection partials (\_\_index\_\_, \_\_length\_\_, \_\_isFirst\_\_, \_\_isLast\_\_). Closes #254
+  * Added [haml.js](http://github.com/visionmedia/haml.js) submodule; removed haml-js
+  * Added callback function support to Request#halt() as 3rd/4th arg
+  * Added preprocessing of route param wildcards using param(). Closes #251
+  * Added view partial support (with collections etc)
+  * Fixed bug preventing falsey params (such as ?page=0). Closes #286
+  * Fixed setting of multiple cookies. Closes #199
+  * Changed; view naming convention is now NAME.TYPE.ENGINE (for example page.html.haml)
+  * Changed; session cookie is now httpOnly
+  * Changed; Request is no longer global
+  * Changed; Event is no longer global
+  * Changed; "sys" module is no longer global
+  * Changed; moved Request#download to Static plugin where it belongs
+  * Changed; Request instance created before body parsing. Closes #262
+  * Changed; Pre-caching views in memory when "cache view contents" is enabled. Closes #253
+  * Changed; Pre-caching view partials in memory when "cache view partials" is enabled
+  * Updated support to node --version 0.1.90
+  * Updated dependencies
+  * Removed set("session cookie") in favour of use(Session, { cookie: { ... }})
+  * Removed utils.mixin(); use Object#mergeDeep()
+  
 0.8.0 / 2010-03-19
 ==================
 

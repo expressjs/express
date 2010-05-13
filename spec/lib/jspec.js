@@ -4,7 +4,7 @@
 ;(function(){
 
   JSpec = {
-    version   : '4.0.0',
+    version   : '4.2.1',
     assert    : true,
     cache     : {},
     suites    : [],
@@ -260,14 +260,14 @@
     },
     
     ProxyAssertion : function(object, method, times, negate) {
-      var self = this
-      var old = object[method]
+      var self = this,
+          old = object[method]
       
       // Proxy
       
       object[method] = function(){
-        args = toArray(arguments)
-        result = old.apply(object, args)
+        var args = toArray(arguments),
+            result = old.apply(object, args)
         self.calls.push({ args : args, result : result })
         return result
       }
@@ -894,17 +894,21 @@
      */
     
     color : function(string, color) {
-      return "\u001B[" + {
-       bold    : 1,
-       black   : 30,
-       red     : 31,
-       green   : 32,
-       yellow  : 33,
-       blue    : 34,
-       magenta : 35,
-       cyan    : 36,
-       white   : 37
-      }[color] + 'm' + string + "\u001B[0m"
+      if (option('disableColors')) {
+        return string
+      } else {
+        return "\u001B[" + {
+         bold    : 1,
+         black   : 30,
+         red     : 31,
+         green   : 32,
+         yellow  : 33,
+         blue    : 34,
+         magenta : 35,
+         cyan    : 36,
+         white   : 37
+        }[color] + 'm' + string + "\u001B[0m"
+      }
     },
     
     /**
@@ -956,6 +960,7 @@
      */
     
     normalizeMatcherBody : function(body) {
+      var captures
       switch (body.constructor) {
         case String:
           if (captures = body.match(/^alias (\w+)/)) return JSpec.matchers[last(captures)]
@@ -1071,6 +1076,26 @@
     },
 
     /**
+     * Parse an XML String and return a 'document'.
+     *
+     * @param {string} text
+     * @return {document}
+     * @api public
+     */
+
+    parseXML : function(text) {
+      var xmlDoc
+      if (window.DOMParser)
+        xmlDoc = (new DOMParser()).parseFromString(text, "text/xml")
+      else {
+        xmlDoc = new ActiveXObject("Microsoft.XMLDOM")
+        xmlDoc.async = "false"
+        xmlDoc.loadXML(text)
+      }
+      return xmlDoc
+    },
+
+    /**
      * Escape HTML.
      *
      * @param  {string} html
@@ -1127,7 +1152,7 @@
       function assert(matcher, args, negate) {
         var expected = toArray(args, 1)
         matcher.negate = negate  
-        assertion = new JSpec.Assertion(matcher, actual, expected, negate)
+        var assertion = new JSpec.Assertion(matcher, actual, expected, negate)
         hook('beforeAssertion', assertion)
         if (matcher.defer) assertion.run()
         else JSpec.currentSpec.assertions.push(assertion.run().report()), hook('afterAssertion', assertion)
@@ -1245,6 +1270,7 @@
       */
      
      destub : function(object, method) {
+       var captures
        if (method) {
          if (object['__prototype__' + method])
            delete object[method]
@@ -1609,19 +1635,6 @@
     },
 
     /**
-     * Throw a JSpec related error.
-     *
-     * @param {string} message
-     * @param {Exception} e
-     * @api public
-     */
-
-    error : function(message, e) {
-      throw (message ? message : '') + e.toString() + 
-              (e.line ? ' near line ' + e.line : '')
-    },
-    
-    /**
      * Ad-hoc POST request for JSpec server usage.
      *
      * @param  {string} uri
@@ -1775,7 +1788,7 @@
     have_length_within : "actual.length >= expected[0] && actual.length <= last(expected)",
     
     receive : { defer : true, match : function(actual, method, times) {
-      proxy = new JSpec.ProxyAssertion(actual, method, times, this.negate)
+      var proxy = new JSpec.ProxyAssertion(actual, method, times, this.negate)
       JSpec.currentSpec.assertions.push(proxy)
       return proxy
     }},
@@ -1788,8 +1801,8 @@
     },
 
     include : function(actual) {
-      for (state = true, i = 1; i < arguments.length; i++) {
-        arg = arguments[i]
+      for (var state = true, i = 1; i < arguments.length; i++) {
+        var arg = arguments[i]
         switch (actual.constructor) {
           case String: 
           case Number:
@@ -1836,39 +1849,39 @@
           case Function : return expected[i].name || 'Error'
         }
       }
-      exception = message_for(1) + (expected[2] ? ' and ' + message_for(2) : '')
+      var exception = message_for(1) + (expected[2] ? ' and ' + message_for(2) : '')
       return 'expected ' + exception + (negate ? ' not ' : '' ) +
                ' to be thrown, but ' + (this.e ? 'got ' + puts(this.e) : 'nothing was')
     }},
     
     have : function(actual, length, property) {
-      return actual[property].length == length
+      return actual[property] == null ? false : actual[property].length == length
     },
     
     have_at_least : function(actual, length, property) {
-      return actual[property].length >= length
+      return actual[property] == null ? (length === 0) : actual[property].length >= length
     },
     
     have_at_most :function(actual, length, property) {
-      return actual[property].length <= length
+      return actual[property] == null || actual[property].length <= length
     },
     
     have_within : function(actual, range, property) {
-      length = actual[property].length
+      var length = actual[property] == undefined ? 0 : actual[property].length
       return length >= range.shift() && length <= range.pop()
     },
     
     have_prop : function(actual, property, value) {
-      return actual[property] == null || 
+      return actual[property] === undefined ||
                actual[property] instanceof Function ? false:
-                 value == null ? true:
+                 value === undefined ? true:
                    does(actual[property], 'eql', value)
     },
     
     have_property : function(actual, property, value) {
-      return actual[property] == null ||
+      return actual[property] === undefined ||
                actual[property] instanceof Function ? false:
-                 value == null ? true:
+                 value === undefined ? true:
                    value === actual[property]
     }
   })

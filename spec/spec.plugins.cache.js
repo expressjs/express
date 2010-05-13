@@ -42,6 +42,21 @@ describe 'Express'
           result.should.eql 'bar'
         end
         
+        it 'should work with regexp special characters'
+          var result,
+              result2
+          store.set('page:/users/1/comments?page=2', 'html', function(){
+            store.get('page:/users/1/comments?page=2', function(val){
+              result = val
+              store.get('page:*', function(vals){
+                result2 = vals
+              })
+            })
+          })
+          result.should.eql 'html'
+          result2.should.eql { 'page:/users/1/comments?page=2': 'html' }
+        end
+        
         it 'should override existing data'
           var result
           store.set('foo', 'bar', function(){

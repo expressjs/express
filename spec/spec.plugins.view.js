@@ -1,4 +1,6 @@
 
+ejs = require('ejs')
+
 describe 'Express'
   before_each
     reset()
@@ -21,6 +23,18 @@ describe 'Express'
       end
     end
     
+    describe 'ejs'
+      it 'should work without options'
+        var str = '<h2><%= "Title" %></h2>'
+        ejs.render(str).should.eql '<h2>Title</h2>'
+      end
+      
+      it 'should work with locals'
+        var str = '<h2><%= title %></h2>'
+        ejs.render(str, { locals: { title: 'Title' }}).should.eql '<h2>Title</h2>'
+      end
+    end
+    
     describe '#partial()'
       before_each
         set('views', 'spec/fixtures')
@@ -28,45 +42,89 @@ describe 'Express'
       end
       
       describe 'given a valid view name'
-        it 'should render a partial'
-          get('/', function(){
-            this.render('list.haml.html', { locals: { items: ['foo', 'bar'] }})
-          })
-          get('/').body.should.include '<ul>'
-          get('/').body.should.include '<li>foo'
-          get('/').body.should.include '<li>bar'
-        end
-        
-        it 'should render collections'
-          get('/', function(){
-            return this.partial('item.haml.html', {
-              collection: ['foo', 'bar']
+        describe 'with EJS'
+          it 'should render a partial'
+            get('/', function(){
+              this.render('list.html.ejs', { locals: { items: ['foo', 'bar'] }})
             })
-          })
-          get('/').body.should.include '<li>foo'
-          get('/').body.should.include '<li>bar'
-        end
-        
-        it 'should render collections with a given object name'
-          get('/', function(){
-            return this.partial('video.haml.html', {
-              collection: ['im a movie', 'im another movie'],
-              as: 'vid'
+            get('/').body.should.include '<ul>'
+            get('/').body.should.include '<li>foo'
+            get('/').body.should.include '<li>bar'
+          end
+          
+          it 'should render collections'
+            get('/', function(){
+              return this.partial('item.html.ejs', {
+                collection: ['foo', 'bar']
+              })
             })
-          })
-          get('/').body.should.include '<li>im a movie'
-          get('/').body.should.include '<li>im another movie'
-        end
-        
-        it 'should pass __isFirst__, __isLast__, and __index__ to partials as locals'
-          get('/', function(){
-            return this.partial('article.haml.html', {
-              collection: ['a', 'b', 'c']
+            get('/').body.should.include '<li>foo'
+            get('/').body.should.include '<li>bar'
+          end
+          
+          it 'should render collections with a given object name'
+            get('/', function(){
+              return this.partial('video.html.ejs', {
+                collection: ['im a movie', 'im another movie'],
+                as: 'vid'
+              })
             })
-          })
-          get('/').body.should.include '<li class="first">a'
-          get('/').body.should.include '<li class="1">b'
-          get('/').body.should.include '<li class="last">c'
+            get('/').body.should.include '<li>im a movie'
+            get('/').body.should.include '<li>im another movie'
+          end
+          
+          it 'should pass __isFirst__, __isLast__, and __index__ to partials as locals'
+            get('/', function(){
+              return this.partial('article.html.ejs', {
+                collection: ['a', 'b', 'c']
+              })
+            })
+            get('/').body.should.include '<li class="first">a'
+            get('/').body.should.include '<li class="1">b'
+            get('/').body.should.include '<li class="last">c'
+          end
+        end
+        describe 'with Haml'
+          it 'should render a partial'
+            get('/', function(){
+              this.render('list.html.haml', { locals: { items: ['foo', 'bar'] }})
+            })
+            get('/').body.should.include '<ul>'
+            get('/').body.should.include '<li>foo'
+            get('/').body.should.include '<li>bar'
+          end
+          
+          it 'should render collections'
+            get('/', function(){
+              return this.partial('item.html.haml', {
+                collection: ['foo', 'bar']
+              })
+            })
+            get('/').body.should.include '<li>foo'
+            get('/').body.should.include '<li>bar'
+          end
+          
+          it 'should render collections with a given object name'
+            get('/', function(){
+              return this.partial('video.html.haml', {
+                collection: ['im a movie', 'im another movie'],
+                as: 'vid'
+              })
+            })
+            get('/').body.should.include '<li>im a movie'
+            get('/').body.should.include '<li>im another movie'
+          end
+          
+          it 'should pass __isFirst__, __isLast__, and __index__ to partials as locals'
+            get('/', function(){
+              return this.partial('article.html.haml', {
+                collection: ['a', 'b', 'c']
+              })
+            })
+            get('/').body.should.include '<li class="first">a'
+            get('/').body.should.include '<li class="1">b'
+            get('/').body.should.include '<li class="last">c'
+          end
         end
       end
     end
@@ -79,12 +137,12 @@ describe 'Express'
       describe 'given a callback'
         it 'should be passed the rendered content'
           get('/', function(){
-            this.render('hello.haml.html', {}, function(err, content){
+            this.render('hello.html.haml', {}, function(err, content){
               if (err) this.error(err)
-              else this.halt(203, content)
+              else this.respond(203, content)
             })
           })
-          get('/').body.should.include '<html><body>'
+          get('/').body.should.include '<html>\n<body>'
           get('/').status.should.eql 203
         end
       end
@@ -93,34 +151,34 @@ describe 'Express'
         describe 'and layout of the same type exists'
           it 'should render the layout and view'
             get('/', function(){
-              this.render('hello.haml.html')
+              this.render('hello.html.haml')
             })
-            get('/').body.should.include '<html><body>'
+            get('/').body.should.include '<html>\n<body>'
             get('/').body.should.include '<h2>Hello'
           end
           
           it 'should default context to the current request'
             get('/', function(){
               this.title = 'Welcome'
-              this.render('page.haml.html', { layout: false })
+              this.render('page.html.haml', { layout: false })
             })
             get('/').body.should.include '<title>Welcome'
           end
           
           it 'should set the content type based on the last path segment'
             get('/', function(){
-              this.render('hello.haml.html')
+              this.render('hello.html.haml')
             })
-            get('/').headers['content-type'].should.eql 'text/html'
+            get('/').headers['Content-Type'].should.eql 'text/html'
           end
         end
         
         describe 'and layout of the same type does not exist'
           it 'should throw an error'
             get('/', function(){
-              this.render('hello.haml.html', { layout: 'front' })
+              this.render('hello.html.haml', { layout: 'front' })
             })
-            -{ get('/') }.should.throw_error 'No such file or directory'
+            -{ get('/') }.should.throw_error 'ENOENT, No such file or directory'
           end
         end
         
@@ -128,17 +186,27 @@ describe 'Express'
           it 'should render the layout and view'
             get('/', function(){
               this.title = 'Express'
-              this.render('hello.haml.html', { layout: 'page' })
+              this.render('hello.html.haml', { layout: 'page' })
             })
             get('/').body.should.include '<title>Express'
             get('/').body.should.include '<h2>Hello'
           end
         end
         
+        describe 'given a full layout name'
+          it 'should render a layout of a different engine'
+            get('/', function(){
+                this.render('hello.html.haml', { layout: 'layout.html.ejs' })
+            })
+            get('/').body.should.include '<h2>Hello'
+            get('/').body.should.include '<p>'
+          end
+        end
+        
         describe 'when layout: false'
           it 'should render the view only'
             get('/', function(){
-              this.render('hello.haml.html', { layout: false })
+              this.render('hello.html.haml', { layout: false })
             })
             get('/').body.should.not.include '<body>'
             get('/').body.should.include '<h2>Hello'
@@ -148,7 +216,7 @@ describe 'Express'
         describe 'when engine cannot be found'
           it 'should throw an error'
             get('/', function(){
-              this.render('user.invalid.html')
+              this.render('user.html.invalid')
             })
             -{ get('/') }.should.throw_error "Cannot find module 'invalid'"
           end
@@ -157,7 +225,7 @@ describe 'Express'
         describe 'when locals are passed'
           it 'should have direct access to locals'
             get('/user', function(){
-              this.render('user.haml.html', {
+              this.render('user.html.haml', {
                 locals: {
                   name: 'tj',
                   email: 'tj@vision-media.ca'
@@ -170,8 +238,8 @@ describe 'Express'
           
           it 'should have direct access to locals within the layout'
             get('/user', function(){
-              this.render('user.haml.html', {
-                layout: 'layout.user',
+              this.render('user.html.haml', {
+                layout: 'layout-user',
                 locals: {
                   name: 'tj',
                   email: 'tj@vision-media.ca'
@@ -187,7 +255,7 @@ describe 'Express'
         describe 'when context is passed'
           it 'should evaluate in context to that object'
             get('/article', function(){
-              this.render('article.haml.html', {
+              this.render('article.html.haml', {
                 context: {
                   name: 'Writing a Node.js Web Application'
                 }

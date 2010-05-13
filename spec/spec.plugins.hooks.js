@@ -23,7 +23,7 @@ describe 'Express'
       
       it 'should be able to halt the request'
         GLOBAL.before(function(){
-          this.halt(404, 'woo!')
+          this.respond(404, 'woo!')
         })
         get('/user', function(){ return 'fail' })
         get('/user').status.should.eql 404

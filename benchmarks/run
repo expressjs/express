@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+SLEEP=${SLEEP-2}
+ABFLAGS=${ABFLAGS-"-n 2000 -c 50"}
+ADDR=${ADDR-http://127.0.0.1:3000/}
+AB=${AB-ab}
+
+#
+# Log <msg ...>
+# 
+# <msg ...>
+#
+
+log(){
+  echo "... $@"
+}
+
+#
+# Benchmark <type> and <file>
+# 
+#   - starts the server
+#   - allows $SLEEP seconds for startup
+#   - runs $AB
+#   - kills the server process
+# 
+# <type> <file>
+#
+
+bm(){
+  local type=$1
+  local file=$2
+  log benchmarking $type $file
+  case $type in
+    node|express)
+      node benchmarks/$type/$file &
+      ;;
+    thin)
+      thin -R benchmarks/thin/$file -p 3000 start &
+      ;;
+  esac
+  pid=$!
+  sleep $SLEEP
+  $AB $ABFLAGS -g benchmarks/$type/$file.dat $ADDR > benchmarks/$type/$file.out
+  log $(cat benchmarks/$type/$file.out | grep Requests)
+  kill -KILL $pid
+}
+
+log ab $ABFLAGS $ADDR
+bm node simple.js
+bm node static.js
+bm node static.large.js
+bm express simple.js
+bm express static.js
+bm express static.large.js
+bm express haml.js
+bm express sass.js
+bm thin simple.ru
+bm thin static.ru
+bm thin static.large.ru
+bm thin haml.ru
+bm thin sass.ru

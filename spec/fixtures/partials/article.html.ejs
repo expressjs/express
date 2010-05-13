@@ -1,0 +1,9 @@
+<ul>
+  <% if (__isFirst__) { %>
+    <li class="first"><%= article %></li>
+  <% } else if (__isLast__) { %>
+    <li class="last"><%= article %></li>
+  <% } else { %>
+    <li class="<%= __index__ %>"><%= article %></li>
+  <% } %>
+</ul>

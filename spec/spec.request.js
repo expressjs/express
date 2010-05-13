@@ -11,6 +11,19 @@ describe 'Express'
         get('/user').status.should.eql 500
       end
     end
+    
+    describe '#charset'
+      describe 'when defined'
+        it 'should append "; charset=CHARSET'
+          get('/user', function(){
+            this.contentType('html')
+            this.charset = 'UTF-8'
+            return '∂'
+          })
+          get('/user').headers['Content-Type'].should.eql 'text/html; charset=UTF-8'
+        end
+      end
+    end
 
     describe '#header()'
       describe 'when given a field name and value'
@@ -100,39 +113,13 @@ describe 'Express'
       end
     end
     
-    describe '#halt()'
-      describe 'when given no arguments'
-        it 'should respond with 404 Not Found'
-          get('/user', function(){ this.halt() })
-          get('/user').status.should.eql 404
-          get('/user').body.should.include('Not Found')
-        end
-      end
-
-      describe 'when given a status code'
-        it 'should respond with that status and its associated default body'
-          get('/user', function(){ this.halt(400) })
-          get('/user').status.should.eql 400
-          get('/user').body.should.include('Bad Request')
-        end
-      end
-
-      describe 'when given a status code and body'
-        it 'should respond with the status and its body'
-          get('/user', function(){ this.halt(400, 'Oh noes!') })
-          get('/user').status.should.eql 400
-          get('/user').body.should.include('Oh noes!')
-        end
-      end
-    end
-
     describe '#contentType()'
       it 'should set Content-Type header with mime type passed'
         get('/style.css', function(){
           this.contentType('css')
           return 'body { background: white; }'
         })
-        get('/style.css').headers['content-type'].should.eql 'text/css'
+        get('/style.css').headers['Content-Type'].should.eql 'text/css'
       end
     end
     
@@ -142,7 +129,7 @@ describe 'Express'
           this.attachment()
           return 'foo'
         })
-        get('/report').headers['content-disposition'].should.eql 'attachment'
+        get('/report').headers['Content-Disposition'].should.eql 'attachment'
       end
 
       it 'should set attachment filename'
@@ -150,7 +137,7 @@ describe 'Express'
           this.attachment('report.pdf')
           return 'foo'
         })
-        get('/report').headers['content-disposition'].should.eql 'attachment; filename="report.pdf"'
+        get('/report').headers['Content-Disposition'].should.eql 'attachment; filename="report.pdf"'
       end
     end
 
@@ -202,9 +189,11 @@ describe 'Express'
 
       it 'should work with a query string'
         get('/user', function(){
-          return String(this.param('page') || 'First page')
+          var page = this.param('page')
+          return page === undefined ? 'First page' : String(page)
         })
         get('/user').body.should.eql 'First page'
+        get('/user?page=0').body.should.eql '0'
         get('/user?page=2').body.should.eql '2'
         get('/user?foo[]=bar&page=5').body.should.eql '5'
       end
@@ -250,11 +239,24 @@ describe 'Express'
           disable('throw exceptions')
           global.error(function(e){
             err = e
-            this.halt(500, 'FAIL!')
+            this.respond(500, 'FAIL!')
           })
           get('/', function(){ this.error(new Error('whoop')) })
           get('/').body.should.eql 'FAIL!'
           err.message.should.eql 'whoop'
+        end
+      end
+      
+      describe 'when not accepting common mime types'
+        it 'should render the default 500 status body'
+          var headers = { headers: { accept: 'text/xml' }}
+          disable('throw exceptions')
+          enable('show exceptions')
+          get('/', function(){
+            this.error(new Error('fail!'))
+          })
+          get('/', headers).body.should.eql 'Internal Server Error'
+          get('/', headers).status.should.eql 500
         end
       end
       
@@ -269,18 +271,15 @@ describe 'Express'
             get('/').body.should.include '<em>500</em> Error: fail!'
             get('/').status.should.eql 500
           end
-        end
-        
-        describe 'when not accepting "html"'
-          it 'should render the default 500 status body'
-            var headers = { headers: { accept: 'text/plain' }}
+          
+          it 'should render the show-exceptions page with errors thrown within the route'
             disable('throw exceptions')
             enable('show exceptions')
             get('/', function(){
-              this.error(new Error('fail!'))
+              throw new Error('fail!')
             })
-            get('/', headers).body.should.eql 'Internal Server Error'
-            get('/', headers).status.should.eql 500
+            get('/').body.should.include '<em>500</em> Error: fail!'
+            get('/').status.should.eql 500
           end
         end
         
@@ -292,6 +291,34 @@ describe 'Express'
               this.error(new Error('fail!'))
             })
             -{ get('/') }.should.throw_error Error, 'fail!'
+          end
+        end
+      end
+      
+      describe 'when accepting "text/plain"'
+        describe 'with "show exceptions" enabled'
+          it 'should render a text representation of the error'
+            disable('throw exceptions')
+            enable('show exceptions')
+            get('/', function(){
+              this.error(new Error('fail!'))
+            })
+            get('/', { headers: { accept: 'text/plain' }}).body.should.include '500 Error: fail!'
+            get('/').status.should.eql 500
+          end
+        end
+      end
+      
+      describe 'when accepting "application/json"'
+        describe 'with "show exceptions" enabled'
+          it 'should render a text representation of the error'
+            disable('throw exceptions')
+            enable('show exceptions')
+            get('/', function(){
+              this.error(new Error('fail!'))
+            })
+            get('/', { headers: { accept: 'application/json' }}).body.should.include '{"error":{"message":"fail!"'
+            get('/').status.should.eql 500 
           end
         end
       end
@@ -322,7 +349,7 @@ describe 'Express'
       describe 'when a notFound route is defined'
         it 'should be called'
           notFound(function(){
-            this.halt(404, 'Sorry your page was not found')
+            this.respond(404, 'Sorry your page was not found')
           })
           get('/', function(){ this.notFound() })
           get('/').body.should.eql 'Sorry your page was not found'

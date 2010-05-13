@@ -3,6 +3,8 @@ require.paths.unshift('lib')
 require('express')
 require('express/plugins')
 
+var sys = require('sys')
+
 configure(function(){
   use(MethodOverride)
   use(ContentLength)
@@ -20,7 +22,7 @@ get('/', function(){
 })
 
 get('/upload', function(){
-  this.render('upload.haml.html', {
+  this.render('upload.html.haml', {
     locals: {
       flashes: this.flash('info')
     }  
@@ -29,14 +31,14 @@ get('/upload', function(){
 
 post('/upload', function(){  
   this.param('images').each(function(image){
-    puts(image.filename + ' -> ' + image.tempfile)
+    sys.puts(image.filename + ' -> ' + image.tempfile)
     this.flash('info', 'Uploaded ' + image.filename)
   }, this)
   this.redirect('/upload')
 })
 
 get('/*.css', function(file){
-  this.render(file + '.sass.css', { layout: false })
+  this.render(file + '.css.sass', { layout: false })
 })
 
 run()
