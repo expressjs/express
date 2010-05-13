@@ -25,6 +25,7 @@
   * Route passing
   * View support (ejs, haml, sass, etc)
   * View partials
+  * View globals/helpers support
   * Full test coverage
   * Logger plugin with several formats
   * Upload size restrictions
