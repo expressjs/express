@@ -55,6 +55,21 @@ describe 'Express'
         var attrs = ' SID     =  1232431234234 ;  data =  foo'
         parseCookie(attrs).should.eql { SID: '1232431234234', data: 'foo' }
       end
+
+      it 'should support complex quoted values'
+        var attrs = 'SID="123456789"; fbs_0011223355="uid=0987654321&name=Test+User"'
+        parseCookie(attrs).should.eql { SID: '123456789', fbs_0011223355: 'uid=0987654321&name=Test User' }
+      end
+      
+      it 'should not override when a duplicate key is found'
+        var attrs = 'SID=1234; SID=9999'
+        parseCookie(attrs).should.eql { SID: '1234' }
+      end
+      
+      it 'should support malformed cookies'
+        var attrs = 'SID'
+        parseCookie(attrs).should.eql {}
+      end
     end
     
     describe 'on'
@@ -82,7 +97,7 @@ describe 'Express'
             this.cookie('foo', 'bar')
             return ''  
           })
-          get('/user').headers['Set-Cookie'].should.eql 'SID=732423sdfs73243; path=/; secure\nSet-Cookie: foo=bar; path=/'
+          get('/user').headers['Set-Cookie'].should.eql 'SID=732423sdfs73243; path=/; secure\r\nSet-Cookie: foo=bar; path=/'
         end
       end
     end
