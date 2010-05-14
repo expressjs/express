@@ -1,6 +1,6 @@
 
 ejs = require('ejs')
-Globals = require('express/plugins/view').Globals
+helpers = require('express/plugins/view').helpers
 
 describe 'Express'
   before_each
@@ -216,7 +216,7 @@ describe 'Express'
         
         describe 'when a global is set'
           it 'should include the helper and translate the text in the view'
-            Globals._ = function(text){
+            helpers._ = function(text){
               if (text == 'Hello world') return 'Hola mundo'
             }
             get('/', function(){
@@ -225,7 +225,7 @@ describe 'Express'
             get('/').body.should.include 'Hola mundo'
           end
           it 'should include the helper and translate the text in the layout'
-            Globals._ = function(text){
+            helpers._ = function(text){
               if (text == 'Testing') return 'Probando'
             }
             get('/', function(){
