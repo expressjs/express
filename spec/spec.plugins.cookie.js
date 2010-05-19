@@ -99,6 +99,15 @@ describe 'Express'
           })
           get('/user').headers['Set-Cookie'].should.eql 'SID=732423sdfs73243; path=/; secure\r\nSet-Cookie: foo=bar; path=/'
         end
+
+        it 'should support URL unfriendly characters'
+          get('/user', function(){
+            this.cookie('spaceship', '<*==*>', { path: '/', secure: true })
+            this.cookie(':)', 'smileyface')
+            return ''  
+          })
+          get('/user').headers['Set-Cookie'].should.eql 'spaceship=%3C*%3D%3D*%3E; path=/; secure\r\nSet-Cookie: %3A)=smileyface; path=/'
+        end
       end
     end
     
@@ -107,7 +116,7 @@ describe 'Express'
         get('/user', function(){
           return this.cookie('foo')
         })
-        get('/user', { headers: { cookie: 'foo=bar' }}).body.should.eql 'bar'
+        get('/user', { headers: { cookie: 'foo=bar==' }}).body.should.eql 'bar'
       end
     end
       
