@@ -116,7 +116,7 @@ describe 'Express'
         get('/user', function(){
           return this.cookie('foo')
         })
-        get('/user', { headers: { cookie: 'foo=bar==' }}).body.should.eql 'bar'
+        get('/user', { headers: { cookie: 'foo=bar==' }}).body.should.eql 'bar=='
       end
     end
       
