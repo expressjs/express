@@ -1,4 +1,15 @@
 
+0.12.0 / 2010-05-22
+==================
+
+  * Added node v0.1.96 compatibility
+  * Added view `helpers` export which act as additional local variables
+  * Updated haml submodule
+  * Changed ETag; removed inode, modified time only
+  * Fixed LF to CRLF for setting multiple cookies
+  * Fixed cookie complation; values are now urlencoded
+  * Fixed cookies parsing; accepts quoted values and url escaped cookies
+
 0.11.0 / 2010-05-06
 ==================
 
