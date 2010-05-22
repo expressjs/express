@@ -99,6 +99,15 @@ describe 'Express'
           })
           get('/user').headers['Set-Cookie'].should.eql 'SID=732423sdfs73243; path=/; secure\r\nSet-Cookie: foo=bar; path=/'
         end
+        
+        it 'should delete the cookie'
+          get('/user', function(){
+            this.cookie('ninja', null)
+            this.cookie('pirate', null)
+            return ''  
+          })
+          get('/user').headers['Set-Cookie'].should.eql 'ninja=delete; path=/; expires=Thu, 01 Jan 1970 02:46:40 GMT\r\nSet-Cookie: pirate=delete; path=/; expires=Thu, 01 Jan 1970 02:46:40 GMT'
+        end
 
         it 'should support URL unfriendly characters'
           get('/user', function(){
