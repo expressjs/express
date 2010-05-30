@@ -4,7 +4,7 @@
 ;(function(){
 
   JSpec = {
-    version   : '4.2.1',
+    version   : '4.3.2',
     assert    : true,
     cache     : {},
     suites    : [],
@@ -1749,10 +1749,14 @@
   
   // --- Node.js support
   
-  if (typeof GLOBAL === 'object' && typeof exports === 'object')
-    quit = process.exit,
-    print = require('sys').puts,
-    readFile = require('fs').readFileSync
+  if (typeof GLOBAL === 'object' && typeof exports === 'object') {
+    var fs = require('fs')
+    quit = process.exit
+    print = require('sys').puts
+    readFile = function(file){
+      return fs.readFileSync(file).toString('utf8')
+    }
+  }
   
   // --- Utility functions
 
@@ -1872,17 +1876,17 @@
     },
     
     have_prop : function(actual, property, value) {
-      return actual[property] === undefined ||
-               actual[property] instanceof Function ? false:
-                 value === undefined ? true:
-                   does(actual[property], 'eql', value)
+      var actualVal = actual[property], actualType = typeof actualVal
+      return (actualType == 'function' || actualType == 'undefined') ? false :
+        typeof value === 'undefined' ||
+        does(actual[property],'eql',value)
     },
     
     have_property : function(actual, property, value) {
-      return actual[property] === undefined ||
-               actual[property] instanceof Function ? false:
-                 value === undefined ? true:
-                   value === actual[property]
+      var actualVal = actual[property], actualType = typeof actualVal
+      return (actualType == 'function' || actualType == 'undefined') ? false :
+        typeof value === 'undefined' ||
+        value === actualVal
     }
   })
   

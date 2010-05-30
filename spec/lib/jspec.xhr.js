@@ -34,7 +34,9 @@
     */
 
     getAllResponseHeaders : function(){
-      return this.responseHeaders
+      return JSpec.inject(this.responseHeaders, '', function(buf, key, val){
+        return buf + key + ': ' + val + '\r\n'
+      })
     },
 
     /**

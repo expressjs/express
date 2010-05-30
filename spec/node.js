@@ -4,10 +4,6 @@ require("jspec")
 require("express")
 require("express/spec")
 
-print = require('sys').puts
-quit = process.exit
-readFile = require('fs').readFileSync
-
 function run(specs) {
   specs.forEach(function(spec){
     JSpec.exec('spec/spec.' + spec + '.js')
