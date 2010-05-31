@@ -1,14 +1,14 @@
 {
   "name": "Express",
   "description": "Sinatra inspired web development framework",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "directories": {
-    "lib": "lib"
+    "lib": "./lib"
   },
   "scripts": {
     "install": "git submodule update --init",
     "test": "make test"
   },
-  "engines": { "node": ">= 0.1.93" }
+  "engines": { "node": ">= 0.1.97" }
 }
