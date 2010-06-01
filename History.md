@@ -1,4 +1,15 @@
 
+0.13.0 / 2010-06-01
+==================
+
+  * Added node v0.1.97 compatibility
+  * Added support for deleting cookies via Request#cookie('key', null)
+  * Updated haml submodule
+  * Fixed not-found page, now using using charset utf-8
+  * Fixed show-exceptions page, now using using charset utf-8
+  * Fixed view support due to fs.readFile Buffers
+  * Changed; mime.type() no longer accepts ".type" due to node extname() changes
+
 0.12.0 / 2010-05-22
 ==================
 
