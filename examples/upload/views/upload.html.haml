@@ -2,7 +2,6 @@
   .images
     - each img in images
       %img{ src: img }
-
 %h2 Singles
 %form{ method: 'post', enctype: 'multipart/form-data' }
   %input{ type: 'file', name: 'images[0]' }
@@ -10,7 +9,7 @@
   %input{ type: 'file', name: 'images[2]' }
   %div.panel
     %input{ type: 'submit', value: 'Upload' }
-    
+
 %h2 Multiple
 %form{ method: 'post', enctype: 'multipart/form-data' }
   %input{ type: 'file', name: 'images[]', multiple: 'multiple' }
