@@ -3,16 +3,9 @@ AB = ab
 ABFLAGS = -n 3000 -c 50
 NODE = node
 COFFEE = coffee
-PREFIX = /usr/local
 
 all: test
 	
-install: bin/express
-	ln -fs $< $(PREFIX)/bin/express
-
-uninstall: 
-	rm -f $(PREFIX)/bin/express
-
 test:
 	@$(NODE) spec/node.js all
 	
