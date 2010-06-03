@@ -6,6 +6,8 @@
 
   * Visit the [Wiki](http://wiki.github.com/visionmedia/express) for documentation
   * Visit the [Google Group](http://groups.google.com/group/express-js) for discussion
+  
+  Express will soon run on the [Connect](http://github.com/extjs/Connect) project, a middleware layer for nodejs.
 
 ## Features (so far)
 
