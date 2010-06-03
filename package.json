@@ -2,6 +2,7 @@
   "name": "Express",
   "description": "Sinatra inspired web development framework",
   "version": "0.13.0",
+  "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "directories": {
     "lib": "./lib"
