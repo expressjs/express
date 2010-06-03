@@ -39,7 +39,7 @@
   Install the [Kiwi package manager for nodejs](http://github.com/visionmedia/kiwi)
   and run:
   
-      $ kiwi -v install express
+      $ kiwi install express
       
 or
 
