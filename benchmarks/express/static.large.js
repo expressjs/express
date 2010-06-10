@@ -9,7 +9,7 @@ configure(function(){
 })
 
 get('/', function(){
-  this.sendfile('benchmarks/shared/huge.js', { bufferSize: 8 * 1024 })
+  this.sendfile('benchmarks/shared/huge.js')
 })
 
 run()
