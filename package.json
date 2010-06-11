@@ -3,6 +3,10 @@
   "description": "Sinatra inspired web development framework",
   "version": "0.13.0",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
+  "contributors": [ 
+    { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca"}, 
+    { "name": "Aaron Heckmann", "email": "aaron.heckmann+github@gmail.com"}
+  ],
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "directories": {
     "lib": "./lib"
