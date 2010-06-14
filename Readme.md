@@ -89,7 +89,7 @@ Run individual suites:
     ...
     
 The latest release of Express is compatible with node --version:
-    v0.1.97
+    v0.1.98
     
 With _EDGE_ Express we do our best to keep up to date with node's _EDGE_
     
