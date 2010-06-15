@@ -13,7 +13,6 @@
     "lib": "./lib"
   },
   "scripts": {
-    "install": "git submodule update --init",
     "test": "make test"
   },
   "engines": { "node": ">= 0.1.98" }
