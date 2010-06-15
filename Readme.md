@@ -40,7 +40,11 @@
   and run:
   
       $ kiwi install express
-      
+
+or via npm:
+
+      $ npm install express
+
 or
 
   Install via git clone:
