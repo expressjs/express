@@ -1,4 +1,15 @@
 
+0.14.0 / 2010-06-15
+==================
+
+  * Utilize relative requires
+  * Added Static bufferSize option [aheckmann]
+  * Fixed caching of view and partial subdirectories [aheckmann]
+  * Fixed mime.type() comments now that ".ext" is not supported
+  * Updated haml submodule
+  * Updated class submodule
+  * Removed bin/express
+
 0.13.0 / 2010-06-01
 ==================
 
