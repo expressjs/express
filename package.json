@@ -1,12 +1,12 @@
 {
-  "name": "Express",
+  "name": "express",
   "description": "Sinatra inspired web development framework",
   "version": "0.13.0",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [ 
-    { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca"}, 
-    { "name": "Aaron Heckmann", "email": "aaron.heckmann+github@gmail.com"},
-    { "name": "Ciaran Jessup", "email": "ciaranj@gmail.com"}
+    { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }, 
+    { "name": "Aaron Heckmann", "email": "aaron.heckmann+github@gmail.com" },
+    { "name": "Ciaran Jessup", "email": "ciaranj@gmail.com" }
   ],
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "directories": {
@@ -16,5 +16,5 @@
     "install": "git submodule update --init",
     "test": "make test"
   },
-  "engines": { "node": ">= 0.1.97" }
+  "engines": { "node": ">= 0.1.98" }
 }
