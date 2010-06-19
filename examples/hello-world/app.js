@@ -1,19 +1,11 @@
 
-require.paths.unshift('lib')
-require('express')
-    
-configure(function(){
-  set('root', __dirname)
-})
+/**
+ * Module dependencies.
+ */
 
-get('/', function(){
-  this.render('front.html.ejs', {
-    locals: {
-      title: 'Hello World',
-      name: 'Joe',
-      items: ['one', 'two', 'three']
-    }
-  })
-})
+var app = module.exports = require('express').createApplication();
 
-run()
+app.get('/', function(req, res){
+    res.writeHead(200, {});
+    res.end('Hello World');
+});
