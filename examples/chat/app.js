@@ -9,6 +9,7 @@ var app = module.exports = require('express').createApplication([
     { filter: 'cookie' },
     { filter: 'session' },
     { filter: 'body-decoder' },
+    { module: require('express/view') },
     { provider: 'sass', root: __dirname + '/public' },
     { provider: 'static', root: __dirname + '/public' },
 ]);

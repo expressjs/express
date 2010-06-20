@@ -19,3 +19,9 @@
 [submodule "support/expresso"]
 	path = support/expresso
 	url = git://github.com/visionmedia/expresso.git
+[submodule "support/sass"]
+	path = support/sass
+	url = git://github.com/visionmedia/sass.js.git
+[submodule "support/haml"]
+	path = support/haml
+	url = git://github.com/visionmedia/haml.js.git
