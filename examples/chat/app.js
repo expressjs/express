@@ -27,7 +27,7 @@ app.get('/', function(req, res){
             locals: {
                 title: 'Chat',
                 messages: messages,
-                name: self.session.name,
+                name: req.session.name,
                 usersOnline: len
             }
         })
