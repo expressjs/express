@@ -1,9 +1,0 @@
-%h1 Chat
-%img.bubble{ src: '/public/images/bubble.png' }
-%ul#messages
-  != this.partial('message.html.haml', { collection: messages })
-%form{ method: 'post' }
-  %input{ type: 'hidden', name: '_method', value: 'put' }
-  %input{ type: 'text', name: 'name', value: name || 'guest' }
-  %input{ type: 'text', name: 'message' }
-  %input{ type: 'submit', value: 'Send' }
