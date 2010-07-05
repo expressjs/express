@@ -34,7 +34,32 @@ module.exports = {
             { body: 'updated user 12' });
     },
     
-    'test middleware': function(assert){
+    'test constructor middleware': function(assert, beforeExit){
+        var calls = [];
+        function one(req, res, next){
+            calls.push('one');
+            next();
+        }
+        function two(req, res, next){
+            calls.push('two');
+            next();
+        }
+        var app = express.createServer(one, two);
+        app.get('/', function(req, res){
+            res.writeHead(200, {});
+            res.end('foo bar');
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: 'foo bar' });
+        
+        beforeExit(function(){
+            assert.eql(['one', 'two'], calls);
+        });
+    },
+    
+    'test #use()': function(assert){
         var app = express.createServer();
 
         app.get('/users', function(req, res, params, next){
