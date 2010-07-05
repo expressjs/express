@@ -37,5 +37,16 @@ module.exports = {
         assert.response(app,
             { url: '/' },
             { body: '<cool><p>Welcome</p></cool>' });
+    },
+    
+    'test #partial()': function(assert){
+        var app = express.createServer();
+        app.set('views', __dirname + '/fixtures');
+        app.get('/', function(req, res){
+            res.render('items.jade', { layout: false, locals: { items: ['one', 'two'] }});
+        });
+        assert.response(app,
+            { url: '/' },
+            { body: '<ul><li>one</li><li>two</li></ul>' });
     }
 };
