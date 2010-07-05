@@ -34,6 +34,19 @@ module.exports = {
             { body: 'updated user 12' });
     },
     
+    'test middleware': function(assert){
+        var app = express.createServer();
+
+        app.get('/users', function(req, res, params, next){
+            next(new Error('fail!!'));
+        });
+        app.use('/', connect.errorHandler({ showMessage: true }));
+        
+        assert.response(app,
+            { url: '/users' },
+            { body: 'Error: fail!!' });
+    },
+    
     'test #configure()': function(assert, beforeExit){
         var calls = [];
         var server = express.createServer();
