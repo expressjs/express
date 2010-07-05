@@ -1,4 +1,10 @@
 
+0.14.1 / 2010-07-05
+==================
+
+  * Fixed ejs Buffer issue [bdotdub]
+  * Fixed querystring issue [isaacs]
+
 0.14.0 / 2010-06-15
 ==================
 
