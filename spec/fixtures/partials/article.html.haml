@@ -1,7 +1,0 @@
-%ul
-  - if (__isFirst__)
-    %li.first= article
-  - if (__isLast__)
-    %li.last= article
-  - if (!__isLast__ && !__isFirst__)
-    %li{ class: __index__ }= article
