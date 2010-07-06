@@ -8,20 +8,20 @@ test:
 
 docs: docs/api.html $(MANPAGES) $(HTMLDOCS)
 
-docs/api.html:
+docs/api.html: lib/express/*.js
 	dox --title Express \
 		--desc "High performance web framework for [node](http://nodejs.org)." \
 		$(shell find lib/express/* -type f) > $@
 
 %.1: %.md
 	@echo "... $< -> $@"
-	@ronn -r --pipe $< > $@ &
+	@ronn -r --pipe $< > $@
 
 %.html: %.md
 	@echo "... $< -> $@"
 	@ronn -5 --pipe --fragment $< \
-		| sed 's/NAME/Express.g' \
-		> $@ &
+		| sed 's/NAME/Express/g' \
+		> $@
 
 docclean:
 	rm -f docs/*.{1,html}
