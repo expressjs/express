@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var sys = require('sys');
+
+/**
+ * Framework version.
+ */
+
+var version = '1.0.0';
+
+/**
+ * Usage documentation.
+ */
+
+var usage = ''
+    + '\x1b[1mUsage\x1b[0m: express [options] [PATH]\n'
+    + '\n'
+    + '\x1b[1mOptions\x1b[0m:\n'
+    + '  -v, --version Output framework version\n'
+    + '  -h, --help    Output help information\n'
+
+// Parse arguments
+
+var args = process.argv.slice(2);
+while (args.length) {
+    var arg = args.shift();
+    switch (arg) {
+        case '-h':
+        case '--help':
+            abort(usage);
+            break;
+        case '-v':
+        case '--version':
+            abort(version);
+            break;
+    }
+}
+
+/**
+ * Exit with the given `str`.
+ *
+ * @param {String} str
+ */
+
+function abort(str) {
+    sys.error(str);
+    process.exit(1);
+}
