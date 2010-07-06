@@ -4,7 +4,9 @@
  * Module dependencies.
  */
 
-var sys = require('sys');
+var sys = require('sys'),
+    fs = require('fs'),
+    childProcess = require('child_process');
 
 /**
  * Framework version.
@@ -25,7 +27,8 @@ var usage = ''
 
 // Parse arguments
 
-var args = process.argv.slice(2);
+var args = process.argv.slice(2),
+    path = '.';
 while (args.length) {
     var arg = args.shift();
     switch (arg) {
@@ -37,7 +40,46 @@ while (args.length) {
         case '--version':
             abort(version);
             break;
+        default:
+            path = arg;
     }
+}
+
+// Generate application
+
+(function createApplication(path) {
+    mkdir(path, function(){
+        write(path + '/app.js', 'app contents');
+        mkdir(path + '/config');
+        mkdir(path + '/views/partials');
+    });
+})(path);
+
+/**
+ * echo str > path.
+ *
+ * @param {String} path
+ * @param {String} str
+ */
+
+function write(path, str) {
+    fs.writeFile(path, str);
+    sys.puts('   create : ' + path);
+}
+
+/**
+ * Mkdir -p.
+ *
+ * @param {String} path
+ * @param {Function} fn
+ */
+
+function mkdir(path, fn) {
+    childProcess.exec('mkdir -p ' + path, function(err){
+        if (err) throw err;
+        sys.puts('   create : ' + path);
+        fn && fn();
+    });
 }
 
 /**
