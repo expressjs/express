@@ -43,10 +43,10 @@ module.exports = {
         var app = express.createServer();
         app.set('views', __dirname + '/fixtures');
         app.get('/', function(req, res){
-            res.render('items.jade', { layout: false, locals: { items: ['one', 'two'] }});
+            res.render('items.jade', { locals: { items: ['one', 'two'] }});
         });
         assert.response(app,
             { url: '/' },
-            { body: '<ul><li>one</li><li>two</li></ul>' });
+            { body: '<html><body><ul><li>one</li><li>two</li></ul></body></html>' });
     }
 };
