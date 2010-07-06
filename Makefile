@@ -1,5 +1,7 @@
 
-DOCS = docs/index.md
+DOCS = docs/index.md \
+	   docs/migrate.md
+
 MANPAGES =$(DOCS:.md=.1)
 HTMLDOCS =$(DOCS:.md=.html)
 
