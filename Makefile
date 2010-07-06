@@ -17,13 +17,14 @@ docs/api.html: lib/express/*.js
 
 %.1: %.md
 	@echo "... $< -> $@"
-	@ronn -r --pipe $< > $@
+	@ronn -r --pipe $< > $@ &
 
 %.html: %.md
 	@echo "... $< -> $@"
 	@ronn -5 --pipe --fragment $< \
-		| sed 's/NAME/Express/g' \
-		> $@
+	  | cat docs/layout/head.html - docs/layout/foot.html \
+	  | sed 's/NAME/Express/g' \
+	  > $@ &
 
 docclean:
 	rm -f docs/*.{1,html}

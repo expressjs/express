@@ -1,27 +1,22 @@
 .\" generated with Ronn/v0.6.6
 .\" http://github.com/rtomayko/ronn/
 .
-.TH "EXPRESS" "1" "July 2010" "" ""
+.TH "INDEX" "" "July 2010" "" ""
 .
-.SH "NAME"
-\fBexpress\fR \- node web framework
+.SH "Express"
+Express is a \fIhigh performance\fR Sinatra \fIhttp://sinatrarb\.com\fR inspired web framework for nodejs \fIhttp://nodejs\.org\fR\.
 .
-.SH "Synopsis"
-.
-.nf
-
-express [\-h|\-\-help] [PATH]
-.
-.fi
-.
-.SH "Description"
-Express is a high performance Sinatra\-inspired web framework\.
-.
-.SH "Executable Options"
+.IP "" 4
 .
 .nf
 
-\-h, \-\-help            Display help information
+var app = express\.createServer();
+
+app\.get(\'/\', function(req, res){
+    res\.send(\'Hello World\');
+});
 .
 .fi
+.
+.IP "" 0
 

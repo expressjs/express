@@ -1,15 +1,9 @@
-express(1) -- node web framework
-========================================
+## Express
 
-## Synopsis
+Express is a _high performance_ [Sinatra](http://sinatrarb.com) inspired web framework for [nodejs](http://nodejs.org).
 
-    express [-h|--help] [PATH]
-
-## Description
-
-Express is a high performance Sinatra-inspired web framework.
-
-## Executable Options
-
-    -h, --help            Display help information
-
+    var app = express.createServer();
+    
+    app.get('/', function(req, res){
+        res.send('Hello World');
+    });
