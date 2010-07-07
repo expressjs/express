@@ -1,4 +1,3 @@
-## Express
 
 Express is a _high performance_ [Sinatra](http://sinatrarb.com) inspired web framework for [nodejs](http://nodejs.org).
 

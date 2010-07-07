@@ -2,11 +2,6 @@
 	<head>
 		<title>Express - node web framework</title>
 		<style>
-			body {
-		        margin: 0;
-		        font: 14px/1.2 "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;
-				text-align: center;
-		    }
 		    #header {
 				position: absolute;
 				top: 0;
@@ -17,12 +12,6 @@
 		        background: rgba(255,255,255,0.1) url(http://www.sencha.com/favicon.ico) no-repeat 15px 50%;
 				text-align: left;
 				color: #fff;
-		    }
-		    #container {
-				margin: 0 auto;
-		        padding: 15px 40px;
-				width: 900px;
-		        text-align: left;
 		    }
 			html {
 			  background: #1c1c1c url(images/bg.tile.jpg); }
@@ -86,9 +75,6 @@
 			    padding: 2px 0;
 			    list-style: square; }
 
-			.clear {
-			  clear: both; }
-
 			.sect {
 			  margin-left: 40px; }
 
@@ -104,11 +90,6 @@
 			    opacity: 0.7; }
 			  #logo:active {
 			    opacity: 0.3; }
-
-			#tagline {
-			  margin-left: 75px;
-			  margin-bottom: 30px;
-			  color: rgba(255,255,255,0.7); }
 
 			#ribbon {
 			  position: absolute;
@@ -161,12 +142,16 @@
 		  <img alt='Fork me on GitHub' id='ribbon' src='http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png' /> 
 		</a>
 		<div id="header"><strong>Sencha</strong> labs</div>
-		<div id="container"><div class='mp'>
+		<div id="wrapper">
+			<div id="container">
+				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
+<div class='mp'>
 <h2 id="Migration-Guide">Migration Guide</h2>
 
 <p>todo</p>
 
 </div>
+			</div>
 		</div>
 	</body>
 </html>
