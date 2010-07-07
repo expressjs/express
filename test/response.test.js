@@ -14,7 +14,8 @@ module.exports = {
         });
         
         app.get('/json', function(req, res){
-            res.send({ foo: 'bar' }, {}, 201);
+            res.header('X-Foo', 'bar');
+            res.send({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
         });
         
         app.get('/text', function(req, res){
@@ -28,7 +29,7 @@ module.exports = {
             { body: '<p>test</p>', headers: { 'Content-Language': 'en', 'Content-Type': 'text/html; charset=utf-8' }});
         assert.response(app,
             { url: '/json' },
-            { body: '{"foo":"bar"}', status: 201, headers: { 'Content-Type': 'application/json' }});
+            { body: '{"foo":"bar"}', status: 201, headers: { 'Content-Type': 'application/json', 'X-Foo': 'baz' }});
         assert.response(app,
             { url: '/text' },
             { body: 'wahoo', headers: { 'Content-Type': 'text/plain; charset=utf-8', 'X-Foo': 'bar' }});
