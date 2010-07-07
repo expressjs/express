@@ -59,6 +59,34 @@ module.exports = {
         });
     },
     
+    'test next()': function(assert){
+        var app = express.createServer();
+        
+        app.get('/user.:format?', function(req, res, params, next){
+            switch (params.format) {
+                case 'json':
+                    res.writeHead(200, {});
+                    res.end('some json');
+                    break;
+                default:
+                    next();
+            }
+        });
+        
+        app.get('/user', function(req, res){
+            res.writeHead(200, {});
+            res.end('no json :)');
+        });
+        
+        assert.response(app,
+            { url: '/user.json' },
+            { body: 'some json' });
+        
+        assert.response(app,
+            { url: '/user' },
+            { body: 'no json :)' });
+    },
+    
     'test #use()': function(assert){
         var app = express.createServer();
 
