@@ -61,5 +61,26 @@ module.exports = {
         assert.response(app,
             { url: '/html' },
             { body: '<p>yay</p>', headers: { 'Content-Type': 'text/html; charset=utf-8' }});
+    },
+    
+    '#attachment': function(assert){
+        var app = express.createServer();
+        
+        app.get('/style.css', function(req, res){
+            res.attachment();
+            res.send('some stylezzz');
+        });
+
+        app.get('/*', function(req, res, params){
+            res.attachment(params.splat[0]);
+            res.send('whatever');
+        });
+        
+        assert.response(app,
+            { url: '/javascripts/jquery.js' },
+            { body: 'whatever', headers: { 'Content-Disposition': 'attachment; filename="jquery.js"' }});
+        assert.response(app,
+            { url: '/style.css' },
+            { body: 'some stylezzz', headers: { 'Content-Disposition': 'attachment' }});
     }
 };
