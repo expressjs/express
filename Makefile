@@ -10,6 +10,7 @@ test:
 	@CONNECT_ENV=test ./support/expresso/bin/expresso \
 		-I lib \
 		-I support/connect/lib \
+		-I support/jade/lib \
 		test/*.test.js
 
 docs: docs/api.html $(MANPAGES) $(HTMLDOCS)

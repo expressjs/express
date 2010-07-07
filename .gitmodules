@@ -4,3 +4,6 @@
 [submodule "support/connect"]
 	path = support/connect
 	url = git://github.com/extjs/Connect.git
+[submodule "support/jade"]
+	path = support/jade
+	url = git://github.com/visionmedia/jade.git
