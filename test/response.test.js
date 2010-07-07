@@ -23,6 +23,14 @@ module.exports = {
             res.contentType('.txt');
             res.send('wahoo');
         });
+        
+        app.get('/status', function(req, res){
+            res.send(404);
+        });
+        
+        app.get('/error', function(req, res){
+            res.send('Oh shit!', 500);
+        });
 
         assert.response(app,
             { url: '/html' },
@@ -33,6 +41,12 @@ module.exports = {
         assert.response(app,
             { url: '/text' },
             { body: 'wahoo', headers: { 'Content-Type': 'text/plain; charset=utf-8', 'X-Foo': 'bar' }});
+        assert.response(app,
+            { url: '/status' },
+            { body: 'Not Found', status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8' }});
+        assert.response(app,
+            { url: '/error' },
+            { body: 'Oh shit!', status: 500 });
     },
     
     '#contentType': function(assert){
