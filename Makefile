@@ -7,7 +7,10 @@ MANPAGES =$(DOCS:.md=.1)
 HTMLDOCS =$(DOCS:.md=.html)
 
 test:
-	@CONNECT_ENV=test ./support/expresso/bin/expresso -I lib test/*.test.js
+	@CONNECT_ENV=test ./support/expresso/bin/expresso \
+		-I lib \
+		-I support/connect/lib \
+		test/*.test.js
 
 docs: docs/api.html $(MANPAGES) $(HTMLDOCS)
 
