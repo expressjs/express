@@ -1,5 +1,8 @@
 
-Express is a _high performance_ [Sinatra](http://sinatrarb.com) inspired web framework for [nodejs](http://nodejs.org).
+<p id="tagline">
+   High performance, high class web development for
+  <a href="http://nodejs.org">Node.js</a>
+</p>
 
     var app = express.createServer();
     
