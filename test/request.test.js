@@ -61,8 +61,21 @@ module.exports = {
             res.send('ok');
         });
         
+        app.get('/type', function(req, res){
+            assert.strictEqual(true, req.accepts('html'));
+            assert.strictEqual(true, req.accepts('text/html'));
+            assert.strictEqual(true, req.accepts('json'));
+            assert.strictEqual(true, req.accepts('application/json'));
+            assert.strictEqual(false, req.accepts('svg'));
+            assert.strictEqual(false, req.accepts('image/svg'));
+            res.send('ok'); 
+        });
+        
         assert.response(app,
             { url: '/all', headers: { Accept: '*/*' }},
+            { body: 'ok' });
+        assert.response(app,
+            { url: '/type', headers: { Accept: 'text/*; application/*' }},
             { body: 'ok' });
         assert.response(app,
             { url: '/', headers: { Accept: 'text/html; application/json; text/*' }},
