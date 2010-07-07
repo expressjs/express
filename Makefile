@@ -1,10 +1,22 @@
 
+PREFIX = /usr/local
+LIB_PREFIX = ~/.node_libraries
+
 DOCS = docs/index.md \
 	   docs/executable.md \
 	   docs/migrate.md
 
 MANPAGES =$(DOCS:.md=.1)
 HTMLDOCS =$(DOCS:.md=.html)
+
+install:
+	@mkdir -p $(PREFIX)/bin
+	cp -f bin/express $(PREFIX)/bin/express
+	cp -fr lib/express $(LIB_PREFIX)/express
+
+uninstall:
+	rm -f $(PREFIX)/bin/express
+	rm -fr $(LIB_PREFIX)/express
 
 test:
 	@CONNECT_ENV=test ./support/expresso/bin/expresso \
@@ -34,4 +46,4 @@ docs/api.html: lib/express/*.js
 docclean:
 	rm -f docs/*.{1,html}
 
-.PHONY: test docs docclean
+.PHONY: install uninstall install-docs install-suppport test docs docclean
