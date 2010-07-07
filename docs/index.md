@@ -16,7 +16,7 @@
   * Focus on high performance
   * View rendering and partials support
   * Environment based configuration
-  * Build on [Connect](http://extjs.github.com/Connect)
+  * Built on [Connect](http://extjs.github.com/Connect)
 
 ## Contributors
 

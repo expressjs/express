@@ -11,5 +11,6 @@ application structure, this executable creates a maintainable base app.
 
 ## Options
 
+    -v, --version         Output framework version
     -h, --help            Display help information
 

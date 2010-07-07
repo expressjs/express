@@ -138,50 +138,7 @@ code .this { color: #19469D; }</style>
 <ul id="menu"><li><a href="#lib/express/index.js">lib/express/<strong>index</strong></a></li>
 <li><a href="#lib/express/response.js">lib/express/<strong>response</strong></a></li>
 <li><a href="#lib/express/server.js">lib/express/<strong>server</strong></a></li>
-<li><a href="#lib/express/view.js">lib/express/<strong>view</strong></a></li></ul><table id="source"><tbody><tr><td><h1>Express</h1><p>High performance web framework for <a href="http://nodejs.org">node</a>.</p></td><td></td></tr><tr class="filename"><td><h2 id="lib/express/index.js">index</h2></td><td>lib/express/index.js</td></tr><tr class="code">
-<td class="docs">
-<p>Framework version.</p>
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">version</span> = <span class="string">'0.14.0'</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Module dependencies.</p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">require</span>(<span class="string">'./server'</span>);</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Shortcut for <code>new Server(...)</code>.</p>
-
-<h2></h2>
-
-<ul>
-<li><p><strong>param</strong>: <em>Function</em>  &hellip;</p></li>
-<li><p><strong>return</strong>: <em>Server</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">createServer</span> = <span class="keyword">function</span>(){
-    <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">Server</span>(<span class="class">Array</span>.<span class="variable">prototype</span>.<span class="variable">slice</span>.<span class="variable">call</span>(<span class="variable">arguments</span>));
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>View extensions.</p>
-</td>
-<td class="code">
-<pre><code><span class="variable">require</span>(<span class="string">'./view'</span>);
-<span class="variable">require</span>(<span class="string">'./response'</span>);</code></pre>
-</td>
-</tr><tr class="filename"><td><h2 id="lib/express/response.js">response</h2></td><td>lib/express/response.js</td></tr><tr class="code">
+<li><a href="#lib/express/view.js">lib/express/<strong>view</strong></a></li></ul><table id="source"><tbody><tr><td><h1>Express</h1><p>High performance web framework for <a href="http://nodejs.org">node</a>.</p></td><td></td></tr><tr class="filename"><td><h2 id="lib/express/response.js">response</h2></td><td>lib/express/response.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.</p>
 </td>
@@ -260,6 +217,49 @@ res.contentType(filename);
 };
 </code></pre>
 </td>
+</tr><tr class="filename"><td><h2 id="lib/express/index.js">index</h2></td><td>lib/express/index.js</td></tr><tr class="code">
+<td class="docs">
+<p>Framework version.</p>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">version</span> = <span class="string">'0.14.0'</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Module dependencies.</p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">require</span>(<span class="string">'./server'</span>);</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Shortcut for <code>new Server(...)</code>.</p>
+
+<h2></h2>
+
+<ul>
+<li><p><strong>param</strong>: <em>Function</em>  &hellip;</p></li>
+<li><p><strong>return</strong>: <em>Server</em></p></li>
+<li><p><strong>api</strong>: <em>public</em></p></li>
+</ul>
+
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">createServer</span> = <span class="keyword">function</span>(){
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">Server</span>(<span class="class">Array</span>.<span class="variable">prototype</span>.<span class="variable">slice</span>.<span class="variable">call</span>(<span class="variable">arguments</span>));
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>View extensions.</p>
+</td>
+<td class="code">
+<pre><code><span class="variable">require</span>(<span class="string">'./view'</span>);
+<span class="variable">require</span>(<span class="string">'./response'</span>);</code></pre>
+</td>
 </tr><tr class="filename"><td><h2 id="lib/express/server.js">server</h2></td><td>lib/express/server.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.</p>
@@ -304,7 +304,7 @@ res.contentType(filename);
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Inherit from <code>connect.Server</code>.</p>
+<p>Inherit from <code>connect.Server</code>.</p>
 </td>
 <td class="code">
 <pre><code><span class="variable">sys</span>.<span class="variable">inherits</span>(<span class="class">Server</span>, <span class="variable">connect</span>.<span class="class">Server</span>);</code></pre>
