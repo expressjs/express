@@ -16,13 +16,21 @@ module.exports = {
         app.get('/json', function(req, res){
             res.send({ foo: 'bar' }, {}, 201);
         });
+        
+        app.get('/text', function(req, res){
+            res.contentType('.txt');
+            res.send('wahoo');
+        });
 
         assert.response(app,
             { url: '/html' },
-            { body: '<p>test</p>', headers: { 'Content-Language': 'en', 'Content-Type': 'text/html; charset=utf8' }});
+            { body: '<p>test</p>', headers: { 'Content-Language': 'en', 'Content-Type': 'text/html; charset=utf-8' }});
         assert.response(app,
             { url: '/json' },
-            { body: '{"foo":"bar"}', status: 201, headers: { 'Content-Type': 'application/json; charset=utf8' }});
+            { body: '{"foo":"bar"}', status: 201, headers: { 'Content-Type': 'application/json' }});
+        assert.response(app,
+            { url: '/text' },
+            { body: 'wahoo', headers: { 'Content-Type': 'text/plain; charset=utf-8' }});
     },
     
     '#contentType': function(assert){
