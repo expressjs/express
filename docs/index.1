@@ -8,13 +8,46 @@ High performance, high class web development for Node\.js \fIhttp://nodejs\.org\
 .
 .nf
 
-var app = express\.createServer();
+var app = module\.exports = express\.createServer();
 
 app\.get(\'/\', function(req, res){
     res\.send(\'Hello World\');
 });
 .
 .fi
+.
+.IP "" 0
+.
+.SH "Features"
+.
+.IP "\(bu" 4
+RESTful DSL
+.
+.IP "\(bu" 4
+Focus on high performance
+.
+.IP "\(bu" 4
+View rendering and partials support
+.
+.IP "\(bu" 4
+Environment based configuration
+.
+.IP "\(bu" 4
+Build on Connect \fIhttp://extjs\.github\.com/Connect\fR
+.
+.IP "" 0
+.
+.SH "Contributors"
+The following are the major contributors of Express (in no specific order)\.
+.
+.IP "\(bu" 4
+TJ Holowaychuk (visionmedia \fIhttp://github\.com/visionmedia\fR)
+.
+.IP "\(bu" 4
+Ciaran Jessup (ciaranj \fIhttp://github\.com/ciaranj\fR)
+.
+.IP "\(bu" 4
+Aaron Heckmann (aheckmann \fIhttp://github\.com/aheckmann\fR)
 .
 .IP "" 0
 

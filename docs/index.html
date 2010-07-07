@@ -3,7 +3,7 @@
 		<title>Express - node web framework</title>
 		<style>
 		    #header {
-				position: absolute;
+				position: fixed;
 				top: 0;
 				left: 0;
 		        padding: 15px 0 10px 40px;
@@ -50,7 +50,7 @@
 			    opacity: 0.8; }
 
 			h1, h2, h3 {
-			  margin: 35px 0 0 0;
+			  margin: 45px 0 0 0;
 			  color: white;
 			  text-shadow: 1px 2px 2px rgba(0,0,0,0.6); }
 
@@ -96,7 +96,7 @@
 			    opacity: 0.3; }
 
 			#ribbon {
-			  position: absolute;
+			  position: fixed;
 			  top: 0;
 			  right: 0;
 			  z-index: 2; }
@@ -158,12 +158,34 @@
 </p>
 
 
-<pre><code>var app = express.createServer();
+<pre><code>var app = module.exports = express.createServer();
 
 app.get('/', function(req, res){
     res.send('Hello World');
 });
 </code></pre>
+
+<h2 id="Features">Features</h2>
+
+<ul>
+<li>RESTful DSL</li>
+<li>Focus on high performance</li>
+<li>View rendering and partials support</li>
+<li>Environment based configuration</li>
+<li>Build on <a href="http://extjs.github.com/Connect">Connect</a></li>
+</ul>
+
+
+<h2 id="Contributors">Contributors</h2>
+
+<p>The following are the major contributors of Express (in no specific order).</p>
+
+<ul>
+<li>TJ Holowaychuk (<a href="http://github.com/visionmedia">visionmedia</a>)</li>
+<li>Ciaran Jessup (<a href="http://github.com/ciaranj">ciaranj</a>)</li>
+<li>Aaron Heckmann (<a href="http://github.com/aheckmann">aheckmann</a>)</li>
+</ul>
+
 
 </div>
 			</div>
