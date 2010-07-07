@@ -29,7 +29,7 @@ module.exports = {
         });
         
         app.get('/error', function(req, res){
-            res.send('Oh shit!', 500);
+            res.send('Oh shit!', { 'Content-Type': 'text/plain' }, 500);
         });
 
         assert.response(app,
@@ -46,7 +46,7 @@ module.exports = {
             { body: 'Not Found', status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8' }});
         assert.response(app,
             { url: '/error' },
-            { body: 'Oh shit!', status: 500 });
+            { body: 'Oh shit!', status: 500, headers: { 'Content-Type': 'text/plain' }});
     },
     
     '#contentType': function(assert){
