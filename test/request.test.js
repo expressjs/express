@@ -37,5 +37,21 @@ module.exports = {
         assert.response(app,
             { url: '/', headers: { Host: 'foo.com' }},
             { body: 'wahoo' });
+    },
+    
+    '#param()': function(assert){
+        var app = express.createServer();
+        
+        app.get('/user/:id?', function(req, res){
+            res.send('user ' + req.param('id'));
+        });
+        
+        assert.response(app,
+            { url: '/user/12' },
+            { body: 'user 12' });
+        
+        assert.response(app,
+            { url: '/user?id=5' },
+            { body: 'user 5' });
     }
 };
