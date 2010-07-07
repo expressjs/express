@@ -8,10 +8,15 @@
 				text-align: center;
 		    }
 		    #header {
+				position: absolute;
+				top: 0;
+				left: 0;
 		        padding: 15px 40px;
-		        border-bottom: 1px solid #EDEBC9;
-		        background: #FFFAE5 url(http://www.sencha.com/favicon.ico) no-repeat 15px 50%;
+				width: 100%;
+		        border-bottom: 1px solid #000;
+		        background: rgba(255,255,255,0.1) url(http://www.sencha.com/favicon.ico) no-repeat 15px 50%;
 				text-align: left;
+				color: #fff;
 		    }
 		    #container {
 				margin: 0 auto;
@@ -19,18 +24,142 @@
 				width: 900px;
 		        text-align: left;
 		    }
-			h2 {
-				font-size: 30px;
-			}
+			html {
+			  background: #1c1c1c url(images/bg.tile.jpg); }
+
+			body {
+			  margin: 0;
+			  padding-bottom: 30px;
+			  font: 14px/1.4 "Helvetica Neue", "Lucida Grande", "Arial";
+			  font-size: 14px;
+			  line-height: 1.5;
+			  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.1);
+			  -moz-text-stroke: 1px rgba(0, 0, 0, 0.1);
+			  background: url(images/bg.jpg) 50% 0 no-repeat;
+			  color: #8b8b8b; }
+
+			* {
+			  outline: none; }
+
+			em {
+			  color: white; }
+
+			a img {
+			  border: none !important; }
+
+			a {
+			  font-weight: bold;
+			  color: white;
+			  -webkit-transition-property: opacity, -webkit-transform, color, background-color, padding, -webkit-box-shadow;
+			  -webkit-transition-duration: 0.15s;
+			  -webkit-transition-timing-function: ease-out; }
+			  a:hover {
+			    opacity: 0.8; }
+
+			h1, h2, h3 {
+			  margin: 35px 0 0 0;
+			  color: white;
+			  text-shadow: 1px 2px 2px rgba(0,0,0,0.6); }
+
+			h3 {
+			  margin-left: 20px;
+			  font-size: 18px; }
+
 			pre {
-				margin: 20px;
-				padding: 20px;
-				border: 1px solid #eee;
-				color: #222;
-			}
+			  margin: 20px 10px;
+			  padding: 20px 20px;
+			  background: rgba(0,0,0,0.5);
+			  border: 1px solid #323232;
+			  -webkit-box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+			  -moz-box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+			  -webkit-border-radius: 5px;
+			  -moz-border-radius: 5px; }
+
+			code {
+			  font-family: "Helvetica Neue", "Lucida Grande", "Arial"; }
+
+			ul {
+			  margin: 15px 0;
+			  padding: 0 0 0 35px; }
+			  ul li {
+			    margin: 0;
+			    padding: 2px 0;
+			    list-style: square; }
+
+			.clear {
+			  clear: both; }
+
+			.sect {
+			  margin-left: 40px; }
+
+			#logo {
+			  display: block;
+			  margin-left: 30%;
+			  margin-bottom: 30px;
+			  width: 194px;
+			  height: 51px;
+			  background: url(images/logo.png) 0 0 no-repeat;
+			  text-indent: -99999px; }
+			  #logo:hover {
+			    opacity: 0.7; }
+			  #logo:active {
+			    opacity: 0.3; }
+
+			#tagline {
+			  margin-left: 75px;
+			  margin-bottom: 30px;
+			  color: rgba(255,255,255,0.7); }
+
+			#ribbon {
+			  position: absolute;
+			  top: 0;
+			  right: 0;
+			  z-index: 2; }
+
+			#wrapper {
+			  width: 100%;
+			  min-height: 800px;
+			  background: url(images/top.png) 0 0 repeat-x; }
+
+			#container {
+			  margin: 0 auto;
+			  padding-top: 90px;
+			  width: 550px; }
+
+			#menu {
+			  margin-left: 100px;
+			  padding: 0;
+			  padding-bottom: 30px; }
+			  #menu li {
+			    display: inline;
+			    list-style: none; }
+			    #menu li a {
+			      display: block;
+			      float: left;
+			      margin: 0 2px;
+			      padding: 3px 15px;
+			      background: rgba(0,0,0,0.2);
+			      -webkit-border-radius: 8px;
+			      -moz-border-radius: 8px;
+			      -webkit-box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+			      -moz-box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+			      -webkit-transition-property: opacity, -webkit-transform, color, background-color, padding, -webkit-box-shadow;
+			      -webkit-transition-duration: 0.15s;
+			      -webkit-transition-timing-function: ease-out; }
+			      #menu li a:hover,
+			      #menu li a.active {
+			        padding: 3px 20px;
+			        background: rgba(0,0,0,0.5); }
+			      #menu li a:active {
+			        background: rgba(0,0,0,0.1);
+			        -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+			        -moz-box-shadow: 1px 1px 1px rgba(0,0,0,0.4); }
 		</style>
 	</head>
 	<body>
+		<a href='http://github.com/visionmedia/express'> 
+		  <img alt='Fork me on GitHub' id='ribbon' src='http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png' /> 
+		</a>
 		<div id="header"><strong>Sencha</strong> labs</div>
 		<div id="container"><div class='mp'>
 <h2 id="Express">Express</h2>
