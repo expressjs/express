@@ -1,5 +1,6 @@
 
 DOCS = docs/index.md \
+	   docs/executable.md \
 	   docs/migrate.md
 
 MANPAGES =$(DOCS:.md=.1)

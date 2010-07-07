@@ -1,5 +1,3 @@
-express(1) -- node web framework
-========================================
 
 ## Synopsis
 
@@ -7,9 +5,11 @@ express(1) -- node web framework
 
 ## Description
 
-Express is a high performance Sinatra-inspired web framework.
+The `express` executable generates apps at the given **PATH** or the 
+current working directory. Although Express is not bound to a specific
+application structure, this executable creates a maintainable base app.
 
-## Executable Options
+## Options
 
     -h, --help            Display help information
 
