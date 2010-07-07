@@ -18,6 +18,14 @@ uninstall:
 	rm -f $(PREFIX)/bin/express
 	rm -fr $(LIB_PREFIX)/express
 
+install-support:
+	cd support/connect && $(MAKE) install
+	cd support/jade && $(MAKE) install
+
+uninstall-support:
+	cd support/connect && $(MAKE) uninstall
+	cd support/jade && $(MAKE) uninstall
+
 test:
 	@CONNECT_ENV=test ./support/expresso/bin/expresso \
 		-I lib \
@@ -46,4 +54,4 @@ docs/api.html: lib/express/*.js
 docclean:
 	rm -f docs/*.{1,html}
 
-.PHONY: install uninstall install-docs install-suppport test docs docclean
+.PHONY: install uninstall install-docs install-support uninstall-support test docs docclean
