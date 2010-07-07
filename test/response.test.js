@@ -18,6 +18,7 @@ module.exports = {
         });
         
         app.get('/text', function(req, res){
+            res.header('X-Foo', 'bar');
             res.contentType('.txt');
             res.send('wahoo');
         });
@@ -30,7 +31,7 @@ module.exports = {
             { body: '{"foo":"bar"}', status: 201, headers: { 'Content-Type': 'application/json' }});
         assert.response(app,
             { url: '/text' },
-            { body: 'wahoo', headers: { 'Content-Type': 'text/plain; charset=utf-8' }});
+            { body: 'wahoo', headers: { 'Content-Type': 'text/plain; charset=utf-8', 'X-Foo': 'bar' }});
     },
     
     '#contentType': function(assert){
