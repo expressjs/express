@@ -3,7 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('express');
+var express = require('express'),
+    Buffer = require('buffer').Buffer;
 
 module.exports = {
     '#send()': function(assert){
@@ -31,6 +32,10 @@ module.exports = {
         app.get('/error', function(req, res){
             res.send('Oh shit!', { 'Content-Type': 'text/plain' }, 500);
         });
+        
+        app.get('/buffer', function(req, res){
+            res.send(new Buffer('wahoo!'));
+        });
 
         assert.response(app,
             { url: '/html' },
@@ -47,6 +52,9 @@ module.exports = {
         assert.response(app,
             { url: '/error' },
             { body: 'Oh shit!', status: 500, headers: { 'Content-Type': 'text/plain' }});
+        assert.response(app,
+            { url: '/buffer' },
+            { body: 'wahoo!' });
     },
     
     '#contentType': function(assert){
