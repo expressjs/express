@@ -40,6 +40,35 @@ module.exports = {
             { body: 'wahoo' });
     },
     
+    '#accepts()': function(assert){
+        var app = express.createServer();
+        
+        app.get('/all', function(req, res){
+            assert.strictEqual(true, req.accepts('html'));
+            assert.strictEqual(true, req.accepts('json'));
+            res.send('ok');
+        });
+        
+        app.get('/', function(req, res){
+            assert.strictEqual(true, req.accepts('html'));
+            assert.strictEqual(true, req.accepts('text/html'));
+            assert.strictEqual(true, req.accepts('text/*'));
+            assert.strictEqual(true, req.accepts('json'));
+            assert.strictEqual(true, req.accepts('application/json'));
+            assert.strictEqual(false, req.accepts('xml'));
+            assert.strictEqual(false, req.accepts());
+            assert.strictEqual(false, req.accepts(' '));
+            res.send('ok');
+        });
+        
+        assert.response(app,
+            { url: '/all', headers: { Accept: '*/*' }},
+            { body: 'ok' });
+        assert.response(app,
+            { url: '/', headers: { Accept: 'text/html; application/json; text/*' }},
+            { body: 'ok' });
+    },
+    
     '#param()': function(assert){
         var app = express.createServer(
             connect.bodyDecoder()
