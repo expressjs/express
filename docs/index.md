@@ -12,7 +12,7 @@
 
 ## Features
 
-  * RESTful DSL
+  * Robust routing
   * Focus on high performance
   * View rendering and partials support
   * Environment based configuration
