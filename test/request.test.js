@@ -3,7 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('express');
+var express = require('express'),
+    connect = require('connect');
 
 module.exports = {
     '#isXMLHttpRequest': function(assert){
@@ -40,9 +41,15 @@ module.exports = {
     },
     
     '#param()': function(assert){
-        var app = express.createServer();
+        var app = express.createServer(
+            connect.bodyDecoder()
+        );
         
         app.get('/user/:id?', function(req, res){
+            res.send('user ' + req.param('id'));
+        });
+        
+        app.post('/user', function(req, res){
             res.send('user ' + req.param('id'));
         });
         
@@ -53,5 +60,9 @@ module.exports = {
         assert.response(app,
             { url: '/user?id=5' },
             { body: 'user 5' });
+        
+        assert.response(app,
+            { url: '/user', method: 'POST', data: 'id=1', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
+            { body: 'user 1' });
     }
 };
