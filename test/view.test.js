@@ -106,5 +106,17 @@ module.exports = {
         assert.response(app,
             { url: '/user' },
             { body: '<p>tj</p>' });
+        
+        // "as" this collection option
+        app.get('/person', function(req, res){
+            res.send(res.partial('person.jade', {
+                as: this,
+                collection: [{ name: 'tj' }]
+            }));
+        });
+        
+        assert.response(app,
+            { url: '/person' },
+            { body: '<p>tj</p>' });
     }
 };
