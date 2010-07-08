@@ -26,6 +26,11 @@ module.exports = {
         app.get('/invalid', function(req, res){
             res.render('invalid.jade', { layout: false });
         });
+        app.get('/error', function(req, res){
+            res.render('invalid.jade', { layout: false }, function(err){
+                res.send(err.arguments[0]);
+            });
+        });
 
         assert.response(app,
             { url: '/' },
@@ -36,6 +41,9 @@ module.exports = {
         assert.response(app,
             { url: '/callback' },
             { body: '\n<p>:)</p>' });
+        assert.response(app,
+            { url: '/error' },
+            { body: 'doesNotExist' });
         assert.response(app,
             { url: '/invalid' },
             function(res){
