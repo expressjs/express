@@ -54,3 +54,13 @@
   description: 
   length: 25
   name: example apps
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: release on nodejs group
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: extensable view support
