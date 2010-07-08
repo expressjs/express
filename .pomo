@@ -69,3 +69,8 @@
   description: 
   length: 25
   name: auto-discover views without extensions
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: view mtime check interval
