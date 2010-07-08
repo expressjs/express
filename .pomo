@@ -43,11 +43,6 @@
   complete: false
   description: 
   length: 25
-  name: npm bin
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: install docs
 - !ruby/object:Pomo::Task 
   complete: false
@@ -64,3 +59,13 @@
   description: 
   length: 25
   name: extensable view support
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: assume partial same extension
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: auto-discover views without extensions
