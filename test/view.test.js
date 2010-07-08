@@ -95,7 +95,7 @@ module.exports = {
             { url: '/movies' },
             { body: html });
     
-        // "as" collection option
+        // as: str collection option
         app.get('/user', function(req, res){
             res.send(res.partial('user.jade', {
                 as: 'person',
@@ -107,7 +107,7 @@ module.exports = {
             { url: '/user' },
             { body: '<p>tj</p>' });
         
-        // "as" this collection option
+        // as: this collection option
         app.get('/person', function(req, res){
             res.send(res.partial('person.jade', {
                 as: this,
@@ -118,5 +118,17 @@ module.exports = {
         assert.response(app,
             { url: '/person' },
             { body: '<p>tj</p>' });
+
+        // as: global collection option
+        app.get('/videos', function(req, res){
+            res.send(res.partial('video.jade', {
+                as: global,
+                collection: movies
+            }));
+        });
+
+        assert.response(app,
+            { url: '/videos' },
+            { body: '<p>Tim Burton</p><p>James Cameron</p>' });
     }
 };
