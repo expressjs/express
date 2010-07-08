@@ -130,5 +130,17 @@ module.exports = {
         assert.response(app,
             { url: '/videos' },
             { body: '<p>Tim Burton</p><p>James Cameron</p>' });
+        
+        // Magic variables
+        app.get('/magic', function(req, res){
+            res.send(res.partial('magic.jade', {
+                as: 'word',
+                collection: ['one', 'two', 'three']
+            }));
+        });
+        
+        assert.response(app,
+            { url: '/magic' },
+            { body: '<li class="first">one</li><li class="word-1">two</li><li class="last">three</li>' });
     }
 };
