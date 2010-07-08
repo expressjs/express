@@ -73,11 +73,6 @@
   complete: false
   description: 
   length: 25
-  name: next(err) from within view system?
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: view defaults / extension defaults
 - !ruby/object:Pomo::Task 
   complete: false
@@ -93,4 +88,4 @@
   complete: false
   description: 
   length: 25
-  name: view filters?
+  name: view helpers

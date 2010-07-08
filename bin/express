@@ -23,7 +23,84 @@ var usage = ''
     + '\n'
     + '\x1b[1mOptions\x1b[0m:\n'
     + '  -v, --version Output framework version\n'
-    + '  -h, --help    Output help information\n'
+    + '  -h, --help    Output help information\n';
+
+/**
+ * Jade layout template.
+ */
+
+var jadeLayout = [
+    '!!!',
+    'html',
+    '  head',
+    '    title= title',
+    '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')',
+    '  body!= body'
+].join('\n');
+
+/**
+ * Default sass template.
+ */
+
+var sass = [
+    'body',
+    '  :padding 50px',
+    '  :font 14px "Lucida Grande", "Helvetica Nueue", Arial, sans-serif'
+].join('\n');
+
+/**
+ * Jade index template.
+ */
+
+var jadeIndex = [
+    'h1= title',
+    'p Welcome to #{title}'
+].join('\n');
+
+/**
+ * App template.
+ */
+
+var app = [
+    '',
+    '/**',
+    ' * Module dependencies.',
+    ' */',
+    '',
+    'var express = require(\'express\'),',
+    '    connect = require(\'connect\');',
+    '',
+    '// Create and export Express app',
+    '',
+    'var app = module.exports = express.createServer();',
+    '',
+    '// Configuration',
+    '',
+    'app.configure(function(){',
+    '    app.use(\'/\', connect.redirect());',
+    '    app.use(\'/\', connect.bodyDecoder());',
+    '    app.use(\'/\', connect.compiler({ src: __dirname + \'/public\', enable: [\'sass\'] }));',
+    '    app.use(\'/\', connect.staticProvider(__dirname + \'/public\'));',
+    '});',
+    '',
+    'app.configure(\'development\', function(){',
+    '   app.use(\'/\', connect.errorHandler({ dumpExceptions: true, showStack: true })); ',
+    '});',
+    '',
+    'app.configure(\'production\', function(){',
+    '   app.use(\'/\', connect.errorHandler()); ',
+    '});',
+    '',
+    '// Routes',
+    '',
+    'app.get(\'/\', function(req, res){',
+    '    res.render(\'index.jade\', {',
+    '        locals: {',
+    '            title: \'Express\'',
+    '        }',
+    '    });',
+    '});'
+].join('\n');
 
 // Parse arguments
 
@@ -49,9 +126,16 @@ while (args.length) {
 
 (function createApplication(path) {
     mkdir(path, function(){
-        write(path + '/app.js', 'app contents');
-        mkdir(path + '/config');
-        mkdir(path + '/views/partials');
+        mkdir(path + '/pids');
+        mkdir(path + '/logs');
+        mkdir(path + '/public/{javascripts,stylesheets,images}', function(){
+            write(path + '/public/stylesheets/style.sass', sass);
+        });
+        mkdir(path + '/views/partials', function(){
+            write(path + '/views/layout.jade', jadeLayout);
+            write(path + '/views/index.jade', jadeIndex);
+        });
+        write(path + '/app.js', app);
     });
 })(path);
 
