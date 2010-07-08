@@ -17,6 +17,12 @@ module.exports = {
         app.get('/haml', function(req, res){
             res.render('hello.haml', { layout: false });
         });
+        app.get('/callback', function(req, res){
+            res.render('hello.haml', { layout: false }, function(err, str){
+                assert.ok(!err);
+                res.send(str.replace('Hello World', ':)'));
+            });
+        });
 
         assert.response(app,
             { url: '/' },
@@ -24,6 +30,9 @@ module.exports = {
         assert.response(app,
             { url: '/haml' },
             { body: '\n<p>Hello World</p>' });
+        assert.response(app,
+            { url: '/callback' },
+            { body: '\n<p>:)</p>' });
     },
     
     'test #render() layout': function(assert){
