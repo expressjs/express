@@ -58,26 +58,6 @@
   complete: false
   description: 
   length: 25
-  name: assume partial same extension
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: auto-discover views without extensions
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: view mtime check interval
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: view defaults / extension defaults
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: ejs implementation
 - !ruby/object:Pomo::Task 
   complete: false
