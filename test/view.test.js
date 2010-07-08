@@ -142,5 +142,16 @@ module.exports = {
         assert.response(app,
             { url: '/magic' },
             { body: '<li class="first">one</li><li class="word-1">two</li><li class="last">three</li>' });
+        
+        // Non-collection support
+        app.get('/video', function(req, res){
+            res.send(res.partial('video.jade', {
+                locals: { director: movies[0].director }
+            }));
+        });
+        
+        assert.response(app,
+            { url: '/video' },
+            { body: '<p>Tim Burton</p>' });
     }
 };
