@@ -23,9 +23,10 @@ var app = module.exports = express.createServer(
 app.set('views', __dirname + '/views');
 
 // Enable auto-reloading of view contents when changed
+// with an interval of 2000 milliseconds
 
-app.set('view reloading', { interval: 2000 });
-//app.enable('view reloading');
+app.set('reload views', 2000);
+// or app.enable('reload views'); for defaults
 
 // Re-compile
 
