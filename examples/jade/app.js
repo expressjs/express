@@ -10,7 +10,7 @@ var express = require('./../../lib/express'),
 
 var pub = __dirname + '/public';
 
-// Auto-compile sass to css
+// Auto-compile sass to css with "compiler"
 // and then serve with connect's staticProvider
 
 var app = module.exports = express.createServer(
@@ -23,7 +23,9 @@ var app = module.exports = express.createServer(
 app.set('views', __dirname + '/views');
 
 // Enable auto-reloading of view contents when changed
-// with an interval of 2000 milliseconds
+// with an interval of 2000 milliseconds. Start the app
+// with $ cd examples/jade && connect
+// then alter some views :)
 
 app.set('reload views', 2000);
 // or app.enable('reload views'); for defaults
