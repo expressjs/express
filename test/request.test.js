@@ -57,7 +57,6 @@ module.exports = {
             assert.strictEqual(true, req.accepts('application/json'));
             assert.strictEqual(false, req.accepts('xml'));
             assert.strictEqual(false, req.accepts());
-            assert.strictEqual(false, req.accepts(' '));
             res.send('ok');
         });
         
@@ -66,8 +65,8 @@ module.exports = {
             assert.strictEqual(true, req.accepts('text/html'));
             assert.strictEqual(true, req.accepts('json'));
             assert.strictEqual(true, req.accepts('application/json'));
-            assert.strictEqual(false, req.accepts('svg'));
-            assert.strictEqual(false, req.accepts('image/svg'));
+            assert.strictEqual(false, req.accepts('png'));
+            assert.strictEqual(false, req.accepts('image/png'));
             res.send('ok'); 
         });
         
