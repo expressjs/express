@@ -79,3 +79,13 @@
   description: 
   length: 25
   name: view defaults / extension defaults
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: ejs implementation
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: markdown-js integration
