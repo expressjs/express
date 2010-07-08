@@ -8,7 +8,7 @@ var express = require('express'),
 
 module.exports = {
     'test #render()': function(assert){
-        var app = express.createServer();
+        var app = express.createServer(connect.errorHandler({ showMessage: true }));
         app.set('views', __dirname + '/fixtures');
 
         app.get('/', function(req, res){
@@ -23,6 +23,9 @@ module.exports = {
                 res.send(str.replace('Hello World', ':)'));
             });
         });
+        app.get('/invalid', function(req, res){
+            res.render('invalid.jade', { layout: false });
+        });
 
         assert.response(app,
             { url: '/' },
@@ -33,6 +36,12 @@ module.exports = {
         assert.response(app,
             { url: '/callback' },
             { body: '\n<p>:)</p>' });
+        assert.response(app,
+            { url: '/invalid' },
+            function(res){
+                assert.ok(res.body.indexOf('ReferenceError') >= 0);
+                assert.ok(res.body.indexOf('doesNotExist') >= 0);
+            });
     },
     
     'test #render() layout': function(assert){
