@@ -3,7 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('express');
+var express = require('express'),
+    connect = require('connect');
 
 module.exports = {
     'test #render()': function(assert){
@@ -55,12 +56,43 @@ module.exports = {
         var app = express.createServer();
         app.set('views', __dirname + '/fixtures');
 
+        // Auto-assigned local w/ collection option
         app.get('/', function(req, res){
             res.render('items.jade', { locals: { items: ['one', 'two'] }});
         });
-
-        assert.response(app,
+        
+       assert.response(app,
             { url: '/' },
             { body: '<html><body><ul><li>one</li><li>two</li></ul></body></html>' });
+
+        // Auto-assigned local w/ collection array    
+        var movies = [
+            { title: 'Nightmare Before Christmas', director: 'Tim Burton' },
+            { title: 'Avatar', director: 'James Cameron' }
+        ];
+        app.get('/movies', function(req, res){
+            res.render('movies.jade', { locals: { movies: movies }});
+        });
+            
+        var html = [
+            '<html>',
+            '<body>',
+            '<ul>',
+            '<li>',
+            '<div class="title">Nightmare Before Christmas</div>',
+            '<div class="director">Tim Burton</div>',
+            '</li>',
+            '<li>',
+            '<div class="title">Avatar</div>',
+            '<div class="director">James Cameron</div>',
+            '</li>',
+            '</ul>',
+            '</body>',
+            '</html>'
+        ].join('');
+
+        assert.response(app,
+            { url: '/movies' },
+            { body: html });
     }
 };
