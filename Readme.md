@@ -49,8 +49,7 @@ or
 ## Running Tests
 
 Express uses the [Expresso](http://github.com/visionmedia/expresso) TDD
-framework to write and run elegant test suites extremely fast. First update
-the git submodules, then run:
+framework to write and run elegant test suites extremely fast. First `$ git submodule update --init`, then run:
 
     $ make test
     
