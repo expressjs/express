@@ -32,7 +32,10 @@ test:
 		-I support/connect/lib \
 		-I support/haml/lib \
 		-I support/jade/lib \
+		$(TESTFLAGS) \
 		test/*.test.js
+test-cov:
+	@TESTFLAGS=--cov $(MAKE) test
 
 docs: docs/api.html $(MANPAGES) $(HTMLDOCS)
 
@@ -55,4 +58,4 @@ docs/api.html: lib/express/*.js
 docclean:
 	rm -f docs/*.{1,html}
 
-.PHONY: install uninstall install-docs install-support uninstall-support test docs docclean
+.PHONY: install uninstall install-docs install-support uninstall-support test test-cov docs docclean
