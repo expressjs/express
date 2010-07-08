@@ -18,6 +18,17 @@ var app = module.exports = express.createServer(
     connect.staticProvider(pub)
 );
 
+// Optional since express defaults to CWD/views
+
+app.set('views', __dirname + '/views');
+
+// Enable auto-reloading of view contents when changed
+
+app.set('view reloading', { interval: 2000 });
+//app.enable('view reloading');
+
+// Re-compile
+
 // Dummy users
 var users = [
     { name: 'tj', email: 'tj@sencha.com' },
