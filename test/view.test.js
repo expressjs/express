@@ -10,9 +10,13 @@ module.exports = {
     'test #render()': function(assert){
         var app = express.createServer(connect.errorHandler({ showMessage: true }));
         app.set('views', __dirname + '/fixtures');
+        app.set('view engine', 'jade');
 
         app.get('/', function(req, res){
             res.render('index.jade', { layout: false });
+        });
+        app.get('/jade', function(req, res){
+            res.render('index', { layout: false });
         });
         app.get('/haml', function(req, res){
             res.render('hello.haml', { layout: false });
@@ -36,6 +40,9 @@ module.exports = {
             { url: '/' },
             { body: '<p>Welcome</p>' });
         assert.response(app,
+            { url: '/jade' },
+            { body: '<p>Welcome</p>' });
+        assert.response(app,
             { url: '/haml' },
             { body: '\n<p>Hello World</p>' });
         assert.response(app,
@@ -55,9 +62,13 @@ module.exports = {
     'test #render() layout': function(assert){
         var app = express.createServer();
         app.set('views', __dirname + '/fixtures');
+        app.set('view engine', 'jade');
 
         app.get('/', function(req, res){
             res.render('index.jade');
+        });
+        app.get('/jade', function(req, res){
+            res.render('index');
         });
 
         assert.response(app,
