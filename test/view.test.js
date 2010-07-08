@@ -4,7 +4,12 @@
  */
 
 var express = require('express'),
-    connect = require('connect');
+    connect = require('connect'),
+    view = require('express/view');
+
+view.helpers.reverse = function(str){
+    return str.split('').reverse().join('');
+};
 
 module.exports = {
     'test #render()': function(assert){
@@ -14,6 +19,9 @@ module.exports = {
 
         app.get('/', function(req, res){
             res.render('index.jade', { layout: false });
+        });
+        app.get('/helpers', function(req, res){
+            res.render('helpers.jade', { layout: false });
         });
         app.get('/jade', function(req, res){
             res.render('index', { layout: false });
@@ -39,6 +47,9 @@ module.exports = {
         assert.response(app,
             { url: '/' },
             { body: '<p>Welcome</p>' });
+        assert.response(app,
+            { url: '/helpers' },
+            { body: '<p>esrever</p>' });
         assert.response(app,
             { url: '/jade' },
             { body: '<p>Welcome</p>' });
