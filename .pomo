@@ -89,3 +89,8 @@
   description: 
   length: 25
   name: markdown-js integration
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: view filters?
