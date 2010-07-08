@@ -94,5 +94,17 @@ module.exports = {
         assert.response(app,
             { url: '/movies' },
             { body: html });
+    
+        // "as" collection option
+        app.get('/user', function(req, res){
+            res.send(res.partial('user.jade', {
+                as: 'person',
+                collection: [{ name: 'tj' }]
+            }));
+        });
+        
+        assert.response(app,
+            { url: '/user' },
+            { body: '<p>tj</p>' });
     }
 };
