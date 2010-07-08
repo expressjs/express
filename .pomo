@@ -1,0 +1,56 @@
+--- 
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: GET / POST / Route params ... ? add req.param()
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: make install
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: redo readme
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: RC
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: TM bundle
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: new jade markdown stuff
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: blog
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: startup apps with all dependencies?
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: npm dependencies
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: release to kiwi
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: npm bin
