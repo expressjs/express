@@ -3,16 +3,6 @@
   complete: false
   description: 
   length: 25
-  name: GET / POST / Route params ... ? add req.param()
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: make install
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: redo readme
 - !ruby/object:Pomo::Task 
   complete: false
@@ -54,3 +44,13 @@
   description: 
   length: 25
   name: npm bin
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: install docs
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: example apps
