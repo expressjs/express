@@ -32,6 +32,7 @@ test:
 		-I support/connect/lib \
 		-I support/haml/lib \
 		-I support/jade/lib \
+		-I support/ejs/lib \
 		$(TESTFLAGS) \
 		test/*.test.js
 test-cov:

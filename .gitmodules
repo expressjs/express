@@ -10,3 +10,6 @@
 [submodule "support/haml"]
 	path = support/haml
 	url = git://github.com/visionmedia/haml.js.git
+[submodule "support/ejs"]
+	path = support/ejs
+	url = http://github.com/visionmedia/ejs.git
