@@ -9,7 +9,7 @@
     { "name": "Ciaran Jessup", "email": "ciaranj@gmail.com" }
   ],
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
-  "directories": { "lib": "./lib" },
+  "directories": { "lib": "./lib/express" },
   "scripts": { "test": "make test" },
   "bin": { "express": "./bin/express" },
   "engines": { "node": ">= 0.1.98" }
