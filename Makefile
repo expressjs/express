@@ -9,12 +9,12 @@ DOCS = docs/index.md \
 MANPAGES =$(DOCS:.md=.1)
 HTMLDOCS =$(DOCS:.md=.html)
 
-install:
+install: install-docs
 	@mkdir -p $(PREFIX)/bin
 	cp -f bin/express $(PREFIX)/bin/express
 	cp -fr lib/express $(LIB_PREFIX)/express
 
-uninstall:
+uninstall: uninstall-docs
 	rm -f $(PREFIX)/bin/express
 	rm -fr $(LIB_PREFIX)/express
 
@@ -25,6 +25,12 @@ install-support:
 uninstall-support:
 	cd support/connect && $(MAKE) uninstall
 	cd support/jade && $(MAKE) uninstall
+
+install-docs:
+	cp -f docs/executable.1 $(PREFIX)/share/man/man1/express.1
+
+uninstall-docs:
+	rm -f $(PREFIX)/share/man/man1/express.1
 
 test:
 	@CONNECT_ENV=test ./support/expresso/bin/expresso \
@@ -59,4 +65,4 @@ docs/api.html: lib/express/*.js
 docclean:
 	rm -f docs/*.{1,html}
 
-.PHONY: install uninstall install-docs install-support uninstall-support test test-cov docs docclean
+.PHONY: install uninstall install-docs install-support uninstall-support install-docs uninstall-docs test test-cov docs docclean
