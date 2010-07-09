@@ -1,7 +1,7 @@
 
 ## Synopsis
 
-    express [-h|--help] [PATH]
+    express [-h|--help] [-v|--version] [PATH]
 
 ## Description
 

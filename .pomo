@@ -38,11 +38,6 @@
   complete: false
   description: 
   length: 25
-  name: install docs
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: example apps
 - !ruby/object:Pomo::Task 
   complete: false
