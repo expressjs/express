@@ -58,24 +58,9 @@
   complete: false
   description: 
   length: 25
-  name: ejs implementation
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: markdown-js integration
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: view helpers
 - !ruby/object:Pomo::Task 
   complete: false
   description: 
   length: 25
   name: connect-form support for methodOverride?
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: async jade / haml etc
