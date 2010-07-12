@@ -220,6 +220,31 @@ fetching a route, query string, or request body parameter:</p>
 });
 </code></pre>
 
+<h3 id="Passing-Route-Control">Passing Route Control</h3>
+
+<p>Old express had a weak notion of route passing,
+which did not support async, and was never properly
+implemented for practical use:</p>
+
+<pre><code>get('/', function(){
+    this.pass('/foobar');
+});
+</code></pre>
+
+<p>Now Express has access to Connect's <code>next()</code> function,
+which is passed as the fourth and final argument. Calling <code>next()</code> will
+pass control to the next <em>matching route</em>, or continue down the stack
+of Connect middleware.</p>
+
+<pre><code>app.get('/user/:id?', function(req, res, params, next){
+    next();
+});
+
+app.get('/user', function(){
+    // ... respond
+});
+</code></pre>
+
 </div>
 			</div>
 		</div>

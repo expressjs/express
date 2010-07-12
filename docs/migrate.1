@@ -105,4 +105,38 @@ app\.get(\'/user/:id\', function(req, res, params){
 .fi
 .
 .IP "" 0
+.
+.SS "Passing Route Control"
+Old express had a weak notion of route passing, which did not support async, and was never properly implemented for practical use:
+.
+.IP "" 4
+.
+.nf
+
+get(\'/\', function(){
+    this\.pass(\'/foobar\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Now Express has access to Connect\'s \fBnext()\fR function, which is passed as the fourth and final argument\. Calling \fBnext()\fR will pass control to the next \fImatching route\fR, or continue down the stack of Connect middleware\.
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/user/:id?\', function(req, res, params, next){
+    next();
+});
+
+app\.get(\'/user\', function(){
+    // \.\.\. respond
+});
+.
+.fi
+.
+.IP "" 0
 

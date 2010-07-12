@@ -63,3 +63,25 @@ Now they (_route params only_) are passed as the third argument:
 		params.id;
     });
 
+### Passing Route Control
+
+Old express had a weak notion of route passing,
+which did not support async, and was never properly 
+implemented for practical use:
+
+    get('/', function(){
+	    this.pass('/foobar');
+    });
+
+Now Express has access to Connect's `next()` function,
+which is passed as the fourth and final argument. Calling `next()` will
+pass control to the next _matching route_, or continue down the stack
+of Connect middleware.
+
+    app.get('/user/:id?', function(req, res, params, next){
+	    next();
+    });
+
+	app.get('/user', function(){
+		// ... respond
+	});
