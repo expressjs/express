@@ -189,6 +189,8 @@ app.get('/', function(req, res){
 });
 </code></pre>
 
+<p>Express 1.x does <em>not</em> allow returning of a string.</p>
+
 <h3 id="Running-Applications">Running Applications</h3>
 
 <p>Previously a global function <code>run()</code>, was available:</p>
@@ -242,6 +244,32 @@ of Connect middleware.</p>
 
 app.get('/user', function(){
     // ... respond
+});
+</code></pre>
+
+<h3 id="View-Rendering">View Rendering</h3>
+
+<p>View filenames no longer take the form <em>Express</em>.<em>TYPE</em>.<em>ENGINE</em>,
+the <em>Content-Type</em> can be set via <code>ServerResponse#contentType()</code> or
+<code>ServerResponse#header()</code>. For example what was previously <em>layout.html.haml</em>,
+should now be <em>layout.haml</em>.</p>
+
+<p>Previously a view render looked something like this:</p>
+
+<pre><code>get('/', function(){
+    this.render('index.html.haml', {
+        locals: { title: 'My Site' }
+    });
+});
+</code></pre>
+
+<p>We now have <code>ServerResponse#render()</code>, however the options passed to <a href="http://github.com/visionmedia/haml.js">haml</a>, <a href="http://github.com/visionmedia/jade">jade</a>, and others
+remain the same.</p>
+
+<pre><code>app.get('/', function(req, res){
+    res.render('index.haml', {
+        locals: { title: 'My Site' }
+    });
 });
 </code></pre>
 

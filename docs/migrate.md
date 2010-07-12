@@ -35,6 +35,7 @@ as `http.createServer()`:
 		res.send('hello world');
 	});
 
+Express 1.x does _not_ allow returning of a string.
 
 ### Running Applications
 
@@ -84,4 +85,28 @@ of Connect middleware.
 
 	app.get('/user', function(){
 		// ... respond
+	});
+
+### View Rendering
+
+View filenames no longer take the form _NAME_._TYPE_._ENGINE_,
+the _Content-Type_ can be set via `ServerResponse#contentType()` or
+`ServerResponse#header()`. For example what was previously _layout.html.haml_,
+should now be _layout.haml_.
+
+Previously a view render looked something like this:
+
+    get('/', function(){
+		this.render('index.html.haml', {
+			locals: { title: 'My Site' }
+		});
+	});
+
+We now have `ServerResponse#render()`, however the options passed to [haml](http://github.com/visionmedia/haml.js), [jade](http://github.com/visionmedia/jade), and others
+remain the same.
+
+	app.get('/', function(req, res){
+		res.render('index.haml', {
+			locals: { title: 'My Site' }
+		});
 	});

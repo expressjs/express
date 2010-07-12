@@ -49,6 +49,9 @@ app\.get(\'/\', function(req, res){
 .
 .IP "" 0
 .
+.P
+Express 1\.x does \fInot\fR allow returning of a string\.
+.
 .SS "Running Applications"
 Previously a global function \fBrun()\fR, was available:
 .
@@ -134,6 +137,43 @@ app\.get(\'/user/:id?\', function(req, res, params, next){
 
 app\.get(\'/user\', function(){
     // \.\.\. respond
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "View Rendering"
+View filenames no longer take the form \fINAME\fR\.\fITYPE\fR\.\fIENGINE\fR, the \fIContent\-Type\fR can be set via \fBServerResponse#contentType()\fR or \fBServerResponse#header()\fR\. For example what was previously \fIlayout\.html\.haml\fR, should now be \fIlayout\.haml\fR\.
+.
+.P
+Previously a view render looked something like this:
+.
+.IP "" 4
+.
+.nf
+
+get(\'/\', function(){
+    this\.render(\'index\.html\.haml\', {
+        locals: { title: \'My Site\' }
+    });
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+We now have \fBServerResponse#render()\fR, however the options passed to haml \fIhttp://github\.com/visionmedia/haml\.js\fR, jade \fIhttp://github\.com/visionmedia/jade\fR, and others remain the same\.
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/\', function(req, res){
+    res\.render(\'index\.haml\', {
+        locals: { title: \'My Site\' }
+    });
 });
 .
 .fi
