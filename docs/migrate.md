@@ -110,3 +110,21 @@ remain the same.
 			locals: { title: 'My Site' }
 		});
 	});
+
+Previously rendering of a collection via `partial()` would look something like this:
+
+	this.partial('comment.html.haml', { collection: comments });
+
+Although this worked just fine, it was generally to verbose, the similar but new API
+looks like this, as `partial()` is _always_ passed as a local variable:
+
+    partial('comment.haml', { collection: comments });
+
+To make things even less verbose we can assume the extension when ommitted:
+
+    partial('comment', { collection: comments });
+
+And once again even further, when rendering a collection we can simply pass
+an array, if no other options are desired:
+
+    partial('comments', comments);

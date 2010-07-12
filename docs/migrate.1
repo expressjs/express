@@ -179,4 +179,56 @@ app\.get(\'/\', function(req, res){
 .fi
 .
 .IP "" 0
+.
+.P
+Previously rendering of a collection via \fBpartial()\fR would look something like this:
+.
+.IP "" 4
+.
+.nf
+
+this\.partial(\'comment\.html\.haml\', { collection: comments });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Although this worked just fine, it was generally to verbose, the similar but new API looks like this, as \fBpartial()\fR is \fIalways\fR passed as a local variable:
+.
+.IP "" 4
+.
+.nf
+
+partial(\'comment\.haml\', { collection: comments });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To make things even less verbose we can assume the extension when ommitted:
+.
+.IP "" 4
+.
+.nf
+
+partial(\'comment\', { collection: comments });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+And once again even further, when rendering a collection we can simply pass an array, if no other options are desired:
+.
+.IP "" 4
+.
+.nf
+
+partial(\'comments\', comments);
+.
+.fi
+.
+.IP "" 0
 

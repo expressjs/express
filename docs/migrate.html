@@ -273,6 +273,28 @@ remain the same.</p>
 });
 </code></pre>
 
+<p>Previously rendering of a collection via <code>partial()</code> would look something like this:</p>
+
+<pre><code>this.partial('comment.html.haml', { collection: comments });
+</code></pre>
+
+<p>Although this worked just fine, it was generally to verbose, the similar but new API
+looks like this, as <code>partial()</code> is <em>always</em> passed as a local variable:</p>
+
+<pre><code>partial('comment.haml', { collection: comments });
+</code></pre>
+
+<p>To make things even less verbose we can assume the extension when ommitted:</p>
+
+<pre><code>partial('comment', { collection: comments });
+</code></pre>
+
+<p>And once again even further, when rendering a collection we can simply pass
+an array, if no other options are desired:</p>
+
+<pre><code>partial('comments', comments);
+</code></pre>
+
 </div>
 			</div>
 		</div>
