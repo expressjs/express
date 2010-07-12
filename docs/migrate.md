@@ -2,7 +2,7 @@
 ## Migration Guide
 
 Express 1.x is written to run on-top of the [Connect](http://extjs.github.com/Connect) middlware
-framework, thus the `Plugin` has been replaced by Connect's middleware.
+framework, thus the _Plugin_ has been replaced by Connect's middleware.
 
 ### Creating Applications
 
@@ -21,8 +21,8 @@ accessed as shown below:
     });
 
 Now we utilize the CommonJS module system appropriately, and
-introduce `express.createServer()` which accepts the same arguments
-as `http.createServer()`:
+introduce _express.createServer()_ which accepts the same arguments
+as _http.createServer()_:
 
     var express = require('express'),
 		app = express.createServer();
@@ -47,7 +47,7 @@ similar to below:
     use(MethodOverride);
     use(Cookie);
 
-Which we can now `use()` within our app, or pass to the `express.createServer()` method:
+Which we can now _use()_ within our app, or pass to the _express.createServer()_ method:
 
 	var connect = require('connect');
 
@@ -70,11 +70,11 @@ For documentation on creating Connect middleware visit [Middleware Authoring](ht
 
 ### Running Applications
 
-Previously a global function `run()`, was available:
+Previously a global function _run()_, was available:
 
     run();
 
-The new `express.Server` has the same API as `http.Server`,
+The new _express.Server_ has the same API as _http.Server_,
 so we can do things like:
 
 	app.listen();
@@ -82,7 +82,7 @@ so we can do things like:
 
 ### Route Parameters
 
-Previously we could use `this.param()` to attempt
+Previously we could use _this.param()_ to attempt
 fetching a route, query string, or request body parameter:
 
     get('/user/:id', function(){
@@ -105,8 +105,8 @@ implemented for practical use:
 	    this.pass('/foobar');
     });
 
-Now Express has access to Connect's `next()` function,
-which is passed as the fourth and final argument. Calling `next()` will
+Now Express has access to Connect's _next()_ function,
+which is passed as the fourth and final argument. Calling _next()_ will
 pass control to the next _matching route_, or continue down the stack
 of Connect middleware.
 
@@ -121,8 +121,8 @@ of Connect middleware.
 ### View Rendering
 
 View filenames no longer take the form _NAME_._TYPE_._ENGINE_,
-the _Content-Type_ can be set via `ServerResponse#contentType()` or
-`ServerResponse#header()`. For example what was previously _layout.html.haml_,
+the _Content-Type_ can be set via _res.contentType()_ or
+_res.header()_. For example what was previously _layout.html.haml_,
 should now be _layout.haml_.
 
 Previously a view render looked something like this:
@@ -133,7 +133,7 @@ Previously a view render looked something like this:
 		});
 	});
 
-We now have `ServerResponse#render()`, however the options passed to [haml](http://github.com/visionmedia/haml.js), [jade](http://github.com/visionmedia/jade), and others
+We now have _res.render()_, however the options passed to [haml](http://github.com/visionmedia/haml.js), [jade](http://github.com/visionmedia/jade), and others
 remain the same.
 
 	app.get('/', function(req, res){
@@ -142,12 +142,12 @@ remain the same.
 		});
 	});
 
-Previously rendering of a collection via `partial()` would look something like this:
+Previously rendering of a collection via _partial()_ would look something like this:
 
 	this.partial('comment.html.haml', { collection: comments });
 
 Although this worked just fine, it was generally to verbose, the similar but new API
-looks like this, as `partial()` is _always_ passed as a local variable:
+looks like this, as _partial()_ is _always_ passed as a local variable:
 
     partial('comment.haml', { collection: comments });
 

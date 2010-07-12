@@ -4,7 +4,7 @@
 .TH "MIGRATE" "" "July 2010" "" ""
 .
 .SH "Migration Guide"
-Express 1\.x is written to run on\-top of the Connect \fIhttp://extjs\.github\.com/Connect\fR middlware framework, thus the \fBPlugin\fR has been replaced by Connect\'s middleware\.
+Express 1\.x is written to run on\-top of the Connect \fIhttp://extjs\.github\.com/Connect\fR middlware framework, thus the \fIPlugin\fR has been replaced by Connect\'s middleware\.
 .
 .SS "Creating Applications"
 Previously due to legacy code implemented in the early days of node, Express unfortunately had some globals\. The DSL would previously be accessed as shown below:
@@ -28,7 +28,7 @@ get(\'/\', function(){
 .IP "" 0
 .
 .P
-Now we utilize the CommonJS module system appropriately, and introduce \fBexpress\.createServer()\fR which accepts the same arguments as \fBhttp\.createServer()\fR:
+Now we utilize the CommonJS module system appropriately, and introduce \fIexpress\.createServer()\fR which accepts the same arguments as \fIhttp\.createServer()\fR:
 .
 .IP "" 4
 .
@@ -68,7 +68,7 @@ use(Cookie);
 .IP "" 0
 .
 .P
-Which we can now \fBuse()\fR within our app, or pass to the \fBexpress\.createServer()\fR method:
+Which we can now \fIuse()\fR within our app, or pass to the \fIexpress\.createServer()\fR method:
 .
 .IP "" 4
 .
@@ -108,7 +108,7 @@ app\.use(\'/\', connect\.cookie());
 For documentation on creating Connect middleware visit Middleware Authoring \fIhttp://extjs\.github\.com/Connect/#Middleware\-Authoring\fR\.
 .
 .SS "Running Applications"
-Previously a global function \fBrun()\fR, was available:
+Previously a global function \fIrun()\fR, was available:
 .
 .IP "" 4
 .
@@ -121,7 +121,7 @@ run();
 .IP "" 0
 .
 .P
-The new \fBexpress\.Server\fR has the same API as \fBhttp\.Server\fR, so we can do things like:
+The new \fIexpress\.Server\fR has the same API as \fIhttp\.Server\fR, so we can do things like:
 .
 .IP "" 4
 .
@@ -135,7 +135,7 @@ app\.listen(3000);
 .IP "" 0
 .
 .SS "Route Parameters"
-Previously we could use \fBthis\.param()\fR to attempt fetching a route, query string, or request body parameter:
+Previously we could use \fIthis\.param()\fR to attempt fetching a route, query string, or request body parameter:
 .
 .IP "" 4
 .
@@ -180,7 +180,7 @@ get(\'/\', function(){
 .IP "" 0
 .
 .P
-Now Express has access to Connect\'s \fBnext()\fR function, which is passed as the fourth and final argument\. Calling \fBnext()\fR will pass control to the next \fImatching route\fR, or continue down the stack of Connect middleware\.
+Now Express has access to Connect\'s \fInext()\fR function, which is passed as the fourth and final argument\. Calling \fInext()\fR will pass control to the next \fImatching route\fR, or continue down the stack of Connect middleware\.
 .
 .IP "" 4
 .
@@ -199,7 +199,7 @@ app\.get(\'/user\', function(){
 .IP "" 0
 .
 .SS "View Rendering"
-View filenames no longer take the form \fINAME\fR\.\fITYPE\fR\.\fIENGINE\fR, the \fIContent\-Type\fR can be set via \fBServerResponse#contentType()\fR or \fBServerResponse#header()\fR\. For example what was previously \fIlayout\.html\.haml\fR, should now be \fIlayout\.haml\fR\.
+View filenames no longer take the form \fINAME\fR\.\fITYPE\fR\.\fIENGINE\fR, the \fIContent\-Type\fR can be set via \fIres\.contentType()\fR or \fIres\.header()\fR\. For example what was previously \fIlayout\.html\.haml\fR, should now be \fIlayout\.haml\fR\.
 .
 .P
 Previously a view render looked something like this:
@@ -219,7 +219,7 @@ get(\'/\', function(){
 .IP "" 0
 .
 .P
-We now have \fBServerResponse#render()\fR, however the options passed to haml \fIhttp://github\.com/visionmedia/haml\.js\fR, jade \fIhttp://github\.com/visionmedia/jade\fR, and others remain the same\.
+We now have \fIres\.render()\fR, however the options passed to haml \fIhttp://github\.com/visionmedia/haml\.js\fR, jade \fIhttp://github\.com/visionmedia/jade\fR, and others remain the same\.
 .
 .IP "" 4
 .
@@ -236,7 +236,7 @@ app\.get(\'/\', function(req, res){
 .IP "" 0
 .
 .P
-Previously rendering of a collection via \fBpartial()\fR would look something like this:
+Previously rendering of a collection via \fIpartial()\fR would look something like this:
 .
 .IP "" 4
 .
@@ -249,7 +249,7 @@ this\.partial(\'comment\.html\.haml\', { collection: comments });
 .IP "" 0
 .
 .P
-Although this worked just fine, it was generally to verbose, the similar but new API looks like this, as \fBpartial()\fR is \fIalways\fR passed as a local variable:
+Although this worked just fine, it was generally to verbose, the similar but new API looks like this, as \fIpartial()\fR is \fIalways\fR passed as a local variable:
 .
 .IP "" 4
 .
