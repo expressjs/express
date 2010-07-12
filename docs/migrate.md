@@ -89,7 +89,13 @@ fetching a route, query string, or request body parameter:
 		this.param('id');
     });
 
-Now they (_route params only_) are passed as the third argument:
+Polymorphic parameter access can be done using `req.param()`:
+
+    app.get('/user/:id', function(){
+		req.param('id');
+	});
+
+Route parameters are also passed as the third argument:
 
     app.get('/user/:id', function(req, res, params){
 		params.id;

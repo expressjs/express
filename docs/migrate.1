@@ -150,7 +150,22 @@ get(\'/user/:id\', function(){
 .IP "" 0
 .
 .P
-Now they (\fIroute params only\fR) are passed as the third argument:
+Polymorphic parameter access can be done using \fBreq\.param()\fR:
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/user/:id\', function(){
+    req\.param(\'id\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Route parameters are also passed as the third argument:
 .
 .IP "" 4
 .
