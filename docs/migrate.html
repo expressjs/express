@@ -329,6 +329,18 @@ an array, if no other options are desired:</p>
 <pre><code>partial('comments', comments);
 </code></pre>
 
+<h3 id="Redirect">Redirect</h3>
+
+<p>Previously you would</p>
+
+<pre><code>this.redirect('/somewhere');
+</code></pre>
+
+<p>However now you should use the <a href="http://extjs.github.com/Connect/redirect.html">Redirect Middleware</a>:</p>
+
+<pre><code>res.redirect('/somewhere');
+</code></pre>
+
 </div>
 			</div>
 		</div>

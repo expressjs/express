@@ -159,3 +159,13 @@ And once again even further, when rendering a collection we can simply pass
 an array, if no other options are desired:
 
     partial('comments', comments);
+
+### Redirect
+
+Previously you would
+
+    this.redirect('/somewhere');
+
+However now you should use the [Redirect Middleware](http://extjs.github.com/Connect/redirect.html):
+
+    res.redirect('/somewhere');

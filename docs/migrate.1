@@ -286,4 +286,30 @@ partial(\'comments\', comments);
 .fi
 .
 .IP "" 0
+.
+.SS "Redirect"
+Previously you would
+.
+.IP "" 4
+.
+.nf
+
+this\.redirect(\'/somewhere\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+However now you should use the Redirect Middleware \fIhttp://extjs\.github\.com/Connect/redirect\.html\fR:
+.
+.IP "" 4
+.
+.nf
+
+res\.redirect(\'/somewhere\');
+.
+.fi
+.
+.IP "" 0
 
