@@ -189,7 +189,41 @@ app.get('/', function(req, res){
 });
 </code></pre>
 
-<p>Express 1.x does <em>not</em> allow returning of a string.</p>
+<p>Express 1.x does <em>not</em> currently allow returning of a string.</p>
+
+<h3 id="Plugins-vs-Middleware">Plugins vs Middleware</h3>
+
+<p>Previously Express was bundled with plugins, which were essentially what
+are now Connect middleware. Previously plugins would be utilized in a manor
+similar to below:</p>
+
+<pre><code>use(Logger);
+use(MethodOverride);
+use(Cookie);
+</code></pre>
+
+<p>Which we can now <code>use()</code> within our app, or pass to the <code>express.createServer()</code> method:</p>
+
+<pre><code>var connect = require('connect');
+
+var app = express.createServer(
+    connect.logger(),
+    connect.methodOverride(),
+    connect.cookie()
+);
+</code></pre>
+
+<p>or:</p>
+
+<pre><code>var connect = require('connect');
+var app = express.createServer();
+
+app.use('/', connect.logger());
+app.use('/', connect.methodOverride());
+app.use('/', connect.cookie());
+</code></pre>
+
+<p>For documentation on creating Connect middleware visit <a href="http://extjs.github.com/Connect/#Middleware-Authoring">Middleware Authoring</a>.</p>
 
 <h3 id="Running-Applications">Running Applications</h3>
 

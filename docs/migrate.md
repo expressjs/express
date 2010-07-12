@@ -35,7 +35,38 @@ as `http.createServer()`:
 		res.send('hello world');
 	});
 
-Express 1.x does _not_ allow returning of a string.
+Express 1.x does _not_ currently allow returning of a string.
+
+### Plugins vs Middleware
+
+Previously Express was bundled with plugins, which were essentially what
+are now Connect middleware. Previously plugins would be utilized in a manor
+similar to below:
+
+    use(Logger);
+    use(MethodOverride);
+    use(Cookie);
+
+Which we can now `use()` within our app, or pass to the `express.createServer()` method:
+
+	var connect = require('connect');
+
+    var app = express.createServer(
+		connect.logger(),
+		connect.methodOverride(),
+		connect.cookie()
+	);
+
+or:
+
+    var connect = require('connect');
+	var app = express.createServer();
+
+	app.use('/', connect.logger());
+	app.use('/', connect.methodOverride());
+	app.use('/', connect.cookie());
+
+For documentation on creating Connect middleware visit [Middleware Authoring](http://extjs.github.com/Connect/#Middleware-Authoring).
 
 ### Running Applications
 

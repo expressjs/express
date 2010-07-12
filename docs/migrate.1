@@ -50,7 +50,62 @@ app\.get(\'/\', function(req, res){
 .IP "" 0
 .
 .P
-Express 1\.x does \fInot\fR allow returning of a string\.
+Express 1\.x does \fInot\fR currently allow returning of a string\.
+.
+.SS "Plugins vs Middleware"
+Previously Express was bundled with plugins, which were essentially what are now Connect middleware\. Previously plugins would be utilized in a manor similar to below:
+.
+.IP "" 4
+.
+.nf
+
+use(Logger);
+use(MethodOverride);
+use(Cookie);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Which we can now \fBuse()\fR within our app, or pass to the \fBexpress\.createServer()\fR method:
+.
+.IP "" 4
+.
+.nf
+
+var connect = require(\'connect\');
+
+var app = express\.createServer(
+    connect\.logger(),
+    connect\.methodOverride(),
+    connect\.cookie()
+);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+or:
+.
+.IP "" 4
+.
+.nf
+
+var connect = require(\'connect\');
+var app = express\.createServer();
+
+app\.use(\'/\', connect\.logger());
+app\.use(\'/\', connect\.methodOverride());
+app\.use(\'/\', connect\.cookie());
+.
+.fi
+.
+.IP "" 0
+.
+.P
+For documentation on creating Connect middleware visit Middleware Authoring \fIhttp://extjs\.github\.com/Connect/#Middleware\-Authoring\fR\.
 .
 .SS "Running Applications"
 Previously a global function \fBrun()\fR, was available:
