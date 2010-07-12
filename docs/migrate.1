@@ -75,4 +75,34 @@ app\.listen(3000);
 .fi
 .
 .IP "" 0
+.
+.SS "Route Parameters"
+Previously we could use \fBthis\.param()\fR to attempt fetching a route, query string, or request body parameter:
+.
+.IP "" 4
+.
+.nf
+
+get(\'/user/:id\', function(){
+    this\.param(\'id\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Now they (\fIroute params only\fR) are passed as the third argument:
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/user/:id\', function(req, res, params){
+    params\.id;
+});
+.
+.fi
+.
+.IP "" 0
 

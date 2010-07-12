@@ -203,6 +203,23 @@ so we can do things like:</p>
 app.listen(3000);
 </code></pre>
 
+<h3 id="Route-Parameters">Route Parameters</h3>
+
+<p>Previously we could use <code>this.param()</code> to attempt
+fetching a route, query string, or request body parameter:</p>
+
+<pre><code>get('/user/:id', function(){
+    this.param('id');
+});
+</code></pre>
+
+<p>Now they (<em>route params only</em>) are passed as the third argument:</p>
+
+<pre><code>app.get('/user/:id', function(req, res, params){
+    params.id;
+});
+</code></pre>
+
 </div>
 			</div>
 		</div>

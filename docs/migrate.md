@@ -47,3 +47,19 @@ so we can do things like:
 
 	app.listen();
 	app.listen(3000);
+
+### Route Parameters
+
+Previously we could use `this.param()` to attempt
+fetching a route, query string, or request body parameter:
+
+    get('/user/:id', function(){
+		this.param('id');
+    });
+
+Now they (_route params only_) are passed as the third argument:
+
+    app.get('/user/:id', function(req, res, params){
+		params.id;
+    });
+
