@@ -8,7 +8,7 @@ High performance, high class web development for Node\.js \fIhttp://nodejs\.org\
 .
 .nf
 
-var app = module\.exports = express\.createServer();
+var app = express\.createServer();
 
 app\.get(\'/\', function(req, res){
     res\.send(\'Hello World\');
@@ -31,6 +31,9 @@ View rendering and partials support
 .
 .IP "\(bu" 4
 Environment based configuration
+.
+.IP "\(bu" 4
+Session based flash notifications
 .
 .IP "\(bu" 4
 Built on Connect \fIhttp://extjs\.github\.com/Connect\fR

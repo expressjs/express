@@ -4,7 +4,7 @@
   <a href="http://nodejs.org">Node.js</a>
 </p>
 
-    var app = module.exports = express.createServer();
+    var app = express.createServer();
     
     app.get('/', function(req, res){
         res.send('Hello World');
@@ -16,6 +16,7 @@
   * Focus on high performance
   * View rendering and partials support
   * Environment based configuration
+  * Session based flash notifications
   * Built on [Connect](http://extjs.github.com/Connect)
 
 ## Contributors
