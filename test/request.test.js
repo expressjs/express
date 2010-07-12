@@ -4,7 +4,11 @@
  */
 
 var express = require('express'),
-    connect = require('connect');
+    connect = require('connect'),
+    MemoryStore = require('connect/middleware/session/memory');
+
+// Prevent reap timer
+var memoryStore = new MemoryStore({ reapInterval: -1 });
 
 module.exports = {
     '#isXMLHttpRequest': function(assert){
@@ -105,5 +109,32 @@ module.exports = {
         assert.response(app,
             { url: '/user', method: 'POST', data: 'id=1', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
             { body: 'user 1' });
+    },
+    
+    '#flash()': function(assert){
+        var app = express.createServer(
+            connect.cookieDecoder(),
+            connect.session({ store: memoryStore })
+        );
+
+        app.get('/', function(req, res){
+            assert.eql([], req.flash('info'));
+            assert.eql([], req.flash('error'));
+            assert.eql({}, req.flash());
+            assert.eql({}, req.session.flash);
+            
+            assert.equal(1, req.flash('info', 'one'));
+            assert.equal(2, req.flash('info', 'two'));
+            assert.eql(['one', 'two'], req.flash('info'));
+            assert.eql([], req.flash('info'));
+
+            assert.equal(1, req.flash('info', 'one'));
+            assert.eql({ info: ['one'] }, req.flash());
+            res.send('ok');
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: 'ok' });
     }
 };
