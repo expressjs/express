@@ -153,7 +153,55 @@
 <div class='mp'>
 <h2 id="Migration-Guide">Migration Guide</h2>
 
-<p>todo</p>
+<p>Express 1.x is written to run on-top of the <a href="http://extjs.github.com/Connect">Connect</a> middlware
+framework, thus the <code>Plugin</code> has been replaced by Connect's middleware.</p>
+
+<h3 id="Creating-Applications">Creating Applications</h3>
+
+<p>Previously due to legacy code implemented in the early days of node,
+Express unfortunately had some globals. The DSL would previously be
+accessed as shown below:</p>
+
+<pre><code>require('express');
+
+configure(function(){
+    // app configuration
+});
+
+get('/', function(){
+    return 'hello world';
+});
+</code></pre>
+
+<p>Now we utilize the CommonJS module system appropriately, and
+introduce <code>express.createServer()</code> which accepts the same arguments
+as <code>http.createServer()</code>:</p>
+
+<pre><code>var express = require('express'),
+    app = express.createServer();
+
+app.configure(function(){
+    // app configuration
+});
+
+app.get('/', function(req, res){
+    res.send('hello world');
+});
+</code></pre>
+
+<h3 id="Running-Applications">Running Applications</h3>
+
+<p>Previously a global function <code>run()</code>, was available:</p>
+
+<pre><code>run();
+</code></pre>
+
+<p>The new <code>express.Server</code> has the same API as <code>http.Server</code>,
+so we can do things like:</p>
+
+<pre><code>app.listen();
+app.listen(3000);
+</code></pre>
 
 </div>
 			</div>

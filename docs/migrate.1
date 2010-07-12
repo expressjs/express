@@ -4,4 +4,75 @@
 .TH "MIGRATE" "" "July 2010" "" ""
 .
 .SH "Migration Guide"
-todo
+Express 1\.x is written to run on\-top of the Connect \fIhttp://extjs\.github\.com/Connect\fR middlware framework, thus the \fBPlugin\fR has been replaced by Connect\'s middleware\.
+.
+.SS "Creating Applications"
+Previously due to legacy code implemented in the early days of node, Express unfortunately had some globals\. The DSL would previously be accessed as shown below:
+.
+.IP "" 4
+.
+.nf
+
+require(\'express\');
+
+configure(function(){
+    // app configuration
+});
+
+get(\'/\', function(){
+    return \'hello world\';
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Now we utilize the CommonJS module system appropriately, and introduce \fBexpress\.createServer()\fR which accepts the same arguments as \fBhttp\.createServer()\fR:
+.
+.IP "" 4
+.
+.nf
+
+var express = require(\'express\'),
+    app = express\.createServer();
+
+app\.configure(function(){
+    // app configuration
+});
+
+app\.get(\'/\', function(req, res){
+    res\.send(\'hello world\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Running Applications"
+Previously a global function \fBrun()\fR, was available:
+.
+.IP "" 4
+.
+.nf
+
+run();
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The new \fBexpress\.Server\fR has the same API as \fBhttp\.Server\fR, so we can do things like:
+.
+.IP "" 4
+.
+.nf
+
+app\.listen();
+app\.listen(3000);
+.
+.fi
+.
+.IP "" 0
+
