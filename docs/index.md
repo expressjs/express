@@ -26,3 +26,9 @@ The following are the major contributors of Express (in no specific order).
   * TJ Holowaychuk ([visionmedia](http://github.com/visionmedia))
   * Ciaran Jessup ([ciaranj](http://github.com/ciaranj))
   * Aaron Heckmann ([aheckmann](http://github.com/aheckmann))
+
+## More Information
+
+  * [Google Group](http://groups.google.com/group/express-js) for discussion
+  * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
+  * View the [source](http://github.com/visionmedia/express)
