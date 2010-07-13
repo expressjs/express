@@ -56,6 +56,8 @@ Express supports the following settings out of the box:
 
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
+  * _reload views_ Reloads altered views, by default watches for _mtime_ changes with
+      with a 5 minute interval. Example: `app.set('reload views', { interval: 60000 });`
 
 ### Routing
 

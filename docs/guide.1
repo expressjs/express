@@ -81,6 +81,9 @@ Express supports the following settings out of the box:
 .IP "\(bu" 4
 \fIview engine\fR Default view engine name for views rendered without extensions
 .
+.IP "\(bu" 4
+\fIreload views\fR Reloads altered views, by default watches for \fImtime\fR changes with with a 5 minute interval\. Example: \fBapp\.set(\'reload views\', { interval: 60000 });\fR
+.
 .IP "" 0
 .
 .SS "Routing"
