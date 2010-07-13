@@ -79,6 +79,7 @@ var app = [
     'app.configure(function(){',
     '    app.use(\'/\', connect.redirect());',
     '    app.use(\'/\', connect.bodyDecoder());',
+    '    app.use(\'/\', connect.methodOverride());',
     '    app.use(\'/\', connect.compiler({ src: __dirname + \'/public\', enable: [\'sass\'] }));',
     '    app.use(\'/\', connect.staticProvider(__dirname + \'/public\'));',
     '});',
