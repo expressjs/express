@@ -3,8 +3,8 @@
 .
 .TH "GUIDE" "" "July 2010" "" ""
 .
-.SS "First Application"
-The \fIexpress\.Server\fR now inherits from \fIhttp\.Server\fR, however follows the same idiom by providing \fIexpress\.createServer()\fR as shown below:
+.SS "Hello World"
+The \fIexpress\.Server\fR now inherits from \fIhttp\.Server\fR, however follows the same idiom by providing \fIexpress\.createServer()\fR as shown below\. This means that you can utilize Express server\'s transparently with other libraries\.
 .
 .IP "" 4
 .
@@ -19,6 +19,67 @@ app\.get(\'/\', function(req, res){
 app\.listen(3000);
 .
 .fi
+.
+.IP "" 0
+.
+.SS "Configuration"
+Express supports arbitrary environments, such as \fIproduction\fR and \fIdevelopment\fR\. Developers can use the \fIconfigure()\fR method to setup needs required by the current environment\. When \fIconfigure()\fR is called without an environment name it will be run in \fIevery\fR environment prior to the environment specific callback\.
+.
+.P
+In the example below we only \fIdumpExceptions\fR, and respond with exception stack traces in \fIdevelopment\fR mode, however for both environments we utilize \fImethodOverride\fR and \fIbodyDecoder\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.configure(function(){
+    app\.use(\'/\', connect\.methodOverride());
+    app\.use(\'/\', connect\.bodyDecoder());
+});
+
+app\.configure(\'development\', function(){
+    app\.use(\'/\', connect\.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app\.configure(\'production\', function(){
+    app\.use(\'/\', connect\.errorHandler());
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+For internal and arbitrary settings Express provides the \fIset(key[, val])\fR, \fIenable(key)\fR, \fIdisable(key)\fR methods:
+.
+.IP "" 4
+.
+.nf
+
+app\.configure(function(){
+    app\.set(\'views\', __dirname + \'/views\');
+    app\.set(\'views\');
+    // => \"\.\.\. views directory \.\.\.\"
+
+    app\.enable(\'some feature\');
+    // same as app\.set(\'some feature\', true);
+
+    app\.disable(\'some feature\');
+    // same as app\.set(\'some feature\', false);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Settings"
+Express supports the following settings out of the box:
+.
+.IP "\(bu" 4
+\fIviews\fR Root views directory defaulting to \fBCWD/views\fR
+.
+.IP "\(bu" 4
+\fIview engine\fR Default view engine name for views rendered without extensions
 .
 .IP "" 0
 .
@@ -142,67 +203,6 @@ var app = express\.createServer(
 );
 .
 .fi
-.
-.IP "" 0
-.
-.SS "Configuration"
-Express supports arbitrary environments, such as \fIproduction\fR and \fIdevelopment\fR\. Developers can use the \fIconfigure()\fR method to setup needs required by the current environment\. When \fIconfigure()\fR is called without an environment name it will be run in \fIevery\fR environment prior to the environment specific callback\.
-.
-.P
-In the example below we only \fIdumpExceptions\fR, and respond with exception stack traces in \fIdevelopment\fR mode, however for both environments we utilize \fImethodOverride\fR and \fIbodyDecoder\fR\.
-.
-.IP "" 4
-.
-.nf
-
-app\.configure(function(){
-    app\.use(\'/\', connect\.methodOverride());
-    app\.use(\'/\', connect\.bodyDecoder());
-});
-
-app\.configure(\'development\', function(){
-    app\.use(\'/\', connect\.errorHandler({ dumpExceptions: true, showStack: true }));
-});
-
-app\.configure(\'production\', function(){
-    app\.use(\'/\', connect\.errorHandler());
-});
-.
-.fi
-.
-.IP "" 0
-.
-.P
-For internal and arbitrary settings Express provides the \fIset(key[, val])\fR, \fIenable(key)\fR, \fIdisable(key)\fR methods:
-.
-.IP "" 4
-.
-.nf
-
-app\.configure(function(){
-    app\.set(\'views\', __dirname + \'/views\');
-    app\.set(\'views\');
-    // => \"\.\.\. views directory \.\.\.\"
-
-    app\.enable(\'some feature\');
-    // same as app\.set(\'some feature\', true);
-
-    app\.disable(\'some feature\');
-    // same as app\.set(\'some feature\', false);
-});
-.
-.fi
-.
-.IP "" 0
-.
-.SS "Settings"
-Express supports the following settings out of the box:
-.
-.IP "\(bu" 4
-\fIviews\fR Root views directory defaulting to \fBCWD/views\fR
-.
-.IP "\(bu" 4
-\fIview engine\fR Default view engine name for views rendered without extensions
 .
 .IP "" 0
 

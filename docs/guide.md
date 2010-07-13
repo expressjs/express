@@ -1,8 +1,9 @@
 
-### First Application
+### Hello World
 
 The _express.Server_ now inherits from _http.Server_, however
-follows the same idiom by providing _express.createServer()_ as shown below:
+follows the same idiom by providing _express.createServer()_ as shown below. This means
+that you can utilize Express server's transparently with other libraries.
 
     var app = require('express').createServer();
 	
@@ -11,6 +12,50 @@ follows the same idiom by providing _express.createServer()_ as shown below:
 	});
 	
 	app.listen(3000);
+
+### Configuration
+
+Express supports arbitrary environments, such as _production_ and _development_. Developers
+can use the _configure()_ method to setup needs required by the current environment. When
+_configure()_ is called without an environment name it will be run in _every_ environment 
+prior to the environment specific callback.
+
+In the example below we only _dumpExceptions_, and respond with exception stack traces
+in _development_ mode, however for both environments we utilize _methodOverride_ and _bodyDecoder_.
+
+    app.configure(function(){
+		app.use('/', connect.methodOverride());
+		app.use('/', connect.bodyDecoder());
+	});
+	
+	app.configure('development', function(){
+		app.use('/', connect.errorHandler({ dumpExceptions: true, showStack: true }));
+	});
+	
+	app.configure('production', function(){
+		app.use('/', connect.errorHandler());
+	});
+
+For internal and arbitrary settings Express provides the _set(key[, val])_, _enable(key)_, _disable(key)_ methods:
+
+    app.configure(function(){
+		app.set('views', __dirname + '/views');
+		app.set('views');
+		// => "... views directory ..."
+		
+		app.enable('some feature');
+		// same as app.set('some feature', true);
+		
+		app.disable('some feature');
+		// same as app.set('some feature', false);
+	});
+
+### Settings
+
+Express supports the following settings out of the box:
+
+  * _views_ Root views directory defaulting to **CWD/views**
+  * _view engine_ Default view engine name for views rendered without extensions
 
 ### Routing
 
@@ -94,48 +139,6 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 		connect.bodyDecoder()
 	);
 
-### Configuration
 
-Express supports arbitrary environments, such as _production_ and _development_. Developers
-can use the _configure()_ method to setup needs required by the current environment. When
-_configure()_ is called without an environment name it will be run in _every_ environment 
-prior to the environment specific callback.
-
-In the example below we only _dumpExceptions_, and respond with exception stack traces
-in _development_ mode, however for both environments we utilize _methodOverride_ and _bodyDecoder_.
-
-    app.configure(function(){
-		app.use('/', connect.methodOverride());
-		app.use('/', connect.bodyDecoder());
-	});
-	
-	app.configure('development', function(){
-		app.use('/', connect.errorHandler({ dumpExceptions: true, showStack: true }));
-	});
-	
-	app.configure('production', function(){
-		app.use('/', connect.errorHandler());
-	});
-
-For internal and arbitrary settings Express provides the _set(key[, val])_, _enable(key)_, _disable(key)_ methods:
-
-    app.configure(function(){
-		app.set('views', __dirname + '/views');
-		app.set('views');
-		// => "... views directory ..."
-		
-		app.enable('some feature');
-		// same as app.set('some feature', true);
-		
-		app.disable('some feature');
-		// same as app.set('some feature', false);
-	});
-
-### Settings
-
-Express supports the following settings out of the box:
-
-  * _views_ Root views directory defaulting to **CWD/views**
-  * _view engine_ Default view engine name for views rendered without extensions
 
  

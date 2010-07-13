@@ -160,10 +160,11 @@
 					<li><a href="migrate.html">1.x Migration</a></li>
 				</ul>
 <div class='mp'>
-<h3 id="First-Application">First Application</h3>
+<h3 id="Hello-World">Hello World</h3>
 
 <p>The <em>express.Server</em> now inherits from <em>http.Server</em>, however
-follows the same idiom by providing <em>express.createServer()</em> as shown below:</p>
+follows the same idiom by providing <em>express.createServer()</em> as shown below. This means
+that you can utilize Express server's transparently with other libraries.</p>
 
 <pre><code>var app = require('express').createServer();
 
@@ -173,6 +174,55 @@ app.get('/', function(req, res){
 
 app.listen(3000);
 </code></pre>
+
+<h3 id="Configuration">Configuration</h3>
+
+<p>Express supports arbitrary environments, such as <em>production</em> and <em>development</em>. Developers
+can use the <em>configure()</em> method to setup needs required by the current environment. When
+<em>configure()</em> is called without an environment name it will be run in <em>every</em> environment
+prior to the environment specific callback.</p>
+
+<p>In the example below we only <em>dumpExceptions</em>, and respond with exception stack traces
+in <em>development</em> mode, however for both environments we utilize <em>methodOverride</em> and <em>bodyDecoder</em>.</p>
+
+<pre><code>app.configure(function(){
+    app.use('/', connect.methodOverride());
+    app.use('/', connect.bodyDecoder());
+});
+
+app.configure('development', function(){
+    app.use('/', connect.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app.configure('production', function(){
+    app.use('/', connect.errorHandler());
+});
+</code></pre>
+
+<p>For internal and arbitrary settings Express provides the <em>set(key[, val])</em>, <em>enable(key)</em>, <em>disable(key)</em> methods:</p>
+
+<pre><code>app.configure(function(){
+    app.set('views', __dirname + '/views');
+    app.set('views');
+    // =&gt; "... views directory ..."
+
+    app.enable('some feature');
+    // same as app.set('some feature', true);
+
+    app.disable('some feature');
+    // same as app.set('some feature', false);
+});
+</code></pre>
+
+<h3 id="Settings">Settings</h3>
+
+<p>Express supports the following settings out of the box:</p>
+
+<ul>
+<li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
+<li><em>view engine</em> Default view engine name for views rendered without extensions</li>
+</ul>
+
 
 <h3 id="Routing">Routing</h3>
 
@@ -261,55 +311,6 @@ var app = express.createServer(
     connect.bodyDecoder()
 );
 </code></pre>
-
-<h3 id="Configuration">Configuration</h3>
-
-<p>Express supports arbitrary environments, such as <em>production</em> and <em>development</em>. Developers
-can use the <em>configure()</em> method to setup needs required by the current environment. When
-<em>configure()</em> is called without an environment name it will be run in <em>every</em> environment
-prior to the environment specific callback.</p>
-
-<p>In the example below we only <em>dumpExceptions</em>, and respond with exception stack traces
-in <em>development</em> mode, however for both environments we utilize <em>methodOverride</em> and <em>bodyDecoder</em>.</p>
-
-<pre><code>app.configure(function(){
-    app.use('/', connect.methodOverride());
-    app.use('/', connect.bodyDecoder());
-});
-
-app.configure('development', function(){
-    app.use('/', connect.errorHandler({ dumpExceptions: true, showStack: true }));
-});
-
-app.configure('production', function(){
-    app.use('/', connect.errorHandler());
-});
-</code></pre>
-
-<p>For internal and arbitrary settings Express provides the <em>set(key[, val])</em>, <em>enable(key)</em>, <em>disable(key)</em> methods:</p>
-
-<pre><code>app.configure(function(){
-    app.set('views', __dirname + '/views');
-    app.set('views');
-    // =&gt; "... views directory ..."
-
-    app.enable('some feature');
-    // same as app.set('some feature', true);
-
-    app.disable('some feature');
-    // same as app.set('some feature', false);
-});
-</code></pre>
-
-<h3 id="Settings">Settings</h3>
-
-<p>Express supports the following settings out of the box:</p>
-
-<ul>
-<li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
-<li><em>view engine</em> Default view engine name for views rendered without extensions</li>
-</ul>
-
 
 </div>
 			</div>
