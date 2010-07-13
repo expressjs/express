@@ -59,6 +59,34 @@ module.exports = {
         });
     },
     
+    'test #error()': function(assert){
+        var app = express.createServer();
+        
+        app.get('/', function(req, res, params, next){
+            next(new Error('broken'));
+        });
+        
+        app.use('/', connect.errorHandler());
+        
+        assert.response(app,
+            { url: '/' },
+            { body: 'Internal Server Error' });
+        
+        var app = express.createServer();
+        
+        app.get('/', function(req, res, params, next){
+            next(new Error('broken'));
+        });
+        
+        app.error(function(err, req, res, next){
+            res.send(err.message, 500);
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: 'broken', status: 500 });
+    },
+    
     'test next()': function(assert){
         var app = express.createServer();
         
