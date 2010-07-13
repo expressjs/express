@@ -109,11 +109,9 @@ module.exports = {
         var ret = server.configure(function(){
             assert.equal(this, server, 'Test context of configure() is the server');
             calls.push('any');
-        });
-        server.configure('development', function(){
+        }).configure('development', function(){
             calls.push('dev');
-        });
-        server.configure('production', function(){
+        }).configure('production', function(){
             calls.push('production');
         });
 
