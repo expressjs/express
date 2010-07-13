@@ -1,0 +1,100 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "GUIDE" "" "July 2010" "" ""
+.
+.SS "Routing"
+Express utilizes the HTTP verbs to provide a meaningful, expressive routing API\. For example we may want to render a user\'s account for the path \fI/user/12\fR, this can be done by defining the route below\.
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/user/:id\', function(req, res, params){
+    res\.send(\'user \' + params\.id);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Alternatively we may want to create, or \fBPOST\fR a user:
+.
+.IP "" 4
+.
+.nf
+
+app\.post(\'/user\', function(){
+    // \.\.\. logic
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+A route is simple a string which is compiled to a \fIRegExp\fR internally\. For example when \fI/user/:id\fR is compiled, a simplified version of the regexp may look similar to:
+.
+.IP "" 4
+.
+.nf
+
+\\/user\\/([^\\/]+)\\/?
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Literal regular expressions may also be passed for complex uses:
+.
+.IP "" 4
+.
+.nf
+
+app\.get(/^\\/foo(bar)?$/, function(){});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Below are some route examples, and the associated paths that they may consume:
+.
+.IP "" 4
+.
+.nf
+
+ \"/user/:id\"
+ /user/12
+
+ \"/users/:id?\"
+ /users/5
+ /users
+
+ \"/files/*\"
+ /files/jquery\.js
+ /files/javascripts/jquery\.js
+
+ \"/file/*\.*\"
+ /files/jquery\.js
+ /files/javascripts/jquery\.js
+
+ \"/user/:id/:operation?\"
+ /user/1
+ /user/1/edit
+
+ \"/products\.:format\"
+ /products\.json
+ /products\.xml
+
+ \"/products\.:format?\"
+ /products\.json
+ /products\.xml
+ /products
+.
+.fi
+.
+.IP "" 0
+

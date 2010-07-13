@@ -1,8 +1,10 @@
 
-## Migration Guide
+### Built On Connect
 
 Express 1.x is written to run on-top of the [Connect](http://extjs.github.com/Connect) middlware
-framework, thus the _Plugin_ has been replaced by Connect's middleware.
+framework, thus the _Plugin_ has been replaced by Connect's middleware. By abstracting our middleware
+to Connect we allow additional community frameworks to develop robust, high-level frameworks using
+the same technologies as Express.
 
 ### Creating Applications
 

@@ -3,8 +3,8 @@
 .
 .TH "MIGRATE" "" "July 2010" "" ""
 .
-.SH "Migration Guide"
-Express 1\.x is written to run on\-top of the Connect \fIhttp://extjs\.github\.com/Connect\fR middlware framework, thus the \fIPlugin\fR has been replaced by Connect\'s middleware\.
+.SS "Built On Connect"
+Express 1\.x is written to run on\-top of the Connect \fIhttp://extjs\.github\.com/Connect\fR middlware framework, thus the \fIPlugin\fR has been replaced by Connect\'s middleware\. By abstracting our middleware to Connect we allow additional community frameworks to develop robust, high\-level frameworks using the same technologies as Express\.
 .
 .SS "Creating Applications"
 Previously due to legacy code implemented in the early days of node, Express unfortunately had some globals\. The DSL would previously be accessed as shown below:
