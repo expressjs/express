@@ -20,18 +20,24 @@ var app = express.createServer(
 
 app.get('/', function(req, res){
     res.send('<form method="post" enctype="form-data/multipart">'
-        + '<p>Name: <input type="text" name="name" /></p>'
         + '<p>Image: <input type="file" name="image" /></p>'
         + '<p><input type="submit" value="Upload" /></p>'
         + '</form>');
 });
 
 app.post('/', function(req, res){
+    // We can add listeners for several form
+    // events such as "progress"
+    req.form.addListener('progress', function(bytesReceived, bytesExpected){
+        var percent = (bytesReceived / bytesExpected * 100) | 0;
+        sys.print('Uploading: %' + percent + '\r');
+    });
+
     // connect-form adds the req.form object
     // we can (optionally) define onComplete, passing
     // the exception (if any) fields parsed, and files parsed
     req.form.onComplete = function(err, fields, files){
-        sys.puts(fields.name + ' uploaded ' + files.image.filename);
+        sys.puts('\nuploaded ' + files.image.filename);
     };
 });
 
