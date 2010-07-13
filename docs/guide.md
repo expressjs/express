@@ -116,3 +116,26 @@ in _development_ mode, however for both environments we utilize _methodOverride_
 	app.configure('production', function(){
 		app.use('/', connect.errorHandler());
 	});
+
+For internal and arbitrary settings Express provides the _set(key[, val])_, _enable(key)_, _disable(key)_ methods:
+
+    app.configure(function(){
+		app.set('views', __dirname + '/views');
+		app.set('views');
+		// => "... views directory ..."
+		
+		app.enable('some feature');
+		// same as app.set('some feature', true);
+		
+		app.disable('some feature');
+		// same as app.set('some feature', false);
+	});
+
+### Settings
+
+Express supports the following settings out of the box:
+
+  * _views_ Root views directory defaulting to **CWD/views**
+  * _view engine_ Default view engine name for views rendered without extensions
+
+ 

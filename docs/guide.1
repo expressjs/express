@@ -171,4 +171,38 @@ app\.configure(\'production\', function(){
 .fi
 .
 .IP "" 0
+.
+.P
+For internal and arbitrary settings Express provides the \fIset(key[, val])\fR, \fIenable(key)\fR, \fIdisable(key)\fR methods:
+.
+.IP "" 4
+.
+.nf
+
+app\.configure(function(){
+    app\.set(\'views\', __dirname + \'/views\');
+    app\.set(\'views\');
+    // => \"\.\.\. views directory \.\.\.\"
+
+    app\.enable(\'some feature\');
+    // same as app\.set(\'some feature\', true);
+
+    app\.disable(\'some feature\');
+    // same as app\.set(\'some feature\', false);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Settings"
+Express supports the following settings out of the box:
+.
+.IP "\(bu" 4
+\fIviews\fR Root views directory defaulting to \fBCWD/views\fR
+.
+.IP "\(bu" 4
+\fIview engine\fR Default view engine name for views rendered without extensions
+.
+.IP "" 0
 
