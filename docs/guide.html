@@ -57,7 +57,6 @@
 			  text-shadow: 1px 2px 2px rgba(0,0,0,0.6); }
 
 			h3 {
-			  margin-left: 20px;
 			  font-size: 18px; }
 
 			pre {
@@ -161,6 +160,20 @@
 					<li><a href="migrate.html">1.x Migration</a></li>
 				</ul>
 <div class='mp'>
+<h3 id="First-Application">First Application</h3>
+
+<p>The <em>express.Server</em> now inherits from <em>http.Server</em>, however
+follows the same idiom by providing <em>express.createServer()</em> as shown below:</p>
+
+<pre><code>var app = require('express').createServer();
+
+app.get('/', function(req, res){
+    res.send('hello world');
+});
+
+app.listen(3000);
+</code></pre>
+
 <h3 id="Routing">Routing</h3>
 
 <p>Express utilizes the HTTP verbs to provide a meaningful, expressive routing API.
@@ -231,6 +244,45 @@ the <em>next()</em> function. When a match cannot be made, control is passed bac
 
 app.get('/users', function(req, res, params){
     // do something else
+});
+</code></pre>
+
+<h3 id="Middleware">Middleware</h3>
+
+<p>The Express <em>Plugin</em> is no more! middleware via <a href="http://github.com/extjs/Connect">Connect</a> can be
+passed to <em>express.createServer()</em> as you would with a regular Connect server. For example:</p>
+
+<pre><code>var connect = require('connect'),
+    express = require('express');
+
+var app = express.createServer(
+    connect.logger(),
+    connect.redirect(),
+    connect.bodyDecoder()
+);
+</code></pre>
+
+<h3 id="Configuration">Configuration</h3>
+
+<p>Express supports arbitrary environments, such as <em>production</em> and <em>development</em>. Developers
+can use the <em>configure()</em> method to setup needs required by the current environment. When
+<em>configure()</em> is called without an environment name it will be run in <em>every</em> environment
+prior to the environment specific callback.</p>
+
+<p>In the example below we only <em>dumpExceptions</em>, and respond with exception stack traces
+in <em>development</em> mode, however for both environments we utilize <em>methodOverride</em> and <em>bodyDecoder</em>.</p>
+
+<pre><code>app.configure(function(){
+    app.use('/', connect.methodOverride());
+    app.use('/', connect.bodyDecoder());
+});
+
+app.configure('development', function(){
+    app.use('/', connect.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app.configure('production', function(){
+    app.use('/', connect.errorHandler());
 });
 </code></pre>
 

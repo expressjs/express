@@ -3,6 +3,25 @@
 .
 .TH "GUIDE" "" "July 2010" "" ""
 .
+.SS "First Application"
+The \fIexpress\.Server\fR now inherits from \fIhttp\.Server\fR, however follows the same idiom by providing \fIexpress\.createServer()\fR as shown below:
+.
+.IP "" 4
+.
+.nf
+
+var app = require(\'express\')\.createServer();
+
+app\.get(\'/\', function(req, res){
+    res\.send(\'hello world\');
+});
+
+app\.listen(3000);
+.
+.fi
+.
+.IP "" 0
+.
 .SS "Routing"
 Express utilizes the HTTP verbs to provide a meaningful, expressive routing API\. For example we may want to render a user\'s account for the path \fI/user/12\fR, this can be done by defining the route below\. The values associated to the named placeholders, are passed as the \fIthird\fR argument, which here we name \fIparams\fR\.
 .
@@ -100,6 +119,53 @@ app\.get(\'/users/:id?\', function(req, res, params){
 
 app\.get(\'/users\', function(req, res, params){
     // do something else
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Middleware"
+The Express \fIPlugin\fR is no more! middleware via Connect \fIhttp://github\.com/extjs/Connect\fR can be passed to \fIexpress\.createServer()\fR as you would with a regular Connect server\. For example:
+.
+.IP "" 4
+.
+.nf
+
+var connect = require(\'connect\'),
+    express = require(\'express\');
+
+var app = express\.createServer(
+    connect\.logger(),
+    connect\.redirect(),
+    connect\.bodyDecoder()
+);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Configuration"
+Express supports arbitrary environments, such as \fIproduction\fR and \fIdevelopment\fR\. Developers can use the \fIconfigure()\fR method to setup needs required by the current environment\. When \fIconfigure()\fR is called without an environment name it will be run in \fIevery\fR environment prior to the environment specific callback\.
+.
+.P
+In the example below we only \fIdumpExceptions\fR, and respond with exception stack traces in \fIdevelopment\fR mode, however for both environments we utilize \fImethodOverride\fR and \fIbodyDecoder\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.configure(function(){
+    app\.use(\'/\', connect\.methodOverride());
+    app\.use(\'/\', connect\.bodyDecoder());
+});
+
+app\.configure(\'development\', function(){
+    app\.use(\'/\', connect\.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app\.configure(\'production\', function(){
+    app\.use(\'/\', connect\.errorHandler());
 });
 .
 .fi

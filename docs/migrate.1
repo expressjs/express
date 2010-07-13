@@ -98,7 +98,7 @@ var app = express\.createServer();
 
 app\.use(\'/\', connect\.logger());
 app\.use(\'/\', connect\.methodOverride());
-app\.use(\'/\', connect\.cookie());
+app\.use(\'/\', connect\.cookieDecoder());
 .
 .fi
 .

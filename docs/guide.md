@@ -1,4 +1,17 @@
 
+### First Application
+
+The _express.Server_ now inherits from _http.Server_, however
+follows the same idiom by providing _express.createServer()_ as shown below:
+
+    var app = require('express').createServer();
+	
+	app.get('/', function(req, res){
+		res.send('hello world');
+	});
+	
+	app.listen(3000);
+
 ### Routing
 
 Express utilizes the HTTP verbs to provide a meaningful, expressive routing API.
@@ -65,4 +78,41 @@ the _next()_ function. When a match cannot be made, control is passed back to Co
 	
 	app.get('/users', function(req, res, params){
 		// do something else
+	});
+
+### Middleware
+
+The Express _Plugin_ is no more! middleware via [Connect](http://github.com/extjs/Connect) can be
+passed to _express.createServer()_ as you would with a regular Connect server. For example:
+
+	var connect = require('connect'),
+		express = require('express');
+
+    var app = express.createServer(
+		connect.logger(),
+		connect.redirect(),
+		connect.bodyDecoder()
+	);
+
+### Configuration
+
+Express supports arbitrary environments, such as _production_ and _development_. Developers
+can use the _configure()_ method to setup needs required by the current environment. When
+_configure()_ is called without an environment name it will be run in _every_ environment 
+prior to the environment specific callback.
+
+In the example below we only _dumpExceptions_, and respond with exception stack traces
+in _development_ mode, however for both environments we utilize _methodOverride_ and _bodyDecoder_.
+
+    app.configure(function(){
+		app.use('/', connect.methodOverride());
+		app.use('/', connect.bodyDecoder());
+	});
+	
+	app.configure('development', function(){
+		app.use('/', connect.errorHandler({ dumpExceptions: true, showStack: true }));
+	});
+	
+	app.configure('production', function(){
+		app.use('/', connect.errorHandler());
 	});

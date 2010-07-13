@@ -57,7 +57,6 @@
 			  text-shadow: 1px 2px 2px rgba(0,0,0,0.6); }
 
 			h3 {
-			  margin-left: 20px;
 			  font-size: 18px; }
 
 			pre {
@@ -232,7 +231,7 @@ var app = express.createServer();
 
 app.use('/', connect.logger());
 app.use('/', connect.methodOverride());
-app.use('/', connect.cookie());
+app.use('/', connect.cookieDecoder());
 </code></pre>
 
 <p>For documentation on creating Connect middleware visit <a href="http://extjs.github.com/Connect/#Middleware-Authoring">Middleware Authoring</a>.</p>
