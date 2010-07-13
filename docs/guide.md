@@ -1,5 +1,5 @@
 
-### Hello World
+### Creating An Application
 
 The _express.Server_ now inherits from _http.Server_, however
 follows the same idiom by providing _express.createServer()_ as shown below. This means
