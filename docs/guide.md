@@ -3,16 +3,11 @@
 
 Express utilizes the HTTP verbs to provide a meaningful, expressive routing API.
 For example we may want to render a user's account for the path _/user/12_, this
-can be done by defining the route below. 
+can be done by defining the route below. The values associated to the named placeholders,
+are passed as the _third_ argument, which here we name _params_.
 
     app.get('/user/:id', function(req, res, params){
 		res.send('user ' + params.id);
-	});
-
-Alternatively we may want to create, or **POST** a user:
-
-	app.post('/user', function(){
-		// ... logic
 	});
 
 A route is simple a string which is compiled to a _RegExp_ internally. For example
@@ -54,3 +49,20 @@ may consume:
 	 /products.json
 	 /products.xml
 	 /products
+
+### Passing Route Control
+
+We may pass control to the next _matching_ route, by calling the _fourth_ parameter,
+the _next()_ function. When a match cannot be made, control is passed back to Connect.
+
+	app.get('/users/:id?', function(req, res, params){
+		if (params.id) {
+			// do something
+		} else {
+			next();
+		}
+	});
+	
+	app.get('/users', function(req, res, params){
+		// do something else
+	});

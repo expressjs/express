@@ -165,17 +165,11 @@
 
 <p>Express utilizes the HTTP verbs to provide a meaningful, expressive routing API.
 For example we may want to render a user's account for the path <em>/user/12</em>, this
-can be done by defining the route below.</p>
+can be done by defining the route below. The values associated to the named placeholders,
+are passed as the <em>third</em> argument, which here we name <em>params</em>.</p>
 
 <pre><code>app.get('/user/:id', function(req, res, params){
     res.send('user ' + params.id);
-});
-</code></pre>
-
-<p>Alternatively we may want to create, or <strong>POST</strong> a user:</p>
-
-<pre><code>app.post('/user', function(){
-    // ... logic
 });
 </code></pre>
 
@@ -220,6 +214,24 @@ may consume:</p>
  /products.json
  /products.xml
  /products
+</code></pre>
+
+<h3 id="Passing-Route-Control">Passing Route Control</h3>
+
+<p>We may pass control to the next <em>matching</em> route, by calling the <em>fourth</em> parameter,
+the <em>next()</em> function. When a match cannot be made, control is passed back to Connect.</p>
+
+<pre><code>app.get('/users/:id?', function(req, res, params){
+    if (params.id) {
+        // do something
+    } else {
+        next();
+    }
+});
+
+app.get('/users', function(req, res, params){
+    // do something else
+});
 </code></pre>
 
 </div>

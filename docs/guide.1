@@ -4,7 +4,7 @@
 .TH "GUIDE" "" "July 2010" "" ""
 .
 .SS "Routing"
-Express utilizes the HTTP verbs to provide a meaningful, expressive routing API\. For example we may want to render a user\'s account for the path \fI/user/12\fR, this can be done by defining the route below\.
+Express utilizes the HTTP verbs to provide a meaningful, expressive routing API\. For example we may want to render a user\'s account for the path \fI/user/12\fR, this can be done by defining the route below\. The values associated to the named placeholders, are passed as the \fIthird\fR argument, which here we name \fIparams\fR\.
 .
 .IP "" 4
 .
@@ -12,21 +12,6 @@ Express utilizes the HTTP verbs to provide a meaningful, expressive routing API\
 
 app\.get(\'/user/:id\', function(req, res, params){
     res\.send(\'user \' + params\.id);
-});
-.
-.fi
-.
-.IP "" 0
-.
-.P
-Alternatively we may want to create, or \fBPOST\fR a user:
-.
-.IP "" 4
-.
-.nf
-
-app\.post(\'/user\', function(){
-    // \.\.\. logic
 });
 .
 .fi
@@ -93,6 +78,29 @@ Below are some route examples, and the associated paths that they may consume:
  /products\.json
  /products\.xml
  /products
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Passing Route Control"
+We may pass control to the next \fImatching\fR route, by calling the \fIfourth\fR parameter, the \fInext()\fR function\. When a match cannot be made, control is passed back to Connect\.
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/users/:id?\', function(req, res, params){
+    if (params\.id) {
+        // do something
+    } else {
+        next();
+    }
+});
+
+app\.get(\'/users\', function(req, res, params){
+    // do something else
+});
 .
 .fi
 .
