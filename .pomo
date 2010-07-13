@@ -23,11 +23,6 @@
   complete: false
   description: 
   length: 25
-  name: startup apps with all dependencies?
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: npm dependencies
 - !ruby/object:Pomo::Task 
   complete: false
@@ -38,22 +33,12 @@
   complete: false
   description: 
   length: 25
-  name: example apps
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: release on nodejs group
 - !ruby/object:Pomo::Task 
   complete: false
   description: 
   length: 25
   name: extensable view support
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: view helpers
 - !ruby/object:Pomo::Task 
   complete: false
   description: 
