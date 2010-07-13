@@ -128,9 +128,10 @@ module.exports = {
     
     'test #set()': function(assert){
         var app = express.createServer();
-        var ret = app.set('title', 'My App');
+        var ret = app.set('title', 'My App').set('something', 'else');
         assert.equal(app, ret, 'Test #set() returns server for chaining');
         assert.equal('My App', app.set('title'));
+        assert.equal('else', app.set('something'));
     },
     
     'test #enable()': function(assert){
