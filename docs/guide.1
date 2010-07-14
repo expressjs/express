@@ -246,6 +246,19 @@ Sets the \fIContent\-Type\fR response header to the given \fItype\fR\.
 .
 .IP "" 0
 .
+.SS "ServerResponse#attachment([filename])"
+Sets the \fIContent\-Disposition\fR response header to \"attachment\", with optional \fIfilename\fR\.
+.
+.IP "" 4
+.
+.nf
+
+  res\.attachment(\'path/to/my/image\.png\');
+.
+.fi
+.
+.IP "" 0
+.
 .SS "ServerRequest#send(body|status[, headers|status[, status]])"
 The \fBres\.send()\fR method is a high level response utility allowing you to pass objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status code based responses\. The following are all valid uses:
 .

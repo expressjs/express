@@ -337,6 +337,13 @@ res.header('Content-Length');
   // res.headers['Content-Type'] is now "image/png"
 </code></pre>
 
+<h3 id="ServerResponse-attachment-filename-">ServerResponse#attachment([filename])</h3>
+
+<p>Sets the <em>Content-Disposition</em> response header to "attachment", with optional <em>filename</em>.</p>
+
+<pre><code>  res.attachment('path/to/my/image.png');
+</code></pre>
+
 <h3 id="ServerRequest-send-body-status-headers-status-status-">ServerRequest#send(body|status[, headers|status[, status]])</h3>
 
 <p>The <code>res.send()</code> method is a high level response utility allowing you to pass

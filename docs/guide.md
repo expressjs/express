@@ -162,6 +162,12 @@ Sets the _Content-Type_ response header to the given _type_.
       res.contentType(filename);
       // res.headers['Content-Type'] is now "image/png"
 
+### ServerResponse#attachment([filename])
+
+Sets the _Content-Disposition_ response header to "attachment", with optional _filename_.
+
+      res.attachment('path/to/my/image.png');
+
 ### ServerRequest#send(body|status[, headers|status[, status]])
 
 The `res.send()` method is a high level response utility allowing you to pass
