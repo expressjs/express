@@ -3,11 +3,6 @@
   complete: false
   description: 
   length: 25
-  name: RC
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: TM bundle
 - !ruby/object:Pomo::Task 
   complete: false
@@ -23,22 +18,7 @@
   complete: false
   description: 
   length: 25
-  name: release to kiwi
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: release on nodejs group
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: connect-form support for methodOverride?
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: contributing section
 - !ruby/object:Pomo::Task 
   complete: false
   description: 
@@ -48,4 +28,4 @@
   complete: false
   description: 
   length: 25
-  name: test things with 0.1.100
+  name: Beta
