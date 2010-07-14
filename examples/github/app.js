@@ -50,14 +50,33 @@ function sort(repos){
     });
 }
 
-app.get('/', function(req, res, params, next){
-    var name = 'visionmedia';
+/**
+ * Tally up total watchers.
+ *
+ * @param {Array} repos
+ * @return {Number}
+ * @api public
+ */
+
+function totalWatchers(repos) {
+    return repos.reduce(function(sum, repo){
+        return sum + repo.watchers;
+    }, 0);
+}
+
+/**
+ * Display repos.
+ */
+
+app.get('/:user?', function(req, res, params, next){
+    var name = params.user || 'visionmedia';
     request('/repos/show/' + name, function(err, user){
         if (err) {
             next(err)
         } else {
             res.render('index.jade', {
                 locals: {
+                    totalWatchers: totalWatchers(user.repositories),
                     repos: sort(user.repositories),
                     name: name
                 }
