@@ -177,3 +177,15 @@ Previously you would
 However now you should use the [Redirect Middleware](http://extjs.github.com/Connect/redirect.html):
 
     res.redirect('/somewhere');
+
+### HTTP Client
+
+Previously Express provided a high level http client, this library is no more
+as it does not belong in Express, however it may be resurrected as a separate module.
+
+### Core Extensions
+
+Express is no longer dependent on the [JavaScript Extensions](http://github.com/visionmedia/ext.js) library, so those of you using the methods provided by it such as `Object.merge(a, b)` will need to
+roll your own, or install the module via:
+
+    $ npm install ext
