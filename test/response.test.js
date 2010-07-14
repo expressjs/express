@@ -191,5 +191,31 @@ module.exports = {
         assert.response(app,
             { url: '/partials' },
             { body: 'Internal Server Error', status: 500 });
+    },
+    
+    '#download()': function(assert){
+        var app = express.createServer();
+        
+        app.get('/json', function(req, res, params, next){
+            res.download(__dirname + '/fixtures/user.json', 'account.json');
+        });
+
+        app.get('/:file', function(req, res, params, next){
+            res.download(__dirname + '/fixtures/' + params.file);
+        });
+        
+        assert.response(app,
+            { url: '/user.json' },
+            { body: '{"name":"tj"}', status: 200, headers: {
+                'Content-Type': 'application/json',
+                'Content-Disposition': 'attachment; filename="user.json"'
+            }});
+
+        assert.response(app,
+            { url: '/json' },
+            { body: '{"name":"tj"}', status: 200, headers: {
+                'Content-Type': 'application/json',
+                'Content-Disposition': 'attachment; filename="account.json"'
+            }});
     }
 };
