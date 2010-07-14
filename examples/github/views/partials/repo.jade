@@ -1,0 +1,10 @@
+.repo
+  h2
+    a(href: repo.homepage || repo.url)= repo.name
+  table
+    tr
+      td Watchers
+      td= repo.watchers
+    tr
+      td Forks
+      td= repo.forks
