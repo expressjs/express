@@ -76,6 +76,9 @@ app\.configure(function(){
 Express supports the following settings out of the box:
 .
 .IP "\(bu" 4
+\fIhome\fR Application base path used with \fBres\.redirect()\fR
+.
+.IP "\(bu" 4
 \fIviews\fR Root views directory defaulting to \fBCWD/views\fR
 .
 .IP "\(bu" 4
@@ -203,6 +206,75 @@ var app = express\.createServer(
     connect\.logger(),
     connect\.bodyDecoder()
 );
+.
+.fi
+.
+.IP "" 0
+.
+.SS "ServerResponse#redirect(url[, status])"
+Redirect to the given \fIurl\fR with a default response \fIstatus\fR of 302\.
+.
+.IP "" 4
+.
+.nf
+
+res\.redirect(\'/\', 301);
+res\.redirect(\'/account\');
+res\.redirect(\'http://google\.com\');
+res\.redirect(\'home\');
+res\.redirect(\'back\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Express supports \"redirect mapping\", which by default provides \fIhome\fR, and \fIback\fR\. The \fIback\fR map checks the \fIReferrer\fR and \fIReferer\fR headers, while \fIhome\fR utilizes the \"home\" setting and defaults to \"/\"\.
+.
+.SS "Server#redirect(name, val)"
+For use with \fBres\.redirect()\fR we can map redirects at the application level as shown below:
+.
+.IP "" 4
+.
+.nf
+
+app\.redirect(\'google\', \'http://google\.com\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Now in a route we may call:
+.
+.P
+res\.redirect(\'google\');
+.
+.P
+We may also map dynamic redirects:
+.
+.IP "" 4
+.
+.nf
+
+app\.redirect(\'comments\', function(req, res, params){
+    return \'/post/\' + params\.id + \'/comments\';
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+So now we may do the following, and the redirect will dynamically adjust to the context of the request\. If we called this route with \fIGET /post/12\fR our redirect \fILocation\fR would be \fI/post/12/comments\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/post/:id\', function(req, res){
+    res\.redirect(\'comments\');
+});
 .
 .fi
 .

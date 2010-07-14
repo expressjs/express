@@ -219,6 +219,7 @@ app.configure('production', function(){
 <p>Express supports the following settings out of the box:</p>
 
 <ul>
+<li><em>home</em> Application base path used with <code>res.redirect()</code></li>
 <li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
 <li><em>view engine</em> Default view engine name for views rendered without extensions</li>
 <li><em>reload views</em> Reloads altered views, by default watches for <em>mtime</em> changes with
@@ -311,6 +312,48 @@ var app = express.createServer(
     connect.logger(),
     connect.bodyDecoder()
 );
+</code></pre>
+
+<h3 id="ServerResponse-redirect-url-status-">ServerResponse#redirect(url[, status])</h3>
+
+<p>Redirect to the given <em>url</em> with a default response <em>status</em> of 302.</p>
+
+<pre><code>res.redirect('/', 301);
+res.redirect('/account');
+res.redirect('http://google.com');
+res.redirect('home');
+res.redirect('back');
+</code></pre>
+
+<p>Express supports "redirect mapping", which by default provides <em>home</em>, and <em>back</em>.
+The <em>back</em> map checks the <em>Referrer</em> and <em>Referer</em> headers, while <em>home</em> utilizes
+the "home" setting and defaults to "/".</p>
+
+<h3 id="Server-redirect-name-val-">Server#redirect(name, val)</h3>
+
+<p>For use with <code>res.redirect()</code> we can map redirects at the application level as shown below:</p>
+
+<pre><code>app.redirect('google', 'http://google.com');
+</code></pre>
+
+<p>Now in a route we may call:</p>
+
+<p>   res.redirect('google');</p>
+
+<p>We may also map dynamic redirects:</p>
+
+<pre><code>app.redirect('comments', function(req, res, params){
+    return '/post/' + params.id + '/comments';
+});
+</code></pre>
+
+<p>So now we may do the following, and the redirect will dynamically adjust to
+the context of the request. If we called this route with <em>GET /post/12</em> our
+redirect <em>Location</em> would be <em>/post/12/comments</em>.</p>
+
+<pre><code>app.get('/post/:id', function(req, res){
+    res.redirect('comments');
+});
 </code></pre>
 
 </div>

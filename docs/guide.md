@@ -54,6 +54,7 @@ For internal and arbitrary settings Express provides the _set(key[, val])_, _ena
 
 Express supports the following settings out of the box:
 
+  * _home_ Application base path used with `res.redirect()`
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
   * _reload views_ Reloads altered views, by default watches for _mtime_ changes with
@@ -140,6 +141,40 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 		connect.bodyDecoder()
 	);
 
+### ServerResponse#redirect(url[, status])
 
+Redirect to the given _url_ with a default response _status_ of 302.
 
- 
+    res.redirect('/', 301);
+    res.redirect('/account');
+    res.redirect('http://google.com');
+    res.redirect('home');
+    res.redirect('back');
+
+Express supports "redirect mapping", which by default provides _home_, and _back_.
+The _back_ map checks the _Referrer_ and _Referer_ headers, while _home_ utilizes
+the "home" setting and defaults to "/".
+
+### Server#redirect(name, val)
+
+For use with `res.redirect()` we can map redirects at the application level as shown below:
+
+    app.redirect('google', 'http://google.com');
+
+Now in a route we may call:
+
+   res.redirect('google');
+
+We may also map dynamic redirects:
+
+    app.redirect('comments', function(req, res, params){
+        return '/post/' + params.id + '/comments';
+    });
+
+So now we may do the following, and the redirect will dynamically adjust to
+the context of the request. If we called this route with _GET /post/12_ our
+redirect _Location_ would be _/post/12/comments_.
+
+    app.get('/post/:id', function(req, res){
+        res.redirect('comments');
+    });
