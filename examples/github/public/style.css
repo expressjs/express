@@ -1,0 +1,11 @@
+body {
+    padding: 30px 50px;
+    font: 12px/1.4 "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;
+}
+a {
+    color: #00AAFF;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}

@@ -4,9 +4,17 @@
  */
 
 var express = require('./../../lib/express'),
+    connect = require('connect'),
     http = require('http');
 
-var app = express.createServer();
+// Setup server with redirect middleware,
+// providing us with res.redirect()
+
+var app = express.createServer(
+    connect.redirect()
+);
+
+// Expose our views
 
 app.set('views', __dirname + '/views');
 
@@ -65,11 +73,19 @@ function totalWatchers(repos) {
 }
 
 /**
+ * Default to my user name :)
+ */
+
+app.get('/', function(req, res){
+    res.redirect('/repos/visionmedia');
+});
+
+/**
  * Display repos.
  */
 
-app.get('/:user?', function(req, res, params, next){
-    var name = params.user || 'visionmedia';
+app.get('/repos/:user', function(req, res, params, next){
+    var name = params.user;
     request('/repos/show/' + name, function(err, user){
         if (err) {
             next(err)
@@ -85,4 +101,8 @@ app.get('/:user?', function(req, res, params, next){
     });
 });
 
+// Serve statics from ./public
+app.use('/', connect.staticProvider(__dirname + '/public'));
+
+// Listen on port 3000
 app.listen(3000);
