@@ -35,16 +35,30 @@ function request(path, fn){
     req.end();
 }
 
+/**
+ * Sort repositories by watchers desc.
+ *
+ * @param {Array} repos
+ * @api public
+ */
+
+function sort(repos){
+    return repos.sort(function(a, b){
+        if (a.watchers == b.watchers) return 0;
+        if (a.watchers > b.watchers) return -1;
+        if (a.watchers < b.watchers) return 1;
+    });
+}
+
 app.get('/', function(req, res, params, next){
     var name = 'visionmedia';
     request('/repos/show/' + name, function(err, user){
-        require('sys').puts(require('sys').inspect(user.repositories));
         if (err) {
             next(err)
         } else {
             res.render('index.jade', {
                 locals: {
-                    repos: user.repositories,
+                    repos: sort(user.repositories),
                     name: name
                 }
             });
