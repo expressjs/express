@@ -11,7 +11,7 @@ var express = require('express'),
 var memoryStore = new MemoryStore({ reapInterval: -1 });
 
 module.exports = {
-    '#isXMLHttpRequest': function(assert){
+    'test #isXMLHttpRequest': function(assert){
         var app = express.createServer();
         
         app.get('/isxhr', function(req, res, params){
@@ -30,7 +30,7 @@ module.exports = {
             { body: 'yeaaa boy' });
     },
     
-    '#header()': function(assert){
+    'test #header()': function(assert){
         var app = express.createServer();
         
         app.get('/', function(req, res){
@@ -44,7 +44,7 @@ module.exports = {
             { body: 'wahoo' });
     },
     
-    '#accepts()': function(assert){
+    'test #accepts()': function(assert){
         var app = express.createServer();
         
         app.get('/all', function(req, res){
@@ -85,7 +85,7 @@ module.exports = {
             { body: 'ok' });
     },
     
-    '#param()': function(assert){
+    'test #param()': function(assert){
         var app = express.createServer(
             connect.bodyDecoder()
         );
@@ -111,7 +111,7 @@ module.exports = {
             { body: 'user 1' });
     },
     
-    '#flash()': function(assert){
+    'test #flash()': function(assert){
         var app = express.createServer(
             connect.cookieDecoder(),
             connect.session({ store: memoryStore })

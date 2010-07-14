@@ -7,7 +7,7 @@ var express = require('express'),
     Buffer = require('buffer').Buffer;
 
 module.exports = {
-    '#send()': function(assert){
+    'test #send()': function(assert){
         var app = express.createServer();
 
         app.get('/html', function(req, res){
@@ -57,7 +57,7 @@ module.exports = {
             { body: 'wahoo!', headers: { 'Content-Type': 'application/octet-stream' }});
     },
     
-    '#contentType': function(assert){
+    'test #contentType': function(assert){
         var app = express.createServer();
         
         app.get('/html', function(req, res){
@@ -71,7 +71,7 @@ module.exports = {
             { body: '<p>yay</p>', headers: { 'Content-Type': 'text/html; charset=utf-8' }});
     },
     
-    '#attachment': function(assert){
+    'test #attachment': function(assert){
         var app = express.createServer();
         
         app.get('/style.css', function(req, res){
@@ -92,7 +92,7 @@ module.exports = {
             { body: 'some stylezzz', headers: { 'Content-Disposition': 'attachment' }});
     },
     
-    '#redirect()': function(assert){
+    'test #redirect()': function(assert){
         var app = express.createServer(),
             app2 = express.createServer();
         
@@ -171,7 +171,7 @@ module.exports = {
             { body: '', headers: { Location: '/user/12/blog' }});
     },
     
-    '#sendfile()': function(assert){
+    'test #sendfile()': function(assert){
         var app = express.createServer();
         
         app.get('/*', function(req, res, params){
@@ -193,7 +193,7 @@ module.exports = {
             { body: 'Internal Server Error', status: 500 });
     },
     
-    '#download()': function(assert){
+    'test #download()': function(assert){
         var app = express.createServer();
         
         app.get('/json', function(req, res, params, next){
