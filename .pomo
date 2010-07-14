@@ -49,8 +49,3 @@
   description: 
   length: 25
   name: test things with 0.1.100
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: res.download() / res.sendfile()
