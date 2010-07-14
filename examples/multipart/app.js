@@ -4,8 +4,8 @@
  */
 
 var express = require('./../../lib/express'),
+    form = require('./../../support/connect-form'),
     connect = require('connect'),
-    form = require('connect-form'),
     sys = require('sys');
 
 var app = express.createServer(
@@ -26,13 +26,6 @@ app.get('/', function(req, res){
 });
 
 app.post('/', function(req, res){
-    // We can add listeners for several form
-    // events such as "progress"
-    req.form.addListener('progress', function(bytesReceived, bytesExpected){
-        var percent = (bytesReceived / bytesExpected * 100) | 0;
-        sys.print('Uploading: %' + percent + '\r');
-    });
-
     // connect-form adds the req.form object
     // we can (optionally) define onComplete, passing
     // the exception (if any) fields parsed, and files parsed
@@ -40,6 +33,13 @@ app.post('/', function(req, res){
         sys.puts('\nuploaded ' + files.image.filename);
         res.redirect('/');
     };
+
+    // We can add listeners for several form
+    // events such as "progress"
+    req.form.addListener('progress', function(bytesReceived, bytesExpected){
+        var percent = (bytesReceived / bytesExpected * 100) | 0;
+        sys.print('Uploading: %' + percent + '\r');
+    });
 });
 
 app.listen(3000);
