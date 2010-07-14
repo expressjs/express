@@ -141,6 +141,76 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 		connect.bodyDecoder()
 	);
 
+### ServerRequest#header(key[, defaultValue])
+
+Get the case-insensitive request header _key_, with optional _defaultValue_:
+
+    req.header('Host');
+    req.header('host');
+    req.header('Accept', '*/*');
+
+### ServerRequest#accepts(type)
+
+Check if the _Accept_ header is present, and includes the given _type_.
+
+When the _Accept_ header is not present _true_ is returned. Otherwise
+the given _type_ is matched by an exact match, and then subtypes. You
+may pass the subtype such as "html" which is then converted internally
+to "text/html" using the mime lookup table.
+
+    // Accept: text/html
+    req.accepts('html');
+    // => true
+
+    // Accept: text/*; application/json
+    req.accepts('html');
+    req.accepts('text/html');
+    req.accepts('text/plain');
+    req.accepts('application/json');
+    // => true
+
+    req.accepts('image/png');
+    req.accepts('png');
+    // => false
+
+### ServerRequest#param(name)
+
+Return the value of param _name_ when present.
+
+  - Checks route placeholders, ex: /user/:id
+  - Checks query string params, ex: ?id=12
+  - Checks urlencoded body params, ex: id=12
+
+To utilize urlencoded request bodies, _req.body_
+should be an object. This can be done by using
+the _connect.bodyDecoder_ middleware.
+
+### ServerRequest#flash(type[, msg])
+
+Queue flash _msg_ of the given _type_.
+
+    req.flash('info', 'email sent');
+    req.flash('error', 'email delivery failed');
+    req.flash('info', 'email re-sent');
+    // => 2
+
+    req.flash('info');
+    // => ['email sent', 'email re-sent']
+
+    req.flash('info');
+    // => []
+
+    req.flash();
+    // => { error: ['email delivery failed'], info: [] }
+
+### ServerRequest#isXMLHttpRequest
+
+Also aliased as _req.xhr_, this getter checks the _X-Requested-With_ header
+to see if it was issued by an _XMLHttpRequest_:
+
+    req.xhr
+    req.isXMLHttpRequest
+
 ### ServerResponse#header(key[, val])
 
 Get or set the response header _key_.

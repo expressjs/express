@@ -211,6 +211,106 @@ var app = express\.createServer(
 .
 .IP "" 0
 .
+.SS "ServerRequest#header(key[, defaultValue])"
+Get the case\-insensitive request header \fIkey\fR, with optional \fIdefaultValue\fR:
+.
+.IP "" 4
+.
+.nf
+
+req\.header(\'Host\');
+req\.header(\'host\');
+req\.header(\'Accept\', \'*/*\');
+.
+.fi
+.
+.IP "" 0
+.
+.SS "ServerRequest#accepts(type)"
+Check if the \fIAccept\fR header is present, and includes the given \fItype\fR\.
+.
+.P
+When the \fIAccept\fR header is not present \fItrue\fR is returned\. Otherwise the given \fItype\fR is matched by an exact match, and then subtypes\. You may pass the subtype such as \"html\" which is then converted internally to \"text/html\" using the mime lookup table\.
+.
+.IP "" 4
+.
+.nf
+
+// Accept: text/html
+req\.accepts(\'html\');
+// => true
+
+// Accept: text/*; application/json
+req\.accepts(\'html\');
+req\.accepts(\'text/html\');
+req\.accepts(\'text/plain\');
+req\.accepts(\'application/json\');
+// => true
+
+req\.accepts(\'image/png\');
+req\.accepts(\'png\');
+// => false
+.
+.fi
+.
+.IP "" 0
+.
+.SS "ServerRequest#param(name)"
+Return the value of param \fIname\fR when present\.
+.
+.IP "\(bu" 4
+Checks route placeholders, ex: /user/:id
+.
+.IP "\(bu" 4
+Checks query string params, ex: ?id=12
+.
+.IP "\(bu" 4
+Checks urlencoded body params, ex: id=12
+.
+.IP "" 0
+.
+.P
+To utilize urlencoded request bodies, \fIreq\.body\fR should be an object\. This can be done by using the \fIconnect\.bodyDecoder\fR middleware\.
+.
+.SS "ServerRequest#flash(type[, msg])"
+Queue flash \fImsg\fR of the given \fItype\fR\.
+.
+.IP "" 4
+.
+.nf
+
+req\.flash(\'info\', \'email sent\');
+req\.flash(\'error\', \'email delivery failed\');
+req\.flash(\'info\', \'email re\-sent\');
+// => 2
+
+req\.flash(\'info\');
+// => [\'email sent\', \'email re\-sent\']
+
+req\.flash(\'info\');
+// => []
+
+req\.flash();
+// => { error: [\'email delivery failed\'], info: [] }
+.
+.fi
+.
+.IP "" 0
+.
+.SS "ServerRequest#isXMLHttpRequest"
+Also aliased as \fIreq\.xhr\fR, this getter checks the \fIX\-Requested\-With\fR header to see if it was issued by an \fIXMLHttpRequest\fR:
+.
+.IP "" 4
+.
+.nf
+
+req\.xhr
+req\.isXMLHttpRequest
+.
+.fi
+.
+.IP "" 0
+.
 .SS "ServerResponse#header(key[, val])"
 Get or set the response header \fIkey\fR\.
 .
