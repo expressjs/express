@@ -98,9 +98,7 @@ module.exports = {
         
         app2.set('home', '/blog');
 
-        app2.redirect = {
-            google: 'http://google.com'
-        };
+        app2.redirect('google', 'http://google.com');
 
         app.get('/', function(req, res){
             res.redirect('http://google.com', 301);
