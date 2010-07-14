@@ -327,4 +327,20 @@ res\.redirect(\'/somewhere\');
 .fi
 .
 .IP "" 0
+.
+.SS "HTTP Client"
+Previously Express provided a high level http client, this library is no more as it does not belong in Express, however it may be resurrected as a separate module\.
+.
+.SS "Core Extensions"
+Express is no longer dependent on the JavaScript Extensions \fIhttp://github\.com/visionmedia/ext\.js\fR library, so those of you using the methods provided by it such as \fBObject\.merge(a, b)\fR will need to roll your own, or install the module via:
+.
+.IP "" 4
+.
+.nf
+
+$ npm install ext
+.
+.fi
+.
+.IP "" 0
 

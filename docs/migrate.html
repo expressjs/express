@@ -113,7 +113,7 @@
 			  width: 550px; }
 
 			#menu {
-			  margin-left: 130px;
+			  margin-left: 65px;
 			  padding: 0;
 			  padding-bottom: 30px; }
 			  #menu li {
@@ -156,6 +156,7 @@
 				<ul id="menu">
 					<li><a href="index.html">Home</a></li>
 					<li><a href="guide.html">Guide</a></li>
+					<li><a href="contrib.html">Contributing</a></li>
 					<li><a href="migrate.html">1.x Migration</a></li>
 				</ul>
 <div class='mp'>
@@ -356,6 +357,19 @@ an array, if no other options are desired:</p>
 <p>However now you should use the <a href="http://extjs.github.com/Connect/redirect.html">Redirect Middleware</a>:</p>
 
 <pre><code>res.redirect('/somewhere');
+</code></pre>
+
+<h3 id="HTTP-Client">HTTP Client</h3>
+
+<p>Previously Express provided a high level http client, this library is no more
+as it does not belong in Express, however it may be resurrected as a separate module.</p>
+
+<h3 id="Core-Extensions">Core Extensions</h3>
+
+<p>Express is no longer dependent on the <a href="http://github.com/visionmedia/ext.js">JavaScript Extensions</a> library, so those of you using the methods provided by it such as <code>Object.merge(a, b)</code> will need to
+roll your own, or install the module via:</p>
+
+<pre><code>$ npm install ext
 </code></pre>
 
 </div>

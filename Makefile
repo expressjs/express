@@ -4,6 +4,7 @@ LIB_PREFIX = ~/.node_libraries
 
 DOCS = docs/index.md \
 	   docs/executable.md \
+	   docs/contrib.md \
 	   docs/guide.md \
 	   docs/migrate.md
 

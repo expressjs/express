@@ -160,21 +160,57 @@
 					<li><a href="migrate.html">1.x Migration</a></li>
 				</ul>
 <div class='mp'>
-<h2 id="Synopsis">Synopsis</h2>
+<h3 id="Development-Dependencies">Development Dependencies</h3>
 
-<pre><code>express [-h|--help] [-v|--version] [PATH]
+<p>Express development dependencies are stored within the <em>./support</em> directory. To
+update them execute:</p>
+
+<pre><code>$ git submodule update --init
 </code></pre>
 
-<h2 id="Description">Description</h2>
+<h3 id="Running-Tests">Running Tests</h3>
 
-<p>The <code>express</code> executable generates apps at the given <strong>PATH</strong> or the
-current working directory. Although Express is not bound to a specific
-application structure, this executable creates a maintainable base app.</p>
+<p>Express uses the <a href="http://github.com/visionmedia/expresso">Expresso</a> TDD
+framework to write and run elegant test suites extremely fast. To run all test suites
+simply execute:</p>
 
-<h2 id="Options">Options</h2>
+<pre><code>$ make test
+</code></pre>
 
-<pre><code>-v, --version         Output framework version
--h, --help            Display help information
+<p>To target specific suites we may specify the files via:</p>
+
+<pre><code>$ make test TESTS=test/view.test.js
+</code></pre>
+
+<h3 id="Contributions">Contributions</h3>
+
+<p>To accept a contribution, you should follow these guidelines:</p>
+
+<ul>
+<li>All tests <em>must</em> pass</li>
+<li>Your alterations or additions <em>must</em> include tests</li>
+<li>Your commit(s) should be <em>focused</em>, do not commit once for several changes</li>
+<li>Do <em>not</em> alter release information such as the <em>version</em>, or <em>History.md</em></li>
+<li>Indents are <em>4</em> spaces.</li>
+</ul>
+
+
+<h3 id="Style-Guide">Style Guide</h3>
+
+<p>good:</p>
+
+<pre><code>if (foo) {
+  bar();
+  baz();
+}
+</code></pre>
+
+<p>bad:</p>
+
+<pre><code>if(foo) {
+    bar()
+    baz()
+}
 </code></pre>
 
 </div>

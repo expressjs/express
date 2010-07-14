@@ -39,3 +39,8 @@
   description: 
   length: 25
   name: contributing section
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: custom 404 / 500 etc
