@@ -15,6 +15,7 @@
 ## Features
 
   * Robust routing
+  * Redirection helpers
   * Focus on high performance
   * View rendering and partials support
   * Environment based configuration
@@ -27,7 +28,6 @@ Via Connect:
   * Cache API
   * Mime helpers
   * ETag support
-  * Redirection helpers
   * Persistent flash notifications
   * Cookie support
   * JSON-RPC

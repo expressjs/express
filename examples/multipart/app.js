@@ -12,10 +12,7 @@ var app = express.createServer(
     // connect-form (http://github.com/visionmedia/connect-form)
     // middleware uses the formidable middleware to parse urlencoded
     // and multipart form data
-    form(),
-    
-    // Used for res.redirect()
-    connect.redirect()
+    form()
 );
 
 app.get('/', function(req, res){

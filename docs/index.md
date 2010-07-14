@@ -10,6 +10,7 @@
 ## Features
 
   * Robust routing
+  * Redirection helpers
   * Focus on high performance
   * View rendering and partials support
   * Environment based configuration

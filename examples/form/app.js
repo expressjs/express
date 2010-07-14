@@ -16,10 +16,7 @@ var app = express.createServer(
     // The methodOverride middleware allows us
     // to set a hidden input of _method to an arbitrary
     // HTTP method to support app.put(), app.del() etc
-    connect.methodOverride(),
-    
-    // Used for res.redirect()
-    connect.redirect()
+    connect.methodOverride()
 );
 
 app.get('/', function(req, res){

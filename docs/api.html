@@ -185,163 +185,6 @@ code .this { color: #19469D; }</style>
 <span class="variable">require</span>(<span class="string">'./response'</span>);
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/express/response.js">response</h2></td><td>lib/express/response.js</td></tr><tr class="code">
-<td class="docs">
-<p>Module dependencies.</p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>),
-    <span class="variable">path</span> = <span class="variable">require</span>(<span class="string">'path'</span>),
-    <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>),
-    <span class="variable">mime</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>).<span class="variable">mime</span>,
-    <span class="class">Buffer</span> = <span class="variable">require</span>(<span class="string">'buffer'</span>).<span class="class">Buffer</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Send a response with the given <code>body</code> and optional <code>headers</code> and <code>status</code> code.</p>
-
-<h2>Examples</h2>
-
-<pre><code>res.send(new Buffer('wahoo'));
-res.send({ some: 'json' });
-res.send('&lt;p&gt;some html&lt;/p&gt;');
-res.send('Sorry, cant find that', 404);
-res.send('text', { 'Content-Type': 'text/plain' }, 201);
-res.send(404);
-</code></pre>
-
-<h2></h2>
-
-<ul>
-<li><p><strong>param</strong>: <em>String | Object | Number | Buffer</em>  body or status</p></li>
-<li><p><strong>param</strong>: <em>Object | Number</em>  headers or status</p></li>
-<li><p><strong>param</strong>: <em>Number</em>  status</p></li>
-<li><p><strong>return</strong>: <em>ServerResponse</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">send</span> = <span class="keyword">function</span>(<span class="variable">body</span>, <span class="variable">headers</span>, <span class="variable">status</span>){
-    <span class="comment">// Allow status as second arg</span>
-    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">headers</span> === <span class="string">'number'</span>) {
-        <span class="variable">status</span> = <span class="variable">headers</span>,
-        <span class="variable">headers</span> = <span class="keyword">null</span>;
-    }
-
-    <span class="comment">// Defaults</span>
-    <span class="variable">status</span> = <span class="variable">status</span> || <span class="number integer">200</span>;
-    <span class="variable">headers</span> = <span class="variable">headers</span> || {};
-
-    <span class="comment">// Determine content type</span>
-    <span class="keyword">switch</span> (<span class="keyword">typeof</span> <span class="variable">body</span>) {
-        <span class="keyword">case</span> <span class="string">'number'</span>:
-            <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">headers</span>[<span class="string">'Content-Type'</span>]) {
-                <span class="this">this</span>.<span class="variable">contentType</span>(<span class="string">'.txt'</span>);
-            }
-            <span class="variable">body</span> = <span class="variable">http</span>.<span class="class">STATUS_CODES</span>[<span class="variable">status</span> = <span class="variable">body</span>];
-            <span class="keyword">break</span>;
-        <span class="keyword">case</span> <span class="string">'string'</span>:
-            <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">headers</span>[<span class="string">'Content-Type'</span>]) {
-                <span class="this">this</span>.<span class="variable">contentType</span>(<span class="string">'.html'</span>);
-            }
-            <span class="keyword">break</span>;
-        <span class="keyword">case</span> <span class="string">'object'</span>:
-            <span class="keyword">if</span> (!(<span class="variable">body</span> <span class="variable">instanceof</span> <span class="class">Buffer</span>)) {
-                <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">headers</span>[<span class="string">'Content-Type'</span>]) {
-                    <span class="this">this</span>.<span class="variable">contentType</span>(<span class="string">'.json'</span>);
-                }
-                <span class="variable">body</span> = <span class="class">JSON</span>.<span class="variable">stringify</span>(<span class="variable">body</span>);
-            }
-            <span class="keyword">break</span>;
-    }
-
-    <span class="comment">// Populate Content-Length</span>
-    <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">headers</span>[<span class="string">'Content-Length'</span>]) {
-        <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'Content-Length'</span>, <span class="variable">body</span> <span class="variable">instanceof</span> <span class="class">Buffer</span>
-            ? <span class="variable">body</span>.<span class="variable">length</span>
-            : <span class="class">Buffer</span>.<span class="variable">byteLength</span>(<span class="variable">body</span>));
-    }
-
-    <span class="comment">// Merge headers passed</span>
-    <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="this">this</span>.<span class="variable">headers</span>, <span class="variable">headers</span>);
-
-    <span class="comment">// Respond</span>
-    <span class="this">this</span>.<span class="variable">writeHead</span>(<span class="variable">status</span>, <span class="this">this</span>.<span class="variable">headers</span>);
-    <span class="this">this</span>.<span class="variable">end</span>(<span class="variable">body</span>);
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Set <em>Content-Type</em> response header passed through <code>mime.type()</code>.</p>
-
-<h2>Examples</h2>
-
-<pre><code>var filename = 'path/to/image.png';
-res.contentType(filename);
-// res.headers['Content-Type'] is now "image/png"
-</code></pre>
-
-<h2></h2>
-
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  type</p></li>
-<li><p><strong>return</strong>: <em>String</em>  the resolved mime type</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">contentType</span> = <span class="keyword">function</span>(<span class="variable">type</span>){
-    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'Content-Type'</span>, <span class="variable">mime</span>.<span class="variable">type</span>(<span class="variable">type</span>));
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Set <em>Content-Disposition</em> header to <em>attachment</em> with optional <code>filename</code>.</p>
-
-<h2></h2>
-
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  filename</p></li>
-<li><p><strong>return</strong>: <em>ServerResponse</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">attachment</span> = <span class="keyword">function</span>(<span class="variable">filename</span>){
-    <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'Content-Disposition'</span>, <span class="variable">filename</span>
-        ? <span class="string">'attachment; filename=&quot;'</span> + <span class="variable">path</span>.<span class="variable">basename</span>(<span class="variable">filename</span>) + <span class="string">'&quot;'</span>
-        : <span class="string">'attachment'</span>);
-    <span class="keyword">return</span> <span class="this">this</span>;
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Set or get response header <code>name</code> with optional <code>val</code>.</p>
-
-<h2></h2>
-
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  name</p></li>
-<li><p><strong>param</strong>: <em>String</em>  val</p></li>
-<li><p><strong>return</strong>: <em>String</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">header</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">val</span>){
-    <span class="keyword">return</span> <span class="variable">val</span> === <span class="variable">undefined</span>
-        ? <span class="this">this</span>.<span class="variable">headers</span>[<span class="variable">name</span>]
-        : <span class="this">this</span>.<span class="variable">headers</span>[<span class="variable">name</span>] = <span class="variable">val</span>;
-};</code></pre>
-</td>
 </tr><tr class="filename"><td><h2 id="lib/express/request.js">request</h2></td><td>lib/express/request.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.</p>
@@ -622,7 +465,7 @@ the <code>connect.bodyDecoder</code> middleware.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Inherit from <code>connect.Server</code>.</p>
+<p>Inherit from <code>connect.Server</code>.</p>
 </td>
 <td class="code">
 <pre><code><span class="variable">sys</span>.<span class="variable">inherits</span>(<span class="class">Server</span>, <span class="variable">connect</span>.<span class="class">Server</span>);</code></pre>
@@ -818,7 +661,7 @@ primarily for the &ldquo;flash&rdquo; middleware:</p>
 <li><p><strong>return</strong>: <em>String</em></p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-
+
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span>.<span class="variable">miniMarkdown</span> = <span class="keyword">function</span>(<span class="variable">str</span>){
@@ -850,6 +693,185 @@ primarily for the &ldquo;flash&rdquo; middleware:</p>
         .<span class="variable">replace</span>(<span class="regexp">/&lt;/g</span>, <span class="string">'&lt;'</span>)
         .<span class="variable">replace</span>(<span class="regexp">/&gt;/g</span>, <span class="string">'&gt;'</span>);
 };</code></pre>
+</td>
+</tr><tr class="filename"><td><h2 id="lib/express/response.js">response</h2></td><td>lib/express/response.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.</p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>),
+    <span class="variable">path</span> = <span class="variable">require</span>(<span class="string">'path'</span>),
+    <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>),
+    <span class="variable">mime</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>).<span class="variable">mime</span>,
+    <span class="class">Buffer</span> = <span class="variable">require</span>(<span class="string">'buffer'</span>).<span class="class">Buffer</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Send a response with the given <code>body</code> and optional <code>headers</code> and <code>status</code> code.</p>
+
+<h2>Examples</h2>
+
+<pre><code>res.send(new Buffer('wahoo'));
+res.send({ some: 'json' });
+res.send('&lt;p&gt;some html&lt;/p&gt;');
+res.send('Sorry, cant find that', 404);
+res.send('text', { 'Content-Type': 'text/plain' }, 201);
+res.send(404);
+</code></pre>
+
+<h2></h2>
+
+<ul>
+<li><p><strong>param</strong>: <em>String | Object | Number | Buffer</em>  body or status</p></li>
+<li><p><strong>param</strong>: <em>Object | Number</em>  headers or status</p></li>
+<li><p><strong>param</strong>: <em>Number</em>  status</p></li>
+<li><p><strong>return</strong>: <em>ServerResponse</em></p></li>
+<li><p><strong>api</strong>: <em>public</em></p></li>
+</ul>
+
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">send</span> = <span class="keyword">function</span>(<span class="variable">body</span>, <span class="variable">headers</span>, <span class="variable">status</span>){
+    <span class="comment">// Allow status as second arg</span>
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">headers</span> === <span class="string">'number'</span>) {
+        <span class="variable">status</span> = <span class="variable">headers</span>,
+        <span class="variable">headers</span> = <span class="keyword">null</span>;
+    }
+
+    <span class="comment">// Defaults</span>
+    <span class="variable">status</span> = <span class="variable">status</span> || <span class="number integer">200</span>;
+    <span class="variable">headers</span> = <span class="variable">headers</span> || {};
+
+    <span class="comment">// Determine content type</span>
+    <span class="keyword">switch</span> (<span class="keyword">typeof</span> <span class="variable">body</span>) {
+        <span class="keyword">case</span> <span class="string">'number'</span>:
+            <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">headers</span>[<span class="string">'Content-Type'</span>]) {
+                <span class="this">this</span>.<span class="variable">contentType</span>(<span class="string">'.txt'</span>);
+            }
+            <span class="variable">body</span> = <span class="variable">http</span>.<span class="class">STATUS_CODES</span>[<span class="variable">status</span> = <span class="variable">body</span>];
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="string">'string'</span>:
+            <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">headers</span>[<span class="string">'Content-Type'</span>]) {
+                <span class="this">this</span>.<span class="variable">contentType</span>(<span class="string">'.html'</span>);
+            }
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="string">'object'</span>:
+            <span class="keyword">if</span> (!(<span class="variable">body</span> <span class="variable">instanceof</span> <span class="class">Buffer</span>)) {
+                <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">headers</span>[<span class="string">'Content-Type'</span>]) {
+                    <span class="this">this</span>.<span class="variable">contentType</span>(<span class="string">'.json'</span>);
+                }
+                <span class="variable">body</span> = <span class="class">JSON</span>.<span class="variable">stringify</span>(<span class="variable">body</span>);
+            }
+            <span class="keyword">break</span>;
+    }
+
+    <span class="comment">// Populate Content-Length</span>
+    <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">headers</span>[<span class="string">'Content-Length'</span>]) {
+        <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'Content-Length'</span>, <span class="variable">body</span> <span class="variable">instanceof</span> <span class="class">Buffer</span>
+            ? <span class="variable">body</span>.<span class="variable">length</span>
+            : <span class="class">Buffer</span>.<span class="variable">byteLength</span>(<span class="variable">body</span>));
+    }
+
+    <span class="comment">// Merge headers passed</span>
+    <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="this">this</span>.<span class="variable">headers</span>, <span class="variable">headers</span>);
+
+    <span class="comment">// Respond</span>
+    <span class="this">this</span>.<span class="variable">writeHead</span>(<span class="variable">status</span>, <span class="this">this</span>.<span class="variable">headers</span>);
+    <span class="this">this</span>.<span class="variable">end</span>(<span class="variable">body</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Set <em>Content-Type</em> response header passed through <code>mime.type()</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code>var filename = 'path/to/image.png';
+res.contentType(filename);
+// res.headers['Content-Type'] is now "image/png"
+</code></pre>
+
+<h2></h2>
+
+<ul>
+<li><p><strong>param</strong>: <em>String</em>  type</p></li>
+<li><p><strong>return</strong>: <em>String</em>  the resolved mime type</p></li>
+<li><p><strong>api</strong>: <em>public</em></p></li>
+</ul>
+
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">contentType</span> = <span class="keyword">function</span>(<span class="variable">type</span>){
+    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'Content-Type'</span>, <span class="variable">mime</span>.<span class="variable">type</span>(<span class="variable">type</span>));
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Set <em>Content-Disposition</em> header to <em>attachment</em> with optional <code>filename</code>.</p>
+
+<h2></h2>
+
+<ul>
+<li><p><strong>param</strong>: <em>String</em>  filename</p></li>
+<li><p><strong>return</strong>: <em>ServerResponse</em></p></li>
+<li><p><strong>api</strong>: <em>public</em></p></li>
+</ul>
+
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">attachment</span> = <span class="keyword">function</span>(<span class="variable">filename</span>){
+    <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'Content-Disposition'</span>, <span class="variable">filename</span>
+        ? <span class="string">'attachment; filename=&quot;'</span> + <span class="variable">path</span>.<span class="variable">basename</span>(<span class="variable">filename</span>) + <span class="string">'&quot;'</span>
+        : <span class="string">'attachment'</span>);
+    <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Set or get response header <code>name</code> with optional <code>val</code>.</p>
+
+<h2></h2>
+
+<ul>
+<li><p><strong>param</strong>: <em>String</em>  name</p></li>
+<li><p><strong>param</strong>: <em>String</em>  val</p></li>
+<li><p><strong>return</strong>: <em>String</em></p></li>
+<li><p><strong>api</strong>: <em>public</em></p></li>
+</ul>
+
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">header</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">val</span>){
+    <span class="keyword">return</span> <span class="variable">val</span> === <span class="variable">undefined</span>
+        ? <span class="this">this</span>.<span class="variable">headers</span>[<span class="variable">name</span>]
+        : <span class="this">this</span>.<span class="variable">headers</span>[<span class="variable">name</span>] = <span class="variable">val</span>;
+};
+
+<span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">redirect</span> = <span class="keyword">function</span>(<span class="variable">url</span>, <span class="variable">code</span>){
+    <span class="keyword">var</span> <span class="variable">basePath</span> = <span class="this">this</span>.<span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'home'</span>) || <span class="string">'/'</span>;
+
+    <span class="comment">// Setup redirect map</span>
+    <span class="keyword">var</span> <span class="variable">map</span> = {
+        <span class="variable">back</span>: <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">headers</span>.<span class="variable">referrer</span> || <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">headers</span>.<span class="variable">referer</span> || <span class="variable">basePath</span>,
+        <span class="variable">home</span>: <span class="variable">basePath</span>
+    };
+
+    <span class="comment">// Support custom redirect map</span>
+    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">app</span>.<span class="variable">redirect</span>) {
+        <span class="variable">map</span>.<span class="variable">__proto__</span> = <span class="this">this</span>.<span class="variable">app</span>.<span class="variable">redirect</span>;
+    }
+
+    <span class="comment">// Perform redirect</span>
+    <span class="this">this</span>.<span class="variable">writeHead</span>(<span class="variable">code</span> || <span class="number integer">302</span>, {
+        <span class="string">'Location'</span>: <span class="variable">map</span>[<span class="variable">url</span>] || <span class="variable">url</span>
+    });
+    <span class="this">this</span>.<span class="variable">end</span>();
+};
+</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="lib/express/view.js">view</h2></td><td>lib/express/view.js</td></tr><tr class="code">
 <td class="docs">
@@ -899,7 +921,7 @@ of calls to <code>require()</code>.</p>
 <ul>
 <li><strong>api</strong>: <em>public</em></li>
 </ul>
-
+� %
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span>.<span class="variable">clearCache</span> = <span class="keyword">function</span>(){
@@ -914,7 +936,7 @@ of calls to <code>require()</code>.</p>
 <ul>
 <li><strong>type</strong>: <em>Object</em></li>
 </ul>
-
+� %
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">helpers</span> = <span class="variable">exports</span>.<span class="variable">helpers</span> = {};</code></pre>
@@ -948,7 +970,7 @@ For example <em>video.html</em> will have a object <em>video</em> available to i
 <li><p><strong>return</strong>: <em>String</em></p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-
+ %
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">partial</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>, <span class="variable">ext</span>){
@@ -1014,9 +1036,7 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 <li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-: <em>public</em></p></li>
-</ul>
-���:
+
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">render</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>, <span class="variable">fn</span>){
