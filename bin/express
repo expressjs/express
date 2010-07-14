@@ -77,7 +77,6 @@ var app = [
     '// Configuration',
     '',
     'app.configure(function(){',
-    '    app.use(\'/\', connect.redirect());',
     '    app.use(\'/\', connect.bodyDecoder());',
     '    app.use(\'/\', connect.methodOverride());',
     '    app.use(\'/\', connect.compiler({ src: __dirname + \'/public\', enable: [\'sass\'] }));',

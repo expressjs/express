@@ -137,7 +137,6 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 
     var app = express.createServer(
 		connect.logger(),
-		connect.redirect(),
 		connect.bodyDecoder()
 	);
 

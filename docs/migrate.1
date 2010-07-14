@@ -302,7 +302,7 @@ partial(\'comments\', comments);
 .
 .IP "" 0
 .
-.SS "Redirect"
+.SS "Redirecting"
 Previously you would
 .
 .IP "" 4
@@ -316,13 +316,14 @@ this\.redirect(\'/somewhere\');
 .IP "" 0
 .
 .P
-However now you should use the Redirect Middleware \fIhttp://extjs\.github\.com/Connect/redirect\.html\fR:
+However you would now:
 .
 .IP "" 4
 .
 .nf
 
 res\.redirect(\'/somewhere\');
+res\.redirect(\'/somewhere\', 301);
 .
 .fi
 .

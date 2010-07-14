@@ -90,5 +90,74 @@ module.exports = {
         assert.response(app,
             { url: '/style.css' },
             { body: 'some stylezzz', headers: { 'Content-Disposition': 'attachment' }});
+    },
+    
+    '#redirect()': function(assert){
+        var app = express.createServer(),
+            app2 = express.createServer();
+        
+        app2.set('home', '/blog');
+
+        app2.redirect = {
+            google: 'http://google.com'
+        };
+
+        app.get('/', function(req, res){
+            res.redirect('http://google.com', 301);
+        });
+        
+        app.get('/back', function(req, res){
+            res.redirect('back');
+        });
+        
+        app.get('/home', function(req, res){
+            res.redirect('home');
+        });
+        
+        app2.get('/', function(req, res){
+            res.redirect('http://google.com', 301);
+        });
+        
+        app2.get('/back', function(req, res){
+            res.redirect('back');
+        });
+        
+        app2.get('/home', function(req, res){
+            res.redirect('home');
+        });
+        
+        app2.get('/google', function(req, res){
+            res.redirect('google');
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: '', status: 301, headers: { Location: 'http://google.com' }});
+        assert.response(app,
+            { url: '/back' },
+            { body: '', status: 302, headers: { Location: '/' }});
+        assert.response(app,
+            { url: '/back', headers: { Referer: '/foo' }},
+            { body: '', status: 302, headers: { Location: '/foo' }});
+        assert.response(app,
+            { url: '/back', headers: { Referrer: '/foo' }},
+            { body: '', status: 302, headers: { Location: '/foo' }});
+        assert.response(app,
+            { url: '/home' },
+            { body: '', status: 302, headers: { Location: '/' }});
+
+        assert.response(app2,
+            { url: '/' },
+            { body: '', status: 301, headers: { Location: 'http://google.com' }});
+        assert.response(app2,
+            { url: '/back' },
+            { body: '', status: 302, headers: { Location: '/blog' }});
+        assert.response(app2,
+            { url: '/home' },
+            { body: '', status: 302, headers: { Location: '/blog' }});
+        assert.response(app2,
+            { url: '/google' },
+            { body: '', headers: { Location: 'http://google.com' }});
+        
     }
 };

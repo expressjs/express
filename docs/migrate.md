@@ -168,15 +168,16 @@ an array, if no other options are desired:
 
     partial('comments', comments);
 
-### Redirect
+### Redirecting
 
 Previously you would
 
     this.redirect('/somewhere');
 
-However now you should use the [Redirect Middleware](http://extjs.github.com/Connect/redirect.html):
+However you would now:
 
     res.redirect('/somewhere');
+    res.redirect('/somewhere', 301);
 
 ### HTTP Client
 
