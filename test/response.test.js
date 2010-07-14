@@ -54,7 +54,7 @@ module.exports = {
             { body: 'Oh shit!', status: 500, headers: { 'Content-Type': 'text/plain' }});
         assert.response(app,
             { url: '/buffer' },
-            { body: 'wahoo!' });
+            { body: 'wahoo!', headers: { 'Content-Type': 'application/octet-stream' }});
     },
     
     '#contentType': function(assert){
