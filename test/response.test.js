@@ -169,6 +169,27 @@ module.exports = {
         assert.response(app2,
             { url: '/user/12' },
             { body: '', headers: { Location: '/user/12/blog' }});
+    },
+    
+    '#sendfile()': function(assert){
+        var app = express.createServer();
         
+        app.get('/*', function(req, res, params){
+            var file = params.splat[0];
+            res.sendfile(__dirname + '/fixtures/' + file);
+        });
+        
+        assert.response(app,
+            { url: '/user.json' },
+            { body: '{"name":"tj"}', status: 200, headers: { 'Content-Type': 'application/json' }});
+        assert.response(app,
+            { url: '/hello.haml' },
+            { body: '%p Hello World', status: 200, headers: { 'Content-Type': 'application/octet-stream' }});
+        assert.response(app,
+            { url: '/doesNotExist' },
+            { body: 'Not Found', status: 404 });
+        assert.response(app,
+            { url: '/partials' },
+            { body: 'Internal Server Error', status: 500 });
     }
 };
