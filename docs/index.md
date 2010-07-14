@@ -29,4 +29,5 @@ The following are the major contributors of Express (in no specific order).
 
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
+  * Annotated source [documentation](api.html)
   * View the [source](http://github.com/visionmedia/express)

@@ -3,6 +3,45 @@
 .
 .TH "GUIDE" "" "July 2010" "" ""
 .
+.SS "Installation"
+npm:
+.
+.IP "" 4
+.
+.nf
+
+$ npm install express
+.
+.fi
+.
+.IP "" 0
+.
+.P
+curl (or similar):
+.
+.IP "" 4
+.
+.nf
+
+$ curl \-# http://github\.com/extjs/Connect/raw/master/install\.sh | sh
+.
+.fi
+.
+.IP "" 0
+.
+.P
+git clone or tarball for \fBHEAD\fR:
+.
+.IP "" 4
+.
+.nf
+
+$ make install
+.
+.fi
+.
+.IP "" 0
+.
 .SS "Creating An Application"
 The \fIexpress\.Server\fR now inherits from \fIhttp\.Server\fR, however follows the same idiom by providing \fIexpress\.createServer()\fR as shown below\. This means that you can utilize Express server\'s transparently with other libraries\.
 .
@@ -76,7 +115,7 @@ app\.configure(function(){
 Express supports the following settings out of the box:
 .
 .IP "\(bu" 4
-\fIhome\fR Application base path used with \fBres\.redirect()\fR
+\fIhome\fR Application base path used with \fIres\.redirect()\fR
 .
 .IP "\(bu" 4
 \fIviews\fR Root views directory defaulting to \fBCWD/views\fR

@@ -12,6 +12,20 @@
 
 	 app.listen(3000);
 
+## Installation
+
+npm:
+
+    $ npm install express
+
+curl (or similar):
+
+    $ curl -# http://github.com/extjs/Connect/raw/master/install.sh | sh
+
+git clone or tarball:
+
+    $ make install
+
 ## Features
 
   * Robust routing

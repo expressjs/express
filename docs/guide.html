@@ -160,6 +160,23 @@
 					<li><a href="migrate.html">1.x Migration</a></li>
 				</ul>
 <div class='mp'>
+<h3 id="Installation">Installation</h3>
+
+<p>npm:</p>
+
+<pre><code>$ npm install express
+</code></pre>
+
+<p>curl (or similar):</p>
+
+<pre><code>$ curl -# http://github.com/extjs/Connect/raw/master/install.sh | sh
+</code></pre>
+
+<p>git clone or tarball for <strong>HEAD</strong>:</p>
+
+<pre><code>$ make install
+</code></pre>
+
 <h3 id="Creating-An-Application">Creating An Application</h3>
 
 <p>The <em>express.Server</em> now inherits from <em>http.Server</em>, however
@@ -219,7 +236,7 @@ app.configure('production', function(){
 <p>Express supports the following settings out of the box:</p>
 
 <ul>
-<li><em>home</em> Application base path used with <code>res.redirect()</code></li>
+<li><em>home</em> Application base path used with <em>res.redirect()</em></li>
 <li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
 <li><em>view engine</em> Default view engine name for views rendered without extensions</li>
 <li><em>reload views</em> Reloads altered views, by default watches for <em>mtime</em> changes with
