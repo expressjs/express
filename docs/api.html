@@ -318,7 +318,7 @@ the <code>connect.bodyDecoder</code> middleware.</p>
 <li><p><strong>return</strong>: <em>String</em></p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-���:
+
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">param</span> = <span class="keyword">function</span>(<span class="variable">name</span>){
@@ -412,7 +412,8 @@ the <code>connect.bodyDecoder</code> middleware.</p>
 <p>Module dependencies.</p>
 </td>
 <td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>),
+<pre><code><span class="keyword">var</span> <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>),
+    <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>),
     <span class="variable">path</span> = <span class="variable">require</span>(<span class="string">'path'</span>),
     <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>),
     <span class="variable">mime</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>).<span class="variable">mime</span>,
@@ -501,6 +502,35 @@ res.send(404);
 </tr>
 <tr class="code">
 <td class="docs">
+<p>Transfer the given <code>file</code>. Automatically sets the <em>Content-Type</em>
+response header, and responds with 404 / 500 appropriately.</p>
+
+<h2></h2>
+
+<ul>
+<li><p><strong>param</strong>: <em>String</em>  file</p></li>
+<li><p><strong>api</strong>: <em>public</em></p></li>
+</ul>
+
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">sendfile</span> = <span class="keyword">function</span>(<span class="variable">file</span>){
+    <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
+    <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">file</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">buf</span>){
+        <span class="keyword">if</span> (<span class="variable">err</span>) {
+            <span class="variable">self</span>.<span class="variable">send</span>(<span class="variable">err</span>.<span class="variable">errno</span> === <span class="variable">process</span>.<span class="class">ENOENT</span>
+                ? <span class="number integer">404</span>
+                : <span class="number integer">500</span>);
+        } <span class="keyword">else</span> {
+            <span class="variable">self</span>.<span class="variable">contentType</span>(<span class="variable">file</span>);
+            <span class="variable">self</span>.<span class="variable">send</span>(<span class="variable">buf</span>);
+        }
+    });
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
 <p>Set <em>Content-Type</em> response header passed through <code>mime.type()</code>.</p>
 
 <h2>Examples</h2>
@@ -544,6 +574,26 @@ res.contentType(filename);
         ? <span class="string">'attachment; filename=&quot;'</span> + <span class="variable">path</span>.<span class="variable">basename</span>(<span class="variable">filename</span>) + <span class="string">'&quot;'</span>
         : <span class="string">'attachment'</span>);
     <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Transfer the given <code>file</code> with optional <code>filename</code> as an attachment.</p>
+
+<h2></h2>
+
+<ul>
+<li><p><strong>param</strong>: <em>String</em>  file</p></li>
+<li><p><strong>param</strong>: <em>String</em>  filename</p></li>
+<li><p><strong>return</strong>: <em>Type</em></p></li>
+<li><p><strong>api</strong>: <em>public</em></p></li>
+</ul>
+
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">download</span> = <span class="keyword">function</span>(<span class="variable">file</span>, <span class="variable">filename</span>){
+    <span class="this">this</span>.<span class="variable">attachment</span>(<span class="variable">filename</span> || <span class="variable">file</span>).<span class="variable">sendfile</span>(<span class="variable">file</span>);
 };</code></pre>
 </td>
 </tr>
@@ -702,7 +752,7 @@ to &lsquo;/&rsquo;.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Inherit from <code>connect.Server</code>.</p>N %
+<p>Inherit from <code>connect.Server</code>.</p>
 </td>
 <td class="code">
 <pre><code><span class="variable">sys</span>.<span class="variable">inherits</span>(<span class="class">Server</span>, <span class="variable">connect</span>.<span class="class">Server</span>);</code></pre>
@@ -750,9 +800,7 @@ to &lsquo;/&rsquo;.</p>
 <li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-;</p>
 
-<h2><
 </td>
 <td class="code">
 <pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">runConfig</span> = <span class="keyword">function</span>(){
@@ -921,7 +969,7 @@ primarily for the &ldquo;flash&rdquo; middleware:</p>
 <li><p><strong>return</strong>: <em>String</em></p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-
+
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span>.<span class="variable">miniMarkdown</span> = <span class="keyword">function</span>(<span class="variable">str</span>){
@@ -1002,7 +1050,7 @@ of calls to <code>require()</code>.</p>
 <ul>
 <li><strong>api</strong>: <em>public</em></li>
 </ul>
-] %
+
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span>.<span class="variable">clearCache</span> = <span class="keyword">function</span>(){
@@ -1017,7 +1065,7 @@ of calls to <code>require()</code>.</p>
 <ul>
 <li><strong>type</strong>: <em>Object</em></li>
 </ul>
-
+
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">helpers</span> = <span class="variable">exports</span>.<span class="variable">helpers</span> = {};</code></pre>
@@ -1051,7 +1099,7 @@ For example <em>video.html</em> will have a object <em>video</em> available to i
 <li><p><strong>return</strong>: <em>String</em></p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
- %
+ %
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">partial</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>, <span class="variable">ext</span>){
@@ -1117,7 +1165,17 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 <li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
+    res.redirect('comments');
+     });
 
+## 
+ - **param**: _String_  url
+
+ - **param**: _Number_  code
+
+ - **api**: _public_
+
+ 
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">render</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>, <span class="variable">fn</span>){

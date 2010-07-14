@@ -168,6 +168,27 @@ Sets the _Content-Disposition_ response header to "attachment", with optional _f
 
       res.attachment('path/to/my/image.png');
 
+### ServerResponse#sendfile(path)
+
+Used by `res.download()` to transfer an arbitrary file. 
+
+    res.sendfile('path/to/my.file');
+
+**NOTE**: this is _not_ a replacement for Connect's _staticProvider_ middleware,
+nor does it perform any security checks, use with caution when using in a dynamic manor.
+
+### ServerResponse#download(file[, filename])
+
+Transfer the given _file_ as an attachment with optional alternative _filename_.
+
+    res.download('path/to/image.png');
+    res.download('path/to/image.png', 'foo.png');
+
+This is equivalent to:
+
+    res.attachment(file);
+    res.sendfile(file);
+
 ### ServerRequest#send(body|status[, headers|status[, status]])
 
 The `res.send()` method is a high level response utility allowing you to pass

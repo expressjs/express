@@ -259,6 +259,50 @@ Sets the \fIContent\-Disposition\fR response header to \"attachment\", with opti
 .
 .IP "" 0
 .
+.SS "ServerResponse#sendfile(path)"
+Used by \fBres\.download()\fR to transfer an arbitrary file\.
+.
+.IP "" 4
+.
+.nf
+
+res\.sendfile(\'path/to/my\.file\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+\fBNOTE\fR: this is \fInot\fR a replacement for Connect\'s \fIstaticProvider\fR middleware, nor does it perform any security checks, use with caution when using in a dynamic manor\.
+.
+.SS "ServerResponse#download(file[, filename])"
+Transfer the given \fIfile\fR as an attachment with optional alternative \fIfilename\fR\.
+.
+.IP "" 4
+.
+.nf
+
+res\.download(\'path/to/image\.png\');
+res\.download(\'path/to/image\.png\', \'foo\.png\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This is equivalent to:
+.
+.IP "" 4
+.
+.nf
+
+res\.attachment(file);
+res\.sendfile(file);
+.
+.fi
+.
+.IP "" 0
+.
 .SS "ServerRequest#send(body|status[, headers|status[, status]])"
 The \fBres\.send()\fR method is a high level response utility allowing you to pass objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status code based responses\. The following are all valid uses:
 .

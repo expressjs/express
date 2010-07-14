@@ -344,6 +344,30 @@ res.header('Content-Length');
 <pre><code>  res.attachment('path/to/my/image.png');
 </code></pre>
 
+<h3 id="ServerResponse-sendfile-path-">ServerResponse#sendfile(path)</h3>
+
+<p>Used by <code>res.download()</code> to transfer an arbitrary file.</p>
+
+<pre><code>res.sendfile('path/to/my.file');
+</code></pre>
+
+<p><strong>NOTE</strong>: this is <em>not</em> a replacement for Connect's <em>staticProvider</em> middleware,
+nor does it perform any security checks, use with caution when using in a dynamic manor.</p>
+
+<h3 id="ServerResponse-download-file-filename-">ServerResponse#download(file[, filename])</h3>
+
+<p>Transfer the given <em>file</em> as an attachment with optional alternative <em>filename</em>.</p>
+
+<pre><code>res.download('path/to/image.png');
+res.download('path/to/image.png', 'foo.png');
+</code></pre>
+
+<p>This is equivalent to:</p>
+
+<pre><code>res.attachment(file);
+res.sendfile(file);
+</code></pre>
+
 <h3 id="ServerRequest-send-body-status-headers-status-status-">ServerRequest#send(body|status[, headers|status[, status]])</h3>
 
 <p>The <code>res.send()</code> method is a high level response utility allowing you to pass
