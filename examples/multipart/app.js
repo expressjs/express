@@ -25,14 +25,19 @@ app.get('/', function(req, res){
         + '</form>');
 });
 
-app.post('/', function(req, res){
+app.post('/', function(req, res, params, next){
+
     // connect-form adds the req.form object
     // we can (optionally) define onComplete, passing
     // the exception (if any) fields parsed, and files parsed
-    req.form.onComplete = function(err, fields, files){
-        sys.puts('\nuploaded ' + files.image.filename);
-        res.redirect('/');
-    };
+    req.form.complete(function(err, fields, files){
+        if (err) {
+            next(err);
+        } else {
+            sys.puts('\nuploaded ' + files.image.filename);
+            res.redirect('back');
+        }
+    });
 
     // We can add listeners for several form
     // events such as "progress"
