@@ -38,6 +38,7 @@ app.post('/', function(req, res){
     // the exception (if any) fields parsed, and files parsed
     req.form.onComplete = function(err, fields, files){
         sys.puts('\nuploaded ' + files.image.filename);
+        res.redirect('/');
     };
 });
 
