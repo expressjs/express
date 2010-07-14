@@ -38,9 +38,4 @@
   complete: false
   description: 
   length: 25
-  name: extensable view support
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: connect-form support for methodOverride?
