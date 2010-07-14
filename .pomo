@@ -13,11 +13,6 @@
   complete: false
   description: 
   length: 25
-  name: npm dependencies
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: release on nodejs group
 - !ruby/object:Pomo::Task 
   complete: false
