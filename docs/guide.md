@@ -141,6 +141,27 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 		connect.bodyDecoder()
 	);
 
+### ServerResponse#header(key[, val])
+
+Get or set the response header _key_.
+
+    res.header('Content-Length');
+    // => undefined
+
+	res.header('Content-Length', 123);
+    // => 123
+
+    res.header('Content-Length');
+    // => 123
+
+### ServerResponse#contentType(type)
+
+Sets the _Content-Type_ response header to the given _type_.
+
+      var filename = 'path/to/image.png';
+      res.contentType(filename);
+      // res.headers['Content-Type'] is now "image/png"
+
 ### ServerRequest#send(body|status[, headers|status[, status]])
 
 The `res.send()` method is a high level response utility allowing you to pass

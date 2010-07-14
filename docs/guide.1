@@ -211,6 +211,41 @@ var app = express\.createServer(
 .
 .IP "" 0
 .
+.SS "ServerResponse#header(key[, val])"
+Get or set the response header \fIkey\fR\.
+.
+.IP "" 4
+.
+.nf
+
+res\.header(\'Content\-Length\');
+// => undefined
+
+res\.header(\'Content\-Length\', 123);
+// => 123
+
+res\.header(\'Content\-Length\');
+// => 123
+.
+.fi
+.
+.IP "" 0
+.
+.SS "ServerResponse#contentType(type)"
+Sets the \fIContent\-Type\fR response header to the given \fItype\fR\.
+.
+.IP "" 4
+.
+.nf
+
+  var filename = \'path/to/image\.png\';
+  res\.contentType(filename);
+  // res\.headers[\'Content\-Type\'] is now \"image/png\"
+.
+.fi
+.
+.IP "" 0
+.
 .SS "ServerRequest#send(body|status[, headers|status[, status]])"
 The \fBres\.send()\fR method is a high level response utility allowing you to pass objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status code based responses\. The following are all valid uses:
 .

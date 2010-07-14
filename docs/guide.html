@@ -314,6 +314,29 @@ var app = express.createServer(
 );
 </code></pre>
 
+<h3 id="ServerResponse-header-key-val-">ServerResponse#header(key[, val])</h3>
+
+<p>Get or set the response header <em>key</em>.</p>
+
+<pre><code>res.header('Content-Length');
+// =&gt; undefined
+
+res.header('Content-Length', 123);
+// =&gt; 123
+
+res.header('Content-Length');
+// =&gt; 123
+</code></pre>
+
+<h3 id="ServerResponse-contentType-type-">ServerResponse#contentType(type)</h3>
+
+<p>Sets the <em>Content-Type</em> response header to the given <em>type</em>.</p>
+
+<pre><code>  var filename = 'path/to/image.png';
+  res.contentType(filename);
+  // res.headers['Content-Type'] is now "image/png"
+</code></pre>
+
 <h3 id="ServerRequest-send-body-status-headers-status-status-">ServerRequest#send(body|status[, headers|status[, status]])</h3>
 
 <p>The <code>res.send()</code> method is a high level response utility allowing you to pass
