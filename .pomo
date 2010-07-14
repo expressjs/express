@@ -44,3 +44,8 @@
   description: 
   length: 25
   name: custom 404 / 500 etc
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: test things with 0.1.100
