@@ -100,6 +100,12 @@ module.exports = {
 
         app2.redirect('google', 'http://google.com');
 
+        app2.redirect('blog', function(req, res, params){
+            return params.id
+                ? '/user/' + params.id + '/blog'
+                : null;
+        });
+        
         app.get('/', function(req, res){
             res.redirect('http://google.com', 301);
         });
@@ -126,6 +132,10 @@ module.exports = {
         
         app2.get('/google', function(req, res){
             res.redirect('google');
+        });
+
+        app2.get('/user/:id', function(req, res){
+            res.redirect('blog');
         });
         
         assert.response(app,
@@ -156,6 +166,9 @@ module.exports = {
         assert.response(app2,
             { url: '/google' },
             { body: '', headers: { Location: 'http://google.com' }});
+        assert.response(app2,
+            { url: '/user/12' },
+            { body: '', headers: { Location: '/user/12/blog' }});
         
     }
 };
