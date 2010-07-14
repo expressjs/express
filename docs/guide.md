@@ -141,6 +141,23 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 		connect.bodyDecoder()
 	);
 
+### ServerRequest#send(body|status[, headers|status[, status]])
+
+The `res.send()` method is a high level response utility allowing you to pass
+objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status
+code based responses. The following are all valid uses:
+
+     res.send(new Buffer('wahoo'));
+     res.send({ some: 'json' });
+     res.send('<p>some html</p>');
+     res.send('Sorry, cant find that', 404);
+     res.send('text', { 'Content-Type': 'text/plain' }, 201);
+     res.send(404);
+
+By default the _Content-Type_ response header is set, however if explicitly
+assigned through `res.send()` or previously with `res.header()` or `res.contentType()`
+it will not be set again.
+
 ### ServerResponse#redirect(url[, status])
 
 Redirect to the given _url_ with a default response _status_ of 302.

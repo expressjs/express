@@ -211,6 +211,27 @@ var app = express\.createServer(
 .
 .IP "" 0
 .
+.SS "ServerRequest#send(body|status[, headers|status[, status]])"
+The \fBres\.send()\fR method is a high level response utility allowing you to pass objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status code based responses\. The following are all valid uses:
+.
+.IP "" 4
+.
+.nf
+
+ res\.send(new Buffer(\'wahoo\'));
+ res\.send({ some: \'json\' });
+ res\.send(\'<p>some html</p>\');
+ res\.send(\'Sorry, cant find that\', 404);
+ res\.send(\'text\', { \'Content\-Type\': \'text/plain\' }, 201);
+ res\.send(404);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+By default the \fIContent\-Type\fR response header is set, however if explicitly assigned through \fBres\.send()\fR or previously with \fBres\.header()\fR or \fBres\.contentType()\fR it will not be set again\.
+.
 .SS "ServerResponse#redirect(url[, status])"
 Redirect to the given \fIurl\fR with a default response \fIstatus\fR of 302\.
 .

@@ -314,6 +314,24 @@ var app = express.createServer(
 );
 </code></pre>
 
+<h3 id="ServerRequest-send-body-status-headers-status-status-">ServerRequest#send(body|status[, headers|status[, status]])</h3>
+
+<p>The <code>res.send()</code> method is a high level response utility allowing you to pass
+objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status
+code based responses. The following are all valid uses:</p>
+
+<pre><code> res.send(new Buffer('wahoo'));
+ res.send({ some: 'json' });
+ res.send('&lt;p&gt;some html&lt;/p&gt;');
+ res.send('Sorry, cant find that', 404);
+ res.send('text', { 'Content-Type': 'text/plain' }, 201);
+ res.send(404);
+</code></pre>
+
+<p>By default the <em>Content-Type</em> response header is set, however if explicitly
+assigned through <code>res.send()</code> or previously with <code>res.header()</code> or <code>res.contentType()</code>
+it will not be set again.</p>
+
 <h3 id="ServerResponse-redirect-url-status-">ServerResponse#redirect(url[, status])</h3>
 
 <p>Redirect to the given <em>url</em> with a default response <em>status</em> of 302.</p>
