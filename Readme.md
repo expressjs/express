@@ -10,6 +10,8 @@
          res.send('Hello World');
      });
 
+	 app.listen(3000);
+
 ## Features
 
   * Robust routing

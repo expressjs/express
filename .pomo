@@ -3,11 +3,6 @@
   complete: false
   description: 
   length: 25
-  name: redo readme
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: RC
 - !ruby/object:Pomo::Task 
   complete: false
@@ -39,3 +34,8 @@
   description: 
   length: 25
   name: connect-form support for methodOverride?
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: contributing section
