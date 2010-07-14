@@ -1,5 +1,5 @@
 h1= name
 p.summary
-  | #{name} has <strong>#{repos.length}</strong> repositories 
+  | <a href="http://github.com/#{name}">#{name}</a> has <strong>#{repos.length}</strong> repositories 
   | with a total of <strong>#{totalWatchers}</strong> watchers.
 table#repos!= partial('repo', repos)
