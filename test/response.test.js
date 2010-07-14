@@ -98,6 +98,10 @@ module.exports = {
         
         app2.set('home', '/blog');
 
+        app2.redirect = {
+            google: 'http://google.com'
+        };
+
         app.get('/', function(req, res){
             res.redirect('http://google.com', 301);
         });
@@ -120,6 +124,10 @@ module.exports = {
         
         app2.get('/home', function(req, res){
             res.redirect('home');
+        });
+        
+        app2.get('/google', function(req, res){
+            res.redirect('google');
         });
         
         assert.response(app,
@@ -147,6 +155,9 @@ module.exports = {
         assert.response(app2,
             { url: '/home' },
             { body: '', status: 302, headers: { Location: '/blog' }});
+        assert.response(app2,
+            { url: '/google' },
+            { body: '', headers: { Location: 'http://google.com' }});
         
     }
 };
