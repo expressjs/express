@@ -13,7 +13,7 @@ var pub = __dirname + '/public';
 // Auto-compile sass to css with "compiler"
 // and then serve with connect's staticProvider
 
-var app = module.exports = express.createServer(
+var app = express.createServer(
     connect.compiler({ src: pub, enable: ['sass'] }),
     connect.staticProvider(pub)
 );
@@ -46,3 +46,5 @@ app.get('/', function(req, res){
         }
     });
 });
+
+app.listen(3000);
