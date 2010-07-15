@@ -111,8 +111,24 @@ app\.configure(function(){
 .
 .IP "" 0
 .
+.P
+To alter the environment we can set the \fICONNECT_ENV\fR environment variable, or more specifically \fIEXPRESS_ENV\fR, for example:
+.
+.IP "" 4
+.
+.nf
+
+$ EXPRESS_ENV=production node app\.js
+.
+.fi
+.
+.IP "" 0
+.
 .SS "Settings"
 Express supports the following settings out of the box:
+.
+.IP "\(bu" 4
+\fIenv\fR Application environment set internally, use \fIapp\.set(\'env\')\fR to utilize
 .
 .IP "\(bu" 4
 \fIhome\fR Application base path used with \fIres\.redirect()\fR
@@ -250,7 +266,7 @@ var app = express\.createServer(
 .
 .IP "" 0
 .
-.SS "Request#header(key[, defaultValue])"
+.SS "req\.header(key[, defaultValue])"
 Get the case\-insensitive request header \fIkey\fR, with optional \fIdefaultValue\fR:
 .
 .IP "" 4
@@ -265,7 +281,7 @@ req\.header(\'Accept\', \'*/*\');
 .
 .IP "" 0
 .
-.SS "Request#accepts(type)"
+.SS "req\.accepts(type)"
 Check if the \fIAccept\fR header is present, and includes the given \fItype\fR\.
 .
 .P
@@ -294,7 +310,7 @@ req\.accepts(\'png\');
 .
 .IP "" 0
 .
-.SS "Request#param(name)"
+.SS "req\.param(name)"
 Return the value of param \fIname\fR when present\.
 .
 .IP "\(bu" 4
@@ -311,7 +327,7 @@ Checks urlencoded body params, ex: id=12
 .P
 To utilize urlencoded request bodies, \fIreq\.body\fR should be an object\. This can be done by using the \fIconnect\.bodyDecoder\fR middleware\.
 .
-.SS "Request#flash(type[, msg])"
+.SS "req\.flash(type[, msg])"
 Queue flash \fImsg\fR of the given \fItype\fR\.
 .
 .IP "" 4
@@ -336,7 +352,7 @@ req\.flash();
 .
 .IP "" 0
 .
-.SS "Request#isXMLHttpRequest"
+.SS "req\.isXMLHttpRequest"
 Also aliased as \fIreq\.xhr\fR, this getter checks the \fIX\-Requested\-With\fR header to see if it was issued by an \fIXMLHttpRequest\fR:
 .
 .IP "" 4
@@ -350,7 +366,7 @@ req\.isXMLHttpRequest
 .
 .IP "" 0
 .
-.SS "Response#header(key[, val])"
+.SS "res\.header(key[, val])"
 Get or set the response header \fIkey\fR\.
 .
 .IP "" 4
@@ -370,7 +386,7 @@ res\.header(\'Content\-Length\');
 .
 .IP "" 0
 .
-.SS "Response#contentType(type)"
+.SS "res\.contentType(type)"
 Sets the \fIContent\-Type\fR response header to the given \fItype\fR\.
 .
 .IP "" 4
@@ -385,7 +401,7 @@ Sets the \fIContent\-Type\fR response header to the given \fItype\fR\.
 .
 .IP "" 0
 .
-.SS "Response#attachment([filename])"
+.SS "res\.attachment([filename])"
 Sets the \fIContent\-Disposition\fR response header to \"attachment\", with optional \fIfilename\fR\.
 .
 .IP "" 4
@@ -398,7 +414,7 @@ Sets the \fIContent\-Disposition\fR response header to \"attachment\", with opti
 .
 .IP "" 0
 .
-.SS "Response#sendfile(path)"
+.SS "res\.sendfile(path)"
 Used by \fBres\.download()\fR to transfer an arbitrary file\.
 .
 .IP "" 4
@@ -414,7 +430,7 @@ res\.sendfile(\'path/to/my\.file\');
 .P
 \fBNOTE\fR: this is \fInot\fR a replacement for Connect\'s \fIstaticProvider\fR middleware, nor does it perform any security checks, use with caution when using in a dynamic manor\.
 .
-.SS "Response#download(file[, filename])"
+.SS "res\.download(file[, filename])"
 Transfer the given \fIfile\fR as an attachment with optional alternative \fIfilename\fR\.
 .
 .IP "" 4
@@ -442,7 +458,7 @@ res\.sendfile(file);
 .
 .IP "" 0
 .
-.SS "Response#send(body|status[, headers|status[, status]])"
+.SS "res\.send(body|status[, headers|status[, status]])"
 The \fBres\.send()\fR method is a high level response utility allowing you to pass objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status code based responses\. The following are all valid uses:
 .
 .IP "" 4
@@ -463,7 +479,7 @@ The \fBres\.send()\fR method is a high level response utility allowing you to pa
 .P
 By default the \fIContent\-Type\fR response header is set, however if explicitly assigned through \fBres\.send()\fR or previously with \fBres\.header()\fR or \fBres\.contentType()\fR it will not be set again\.
 .
-.SS "Response#redirect(url[, status])"
+.SS "res\.redirect(url[, status])"
 Redirect to the given \fIurl\fR with a default response \fIstatus\fR of 302\.
 .
 .IP "" 4
@@ -483,7 +499,71 @@ res\.redirect(\'back\');
 .P
 Express supports \"redirect mapping\", which by default provides \fIhome\fR, and \fIback\fR\. The \fIback\fR map checks the \fIReferrer\fR and \fIReferer\fR headers, while \fIhome\fR utilizes the \"home\" setting and defaults to \"/\"\.
 .
-.SS "Server#redirect(name, val)"
+.SS "app\.set(name[, val])"
+Apply an application level setting \fIname\fR to \fIval\fR, or get the value of \fIname\fR when \fIval\fR is not present:
+.
+.IP "" 4
+.
+.nf
+
+app\.set(\'reload views\', 200);
+app\.set(\'reload views\');
+// => 200
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.enable(name)"
+Enable the given setting \fIname\fR:
+.
+.IP "" 4
+.
+.nf
+
+app\.enable(\'some arbitrary setting\');
+app\.set(\'some arbitrary setting\');
+// => true
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.disable(name)"
+Disable the given setting \fIname\fR:
+.
+.IP "" 4
+.
+.nf
+
+app\.disable(\'some setting\');
+app\.set(\'some setting\');
+// => false
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.configure(env|function[, function])"
+Define a callback function for the given \fIenv\fR (or all environments) with callback \fIfunction\fR:
+.
+.IP "" 4
+.
+.nf
+
+app\.configure(function(){
+    // executed for each env
+});
+
+app\.configure(\'development\', function(){
+    // executed for \'development\' only
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.redirect(name, val)"
 For use with \fBres\.redirect()\fR we can map redirects at the application level as shown below:
 .
 .IP "" 4

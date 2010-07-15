@@ -124,6 +124,7 @@
 				border-right: 1px solid rgba(255,255,255,0.05);
 			}
 			#toc li {
+				padding: 1px 0;
 				list-style: none;
 			}
 			#toc li a {
@@ -172,19 +173,23 @@
 <li><a href="#Routing">Routing</a></li>
 <li><a href="#Passing-Route-Control">Passing Route Control</a></li>
 <li><a href="#Middleware">Middleware</a></li>
-<li><a href="#Request-header-key-defaultValue-">Request#header</a></li>
-<li><a href="#Request-accepts-type-">Request#accepts</a></li>
-<li><a href="#Request-param-name-">Request#param</a></li>
-<li><a href="#Request-flash-type-msg-">Request#flash</a></li>
-<li><a href="#Request-isXMLHttpRequest">Request#isXMLHttpRequest</a></li>
-<li><a href="#Response-header-key-val-">Response#header</a></li>
-<li><a href="#Response-contentType-type-">Response#contentType</a></li>
-<li><a href="#Response-attachment-filename-">Response#attachment</a></li>
-<li><a href="#Response-sendfile-path-">Response#sendfile</a></li>
-<li><a href="#Response-download-file-filename-">Response#download</a></li>
-<li><a href="#Response-send-body-status-headers-status-status-">Response#send</a></li>
-<li><a href="#Response-redirect-url-status-">Response#redirect</a></li>
-<li><a href="#Server-redirect-name-val-">Server#redirect</a></li>
+<li><a href="#req-header-key-defaultValue-">req.header()</a></li>
+<li><a href="#req-accepts-type-">req.accepts()</a></li>
+<li><a href="#req-param-name-">req.param()</a></li>
+<li><a href="#req-flash-type-msg-">req.flash()</a></li>
+<li><a href="#req-isXMLHttpRequest">req.isXMLHttpRequest</a></li>
+<li><a href="#res-header-key-val-">res.header()</a></li>
+<li><a href="#res-contentType-type-">res.contentType()</a></li>
+<li><a href="#res-attachment-filename-">res.attachment()</a></li>
+<li><a href="#res-sendfile-path-">res.sendfile()</a></li>
+<li><a href="#res-download-file-filename-">res.download()</a></li>
+<li><a href="#res-send-body-status-headers-status-status-">res.send()</a></li>
+<li><a href="#res-redirect-url-status-">res.redirect()</a></li>
+<li><a href="#app-set-name-val-">app.set()</a></li>
+<li><a href="#app-enable-name-">app.enable()</a></li>
+<li><a href="#app-disable-name-">app.disable()</a></li>
+<li><a href="#app-configure-env-function-function-">app.configure()</a></li>
+<li><a href="#app-redirect-name-val-">app.redirect()</a></li>
 </ul>
 				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
 				<p id="tagline">
@@ -269,11 +274,18 @@ app.configure('production', function(){
 });
 </code></pre>
 
+<p>To alter the environment we can set the <em>CONNECT_ENV</em> environment variable,
+or more specifically <em>EXPRESS_ENV</em>, for example:</p>
+
+<pre><code>$ EXPRESS_ENV=production node app.js
+</code></pre>
+
 <h3 id="Settings">Settings</h3>
 
 <p>Express supports the following settings out of the box:</p>
 
 <ul>
+<li><em>env</em> Application environment set internally, use <em>app.set('env')</em> to utilize</li>
 <li><em>home</em> Application base path used with <em>res.redirect()</em></li>
 <li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
 <li><em>view engine</em> Default view engine name for views rendered without extensions</li>
@@ -369,7 +381,7 @@ var app = express.createServer(
 );
 </code></pre>
 
-<h3 id="Request-header-key-defaultValue-">Request#header(key[, defaultValue])</h3>
+<h3 id="req-header-key-defaultValue-">req.header(key[, defaultValue])</h3>
 
 <p>Get the case-insensitive request header <em>key</em>, with optional <em>defaultValue</em>:</p>
 
@@ -378,7 +390,7 @@ req.header('host');
 req.header('Accept', '*/*');
 </code></pre>
 
-<h3 id="Request-accepts-type-">Request#accepts(type)</h3>
+<h3 id="req-accepts-type-">req.accepts(type)</h3>
 
 <p>Check if the <em>Accept</em> header is present, and includes the given <em>type</em>.</p>
 
@@ -403,7 +415,7 @@ req.accepts('png');
 // =&gt; false
 </code></pre>
 
-<h3 id="Request-param-name-">Request#param(name)</h3>
+<h3 id="req-param-name-">req.param(name)</h3>
 
 <p>Return the value of param <em>name</em> when present.</p>
 
@@ -418,7 +430,7 @@ req.accepts('png');
 should be an object. This can be done by using
 the <em>connect.bodyDecoder</em> middleware.</p>
 
-<h3 id="Request-flash-type-msg-">Request#flash(type[, msg])</h3>
+<h3 id="req-flash-type-msg-">req.flash(type[, msg])</h3>
 
 <p>Queue flash <em>msg</em> of the given <em>type</em>.</p>
 
@@ -437,7 +449,7 @@ req.flash();
 // =&gt; { error: ['email delivery failed'], info: [] }
 </code></pre>
 
-<h3 id="Request-isXMLHttpRequest">Request#isXMLHttpRequest</h3>
+<h3 id="req-isXMLHttpRequest">req.isXMLHttpRequest</h3>
 
 <p>Also aliased as <em>req.xhr</em>, this getter checks the <em>X-Requested-With</em> header
 to see if it was issued by an <em>XMLHttpRequest</em>:</p>
@@ -446,7 +458,7 @@ to see if it was issued by an <em>XMLHttpRequest</em>:</p>
 req.isXMLHttpRequest
 </code></pre>
 
-<h3 id="Response-header-key-val-">Response#header(key[, val])</h3>
+<h3 id="res-header-key-val-">res.header(key[, val])</h3>
 
 <p>Get or set the response header <em>key</em>.</p>
 
@@ -460,7 +472,7 @@ res.header('Content-Length');
 // =&gt; 123
 </code></pre>
 
-<h3 id="Response-contentType-type-">Response#contentType(type)</h3>
+<h3 id="res-contentType-type-">res.contentType(type)</h3>
 
 <p>Sets the <em>Content-Type</em> response header to the given <em>type</em>.</p>
 
@@ -469,14 +481,14 @@ res.header('Content-Length');
   // res.headers['Content-Type'] is now "image/png"
 </code></pre>
 
-<h3 id="Response-attachment-filename-">Response#attachment([filename])</h3>
+<h3 id="res-attachment-filename-">res.attachment([filename])</h3>
 
 <p>Sets the <em>Content-Disposition</em> response header to "attachment", with optional <em>filename</em>.</p>
 
 <pre><code>  res.attachment('path/to/my/image.png');
 </code></pre>
 
-<h3 id="Response-sendfile-path-">Response#sendfile(path)</h3>
+<h3 id="res-sendfile-path-">res.sendfile(path)</h3>
 
 <p>Used by <code>res.download()</code> to transfer an arbitrary file.</p>
 
@@ -486,7 +498,7 @@ res.header('Content-Length');
 <p><strong>NOTE</strong>: this is <em>not</em> a replacement for Connect's <em>staticProvider</em> middleware,
 nor does it perform any security checks, use with caution when using in a dynamic manor.</p>
 
-<h3 id="Response-download-file-filename-">Response#download(file[, filename])</h3>
+<h3 id="res-download-file-filename-">res.download(file[, filename])</h3>
 
 <p>Transfer the given <em>file</em> as an attachment with optional alternative <em>filename</em>.</p>
 
@@ -500,7 +512,7 @@ res.download('path/to/image.png', 'foo.png');
 res.sendfile(file);
 </code></pre>
 
-<h3 id="Response-send-body-status-headers-status-status-">Response#send(body|status[, headers|status[, status]])</h3>
+<h3 id="res-send-body-status-headers-status-status-">res.send(body|status[, headers|status[, status]])</h3>
 
 <p>The <code>res.send()</code> method is a high level response utility allowing you to pass
 objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status
@@ -518,7 +530,7 @@ code based responses. The following are all valid uses:</p>
 assigned through <code>res.send()</code> or previously with <code>res.header()</code> or <code>res.contentType()</code>
 it will not be set again.</p>
 
-<h3 id="Response-redirect-url-status-">Response#redirect(url[, status])</h3>
+<h3 id="res-redirect-url-status-">res.redirect(url[, status])</h3>
 
 <p>Redirect to the given <em>url</em> with a default response <em>status</em> of 302.</p>
 
@@ -533,7 +545,48 @@ res.redirect('back');
 The <em>back</em> map checks the <em>Referrer</em> and <em>Referer</em> headers, while <em>home</em> utilizes
 the "home" setting and defaults to "/".</p>
 
-<h3 id="Server-redirect-name-val-">Server#redirect(name, val)</h3>
+<h3 id="app-set-name-val-">app.set(name[, val])</h3>
+
+<p>Apply an application level setting <em>name</em> to <em>val</em>, or
+get the value of <em>name</em> when <em>val</em> is not present:</p>
+
+<pre><code>app.set('reload views', 200);
+app.set('reload views');
+// =&gt; 200
+</code></pre>
+
+<h3 id="app-enable-name-">app.enable(name)</h3>
+
+<p>Enable the given setting <em>name</em>:</p>
+
+<pre><code>app.enable('some arbitrary setting');
+app.set('some arbitrary setting');
+// =&gt; true
+</code></pre>
+
+<h3 id="app-disable-name-">app.disable(name)</h3>
+
+<p>Disable the given setting <em>name</em>:</p>
+
+<pre><code>app.disable('some setting');
+app.set('some setting');
+// =&gt; false
+</code></pre>
+
+<h3 id="app-configure-env-function-function-">app.configure(env|function[, function])</h3>
+
+<p>Define a callback function for the given <em>env</em> (or all environments) with callback <em>function</em>:</p>
+
+<pre><code>app.configure(function(){
+    // executed for each env
+});
+
+app.configure('development', function(){
+    // executed for 'development' only
+});
+</code></pre>
+
+<h3 id="app-redirect-name-val-">app.redirect(name, val)</h3>
 
 <p>For use with <code>res.redirect()</code> we can map redirects at the application level as shown below:</p>
 

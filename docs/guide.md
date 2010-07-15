@@ -64,10 +64,16 @@ For internal and arbitrary settings Express provides the _set(key[, val])_, _ena
 		// same as app.set('some feature', false);
 	});
 
+To alter the environment we can set the _CONNECT_ENV_ environment variable,
+or more specifically _EXPRESS_ENV_, for example:
+
+    $ EXPRESS_ENV=production node app.js
+
 ### Settings
 
 Express supports the following settings out of the box:
 
+  * _env_ Application environment set internally, use _app.set('env')_ to utilize
   * _home_ Application base path used with _res.redirect()_
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
@@ -155,7 +161,7 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 		connect.bodyDecoder()
 	);
 
-### Request#header(key[, defaultValue])
+### req.header(key[, defaultValue])
 
 Get the case-insensitive request header _key_, with optional _defaultValue_:
 
@@ -163,7 +169,7 @@ Get the case-insensitive request header _key_, with optional _defaultValue_:
     req.header('host');
     req.header('Accept', '*/*');
 
-### Request#accepts(type)
+### req.accepts(type)
 
 Check if the _Accept_ header is present, and includes the given _type_.
 
@@ -187,7 +193,7 @@ to "text/html" using the mime lookup table.
     req.accepts('png');
     // => false
 
-### Request#param(name)
+### req.param(name)
 
 Return the value of param _name_ when present.
 
@@ -199,7 +205,7 @@ To utilize urlencoded request bodies, _req.body_
 should be an object. This can be done by using
 the _connect.bodyDecoder_ middleware.
 
-### Request#flash(type[, msg])
+### req.flash(type[, msg])
 
 Queue flash _msg_ of the given _type_.
 
@@ -217,7 +223,7 @@ Queue flash _msg_ of the given _type_.
     req.flash();
     // => { error: ['email delivery failed'], info: [] }
 
-### Request#isXMLHttpRequest
+### req.isXMLHttpRequest
 
 Also aliased as _req.xhr_, this getter checks the _X-Requested-With_ header
 to see if it was issued by an _XMLHttpRequest_:
@@ -225,7 +231,7 @@ to see if it was issued by an _XMLHttpRequest_:
     req.xhr
     req.isXMLHttpRequest
 
-### Response#header(key[, val])
+### res.header(key[, val])
 
 Get or set the response header _key_.
 
@@ -238,7 +244,7 @@ Get or set the response header _key_.
     res.header('Content-Length');
     // => 123
 
-### Response#contentType(type)
+### res.contentType(type)
 
 Sets the _Content-Type_ response header to the given _type_.
 
@@ -246,13 +252,13 @@ Sets the _Content-Type_ response header to the given _type_.
       res.contentType(filename);
       // res.headers['Content-Type'] is now "image/png"
 
-### Response#attachment([filename])
+### res.attachment([filename])
 
 Sets the _Content-Disposition_ response header to "attachment", with optional _filename_.
 
       res.attachment('path/to/my/image.png');
 
-### Response#sendfile(path)
+### res.sendfile(path)
 
 Used by `res.download()` to transfer an arbitrary file. 
 
@@ -261,7 +267,7 @@ Used by `res.download()` to transfer an arbitrary file.
 **NOTE**: this is _not_ a replacement for Connect's _staticProvider_ middleware,
 nor does it perform any security checks, use with caution when using in a dynamic manor.
 
-### Response#download(file[, filename])
+### res.download(file[, filename])
 
 Transfer the given _file_ as an attachment with optional alternative _filename_.
 
@@ -273,7 +279,7 @@ This is equivalent to:
     res.attachment(file);
     res.sendfile(file);
 
-### Response#send(body|status[, headers|status[, status]])
+### res.send(body|status[, headers|status[, status]])
 
 The `res.send()` method is a high level response utility allowing you to pass
 objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status
@@ -290,7 +296,7 @@ By default the _Content-Type_ response header is set, however if explicitly
 assigned through `res.send()` or previously with `res.header()` or `res.contentType()`
 it will not be set again.
 
-### Response#redirect(url[, status])
+### res.redirect(url[, status])
 
 Redirect to the given _url_ with a default response _status_ of 302.
 
@@ -304,7 +310,44 @@ Express supports "redirect mapping", which by default provides _home_, and _back
 The _back_ map checks the _Referrer_ and _Referer_ headers, while _home_ utilizes
 the "home" setting and defaults to "/".
 
-### Server#redirect(name, val)
+### app.set(name[, val])
+
+Apply an application level setting _name_ to _val_, or
+get the value of _name_ when _val_ is not present:
+
+    app.set('reload views', 200);
+    app.set('reload views');
+    // => 200
+
+### app.enable(name)
+
+Enable the given setting _name_:
+
+    app.enable('some arbitrary setting');
+    app.set('some arbitrary setting');
+    // => true
+
+### app.disable(name)
+
+Disable the given setting _name_:
+
+    app.disable('some setting');
+    app.set('some setting');
+    // => false
+
+### app.configure(env|function[, function])
+
+Define a callback function for the given _env_ (or all environments) with callback _function_:
+
+    app.configure(function(){
+	    // executed for each env
+    });
+
+    app.configure('development', function(){
+	    // executed for 'development' only
+    });
+
+### app.redirect(name, val)
 
 For use with `res.redirect()` we can map redirects at the application level as shown below:
 
