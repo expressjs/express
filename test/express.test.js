@@ -80,7 +80,7 @@ module.exports = {
             next(new Error('broken'));
         });
         
-        app.error(function(err, req, res, next){
+        app.error(function(err, req, res){
             res.send('Shit: ' + err.message, 500);
         });
         

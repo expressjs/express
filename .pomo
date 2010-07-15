@@ -44,3 +44,8 @@
   description: 
   length: 25
   name: design mode with browser reloading
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: tests for multiple error() handlers

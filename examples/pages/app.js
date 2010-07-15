@@ -13,10 +13,10 @@ app.get('/', function(req, res){
     res.render('index.jade');
 });
 
-app.get('/404', function(req, res, params, next){
+app.get('/404', function(req, res){
     var err = new Error('cant find that sorry');
     err.errno = process.ENOENT;
-    next(err);
+    throw err;
 });
 
 app.get('/500', function(req, res){
