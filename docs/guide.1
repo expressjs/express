@@ -704,4 +704,19 @@ app\.error(function(err, req, res, next){
 .fi
 .
 .IP "" 0
+.
+.SS "app\.listen([port[, host]])"
+Bind the app server to the given \fIport\fR, which defaults to 3000\. When \fIhost\fR is omitted all connections will be accepted via \fIINADDR_ANY\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.listen();
+app\.listen(3000);
+app\.listen(3000, \'n\.n\.n\.n\');
+.
+.fi
+.
+.IP "" 0
 

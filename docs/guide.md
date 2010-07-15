@@ -429,3 +429,12 @@ should call _next(err)_ if it does not wish to deal with the exception:
     app.error(function(err, req, res, next){
 		res.send(err.message, 500);
 	});
+
+### app.listen([port[, host]])
+
+Bind the app server to the given _port_, which defaults to 3000. When _host_ is omitted all
+connections will be accepted via _INADDR_ANY_.
+
+    app.listen();
+    app.listen(3000);
+    app.listen(3000, 'n.n.n.n');
