@@ -31,3 +31,5 @@ The following are the major contributors of Express (in no specific order).
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
   * Annotated source [documentation](api.html)
   * View the [source](http://github.com/visionmedia/express)
+  * View the [Connect](http://github.com/extjs/Connect) repo for middleware usage
+  * View the [Connect Wiki](http://wiki.github.com/extjs/Connect/) for contrib middleware
