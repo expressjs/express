@@ -16,6 +16,7 @@
   * Environment based configuration
   * Session based flash notifications
   * Built on [Connect](http://extjs.github.com/Connect)
+  * [Executable](executable.html) for generating applications quickly
 
 ## Contributors
 

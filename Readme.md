@@ -35,6 +35,7 @@ git clone or tarball:
   * Environment based configuration
   * Session based flash notifications
   * Built on [Connect](http://extjs.github.com/Connect)
+  * Executable for generating applications quickly
 
 Via Connect:
 
