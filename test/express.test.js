@@ -88,20 +88,34 @@ module.exports = {
             { url: '/' },
             { body: 'Shit: broken', status: 500 });
         
-        // Throwing
+        // Multiple error()s
         var app = express.createServer();
         
         app.get('/', function(req, res, params, next){
             throw new Error('broken');
         });
+        app.get('/foo', function(req, res, params, next){
+            throw new Error('oh noes');
+        });
         
         app.error(function(err, req, res, next){
-            res.send('rawrrrr: ' + err.message, 500);
+            if (err.message === 'broken') {
+                next(err);
+            } else {
+                res.send(500);
+            }
+        });
+        
+        app.error(function(err, req, res, next){
+            res.send(err.message, 500);
         });
         
         assert.response(app,
             { url: '/' },
-            { body: 'rawrrrr: broken', status: 500 });
+            { body: 'broken', status: 500 });
+        assert.response(app,
+            { url: '/foo' },
+            { body: 'Internal Server Error' });
     },
     
     'test next()': function(assert){
