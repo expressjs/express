@@ -60,6 +60,7 @@ module.exports = {
     },
     
     'test #error()': function(assert){
+        // Passing down middleware stack
         var app = express.createServer();
         
         app.get('/', function(req, res, params, next){
@@ -71,7 +72,8 @@ module.exports = {
         assert.response(app,
             { url: '/' },
             { body: 'Internal Server Error' });
-        
+
+        // Custom handler
         var app = express.createServer();
         
         app.get('/', function(req, res, params, next){
@@ -79,12 +81,27 @@ module.exports = {
         });
         
         app.error(function(err, req, res, next){
-            res.send(err.message, 500);
+            res.send('Shit: ' + err.message, 500);
         });
         
         assert.response(app,
             { url: '/' },
-            { body: 'broken', status: 500 });
+            { body: 'Shit: broken', status: 500 });
+        
+        // Throwing
+        var app = express.createServer();
+        
+        app.get('/', function(req, res, params, next){
+            throw new Error('broken');
+        });
+        
+        app.error(function(err, req, res, next){
+            res.send('rawrrrr: ' + err.message, 500);
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: 'rawrrrr: broken', status: 500 });
     },
     
     'test next()': function(assert){
