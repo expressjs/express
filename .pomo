@@ -34,3 +34,8 @@
   description: 
   length: 25
   name: app.error() should work without arity of 4
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: 404 page fails error() not called.. fix bug
