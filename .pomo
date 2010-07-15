@@ -18,11 +18,6 @@
   complete: false
   description: 
   length: 25
-  name: custom 404 / 500 etc
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: Beta
 - !ruby/object:Pomo::Task 
   complete: false

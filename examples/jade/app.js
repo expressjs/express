@@ -23,11 +23,11 @@ var app = express.createServer(
 app.set('views', __dirname + '/views');
 
 // Enable auto-reloading of view contents when changed
-// with an interval of 2000 milliseconds. Start the app
-// with $ cd examples/jade && connect
+// with an interval of 1000 milliseconds. Start the app
+// with $ node examples/jade/app.js
 // then alter some views :)
 
-app.set('reload views', 2000);
+app.set('reload views', 1000);
 // or app.enable('reload views'); for defaults
 
 // Re-compile
