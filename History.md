@@ -1,4 +1,9 @@
 
+1.0.0beta / 2010-07-15
+==================
+
+  * Re-write! check [ExpressJS.com](http://expressjs.com) for migration guide and updated docs
+
 0.14.0 / 2010-06-15
 ==================
 
