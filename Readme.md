@@ -23,9 +23,11 @@ curl (or similar):
 
     $ curl -# http://github.com/extjs/Connect/raw/master/install.sh | sh
 
-git clone or tarball:
+git clone, first update the submodules:
 
+    $ git submodule update --init
     $ make install
+    $ make install-support
 
 ## Features
 
