@@ -645,14 +645,14 @@ to '/'.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Listen on the given <code>port</code> after running configuration blocks.</p>
+<p>Start listening on the given <code>port</code> / <code>host</code>.</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>Number</em>  port</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>Number</em>  port</p></li><li><p><strong>param</strong>: <em>String</em>  host</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span> = <span class="keyword">function</span>(<span class="variable">port</span>){
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span> = <span class="keyword">function</span>(<span class="variable">port</span>, <span class="variable">host</span>){
     <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>, <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">EXPRESS_ENV</span> || <span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">name</span>);
     <span class="this">this</span>.<span class="variable">runConfig</span>(<span class="string">'any'</span>, <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>));
 
@@ -661,30 +661,7 @@ to '/'.</p>
         <span class="variable">view</span>.<span class="variable">watcher</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'reload views'</span>));
     }
 
-    <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">port</span>);
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Run config callbacks for the given environment(s);</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  env ...</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">runConfig</span> = <span class="keyword">function</span>(){
-    <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">arguments</span>.<span class="variable">length</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
-        <span class="keyword">var</span> <span class="variable">env</span> = <span class="variable">arguments</span>[<span class="variable">i</span>];
-        <span class="keyword">if</span> (<span class="variable">env</span> <span class="keyword">in</span> <span class="this">this</span>.<span class="variable">config</span>) {
-            <span class="keyword">var</span> <span class="variable">config</span> = <span class="this">this</span>.<span class="variable">config</span>[<span class="variable">env</span>];
-            <span class="variable">config</span>.<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">fn</span>){
-                <span class="variable">fn</span>.<span class="variable">call</span>(<span class="this">this</span>);
-            }, <span class="this">this</span>);
-        }
-    }
-    <span class="keyword">return</span> <span class="this">this</span>;
+    <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">port</span>, <span class="variable">host</span>);
 };</code></pre>
 </td>
 </tr>
