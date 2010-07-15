@@ -11,7 +11,7 @@ if (file) {
         headers.forEach(function(header){
             var captures = header.match(/id="(.*?)">(.*?)</),
                 id = captures[1],
-                title = captures[2];
+                title = captures[2].replace(/\(.*?\)/, '');
             toc.push('<li><a href="#' + id + '">' + title + '</a></li>');
         });
         toc.push('</ul>');

@@ -114,15 +114,20 @@
 
 			#toc {
 				position: fixed;
-				top: 70px;
+				top: 60px;
 				left: 0;
 				margin: 0 0 0 15px;
-				padding: 0;
+				padding: 15px;
+				height: 100%;
+				background: rgba(0,0,0,0.2);
+				border-right: 1px solid rgba(255,255,255,0.05);
 			}
 			#toc li {
 				list-style: none;
 			}
-
+			#toc li a {
+				font-size: 11px;
+			}
 			#menu {
 			  margin-left: 65px;
 			  padding: 0;
@@ -166,19 +171,19 @@
 <li><a href="#Routing">Routing</a></li>
 <li><a href="#Passing-Route-Control">Passing Route Control</a></li>
 <li><a href="#Middleware">Middleware</a></li>
-<li><a href="#Request-header-key-defaultValue-">Request#header(key[, defaultValue])</a></li>
-<li><a href="#Request-accepts-type-">Request#accepts(type)</a></li>
-<li><a href="#Request-param-name-">Request#param(name)</a></li>
-<li><a href="#Request-flash-type-msg-">Request#flash(type[, msg])</a></li>
+<li><a href="#Request-header-key-defaultValue-">Request#header</a></li>
+<li><a href="#Request-accepts-type-">Request#accepts</a></li>
+<li><a href="#Request-param-name-">Request#param</a></li>
+<li><a href="#Request-flash-type-msg-">Request#flash</a></li>
 <li><a href="#Request-isXMLHttpRequest">Request#isXMLHttpRequest</a></li>
-<li><a href="#Response-header-key-val-">Response#header(key[, val])</a></li>
-<li><a href="#Response-contentType-type-">Response#contentType(type)</a></li>
-<li><a href="#Response-attachment-filename-">Response#attachment([filename])</a></li>
-<li><a href="#Response-sendfile-path-">Response#sendfile(path)</a></li>
-<li><a href="#Response-download-file-filename-">Response#download(file[, filename])</a></li>
-<li><a href="#Response-send-body-status-headers-status-status-">Response#send(body|status[, headers|status[, status]])</a></li>
-<li><a href="#Response-redirect-url-status-">Response#redirect(url[, status])</a></li>
-<li><a href="#Server-redirect-name-val-">Server#redirect(name, val)</a></li>
+<li><a href="#Response-header-key-val-">Response#header</a></li>
+<li><a href="#Response-contentType-type-">Response#contentType</a></li>
+<li><a href="#Response-attachment-filename-">Response#attachment</a></li>
+<li><a href="#Response-sendfile-path-">Response#sendfile</a></li>
+<li><a href="#Response-download-file-filename-">Response#download</a></li>
+<li><a href="#Response-send-body-status-headers-status-status-">Response#send</a></li>
+<li><a href="#Response-redirect-url-status-">Response#redirect</a></li>
+<li><a href="#Server-redirect-name-val-">Server#redirect</a></li>
 </ul>
 				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
 				<p id="tagline">
