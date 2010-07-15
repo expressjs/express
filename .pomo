@@ -39,3 +39,8 @@
   description: 
   length: 25
   name: 404 page fails error() not called.. fix bug
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: design mode with browser reloading
