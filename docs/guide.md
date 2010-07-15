@@ -422,7 +422,9 @@ redirect _Location_ would be _/post/12/comments_.
 
 ### app.error(function)
 
-Adds an error handler _function_ which will receive the exception as the first parameter:
+Adds an error handler _function_ which will receive the exception as the first parameter as shown below.
+Note that we may set several error handlers by making several calls to this method, however the handler
+should call _next(err)_ if it does not wish to deal with the exception:
 
     app.error(function(err, req, res, next){
 		res.send(err.message, 500);

@@ -691,7 +691,7 @@ app\.get(\'/post/:id\', function(req, res){
 .IP "" 0
 .
 .SS "app\.error(function)"
-Adds an error handler \fIfunction\fR which will receive the exception as the first parameter:
+Adds an error handler \fIfunction\fR which will receive the exception as the first parameter as shown below\. Note that we may set several error handlers by making several calls to this method, however the handler should call \fInext(err)\fR if it does not wish to deal with the exception:
 .
 .IP "" 4
 .
