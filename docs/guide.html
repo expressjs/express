@@ -213,17 +213,20 @@
 
 <p>npm:</p>
 
-<pre><code>$ npm install express
+<pre><code>$ npm install connect
+$ npm install express
 </code></pre>
 
 <p>curl (or similar):</p>
 
-<pre><code>$ curl -# http://github.com/extjs/Connect/raw/master/install.sh | sh
+<pre><code>$ curl -# http://github.com/visionmedia/express/raw/master/install.sh | sh
 </code></pre>
 
-<p>git clone or tarball for <strong>HEAD</strong>:</p>
+<p>git clone, first update the submodules:</p>
 
-<pre><code>$ make install
+<pre><code>$ git submodule update --init
+$ make install
+$ make install-support
 </code></pre>
 
 <h3 id="Creating-An-Application">Creating An Application</h3>

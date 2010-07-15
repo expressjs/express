@@ -10,6 +10,7 @@ npm:
 .
 .nf
 
+$ npm install connect
 $ npm install express
 .
 .fi
@@ -23,20 +24,22 @@ curl (or similar):
 .
 .nf
 
-$ curl \-# http://github\.com/extjs/Connect/raw/master/install\.sh | sh
+$ curl \-# http://github\.com/visionmedia/express/raw/master/install\.sh | sh
 .
 .fi
 .
 .IP "" 0
 .
 .P
-git clone or tarball for \fBHEAD\fR:
+git clone, first update the submodules:
 .
 .IP "" 4
 .
 .nf
 
+$ git submodule update \-\-init
 $ make install
+$ make install\-support
 .
 .fi
 .

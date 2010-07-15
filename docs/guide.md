@@ -3,15 +3,18 @@
 
 npm:
 
+    $ npm install connect
     $ npm install express
 
 curl (or similar):
 
-    $ curl -# http://github.com/extjs/Connect/raw/master/install.sh | sh
+    $ curl -# http://github.com/visionmedia/express/raw/master/install.sh | sh
 
-git clone or tarball for **HEAD**:
+git clone, first update the submodules:
 
+    $ git submodule update --init
     $ make install
+    $ make install-support
 
 ### Creating An Application
 

@@ -21,7 +21,7 @@ npm:
 
 curl (or similar):
 
-    $ curl -# http://github.com/extjs/Connect/raw/master/install.sh | sh
+    $ curl -# http://github.com/visionmedia/express/raw/master/install.sh | sh
 
 git clone, first update the submodules:
 
