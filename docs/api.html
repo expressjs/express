@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title>Express</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 		<style>body {
     margin: 0;
     padding: 0;
@@ -20,45 +21,6 @@ p {
 h1, h2, h3 {
     margin: 0;
     padding: 0;
-}
-ul#menu {
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    right: 0;
-    list-style: none;
-    margin: 0;
-    padding: 10px 2px;
-    text-align: right;
-    background: rgba(255,255,255,0.7);
-    -webkit-box-shadow: -1px 2px 2px rgba(0,0,0,0.3);
-    -moz-box-shadow: -1px 2px 2px rgba(0,0,0,0.3);
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-bottom-left-radius: 5px;
-    -webkit-transition-properties: opacity;
-    -webkit-transition-duration: 0.6s;
-}
-ul#menu:hover {
-    opacity: 1;
-}
-ul#menu li {
-    padding: 2px 10px;
-    border-bottom: 1px solid #eee;
-}
-ul#menu li:hover {
-    background: rgba(0,0,0,0.03);
-}
-ul#menu li:last-child {
-    border-bottom: none;
-}
-ul#menu li a {
-    text-decoration: none;
-    font-size: 12px;
-    color: rgba(0,0,0,0.5);
-}
-ul#menu li a strong {
-    font-weight: normal;
-    color: #252519;
 }
 table#source {
     width: 100%;
@@ -93,6 +55,7 @@ table#source tr.filename td:last-child {
 table#source tr.filename h2 {
     margin: 0;
     padding: 0;
+    cursor: pointer;
 }
 table#source tr.code h1,
 table#source tr.code h2,
@@ -123,7 +86,7 @@ table#source tr.code td:first-child pre {
     padding: 20px;
 }
 #ribbon {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
 }
@@ -133,16 +96,22 @@ code .keyword { color: #954121; }
 code .number { color: #19469D; }
 code .comment { color: #bbb; }
 code .this { color: #19469D; }</style>
+		<script>
+			$(function(){
+				$('tr.code').hide();
+				$('tr.filename').toggle(function(){
+					$(this).nextUntil('.filename').fadeIn();
+				}, function(){
+					$(this).nextUntil('.filename').fadeOut();
+				});
+			});
+		</script>
 	</head>
 	<body>
-<ul id="menu"><li><a href="#lib/express/index.js">lib/express/<strong>index</strong></a></li>
-<li><a href="#lib/express/request.js">lib/express/<strong>request</strong></a></li>
-<li><a href="#lib/express/response.js">lib/express/<strong>response</strong></a></li>
-<li><a href="#lib/express/server.js">lib/express/<strong>server</strong></a></li>
-<li><a href="#lib/express/utils.js">lib/express/<strong>utils</strong></a></li>
-<li><a href="#lib/express/view.js">lib/express/<strong>view</strong></a></li></ul><table id="source"><tbody><tr><td><h1>Express</h1><p>High performance web framework for <a href="http://nodejs.org">node</a>.</p></td><td></td></tr><tr class="filename"><td><h2 id="lib/express/index.js">index</h2></td><td>lib/express/index.js</td></tr><tr class="code">
+<table id="source"><tbody><tr><td><h1>Express</h1><p>High performance web framework for <a href="http://nodejs.org">node</a>.</p></td><td></td></tr><tr class="filename"><td><h2 id="lib/express/index.js"><a href="#">index</a></h2></td><td>lib/express/index.js</td></tr><tr class="code">
 <td class="docs">
-<p>Framework version.</p>
+<p>Framework version.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span>.<span class="variable">version</span> = <span class="string">'0.14.0'</span>;</code></pre>
@@ -150,7 +119,8 @@ code .this { color: #19469D; }</style>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">require</span>(<span class="string">'./server'</span>);</code></pre>
@@ -162,12 +132,7 @@ code .this { color: #19469D; }</style>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Function</em>  &hellip;</p></li>
-<li><p><strong>return</strong>: <em>Server</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Function</em>  ...</p></li><li><p><strong>return</strong>: <em>Server</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span>.<span class="variable">createServer</span> = <span class="keyword">function</span>(){
@@ -177,7 +142,8 @@ code .this { color: #19469D; }</style>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>View extensions.</p>
+<p>View extensions.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="variable">require</span>(<span class="string">'./view'</span>);
@@ -185,9 +151,50 @@ code .this { color: #19469D; }</style>
 <span class="variable">require</span>(<span class="string">'./response'</span>);
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/express/request.js">request</h2></td><td>lib/express/request.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/express/utils.js"><a href="#">utils</a></h2></td><td>lib/express/utils.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Parse mini markdown implementation.
+The following conversions are supported,
+primarily for the "flash" middleware:</p>
+
+<p>   <em>foo</em> or <em>foo</em> become &lt;em&gt;foo&lt;/em&gt;
+   <strong>foo</strong> or <strong>foo</strong> become &lt;strong&gt;foo&lt;/strong&gt;
+   <a href="B">A</a> becomes &lt;a href="B"&gt;A&lt;/a&gt;</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  str</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">miniMarkdown</span> = <span class="keyword">function</span>(<span class="variable">str</span>){
+    <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">str</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/(__|\*\*)(.*?)\1/g</span>, <span class="string">'&lt;strong&gt;$2&lt;/strong&gt;'</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/(_|\*)(.*?)\1/g</span>, <span class="string">'&lt;em&gt;$2&lt;/em&gt;'</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/\[([^\]]+)\]\(([^)]+)\)/g</span>, <span class="string">'&lt;a href=&quot;$2&quot;&gt;$1&lt;/a&gt;'</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Escape special characters in the given string of html.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  html</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">htmlEscape</span> = <span class="keyword">function</span>(<span class="variable">html</span>) {
+    <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">html</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/&amp;/g</span>, <span class="string">'&amp;'</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/&quot;/g</span>, <span class="string">'&quot;'</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/&lt;/g</span>, <span class="string">'&lt;'</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/&gt;/g</span>, <span class="string">'&gt;'</span>);
+};</code></pre>
+</td>
+</tr><tr class="filename"><td><h2 id="lib/express/request.js"><a href="#">request</a></h2></td><td>lib/express/request.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>),
@@ -211,18 +218,11 @@ req.header('Accept');
 // =&gt; undefined
 
 req.header('Accept', 'text/html');
-// =&gt; "text/html"
-</code></pre>
+// =&gt; "text/html"</code></pre>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  name</p></li>
-<li><p><strong>param</strong>: <em>String</em>  defaultValue</p></li>
-<li><p><strong>return</strong>: <em>String</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  name</p></li><li><p><strong>param</strong>: <em>String</em>  defaultValue</p></li><li><p><strong>return</strong>: <em>String</em>  </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">header</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">defaultValue</span>){
@@ -236,8 +236,8 @@ req.header('Accept', 'text/html');
 
 <p>When the <em>Accept</em> header is not present <code>true</code> is returned. Otherwise
 the given <code>type</code> is matched by an exact match, and then subtypes. You
-may pass the subtype such as &ldquo;html&rdquo; which is then converted internally
-to &ldquo;text/html&rdquo; using the mime lookup table.</p>
+may pass the subtype such as "html" which is then converted internally
+to "text/html" using the mime lookup table.</p>
 
 <h2>Examples</h2>
 
@@ -254,17 +254,11 @@ req.accepts('application/json');
 
 req.accepts('image/png');
 req.accepts('png');
-// =&gt; false
-</code></pre>
+// =&gt; false</code></pre>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  type</p></li>
-<li><p><strong>return</strong>: <em>Boolean</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">accepts</span> = <span class="keyword">function</span>(<span class="variable">type</span>){
@@ -274,38 +268,30 @@ req.accepts('png');
 </tr>
 <tr class="code">
 <td class="docs">
-<p>&lsquo;) {</p>
-
-<pre><code>    return true;
-} else if (type) {
-    // Allow "html" vs "text/html" etc
-    if (type.indexOf('/') &lt; 0) {
-        type = mime.types['.' + type];
-    }
-    // Check if we have a direct match
-    if (accept.indexOf(type) &gt;= 0) {
+<p>') {
         return true;
-    // Check if we have type/*
+    } else if (type) {
+        // Allow "html" vs "text/html" etc
+        if (type.indexOf('/') &lt; 0) {
+            type = mime.types['.' + type];
+        }
+        // Check if we have a direct match
+        if (accept.indexOf(type) &gt;= 0) {
+            return true;
+        // Check if we have type/<em>
+        } else {
+            type = type.split('/')[0] + '/</em>';
+            return accept.indexOf(type) &gt;= 0;
+        }
     } else {
-        type = type.split('/')[0] + '/*';
-        return accept.indexOf(type) &gt;= 0;
+        return false;
     }
-} else {
-    return false;
-}
-</code></pre>
-
-<p>};</p>
+};</p>
 
 <p>/**
 Return the value of param <code>name</code> when present.</p>
 
-<ul>
-<li>Checks route placeholders, ex: <em>/user/:id</em></li>
-<li>Checks query string params, ex: ?id=12</li>
-<li>Checks urlencoded body params, ex: id=12</li>
-</ul>
-
+<ul><li>Checks route placeholders, ex: <em>/user/:id</em></li><li>Checks query string params, ex: ?id=12</li><li>Checks urlencoded body params, ex: id=12</li></ul>
 
 <p>To utilize urlencoded request bodies, <code>req.body</code>
 should be an object. This can be done by using
@@ -313,12 +299,7 @@ the <code>connect.bodyDecoder</code> middleware.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  name</p></li>
-<li><p><strong>return</strong>: <em>String</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  name</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">param</span> = <span class="keyword">function</span>(<span class="variable">name</span>){
@@ -355,18 +336,11 @@ the <code>connect.bodyDecoder</code> middleware.</p>
  // =&gt; []
 
  req.flash();
- // =&gt; { error: ['email delivery failed'], info: [] }
-</code></pre>
+ // =&gt; { error: ['email delivery failed'], info: [] }</code></pre>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  type</p></li>
-<li><p><strong>param</strong>: <em>String</em>  msg</p></li>
-<li><p><strong>return</strong>: <em>Array | Object | Number</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>param</strong>: <em>String</em>  msg</p></li><li><p><strong>return</strong>: <em>Array | Object | Number</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">flash</span> = <span class="keyword">function</span>(<span class="variable">type</span>, <span class="variable">msg</span>){
@@ -397,19 +371,16 @@ the <code>connect.bodyDecoder</code> middleware.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>return</strong>: <em>Boolean</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'isXMLHttpRequest'</span>, <span class="variable">isxhr</span>);
 <span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'xhr'</span>, <span class="variable">isxhr</span>);</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/express/response.js">response</h2></td><td>lib/express/response.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/express/response.js"><a href="#">response</a></h2></td><td>lib/express/response.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>),
@@ -431,19 +402,11 @@ res.send({ some: 'json' });
 res.send('&lt;p&gt;some html&lt;/p&gt;');
 res.send('Sorry, cant find that', 404);
 res.send('text', { 'Content-Type': 'text/plain' }, 201);
-res.send(404);
-</code></pre>
+res.send(404);</code></pre>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String | Object | Number | Buffer</em>  body or status</p></li>
-<li><p><strong>param</strong>: <em>Object | Number</em>  headers or status</p></li>
-<li><p><strong>param</strong>: <em>Number</em>  status</p></li>
-<li><p><strong>return</strong>: <em>ServerResponse</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String | Object | Number | Buffer</em>  body or status</p></li><li><p><strong>param</strong>: <em>Object | Number</em>  headers or status</p></li><li><p><strong>param</strong>: <em>Number</em>  status</p></li><li><p><strong>return</strong>: <em>ServerResponse</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">send</span> = <span class="keyword">function</span>(<span class="variable">body</span>, <span class="variable">headers</span>, <span class="variable">status</span>){
@@ -507,11 +470,7 @@ response header, and responds with 404 / 500 appropriately.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  file</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  file</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">sendfile</span> = <span class="keyword">function</span>(<span class="variable">file</span>){
@@ -537,17 +496,11 @@ response header, and responds with 404 / 500 appropriately.</p>
 
 <pre><code>var filename = 'path/to/image.png';
 res.contentType(filename);
-// res.headers['Content-Type'] is now "image/png"
-</code></pre>
+// res.headers['Content-Type'] is now "image/png"</code></pre>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  type</p></li>
-<li><p><strong>return</strong>: <em>String</em>  the resolved mime type</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>return</strong>: <em>String</em>  the resolved mime type</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">contentType</span> = <span class="keyword">function</span>(<span class="variable">type</span>){
@@ -561,12 +514,7 @@ res.contentType(filename);
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  filename</p></li>
-<li><p><strong>return</strong>: <em>ServerResponse</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  filename</p></li><li><p><strong>return</strong>: <em>ServerResponse</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">attachment</span> = <span class="keyword">function</span>(<span class="variable">filename</span>){
@@ -583,13 +531,7 @@ res.contentType(filename);
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  file</p></li>
-<li><p><strong>param</strong>: <em>String</em>  filename</p></li>
-<li><p><strong>return</strong>: <em>Type</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  file</p></li><li><p><strong>param</strong>: <em>String</em>  filename</p></li><li><p><strong>return</strong>: <em>Type</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">download</span> = <span class="keyword">function</span>(<span class="variable">file</span>, <span class="variable">filename</span>){
@@ -603,13 +545,7 @@ res.contentType(filename);
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  name</p></li>
-<li><p><strong>param</strong>: <em>String</em>  val</p></li>
-<li><p><strong>return</strong>: <em>String</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  name</p></li><li><p><strong>param</strong>: <em>String</em>  val</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">header</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">val</span>){
@@ -625,31 +561,28 @@ res.contentType(filename);
 defauling to 302.</p>
 
 <p>The given <code>url</code> can also be the name of a mapped url, for
-example by default express supports &ldquo;back&rdquo; which redirects
-to the <em>Referrer</em> or <em>Referer</em> headers or the application&rsquo;s
-&ldquo;home&rdquo; setting. Express also supports &ldquo;home&rdquo; out of the box,
+example by default express supports "back" which redirects
+to the <em>Referrer</em> or <em>Referer</em> headers or the application's
+"home" setting. Express also supports "home" out of the box,
 which can be set via <code>app.set('home', '/blog');</code>, and defaults
-to &lsquo;/&rsquo;.</p>
+to '/'.</p>
 
 <h2>Redirect Mapping</h2>
 
 <p> To extend the redirect mapping capabilities that Express provides,
  we may use the <code>app.redirect()</code> method:</p>
 
-<pre><code>app.redirect('google', 'http://google.com');
-</code></pre>
+<pre><code>app.redirect('google', 'http://google.com');</code></pre>
 
 <p> Now in a route we may call:</p>
 
-<pre><code>res.redirect('google');
-</code></pre>
+<pre><code>res.redirect('google');</code></pre>
 
 <p> We may also map dynamic redirects:</p>
 
 <pre><code> app.redirect('comments', function(req, res, params){
      return '/post/' + params.id + '/comments';
- });
-</code></pre>
+ });</code></pre>
 
 <p> So now we may do the following, and the redirect will dynamically adjust to
  the context of the request. If we called this route with <em>GET /post/12</em> our
@@ -657,17 +590,11 @@ to &lsquo;/&rsquo;.</p>
 
 <pre><code> app.get('/post/:id', function(req, res){
      res.redirect('comments');
- });
-</code></pre>
+ });</code></pre>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  url</p></li>
-<li><p><strong>param</strong>: <em>Number</em>  code</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  url</p></li><li><p><strong>param</strong>: <em>Number</em>  code</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">redirect</span> = <span class="keyword">function</span>(<span class="variable">url</span>, <span class="variable">status</span>){
@@ -693,9 +620,10 @@ to &lsquo;/&rsquo;.</p>
 };
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/express/server.js">server</h2></td><td>lib/express/server.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/express/server.js"><a href="#">server</a></h2></td><td>lib/express/server.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>),
@@ -712,11 +640,7 @@ to &lsquo;/&rsquo;.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Array</em>  middleware</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Array</em>  middleware</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="class">Server</span>(<span class="variable">middleware</span>){
@@ -752,7 +676,8 @@ to &lsquo;/&rsquo;.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Inherit from <code>connect.Server</code>.</p>
+<p>Inherit from <code>connect.Server</code>.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="variable">sys</span>.<span class="variable">inherits</span>(<span class="class">Server</span>, <span class="variable">connect</span>.<span class="class">Server</span>);</code></pre>
@@ -764,11 +689,7 @@ to &lsquo;/&rsquo;.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Number</em>  port</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Number</em>  port</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span> = <span class="keyword">function</span>(<span class="variable">port</span>){
@@ -780,11 +701,6 @@ to &lsquo;/&rsquo;.</p>
         <span class="variable">view</span>.<span class="variable">watcher</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'reload views'</span>));
     }
 
-    <span class="comment">// Custom exception handler</span>
-    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">errorHandler</span>) {
-        <span class="this">this</span>.<span class="variable">use</span>(<span class="string">'/'</span>, <span class="this">this</span>.<span class="variable">errorHandler</span>);
-    }
-    
     <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">port</span>);
 };</code></pre>
 </td>
@@ -795,12 +711,7 @@ to &lsquo;/&rsquo;.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  env &hellip;</p></li>
-<li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  env ...</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">runConfig</span> = <span class="keyword">function</span>(){
@@ -823,33 +734,24 @@ to &lsquo;/&rsquo;.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
-<li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">error</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
-    <span class="this">this</span>.<span class="variable">errorHandler</span> = <span class="variable">fn</span>;
+    <span class="this">this</span>.<span class="variable">use</span>(<span class="string">'/'</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="variable">fn</span>.<span class="variable">apply</span>(<span class="this">this</span>, <span class="variable">arguments</span>);
+    });
     <span class="keyword">return</span> <span class="this">this</span>;
 };</code></pre>
 </td>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Assign <code>setting</code> to <code>val</code>, or return <code>setting</code>&rsquo;s value.</p>
+<p>Assign <code>setting</code> to <code>val</code>, or return <code>setting</code>'s value.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  setting</p></li>
-<li><p><strong>param</strong>: <em>String</em>  val</p></li>
-<li><p><strong>return</strong>: <em>Server | Mixed</em>  for chaining, or the setting value</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>param</strong>: <em>String</em>  val</p></li><li><p><strong>return</strong>: <em>Server | Mixed</em>  for chaining, or the setting value</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">set</span> = <span class="keyword">function</span>(<span class="variable">setting</span>, <span class="variable">val</span>){
@@ -868,12 +770,7 @@ to &lsquo;/&rsquo;.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  setting</p></li>
-<li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">enable</span> = <span class="keyword">function</span>(<span class="variable">setting</span>){
@@ -887,12 +784,7 @@ to &lsquo;/&rsquo;.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  setting</p></li>
-<li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">disable</span> = <span class="keyword">function</span>(<span class="variable">setting</span>){
@@ -906,13 +798,7 @@ to &lsquo;/&rsquo;.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  key</p></li>
-<li><p><strong>param</strong>: <em>String</em>  url</p></li>
-<li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  key</p></li><li><p><strong>param</strong>: <em>String</em>  url</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">redirect</span> = <span class="keyword">function</span>(<span class="variable">key</span>, <span class="variable">url</span>){
@@ -927,12 +813,7 @@ to &lsquo;/&rsquo;.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  setting</p></li>
-<li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">configure</span> = <span class="keyword">function</span>(<span class="variable">env</span>, <span class="variable">fn</span>){
@@ -952,59 +833,10 @@ to &lsquo;/&rsquo;.</p>
 })(<span class="string">'get'</span>)(<span class="string">'post'</span>)(<span class="string">'put'</span>)(<span class="string">'del'</span>);
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/express/utils.js">utils</h2></td><td>lib/express/utils.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/express/view.js"><a href="#">view</a></h2></td><td>lib/express/view.js</td></tr><tr class="code">
 <td class="docs">
-<p>Parse mini markdown implementation.
-The following conversions are supported,
-primarily for the &ldquo;flash&rdquo; middleware:</p>
-
-<p>   <em>foo</em> or <em>foo</em> become <em>foo</em>
-   <strong>foo</strong> or <strong>foo</strong> become <strong>foo</strong>
-   <a href="B">A</a> becomes <a href="B">A</a></p>
-
-<h2></h2>
-
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  str</p></li>
-<li><p><strong>return</strong>: <em>String</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">miniMarkdown</span> = <span class="keyword">function</span>(<span class="variable">str</span>){
-    <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">str</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/(__|\*\*)(.*?)\1/g</span>, <span class="string">'&lt;strong&gt;$2&lt;/strong&gt;'</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/(_|\*)(.*?)\1/g</span>, <span class="string">'&lt;em&gt;$2&lt;/em&gt;'</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/\[([^\]]+)\]\(([^)]+)\)/g</span>, <span class="string">'&lt;a href=&quot;$2&quot;&gt;$1&lt;/a&gt;'</span>);
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Escape special characters in the given string of html.</p>
-
-<h2></h2>
-
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  html</p></li>
-<li><p><strong>return</strong>: <em>String</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">htmlEscape</span> = <span class="keyword">function</span>(<span class="variable">html</span>) {
-    <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">html</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/&amp;/g</span>, <span class="string">'&amp;'</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/&quot;/g</span>, <span class="string">'&quot;'</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/&lt;/g</span>, <span class="string">'&lt;'</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/&gt;/g</span>, <span class="string">'&gt;'</span>);
-};</code></pre>
-</td>
-</tr><tr class="filename"><td><h2 id="lib/express/view.js">view</h2></td><td>lib/express/view.js</td></tr><tr class="code">
-<td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">extname</span> = <span class="variable">require</span>(<span class="string">'path'</span>).<span class="variable">extname</span>,
@@ -1021,10 +853,7 @@ primarily for the &ldquo;flash&rdquo; middleware:</p>
 increase performance by lowering the number
 of calls to <code>require()</code>.</p>
 
-<ul>
-<li><strong>type</strong>: <em>Object</em></li>
-</ul>
-
+<ul><li><p><strong>type</strong>: <em>Object</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">cache</span> = {};</code></pre>
@@ -1034,10 +863,7 @@ of calls to <code>require()</code>.</p>
 <td class="docs">
 <p>Cache view contents to prevent I/O hits.</p>
 
-<ul>
-<li><strong>type</strong>: <em>Object</em></li>
-</ul>
-
+<ul><li><p><strong>type</strong>: <em>Object</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">viewCache</span> = {};</code></pre>
@@ -1047,10 +873,7 @@ of calls to <code>require()</code>.</p>
 <td class="docs">
 <p>Clear the view cache.</p>
 
-<ul>
-<li><strong>api</strong>: <em>public</em></li>
-</ul>
-
+<ul><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span>.<span class="variable">clearCache</span> = <span class="keyword">function</span>(){
@@ -1060,12 +883,9 @@ of calls to <code>require()</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>View helpers merged with each render&rsquo;s locals.</p>
+<p>View helpers merged with each render's locals.</p>
 
-<ul>
-<li><strong>type</strong>: <em>Object</em></li>
-</ul>
-
+<ul><li><p><strong>type</strong>: <em>Object</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">helpers</span> = <span class="variable">exports</span>.<span class="variable">helpers</span> = {};</code></pre>
@@ -1077,29 +897,12 @@ of calls to <code>require()</code>.</p>
 
 <h2>Options</h2>
 
-<ul>
-<li><p><code>as</code> Variable name for each <code>collection</code> value, defaults to the view name.</p>
-
-<ul>
-<li>as: &lsquo;something&rsquo; will add the <code>something</code> local variable</li>
-<li>as: this will use the collection value as the template context</li>
-<li>as: global will merge the collection value&rsquo;s properties with <code>locals</code></li>
-</ul>
-</li>
-<li><p><code>collection</code> Array of objects, the name is derived from the view name itself.
-For example <em>video.html</em> will have a object <em>video</em> available to it.</p></li>
-</ul>
-
+<ul><li><p><code>as</code> Variable name for each <code>collection</code> value, defaults to the view name.</p><ul><li>as: 'something' will add the <code>something</code> local variable</li><li>as: this will use the collection value as the template context</li><li><p>as: global will merge the collection value's properties with <code>locals</code></p></li></ul></li><li><p><code>collection</code> Array of objects, the name is derived from the view name itself. 
+For example <em>video.html</em> will have a object <em>video</em> available to it.</p></li></ul>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  view</p></li>
-<li><p><strong>param</strong>: <em>Object | Array</em>  options or collection</p></li>
-<li><p><strong>return</strong>: <em>String</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
- %
+<ul><li><p><strong>param</strong>: <em>String</em>  view</p></li><li><p><strong>param</strong>: <em>Object | Array</em>  options or collection</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">partial</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>, <span class="variable">ext</span>){
@@ -1148,34 +951,11 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 <p> Most engines accept one or more of the following options,
  both <em>haml</em> and <em>jade</em> accept all:</p>
 
-<ul>
-<li><code>context</code>   Template evaluation context (<code>this</code>)</li>
-<li><code>locals</code>    Object containing local variables</li>
-<li><code>filename</code>  Filename used for the <code>cache</code> option</li>
-<li><code>cache</code>     Cache intermediate JavaScript in memory</li>
-<li><code>debug</code>     Output debugging information</li>
-</ul>
-
+<ul><li><code>context</code>   Template evaluation context (<code>this</code>)</li><li><code>locals</code>    Object containing local variables</li><li><code>filename</code>  Filename used for the <code>cache</code> option</li><li><code>cache</code>     Cache intermediate JavaScript in memory</li><li><code>debug</code>     Output debugging information</li></ul>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  view</p></li>
-<li><p><strong>param</strong>: <em>Object</em>  options</p></li>
-<li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-    res.redirect('comments');
-     });
-
-## 
- - **param**: _String_  url
-
- - **param**: _Number_  code
-
- - **api**: _public_
-
- 
+<ul><li><p><strong>param</strong>: <em>String</em>  view</p></li><li><p><strong>param</strong>: <em>Object</em>  options</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">render</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>, <span class="variable">fn</span>){
