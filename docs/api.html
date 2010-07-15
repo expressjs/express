@@ -151,6 +151,192 @@ code .this { color: #19469D; }</style>
 <span class="variable">require</span>(<span class="string">'./response'</span>);
 </code></pre>
 </td>
+</tr><tr class="filename"><td><h2 id="lib/express/request.js"><a href="#">request</a></h2></td><td>lib/express/request.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>),
+    <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'./utils'</span>),
+    <span class="variable">mime</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>).<span class="variable">mime</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Return request header or optional default.</p>
+
+<h2>Examples</h2>
+
+<pre><code>req.header('Content-Type');
+// =&gt; "text/plain"
+
+req.header('content-type');
+// =&gt; "text/plain"
+
+req.header('Accept');
+// =&gt; undefined
+
+req.header('Accept', 'text/html');
+// =&gt; "text/html"</code></pre>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  name</p></li><li><p><strong>param</strong>: <em>String</em>  defaultValue</p></li><li><p><strong>return</strong>: <em>String</em>  </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">header</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">defaultValue</span>){
+    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">headers</span>[<span class="variable">name</span>.<span class="variable">toLowerCase</span>()] || <span class="variable">defaultValue</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Check if the <em>Accept</em> header is present, and includes the given <code>type</code>.</p>
+
+<p>When the <em>Accept</em> header is not present <code>true</code> is returned. Otherwise
+the given <code>type</code> is matched by an exact match, and then subtypes. You
+may pass the subtype such as "html" which is then converted internally
+to "text/html" using the mime lookup table.</p>
+
+<h2>Examples</h2>
+
+<pre><code>// Accept: text/html
+req.accepts('html');
+// =&gt; true
+
+// Accept: text/*; application/json
+req.accepts('html');
+req.accepts('text/html');
+req.accepts('text/plain');
+req.accepts('application/json');
+// =&gt; true
+
+req.accepts('image/png');
+req.accepts('png');
+// =&gt; false</code></pre>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">accepts</span> = <span class="keyword">function</span>(<span class="variable">type</span>){
+    <span class="keyword">var</span> <span class="variable">accept</span> = <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'Accept'</span>);
+    <span class="keyword">if</span> (!<span class="variable">accept</span> || <span class="variable">accept</span> === '*</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>') {
+        return true;
+    } else if (type) {
+        // Allow "html" vs "text/html" etc
+        if (type.indexOf('/') &lt; 0) {
+            type = mime.types['.' + type];
+        }
+        // Check if we have a direct match
+        if (accept.indexOf(type) &gt;= 0) {
+            return true;
+        // Check if we have type/<em>
+        } else {
+            type = type.split('/')[0] + '/</em>';
+            return accept.indexOf(type) &gt;= 0;
+        }
+    } else {
+        return false;
+    }
+};</p>
+
+<p>/**
+Return the value of param <code>name</code> when present.</p>
+
+<ul><li>Checks route placeholders, ex: <em>/user/:id</em></li><li>Checks query string params, ex: ?id=12</li><li>Checks urlencoded body params, ex: id=12</li></ul>
+
+<p>To utilize urlencoded request bodies, <code>req.body</code>
+should be an object. This can be done by using
+the <code>connect.bodyDecoder</code> middleware.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  name</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">param</span> = <span class="keyword">function</span>(<span class="variable">name</span>){
+    <span class="comment">// Route params like /user/:id</span>
+    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">params</span>.<span class="variable">path</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
+        <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">params</span>.<span class="variable">path</span>[<span class="variable">name</span>]; 
+    }
+    <span class="comment">// Query string params</span>
+    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">params</span>.<span class="variable">get</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
+        <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">params</span>.<span class="variable">get</span>[<span class="variable">name</span>]; 
+    }
+    <span class="comment">// Request body params via connect.bodyDecoder</span>
+    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">body</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="this">this</span>.<span class="variable">body</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
+        <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">body</span>[<span class="variable">name</span>];
+    }
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Queue flash <code>msg</code> of the given <code>type</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code> req.flash('info', 'email sent');
+ req.flash('error', 'email delivery failed');
+ req.flash('info', 'email re-sent');
+ // =&gt; 2
+
+ req.flash('info');
+ // =&gt; ['email sent', 'email re-sent']
+
+ req.flash('info');
+ // =&gt; []
+
+ req.flash();
+ // =&gt; { error: ['email delivery failed'], info: [] }</code></pre>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>param</strong>: <em>String</em>  msg</p></li><li><p><strong>return</strong>: <em>Array | Object | Number</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">flash</span> = <span class="keyword">function</span>(<span class="variable">type</span>, <span class="variable">msg</span>){
+    <span class="keyword">var</span> <span class="variable">msgs</span> = <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> = <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> || {};
+    <span class="keyword">if</span> (<span class="variable">type</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">msg</span>) {
+        <span class="variable">msg</span> = <span class="variable">utils</span>.<span class="variable">miniMarkdown</span>(<span class="variable">utils</span>.<span class="variable">htmlEscape</span>(<span class="variable">msg</span>));
+        <span class="keyword">return</span> (<span class="variable">msgs</span>[<span class="variable">type</span>] = <span class="variable">msgs</span>[<span class="variable">type</span>] || []).<span class="variable">push</span>(<span class="variable">msg</span>);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">type</span>) {
+        <span class="keyword">var</span> <span class="variable">arr</span> = <span class="variable">msgs</span>[<span class="variable">type</span>];
+        <span class="keyword">delete</span> <span class="variable">msgs</span>[<span class="variable">type</span>];
+        <span class="keyword">return</span> <span class="variable">arr</span> || [];
+    } <span class="keyword">else</span> {
+        <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> = {};
+        <span class="keyword">return</span> <span class="variable">msgs</span>;
+    }
+};
+
+<span class="comment">// Callback for isXMLHttpRequest / xhr</span>
+
+<span class="keyword">function</span> <span class="variable">isxhr</span>() {
+    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'X-Requested-With'</span>, <span class="string">''</span>).<span class="variable">toLowerCase</span>() === <span class="string">'xmlhttprequest'</span>;
+}</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Check if the request was an <em>XMLHttpRequest</em>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'isXMLHttpRequest'</span>, <span class="variable">isxhr</span>);
+<span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'xhr'</span>, <span class="variable">isxhr</span>);</code></pre>
+</td>
 </tr><tr class="filename"><td><h2 id="lib/express/response.js"><a href="#">response</a></h2></td><td>lib/express/response.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.
@@ -607,191 +793,45 @@ to '/'.</p>
 })(<span class="string">'get'</span>)(<span class="string">'post'</span>)(<span class="string">'put'</span>)(<span class="string">'del'</span>);
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/express/request.js"><a href="#">request</a></h2></td><td>lib/express/request.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/express/utils.js"><a href="#">utils</a></h2></td><td>lib/express/utils.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>),
-    <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'./utils'</span>),
-    <span class="variable">mime</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>).<span class="variable">mime</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Return request header or optional default.</p>
+<p>Parse mini markdown implementation.
+The following conversions are supported,
+primarily for the "flash" middleware:</p>
 
-<h2>Examples</h2>
-
-<pre><code>req.header('Content-Type');
-// =&gt; "text/plain"
-
-req.header('content-type');
-// =&gt; "text/plain"
-
-req.header('Accept');
-// =&gt; undefined
-
-req.header('Accept', 'text/html');
-// =&gt; "text/html"</code></pre>
+<p>   <em>foo</em> or <em>foo</em> become &lt;em&gt;foo&lt;/em&gt;
+   <strong>foo</strong> or <strong>foo</strong> become &lt;strong&gt;foo&lt;/strong&gt;
+   <a href="B">A</a> becomes &lt;a href="B"&gt;A&lt;/a&gt;</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  name</p></li><li><p><strong>param</strong>: <em>String</em>  defaultValue</p></li><li><p><strong>return</strong>: <em>String</em>  </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  str</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">header</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">defaultValue</span>){
-    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">headers</span>[<span class="variable">name</span>.<span class="variable">toLowerCase</span>()] || <span class="variable">defaultValue</span>;
+<pre><code><span class="variable">exports</span>.<span class="variable">miniMarkdown</span> = <span class="keyword">function</span>(<span class="variable">str</span>){
+    <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">str</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/(__|\*\*)(.*?)\1/g</span>, <span class="string">'&lt;strong&gt;$2&lt;/strong&gt;'</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/(_|\*)(.*?)\1/g</span>, <span class="string">'&lt;em&gt;$2&lt;/em&gt;'</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/\[([^\]]+)\]\(([^)]+)\)/g</span>, <span class="string">'&lt;a href=&quot;$2&quot;&gt;$1&lt;/a&gt;'</span>);
 };</code></pre>
 </td>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Check if the <em>Accept</em> header is present, and includes the given <code>type</code>.</p>
-
-<p>When the <em>Accept</em> header is not present <code>true</code> is returned. Otherwise
-the given <code>type</code> is matched by an exact match, and then subtypes. You
-may pass the subtype such as "html" which is then converted internally
-to "text/html" using the mime lookup table.</p>
-
-<h2>Examples</h2>
-
-<pre><code>// Accept: text/html
-req.accepts('html');
-// =&gt; true
-
-// Accept: text/*; application/json
-req.accepts('html');
-req.accepts('text/html');
-req.accepts('text/plain');
-req.accepts('application/json');
-// =&gt; true
-
-req.accepts('image/png');
-req.accepts('png');
-// =&gt; false</code></pre>
+<p>Escape special characters in the given string of html.</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  html</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">accepts</span> = <span class="keyword">function</span>(<span class="variable">type</span>){
-    <span class="keyword">var</span> <span class="variable">accept</span> = <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'Accept'</span>);
-    <span class="keyword">if</span> (!<span class="variable">accept</span> || <span class="variable">accept</span> === '*</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>') {
-        return true;
-    } else if (type) {
-        // Allow "html" vs "text/html" etc
-        if (type.indexOf('/') &lt; 0) {
-            type = mime.types['.' + type];
-        }
-        // Check if we have a direct match
-        if (accept.indexOf(type) &gt;= 0) {
-            return true;
-        // Check if we have type/<em>
-        } else {
-            type = type.split('/')[0] + '/</em>';
-            return accept.indexOf(type) &gt;= 0;
-        }
-    } else {
-        return false;
-    }
-};</p>
-
-<p>/**
-Return the value of param <code>name</code> when present.</p>
-
-<ul><li>Checks route placeholders, ex: <em>/user/:id</em></li><li>Checks query string params, ex: ?id=12</li><li>Checks urlencoded body params, ex: id=12</li></ul>
-
-<p>To utilize urlencoded request bodies, <code>req.body</code>
-should be an object. This can be done by using
-the <code>connect.bodyDecoder</code> middleware.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  name</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">param</span> = <span class="keyword">function</span>(<span class="variable">name</span>){
-    <span class="comment">// Route params like /user/:id</span>
-    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">params</span>.<span class="variable">path</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
-        <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">params</span>.<span class="variable">path</span>[<span class="variable">name</span>]; 
-    }
-    <span class="comment">// Query string params</span>
-    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">params</span>.<span class="variable">get</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
-        <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">params</span>.<span class="variable">get</span>[<span class="variable">name</span>]; 
-    }
-    <span class="comment">// Request body params via connect.bodyDecoder</span>
-    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">body</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="this">this</span>.<span class="variable">body</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
-        <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">body</span>[<span class="variable">name</span>];
-    }
+<pre><code><span class="variable">exports</span>.<span class="variable">htmlEscape</span> = <span class="keyword">function</span>(<span class="variable">html</span>) {
+    <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">html</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/&amp;/g</span>, <span class="string">'&amp;'</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/&quot;/g</span>, <span class="string">'&quot;'</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/&lt;/g</span>, <span class="string">'&lt;'</span>)
+        .<span class="variable">replace</span>(<span class="regexp">/&gt;/g</span>, <span class="string">'&gt;'</span>);
 };</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Queue flash <code>msg</code> of the given <code>type</code>.</p>
-
-<h2>Examples</h2>
-
-<pre><code> req.flash('info', 'email sent');
- req.flash('error', 'email delivery failed');
- req.flash('info', 'email re-sent');
- // =&gt; 2
-
- req.flash('info');
- // =&gt; ['email sent', 'email re-sent']
-
- req.flash('info');
- // =&gt; []
-
- req.flash();
- // =&gt; { error: ['email delivery failed'], info: [] }</code></pre>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>param</strong>: <em>String</em>  msg</p></li><li><p><strong>return</strong>: <em>Array | Object | Number</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">flash</span> = <span class="keyword">function</span>(<span class="variable">type</span>, <span class="variable">msg</span>){
-    <span class="keyword">var</span> <span class="variable">msgs</span> = <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> = <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> || {};
-    <span class="keyword">if</span> (<span class="variable">type</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">msg</span>) {
-        <span class="variable">msg</span> = <span class="variable">utils</span>.<span class="variable">miniMarkdown</span>(<span class="variable">utils</span>.<span class="variable">htmlEscape</span>(<span class="variable">msg</span>));
-        <span class="keyword">return</span> (<span class="variable">msgs</span>[<span class="variable">type</span>] = <span class="variable">msgs</span>[<span class="variable">type</span>] || []).<span class="variable">push</span>(<span class="variable">msg</span>);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">type</span>) {
-        <span class="keyword">var</span> <span class="variable">arr</span> = <span class="variable">msgs</span>[<span class="variable">type</span>];
-        <span class="keyword">delete</span> <span class="variable">msgs</span>[<span class="variable">type</span>];
-        <span class="keyword">return</span> <span class="variable">arr</span> || [];
-    } <span class="keyword">else</span> {
-        <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> = {};
-        <span class="keyword">return</span> <span class="variable">msgs</span>;
-    }
-};
-
-<span class="comment">// Callback for isXMLHttpRequest / xhr</span>
-
-<span class="keyword">function</span> <span class="variable">isxhr</span>() {
-    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'X-Requested-With'</span>, <span class="string">''</span>).<span class="variable">toLowerCase</span>() === <span class="string">'xmlhttprequest'</span>;
-}</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Check if the request was an <em>XMLHttpRequest</em>.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'isXMLHttpRequest'</span>, <span class="variable">isxhr</span>);
-<span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'xhr'</span>, <span class="variable">isxhr</span>);</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="lib/express/view.js"><a href="#">view</a></h2></td><td>lib/express/view.js</td></tr><tr class="code">
 <td class="docs">
@@ -1010,46 +1050,6 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
     }
 };
 </code></pre>
-</td>
-</tr><tr class="filename"><td><h2 id="lib/express/utils.js"><a href="#">utils</a></h2></td><td>lib/express/utils.js</td></tr><tr class="code">
-<td class="docs">
-<p>Parse mini markdown implementation.
-The following conversions are supported,
-primarily for the "flash" middleware:</p>
-
-<p>   <em>foo</em> or <em>foo</em> become &lt;em&gt;foo&lt;/em&gt;
-   <strong>foo</strong> or <strong>foo</strong> become &lt;strong&gt;foo&lt;/strong&gt;
-   <a href="B">A</a> becomes &lt;a href="B"&gt;A&lt;/a&gt;</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  str</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">miniMarkdown</span> = <span class="keyword">function</span>(<span class="variable">str</span>){
-    <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">str</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/(__|\*\*)(.*?)\1/g</span>, <span class="string">'&lt;strong&gt;$2&lt;/strong&gt;'</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/(_|\*)(.*?)\1/g</span>, <span class="string">'&lt;em&gt;$2&lt;/em&gt;'</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/\[([^\]]+)\]\(([^)]+)\)/g</span>, <span class="string">'&lt;a href=&quot;$2&quot;&gt;$1&lt;/a&gt;'</span>);
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Escape special characters in the given string of html.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  html</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">htmlEscape</span> = <span class="keyword">function</span>(<span class="variable">html</span>) {
-    <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">html</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/&amp;/g</span>, <span class="string">'&amp;'</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/&quot;/g</span>, <span class="string">'&quot;'</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/&lt;/g</span>, <span class="string">'&lt;'</span>)
-        .<span class="variable">replace</span>(<span class="regexp">/&gt;/g</span>, <span class="string">'&gt;'</span>);
-};</code></pre>
 </td>
 </tr>	</body>
 </html></tbody></table>
