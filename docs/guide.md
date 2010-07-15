@@ -438,3 +438,18 @@ connections will be accepted via _INADDR_ANY_.
     app.listen();
     app.listen(3000);
     app.listen(3000, 'n.n.n.n');
+
+The _port_ argument may also be a string representing the path to a unix domain socket:
+
+    app.listen('/tmp/express.sock');
+
+Then try it out:
+
+    $ telnet /tmp/express.sock
+    GET / HTTP/1.1
+
+    HTTP/1.1 200 OK
+    Content-Type: text/plain
+    Content-Length: 11
+    
+	Hello World

@@ -690,6 +690,23 @@ app.listen(3000);
 app.listen(3000, 'n.n.n.n');
 </code></pre>
 
+<p>The <em>port</em> argument may also be a string representing the path to a unix domain socket:</p>
+
+<pre><code>app.listen('/tmp/express.sock');
+</code></pre>
+
+<p>Then try it out:</p>
+
+<pre><code>$ telnet /tmp/express.sock
+GET / HTTP/1.1
+
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Content-Length: 11
+
+Hello World
+</code></pre>
+
 </div>
 			</div>
 		</div>

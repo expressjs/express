@@ -719,4 +719,37 @@ app\.listen(3000, \'n\.n\.n\.n\');
 .fi
 .
 .IP "" 0
+.
+.P
+The \fIport\fR argument may also be a string representing the path to a unix domain socket:
+.
+.IP "" 4
+.
+.nf
+
+app\.listen(\'/tmp/express\.sock\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Then try it out:
+.
+.IP "" 4
+.
+.nf
+
+$ telnet /tmp/express\.sock
+GET / HTTP/1\.1
+
+HTTP/1\.1 200 OK
+Content\-Type: text/plain
+Content\-Length: 11
+
+Hello World
+.
+.fi
+.
+.IP "" 0
 
