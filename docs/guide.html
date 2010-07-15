@@ -173,6 +173,7 @@
 <li><a href="#Routing">Routing</a></li>
 <li><a href="#Passing-Route-Control">Passing Route Control</a></li>
 <li><a href="#Middleware">Middleware</a></li>
+<li><a href="#Error-Handling">Error Handling</a></li>
 <li><a href="#req-header-key-defaultValue-">req.header()</a></li>
 <li><a href="#req-accepts-type-">req.accepts()</a></li>
 <li><a href="#req-param-name-">req.param()</a></li>
@@ -190,6 +191,7 @@
 <li><a href="#app-disable-name-">app.disable()</a></li>
 <li><a href="#app-configure-env-function-function-">app.configure()</a></li>
 <li><a href="#app-redirect-name-val-">app.redirect()</a></li>
+<li><a href="#app-error-function-">app.error()</a></li>
 </ul>
 				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
 				<p id="tagline">
@@ -379,6 +381,59 @@ var app = express.createServer(
     connect.logger(),
     connect.bodyDecoder()
 );
+</code></pre>
+
+<p>Alternatively we can <em>use()</em> them which is useful when adding middleware within <em>configure()</em> blocks:</p>
+
+<pre><code>app.use('/', connect.logger({ format: ':method :uri' }));
+</code></pre>
+
+<h3 id="Error-Handling">Error Handling</h3>
+
+<p>Express provides the <em>app.error()</em> method which receives exceptions thrown within a route,
+or passed to <em>next(err)</em>. Below is an example which serves different pages based on our
+ad-hoc <em>NotFound</em> exception:</p>
+
+<pre><code>function NotFound(msg){
+    this.name = 'NotFound';
+    Error.call(this, msg);
+    Error.captureStackTrace(this, arguments.callee);
+}
+
+sys.inherits(NotFound, Error);
+
+app.get('/404', function(req, res){
+    throw new NotFound;
+});
+
+app.get('/500', function(req, res){
+    throw new Error('keyboard cat!');
+});
+</code></pre>
+
+<p>We can call <em>app.error()</em> several times as shown below.
+Here we check for an instanceof <em>NotFound</em> and show the
+404 page, or we pass on to the next error handler.</p>
+
+<pre><code>app.error(function(err, req, res, next){
+    if (err instanceof NotFound) {
+        res.render('404.jade');
+    } else {
+        next(err);
+    }
+});
+</code></pre>
+
+<p>Here we assume all errors as 500 for the simplicity of
+this demo, however you can choose whatever you like</p>
+
+<pre><code>app.error(function(err, req, res){
+    res.render('500.jade', {
+       locals: {
+           error: err
+       } 
+    });
+});
 </code></pre>
 
 <h3 id="req-header-key-defaultValue-">req.header(key[, defaultValue])</h3>
@@ -610,6 +665,15 @@ redirect <em>Location</em> would be <em>/post/12/comments</em>.</p>
 
 <pre><code>app.get('/post/:id', function(req, res){
     res.redirect('comments');
+});
+</code></pre>
+
+<h3 id="app-error-function-">app.error(function)</h3>
+
+<p>Adds an error handler <em>function</em> which will receive the exception as the first parameter:</p>
+
+<pre><code>app.error(function(err, req, res, next){
+    res.send(err.message, 500);
 });
 </code></pre>
 

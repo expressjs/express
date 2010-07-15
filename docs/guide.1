@@ -266,6 +266,84 @@ var app = express\.createServer(
 .
 .IP "" 0
 .
+.P
+Alternatively we can \fIuse()\fR them which is useful when adding middleware within \fIconfigure()\fR blocks:
+.
+.IP "" 4
+.
+.nf
+
+app\.use(\'/\', connect\.logger({ format: \':method :uri\' }));
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Error Handling"
+Express provides the \fIapp\.error()\fR method which receives exceptions thrown within a route, or passed to \fInext(err)\fR\. Below is an example which serves different pages based on our ad\-hoc \fINotFound\fR exception:
+.
+.IP "" 4
+.
+.nf
+
+function NotFound(msg){
+    this\.name = \'NotFound\';
+    Error\.call(this, msg);
+    Error\.captureStackTrace(this, arguments\.callee);
+}
+
+sys\.inherits(NotFound, Error);
+
+app\.get(\'/404\', function(req, res){
+    throw new NotFound;
+});
+
+app\.get(\'/500\', function(req, res){
+    throw new Error(\'keyboard cat!\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+We can call \fIapp\.error()\fR several times as shown below\. Here we check for an instanceof \fINotFound\fR and show the 404 page, or we pass on to the next error handler\.
+.
+.IP "" 4
+.
+.nf
+
+app\.error(function(err, req, res, next){
+    if (err instanceof NotFound) {
+        res\.render(\'404\.jade\');
+    } else {
+        next(err);
+    }
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Here we assume all errors as 500 for the simplicity of this demo, however you can choose whatever you like
+.
+.IP "" 4
+.
+.nf
+
+app\.error(function(err, req, res){
+    res\.render(\'500\.jade\', {
+       locals: {
+           error: err
+       }
+    });
+});
+.
+.fi
+.
+.IP "" 0
+.
 .SS "req\.header(key[, defaultValue])"
 Get the case\-insensitive request header \fIkey\fR, with optional \fIdefaultValue\fR:
 .
@@ -606,6 +684,21 @@ So now we may do the following, and the redirect will dynamically adjust to the 
 
 app\.get(\'/post/:id\', function(req, res){
     res\.redirect(\'comments\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.error(function)"
+Adds an error handler \fIfunction\fR which will receive the exception as the first parameter:
+.
+.IP "" 4
+.
+.nf
+
+app\.error(function(err, req, res, next){
+    res\.send(err\.message, 500);
 });
 .
 .fi

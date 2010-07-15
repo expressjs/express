@@ -161,6 +161,55 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 		connect.bodyDecoder()
 	);
 
+Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks:
+
+    app.use('/', connect.logger({ format: ':method :uri' }));
+
+### Error Handling
+
+Express provides the _app.error()_ method which receives exceptions thrown within a route,
+or passed to _next(err)_. Below is an example which serves different pages based on our
+ad-hoc _NotFound_ exception:
+
+	function NotFound(msg){
+	    this.name = 'NotFound';
+	    Error.call(this, msg);
+	    Error.captureStackTrace(this, arguments.callee);
+	}
+
+	sys.inherits(NotFound, Error);
+
+	app.get('/404', function(req, res){
+	    throw new NotFound;
+	});
+
+	app.get('/500', function(req, res){
+	    throw new Error('keyboard cat!');
+	});
+
+We can call _app.error()_ several times as shown below.
+Here we check for an instanceof _NotFound_ and show the
+404 page, or we pass on to the next error handler.
+
+	app.error(function(err, req, res, next){
+	    if (err instanceof NotFound) {
+	        res.render('404.jade');
+	    } else {
+	        next(err);
+	    }
+	});
+
+Here we assume all errors as 500 for the simplicity of
+this demo, however you can choose whatever you like
+
+	app.error(function(err, req, res){
+	    res.render('500.jade', {
+	       locals: {
+	           error: err
+	       } 
+	    });
+	});
+
 ### req.header(key[, defaultValue])
 
 Get the case-insensitive request header _key_, with optional _defaultValue_:
@@ -370,3 +419,11 @@ redirect _Location_ would be _/post/12/comments_.
     app.get('/post/:id', function(req, res){
         res.redirect('comments');
     });
+
+### app.error(function)
+
+Adds an error handler _function_ which will receive the exception as the first parameter:
+
+    app.error(function(err, req, res, next){
+		res.send(err.message, 500);
+	});
