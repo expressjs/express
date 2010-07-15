@@ -5,7 +5,8 @@
 
 var express = require('./../../lib/express');
 
-var app = express.createServer();
+var app = express.createServer(),
+    sys = require('sys');
 
 app.set('views', __dirname + '/views');
 
@@ -13,10 +14,16 @@ app.get('/', function(req, res){
     res.render('index.jade');
 });
 
+function NotFound(msg){
+    this.name = 'NotFound';
+    Error.call(this, msg);
+    Error.captureStackTrace(this, arguments.callee);
+}
+
+sys.inherits(NotFound, Error);
+
 app.get('/404', function(req, res){
-    var err = new Error('cannot find that');
-    err.errno = process.ENOENT;
-    throw err;
+    throw new NotFound('foobar');
 });
 
 app.get('/500', function(req, res){
@@ -24,8 +31,7 @@ app.get('/500', function(req, res){
 });
 
 app.error(function(err, req, res){
-    require('sys').puts(require('sys').inspect(err));
-    var status = err.errno === process.ENOENT
+    var status = err instanceof NotFound
         ? 404
         : 500;
     res.render(status + '.jade', {
