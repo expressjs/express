@@ -72,7 +72,7 @@ var app = [
     '',
     '// Create and export Express app',
     '',
-    'var app = module.exports = express.createServer();',
+    'var app = express.createServer();',
     '',
     '// Configuration',
     '',
@@ -101,7 +101,10 @@ var app = [
     '            title: \'Express\'',
     '        }',
     '    });',
-    '});'
+    '});',
+    '',
+    'app.listen(3000);',
+    ''
 ].join('\n');
 
 // Parse arguments
