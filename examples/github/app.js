@@ -7,12 +7,7 @@ var express = require('./../../lib/express'),
     connect = require('connect'),
     http = require('http');
 
-// Setup server with redirect middleware,
-// providing us with res.redirect()
-
-var app = express.createServer(
-    connect.redirect()
-);
+var app = express.createServer();
 
 // Expose our views
 

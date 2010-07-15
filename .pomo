@@ -49,3 +49,8 @@
   description: 
   length: 25
   name: tests for multiple error() handlers
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: generated TOC for guide

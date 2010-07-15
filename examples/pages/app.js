@@ -14,7 +14,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/404', function(req, res){
-    var err = new Error('cant find that sorry');
+    var err = new Error('cannot find that');
     err.errno = process.ENOENT;
     throw err;
 });
@@ -23,7 +23,8 @@ app.get('/500', function(req, res){
     throw new Error('keyboard cat!');
 });
 
-app.error(function(err, req, res, next){
+app.error(function(err, req, res){
+    require('sys').puts(require('sys').inspect(err));
     var status = err.errno === process.ENOENT
         ? 404
         : 500;
