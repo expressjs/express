@@ -1,0 +1,787 @@
+<html>
+	<head>
+		<title>Express - node web framework</title>
+		<style>
+		    #header {
+				position: absolute;
+				top: 10px;
+				left: 0;
+		        padding: 12px 0;
+				text-indent: 40px;
+				width: 100%;
+		        border-top: 1px solid rgba(0,0,0,0.7);
+		        border-bottom: 1px solid rgba(0,0,0,0.7);
+		        background: rgba(255,255,255,0.1) url(http://www.sencha.com/favicon.ico) no-repeat 15px 50%;
+				text-align: left;
+				color: #fff;
+		    }
+			#tagline {
+			  margin-left: 75px;
+			  margin-bottom: 30px;
+			  color: rgba(255,255,255,0.7); }
+			html {
+			  background: #1c1c1c url(images/bg.tile.jpg); }
+
+			body {
+			  margin: 0;
+			  padding-bottom: 30px;
+			  font: 14px/1.4 "Helvetica Neue", "Lucida Grande", "Arial";
+			  font-size: 14px;
+			  line-height: 1.5;
+			  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.1);
+			  -moz-text-stroke: 1px rgba(0, 0, 0, 0.1);
+			  background: url(images/bg.jpg) 50% 0 no-repeat;
+			  color: #8b8b8b; }
+
+			* {
+			  outline: none; }
+
+			em {
+			  color: white; }
+
+			a img {
+			  border: none !important; }
+
+			a {
+			  font-weight: bold;
+			  text-decoration: none;
+			  color: white;
+			  -webkit-transition-property: opacity, -webkit-transform, color, background-color, padding, -webkit-box-shadow;
+			  -webkit-transition-duration: 0.15s;
+			  -webkit-transition-timing-function: ease-out; }
+			  a:hover {
+			    opacity: 0.8; }
+
+			h1, h2, h3 {
+			  margin: 45px 0 0 0;
+			  color: white;
+			  text-shadow: 1px 2px 2px rgba(0,0,0,0.6); }
+
+			h3 {
+			  font-size: 18px; }
+
+			pre {
+			  margin: 20px 10px;
+			  padding: 25px 20px;
+			  background: rgba(0,0,0,0.5);
+			  border: 1px solid #323232;
+			  -webkit-box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+			  -moz-box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+			  -webkit-border-radius: 5px;
+			  -moz-border-radius: 5px; }
+
+			code {
+			  font-family: "Helvetica Neue", "Lucida Grande", "Arial"; }
+
+			ul {
+			  margin: 15px 0;
+			  padding: 0 0 0 35px; }
+			  ul li {
+			    margin: 0;
+			    padding: 2px 0;
+			    list-style: square; }
+
+			.sect {
+			  margin-left: 40px; }
+
+			#logo {
+			  display: block;
+			  margin-left: 30%;
+			  margin-bottom: 30px;
+			  width: 194px;
+			  height: 51px;
+			  background: url(images/logo.png) 0 0 no-repeat;
+			  text-indent: -99999px; }
+			  #logo:hover {
+			    opacity: 0.7; }
+			  #logo:active {
+			    opacity: 0.3; }
+
+			#ribbon {
+			  position: fixed;
+			  top: 0;
+			  right: 0;
+			  z-index: 2; }
+
+			#wrapper {
+			  width: 100%;
+			  min-height: 800px;
+			  background: url(images/top.png) 0 0 repeat-x; }
+
+			#container {
+			  margin: 0 auto;
+			  padding-top: 110px;
+			  width: 550px; }
+
+			#toc {
+				position: fixed;
+				top: 60px;
+				left: 0;
+				margin: 0 0 0 15px;
+				padding: 15px;
+				height: 100%;
+				background: rgba(0,0,0,0.2);
+				border-right: 1px solid rgba(255,255,255,0.05);
+			}
+			#toc li {
+				padding: 1px 0;
+				list-style: none;
+			}
+			#toc li a {
+				font-size: 11px;
+			}
+			#menu {
+			  margin-left: 65px;
+			  padding: 0;
+			  padding-bottom: 30px; }
+			  #menu li {
+			    display: inline;
+			    list-style: none; }
+			    #menu li a {
+			      display: block;
+			      float: left;
+			      margin: 0 2px;
+			      padding: 3px 15px;
+			      background: rgba(0,0,0,0.2);
+			      -webkit-border-radius: 8px;
+			      -moz-border-radius: 8px;
+			      -webkit-box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+			      -moz-box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+			      -webkit-transition-property: opacity, -webkit-transform, color, background-color, -webkit-box-shadow;
+			      -webkit-transition-duration: 0.15s;
+			      -webkit-transition-timing-function: ease-out; }
+			      #menu li a:hover,
+			      #menu li a.active {
+			        background: rgba(0,0,0,0.5); }
+			      #menu li a:active {
+			        background: rgba(0,0,0,0.1);
+			        -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+			        -moz-box-shadow: 1px 1px 1px rgba(0,0,0,0.4); }
+		</style>
+	</head>
+	<body>
+		<a href='http://github.com/visionmedia/express'> 
+		  <img alt='Fork me on GitHub' id='ribbon' src='http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png' /> 
+		</a>
+		<div id="header"><strong>Sencha</strong> labs</div>
+		<div id="wrapper">
+			<div id="container"><ul id="toc">
+<li><a href="#Installation">Installation</a></li>
+<li><a href="#Creating-An-Application">Creating An Application</a></li>
+<li><a href="#Configuration">Configuration</a></li>
+<li><a href="#Settings">Settings</a></li>
+<li><a href="#Routing">Routing</a></li>
+<li><a href="#Passing-Route-Control">Passing Route Control</a></li>
+<li><a href="#Middleware">Middleware</a></li>
+<li><a href="#Error-Handling">Error Handling</a></li>
+<li><a href="#View-Rendering">View Rendering</a></li>
+<li><a href="#View-Partials">View Partials</a></li>
+<li><a href="#Template-Engines">Template Engines</a></li>
+<li><a href="#req-header-key-defaultValue-">req.header()</a></li>
+<li><a href="#req-accepts-type-">req.accepts()</a></li>
+<li><a href="#req-param-name-">req.param()</a></li>
+<li><a href="#req-flash-type-msg-">req.flash()</a></li>
+<li><a href="#req-isXMLHttpRequest">req.isXMLHttpRequest</a></li>
+<li><a href="#res-header-key-val-">res.header()</a></li>
+<li><a href="#res-contentType-type-">res.contentType()</a></li>
+<li><a href="#res-attachment-filename-">res.attachment()</a></li>
+<li><a href="#res-sendfile-path-">res.sendfile()</a></li>
+<li><a href="#res-download-file-filename-">res.download()</a></li>
+<li><a href="#res-send-body-status-headers-status-status-">res.send()</a></li>
+<li><a href="#res-redirect-url-status-">res.redirect()</a></li>
+<li><a href="#app-set-name-val-">app.set()</a></li>
+<li><a href="#app-enable-name-">app.enable()</a></li>
+<li><a href="#app-disable-name-">app.disable()</a></li>
+<li><a href="#app-configure-env-function-function-">app.configure()</a></li>
+<li><a href="#app-redirect-name-val-">app.redirect()</a></li>
+<li><a href="#app-error-function-">app.error()</a></li>
+<li><a href="#app-listen-port-host-">app.listen()</a></li>
+</ul>
+				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
+				<p id="tagline">
+				   High performance, high class web development for
+				  <a href="http://nodejs.org">Node.js</a>
+				</p>
+				<ul id="menu">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="guide.html">Guide</a></li>
+					<li><a href="contrib.html">Contributing</a></li>
+					<li><a href="migrate.html">1.x Migration</a></li>
+				</ul>
+<div class='mp'>
+<h3 id="Installation">Installation</h3>
+
+<p>npm:</p>
+
+<pre><code>$ npm install connect
+$ npm install express
+</code></pre>
+
+<p>curl (or similar):</p>
+
+<pre><code>$ curl -# http://github.com/visionmedia/express/raw/master/install.sh | sh
+</code></pre>
+
+<p>git clone, first update the submodules:</p>
+
+<pre><code>$ git submodule update --init
+$ make install
+$ make install-support
+</code></pre>
+
+<h3 id="Creating-An-Application">Creating An Application</h3>
+
+<p>The <em>express.Server</em> now inherits from <em>http.Server</em>, however
+follows the same idiom by providing <em>express.createServer()</em> as shown below. This means
+that you can utilize Express server's transparently with other libraries.</p>
+
+<pre><code>var app = require('express').createServer();
+
+app.get('/', function(req, res){
+    res.send('hello world');
+});
+
+app.listen(3000);
+</code></pre>
+
+<h3 id="Configuration">Configuration</h3>
+
+<p>Express supports arbitrary environments, such as <em>production</em> and <em>development</em>. Developers
+can use the <em>configure()</em> method to setup needs required by the current environment. When
+<em>configure()</em> is called without an environment name it will be run in <em>every</em> environment
+prior to the environment specific callback.</p>
+
+<p>In the example below we only <em>dumpExceptions</em>, and respond with exception stack traces
+in <em>development</em> mode, however for both environments we utilize <em>methodOverride</em> and <em>bodyDecoder</em>.</p>
+
+<pre><code>app.configure(function(){
+    app.use('/', connect.methodOverride());
+    app.use('/', connect.bodyDecoder());
+});
+
+app.configure('development', function(){
+    app.use('/', connect.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app.configure('production', function(){
+    app.use('/', connect.errorHandler());
+});
+</code></pre>
+
+<p>For internal and arbitrary settings Express provides the <em>set(key[, val])</em>, <em>enable(key)</em>, <em>disable(key)</em> methods:</p>
+
+<pre><code>app.configure(function(){
+    app.set('views', __dirname + '/views');
+    app.set('views');
+    // =&gt; "... views directory ..."
+
+    app.enable('some feature');
+    // same as app.set('some feature', true);
+
+    app.disable('some feature');
+    // same as app.set('some feature', false);
+});
+</code></pre>
+
+<p>To alter the environment we can set the <em>CONNECT_ENV</em> environment variable,
+or more specifically <em>EXPRESS_ENV</em>, for example:</p>
+
+<pre><code>$ EXPRESS_ENV=production node app.js
+</code></pre>
+
+<h3 id="Settings">Settings</h3>
+
+<p>Express supports the following settings out of the box:</p>
+
+<ul>
+<li><em>env</em> Application environment set internally, use <em>app.set('env')</em> to utilize</li>
+<li><em>home</em> Application base path used with <em>res.redirect()</em></li>
+<li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
+<li><em>view engine</em> Default view engine name for views rendered without extensions</li>
+<li><em>reload views</em> Reloads altered views, by default watches for <em>mtime</em> changes with
+  with a 5 minute interval. Example: <em>app.set('reload views', 60000);</em></li>
+</ul>
+
+
+<h3 id="Routing">Routing</h3>
+
+<p>Express utilizes the HTTP verbs to provide a meaningful, expressive routing API.
+For example we may want to render a user's account for the path <em>/user/12</em>, this
+can be done by defining the route below. The values associated to the named placeholders,
+are passed as the <em>third</em> argument, which here we name <em>params</em>.</p>
+
+<pre><code>app.get('/user/:id', function(req, res, params){
+    res.send('user ' + params.id);
+});
+</code></pre>
+
+<p>A route is simple a string which is compiled to a <em>RegExp</em> internally. For example
+when <em>/user/:id</em> is compiled, a simplified version of the regexp may look similar to:</p>
+
+<pre><code>\/user\/([^\/]+)\/?
+</code></pre>
+
+<p>Literal regular expressions may also be passed for complex uses:</p>
+
+<pre><code>app.get(/^\/foo(bar)?$/, function(){});
+</code></pre>
+
+<p>Below are some route examples, and the associated paths that they
+may consume:</p>
+
+<pre><code> "/user/:id"
+ /user/12
+
+ "/users/:id?"
+ /users/5
+ /users
+
+ "/files/*"
+ /files/jquery.js
+ /files/javascripts/jquery.js
+
+ "/file/*.*"
+ /files/jquery.js
+ /files/javascripts/jquery.js
+
+ "/user/:id/:operation?"
+ /user/1
+ /user/1/edit
+
+ "/products.:format"
+ /products.json
+ /products.xml
+
+ "/products.:format?"
+ /products.json
+ /products.xml
+ /products
+</code></pre>
+
+<h3 id="Passing-Route-Control">Passing Route Control</h3>
+
+<p>We may pass control to the next <em>matching</em> route, by calling the <em>fourth</em> parameter,
+the <em>next()</em> function. When a match cannot be made, control is passed back to Connect.</p>
+
+<pre><code>app.get('/users/:id?', function(req, res, params){
+    if (params.id) {
+        // do something
+    } else {
+        next();
+    }
+});
+
+app.get('/users', function(req, res, params){
+    // do something else
+});
+</code></pre>
+
+<h3 id="Middleware">Middleware</h3>
+
+<p>The Express <em>Plugin</em> is no more! middleware via <a href="http://github.com/extjs/Connect">Connect</a> can be
+passed to <em>express.createServer()</em> as you would with a regular Connect server. For example:</p>
+
+<pre><code>var connect = require('connect'),
+    express = require('express');
+
+var app = express.createServer(
+    connect.logger(),
+    connect.bodyDecoder()
+);
+</code></pre>
+
+<p>Alternatively we can <em>use()</em> them which is useful when adding middleware within <em>configure()</em> blocks:</p>
+
+<pre><code>app.use('/', connect.logger({ format: ':method :uri' }));
+</code></pre>
+
+<h3 id="Error-Handling">Error Handling</h3>
+
+<p>Express provides the <em>app.error()</em> method which receives exceptions thrown within a route,
+or passed to <em>next(err)</em>. Below is an example which serves different pages based on our
+ad-hoc <em>NotFound</em> exception:</p>
+
+<pre><code>function NotFound(msg){
+    this.name = 'NotFound';
+    Error.call(this, msg);
+    Error.captureStackTrace(this, arguments.callee);
+}
+
+sys.inherits(NotFound, Error);
+
+app.get('/404', function(req, res){
+    throw new NotFound;
+});
+
+app.get('/500', function(req, res){
+    throw new Error('keyboard cat!');
+});
+</code></pre>
+
+<p>We can call <em>app.error()</em> several times as shown below.
+Here we check for an instanceof <em>NotFound</em> and show the
+404 page, or we pass on to the next error handler.</p>
+
+<pre><code>app.error(function(err, req, res, next){
+    if (err instanceof NotFound) {
+        res.render('404.jade');
+    } else {
+        next(err);
+    }
+});
+</code></pre>
+
+<p>Here we assume all errors as 500 for the simplicity of
+this demo, however you can choose whatever you like</p>
+
+<pre><code>app.error(function(err, req, res){
+    res.render('500.jade', {
+       locals: {
+           error: err
+       } 
+    });
+});
+</code></pre>
+
+<p>Our apps could also utilize the Connect <em>errorHandler</em> middleware
+to report on exceptions. For example if we wish to output exceptions
+in "development" mode to <em>stderr</em> we can use:</p>
+
+<pre><code>app.use('/', connect.errorHandler({ dumpExceptions: true }));
+</code></pre>
+
+<p>Also during development we may want fancy html pages to show exceptions
+that are passed or thrown, so we can set <em>showStack</em> to true:</p>
+
+<pre><code>app.use('/', connect.errorHandler({ showStack: true, dumpExceptions: true }));
+</code></pre>
+
+<p>The <em>errorHandler</em> middleware also responds with <em>json</em> if <em>Accept: application/json</em>
+is present, which is useful for developing apps that rely heavily on client-side JavaScript.</p>
+
+<h3 id="View-Rendering">View Rendering</h3>
+
+<p>View filenames take the form <em>Express</em>.<em>ENGINE</em>, where <em>ENGINE</em> is the name
+of the module that will be required. For example the view <em>layout.ejs</em> will
+tell the view system to <em>require('ejs')</em>, the module being loaded must (currently)
+export the method <em>exports.render(str, options)</em> to comply with Express, however
+with will likely be extensible in the future.</p>
+
+<p>Below is an example using <a href="http://github.com/visionmedia/haml.js">Haml.js</a> to render <em>index.html</em>,
+and since we do not use <em>layout: false</em> the rendered contents of <em>index.html</em> will be passed as
+the <em>body</em> local variable in <em>layout.haml</em>.</p>
+
+<pre><code>app.get('/', function(req, res){
+    res.render('index.haml', {
+        locals: { title: 'My Site' }
+    });
+});
+</code></pre>
+
+<h3 id="View-Partials">View Partials</h3>
+
+<p>The Express view system has built-in support for partials and collections, which are
+sort of "mini" views representing a document fragment. For example rather than iterating
+in a view to display comments, we would use a partial with collection support:</p>
+
+<pre><code>partial('comment.haml', { collection: comments });
+</code></pre>
+
+<p>To make things even less verbose we can assume the extension as <em>.haml</em> when omitted,
+however if we wished we could use an ejs partial, within a haml view for example.</p>
+
+<pre><code>partial('comment', { collection: comments });
+</code></pre>
+
+<p>And once again even further, when rendering a collection we can simply pass
+an array, if no other options are desired:</p>
+
+<pre><code>partial('comments', comments);
+</code></pre>
+
+<h3 id="Template-Engines">Template Engines</h3>
+
+<p>Below are a few template engines commonly used with Express:</p>
+
+<ul>
+<li><a href="http://github.com/visionmedia/jade">Jade</a> haml.js successor</li>
+<li><a href="http://github.com/visionmedia/haml.js">Haml</a> indented templates</li>
+<li><a href="http://github.com/visionmedia/ejs">EJS</a> Embedded JavaScript</li>
+</ul>
+
+
+<h3 id="req-header-key-defaultValue-">req.header(key[, defaultValue])</h3>
+
+<p>Get the case-insensitive request header <em>key</em>, with optional <em>defaultValue</em>:</p>
+
+<pre><code>req.header('Host');
+req.header('host');
+req.header('Accept', '*/*');
+</code></pre>
+
+<h3 id="req-accepts-type-">req.accepts(type)</h3>
+
+<p>Check if the <em>Accept</em> header is present, and includes the given <em>type</em>.</p>
+
+<p>When the <em>Accept</em> header is not present <em>true</em> is returned. Otherwise
+the given <em>type</em> is matched by an exact match, and then subtypes. You
+may pass the subtype such as "html" which is then converted internally
+to "text/html" using the mime lookup table.</p>
+
+<pre><code>// Accept: text/html
+req.accepts('html');
+// =&gt; true
+
+// Accept: text/*; application/json
+req.accepts('html');
+req.accepts('text/html');
+req.accepts('text/plain');
+req.accepts('application/json');
+// =&gt; true
+
+req.accepts('image/png');
+req.accepts('png');
+// =&gt; false
+</code></pre>
+
+<h3 id="req-param-name-">req.param(name)</h3>
+
+<p>Return the value of param <em>name</em> when present.</p>
+
+<ul>
+<li>Checks route placeholders, ex: /user/:id</li>
+<li>Checks query string params, ex: ?id=12</li>
+<li>Checks urlencoded body params, ex: id=12</li>
+</ul>
+
+
+<p>To utilize urlencoded request bodies, <em>req.body</em>
+should be an object. This can be done by using
+the <em>connect.bodyDecoder</em> middleware.</p>
+
+<h3 id="req-flash-type-msg-">req.flash(type[, msg])</h3>
+
+<p>Queue flash <em>msg</em> of the given <em>type</em>.</p>
+
+<pre><code>req.flash('info', 'email sent');
+req.flash('error', 'email delivery failed');
+req.flash('info', 'email re-sent');
+// =&gt; 2
+
+req.flash('info');
+// =&gt; ['email sent', 'email re-sent']
+
+req.flash('info');
+// =&gt; []
+
+req.flash();
+// =&gt; { error: ['email delivery failed'], info: [] }
+</code></pre>
+
+<h3 id="req-isXMLHttpRequest">req.isXMLHttpRequest</h3>
+
+<p>Also aliased as <em>req.xhr</em>, this getter checks the <em>X-Requested-With</em> header
+to see if it was issued by an <em>XMLHttpRequest</em>:</p>
+
+<pre><code>req.xhr
+req.isXMLHttpRequest
+</code></pre>
+
+<h3 id="res-header-key-val-">res.header(key[, val])</h3>
+
+<p>Get or set the response header <em>key</em>.</p>
+
+<pre><code>res.header('Content-Length');
+// =&gt; undefined
+
+res.header('Content-Length', 123);
+// =&gt; 123
+
+res.header('Content-Length');
+// =&gt; 123
+</code></pre>
+
+<h3 id="res-contentType-type-">res.contentType(type)</h3>
+
+<p>Sets the <em>Content-Type</em> response header to the given <em>type</em>.</p>
+
+<pre><code>  var filename = 'path/to/image.png';
+  res.contentType(filename);
+  // res.headers['Content-Type'] is now "image/png"
+</code></pre>
+
+<h3 id="res-attachment-filename-">res.attachment([filename])</h3>
+
+<p>Sets the <em>Content-Disposition</em> response header to "attachment", with optional <em>filename</em>.</p>
+
+<pre><code>  res.attachment('path/to/my/image.png');
+</code></pre>
+
+<h3 id="res-sendfile-path-">res.sendfile(path)</h3>
+
+<p>Used by <code>res.download()</code> to transfer an arbitrary file.</p>
+
+<pre><code>res.sendfile('path/to/my.file');
+</code></pre>
+
+<p><strong>NOTE</strong>: this is <em>not</em> a replacement for Connect's <em>staticProvider</em> middleware,
+nor does it perform any security checks, use with caution when using in a dynamic manor.</p>
+
+<h3 id="res-download-file-filename-">res.download(file[, filename])</h3>
+
+<p>Transfer the given <em>file</em> as an attachment with optional alternative <em>filename</em>.</p>
+
+<pre><code>res.download('path/to/image.png');
+res.download('path/to/image.png', 'foo.png');
+</code></pre>
+
+<p>This is equivalent to:</p>
+
+<pre><code>res.attachment(file);
+res.sendfile(file);
+</code></pre>
+
+<h3 id="res-send-body-status-headers-status-status-">res.send(body|status[, headers|status[, status]])</h3>
+
+<p>The <code>res.send()</code> method is a high level response utility allowing you to pass
+objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status
+code based responses. The following are all valid uses:</p>
+
+<pre><code> res.send(new Buffer('wahoo'));
+ res.send({ some: 'json' });
+ res.send('&lt;p&gt;some html&lt;/p&gt;');
+ res.send('Sorry, cant find that', 404);
+ res.send('text', { 'Content-Type': 'text/plain' }, 201);
+ res.send(404);
+</code></pre>
+
+<p>By default the <em>Content-Type</em> response header is set, however if explicitly
+assigned through <code>res.send()</code> or previously with <code>res.header()</code> or <code>res.contentType()</code>
+it will not be set again.</p>
+
+<h3 id="res-redirect-url-status-">res.redirect(url[, status])</h3>
+
+<p>Redirect to the given <em>url</em> with a default response <em>status</em> of 302.</p>
+
+<pre><code>res.redirect('/', 301);
+res.redirect('/account');
+res.redirect('http://google.com');
+res.redirect('home');
+res.redirect('back');
+</code></pre>
+
+<p>Express supports "redirect mapping", which by default provides <em>home</em>, and <em>back</em>.
+The <em>back</em> map checks the <em>Referrer</em> and <em>Referer</em> headers, while <em>home</em> utilizes
+the "home" setting and defaults to "/".</p>
+
+<h3 id="app-set-name-val-">app.set(name[, val])</h3>
+
+<p>Apply an application level setting <em>name</em> to <em>val</em>, or
+get the value of <em>name</em> when <em>val</em> is not present:</p>
+
+<pre><code>app.set('reload views', 200);
+app.set('reload views');
+// =&gt; 200
+</code></pre>
+
+<h3 id="app-enable-name-">app.enable(name)</h3>
+
+<p>Enable the given setting <em>name</em>:</p>
+
+<pre><code>app.enable('some arbitrary setting');
+app.set('some arbitrary setting');
+// =&gt; true
+</code></pre>
+
+<h3 id="app-disable-name-">app.disable(name)</h3>
+
+<p>Disable the given setting <em>name</em>:</p>
+
+<pre><code>app.disable('some setting');
+app.set('some setting');
+// =&gt; false
+</code></pre>
+
+<h3 id="app-configure-env-function-function-">app.configure(env|function[, function])</h3>
+
+<p>Define a callback function for the given <em>env</em> (or all environments) with callback <em>function</em>:</p>
+
+<pre><code>app.configure(function(){
+    // executed for each env
+});
+
+app.configure('development', function(){
+    // executed for 'development' only
+});
+</code></pre>
+
+<h3 id="app-redirect-name-val-">app.redirect(name, val)</h3>
+
+<p>For use with <code>res.redirect()</code> we can map redirects at the application level as shown below:</p>
+
+<pre><code>app.redirect('google', 'http://google.com');
+</code></pre>
+
+<p>Now in a route we may call:</p>
+
+<p>   res.redirect('google');</p>
+
+<p>We may also map dynamic redirects:</p>
+
+<pre><code>app.redirect('comments', function(req, res, params){
+    return '/post/' + params.id + '/comments';
+});
+</code></pre>
+
+<p>So now we may do the following, and the redirect will dynamically adjust to
+the context of the request. If we called this route with <em>GET /post/12</em> our
+redirect <em>Location</em> would be <em>/post/12/comments</em>.</p>
+
+<pre><code>app.get('/post/:id', function(req, res){
+    res.redirect('comments');
+});
+</code></pre>
+
+<h3 id="app-error-function-">app.error(function)</h3>
+
+<p>Adds an error handler <em>function</em> which will receive the exception as the first parameter as shown below.
+Note that we may set several error handlers by making several calls to this method, however the handler
+should call <em>next(err)</em> if it does not wish to deal with the exception:</p>
+
+<pre><code>app.error(function(err, req, res, next){
+    res.send(err.message, 500);
+});
+</code></pre>
+
+<h3 id="app-listen-port-host-">app.listen([port[, host]])</h3>
+
+<p>Bind the app server to the given <em>port</em>, which defaults to 3000. When <em>host</em> is omitted all
+connections will be accepted via <em>INADDR_ANY</em>.</p>
+
+<pre><code>app.listen();
+app.listen(3000);
+app.listen(3000, 'n.n.n.n');
+</code></pre>
+
+<p>The <em>port</em> argument may also be a string representing the path to a unix domain socket:</p>
+
+<pre><code>app.listen('/tmp/express.sock');
+</code></pre>
+
+<p>Then try it out:</p>
+
+<pre><code>$ telnet /tmp/express.sock
+GET / HTTP/1.1
+
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Content-Length: 11
+
+Hello World
+</code></pre>
+
+</div>
+			</div>
+		</div>
+	</body>
+</html>
