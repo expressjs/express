@@ -344,6 +344,79 @@ app\.error(function(err, req, res){
 .
 .IP "" 0
 .
+.SS "View Rendering"
+View filenames take the form \fINAME\fR\.\fIENGINE\fR, where \fIENGINE\fR is the name of the module that will be required\. For example the view \fIlayout\.ejs\fR will tell the view system to \fIrequire(\'ejs\')\fR, the module being loaded must (currently) export the method \fIexports\.render(str, options)\fR to comply with Express, however with will likely be extensible in the future\.
+.
+.P
+Below is an example using Haml\.js \fIhttp://github\.com/visionmedia/haml\.js\fR to render \fIindex\.html\fR, and since we do not use \fIlayout: false\fR the rendered contents of \fIindex\.html\fR will be passed as the \fIbody\fR local variable in \fIlayout\.haml\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/\', function(req, res){
+    res\.render(\'index\.haml\', {
+        locals: { title: \'My Site\' }
+    });
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "View Partials"
+The Express view system has built\-in support for partials and collections, which are sort of \"mini\" views representing a document fragment\. For example rather than iterating in a view to display comments, we would use a partial with collection support:
+.
+.IP "" 4
+.
+.nf
+
+partial(\'comment\.haml\', { collection: comments });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To make things even less verbose we can assume the extension as \fI\.haml\fR when omitted, however if we wished we could use an ejs partial, within a haml view for example\.
+.
+.IP "" 4
+.
+.nf
+
+partial(\'comment\', { collection: comments });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+And once again even further, when rendering a collection we can simply pass an array, if no other options are desired:
+.
+.IP "" 4
+.
+.nf
+
+partial(\'comments\', comments);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Template Engines"
+Below are a few template engines commonly used with Express:
+.
+.IP "\(bu" 4
+Jade \fIhttp://github\.com/visionmedia/jade\fR haml\.js successor
+.
+.IP "\(bu" 4
+Haml \fIhttp://github\.com/visionmedia/haml\.js\fR indented templates
+.
+.IP "\(bu" 4
+EJS \fIhttp://github\.com/visionmedia/ejs\fR Embedded JavaScript
+.
+.IP "" 0
+.
 .SS "req\.header(key[, defaultValue])"
 Get the case\-insensitive request header \fIkey\fR, with optional \fIdefaultValue\fR:
 .

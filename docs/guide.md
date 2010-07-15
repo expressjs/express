@@ -210,6 +210,50 @@ this demo, however you can choose whatever you like
 	    });
 	});
 
+### View Rendering
+
+View filenames take the form _NAME_._ENGINE_, where _ENGINE_ is the name
+of the module that will be required. For example the view _layout.ejs_ will
+tell the view system to _require('ejs')_, the module being loaded must (currently)
+export the method _exports.render(str, options)_ to comply with Express, however 
+with will likely be extensible in the future.
+
+Below is an example using [Haml.js](http://github.com/visionmedia/haml.js) to render _index.html_,
+and since we do not use _layout: false_ the rendered contents of _index.html_ will be passed as 
+the _body_ local variable in _layout.haml_.
+
+	app.get('/', function(req, res){
+		res.render('index.haml', {
+			locals: { title: 'My Site' }
+		});
+	});
+
+### View Partials
+
+The Express view system has built-in support for partials and collections, which are
+sort of "mini" views representing a document fragment. For example rather than iterating
+in a view to display comments, we would use a partial with collection support:
+
+    partial('comment.haml', { collection: comments });
+
+To make things even less verbose we can assume the extension as _.haml_ when omitted,
+however if we wished we could use an ejs partial, within a haml view for example.
+
+    partial('comment', { collection: comments });
+
+And once again even further, when rendering a collection we can simply pass
+an array, if no other options are desired:
+
+    partial('comments', comments);
+
+### Template Engines
+
+Below are a few template engines commonly used with Express:
+
+  * [Jade](http://github.com/visionmedia/jade) haml.js successor
+  * [Haml](http://github.com/visionmedia/haml.js) indented templates
+  * [EJS](http://github.com/visionmedia/ejs) Embedded JavaScript
+
 ### req.header(key[, defaultValue])
 
 Get the case-insensitive request header _key_, with optional _defaultValue_:

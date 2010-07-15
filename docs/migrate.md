@@ -159,7 +159,7 @@ looks like this, as _partial()_ is _always_ passed as a local variable:
 
     partial('comment.haml', { collection: comments });
 
-To make things even less verbose we can assume the extension when ommitted:
+To make things even less verbose we can assume the extension when omitted:
 
     partial('comment', { collection: comments });
 
