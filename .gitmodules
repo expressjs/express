@@ -1,9 +1,6 @@
 [submodule "support/expresso"]
 	path = support/expresso
 	url = git://github.com/visionmedia/expresso.git
-[submodule "support/connect"]
-	path = support/connect
-	url = git://github.com/extjs/Connect.git
 [submodule "support/jade"]
 	path = support/jade
 	url = git://github.com/visionmedia/jade.git
@@ -16,3 +13,6 @@
 [submodule "support/connect-form"]
 	path = support/connect-form
 	url = http://github.com/visionmedia/connect-form.git
+[submodule "support/connect"]
+	path = support/connect
+	url = http://github.com/senchalabs/connect.git
