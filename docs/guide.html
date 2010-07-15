@@ -443,6 +443,22 @@ this demo, however you can choose whatever you like</p>
 });
 </code></pre>
 
+<p>Our apps could also utilize the Connect <em>errorHandler</em> middleware
+to report on exceptions. For example if we wish to output exceptions
+in "development" mode to <em>stderr</em> we can use:</p>
+
+<pre><code>app.use('/', connect.errorHandler({ dumpExceptions: true }));
+</code></pre>
+
+<p>Also during development we may want fancy html pages to show exceptions
+that are passed or thrown, so we can set <em>showStack</em> to true:</p>
+
+<pre><code>app.use('/', connect.errorHandler({ showStack: true, dumpExceptions: true }));
+</code></pre>
+
+<p>The <em>errorHandler</em> middleware also responds with <em>json</em> if <em>Accept: application/json</em>
+is present, which is useful for developing apps that rely heavily on client-side JavaScript.</p>
+
 <h3 id="View-Rendering">View Rendering</h3>
 
 <p>View filenames take the form <em>Express</em>.<em>ENGINE</em>, where <em>ENGINE</em> is the name

@@ -213,6 +213,20 @@ this demo, however you can choose whatever you like
 	    });
 	});
 
+Our apps could also utilize the Connect _errorHandler_ middleware
+to report on exceptions. For example if we wish to output exceptions 
+in "development" mode to _stderr_ we can use:
+
+    app.use('/', connect.errorHandler({ dumpExceptions: true }));
+
+Also during development we may want fancy html pages to show exceptions
+that are passed or thrown, so we can set _showStack_ to true:
+
+    app.use('/', connect.errorHandler({ showStack: true, dumpExceptions: true }));
+
+The _errorHandler_ middleware also responds with _json_ if _Accept: application/json_
+is present, which is useful for developing apps that rely heavily on client-side JavaScript.
+
 ### View Rendering
 
 View filenames take the form _NAME_._ENGINE_, where _ENGINE_ is the name
