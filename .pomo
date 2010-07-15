@@ -28,27 +28,12 @@
   complete: false
   description: 
   length: 25
-  name: ensure reloading of views works... default in production
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: app.error() should work without arity of 4
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: 404 page fails error() not called.. fix bug
 - !ruby/object:Pomo::Task 
   complete: false
   description: 
   length: 25
   name: design mode with browser reloading
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: tests for multiple error() handlers
 - !ruby/object:Pomo::Task 
   complete: false
   description: 
