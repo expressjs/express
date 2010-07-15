@@ -19,8 +19,3 @@
   description: 
   length: 25
   name: Beta
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: generated TOC for guide
