@@ -1,7 +1,14 @@
-mkdir /tmp/express \
-  && cd /tmp/express \
-  && curl -# -L http://github.com/visionmedia/express/tarball/master \
-  | tar xz --strip 1 \
-  && cp -f bin/express /usr/local/bin/express \
-  && cp -fr lib/express ~/.node_libraries/express \
-  && echo "Installation complete"
+
+install() {
+    mkdir -p /tmp/$2 \
+        && cd /tmp/$2 \
+        && echo "... installing $2" \
+        && curl -# -L "http://github.com/$1/$2/tarball/master" \
+            | tar xz --strip 1 \
+        && cp -fr lib/$2 ~/.node_libraries/$2
+}
+
+install visionmedia express \
+    && install senchalabs connect \
+    && cp -f /tmp/express/bin/express /usr/local/bin/express \
+    && echo "... installation complete"
