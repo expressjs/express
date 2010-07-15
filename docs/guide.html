@@ -44,6 +44,7 @@
 
 			a {
 			  font-weight: bold;
+			  text-decoration: none;
 			  color: white;
 			  -webkit-transition-property: opacity, -webkit-transform, color, background-color, padding, -webkit-box-shadow;
 			  -webkit-transition-duration: 0.15s;
@@ -112,6 +113,22 @@
 			  padding-top: 110px;
 			  width: 550px; }
 
+			#toc {
+				position: fixed;
+				top: 60px;
+				left: 0;
+				margin: 0 0 0 15px;
+				padding: 15px;
+				height: 100%;
+				background: rgba(0,0,0,0.2);
+				border-right: 1px solid rgba(255,255,255,0.05);
+			}
+			#toc li {
+				list-style: none;
+			}
+			#toc li a {
+				font-size: 11px;
+			}
 			#menu {
 			  margin-left: 65px;
 			  padding: 0;
@@ -147,7 +164,28 @@
 		</a>
 		<div id="header"><strong>Sencha</strong> labs</div>
 		<div id="wrapper">
-			<div id="container">
+			<div id="container"><ul id="toc">
+<li><a href="#Installation">Installation</a></li>
+<li><a href="#Creating-An-Application">Creating An Application</a></li>
+<li><a href="#Configuration">Configuration</a></li>
+<li><a href="#Settings">Settings</a></li>
+<li><a href="#Routing">Routing</a></li>
+<li><a href="#Passing-Route-Control">Passing Route Control</a></li>
+<li><a href="#Middleware">Middleware</a></li>
+<li><a href="#Request-header-key-defaultValue-">Request#header</a></li>
+<li><a href="#Request-accepts-type-">Request#accepts</a></li>
+<li><a href="#Request-param-name-">Request#param</a></li>
+<li><a href="#Request-flash-type-msg-">Request#flash</a></li>
+<li><a href="#Request-isXMLHttpRequest">Request#isXMLHttpRequest</a></li>
+<li><a href="#Response-header-key-val-">Response#header</a></li>
+<li><a href="#Response-contentType-type-">Response#contentType</a></li>
+<li><a href="#Response-attachment-filename-">Response#attachment</a></li>
+<li><a href="#Response-sendfile-path-">Response#sendfile</a></li>
+<li><a href="#Response-download-file-filename-">Response#download</a></li>
+<li><a href="#Response-send-body-status-headers-status-status-">Response#send</a></li>
+<li><a href="#Response-redirect-url-status-">Response#redirect</a></li>
+<li><a href="#Server-redirect-name-val-">Server#redirect</a></li>
+</ul>
 				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
 				<p id="tagline">
 				   High performance, high class web development for
@@ -331,7 +369,7 @@ var app = express.createServer(
 );
 </code></pre>
 
-<h3 id="ServerRequest-header-key-defaultValue-">ServerRequest#header(key[, defaultValue])</h3>
+<h3 id="Request-header-key-defaultValue-">Request#header(key[, defaultValue])</h3>
 
 <p>Get the case-insensitive request header <em>key</em>, with optional <em>defaultValue</em>:</p>
 
@@ -340,7 +378,7 @@ req.header('host');
 req.header('Accept', '*/*');
 </code></pre>
 
-<h3 id="ServerRequest-accepts-type-">ServerRequest#accepts(type)</h3>
+<h3 id="Request-accepts-type-">Request#accepts(type)</h3>
 
 <p>Check if the <em>Accept</em> header is present, and includes the given <em>type</em>.</p>
 
@@ -365,7 +403,7 @@ req.accepts('png');
 // =&gt; false
 </code></pre>
 
-<h3 id="ServerRequest-param-name-">ServerRequest#param(name)</h3>
+<h3 id="Request-param-name-">Request#param(name)</h3>
 
 <p>Return the value of param <em>name</em> when present.</p>
 
@@ -380,7 +418,7 @@ req.accepts('png');
 should be an object. This can be done by using
 the <em>connect.bodyDecoder</em> middleware.</p>
 
-<h3 id="ServerRequest-flash-type-msg-">ServerRequest#flash(type[, msg])</h3>
+<h3 id="Request-flash-type-msg-">Request#flash(type[, msg])</h3>
 
 <p>Queue flash <em>msg</em> of the given <em>type</em>.</p>
 
@@ -399,7 +437,7 @@ req.flash();
 // =&gt; { error: ['email delivery failed'], info: [] }
 </code></pre>
 
-<h3 id="ServerRequest-isXMLHttpRequest">ServerRequest#isXMLHttpRequest</h3>
+<h3 id="Request-isXMLHttpRequest">Request#isXMLHttpRequest</h3>
 
 <p>Also aliased as <em>req.xhr</em>, this getter checks the <em>X-Requested-With</em> header
 to see if it was issued by an <em>XMLHttpRequest</em>:</p>
@@ -408,7 +446,7 @@ to see if it was issued by an <em>XMLHttpRequest</em>:</p>
 req.isXMLHttpRequest
 </code></pre>
 
-<h3 id="ServerResponse-header-key-val-">ServerResponse#header(key[, val])</h3>
+<h3 id="Response-header-key-val-">Response#header(key[, val])</h3>
 
 <p>Get or set the response header <em>key</em>.</p>
 
@@ -422,7 +460,7 @@ res.header('Content-Length');
 // =&gt; 123
 </code></pre>
 
-<h3 id="ServerResponse-contentType-type-">ServerResponse#contentType(type)</h3>
+<h3 id="Response-contentType-type-">Response#contentType(type)</h3>
 
 <p>Sets the <em>Content-Type</em> response header to the given <em>type</em>.</p>
 
@@ -431,14 +469,14 @@ res.header('Content-Length');
   // res.headers['Content-Type'] is now "image/png"
 </code></pre>
 
-<h3 id="ServerResponse-attachment-filename-">ServerResponse#attachment([filename])</h3>
+<h3 id="Response-attachment-filename-">Response#attachment([filename])</h3>
 
 <p>Sets the <em>Content-Disposition</em> response header to "attachment", with optional <em>filename</em>.</p>
 
 <pre><code>  res.attachment('path/to/my/image.png');
 </code></pre>
 
-<h3 id="ServerResponse-sendfile-path-">ServerResponse#sendfile(path)</h3>
+<h3 id="Response-sendfile-path-">Response#sendfile(path)</h3>
 
 <p>Used by <code>res.download()</code> to transfer an arbitrary file.</p>
 
@@ -448,7 +486,7 @@ res.header('Content-Length');
 <p><strong>NOTE</strong>: this is <em>not</em> a replacement for Connect's <em>staticProvider</em> middleware,
 nor does it perform any security checks, use with caution when using in a dynamic manor.</p>
 
-<h3 id="ServerResponse-download-file-filename-">ServerResponse#download(file[, filename])</h3>
+<h3 id="Response-download-file-filename-">Response#download(file[, filename])</h3>
 
 <p>Transfer the given <em>file</em> as an attachment with optional alternative <em>filename</em>.</p>
 
@@ -462,7 +500,7 @@ res.download('path/to/image.png', 'foo.png');
 res.sendfile(file);
 </code></pre>
 
-<h3 id="ServerRequest-send-body-status-headers-status-status-">ServerRequest#send(body|status[, headers|status[, status]])</h3>
+<h3 id="Response-send-body-status-headers-status-status-">Response#send(body|status[, headers|status[, status]])</h3>
 
 <p>The <code>res.send()</code> method is a high level response utility allowing you to pass
 objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status
@@ -480,7 +518,7 @@ code based responses. The following are all valid uses:</p>
 assigned through <code>res.send()</code> or previously with <code>res.header()</code> or <code>res.contentType()</code>
 it will not be set again.</p>
 
-<h3 id="ServerResponse-redirect-url-status-">ServerResponse#redirect(url[, status])</h3>
+<h3 id="Response-redirect-url-status-">Response#redirect(url[, status])</h3>
 
 <p>Redirect to the given <em>url</em> with a default response <em>status</em> of 302.</p>
 

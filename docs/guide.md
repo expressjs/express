@@ -155,7 +155,7 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 		connect.bodyDecoder()
 	);
 
-### ServerRequest#header(key[, defaultValue])
+### Request#header(key[, defaultValue])
 
 Get the case-insensitive request header _key_, with optional _defaultValue_:
 
@@ -163,7 +163,7 @@ Get the case-insensitive request header _key_, with optional _defaultValue_:
     req.header('host');
     req.header('Accept', '*/*');
 
-### ServerRequest#accepts(type)
+### Request#accepts(type)
 
 Check if the _Accept_ header is present, and includes the given _type_.
 
@@ -187,7 +187,7 @@ to "text/html" using the mime lookup table.
     req.accepts('png');
     // => false
 
-### ServerRequest#param(name)
+### Request#param(name)
 
 Return the value of param _name_ when present.
 
@@ -199,7 +199,7 @@ To utilize urlencoded request bodies, _req.body_
 should be an object. This can be done by using
 the _connect.bodyDecoder_ middleware.
 
-### ServerRequest#flash(type[, msg])
+### Request#flash(type[, msg])
 
 Queue flash _msg_ of the given _type_.
 
@@ -217,7 +217,7 @@ Queue flash _msg_ of the given _type_.
     req.flash();
     // => { error: ['email delivery failed'], info: [] }
 
-### ServerRequest#isXMLHttpRequest
+### Request#isXMLHttpRequest
 
 Also aliased as _req.xhr_, this getter checks the _X-Requested-With_ header
 to see if it was issued by an _XMLHttpRequest_:
@@ -225,7 +225,7 @@ to see if it was issued by an _XMLHttpRequest_:
     req.xhr
     req.isXMLHttpRequest
 
-### ServerResponse#header(key[, val])
+### Response#header(key[, val])
 
 Get or set the response header _key_.
 
@@ -238,7 +238,7 @@ Get or set the response header _key_.
     res.header('Content-Length');
     // => 123
 
-### ServerResponse#contentType(type)
+### Response#contentType(type)
 
 Sets the _Content-Type_ response header to the given _type_.
 
@@ -246,13 +246,13 @@ Sets the _Content-Type_ response header to the given _type_.
       res.contentType(filename);
       // res.headers['Content-Type'] is now "image/png"
 
-### ServerResponse#attachment([filename])
+### Response#attachment([filename])
 
 Sets the _Content-Disposition_ response header to "attachment", with optional _filename_.
 
       res.attachment('path/to/my/image.png');
 
-### ServerResponse#sendfile(path)
+### Response#sendfile(path)
 
 Used by `res.download()` to transfer an arbitrary file. 
 
@@ -261,7 +261,7 @@ Used by `res.download()` to transfer an arbitrary file.
 **NOTE**: this is _not_ a replacement for Connect's _staticProvider_ middleware,
 nor does it perform any security checks, use with caution when using in a dynamic manor.
 
-### ServerResponse#download(file[, filename])
+### Response#download(file[, filename])
 
 Transfer the given _file_ as an attachment with optional alternative _filename_.
 
@@ -273,7 +273,7 @@ This is equivalent to:
     res.attachment(file);
     res.sendfile(file);
 
-### ServerRequest#send(body|status[, headers|status[, status]])
+### Response#send(body|status[, headers|status[, status]])
 
 The `res.send()` method is a high level response utility allowing you to pass
 objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status
@@ -290,7 +290,7 @@ By default the _Content-Type_ response header is set, however if explicitly
 assigned through `res.send()` or previously with `res.header()` or `res.contentType()`
 it will not be set again.
 
-### ServerResponse#redirect(url[, status])
+### Response#redirect(url[, status])
 
 Redirect to the given _url_ with a default response _status_ of 302.
 
