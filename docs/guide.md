@@ -374,8 +374,10 @@ Used by `res.download()` to transfer an arbitrary file.
 
     res.sendfile('path/to/my.file');
 
-**NOTE**: this is _not_ a replacement for Connect's _staticProvider_ middleware,
-nor does it perform any security checks, use with caution when using in a dynamic manner.
+This is _not_ a substitution for Connect's _staticProvider_ middleware, it does not
+support HTTP caching, and does not perform any security checks. This method is utilized
+by _res.download()_ to transfer static files, and allows you do to so from outside of
+the public directory, so suitable security checks should be applied.
 
 ### res.download(file[, filename])
 

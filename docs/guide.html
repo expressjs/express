@@ -626,8 +626,10 @@ res.header('Content-Length');
 <pre><code>res.sendfile('path/to/my.file');
 </code></pre>
 
-<p><strong>NOTE</strong>: this is <em>not</em> a replacement for Connect's <em>staticProvider</em> middleware,
-nor does it perform any security checks, use with caution when using in a dynamic manner.</p>
+<p>This is <em>not</em> a substitution for Connect's <em>staticProvider</em> middleware, it does not
+support HTTP caching, and does not perform any security checks. This method is utilized
+by <em>res.download()</em> to transfer static files, and allows you do to so from outside of
+the public directory, so suitable security checks should be applied.</p>
 
 <h3 id="res-download-file-filename-">res.download(file[, filename])</h3>
 
