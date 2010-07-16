@@ -16,7 +16,14 @@ var app = express.createServer(
     // The methodOverride middleware allows us
     // to set a hidden input of _method to an arbitrary
     // HTTP method to support app.put(), app.del() etc
-    connect.methodOverride()
+    connect.methodOverride(),
+
+    // Required by session
+    connect.cookieDecoder(),
+
+    // Required by req.flash() for persistent
+    // notifications
+    connect.session()
 );
 
 app.get('/', function(req, res){
@@ -26,9 +33,26 @@ app.get('/', function(req, res){
     // Switch the button label based if we have a name
     var label = name ? 'Update' : 'Save';
 
+    // Buffer all flash messages.
+    // Typically this would all be done in a template
+    // however for illustration purposes we iterate
+    // here.
+    
+    // The messages in req.flash() persist until called,
+    // at which time they are flushed from the session
+    var msgs = '<ul>',
+        flash = req.flash();
+    Object.keys(flash).forEach(function(type){
+        flash[type].forEach(function(msg){
+            msgs += '<li class="' + type + '">' + msg + '</li>';
+        });
+    });
+    msgs += '</ul>';
+
     // If we have a name, we are updating,
     // so add the hidden _method input
-    res.send('<form method="post">'
+    res.send(msgs
+        + '<form method="post">'
         + (name ? '<input type="hidden" value="put" name="_method" />' : '')
         + 'Name: <input type="text" name="name" value="' + name + '" />'
         + '<input type="submit" value="' + label + '" />'
@@ -36,14 +60,19 @@ app.get('/', function(req, res){
 });
 
 app.post('/', function(req, res){
-    // Typically here we would create a resource
-    sys.puts('saved ' + req.body.name);
-    res.redirect('/?name=' + req.body.name);
+    if (req.body.name) {
+        // Typically here we would create a resource
+        req.flash('info', 'Saved ' + req.body.name);
+        res.redirect('/?name=' + req.body.name);
+    } else {
+        req.flash('error', 'Error: name required');
+        res.redirect('/');
+    }
 });
 
 app.put('/', function(req, res){
     // Typically here we would update a resource
-    sys.puts('updated ' + req.body.name);
+    req.flash('info', 'Updated ' + req.body.name);
     res.redirect('/?name=' + req.body.name);
 });
 
