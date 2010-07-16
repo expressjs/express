@@ -480,6 +480,28 @@ the <em>body</em> local variable in <em>layout.haml</em>.</p>
 });
 </code></pre>
 
+<p>The new <em>view engine</em> setting allows us to specify our default template engine,
+so for example when using <a href="http://github.com/visionmedia/jade">Jade</a> we could set:</p>
+
+<pre><code>app.set('view engine', 'jade');
+</code></pre>
+
+<p>Allowing us to render with:</p>
+
+<pre><code>res.render('index');
+</code></pre>
+
+<p>vs:</p>
+
+<pre><code>res.render('index.jade');
+</code></pre>
+
+<p>When <em>view engine</em> is set, extensions are entirely optional, however we can still
+mix and match template engines:</p>
+
+<pre><code>res.render('another-page.ejs');
+</code></pre>
+
 <h3 id="View-Partials">View Partials</h3>
 
 <p>The Express view system has built-in support for partials and collections, which are

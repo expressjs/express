@@ -396,6 +396,58 @@ app\.get(\'/\', function(req, res){
 .
 .IP "" 0
 .
+.P
+The new \fIview engine\fR setting allows us to specify our default template engine, so for example when using Jade \fIhttp://github\.com/visionmedia/jade\fR we could set:
+.
+.IP "" 4
+.
+.nf
+
+app\.set(\'view engine\', \'jade\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Allowing us to render with:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'index\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+vs:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'index\.jade\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+When \fIview engine\fR is set, extensions are entirely optional, however we can still mix and match template engines:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'another\-page\.ejs\');
+.
+.fi
+.
+.IP "" 0
+.
 .SS "View Partials"
 The Express view system has built\-in support for partials and collections, which are sort of \"mini\" views representing a document fragment\. For example rather than iterating in a view to display comments, we would use a partial with collection support:
 .
