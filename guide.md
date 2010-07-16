@@ -245,6 +245,24 @@ the _body_ local variable in _layout.haml_.
 		});
 	});
 
+The new _view engine_ setting allows us to specify our default template engine,
+so for example when using [Jade](http://github.com/visionmedia/jade) we could set:
+
+    app.set('view engine', 'jade');
+
+Allowing us to render with:
+
+    res.render('index');
+
+vs:
+
+    res.render('index.jade');
+
+When _view engine_ is set, extensions are entirely optional, however we can still
+mix and match template engines:
+
+    res.render('another-page.ejs');
+
 ### View Partials
 
 The Express view system has built-in support for partials and collections, which are
@@ -374,8 +392,10 @@ Used by `res.download()` to transfer an arbitrary file.
 
     res.sendfile('path/to/my.file');
 
-**NOTE**: this is _not_ a replacement for Connect's _staticProvider_ middleware,
-nor does it perform any security checks, use with caution when using in a dynamic manner.
+This is _not_ a substitution for Connect's _staticProvider_ middleware, it does not
+support HTTP caching, and does not perform any security checks. This method is utilized
+by _res.download()_ to transfer static files, and allows you do to so from outside of
+the public directory, so suitable security checks should be applied.
 
 ### res.download(file[, filename])
 
