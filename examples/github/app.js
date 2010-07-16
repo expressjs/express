@@ -97,7 +97,7 @@ app.get('/repos/:user', function(req, res, params, next){
 });
 
 // Serve statics from ./public
-app.use('/', connect.staticProvider(__dirname + '/public'));
+app.use(connect.staticProvider(__dirname + '/public'));
 
 // Listen on port 3000
 app.listen(3000);
