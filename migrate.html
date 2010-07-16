@@ -124,7 +124,7 @@
 				border-right: 1px solid rgba(255,255,255,0.05);
 			}
 			#toc li {
-				padding: 1px 0;
+				padding: 0;
 				list-style: none;
 			}
 			#toc li a {
@@ -280,7 +280,7 @@ fetching a route, query string, or request body parameter:</p>
 
 <p>Polymorphic parameter access can be done using <code>req.param()</code>:</p>
 
-<pre><code>app.get('/user/:id', function(){
+<pre><code>app.get('/user/:id', function(req, res){
     req.param('id');
 });
 </code></pre>

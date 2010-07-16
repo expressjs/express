@@ -93,7 +93,7 @@ fetching a route, query string, or request body parameter:
 
 Polymorphic parameter access can be done using `req.param()`:
 
-    app.get('/user/:id', function(){
+    app.get('/user/:id', function(req, res){
 		req.param('id');
 	});
 

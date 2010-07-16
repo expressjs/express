@@ -124,7 +124,7 @@
 				border-right: 1px solid rgba(255,255,255,0.05);
 			}
 			#toc li {
-				padding: 1px 0;
+				padding: 0;
 				list-style: none;
 			}
 			#toc li a {
@@ -198,6 +198,11 @@ simply execute:</p>
 <p>To target specific suites we may specify the files via:</p>
 
 <pre><code>$ make test TESTS=test/view.test.js
+</code></pre>
+
+<p>To check test coverage run:</p>
+
+<pre><code>$ make test-cov
 </code></pre>
 
 <h3 id="Contributions">Contributions</h3>

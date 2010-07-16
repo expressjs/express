@@ -124,7 +124,7 @@
 				border-right: 1px solid rgba(255,255,255,0.05);
 			}
 			#toc li {
-				padding: 1px 0;
+				padding: 0;
 				list-style: none;
 			}
 			#toc li a {
@@ -189,6 +189,8 @@
 <li><a href="#res-download-file-filename-">res.download()</a></li>
 <li><a href="#res-send-body-status-headers-status-status-">res.send()</a></li>
 <li><a href="#res-redirect-url-status-">res.redirect()</a></li>
+<li><a href="#res-render-view-options-fn-">res.render()</a></li>
+<li><a href="#res-partial-view-options-">res.partial()</a></li>
 <li><a href="#app-set-name-val-">app.set()</a></li>
 <li><a href="#app-enable-name-">app.enable()</a></li>
 <li><a href="#app-disable-name-">app.disable()</a></li>
@@ -625,7 +627,7 @@ res.header('Content-Length');
 </code></pre>
 
 <p><strong>NOTE</strong>: this is <em>not</em> a replacement for Connect's <em>staticProvider</em> middleware,
-nor does it perform any security checks, use with caution when using in a dynamic manor.</p>
+nor does it perform any security checks, use with caution when using in a dynamic manner.</p>
 
 <h3 id="res-download-file-filename-">res.download(file[, filename])</h3>
 
@@ -673,6 +675,71 @@ res.redirect('back');
 <p>Express supports "redirect mapping", which by default provides <em>home</em>, and <em>back</em>.
 The <em>back</em> map checks the <em>Referrer</em> and <em>Referer</em> headers, while <em>home</em> utilizes
 the "home" setting and defaults to "/".</p>
+
+<h3 id="res-render-view-options-fn-">res.render(view[, options[, fn]])</h3>
+
+<p>Render <em>view</em> with the given <em>options</em> and optional callback <em>fn</em>.
+When a callback function is given a response will <em>not</em> be made
+automatically, however otherwise a response of <em>200</em> and <em>text/html</em> is given.</p>
+
+<p> Most engines accept one or more of the following options,
+ both <a href="http://github.com/visionmedia/haml.js">haml</a> and <a href="http://github.com/visionmedia/jade">jade</a> accept all:</p>
+
+<ul>
+<li><em>context|scope</em>   Template evaluation context (<em>this</em>)</li>
+<li><em>locals</em>          Object containing local variables</li>
+<li><em>cache</em>           Cache intermediate JavaScript in memory (the default in <em>production</em> mode)</li>
+<li><em>debug</em>           Output debugging information</li>
+</ul>
+
+
+<h3 id="res-partial-view-options-">res.partial(view[, options])</h3>
+
+<p>Render <em>view</em> partial with the given <em>options</em>. This method is always available
+to the view as a local variable.</p>
+
+<ul>
+<li><p><em>as</em> Variable name for each <em>collection</em> value, defaults to the view name.</p>
+
+<ul>
+<li>as: 'something' will add the <em>something</em> local variable</li>
+<li>as: this will use the collection value as the template context</li>
+<li>as: global will merge the collection value's properties with <em>locals</em></li>
+</ul>
+</li>
+<li><p><em>collection</em> Array of objects, the name is derived from the view name itself.
+For example <em>video.html</em> will have a object <em>video</em> available to it.</p></li>
+</ul>
+
+
+<p>The following are equivalent, and the name of collection value when passed
+to the partial will be <em>movie</em> as derived from the name.</p>
+
+<pre><code>partial('movie.jade', { collection: movies });
+partial('movie.jade', movies);
+partial('movie', movies);
+// In view: movie.director
+</code></pre>
+
+<p>To change the local from <em>movie</em> to <em>video</em> we can use the "as" option:</p>
+
+<pre><code>partial('movie', { collection: movies, as: 'video' });
+// In view: video.director
+</code></pre>
+
+<p>Also we can make our movie the value of <em>this</em> within our view so that instead
+of <em>movie.director</em> we could use <em>this.director</em>.</p>
+
+<pre><code>partial('movie', { collection: movies, as: this });
+// In view: this.director
+</code></pre>
+
+<p>Another alternative is to "explode" the properties of the collection item into
+pseudo globals (local variables) by using <em>as: global</em>, which again is syntactic sugar:</p>
+
+<pre><code>partials('movie', { collection: movies, as: global });
+// In view: director
+</code></pre>
 
 <h3 id="app-set-name-val-">app.set(name[, val])</h3>
 
