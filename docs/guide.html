@@ -523,6 +523,16 @@ an array, if no other options are desired:</p>
 <pre><code>partial('comments', comments);
 </code></pre>
 
+<p>When using the partial collection support a few "magic" variables are provided
+for free:</p>
+
+<ul>
+<li><em>firstInCollection</em>  True if this is the first object</li>
+<li><em>indexInCollection</em>  Index of the object in the collection</li>
+<li>_lastInCollection _  True if this is the last object</li>
+</ul>
+
+
 <h3 id="Template-Engines">Template Engines</h3>
 
 <p>Below are a few template engines commonly used with Express:</p>

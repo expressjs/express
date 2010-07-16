@@ -281,6 +281,13 @@ an array, if no other options are desired:
 
     partial('comments', comments);
 
+When using the partial collection support a few "magic" variables are provided
+for free:
+
+  * _firstInCollection_  True if this is the first object
+  * _indexInCollection_  Index of the object in the collection
+  * _lastInCollection _  True if this is the last object
+
 ### Template Engines
 
 Below are a few template engines commonly used with Express:
