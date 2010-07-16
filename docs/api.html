@@ -123,7 +123,7 @@ code .this { color: #19469D; }</style>
  </p>
 </td>
 <td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">require</span>(<span class="string">'./server'</span>);</code></pre>
+<pre><code><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">exports</span>.<span class="class">Server</span> = <span class="variable">require</span>(<span class="string">'./server'</span>);</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -998,7 +998,7 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 
     <span class="comment">// Cache contents</span>
     <span class="keyword">try</span> {
-        <span class="keyword">var</span> <span class="variable">str</span> = <span class="variable">viewCache</span>[<span class="variable">path</span>] || <span class="variable">cacheView</span>(<span class="variable">path</span>);
+        <span class="keyword">var</span> <span class="variable">str</span> = <span class="variable">viewCache</span>[<span class="variable">path</span>] || <span class="variable">cacheViewSync</span>(<span class="variable">path</span>);
     } <span class="keyword">catch</span> (<span class="variable">err</span>) {
         <span class="keyword">return</span> <span class="variable">error</span>(<span class="variable">err</span>);
     }
