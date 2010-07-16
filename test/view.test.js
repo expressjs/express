@@ -159,13 +159,14 @@ module.exports = {
         app.get('/person', function(req, res){
             res.send(res.partial('person.jade', {
                 as: this,
-                collection: [{ name: 'tj' }]
+                collection: [{ name: 'tj' }],
+                locals: { label: 'name:' }
             }));
         });
         
         assert.response(app,
             { url: '/person' },
-            { body: '<p>tj</p>' });
+            { body: '<p>name: tj</p>' });
 
         // as: global collection option
         app.get('/videos', function(req, res){
@@ -217,6 +218,7 @@ module.exports = {
         app.get('/person-this', function(req, res){
            res.send(res.partial('person.jade', {
                object: { name: 'tj' },
+               locals: { label: 'User:' },
                as: this
            })); 
         });
@@ -224,6 +226,15 @@ module.exports = {
         // Non-collection as: this
         assert.response(app,
             { url: '/person-this' },
-            { body: '<p>tj</p>' });
+            { body: '<p>User: tj</p>' });
+    
+        // No options
+        app.get('/nothing', function(req, res){
+            res.send(res.partial('hello.ejs'));
+        });
+        
+        assert.response(app,
+            { url: '/nothing' },
+            { body: 'Hello' });
     }
 };
