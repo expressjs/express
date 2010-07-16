@@ -247,9 +247,9 @@ var app = express.createServer(
 <pre><code>var connect = require('connect');
 var app = express.createServer();
 
-app.use('/', connect.logger());
-app.use('/', connect.methodOverride());
-app.use('/', connect.cookieDecoder());
+app.use(connect.logger());
+app.use(connect.methodOverride());
+app.use(connect.cookieDecoder());
 </code></pre>
 
 <p>For documentation on creating Connect middleware visit <a href="http://extjs.github.com/Connect/#Middleware-Authoring">Middleware Authoring</a>.</p>
