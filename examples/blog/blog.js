@@ -25,3 +25,11 @@ app.get('/', function(req, res){
         }
     });
 });
+
+app.get('/post/:id', function(req, res, params){
+    res.render('post', {
+        locals: {
+            post: posts[params.id]
+        }
+    });
+});
