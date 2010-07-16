@@ -75,16 +75,16 @@ In the example below we only \fIdumpExceptions\fR, and respond with exception st
 .nf
 
 app\.configure(function(){
-    app\.use(\'/\', connect\.methodOverride());
-    app\.use(\'/\', connect\.bodyDecoder());
+    app\.use(connect\.methodOverride());
+    app\.use(connect\.bodyDecoder());
 });
 
 app\.configure(\'development\', function(){
-    app\.use(\'/\', connect\.errorHandler({ dumpExceptions: true, showStack: true }));
+    app\.use(connect\.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app\.configure(\'production\', function(){
-    app\.use(\'/\', connect\.errorHandler());
+    app\.use(connect\.errorHandler());
 });
 .
 .fi
@@ -276,7 +276,7 @@ Alternatively we can \fIuse()\fR them which is useful when adding middleware wit
 .
 .nf
 
-app\.use(\'/\', connect\.logger({ format: \':method :uri\' }));
+app\.use(connect\.logger({ format: \':method :uri\' }));
 .
 .fi
 .
@@ -354,7 +354,7 @@ Our apps could also utilize the Connect \fIerrorHandler\fR middleware to report 
 .
 .nf
 
-app\.use(\'/\', connect\.errorHandler({ dumpExceptions: true }));
+app\.use(connect\.errorHandler({ dumpExceptions: true }));
 .
 .fi
 .
@@ -367,7 +367,7 @@ Also during development we may want fancy html pages to show exceptions that are
 .
 .nf
 
-app\.use(\'/\', connect\.errorHandler({ showStack: true, dumpExceptions: true }));
+app\.use(connect\.errorHandler({ showStack: true, dumpExceptions: true }));
 .
 .fi
 .
@@ -484,6 +484,20 @@ And once again even further, when rendering a collection we can simply pass an a
 partial(\'comments\', comments);
 .
 .fi
+.
+.IP "" 0
+.
+.P
+When using the partial collection support a few \"magic\" variables are provided for free:
+.
+.IP "\(bu" 4
+\fIfirstInCollection\fR True if this is the first object
+.
+.IP "\(bu" 4
+\fIindexInCollection\fR Index of the object in the collection
+.
+.IP "\(bu" 4
+_lastInCollection _ True if this is the last object
 .
 .IP "" 0
 .

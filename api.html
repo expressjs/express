@@ -611,7 +611,7 @@ to '/'.</p>
     <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">middleware</span> || []);
 
     <span class="comment">// Expose objects to each other</span>
-    <span class="this">this</span>.<span class="variable">use</span>(<span class="string">'/'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+    <span class="this">this</span>.<span class="variable">use</span>(<span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
         <span class="variable">req</span>.<span class="variable">params</span> = <span class="variable">req</span>.<span class="variable">params</span> || {};
         <span class="variable">req</span>.<span class="variable">params</span>.<span class="variable">get</span> = {};
         <span class="variable">res</span>.<span class="variable">headers</span> = {};
@@ -628,7 +628,7 @@ to '/'.</p>
     });
 
     <span class="comment">// Use router, expose as app.get(), etc</span>
-    <span class="this">this</span>.<span class="variable">use</span>(<span class="string">'/'</span>, <span class="variable">router</span>(<span class="keyword">function</span>(<span class="variable">app</span>){
+    <span class="this">this</span>.<span class="variable">use</span>(<span class="variable">router</span>(<span class="keyword">function</span>(<span class="variable">app</span>){
         <span class="variable">self</span>.<span class="variable">routes</span> = <span class="variable">app</span>;
     }));
 };</code></pre>
@@ -675,7 +675,7 @@ to '/'.</p>
 </td>
 <td class="code">
 <pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">error</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
-    <span class="this">this</span>.<span class="variable">use</span>(<span class="string">'/'</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+    <span class="this">this</span>.<span class="variable">use</span>(<span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
         <span class="variable">fn</span>.<span class="variable">apply</span>(<span class="this">this</span>, <span class="variable">arguments</span>);
     });
     <span class="keyword">return</span> <span class="this">this</span>;
@@ -874,7 +874,7 @@ of calls to <code>require()</code>.</p>
 
 <h2>Options</h2>
 
-<ul><li><p><code>as</code> Variable name for each <code>collection</code> value, defaults to the view name.</p><ul><li>as: 'something' will add the <code>something</code> local variable</li><li>as: this will use the collection value as the template context</li><li><p>as: global will merge the collection value's properties with <code>locals</code></p></li></ul></li><li><p><code>collection</code> Array of objects, the name is derived from the view name itself. 
+<ul><li><p><code>object</code> Single object with name derived from the view (unless <code>as</code> is present) </p></li><li><p><code>as</code> Variable name for each <code>collection</code> value, defaults to the view name.</p><ul><li>as: 'something' will add the <code>something</code> local variable</li><li>as: this will use the collection value as the template context</li><li><p>as: global will merge the collection value's properties with <code>locals</code></p></li></ul></li><li><p><code>collection</code> Array of objects, the name is derived from the view name itself. 
 For example <em>video.html</em> will have a object <em>video</em> available to it.</p></li></ul>
 
 <h2></h2>
@@ -883,35 +883,47 @@ For example <em>video.html</em> will have a object <em>video</em> available to i
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">partial</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>, <span class="variable">ext</span>){
+    <span class="comment">// Inherit parent view extension when not present</span>
     <span class="keyword">if</span> (<span class="variable">ext</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">view</span>.<span class="variable">indexOf</span>(<span class="string">'.'</span>) &<span class="variable">lt</span>; <span class="number integer">0</span>) {
         <span class="variable">view</span> += <span class="variable">ext</span>;
     }
+
+    <span class="comment">// Allow collection to be passed as second param</span>
     <span class="keyword">if</span> (<span class="variable">options</span> <span class="variable">instanceof</span> <span class="class">Array</span>) {
         <span class="variable">options</span> = { <span class="variable">collection</span>: <span class="variable">options</span> };
     }
+
+    <span class="comment">// Defaults</span>
     <span class="variable">options</span> = <span class="variable">options</span> || {};
+    <span class="variable">options</span>.<span class="variable">locals</span> = <span class="variable">options</span>.<span class="variable">locals</span> || {};
     <span class="variable">options</span>.<span class="variable">partial</span> = <span class="variable">true</span>;
     <span class="variable">options</span>.<span class="variable">layout</span> = <span class="variable">false</span>;
+
+    <span class="comment">// Collection support</span>
     <span class="keyword">var</span> <span class="variable">collection</span> = <span class="variable">options</span>.<span class="variable">collection</span>;
     <span class="keyword">if</span> (<span class="variable">collection</span>) {
         <span class="keyword">var</span> <span class="variable">name</span> = <span class="variable">options</span>.<span class="variable">as</span> || <span class="variable">view</span>.<span class="variable">split</span>(<span class="string">'.'</span>)[<span class="number integer">0</span>],
             <span class="variable">len</span> = <span class="variable">collection</span>.<span class="variable">length</span>;
-        <span class="keyword">var</span> <span class="variable">locals</span> = <span class="variable">options</span>.<span class="variable">locals</span> = <span class="variable">options</span>.<span class="variable">locals</span> || {};
-        <span class="variable">locals</span>.<span class="variable">collectionLength</span> = <span class="variable">len</span>;
+        <span class="keyword">delete</span> <span class="variable">options</span>.<span class="variable">collection</span>;
+        <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">collectionLength</span> = <span class="variable">len</span>;
         <span class="keyword">return</span> <span class="variable">collection</span>.<span class="variable">map</span>(<span class="keyword">function</span>(<span class="variable">val</span>, <span class="variable">i</span>){
-            <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">name</span> === <span class="string">'string'</span>) {
-                <span class="variable">locals</span>[<span class="variable">name</span>] = <span class="variable">val</span>;
-            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">name</span> === <span class="variable">global</span>) {
-                <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="variable">locals</span>, <span class="variable">val</span>);
-            } <span class="keyword">else</span> {
-                <span class="variable">options</span>.<span class="variable">context</span> = <span class="variable">val</span>;
-            }
-            <span class="variable">locals</span>.<span class="variable">firstInCollection</span> = <span class="variable">i</span> === <span class="number integer">0</span>;
-            <span class="variable">locals</span>.<span class="variable">indexInCollection</span> = <span class="variable">i</span>;
-            <span class="variable">locals</span>.<span class="variable">lastInCollection</span> = <span class="variable">i</span> === <span class="variable">len</span> - <span class="number integer">1</span>;
-            <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">render</span>(<span class="variable">view</span>, <span class="variable">options</span>);
+            <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">firstInCollection</span> = <span class="variable">i</span> === <span class="number integer">0</span>;
+            <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">indexInCollection</span> = <span class="variable">i</span>;
+            <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">lastInCollection</span> = <span class="variable">i</span> === <span class="variable">len</span> - <span class="number integer">1</span>;
+            <span class="variable">options</span>.<span class="variable">object</span> = <span class="variable">val</span>;
+            <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">partial</span>(<span class="variable">view</span>, <span class="variable">options</span>);
         }, <span class="this">this</span>).<span class="variable">join</span>(<span class="string">''</span>);
     } <span class="keyword">else</span> {
+        <span class="keyword">if</span> (<span class="variable">options</span>.<span class="variable">object</span>) {
+            <span class="keyword">var</span> <span class="variable">name</span> = <span class="variable">options</span>.<span class="variable">as</span> || <span class="variable">view</span>.<span class="variable">split</span>(<span class="string">'.'</span>)[<span class="number integer">0</span>];
+            <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">name</span> === <span class="string">'string'</span>) {
+                <span class="variable">options</span>.<span class="variable">locals</span>[<span class="variable">name</span>] = <span class="variable">options</span>.<span class="variable">object</span>;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">name</span> === <span class="variable">global</span>) {
+                <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="variable">options</span>.<span class="variable">locals</span>, <span class="variable">options</span>.<span class="variable">object</span>);
+            } <span class="keyword">else</span> {
+                <span class="variable">options</span>.<span class="variable">context</span> = <span class="variable">options</span>.<span class="variable">object</span>;
+            }
+        }
         <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">render</span>(<span class="variable">view</span>, <span class="variable">options</span>);
     }
 };</code></pre>
