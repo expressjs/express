@@ -954,6 +954,9 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
             ? <span class="string">'layout'</span> + <span class="variable">ext</span>
             : <span class="variable">layout</span>;
 
+    <span class="comment">// Normalize &quot;context&quot; to &quot;scope&quot;</span>
+    <span class="variable">options</span>.<span class="variable">scope</span> = <span class="variable">options</span>.<span class="variable">scope</span> || <span class="variable">options</span>.<span class="variable">context</span>;
+
     <span class="comment">// Auto-cache in production</span>
     <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'env'</span>) === <span class="string">'production'</span>) {
         <span class="variable">options</span>.<span class="variable">cache</span> = <span class="variable">true</span>;

@@ -435,6 +435,44 @@ automatically, however otherwise a response of _200_ and _text/html_ is given.
   - _cache_           Cache intermediate JavaScript in memory
   - _debug_           Output debugging information
 
+### res.partial(view[, options])
+
+Render _view_ partial with the given _options_. This method is always available
+to the view as a local variable.
+
+- _as_ Variable name for each _collection_ value, defaults to the view name.
+  * as: 'something' will add the _something_ local variable
+  * as: this will use the collection value as the template context
+  * as: global will merge the collection value's properties with _locals_
+
+- _collection_ Array of objects, the name is derived from the view name itself. 
+  For example _video.html_ will have a object _video_ available to it.
+
+The following are equivalent, and the name of collection value when passed
+to the partial will be _movie_ as derived from the name.
+
+    partial('movie.jade', { collection: movies });
+    partial('movie.jade', movies);
+    partial('movie', movies);
+    // In view: movie.director
+
+To change the local from _movie_ to _video_ we can use the "as" option:
+
+	partial('movie', { collection: movies, as: 'video' });
+	// In view: video.director
+
+Also we can make our movie the value of _this_ within our view so that instead
+of _movie.director_ we could use _this.director_.
+
+    partial('movie', { collection: movies, as: this });
+    // In view: this.director
+
+Another alternative is to "explode" the properties of the collection item into
+pseudo globals (local variables) by using _as: global_, which again is syntactic sugar:
+
+    partials('movie', { collection: movies, as: global });
+    // In view: director
+
 ### app.set(name[, val])
 
 Apply an application level setting _name_ to _val_, or

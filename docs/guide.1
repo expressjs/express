@@ -705,6 +705,87 @@ Most engines accept one or more of the following options, both haml \fIhttp://gi
 .
 .IP "" 0
 .
+.SS "res\.partial(view[, options])"
+Render \fIview\fR partial with the given \fIoptions\fR\. This method is always available to the view as a local variable\.
+.
+.IP "\(bu" 4
+\fIas\fR Variable name for each \fIcollection\fR value, defaults to the view name\.
+.
+.IP "\(bu" 4
+as: \'something\' will add the \fIsomething\fR local variable
+.
+.IP "\(bu" 4
+as: this will use the collection value as the template context
+.
+.IP "\(bu" 4
+as: global will merge the collection value\'s properties with \fIlocals\fR
+.
+.IP "" 0
+
+.
+.IP "\(bu" 4
+\fIcollection\fR Array of objects, the name is derived from the view name itself\. For example \fIvideo\.html\fR will have a object \fIvideo\fR available to it\.
+.
+.IP "" 0
+.
+.P
+The following are equivalent, and the name of collection value when passed to the partial will be \fImovie\fR as derived from the name\.
+.
+.IP "" 4
+.
+.nf
+
+partial(\'movie\.jade\', { collection: movies });
+partial(\'movie\.jade\', movies);
+partial(\'movie\', movies);
+// In view: movie\.director
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To change the local from \fImovie\fR to \fIvideo\fR we can use the \"as\" option:
+.
+.IP "" 4
+.
+.nf
+
+partial(\'movie\', { collection: movies, as: \'video\' });
+// In view: video\.director
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Also we can make our movie the value of \fIthis\fR within our view so that instead of \fImovie\.director\fR we could use \fIthis\.director\fR\.
+.
+.IP "" 4
+.
+.nf
+
+partial(\'movie\', { collection: movies, as: this });
+// In view: this\.director
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Another alternative is to \"explode\" the properties of the collection item into pseudo globals (local variables) by using \fIas: global\fR, which again is syntactic sugar:
+.
+.IP "" 4
+.
+.nf
+
+partials(\'movie\', { collection: movies, as: global });
+// In view: director
+.
+.fi
+.
+.IP "" 0
+.
 .SS "app\.set(name[, val])"
 Apply an application level setting \fIname\fR to \fIval\fR, or get the value of \fIname\fR when \fIval\fR is not present:
 .
