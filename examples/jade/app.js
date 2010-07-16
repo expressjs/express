@@ -30,7 +30,9 @@ app.set('views', __dirname + '/views');
 app.set('reload views', 1000);
 // or app.enable('reload views'); for defaults
 
-// Re-compile
+// Set our default template engine to "jade"
+// which prevents the need for extensions (although you can still mix and match)
+app.set('view engine', 'jade');
 
 // Dummy users
 var users = [
@@ -40,7 +42,7 @@ var users = [
 ];
 
 app.get('/', function(req, res){
-    res.render('users.jade', {
+    res.render('users', {
         locals: {
             users: users
         }
