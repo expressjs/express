@@ -130,6 +130,10 @@ module.exports = {
 
             assert.equal(1, req.flash('info', 'one'));
             assert.eql({ info: ['one'] }, req.flash());
+            
+            req.flash('info', 'Email _sent_.');
+            req.flash('info', '<script>');
+            assert.eql(['Email <em>sent</em>.', '&lt;script&gt;'], req.flash('info'));
             res.send('ok');
         });
         
