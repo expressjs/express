@@ -192,14 +192,38 @@ module.exports = {
             { body: '<li class="first">one</li><li class="word-1">two</li><li class="last">three</li>' });
         
         // Non-collection support
-        app.get('/video', function(req, res){
-            res.send(res.partial('video.jade', {
-                locals: { director: movies[0].director }
+        app.get('/movie', function(req, res){
+            res.send(res.partial('movie.jade', {
+                object: movies[0]
             }));
         });
         
         assert.response(app,
-            { url: '/video' },
+            { url: '/movie' },
+            { body: '<li><div class="title">Nightmare Before Christmas</div><div class="director">Tim Burton</div></li>' });
+            
+        app.get('/video-global', function(req, res){
+           res.send(res.partial('video.jade', {
+               object: movies[0],
+               as: global
+           })); 
+        });
+        
+        // Non-collection as: global
+        assert.response(app,
+            { url: '/video-global' },
             { body: '<p>Tim Burton</p>' });
+
+        app.get('/person-this', function(req, res){
+           res.send(res.partial('person.jade', {
+               object: { name: 'tj' },
+               as: this
+           })); 
+        });
+        
+        // Non-collection as: this
+        assert.response(app,
+            { url: '/person-this' },
+            { body: '<p>tj</p>' });
     }
 };
