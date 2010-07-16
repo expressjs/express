@@ -682,6 +682,29 @@ res\.redirect(\'back\');
 .P
 Express supports \"redirect mapping\", which by default provides \fIhome\fR, and \fIback\fR\. The \fIback\fR map checks the \fIReferrer\fR and \fIReferer\fR headers, while \fIhome\fR utilizes the \"home\" setting and defaults to \"/\"\.
 .
+.SS "res\.render(view[, options[, fn]])"
+Render \fIview\fR with the given \fIoptions\fR and optional callback \fIfn\fR\. When a callback function is given a response will \fInot\fR be made automatically, however otherwise a response of \fI200\fR and \fItext/html\fR is given\.
+.
+.P
+Most engines accept one or more of the following options, both haml \fIhttp://github\.com/visionmedia/haml\.js\fR and jade \fIhttp://github\.com/visionmedia/jade\fR accept all:
+.
+.IP "\(bu" 4
+\fIcontext|scope\fR Template evaluation context (\fIthis\fR)
+.
+.IP "\(bu" 4
+\fIlocals\fR Object containing local variables
+.
+.IP "\(bu" 4
+\fIfilename\fR Filename used for the \fIcache\fR option
+.
+.IP "\(bu" 4
+\fIcache\fR Cache intermediate JavaScript in memory
+.
+.IP "\(bu" 4
+\fIdebug\fR Output debugging information
+.
+.IP "" 0
+.
 .SS "app\.set(name[, val])"
 Apply an application level setting \fIname\fR to \fIval\fR, or get the value of \fIname\fR when \fIval\fR is not present:
 .

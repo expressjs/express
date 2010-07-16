@@ -420,6 +420,21 @@ Express supports "redirect mapping", which by default provides _home_, and _back
 The _back_ map checks the _Referrer_ and _Referer_ headers, while _home_ utilizes
 the "home" setting and defaults to "/".
 
+### res.render(view[, options[, fn]])
+
+Render _view_ with the given _options_ and optional callback _fn_.
+When a callback function is given a response will _not_ be made
+automatically, however otherwise a response of _200_ and _text/html_ is given.
+
+ Most engines accept one or more of the following options,
+ both [haml](http://github.com/visionmedia/haml.js) and [jade](http://github.com/visionmedia/jade) accept all:
+
+  - _context|scope_   Template evaluation context (_this_)
+  - _locals_          Object containing local variables
+  - _filename_        Filename used for the _cache_ option
+  - _cache_           Cache intermediate JavaScript in memory
+  - _debug_           Output debugging information
+
 ### app.set(name[, val])
 
 Apply an application level setting _name_ to _val_, or

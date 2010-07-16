@@ -124,7 +124,7 @@
 				border-right: 1px solid rgba(255,255,255,0.05);
 			}
 			#toc li {
-				padding: 1px 0;
+				padding: 0;
 				list-style: none;
 			}
 			#toc li a {
@@ -189,6 +189,7 @@
 <li><a href="#res-download-file-filename-">res.download()</a></li>
 <li><a href="#res-send-body-status-headers-status-status-">res.send()</a></li>
 <li><a href="#res-redirect-url-status-">res.redirect()</a></li>
+<li><a href="#res-render-view-options-fn-">res.render()</a></li>
 <li><a href="#app-set-name-val-">app.set()</a></li>
 <li><a href="#app-enable-name-">app.enable()</a></li>
 <li><a href="#app-disable-name-">app.disable()</a></li>
@@ -673,6 +674,24 @@ res.redirect('back');
 <p>Express supports "redirect mapping", which by default provides <em>home</em>, and <em>back</em>.
 The <em>back</em> map checks the <em>Referrer</em> and <em>Referer</em> headers, while <em>home</em> utilizes
 the "home" setting and defaults to "/".</p>
+
+<h3 id="res-render-view-options-fn-">res.render(view[, options[, fn]])</h3>
+
+<p>Render <em>view</em> with the given <em>options</em> and optional callback <em>fn</em>.
+When a callback function is given a response will <em>not</em> be made
+automatically, however otherwise a response of <em>200</em> and <em>text/html</em> is given.</p>
+
+<p> Most engines accept one or more of the following options,
+ both <a href="http://github.com/visionmedia/haml.js">haml</a> and <a href="http://github.com/visionmedia/jade">jade</a> accept all:</p>
+
+<ul>
+<li><em>context|scope</em>   Template evaluation context (<em>this</em>)</li>
+<li><em>locals</em>          Object containing local variables</li>
+<li><em>filename</em>        Filename used for the <em>cache</em> option</li>
+<li><em>cache</em>           Cache intermediate JavaScript in memory</li>
+<li><em>debug</em>           Output debugging information</li>
+</ul>
+
 
 <h3 id="app-set-name-val-">app.set(name[, val])</h3>
 
