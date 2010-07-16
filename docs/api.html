@@ -123,7 +123,7 @@ code .this { color: #19469D; }</style>
  </p>
 </td>
 <td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">require</span>(<span class="string">'./server'</span>);</code></pre>
+<pre><code><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">exports</span>.<span class="class">Server</span> = <span class="variable">require</span>(<span class="string">'./server'</span>);</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -928,7 +928,7 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 <p> Most engines accept one or more of the following options,
  both <em>haml</em> and <em>jade</em> accept all:</p>
 
-<ul><li><code>context</code>   Template evaluation context (<code>this</code>)</li><li><code>locals</code>    Object containing local variables</li><li><code>filename</code>  Filename used for the <code>cache</code> option</li><li><code>cache</code>     Cache intermediate JavaScript in memory</li><li><code>debug</code>     Output debugging information</li></ul>
+<ul><li><code>context|scope</code>   Template evaluation context (<code>this</code>)</li><li><code>locals</code>    Object containing local variables</li><li><code>filename</code>  Filename used for the <code>cache</code> option</li><li><code>cache</code>     Cache intermediate JavaScript in memory</li><li><code>debug</code>     Output debugging information</li></ul>
 
 <h2></h2>
 
@@ -953,6 +953,9 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
         <span class="variable">layout</span> = <span class="variable">layout</span> === <span class="variable">true</span>
             ? <span class="string">'layout'</span> + <span class="variable">ext</span>
             : <span class="variable">layout</span>;
+
+    <span class="comment">// Normalize &quot;context&quot; to &quot;scope&quot;</span>
+    <span class="variable">options</span>.<span class="variable">scope</span> = <span class="variable">options</span>.<span class="variable">scope</span> || <span class="variable">options</span>.<span class="variable">context</span>;
 
     <span class="comment">// Auto-cache in production</span>
     <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'env'</span>) === <span class="string">'production'</span>) {
@@ -998,7 +1001,7 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 
     <span class="comment">// Cache contents</span>
     <span class="keyword">try</span> {
-        <span class="keyword">var</span> <span class="variable">str</span> = <span class="variable">viewCache</span>[<span class="variable">path</span>] || <span class="variable">cacheView</span>(<span class="variable">path</span>);
+        <span class="keyword">var</span> <span class="variable">str</span> = <span class="variable">viewCache</span>[<span class="variable">path</span>] || <span class="variable">cacheViewSync</span>(<span class="variable">path</span>);
     } <span class="keyword">catch</span> (<span class="variable">err</span>) {
         <span class="keyword">return</span> <span class="variable">error</span>(<span class="variable">err</span>);
     }

@@ -156,7 +156,7 @@ Polymorphic parameter access can be done using \fBreq\.param()\fR:
 .
 .nf
 
-app\.get(\'/user/:id\', function(){
+app\.get(\'/user/:id\', function(req, res){
     req\.param(\'id\');
 });
 .

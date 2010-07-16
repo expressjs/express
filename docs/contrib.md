@@ -18,6 +18,10 @@ To target specific suites we may specify the files via:
 
     $ make test TESTS=test/view.test.js
 
+To check test coverage run:
+
+    $ make test-cov
+
 ### Contributions
 
 To accept a contribution, you should follow these guidelines:
