@@ -67,14 +67,9 @@ The following are the major contributors of Express (in no specific order).
   * [JavaScript Extensions &amp; Utilities](http://github.com/visionmedia/ext.js)
   * [JavaScript Sass](http://github.com/visionmedia/sass.js)
   * [JavaScript Haml](http://github.com/visionmedia/haml.js)
-  * [JavaScript Jade](http://github.com/visionmedia/jade) spiritual successor of Haml
+  * [JavaScript Jade](http://github.com/visionmedia/jade) Haml successor
 
-## Running Tests
-
-Express uses the [Expresso](http://github.com/visionmedia/expresso) TDD
-framework to write and run elegant test suites extremely fast. First `$ git submodule update --init`, then run:
-
-    $ make test
+## Node Compatibility
     
 The latest release of Express is compatible with node --version:
 
