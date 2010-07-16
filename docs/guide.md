@@ -431,8 +431,7 @@ automatically, however otherwise a response of _200_ and _text/html_ is given.
 
   - _context|scope_   Template evaluation context (_this_)
   - _locals_          Object containing local variables
-  - _filename_        Filename used for the _cache_ option
-  - _cache_           Cache intermediate JavaScript in memory
+  - _cache_           Cache intermediate JavaScript in memory (the default in _production_ mode)
   - _debug_           Output debugging information
 
 ### res.partial(view[, options])
