@@ -176,6 +176,7 @@
 <li><a href="#Error-Handling">Error Handling</a></li>
 <li><a href="#View-Rendering">View Rendering</a></li>
 <li><a href="#View-Partials">View Partials</a></li>
+<li><a href="#View-Helpers">View Helpers</a></li>
 <li><a href="#Template-Engines">Template Engines</a></li>
 <li><a href="#req-header-key-defaultValue-">req.header()</a></li>
 <li><a href="#req-accepts-type-">req.accepts()</a></li>
@@ -532,6 +533,22 @@ for free:</p>
 <li>_lastInCollection _  True if this is the last object</li>
 </ul>
 
+
+<h3 id="View-Helpers">View Helpers</h3>
+
+<p>View helpers are merged with all template local variables, exposing them
+as pseudo globals. Below is an example of exposing <em>foo()</em> to all views:</p>
+
+<pre><code>var view = require('express/view');
+view.helpers.foo = function(){
+    return 'bar';
+};
+</code></pre>
+
+<p>Which we could then utilize in a template as shown below:</p>
+
+<pre><code>&lt;%= foo() %>
+</code></pre>
 
 <h3 id="Template-Engines">Template Engines</h3>
 

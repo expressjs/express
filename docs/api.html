@@ -628,9 +628,7 @@ to '/'.</p>
     });
 
     <span class="comment">// Use router, expose as app.get(), etc</span>
-    <span class="this">this</span>.<span class="variable">use</span>(<span class="variable">router</span>(<span class="keyword">function</span>(<span class="variable">app</span>){
-        <span class="variable">self</span>.<span class="variable">routes</span> = <span class="variable">app</span>;
-    }));
+    <span class="this">this</span>.<span class="variable">router</span> = <span class="variable">router</span>(<span class="keyword">function</span>(<span class="variable">app</span>){ <span class="variable">self</span>.<span class="variable">routes</span> = <span class="variable">app</span>; });
 };</code></pre>
 </td>
 </tr>
@@ -763,6 +761,10 @@ to '/'.</p>
 
 (<span class="keyword">function</span>(<span class="variable">method</span>){
     <span class="class">Server</span>.<span class="variable">prototype</span>[<span class="variable">method</span>] = <span class="keyword">function</span>(<span class="variable">path</span>, <span class="variable">fn</span>){
+        <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">__usedRouter</span>) {
+            <span class="this">this</span>.<span class="variable">use</span>(<span class="this">this</span>.<span class="variable">router</span>);
+            <span class="this">this</span>.<span class="variable">__usedRouter</span> = <span class="variable">true</span>;
+        }
         <span class="this">this</span>.<span class="variable">routes</span>[<span class="variable">method</span>](<span class="variable">path</span>, <span class="variable">fn</span>);
         <span class="keyword">return</span> <span class="this">this</span>;
     };

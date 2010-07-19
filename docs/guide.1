@@ -501,6 +501,35 @@ _lastInCollection _ True if this is the last object
 .
 .IP "" 0
 .
+.SS "View Helpers"
+View helpers are merged with all template local variables, exposing them as pseudo globals\. Below is an example of exposing \fIfoo()\fR to all views:
+.
+.IP "" 4
+.
+.nf
+
+var view = require(\'express/view\');
+view\.helpers\.foo = function(){
+    return \'bar\';
+};
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Which we could then utilize in a template as shown below:
+.
+.IP "" 4
+.
+.nf
+
+<%= foo() %>
+.
+.fi
+.
+.IP "" 0
+.
 .SS "Template Engines"
 Below are a few template engines commonly used with Express:
 .

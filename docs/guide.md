@@ -288,6 +288,20 @@ for free:
   * _indexInCollection_  Index of the object in the collection
   * _lastInCollection _  True if this is the last object
 
+### View Helpers
+
+View helpers are merged with all template local variables, exposing them
+as pseudo globals. Below is an example of exposing _foo()_ to all views:
+
+    var view = require('express/view');
+	view.helpers.foo = function(){
+		return 'bar';
+	};
+
+Which we could then utilize in a template as shown below:
+
+    <%= foo() %>
+
 ### Template Engines
 
 Below are a few template engines commonly used with Express:
