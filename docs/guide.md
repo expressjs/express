@@ -1,14 +1,14 @@
 
 ### Installation
 
+curl (or similar):
+
+    $ curl -# http://expressjs.com/install.sh | sh
+
 npm:
 
     $ npm install connect
     $ npm install express
-
-curl (or similar):
-
-    $ curl -# http://github.com/visionmedia/express/raw/master/install.sh | sh
 
 git clone, first update the submodules:
 
