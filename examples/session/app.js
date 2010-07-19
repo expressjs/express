@@ -8,7 +8,14 @@ var express = require('./../../lib/express'),
 
 var app = express.createServer(
     connect.logger(),
+
+    // Required by session() middleware
     connect.cookieDecoder(),
+
+    // Populates:
+    //   - req.session
+    //   - req.sessionStore
+    //   - req.sessionHash (the SID fingerprint)
     connect.session()
 );
 
