@@ -176,6 +176,7 @@
 <li><a href="#Error-Handling">Error Handling</a></li>
 <li><a href="#View-Rendering">View Rendering</a></li>
 <li><a href="#View-Partials">View Partials</a></li>
+<li><a href="#View-Helpers">View Helpers</a></li>
 <li><a href="#Template-Engines">Template Engines</a></li>
 <li><a href="#req-header-key-defaultValue-">req.header()</a></li>
 <li><a href="#req-accepts-type-">req.accepts()</a></li>
@@ -213,15 +214,15 @@
 <div class='mp'>
 <h3 id="Installation">Installation</h3>
 
+<p>curl (or similar):</p>
+
+<pre><code>$ curl -# http://expressjs.com/install.sh | sh
+</code></pre>
+
 <p>npm:</p>
 
 <pre><code>$ npm install connect
 $ npm install express
-</code></pre>
-
-<p>curl (or similar):</p>
-
-<pre><code>$ curl -# http://github.com/visionmedia/express/raw/master/install.sh | sh
 </code></pre>
 
 <p>git clone, first update the submodules:</p>
@@ -257,16 +258,16 @@ prior to the environment specific callback.</p>
 in <em>development</em> mode, however for both environments we utilize <em>methodOverride</em> and <em>bodyDecoder</em>.</p>
 
 <pre><code>app.configure(function(){
-    app.use('/', connect.methodOverride());
-    app.use('/', connect.bodyDecoder());
+    app.use(connect.methodOverride());
+    app.use(connect.bodyDecoder());
 });
 
 app.configure('development', function(){
-    app.use('/', connect.errorHandler({ dumpExceptions: true, showStack: true }));
+    app.use(connect.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
-    app.use('/', connect.errorHandler());
+    app.use(connect.errorHandler());
 });
 </code></pre>
 
@@ -394,7 +395,7 @@ var app = express.createServer(
 
 <p>Alternatively we can <em>use()</em> them which is useful when adding middleware within <em>configure()</em> blocks:</p>
 
-<pre><code>app.use('/', connect.logger({ format: ':method :uri' }));
+<pre><code>app.use(connect.logger({ format: ':method :uri' }));
 </code></pre>
 
 <h3 id="Error-Handling">Error Handling</h3>
@@ -449,13 +450,13 @@ this demo, however you can choose whatever you like</p>
 to report on exceptions. For example if we wish to output exceptions
 in "development" mode to <em>stderr</em> we can use:</p>
 
-<pre><code>app.use('/', connect.errorHandler({ dumpExceptions: true }));
+<pre><code>app.use(connect.errorHandler({ dumpExceptions: true }));
 </code></pre>
 
 <p>Also during development we may want fancy html pages to show exceptions
 that are passed or thrown, so we can set <em>showStack</em> to true:</p>
 
-<pre><code>app.use('/', connect.errorHandler({ showStack: true, dumpExceptions: true }));
+<pre><code>app.use(connect.errorHandler({ showStack: true, dumpExceptions: true }));
 </code></pre>
 
 <p>The <em>errorHandler</em> middleware also responds with <em>json</em> if <em>Accept: application/json</em>
@@ -521,6 +522,32 @@ however if we wished we could use an ejs partial, within a haml view for example
 an array, if no other options are desired:</p>
 
 <pre><code>partial('comments', comments);
+</code></pre>
+
+<p>When using the partial collection support a few "magic" variables are provided
+for free:</p>
+
+<ul>
+<li><em>firstInCollection</em>  True if this is the first object</li>
+<li><em>indexInCollection</em>  Index of the object in the collection</li>
+<li>_lastInCollection _  True if this is the last object</li>
+</ul>
+
+
+<h3 id="View-Helpers">View Helpers</h3>
+
+<p>View helpers are merged with all template local variables, exposing them
+as pseudo globals. Below is an example of exposing <em>foo()</em> to all views:</p>
+
+<pre><code>var view = require('express/view');
+view.helpers.foo = function(){
+    return 'bar';
+};
+</code></pre>
+
+<p>Which we could then utilize in a template as shown below:</p>
+
+<pre><code>&lt;%= foo() %>
 </code></pre>
 
 <h3 id="Template-Engines">Template Engines</h3>

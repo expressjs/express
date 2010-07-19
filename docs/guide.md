@@ -1,14 +1,14 @@
 
 ### Installation
 
+curl (or similar):
+
+    $ curl -# http://expressjs.com/install.sh | sh
+
 npm:
 
     $ npm install connect
     $ npm install express
-
-curl (or similar):
-
-    $ curl -# http://github.com/visionmedia/express/raw/master/install.sh | sh
 
 git clone, first update the submodules:
 
@@ -41,16 +41,16 @@ In the example below we only _dumpExceptions_, and respond with exception stack 
 in _development_ mode, however for both environments we utilize _methodOverride_ and _bodyDecoder_.
 
     app.configure(function(){
-		app.use('/', connect.methodOverride());
-		app.use('/', connect.bodyDecoder());
+		app.use(connect.methodOverride());
+		app.use(connect.bodyDecoder());
 	});
 	
 	app.configure('development', function(){
-		app.use('/', connect.errorHandler({ dumpExceptions: true, showStack: true }));
+		app.use(connect.errorHandler({ dumpExceptions: true, showStack: true }));
 	});
 	
 	app.configure('production', function(){
-		app.use('/', connect.errorHandler());
+		app.use(connect.errorHandler());
 	});
 
 For internal and arbitrary settings Express provides the _set(key[, val])_, _enable(key)_, _disable(key)_ methods:
@@ -166,7 +166,7 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 
 Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks:
 
-    app.use('/', connect.logger({ format: ':method :uri' }));
+    app.use(connect.logger({ format: ':method :uri' }));
 
 ### Error Handling
 
@@ -217,12 +217,12 @@ Our apps could also utilize the Connect _errorHandler_ middleware
 to report on exceptions. For example if we wish to output exceptions 
 in "development" mode to _stderr_ we can use:
 
-    app.use('/', connect.errorHandler({ dumpExceptions: true }));
+    app.use(connect.errorHandler({ dumpExceptions: true }));
 
 Also during development we may want fancy html pages to show exceptions
 that are passed or thrown, so we can set _showStack_ to true:
 
-    app.use('/', connect.errorHandler({ showStack: true, dumpExceptions: true }));
+    app.use(connect.errorHandler({ showStack: true, dumpExceptions: true }));
 
 The _errorHandler_ middleware also responds with _json_ if _Accept: application/json_
 is present, which is useful for developing apps that rely heavily on client-side JavaScript.
@@ -280,6 +280,27 @@ And once again even further, when rendering a collection we can simply pass
 an array, if no other options are desired:
 
     partial('comments', comments);
+
+When using the partial collection support a few "magic" variables are provided
+for free:
+
+  * _firstInCollection_  True if this is the first object
+  * _indexInCollection_  Index of the object in the collection
+  * _lastInCollection _  True if this is the last object
+
+### View Helpers
+
+View helpers are merged with all template local variables, exposing them
+as pseudo globals. Below is an example of exposing _foo()_ to all views:
+
+    var view = require('express/view');
+	view.helpers.foo = function(){
+		return 'bar';
+	};
+
+Which we could then utilize in a template as shown below:
+
+    <%= foo() %>
 
 ### Template Engines
 
