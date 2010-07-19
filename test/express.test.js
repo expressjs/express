@@ -201,5 +201,19 @@ module.exports = {
         var ret = app.disable('some feature');
         assert.equal(app, ret, 'Test #disable() returns server for chaining');
         assert.strictEqual(false, app.set('some feature'));
+    },
+    
+    'test middleware precedence': function(assert){
+        var app = express.createServer();
+        
+        app.use(connect.bodyDecoder());
+        
+        app.post('/', function(req, res){
+            res.send(JSON.stringify(req.body || ''));
+        });
+        
+        assert.response(app,
+            { url: '/', method: 'POST', data: 'name=tj' },
+            { body: '{"name":"tj"}' });
     }
 };
