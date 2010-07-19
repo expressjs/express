@@ -207,13 +207,19 @@ module.exports = {
         var app = express.createServer();
         
         app.use(connect.bodyDecoder());
+
+        assert.equal(2, app.stack.length);
         
         app.post('/', function(req, res){
             res.send(JSON.stringify(req.body || ''));
         });
-        
+        app.get('/', function(){
+            
+        });
+        assert.equal(3, app.stack.length);
+
         assert.response(app,
-            { url: '/', method: 'POST', data: 'name=tj' },
+            { url: '/', method: 'POST', data: 'name=tj', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
             { body: '{"name":"tj"}' });
     }
 };
