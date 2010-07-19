@@ -7,24 +7,24 @@ var express = require('./../../lib/express'),
     connect = require('connect'),
     sys = require('sys');
 
-var app = express.createServer(
-    // Here we use the bodyDecoder middleware
-    // to parse urlencoded request bodies
-    // which populates req.body
-    connect.bodyDecoder(),
+var app = express.createServer();
+
+// Here we use the bodyDecoder middleware
+// to parse urlencoded request bodies
+// which populates req.body
+app.use(connect.bodyDecoder());
     
-    // The methodOverride middleware allows us
-    // to set a hidden input of _method to an arbitrary
-    // HTTP method to support app.put(), app.del() etc
-    connect.methodOverride(),
+// The methodOverride middleware allows us
+// to set a hidden input of _method to an arbitrary
+// HTTP method to support app.put(), app.del() etc
+app.use(connect.methodOverride());
 
-    // Required by session
-    connect.cookieDecoder(),
+// Required by session
+app.use(connect.cookieDecoder());
 
-    // Required by req.flash() for persistent
-    // notifications
-    connect.session()
-);
+// Required by req.flash() for persistent
+// notifications
+app.use(connect.session());
 
 app.get('/', function(req, res){
     // get ?name=foo
