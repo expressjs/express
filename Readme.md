@@ -60,6 +60,7 @@ The following are the major contributors of Express (in no specific order).
   * TJ Holowaychuk ([visionmedia](http://github.com/visionmedia))
   * Ciaran Jessup ([ciaranj](http://github.com/ciaranj))
   * Aaron Heckmann ([aheckmann](http://github.com/aheckmann))
+  * Guillermo Rauch ([guille](http://github.com/guille))
 
 ## More Information
 
