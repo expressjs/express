@@ -126,7 +126,11 @@ module.exports = {
 
         app.helpers({
             lastName: 'holowaychuk',
-            session: function(req){
+            session: function(req, res, params){
+                assert.equal('object', typeof req, 'Test dynamic helper req');
+                assert.equal('object', typeof req, 'Test dynamic helper res');
+                assert.equal('object', typeof req, 'Test dynamic helper params');
+                assert.ok(this instanceof express.Server, 'Test dynamic helper app scope');
                 return req.session;
             }
         });
