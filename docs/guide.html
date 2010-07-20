@@ -176,7 +176,6 @@
 <li><a href="#Error-Handling">Error Handling</a></li>
 <li><a href="#View-Rendering">View Rendering</a></li>
 <li><a href="#View-Partials">View Partials</a></li>
-<li><a href="#View-Helpers">View Helpers</a></li>
 <li><a href="#Template-Engines">Template Engines</a></li>
 <li><a href="#req-header-key-defaultValue-">req.header()</a></li>
 <li><a href="#req-accepts-type-">req.accepts()</a></li>
@@ -198,6 +197,7 @@
 <li><a href="#app-configure-env-function-function-">app.configure()</a></li>
 <li><a href="#app-redirect-name-val-">app.redirect()</a></li>
 <li><a href="#app-error-function-">app.error()</a></li>
+<li><a href="#app-helpers-obj-">app.helpers()</a></li>
 <li><a href="#app-listen-port-host-">app.listen()</a></li>
 </ul>
 				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
@@ -534,22 +534,6 @@ for free:</p>
 </ul>
 
 
-<h3 id="View-Helpers">View Helpers</h3>
-
-<p>View helpers are merged with all template local variables, exposing them
-as pseudo globals. Below is an example of exposing <em>foo()</em> to all views:</p>
-
-<pre><code>var view = require('express/view');
-view.helpers.foo = function(){
-    return 'bar';
-};
-</code></pre>
-
-<p>Which we could then utilize in a template as shown below:</p>
-
-<pre><code>&lt;%= foo() %>
-</code></pre>
-
 <h3 id="Template-Engines">Template Engines</h3>
 
 <p>Below are a few template engines commonly used with Express:</p>
@@ -870,6 +854,24 @@ should call <em>next(err)</em> if it does not wish to deal with the exception:</
     res.send(err.message, 500);
 });
 </code></pre>
+
+<h3 id="app-helpers-obj-">app.helpers(obj)</h3>
+
+<p>Registers both static and dynamic view helpers. Dynamic view helpers
+are simply functions which accept <em>req</em>, <em>res</em>, and <em>params</em>, and are
+evaluated against the <em>Server</em> instance. The <em>return value</em> of this function
+becomes the local variable it is associated with.</p>
+
+<pre><code>app.helpers({
+    siteTitle: 'My Site',
+    session: function(req, res, params){
+        return req.session;
+    }
+});
+</code></pre>
+
+<p>All views would now have <em>siteTitle</em> available, and <em>session</em> available
+so that session data could be accessed via <em>session.name</em> etc.</p>
 
 <h3 id="app-listen-port-host-">app.listen([port[, host]])</h3>
 

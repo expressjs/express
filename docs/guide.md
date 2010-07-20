@@ -288,20 +288,6 @@ for free:
   * _indexInCollection_  Index of the object in the collection
   * _lastInCollection _  True if this is the last object
 
-### View Helpers
-
-View helpers are merged with all template local variables, exposing them
-as pseudo globals. Below is an example of exposing _foo()_ to all views:
-
-    var view = require('express/view');
-	view.helpers.foo = function(){
-		return 'bar';
-	};
-
-Which we could then utilize in a template as shown below:
-
-    <%= foo() %>
-
 ### Template Engines
 
 Below are a few template engines commonly used with Express:
@@ -583,6 +569,23 @@ should call _next(err)_ if it does not wish to deal with the exception:
     app.error(function(err, req, res, next){
 		res.send(err.message, 500);
 	});
+
+### app.helpers(obj)
+
+Registers both static and dynamic view helpers. Dynamic view helpers
+are simply functions which accept _req_, _res_, and _params_, and are
+evaluated against the _Server_ instance. The _return value_ of this function
+becomes the local variable it is associated with.
+
+    app.helpers({
+		siteTitle: 'My Site',
+		session: function(req, res, params){
+			return req.session;
+		}
+    });
+
+All views would now have _siteTitle_ available, and _session_ available
+so that session data could be accessed via _session.name_ etc.
 
 ### app.listen([port[, host]])
 

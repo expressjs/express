@@ -501,35 +501,6 @@ _lastInCollection _ True if this is the last object
 .
 .IP "" 0
 .
-.SS "View Helpers"
-View helpers are merged with all template local variables, exposing them as pseudo globals\. Below is an example of exposing \fIfoo()\fR to all views:
-.
-.IP "" 4
-.
-.nf
-
-var view = require(\'express/view\');
-view\.helpers\.foo = function(){
-    return \'bar\';
-};
-.
-.fi
-.
-.IP "" 0
-.
-.P
-Which we could then utilize in a template as shown below:
-.
-.IP "" 4
-.
-.nf
-
-<%= foo() %>
-.
-.fi
-.
-.IP "" 0
-.
 .SS "Template Engines"
 Below are a few template engines commonly used with Express:
 .
@@ -1005,6 +976,27 @@ app\.error(function(err, req, res, next){
 .fi
 .
 .IP "" 0
+.
+.SS "app\.helpers(obj)"
+Registers both static and dynamic view helpers\. Dynamic view helpers are simply functions which accept \fIreq\fR, \fIres\fR, and \fIparams\fR, and are evaluated against the \fIServer\fR instance\. The \fIreturn value\fR of this function becomes the local variable it is associated with\.
+.
+.IP "" 4
+.
+.nf
+
+app\.helpers({
+    siteTitle: \'My Site\',
+    session: function(req, res, params){
+        return req\.session;
+    }
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+All views would now have \fIsiteTitle\fR available, and \fIsession\fR available so that session data could be accessed via \fIsession\.name\fR etc\.
 .
 .SS "app\.listen([port[, host]])"
 Bind the app server to the given \fIport\fR, which defaults to 3000\. When \fIhost\fR is omitted all connections will be accepted via \fIINADDR_ANY\fR\.
