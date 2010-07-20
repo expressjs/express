@@ -133,7 +133,9 @@ while (args.length) {
     mkdir(path, function(){
         mkdir(path + '/pids');
         mkdir(path + '/logs');
-        mkdir(path + '/public/{javascripts,stylesheets,images}', function(){
+        mkdir(path + '/public/javascripts');
+        mkdir(path + '/public/images');
+        mkdir(path + '/public/stylesheets', function(){
             write(path + '/public/stylesheets/style.sass', sass);
         });
         mkdir(path + '/views/partials', function(){
