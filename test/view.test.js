@@ -120,6 +120,27 @@ module.exports = {
             { body: '<cool><p>Welcome</p></cool>' });
     },
     
+    'test #render() dynamic view helpers': function(assert){
+        var app = express.createServer();
+        app.set('views', __dirname + '/fixtures');
+
+        app.helpers({
+            lastName: 'holowaychuk',
+            session: function(req){
+                return req.session;
+            }
+        });
+        
+        app.get('/', function(req, res){
+            req.session = { name: 'tj' };
+            res.render('dynamic-helpers.jade', { layout: false });
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: '<p>tj holowaychuk</p>' });
+    },
+    
     'test #partial()': function(assert){
         var app = express.createServer();
         app.set('views', __dirname + '/fixtures');
