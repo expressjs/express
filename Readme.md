@@ -32,11 +32,12 @@ git clone, first update the submodules:
 
   * Robust routing
   * Redirection helpers
+  * Content negotiation
   * Focus on high performance
   * View rendering and partials support
   * Environment based configuration
   * Session based flash notifications
-  * Built on [Connect](http://extjs.github.com/Connect)
+  * Built on [Connect](http://github.com/senchalabs/connect)
   * Executable for generating applications quickly
 
 Via Connect:
