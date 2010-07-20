@@ -120,12 +120,18 @@ module.exports = {
             { body: '<cool><p>Welcome</p></cool>' });
     },
     
-    'test #render() dynamic view helpers': function(assert){
+    'test #render() view helpers': function(assert){
         var app = express.createServer();
         app.set('views', __dirname + '/fixtures');
 
-        app.helpers({
+        app.helpers({ 
             lastName: 'holowaychuk',
+            foo: function(){
+               return 'bar'; 
+            }
+        });
+
+        var ret = app.dynamicHelpers({
             session: function(req, res, params){
                 assert.equal('object', typeof req, 'Test dynamic helper req');
                 assert.equal('object', typeof req, 'Test dynamic helper res');
@@ -134,6 +140,8 @@ module.exports = {
                 return req.session;
             }
         });
+
+        assert.equal(app, ret, 'Server#helpers() is not chainable');
         
         app.get('/', function(req, res){
             req.session = { name: 'tj' };
@@ -142,7 +150,7 @@ module.exports = {
         
         assert.response(app,
             { url: '/' },
-            { body: '<p>tj holowaychuk</p>' });
+            { body: '<p>tj holowaychuk bar</p>' });
     },
     
     'test #partial()': function(assert){
