@@ -92,11 +92,17 @@ module.exports = {
         app.set('views', __dirname + '/fixtures');
 
         app.get('/', function(req, res){
-            res.render('index.jade', { layout: 'cool.layout.jade' });
+            res.render('index.jade', { layout: 'cool-layout.jade' });
+        });
+        app.get('/no-ext', function(req, res){
+            res.render('index.jade', { layout: 'cool-layout' });
         });
 
         assert.response(app,
             { url: '/' },
+            { body: '<cool><p>Welcome</p></cool>' });
+        assert.response(app,
+            { url: '/no-ext' },
             { body: '<cool><p>Welcome</p></cool>' });
     },
     
