@@ -4,6 +4,19 @@
 .TH "GUIDE" "" "July 2010" "" ""
 .
 .SS "Installation"
+curl (or similar):
+.
+.IP "" 4
+.
+.nf
+
+$ curl \-# http://expressjs\.com/install\.sh | sh
+.
+.fi
+.
+.IP "" 0
+.
+.P
 npm:
 .
 .IP "" 4
@@ -12,19 +25,6 @@ npm:
 
 $ npm install connect
 $ npm install express
-.
-.fi
-.
-.IP "" 0
-.
-.P
-curl (or similar):
-.
-.IP "" 4
-.
-.nf
-
-$ curl \-# http://github\.com/visionmedia/express/raw/master/install\.sh | sh
 .
 .fi
 .
@@ -972,6 +972,66 @@ Adds an error handler \fIfunction\fR which will receive the exception as the fir
 app\.error(function(err, req, res, next){
     res\.send(err\.message, 500);
 });
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.helpers(obj)"
+Registers static view helpers\.
+.
+.IP "" 4
+.
+.nf
+
+app\.helpers({
+    name: function(first, last){ return first + \', \' + last },
+    firstName: \'tj\',
+    lastName: \'holowaychuk\'
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Our view could now utilize the \fIfirstName\fR and \fIlastName\fR variables, as well as the \fIname()\fR function exposed\.
+.
+.IP "" 4
+.
+.nf
+
+<%= name(firstName, lastName) %>
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.dynamicHelpers(obj)"
+Registers dynamic view helpers\. Dynamic view helpers are simply functions which accept \fIreq\fR, \fIres\fR, and \fIparams\fR, and are evaluated against the \fIServer\fR instance before a view is rendered\. The \fIreturn value\fR of this function becomes the local variable it is associated with\.
+.
+.IP "" 4
+.
+.nf
+
+app\.dynamicHelpers({
+    session: function(req, res, params){
+        return req\.session;
+    }
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+All views would now have \fIsession\fR available so that session data can be accessed via \fIsession\.name\fR etc:
+.
+.IP "" 4
+.
+.nf
+
+<%= session\.name %>
 .
 .fi
 .

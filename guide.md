@@ -1,14 +1,14 @@
 
 ### Installation
 
+curl (or similar):
+
+    $ curl -# http://expressjs.com/install.sh | sh
+
 npm:
 
     $ npm install connect
     $ npm install express
-
-curl (or similar):
-
-    $ curl -# http://github.com/visionmedia/express/raw/master/install.sh | sh
 
 git clone, first update the submodules:
 
@@ -569,6 +569,38 @@ should call _next(err)_ if it does not wish to deal with the exception:
     app.error(function(err, req, res, next){
 		res.send(err.message, 500);
 	});
+
+### app.helpers(obj)
+
+Registers static view helpers.
+
+    app.helpers({
+		name: function(first, last){ return first + ', ' + last },
+		firstName: 'tj',
+		lastName: 'holowaychuk'
+	});
+
+Our view could now utilize the _firstName_ and _lastName_ variables,
+as well as the _name()_ function exposed.
+
+    <%= name(firstName, lastName) %>
+
+### app.dynamicHelpers(obj)
+
+Registers dynamic view helpers. Dynamic view helpers
+are simply functions which accept _req_, _res_, and _params_, and are
+evaluated against the _Server_ instance before a view is rendered. The _return value_ of this function
+becomes the local variable it is associated with.
+
+    app.dynamicHelpers({
+		session: function(req, res, params){
+			return req.session;
+		}
+    });
+
+All views would now have _session_ available so that session data can be accessed via _session.name_ etc:
+
+    <%= session.name %>
 
 ### app.listen([port[, host]])
 

@@ -1,6 +1,19 @@
 <html>
 	<head>
 		<title>Express - node web framework</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<script>
+			$(function(){
+				var done;
+				$(document).scroll(function(event){
+					if (!done) {
+						$('#toc').animate({
+							top: 0
+						});
+					}
+				});
+			});
+		</script>
 		<style>
 		    #header {
 				position: absolute;
@@ -197,6 +210,8 @@
 <li><a href="#app-configure-env-function-function-">app.configure()</a></li>
 <li><a href="#app-redirect-name-val-">app.redirect()</a></li>
 <li><a href="#app-error-function-">app.error()</a></li>
+<li><a href="#app-helpers-obj-">app.helpers()</a></li>
+<li><a href="#app-dynamicHelpers-obj-">app.dynamicHelpers()</a></li>
 <li><a href="#app-listen-port-host-">app.listen()</a></li>
 </ul>
 				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
@@ -213,15 +228,15 @@
 <div class='mp'>
 <h3 id="Installation">Installation</h3>
 
+<p>curl (or similar):</p>
+
+<pre><code>$ curl -# http://expressjs.com/install.sh | sh
+</code></pre>
+
 <p>npm:</p>
 
 <pre><code>$ npm install connect
 $ npm install express
-</code></pre>
-
-<p>curl (or similar):</p>
-
-<pre><code>$ curl -# http://github.com/visionmedia/express/raw/master/install.sh | sh
 </code></pre>
 
 <p>git clone, first update the submodules:</p>
@@ -852,6 +867,42 @@ should call <em>next(err)</em> if it does not wish to deal with the exception:</
 <pre><code>app.error(function(err, req, res, next){
     res.send(err.message, 500);
 });
+</code></pre>
+
+<h3 id="app-helpers-obj-">app.helpers(obj)</h3>
+
+<p>Registers static view helpers.</p>
+
+<pre><code>app.helpers({
+    name: function(first, last){ return first + ', ' + last },
+    firstName: 'tj',
+    lastName: 'holowaychuk'
+});
+</code></pre>
+
+<p>Our view could now utilize the <em>firstName</em> and <em>lastName</em> variables,
+as well as the <em>name()</em> function exposed.</p>
+
+<pre><code>&lt;%= name(firstName, lastName) %>
+</code></pre>
+
+<h3 id="app-dynamicHelpers-obj-">app.dynamicHelpers(obj)</h3>
+
+<p>Registers dynamic view helpers. Dynamic view helpers
+are simply functions which accept <em>req</em>, <em>res</em>, and <em>params</em>, and are
+evaluated against the <em>Server</em> instance before a view is rendered. The <em>return value</em> of this function
+becomes the local variable it is associated with.</p>
+
+<pre><code>app.dynamicHelpers({
+    session: function(req, res, params){
+        return req.session;
+    }
+});
+</code></pre>
+
+<p>All views would now have <em>session</em> available so that session data can be accessed via <em>session.name</em> etc:</p>
+
+<pre><code>&lt;%= session.name %&gt;
 </code></pre>
 
 <h3 id="app-listen-port-host-">app.listen([port[, host]])</h3>
