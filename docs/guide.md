@@ -572,20 +572,35 @@ should call _next(err)_ if it does not wish to deal with the exception:
 
 ### app.helpers(obj)
 
-Registers both static and dynamic view helpers. Dynamic view helpers
-are simply functions which accept _req_, _res_, and _params_, and are
-evaluated against the _Server_ instance. The _return value_ of this function
-becomes the local variable it is associated with.
+Registers static view helpers.
 
     app.helpers({
-		siteTitle: 'My Site',
+		name: function(first, last){ return first + ', ' + last },
+		firstName: 'tj',
+		lastName: 'holowaychuk'
+	});
+
+Our view could now utilize the _firstName_ and _lastName_ variables,
+as well as the _name()_ function exposed.
+
+    <%= name(firstName, lastName) %>
+
+### app.dynamicHelpers(obj)
+
+Registers dynamic view helpers. Dynamic view helpers
+are simply functions which accept _req_, _res_, and _params_, and are
+evaluated against the _Server_ instance before a view is rendered. The _return value_ of this function
+becomes the local variable it is associated with.
+
+    app.dynamicHelpers({
 		session: function(req, res, params){
 			return req.session;
 		}
     });
 
-All views would now have _siteTitle_ available, and _session_ available
-so that session data could be accessed via _session.name_ etc.
+All views would now have _session_ available so that session data can be accessed via _session.name_ etc:
+
+    <%= session.name %>
 
 ### app.listen([port[, host]])
 

@@ -978,14 +978,43 @@ app\.error(function(err, req, res, next){
 .IP "" 0
 .
 .SS "app\.helpers(obj)"
-Registers both static and dynamic view helpers\. Dynamic view helpers are simply functions which accept \fIreq\fR, \fIres\fR, and \fIparams\fR, and are evaluated against the \fIServer\fR instance\. The \fIreturn value\fR of this function becomes the local variable it is associated with\.
+Registers static view helpers\.
 .
 .IP "" 4
 .
 .nf
 
 app\.helpers({
-    siteTitle: \'My Site\',
+    name: function(first, last){ return first + \', \' + last },
+    firstName: \'tj\',
+    lastName: \'holowaychuk\'
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Our view could now utilize the \fIfirstName\fR and \fIlastName\fR variables, as well as the \fIname()\fR function exposed\.
+.
+.IP "" 4
+.
+.nf
+
+<%= name(firstName, lastName) %>
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.dynamicHelpers(obj)"
+Registers dynamic view helpers\. Dynamic view helpers are simply functions which accept \fIreq\fR, \fIres\fR, and \fIparams\fR, and are evaluated against the \fIServer\fR instance before a view is rendered\. The \fIreturn value\fR of this function becomes the local variable it is associated with\.
+.
+.IP "" 4
+.
+.nf
+
+app\.dynamicHelpers({
     session: function(req, res, params){
         return req\.session;
     }
@@ -996,7 +1025,17 @@ app\.helpers({
 .IP "" 0
 .
 .P
-All views would now have \fIsiteTitle\fR available, and \fIsession\fR available so that session data could be accessed via \fIsession\.name\fR etc\.
+All views would now have \fIsession\fR available so that session data can be accessed via \fIsession\.name\fR etc:
+.
+.IP "" 4
+.
+.nf
+
+<%= session\.name %>
+.
+.fi
+.
+.IP "" 0
 .
 .SS "app\.listen([port[, host]])"
 Bind the app server to the given \fIport\fR, which defaults to 3000\. When \fIhost\fR is omitted all connections will be accepted via \fIINADDR_ANY\fR\.
