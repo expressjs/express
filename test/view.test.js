@@ -106,6 +106,20 @@ module.exports = {
             { body: '<cool><p>Welcome</p></cool>' });
     },
     
+    'test #render() specific layout "view engine"': function(assert){
+        var app = express.createServer();
+        app.set('views', __dirname + '/fixtures');
+        app.set('view engine', 'jade');
+        
+        app.get('/', function(req, res){
+            res.render('index', { layout: 'cool-layout' });
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: '<cool><p>Welcome</p></cool>' });
+    },
+    
     'test #partial()': function(assert){
         var app = express.createServer();
         app.set('views', __dirname + '/fixtures');
