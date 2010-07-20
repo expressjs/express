@@ -27,7 +27,6 @@ git clone, first update the submodules:
 
     $ git submodule update --init
     $ make install
-    $ make install-support
 
 ## Features
 
