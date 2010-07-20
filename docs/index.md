@@ -11,6 +11,7 @@
 
   * Robust routing
   * Redirection helpers
+  * Dynamic view helpers
   * Content negotiation
   * Focus on high performance
   * View rendering and partials support

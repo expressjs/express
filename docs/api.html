@@ -590,6 +590,7 @@ to '/'.</p>
     <span class="variable">url</span> = <span class="variable">require</span>(<span class="string">'url'</span>),
     <span class="variable">view</span> = <span class="variable">require</span>(<span class="string">'./view'</span>),
     <span class="variable">connect</span> = <span class="variable">require</span>(<span class="string">'connect'</span>),
+    <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>),
     <span class="variable">queryString</span> = <span class="variable">require</span>(<span class="string">'querystring'</span>),
     <span class="variable">router</span> = <span class="variable">require</span>(<span class="string">'connect/middleware/router'</span>);</code></pre>
 </td>
@@ -608,6 +609,8 @@ to '/'.</p>
     <span class="this">this</span>.<span class="variable">config</span> = {};
     <span class="this">this</span>.<span class="variable">settings</span> = {};
     <span class="this">this</span>.<span class="variable">redirects</span> = {};
+    <span class="this">this</span>.<span class="variable">viewHelpers</span> = {};
+    <span class="this">this</span>.<span class="variable">dynamicViewHelpers</span> = {};
     <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">middleware</span> || []);
 
     <span class="comment">// Expose objects to each other</span>
@@ -660,6 +663,38 @@ to '/'.</p>
     }
 
     <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">port</span>, <span class="variable">host</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Register the given view helpers <code>obj</code>. This method
+can be called several times to apply additional helpers.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Object</em>  obj</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">helpers</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
+    <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="this">this</span>.<span class="variable">viewHelpers</span>, <span class="variable">obj</span>);
+    <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Register the given dynamic view helpers <code>obj</code>. This method
+can be called several times to apply additional helpers.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Object</em>  obj</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">dynamicHelpers</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
+    <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="this">this</span>.<span class="variable">dynamicViewHelpers</span>, <span class="variable">obj</span>);
+    <span class="keyword">return</span> <span class="this">this</span>;
 };</code></pre>
 </td>
 </tr>
@@ -862,16 +897,6 @@ of calls to <code>require()</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>View helpers merged with each render's locals.</p>
-
-<ul><li><p><strong>type</strong>: <em>Object</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">helpers</span> = <span class="variable">exports</span>.<span class="variable">helpers</span> = {};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
 <p>Render <code>view</code> partial with the given <code>options</code>.</p>
 
 <h2>Options</h2>
@@ -960,6 +985,8 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 
     <span class="comment">// Defaults</span>
     <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>,
+        <span class="variable">helpers</span> = <span class="this">this</span>.<span class="variable">app</span>.<span class="variable">viewHelpers</span>,
+        <span class="variable">dynamicHelpers</span> = <span class="this">this</span>.<span class="variable">app</span>.<span class="variable">dynamicViewHelpers</span>,
         <span class="variable">root</span> = <span class="variable">viewRoot</span>(<span class="this">this</span>.<span class="variable">app</span>),
         <span class="variable">ext</span> = <span class="variable">extname</span>(<span class="variable">view</span>),
         <span class="variable">partial</span> = <span class="variable">options</span>.<span class="variable">partial</span>,
@@ -967,6 +994,11 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
         <span class="variable">layout</span> = <span class="variable">layout</span> === <span class="variable">true</span>
             ? <span class="string">'layout'</span> + <span class="variable">ext</span>
             : <span class="variable">layout</span>;
+
+    <span class="comment">// Allow layout name without extension</span>
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">layout</span> === <span class="string">'string'</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">layout</span>.<span class="variable">indexOf</span>(<span class="string">'.'</span>) &<span class="variable">lt</span>; <span class="number integer">0</span>) {
+        <span class="variable">layout</span> += <span class="variable">ext</span>;
+    }
 
     <span class="comment">// Normalize &quot;context&quot; to &quot;scope&quot;</span>
     <span class="variable">options</span>.<span class="variable">scope</span> = <span class="variable">options</span>.<span class="variable">scope</span> || <span class="variable">options</span>.<span class="variable">context</span>;
@@ -996,6 +1028,16 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
     <span class="comment">// Pass filename to the engine and view</span>
     <span class="variable">options</span>.<span class="variable">locals</span> = <span class="variable">options</span>.<span class="variable">locals</span> || {};
     <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">__filename</span> = <span class="variable">options</span>.<span class="variable">filename</span> = <span class="variable">path</span>;
+
+    <span class="comment">// Dynamic helper support</span>
+    <span class="keyword">var</span> <span class="variable">keys</span> = <span class="class">Object</span>.<span class="variable">keys</span>(<span class="variable">dynamicHelpers</span>);
+    <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">keys</span>.<span class="variable">length</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
+        <span class="keyword">var</span> <span class="variable">key</span> = <span class="variable">keys</span>[<span class="variable">i</span>],
+            <span class="variable">val</span> = <span class="variable">dynamicHelpers</span>[<span class="variable">key</span>];
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">val</span> === <span class="string">'function'</span>) {
+            <span class="variable">helpers</span>[<span class="variable">key</span>] = <span class="variable">val</span>.<span class="variable">call</span>(<span class="this">this</span>.<span class="variable">app</span>, <span class="this">this</span>.<span class="variable">req</span>, <span class="this">this</span>, <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">params</span>.<span class="variable">path</span>);
+        }
+    }
 
     <span class="comment">// Always expose partial() as a local</span>
     <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">partial</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>){
