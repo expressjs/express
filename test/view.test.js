@@ -7,10 +7,15 @@ var express = require('express'),
     connect = require('connect'),
     view = require('express/view');
 
+var create = function(){
+  var app = express.createServer.apply(express, arguments);
+  app.set('views', __dirname + '/fixtures');
+  return app;
+};
+
 module.exports = {
     'test #render()': function(assert){
-        var app = express.createServer(connect.errorHandler({ showMessage: true }));
-        app.set('views', __dirname + '/fixtures');
+        var app = create(connect.errorHandler({ showMessage: true }));
         app.set('view engine', 'jade');
 
         app.get('/', function(req, res){
@@ -61,8 +66,7 @@ module.exports = {
     },
     
     'test #render() layout': function(assert){
-        var app = express.createServer();
-        app.set('views', __dirname + '/fixtures');
+        var app = create();
         app.set('view engine', 'jade');
 
         app.get('/', function(req, res){
@@ -78,8 +82,7 @@ module.exports = {
     },
     
     'test #render() specific layout': function(assert){
-        var app = express.createServer();
-        app.set('views', __dirname + '/fixtures');
+        var app = create();
 
         app.get('/', function(req, res){
             res.render('index.jade', { layout: 'cool-layout.jade' });
@@ -97,8 +100,7 @@ module.exports = {
     },
     
     'test #render() specific layout "view engine"': function(assert){
-        var app = express.createServer();
-        app.set('views', __dirname + '/fixtures');
+        var app = create();
         app.set('view engine', 'jade');
         
         app.get('/', function(req, res){
@@ -110,9 +112,39 @@ module.exports = {
             { body: '<cool><p>Welcome</p></cool>' });
     },
     
+    'test #render() scope': function(assert){
+        var app = create();
+        app.set('view engine', 'jade');
+        
+        app.get('/', function(req, res){
+            res.internal = '1';
+            res.method = function(){
+                return this.internal;
+            };
+            res.render('scope.jade', { layout: false });
+        });
+        
+        app.get('/custom', function(req, res){
+            var scope = {
+              internal: '2',
+              method: function(){
+                  return this.internal;
+              }
+            };
+            res.render('scope.jade', { layout: false, scope: scope });
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: '<p>1</p>'});
+
+        assert.response(app,
+            { url: '/custom' },
+            { body: '<p>2</p>'});
+    },
+    
     'test #render() view helpers': function(assert){
-        var app = express.createServer();
-        app.set('views', __dirname + '/fixtures');
+        var app = create();
 
         app.helpers({ 
             lastName: 'holowaychuk',
@@ -144,8 +176,7 @@ module.exports = {
     },
     
     'test #partial()': function(assert){
-        var app = express.createServer();
-        app.set('views', __dirname + '/fixtures');
+        var app = create();
 
         // Auto-assigned local w/ collection option
         app.get('/', function(req, res){
