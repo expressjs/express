@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var express = require('./../../lib/express'),
+var express = require('./../../../lib/express'),
     fs = require('fs');
 
 // Export our app as the module

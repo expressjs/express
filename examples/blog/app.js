@@ -5,9 +5,6 @@
 
 var express = require('./../../lib/express');
 
-// Load our blog app
-var blog = require('./blog');
-
 // Define our main application
 
 var app = express.createServer();
@@ -17,6 +14,6 @@ app.get('/', function(req, res){
 });
 
 // "mount" our blog app to the /blog path
-app.use('/blog', blog);
+app.use('/blog', require('./blog'));
 
 app.listen(3000);
