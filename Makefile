@@ -36,6 +36,7 @@ uninstall-docs:
 
 test:
 	@CONNECT_ENV=test ./support/expresso/bin/expresso \
+		--growl \
 		-I lib \
 		-I support/connect/lib \
 		-I support/haml/lib \
