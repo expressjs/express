@@ -39,7 +39,7 @@ module.exports = {
 
         assert.response(app,
             { url: '/' },
-            { body: '<p>Welcome</p>' });
+            { body: '<p>Welcome</p>', headers: { 'Content-Type': 'text/html; charset=utf-8' }});
         assert.response(app,
             { url: '/jade' },
             { body: '<p>Welcome</p>' });
