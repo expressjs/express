@@ -8,9 +8,9 @@ var express = require('express'),
     view = require('express/view');
 
 var create = function(){
-  var app = express.createServer.apply(express, arguments);
-  app.set('views', __dirname + '/fixtures');
-  return app;
+    var app = express.createServer.apply(express, arguments);
+    app.set('views', __dirname + '/fixtures');
+    return app;
 };
 
 module.exports = {
