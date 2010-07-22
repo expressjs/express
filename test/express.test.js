@@ -231,6 +231,8 @@ module.exports = {
         assert.equal('/blog', blog.route);
         
         app.get('/', function(req, res){
+            assert.equal('/', app.set('home'), "home did not default /");
+            assert.equal('/blog', blog.set('home'), "home did not default to Server#route when mounted");
             res.send('main app');
         });
 
