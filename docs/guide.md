@@ -100,9 +100,23 @@ when _/user/:id_ is compiled, a simplified version of the regexp may look simila
 
     \/user\/([^\/]+)\/?
 
-Literal regular expressions may also be passed for complex uses:
+Regular expression literals may also be passed for complex uses. Since capture
+groups with literal _RegExp_'s are anonymous we use the _params.captures_ array.
 
-	app.get(/^\/foo(bar)?$/, function(){});
+    app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res, params){
+        res.send(params.captures);
+    });
+
+Curl requests against the previously defined route:
+
+       $ curl http://dev:3000/user
+       [null,null]
+       $ curl http://dev:3000/users
+       [null,null]
+       $ curl http://dev:3000/users/1
+       ["1",null]
+       $ curl http://dev:3000/users/1..15
+       ["1","15"]
 
 Below are some route examples, and the associated paths that they
 may consume:
