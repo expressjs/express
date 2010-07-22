@@ -340,10 +340,10 @@ when <em>/user/:id</em> is compiled, a simplified version of the regexp may look
 </code></pre>
 
 <p>Regular expression literals may also be passed for complex uses. Since capture
-groups with literal <em>RegExp</em>'s are anonymous we use the <em>params.captures</em> array.</p>
+groups with literal <em>RegExp</em>'s are anonymous we can access them directly from the <em>params</em> array.</p>
 
 <pre><code>app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res, params){
-    res.send(params.captures);
+    res.send(params);
 });
 </code></pre>
 

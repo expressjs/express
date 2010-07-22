@@ -176,14 +176,14 @@ A route is simple a string which is compiled to a \fIRegExp\fR internally\. For 
 .IP "" 0
 .
 .P
-Regular expression literals may also be passed for complex uses\. Since capture groups with literal \fIRegExp\fR\'s are anonymous we use the \fIparams\.captures\fR array\.
+Regular expression literals may also be passed for complex uses\. Since capture groups with literal \fIRegExp\fR\'s are anonymous we can access them directly from the \fIparams\fR array\.
 .
 .IP "" 4
 .
 .nf
 
 app\.get(/^\\/users?(?:\\/(\\d+)(?:\\\.\\\.(\\d+))?)?/, function(req, res, params){
-    res\.send(params\.captures);
+    res\.send(params);
 });
 .
 .fi

@@ -101,10 +101,10 @@ when _/user/:id_ is compiled, a simplified version of the regexp may look simila
     \/user\/([^\/]+)\/?
 
 Regular expression literals may also be passed for complex uses. Since capture
-groups with literal _RegExp_'s are anonymous we use the _params.captures_ array.
+groups with literal _RegExp_'s are anonymous we can access them directly from the _params_ array.
 
     app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res, params){
-        res.send(params.captures);
+        res.send(params);
     });
 
 Curl requests against the previously defined route:
