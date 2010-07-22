@@ -79,7 +79,7 @@ var connect = require(\'connect\');
 var app = express\.createServer(
     connect\.logger(),
     connect\.methodOverride(),
-    connect\.cookie()
+    connect\.cookieDecoder()
 );
 .
 .fi

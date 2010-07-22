@@ -56,7 +56,7 @@ Which we can now _use()_ within our app, or pass to the _express.createServer()_
     var app = express.createServer(
 		connect.logger(),
 		connect.methodOverride(),
-		connect.cookie()
+		connect.cookieDecoder()
 	);
 
 or:
