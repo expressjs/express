@@ -80,20 +80,33 @@ app.get('/', function(req, res){
  */
 
 app.get(/^\/repos\/(\w+)(?:\.\.(\w+))?/, function(req, res, params, next){
-    var names = params;
-    request('/repos/show/' + names[0], function(err, user){
-        if (err) {
-            next(err)
+    var names = params,
+        users = [];
+    (function fetchData(name){
+        // We have a user name
+        if (name) {
+            console.log('... fetching %s', name);
+            request('/repos/show/' + name, function(err, user){
+                if (err) {
+                    next(err)
+                } else {
+                    user.totalWatchers = totalWatchers(user.repositories);
+                    user.repos = sort(user.repositories);
+                    user.name = name;
+                    users.push(user);
+                    fetchData(names.shift());
+                }
+            });
+        // No more users
         } else {
+            console.log('... done');
             res.render('index.jade', {
                 locals: {
-                    totalWatchers: totalWatchers(user.repositories),
-                    repos: sort(user.repositories),
-                    name: names[0]
+                    users: users
                 }
             });
         }
-    });
+    })(names.shift());
 });
 
 // Serve statics from ./public

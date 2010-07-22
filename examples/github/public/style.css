@@ -9,3 +9,7 @@ a {
 a:hover {
     text-decoration: underline;
 }
+.user {
+  float: left;
+  width: 50%;
+}
