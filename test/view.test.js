@@ -36,6 +36,11 @@ module.exports = {
         app.get('/invalid', function(req, res){
             res.render('invalid.jade', { layout: false });
         });
+        app.get('/invalid-async', function(req, res){
+            process.nextTick(function(){
+                res.render('invalid.jade', { layout: false });
+            });
+        });
         app.get('/error', function(req, res){
             res.render('invalid.jade', { layout: false }, function(err){
                 res.send(err.arguments[0]);
@@ -63,6 +68,13 @@ module.exports = {
                 assert.ok(res.body.indexOf('ReferenceError') >= 0);
                 assert.ok(res.body.indexOf('doesNotExist') >= 0);
             });
+        assert.response(app,
+            { url: '/invalid-async' },
+            function(res){
+                assert.ok(res.body.indexOf('ReferenceError') >= 0);
+                assert.ok(res.body.indexOf('doesNotExist') >= 0);
+            });
+
     },
     
     'test #render() layout': function(assert){
