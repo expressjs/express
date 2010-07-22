@@ -12,6 +12,7 @@ module.exports = {
         var server = express.createServer();
 
         server.get('/', function(req, res){
+            assert.equal('test', server.set('env'), 'env setting was not set properly');
             res.writeHead(200, {});
             res.end('wahoo');
         });
