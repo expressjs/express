@@ -228,11 +228,12 @@ module.exports = {
             blog = express.createServer();
         
         app.use('/blog', blog);
+        assert.equal('/blog', blog.route);
         
         app.get('/', function(req, res){
             res.send('main app');
         });
-        
+
         blog.get('/', function(req, res){
             res.send('blog index');
         });
