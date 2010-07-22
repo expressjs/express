@@ -13,3 +13,6 @@ a:hover {
   float: left;
   width: 50%;
 }
+table td:nth-child(2) {
+  padding: 0 5px;
+}
