@@ -221,5 +221,37 @@ module.exports = {
         assert.response(app,
             { url: '/', method: 'POST', data: 'name=tj', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
             { body: '{"name":"tj"}' });
+    },
+    
+    'test mounting': function(assert){
+        var app = express.createServer(),
+            blog = express.createServer();
+        
+        app.use('/blog', blog);
+        
+        app.get('/', function(req, res){
+            res.send('main app');
+        });
+        
+        blog.get('/', function(req, res){
+            res.send('blog index');
+        });
+        
+        blog.get('/post/:id', function(req, res, params){
+            res.send('blog post ' + params.id);
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: 'main app' });
+        assert.response(app,
+            { url: '/blog' },
+            { body: 'blog index' });
+        assert.response(app,
+            { url: '/blog/post/12' },
+            { body: 'blog post 12' });
+        assert.response(blog,
+            { url: '/' },
+            { body: 'blog index' });
     }
 };
