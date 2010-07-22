@@ -131,10 +131,10 @@ $ EXPRESS_ENV=production node app\.js
 Express supports the following settings out of the box:
 .
 .IP "\(bu" 4
-\fIenv\fR Application environment set internally, use \fIapp\.set(\'env\')\fR to utilize
+\fIenv\fR Application environment set internally, use \fIapp\.set(\'env\')\fR on \fIServer#listen()\fR
 .
 .IP "\(bu" 4
-\fIhome\fR Application base path used with \fIres\.redirect()\fR
+\fIhome\fR Application base path used with \fIres\.redirect()\fR, when mounted defaults to \fIServer#route\fR, otherwise \"/\"\. Assigned on \fIServer#listen()\fR\.
 .
 .IP "\(bu" 4
 \fIviews\fR Root views directory defaulting to \fBCWD/views\fR
@@ -176,13 +176,35 @@ A route is simple a string which is compiled to a \fIRegExp\fR internally\. For 
 .IP "" 0
 .
 .P
-Literal regular expressions may also be passed for complex uses:
+Regular expression literals may also be passed for complex uses\. Since capture groups with literal \fIRegExp\fR\'s are anonymous we use the \fIparams\.captures\fR array\.
 .
 .IP "" 4
 .
 .nf
 
-app\.get(/^\\/foo(bar)?$/, function(){});
+app\.get(/^\\/users?(?:\\/(\\d+)(?:\\\.\\\.(\\d+))?)?/, function(req, res, params){
+    res\.send(params\.captures);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Curl requests against the previously defined route:
+.
+.IP "" 4
+.
+.nf
+
+   $ curl http://dev:3000/user
+   [null,null]
+   $ curl http://dev:3000/users
+   [null,null]
+   $ curl http://dev:3000/users/1
+   [\"1\",null]
+   $ curl http://dev:3000/users/1\.\.15
+   [\"1\",\"15\"]
 .
 .fi
 .

@@ -76,8 +76,9 @@ or more specifically _EXPRESS_ENV_, for example:
 
 Express supports the following settings out of the box:
 
-  * _env_ Application environment set internally, use _app.set('env')_ to utilize
-  * _home_ Application base path used with _res.redirect()_
+  * _env_ Application environment set internally, use _app.set('env')_ on _Server#listen()_
+  * _home_ Application base path used with _res.redirect()_, when mounted defaults
+	to _Server#route_, otherwise "/". Assigned on _Server#listen()_.
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
   * _reload views_ Reloads altered views, by default watches for _mtime_ changes with
@@ -99,9 +100,23 @@ when _/user/:id_ is compiled, a simplified version of the regexp may look simila
 
     \/user\/([^\/]+)\/?
 
-Literal regular expressions may also be passed for complex uses:
+Regular expression literals may also be passed for complex uses. Since capture
+groups with literal _RegExp_'s are anonymous we use the _params.captures_ array.
 
-	app.get(/^\/foo(bar)?$/, function(){});
+    app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res, params){
+        res.send(params.captures);
+    });
+
+Curl requests against the previously defined route:
+
+       $ curl http://dev:3000/user
+       [null,null]
+       $ curl http://dev:3000/users
+       [null,null]
+       $ curl http://dev:3000/users/1
+       ["1",null]
+       $ curl http://dev:3000/users/1..15
+       ["1","15"]
 
 Below are some route examples, and the associated paths that they
 may consume:
