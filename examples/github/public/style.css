@@ -10,8 +10,9 @@ a:hover {
     text-decoration: underline;
 }
 .user {
+  margin: 0 10px;
   float: left;
-  width: 50%;
+  width: 30%;
 }
 table td:nth-child(2) {
   padding: 0 5px;
