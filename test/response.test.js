@@ -80,7 +80,7 @@ module.exports = {
         });
 
         app.get('/*', function(req, res, params){
-            res.attachment(params.splat[0]);
+            res.attachment(params[0]);
             res.send('whatever');
         });
         
@@ -175,7 +175,7 @@ module.exports = {
         var app = express.createServer();
         
         app.get('/*', function(req, res, params){
-            var file = params.splat[0];
+            var file = params[0];
             res.sendfile(__dirname + '/fixtures/' + file);
         });
         
