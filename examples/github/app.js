@@ -79,9 +79,9 @@ app.get('/', function(req, res){
  * Display repos.
  */
 
-app.get('/repos/:user', function(req, res, params, next){
-    var name = params.user;
-    request('/repos/show/' + name, function(err, user){
+app.get(/^\/repos\/(\w+)(?:\.\.(\w+))?/, function(req, res, params, next){
+    var names = params;
+    request('/repos/show/' + names[0], function(err, user){
         if (err) {
             next(err)
         } else {
@@ -89,7 +89,7 @@ app.get('/repos/:user', function(req, res, params, next){
                 locals: {
                     totalWatchers: totalWatchers(user.repositories),
                     repos: sort(user.repositories),
-                    name: name
+                    name: names[0]
                 }
             });
         }
