@@ -19,7 +19,7 @@ npm:
     $ npm install connect
     $ npm install express
 
-curl (or similar):
+curl:
 
     $ curl -# http://expressjs.com/install.sh | sh
 

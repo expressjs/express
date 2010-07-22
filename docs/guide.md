@@ -1,7 +1,7 @@
 
 ### Installation
 
-curl (or similar):
+curl:
 
     $ curl -# http://expressjs.com/install.sh | sh
 
