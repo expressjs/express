@@ -311,8 +311,9 @@ or more specifically <em>EXPRESS_ENV</em>, for example:</p>
 <p>Express supports the following settings out of the box:</p>
 
 <ul>
-<li><em>env</em> Application environment set internally, use <em>app.set('env')</em> to utilize</li>
-<li><em>home</em> Application base path used with <em>res.redirect()</em></li>
+<li><em>env</em> Application environment set internally, use <em>app.set('env')</em> on <em>Server#listen()</em></li>
+<li><em>home</em> Application base path used with <em>res.redirect()</em>, when mounted defaults
+to <em>Server#route</em>, otherwise "/". Assigned on <em>Server#listen()</em>.</li>
 <li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
 <li><em>view engine</em> Default view engine name for views rendered without extensions</li>
 <li><em>reload views</em> Reloads altered views, by default watches for <em>mtime</em> changes with
