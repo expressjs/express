@@ -9,10 +9,10 @@
 	url = git://github.com/visionmedia/haml.js.git
 [submodule "support/ejs"]
 	path = support/ejs
-	url = http://github.com/visionmedia/ejs.git
+	url = git://github.com/visionmedia/ejs.git
 [submodule "support/connect-form"]
 	path = support/connect-form
-	url = http://github.com/visionmedia/connect-form.git
+	url = git://github.com/visionmedia/connect-form.git
 [submodule "support/connect"]
 	path = support/connect
-	url = http://github.com/senchalabs/connect.git
+	url = git://github.com/senchalabs/connect.git
