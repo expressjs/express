@@ -102,7 +102,7 @@ module.exports = {
         app.get('/no-ext', function(req, res){
             res.render('index.jade', { layout: 'cool-layout' });
         });
-        app.get('/foo', function(req, res){
+        app.get('/relative', function(req, res){
             res.render('index.jade', { layout: 'layouts/foo.jade' });
         });
 
@@ -113,7 +113,7 @@ module.exports = {
             { url: '/no-ext' },
             { body: '<cool><p>Welcome</p></cool>' });
         assert.response(app,
-            { url: '/foo' },
+            { url: '/relative' },
             { body: '<foo></foo>' });
     },
     
