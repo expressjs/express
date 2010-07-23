@@ -105,6 +105,9 @@ module.exports = {
         app.get('/relative', function(req, res){
             res.render('index.jade', { layout: 'layouts/foo.jade' });
         });
+        app.get('/absolute', function(req, res){
+            res.render('index.jade', { layout: __dirname + '/fixtures/layouts/foo.jade' });
+        });
 
         assert.response(app,
             { url: '/' },
@@ -114,6 +117,9 @@ module.exports = {
             { body: '<cool><p>Welcome</p></cool>' });
         assert.response(app,
             { url: '/relative' },
+            { body: '<foo></foo>' });
+        assert.response(app,
+            { url: '/absolute' },
             { body: '<foo></foo>' });
     },
     
