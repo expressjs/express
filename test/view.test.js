@@ -46,12 +46,18 @@ module.exports = {
                 res.send(err.arguments[0]);
             });
         });
+        app.get('/absolute', function(req, res){
+            res.render(__dirname + '/fixtures/index.jade', { layout: false });
+        });
 
         assert.response(app,
             { url: '/' },
             { body: '<p>Welcome</p>', headers: { 'Content-Type': 'text/html; charset=utf-8' }});
         assert.response(app,
             { url: '/jade' },
+            { body: '<p>Welcome</p>' });
+        assert.response(app,
+            { url: '/absolute' },
             { body: '<p>Welcome</p>' });
         assert.response(app,
             { url: '/haml' },
