@@ -20,7 +20,10 @@ app.resource = function(path, obj) {
 var users = [
     { name: 'tj' },
     { name: 'ciaran' },
-    { name: 'aaron' }
+    { name: 'aaron' },
+    { name: 'guillermo' },
+    { name: 'simon' },
+    { name: 'tobi' }
 ];
 
 // Fake model
@@ -45,5 +48,16 @@ var User = {
 // curl -X DELETE http://localhost:3000/users/1  -- deletes the user
 
 app.resource('/users', User);
+
+app.get('/', function(req, res){
+    res.send([
+        '<h1>Examples:</h1> <ul>',
+        '<li>GET /users</li>',
+        '<li>GET /users/1</li>',
+        '<li>GET /users/4</li>',
+        '<li>DELETE /users/4</li>',
+        '</ul>',
+    ].join('\n')); 
+});
 
 app.listen(3000);
