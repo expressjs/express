@@ -102,6 +102,9 @@ module.exports = {
         app.get('/no-ext', function(req, res){
             res.render('index.jade', { layout: 'cool-layout' });
         });
+        app.get('/foo', function(req, res){
+            res.render('index.jade', { layout: 'layouts/foo.jade' });
+        });
 
         assert.response(app,
             { url: '/' },
@@ -109,6 +112,9 @@ module.exports = {
         assert.response(app,
             { url: '/no-ext' },
             { body: '<cool><p>Welcome</p></cool>' });
+        assert.response(app,
+            { url: '/foo' },
+            { body: '<foo></foo>' });
     },
     
     'test #render() specific layout "view engine"': function(assert){
