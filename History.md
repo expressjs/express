@@ -1,3 +1,21 @@
+	
+1.0.0beta2 / 2010-07-23
+==================
+
+  * Added more examples
+  * Added; exporting `Server` constructor
+  * Added `Server#helpers()` for view locals
+  * Added `Server#dynamicHelpers()` for dynamic view locals. Closes #349
+  * Added support for absolute view paths
+  * Added; _home_ setting defaults to `Server#route` for mounted apps. Closes #363
+  * Added mkdir to _install.sh_ to ensure _~/.node_libraries_. Closes #362 [thanks jf]
+  * Added Guillermo Rauch to the contributor list
+  * Added support for "as" for non-collection partials. Closes #341
+  * Fixed `res.render()` exceptions, now passed to `next()` when no callback is given [thanks guillermo]
+  * Fixed instanceof `Array` checks, now `Array.isArray()`
+  * Fixed express(1) expansion of public dirs. Closes #348
+  * Fixed middleware precedence. Closes #345
+  * Fixed view watcher, now async [thanks aheckmann]
 
 1.0.0beta / 2010-07-15
 ==================
