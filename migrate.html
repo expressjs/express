@@ -251,7 +251,7 @@ use(Cookie);
 var app = express.createServer(
     connect.logger(),
     connect.methodOverride(),
-    connect.cookie()
+    connect.cookieDecoder()
 );
 </code></pre>
 
