@@ -13,7 +13,7 @@ app.get('/', function(req, res){
     throw new Error('something broke!');
 });
 
-app.get('/next', function(req, res, params, next){
+app.get('/next', function(req, res, next){
     // We can also pass exceptions to next()
     next(new Error('oh no!'))
 });

@@ -35,10 +35,11 @@ app.get('/', function(req, res){
     });
 });
 
-app.get('/post/:id', function(req, res, params){
+app.get('/post/:id', function(req, res){
+    var id = req.params.id;
     res.render('post', {
         locals: {
-            post: posts[params.id]
+            post: posts[id]
         }
     });
 });

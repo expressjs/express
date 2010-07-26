@@ -79,8 +79,8 @@ app.get('/', function(req, res){
  * Display repos.
  */
 
-app.get('/repos/*', function(req, res, params, next){
-    var names = params[0].split('/'),
+app.get('/repos/*', function(req, res, next){
+    var names = req.params[0].split('/'),
         users = [];
     (function fetchData(name){
         // We have a user name

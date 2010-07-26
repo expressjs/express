@@ -11,9 +11,9 @@ var app = express.createServer();
 
 app.resource = function(path, obj) {
     this.get(path, obj.index);
-    this.get(path + '/:a..:b', function(req, res, params){
-        var a = parseInt(params.a, 10),
-            b = parseInt(params.b, 10);
+    this.get(path + '/:a..:b', function(req, res){
+        var a = parseInt(req.params.a, 10),
+            b = parseInt(req.params.b, 10);
         obj.range(req, res, a, b);
     });
     this.get(path + '/:id', obj.show);
@@ -37,12 +37,13 @@ var User = {
     index: function(req, res){
         res.send(users);
     },
-    show: function(req, res, params){
-        res.send(users[params.id] || { error: 'Cannot find user' });
+    show: function(req, res){
+        res.send(users[req.params.id] || { error: 'Cannot find user' });
     },
-    destroy: function(req, res, params){
-        var destroyed = params.id in users;
-        delete users[params.id];
+    destroy: function(req, res){
+        var id = req.params.id;
+        var destroyed = id in users;
+        delete users[id];
         res.send(destroyed ? 'destroyed' : 'Cannot find user');
     },
     range: function(req, res, a, b){
