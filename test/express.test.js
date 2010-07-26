@@ -158,8 +158,8 @@ module.exports = {
     
     'test #configure()': function(assert, beforeExit){
         var calls = [];
-        var server = express.createServer();
         process.env.EXPRESS_ENV = 'development';
+        var server = express.createServer();
         
         // Config blocks
         var ret = server.configure(function(){
@@ -180,6 +180,47 @@ module.exports = {
         beforeExit(function(){
             assert.eql(['any', 'dev'], calls);
         });
+    },
+    
+    'test #configure() immediate call': function(assert){
+        var app = express.createServer();
+
+        app.configure(function(){
+            app.use(connect.bodyDecoder());
+        });
+        
+        app.post('/', function(req, res){
+            res.send(req.param('name') || 'nope');
+        });
+
+        assert.response(app,
+            { url: '/', method: 'POST', data: 'name=tj', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
+            { body: 'tj' });
+    },
+
+    'test #configure() precedence': function(assert){
+        var app = express.createServer();
+    
+        app.configure(function(){
+            app.use(function(req, res, next){
+                res.writeHead(200, {});
+                res.write('first');
+                next();
+            });
+            app.use(app.router);
+            app.use(function(req, res, next){
+                res.end('last');
+            });
+        });
+        
+        app.get('/', function(req, res, params, next){
+            res.write(' route ');
+            next();
+        });
+    
+        assert.response(app,
+            { url: '/' },
+            { body: 'first route last' });
     },
     
     'test #set()': function(assert){
