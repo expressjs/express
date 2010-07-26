@@ -267,14 +267,18 @@ module.exports = {
     
     'test mounting': function(assert){
         var app = express.createServer(),
-            blog = express.createServer();
+            blog = express.createServer(),
+            map = express.createServer();
         
         app.use('/blog', blog);
+        app.use('/contact', map);
         assert.equal('/blog', blog.route);
+        assert.equal('/contact', map.route);
         
         app.get('/', function(req, res){
             assert.equal('/', app.set('home'), "home did not default /");
             assert.equal('/blog', blog.set('home'), "home did not default to Server#route when mounted");
+            assert.equal('/contact/map', map.set('home'), 'home did not prepend route on Server#use()');
             res.send('main app');
         });
 
