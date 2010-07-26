@@ -21,9 +21,9 @@ app.set('view engine', 'ejs');
 app.dynamicHelpers({
     basepath: function(){
         // "this" is the app, we can
-        // dynamically provide the mounted
-        // route to all templates for url usage
-        return this.route;
+        // dynamically provide the "home"
+        // setting to all views
+        return this.set('home');
     }
 });
 
