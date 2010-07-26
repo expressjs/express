@@ -212,6 +212,7 @@
 <li><a href="#app-error-function-">app.error()</a></li>
 <li><a href="#app-helpers-obj-">app.helpers()</a></li>
 <li><a href="#app-dynamicHelpers-obj-">app.dynamicHelpers()</a></li>
+<li><a href="#app-mounted-fn-">app.mounted()</a></li>
 <li><a href="#app-listen-port-host-">app.listen()</a></li>
 </ul>
 				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
@@ -312,8 +313,7 @@ or more specifically <em>EXPRESS_ENV</em>, for example:</p>
 
 <ul>
 <li><em>env</em> Application environment set internally, use <em>app.set('env')</em> on <em>Server#listen()</em></li>
-<li><em>home</em> Application base path used with <em>res.redirect()</em>, when mounted defaults
-to <em>Server#route</em>, otherwise "/". Assigned on <em>Server#listen()</em>.</li>
+<li><em>home</em> Application base path used with <em>res.redirect()</em>, when mounted defaults to <em>Server#route</em>, otherwise "/".</li>
 <li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
 <li><em>view engine</em> Default view engine name for views rendered without extensions</li>
 <li><em>reload views</em> Reloads altered views, by default watches for <em>mtime</em> changes with
@@ -919,6 +919,21 @@ becomes the local variable it is associated with.</p>
 <p>All views would now have <em>session</em> available so that session data can be accessed via <em>session.name</em> etc:</p>
 
 <pre><code>&lt;%= session.name %&gt;
+</code></pre>
+
+<h3 id="app-mounted-fn-">app.mounted(fn)</h3>
+
+<p>Assign a callback <em>fn</em> which is called when this <em>Server</em> is passed to <em>Server#use()</em>.</p>
+
+<pre><code>var app = express.createServer(),
+    blog = express.createServer();
+
+blog.mounted(function(parent){
+    // parent is app
+    // "this" is blog
+});
+
+app.use(blog);
 </code></pre>
 
 <h3 id="app-listen-port-host-">app.listen([port[, host]])</h3>

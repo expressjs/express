@@ -134,7 +134,7 @@ Express supports the following settings out of the box:
 \fIenv\fR Application environment set internally, use \fIapp\.set(\'env\')\fR on \fIServer#listen()\fR
 .
 .IP "\(bu" 4
-\fIhome\fR Application base path used with \fIres\.redirect()\fR, when mounted defaults to \fIServer#route\fR, otherwise \"/\"\. Assigned on \fIServer#listen()\fR\.
+\fIhome\fR Application base path used with \fIres\.redirect()\fR, when mounted defaults to \fIServer#route\fR, otherwise \"/\"\.
 .
 .IP "\(bu" 4
 \fIviews\fR Root views directory defaulting to \fBCWD/views\fR
@@ -1054,6 +1054,27 @@ All views would now have \fIsession\fR available so that session data can be acc
 .nf
 
 <%= session\.name %>
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.mounted(fn)"
+Assign a callback \fIfn\fR which is called when this \fIServer\fR is passed to \fIServer#use()\fR\.
+.
+.IP "" 4
+.
+.nf
+
+var app = express\.createServer(),
+    blog = express\.createServer();
+
+blog\.mounted(function(parent){
+    // parent is app
+    // \"this\" is blog
+});
+
+app\.use(blog);
 .
 .fi
 .
