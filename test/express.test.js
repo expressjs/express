@@ -182,6 +182,22 @@ module.exports = {
         });
     },
     
+    'test #configure() immediate call': function(assert){
+        var app = express.createServer();
+
+        app.configure(function(){
+            app.use(connect.bodyDecoder());
+        });
+        
+        app.post('/', function(req, res){
+            res.send(req.param('name') || 'nope');
+        });
+
+        assert.response(app,
+            { url: '/', method: 'POST', data: 'name=tj', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
+            { body: 'tj' });
+    },
+    
     'test #set()': function(assert){
         var app = express.createServer();
         var ret = app.set('title', 'My App').set('something', 'else');
