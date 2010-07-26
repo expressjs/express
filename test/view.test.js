@@ -184,7 +184,7 @@ module.exports = {
         });
 
         var ret = app.dynamicHelpers({
-            session: function(req, res, params){
+            session: function(req, res){
                 assert.equal('object', typeof req, 'Test dynamic helper req');
                 assert.equal('object', typeof req, 'Test dynamic helper res');
                 assert.equal('object', typeof req, 'Test dynamic helper params');

@@ -17,9 +17,9 @@ module.exports = {
             res.end('wahoo');
         });
 
-        server.put('/user/:id', function(req, res, params){
+        server.put('/user/:id', function(req, res){
             res.writeHead(200, {});
-            res.end('updated user ' + params.id)
+            res.end('updated user ' + req.params.id)
         });
 
         assert.response(server,
@@ -60,7 +60,7 @@ module.exports = {
         // Passing down middleware stack
         var app = express.createServer();
         
-        app.get('/', function(req, res, params, next){
+        app.get('/', function(req, res, next){
             next(new Error('broken'));
         });
         
@@ -73,7 +73,7 @@ module.exports = {
         // Custom handler
         var app = express.createServer();
         
-        app.get('/', function(req, res, params, next){
+        app.get('/', function(req, res, next){
             next(new Error('broken'));
         });
         
@@ -88,10 +88,10 @@ module.exports = {
         // Multiple error()s
         var app = express.createServer();
         
-        app.get('/', function(req, res, params, next){
+        app.get('/', function(req, res, next){
             throw new Error('broken');
         });
-        app.get('/foo', function(req, res, params, next){
+        app.get('/foo', function(req, res, next){
             throw new Error('oh noes');
         });
         
@@ -118,8 +118,8 @@ module.exports = {
     'test next()': function(assert){
         var app = express.createServer();
         
-        app.get('/user.:format?', function(req, res, params, next){
-            switch (params.format) {
+        app.get('/user.:format?', function(req, res, next){
+            switch (req.params.format) {
                 case 'json':
                     res.writeHead(200, {});
                     res.end('some json');
@@ -146,7 +146,7 @@ module.exports = {
     'test #use()': function(assert){
         var app = express.createServer();
 
-        app.get('/users', function(req, res, params, next){
+        app.get('/users', function(req, res, next){
             next(new Error('fail!!'));
         });
         app.use('/', connect.errorHandler({ showMessage: true }));
@@ -213,7 +213,7 @@ module.exports = {
             });
         });
         
-        app.get('/', function(req, res, params, next){
+        app.get('/', function(req, res, next){
             res.write(' route ');
             next();
         });
@@ -296,8 +296,8 @@ module.exports = {
             res.send('blog index');
         });
         
-        blog.get('/post/:id', function(req, res, params){
-            res.send('blog post ' + params.id);
+        blog.get('/post/:id', function(req, res){
+            res.send('blog post ' + req.params.id);
         });
         
         assert.response(app,
