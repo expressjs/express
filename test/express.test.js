@@ -266,16 +266,24 @@ module.exports = {
     },
     
     'test mounting': function(assert){
-        var app = express.createServer(),
+        var called,
+            app = express.createServer(),
             blog = express.createServer(),
             map = express.createServer();
 
         map.set('home', '/map');
         
+        map.mounted(function(parent){
+            called = true;
+            assert.equal(this, map, 'mounted() is not in context of the child app');
+            assert.equal(app, parent, 'mounted() was not called with parent app');
+        });
+        
         app.use('/blog', blog);
         app.use('/contact', map);
         assert.equal('/blog', blog.route);
         assert.equal('/contact', map.route);
+        assert.ok(called, 'mounted() hook failed');
         
         app.get('/', function(req, res){
             assert.equal('/', app.set('home'), "home did not default to /");
