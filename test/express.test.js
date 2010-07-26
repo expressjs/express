@@ -197,6 +197,30 @@ module.exports = {
             { url: '/', method: 'POST', data: 'name=tj', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
             { body: 'tj' });
     },
+
+    'test #configure() precedence': function(assert){
+        var app = express.createServer();
+
+        app.configure(function(){
+            app.use(function(req, res, next){
+                res.writeHead(200, {});
+                res.write('first');
+                next();
+            });
+            app.use(app.router);
+            app.use(function(req, res, next){
+                res.end('last');
+            });
+        });
+        
+        app.get('/', function(req, res){
+            res.write(' route ')
+        });
+
+        assert.response(app,
+            { url: '/' },
+            { body: 'first route last' });
+    },
     
     'test #set()': function(assert){
         var app = express.createServer();
