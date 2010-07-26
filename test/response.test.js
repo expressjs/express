@@ -79,8 +79,8 @@ module.exports = {
             res.send('some stylezzz');
         });
 
-        app.get('/*', function(req, res, params){
-            res.attachment(params[0]);
+        app.get('/*', function(req, res){
+            res.attachment(req.params[0]);
             res.send('whatever');
         });
         
@@ -100,9 +100,9 @@ module.exports = {
 
         app2.redirect('google', 'http://google.com');
 
-        app2.redirect('blog', function(req, res, params){
-            return params.id
-                ? '/user/' + params.id + '/blog'
+        app2.redirect('blog', function(req, res){
+            return req.params.id
+                ? '/user/' + req.params.id + '/blog'
                 : null;
         });
         
@@ -174,8 +174,8 @@ module.exports = {
     'test #sendfile()': function(assert){
         var app = express.createServer();
         
-        app.get('/*', function(req, res, params){
-            var file = params[0];
+        app.get('/*', function(req, res){
+            var file = req.params[0];
             res.sendfile(__dirname + '/fixtures/' + file);
         });
         
@@ -196,12 +196,12 @@ module.exports = {
     'test #download()': function(assert){
         var app = express.createServer();
         
-        app.get('/json', function(req, res, params, next){
+        app.get('/json', function(req, res, next){
             res.download(__dirname + '/fixtures/user.json', 'account.json');
         });
 
-        app.get('/:file', function(req, res, params, next){
-            res.download(__dirname + '/fixtures/' + params.file);
+        app.get('/:file', function(req, res, next){
+            res.download(__dirname + '/fixtures/' + req.params.file);
         });
         
         assert.response(app,
