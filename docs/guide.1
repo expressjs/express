@@ -68,7 +68,7 @@ app\.listen(3000);
 Express supports arbitrary environments, such as \fIproduction\fR and \fIdevelopment\fR\. Developers can use the \fIconfigure()\fR method to setup needs required by the current environment\. When \fIconfigure()\fR is called without an environment name it will be run in \fIevery\fR environment prior to the environment specific callback\.
 .
 .P
-In the example below we only \fIdumpExceptions\fR, and respond with exception stack traces in \fIdevelopment\fR mode, however for both environments we utilize \fImethodOverride\fR and \fIbodyDecoder\fR\.
+In the example below we only \fIdumpExceptions\fR, and respond with exception stack traces in \fIdevelopment\fR mode, however for both environments we utilize \fImethodOverride\fR and \fIbodyDecoder\fR\. Note the use of \fIapp\.router\fR, which can (optionally) be used to mount the application routes, otherwise the first call to \fIapp\.{get,put,del,post}()\fR will mount the routes\.
 .
 .IP "" 4
 .
@@ -77,6 +77,8 @@ In the example below we only \fIdumpExceptions\fR, and respond with exception st
 app\.configure(function(){
     app\.use(connect\.methodOverride());
     app\.use(connect\.bodyDecoder());
+    app\.use(app\.router);
+    app\.use(connect\.staticProvider(__dirname + \'/public\'));
 });
 
 app\.configure(\'development\', function(){

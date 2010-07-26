@@ -1120,7 +1120,7 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 
     <span class="comment">// Cache contents</span>
     <span class="keyword">try</span> {
-        <span class="keyword">var</span> <span class="variable">str</span> = <span class="variable">viewCache</span>[<span class="variable">path</span>] || <span class="variable">cacheViewSync</span>(<span class="variable">path</span>);
+        <span class="keyword">var</span> <span class="variable">str</span> = (<span class="variable">options</span>.<span class="variable">cache</span> ? <span class="variable">viewCache</span>[<span class="variable">path</span>] : <span class="keyword">null</span>) || <span class="variable">cacheViewSync</span>(<span class="variable">path</span>);
     } <span class="keyword">catch</span> (<span class="variable">err</span>) {
         <span class="keyword">return</span> <span class="variable">error</span>(<span class="variable">err</span>);
     }

@@ -39,10 +39,14 @@ prior to the environment specific callback.
 
 In the example below we only _dumpExceptions_, and respond with exception stack traces
 in _development_ mode, however for both environments we utilize _methodOverride_ and _bodyDecoder_.
+Note the use of _app.router_, which can (optionally) be used to mount the application routes,
+otherwise the first call to _app.{get,put,del,post}()_ will mount the routes.
 
     app.configure(function(){
 		app.use(connect.methodOverride());
 		app.use(connect.bodyDecoder());
+		app.use(app.router);
+		app.use(connect.staticProvider(__dirname + '/public'));
 	});
 	
 	app.configure('development', function(){

@@ -270,11 +270,15 @@ can use the <em>configure()</em> method to setup needs required by the current e
 prior to the environment specific callback.</p>
 
 <p>In the example below we only <em>dumpExceptions</em>, and respond with exception stack traces
-in <em>development</em> mode, however for both environments we utilize <em>methodOverride</em> and <em>bodyDecoder</em>.</p>
+in <em>development</em> mode, however for both environments we utilize <em>methodOverride</em> and <em>bodyDecoder</em>.
+Note the use of <em>app.router</em>, which can (optionally) be used to mount the application routes,
+otherwise the first call to <em>app.{get,put,del,post}()</em> will mount the routes.</p>
 
 <pre><code>app.configure(function(){
     app.use(connect.methodOverride());
     app.use(connect.bodyDecoder());
+    app.use(app.router);
+    app.use(connect.staticProvider(__dirname + '/public'));
 });
 
 app.configure('development', function(){
