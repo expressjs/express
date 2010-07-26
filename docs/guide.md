@@ -91,11 +91,11 @@ Express supports the following settings out of the box:
 
 Express utilizes the HTTP verbs to provide a meaningful, expressive routing API.
 For example we may want to render a user's account for the path _/user/12_, this
-can be done by defining the route below. The values associated to the named placeholders,
-are passed as the _third_ argument, which here we name _params_.
+can be done by defining the route below. The values associated to the named placeholders 
+are available as `req.params`.
 
-    app.get('/user/:id', function(req, res, params){
-		res.send('user ' + params.id);
+    app.get('/user/:id', function(req, res){
+		res.send('user ' + req.params.id);
 	});
 
 A route is simple a string which is compiled to a _RegExp_ internally. For example
@@ -104,10 +104,10 @@ when _/user/:id_ is compiled, a simplified version of the regexp may look simila
     \/user\/([^\/]+)\/?
 
 Regular expression literals may also be passed for complex uses. Since capture
-groups with literal _RegExp_'s are anonymous we can access them directly from the _params_ array.
+groups with literal _RegExp_'s are anonymous we can access them directly `req.params`.
 
-    app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res, params){
-        res.send(params);
+    app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res){
+        res.send(req.params);
     });
 
 Curl requests against the previously defined route:
@@ -154,18 +154,20 @@ may consume:
 
 ### Passing Route Control
 
-We may pass control to the next _matching_ route, by calling the _fourth_ parameter,
-the _next()_ function. When a match cannot be made, control is passed back to Connect.
+We may pass control to the next _matching_ route, by calling the _third_ argument,
+the _next()_ function. When a match cannot be made, control is passed back to Connect,
+and middleware continue to be invoked.
 
-	app.get('/users/:id?', function(req, res, params){
-		if (params.id) {
+	app.get('/users/:id?', function(req, res){
+		var id = req.params.id;
+		if (id) {
 			// do something
 		} else {
 			next();
 		}
 	});
 	
-	app.get('/users', function(req, res, params){
+	app.get('/users', function(req, res){
 		// do something else
 	});
 
@@ -350,9 +352,9 @@ to "text/html" using the mime lookup table.
 
 Return the value of param _name_ when present.
 
-  - Checks route placeholders, ex: /user/:id
-  - Checks query string params, ex: ?id=12
-  - Checks urlencoded body params, ex: id=12
+  - Checks route placeholders (_req.params_), ex: /user/:id
+  - Checks query string params (_req.query_), ex: ?id=12
+  - Checks urlencoded body params (_req.body_), ex: id=12
 
 To utilize urlencoded request bodies, _req.body_
 should be an object. This can be done by using
@@ -566,8 +568,8 @@ Now in a route we may call:
 
 We may also map dynamic redirects:
 
-    app.redirect('comments', function(req, res, params){
-        return '/post/' + params.id + '/comments';
+    app.redirect('comments', function(req, res){
+        return '/post/' + req.params.id + '/comments';
     });
 
 So now we may do the following, and the redirect will dynamically adjust to
@@ -606,12 +608,12 @@ as well as the _name()_ function exposed.
 ### app.dynamicHelpers(obj)
 
 Registers dynamic view helpers. Dynamic view helpers
-are simply functions which accept _req_, _res_, and _params_, and are
+are simply functions which accept _req_, _res_, and are
 evaluated against the _Server_ instance before a view is rendered. The _return value_ of this function
 becomes the local variable it is associated with.
 
     app.dynamicHelpers({
-		session: function(req, res, params){
+		session: function(req, res){
 			return req.session;
 		}
     });

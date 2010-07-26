@@ -329,11 +329,11 @@ or more specifically <em>EXPRESS_ENV</em>, for example:</p>
 
 <p>Express utilizes the HTTP verbs to provide a meaningful, expressive routing API.
 For example we may want to render a user's account for the path <em>/user/12</em>, this
-can be done by defining the route below. The values associated to the named placeholders,
-are passed as the <em>third</em> argument, which here we name <em>params</em>.</p>
+can be done by defining the route below. The values associated to the named placeholders
+are available as <code>req.params</code>.</p>
 
-<pre><code>app.get('/user/:id', function(req, res, params){
-    res.send('user ' + params.id);
+<pre><code>app.get('/user/:id', function(req, res){
+    res.send('user ' + req.params.id);
 });
 </code></pre>
 
@@ -344,10 +344,10 @@ when <em>/user/:id</em> is compiled, a simplified version of the regexp may look
 </code></pre>
 
 <p>Regular expression literals may also be passed for complex uses. Since capture
-groups with literal <em>RegExp</em>'s are anonymous we can access them directly from the <em>params</em> array.</p>
+groups with literal <em>RegExp</em>'s are anonymous we can access them directly <code>req.params</code>.</p>
 
-<pre><code>app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res, params){
-    res.send(params);
+<pre><code>app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res){
+    res.send(req.params);
 });
 </code></pre>
 
@@ -397,18 +397,20 @@ may consume:</p>
 
 <h3 id="Passing-Route-Control">Passing Route Control</h3>
 
-<p>We may pass control to the next <em>matching</em> route, by calling the <em>fourth</em> parameter,
-the <em>next()</em> function. When a match cannot be made, control is passed back to Connect.</p>
+<p>We may pass control to the next <em>matching</em> route, by calling the <em>third</em> argument,
+the <em>next()</em> function. When a match cannot be made, control is passed back to Connect,
+and middleware continue to be invoked.</p>
 
-<pre><code>app.get('/users/:id?', function(req, res, params){
-    if (params.id) {
+<pre><code>app.get('/users/:id?', function(req, res){
+    var id = req.params.id;
+    if (id) {
         // do something
     } else {
         next();
     }
 });
 
-app.get('/users', function(req, res, params){
+app.get('/users', function(req, res){
     // do something else
 });
 </code></pre>
@@ -618,9 +620,9 @@ req.accepts('png');
 <p>Return the value of param <em>name</em> when present.</p>
 
 <ul>
-<li>Checks route placeholders, ex: /user/:id</li>
-<li>Checks query string params, ex: ?id=12</li>
-<li>Checks urlencoded body params, ex: id=12</li>
+<li>Checks route placeholders (<em>req.params</em>), ex: /user/:id</li>
+<li>Checks query string params (<em>req.query</em>), ex: ?id=12</li>
+<li>Checks urlencoded body params (<em>req.body</em>), ex: id=12</li>
 </ul>
 
 
@@ -864,8 +866,8 @@ app.configure('development', function(){
 
 <p>We may also map dynamic redirects:</p>
 
-<pre><code>app.redirect('comments', function(req, res, params){
-    return '/post/' + params.id + '/comments';
+<pre><code>app.redirect('comments', function(req, res){
+    return '/post/' + req.params.id + '/comments';
 });
 </code></pre>
 
@@ -909,12 +911,12 @@ as well as the <em>name()</em> function exposed.</p>
 <h3 id="app-dynamicHelpers-obj-">app.dynamicHelpers(obj)</h3>
 
 <p>Registers dynamic view helpers. Dynamic view helpers
-are simply functions which accept <em>req</em>, <em>res</em>, and <em>params</em>, and are
+are simply functions which accept <em>req</em>, <em>res</em>, and are
 evaluated against the <em>Server</em> instance before a view is rendered. The <em>return value</em> of this function
 becomes the local variable it is associated with.</p>
 
 <pre><code>app.dynamicHelpers({
-    session: function(req, res, params){
+    session: function(req, res){
         return req.session;
     }
 });

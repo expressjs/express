@@ -165,14 +165,14 @@ app\.get(\'/user/:id\', function(req, res){
 .IP "" 0
 .
 .P
-Route parameters are also passed as the third argument:
+Route parameters are available via \fBreq\.params\fR:
 .
 .IP "" 4
 .
 .nf
 
-app\.get(\'/user/:id\', function(req, res, params){
-    params\.id;
+app\.get(\'/user/:id\', function(req, res){
+    req\.params\.id;
 });
 .
 .fi
@@ -195,13 +195,13 @@ get(\'/\', function(){
 .IP "" 0
 .
 .P
-Now Express has access to Connect\'s \fInext()\fR function, which is passed as the fourth and final argument\. Calling \fInext()\fR will pass control to the next \fImatching route\fR, or continue down the stack of Connect middleware\.
+Now Express has access to Connect\'s \fInext()\fR function, which is passed as the third and final argument\. Calling \fInext()\fR will pass control to the next \fImatching route\fR, or continue down the stack of Connect middleware\.
 .
 .IP "" 4
 .
 .nf
 
-app\.get(\'/user/:id?\', function(req, res, params, next){
+app\.get(\'/user/:id?\', function(req, res, next){
     next();
 });
 

@@ -150,14 +150,14 @@ Express supports the following settings out of the box:
 .IP "" 0
 .
 .SS "Routing"
-Express utilizes the HTTP verbs to provide a meaningful, expressive routing API\. For example we may want to render a user\'s account for the path \fI/user/12\fR, this can be done by defining the route below\. The values associated to the named placeholders, are passed as the \fIthird\fR argument, which here we name \fIparams\fR\.
+Express utilizes the HTTP verbs to provide a meaningful, expressive routing API\. For example we may want to render a user\'s account for the path \fI/user/12\fR, this can be done by defining the route below\. The values associated to the named placeholders are available as \fBreq\.params\fR\.
 .
 .IP "" 4
 .
 .nf
 
-app\.get(\'/user/:id\', function(req, res, params){
-    res\.send(\'user \' + params\.id);
+app\.get(\'/user/:id\', function(req, res){
+    res\.send(\'user \' + req\.params\.id);
 });
 .
 .fi
@@ -178,14 +178,14 @@ A route is simple a string which is compiled to a \fIRegExp\fR internally\. For 
 .IP "" 0
 .
 .P
-Regular expression literals may also be passed for complex uses\. Since capture groups with literal \fIRegExp\fR\'s are anonymous we can access them directly from the \fIparams\fR array\.
+Regular expression literals may also be passed for complex uses\. Since capture groups with literal \fIRegExp\fR\'s are anonymous we can access them directly \fBreq\.params\fR\.
 .
 .IP "" 4
 .
 .nf
 
-app\.get(/^\\/users?(?:\\/(\\d+)(?:\\\.\\\.(\\d+))?)?/, function(req, res, params){
-    res\.send(params);
+app\.get(/^\\/users?(?:\\/(\\d+)(?:\\\.\\\.(\\d+))?)?/, function(req, res){
+    res\.send(req\.params);
 });
 .
 .fi
@@ -252,21 +252,22 @@ Below are some route examples, and the associated paths that they may consume:
 .IP "" 0
 .
 .SS "Passing Route Control"
-We may pass control to the next \fImatching\fR route, by calling the \fIfourth\fR parameter, the \fInext()\fR function\. When a match cannot be made, control is passed back to Connect\.
+We may pass control to the next \fImatching\fR route, by calling the \fIthird\fR argument, the \fInext()\fR function\. When a match cannot be made, control is passed back to Connect, and middleware continue to be invoked\.
 .
 .IP "" 4
 .
 .nf
 
-app\.get(\'/users/:id?\', function(req, res, params){
-    if (params\.id) {
+app\.get(\'/users/:id?\', function(req, res){
+    var id = req\.params\.id;
+    if (id) {
         // do something
     } else {
         next();
     }
 });
 
-app\.get(\'/users\', function(req, res, params){
+app\.get(\'/users\', function(req, res){
     // do something else
 });
 .
@@ -587,13 +588,13 @@ req\.accepts(\'png\');
 Return the value of param \fIname\fR when present\.
 .
 .IP "\(bu" 4
-Checks route placeholders, ex: /user/:id
+Checks route placeholders (\fIreq\.params\fR), ex: /user/:id
 .
 .IP "\(bu" 4
-Checks query string params, ex: ?id=12
+Checks query string params (\fIreq\.query\fR), ex: ?id=12
 .
 .IP "\(bu" 4
-Checks urlencoded body params, ex: id=12
+Checks urlencoded body params (\fIreq\.body\fR), ex: id=12
 .
 .IP "" 0
 .
@@ -963,8 +964,8 @@ We may also map dynamic redirects:
 .
 .nf
 
-app\.redirect(\'comments\', function(req, res, params){
-    return \'/post/\' + params\.id + \'/comments\';
+app\.redirect(\'comments\', function(req, res){
+    return \'/post/\' + req\.params\.id + \'/comments\';
 });
 .
 .fi
@@ -1032,14 +1033,14 @@ Our view could now utilize the \fIfirstName\fR and \fIlastName\fR variables, as 
 .IP "" 0
 .
 .SS "app\.dynamicHelpers(obj)"
-Registers dynamic view helpers\. Dynamic view helpers are simply functions which accept \fIreq\fR, \fIres\fR, and \fIparams\fR, and are evaluated against the \fIServer\fR instance before a view is rendered\. The \fIreturn value\fR of this function becomes the local variable it is associated with\.
+Registers dynamic view helpers\. Dynamic view helpers are simply functions which accept \fIreq\fR, \fIres\fR, and are evaluated against the \fIServer\fR instance before a view is rendered\. The \fIreturn value\fR of this function becomes the local variable it is associated with\.
 .
 .IP "" 4
 .
 .nf
 
 app\.dynamicHelpers({
-    session: function(req, res, params){
+    session: function(req, res){
         return req\.session;
     }
 });
