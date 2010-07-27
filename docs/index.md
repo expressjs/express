@@ -38,3 +38,9 @@ The following are the major contributors of Express (in no specific order).
   * View the [Connect Wiki](http://wiki.github.com/senchalabs/connect/) for contrib middleware
   * View the [examples](http://github.com/visionmedia/express/tree/master/examples/)
   * View the [source](http://github.com/visionmedia/express)
+
+## Apps Using Express
+
+  * [LearnBoost](http://www.learnboost.com/) - classroom software
+  * [Node Knockout](http://nodeknockout.com/) - node knockout competition site
+  * [Node News](http://mape.me:1342/) - node news aggregator
