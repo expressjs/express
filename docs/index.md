@@ -41,6 +41,5 @@ The following are the major contributors of Express (in no specific order).
 
 ## Apps Using Express
 
-  * [LearnBoost](http://www.learnboost.com/) - classroom software
   * [Node Knockout](http://nodeknockout.com/) - node knockout competition site
   * [Node News](http://nodejs.se/) - node news aggregator
