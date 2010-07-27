@@ -43,4 +43,4 @@ The following are the major contributors of Express (in no specific order).
 
   * [LearnBoost](http://www.learnboost.com/) - classroom software
   * [Node Knockout](http://nodeknockout.com/) - node knockout competition site
-  * [Node News](http://mape.me:1342/) - node news aggregator
+  * [Node News](http://nodejs.se/) - node news aggregator
