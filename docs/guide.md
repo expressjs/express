@@ -7,7 +7,6 @@ curl:
 
 npm:
 
-    $ npm install connect
     $ npm install express
 
 git clone, first update the submodules:

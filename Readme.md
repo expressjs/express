@@ -16,7 +16,6 @@
 
 npm:
 
-    $ npm install connect
     $ npm install express
 
 curl:
