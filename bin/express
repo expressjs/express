@@ -85,7 +85,6 @@ var app = [
     '});',
     '',
     'app.configure(\'development\', function(){',
-    '    app.set(\'reload views\', 500);',
     '    app.use(connect.errorHandler({ dumpExceptions: true, showStack: true })); ',
     '});',
     '',

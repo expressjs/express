@@ -83,8 +83,6 @@ Express supports the following settings out of the box:
   * _home_ Application base path used for _res.redirect()_ and transparently handling mounted apps.
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
-  * _reload views_ Reloads altered views, by default watches for _mtime_ changes with
-      with a 500 millisecond interval.
 
 ### Routing
 
@@ -522,9 +520,9 @@ pseudo globals (local variables) by using _as: global_, which again is syntactic
 Apply an application level setting _name_ to _val_, or
 get the value of _name_ when _val_ is not present:
 
-    app.set('reload views', 200);
-    app.set('reload views');
-    // => 200
+    app.set('views', __dirname + '/views');
+    app.set('views');
+    // => ...path...
 
 ### app.enable(name)
 

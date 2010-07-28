@@ -22,14 +22,6 @@ var app = express.createServer(
 
 app.set('views', __dirname + '/views');
 
-// Enable auto-reloading of view contents when changed
-// with an interval of 1000 milliseconds. Start the app
-// with $ node examples/jade/app.js
-// then alter some views :)
-
-app.set('reload views', 1000);
-// or app.enable('reload views'); for defaults
-
 // Set our default template engine to "jade"
 // which prevents the need for extensions (although you can still mix and match)
 app.set('view engine', 'jade');
