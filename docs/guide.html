@@ -319,8 +319,6 @@ or more specifically <em>EXPRESS_ENV</em>, for example:</p>
 <li><em>home</em> Application base path used for <em>res.redirect()</em> and transparently handling mounted apps.</li>
 <li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
 <li><em>view engine</em> Default view engine name for views rendered without extensions</li>
-<li><em>reload views</em> Reloads altered views, by default watches for <em>mtime</em> changes with
-  with a 500 millisecond interval.</li>
 </ul>
 
 
@@ -758,7 +756,6 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 <ul>
 <li><em>context|scope</em>   Template evaluation context (<em>this</em>)</li>
 <li><em>locals</em>          Object containing local variables</li>
-<li><em>cache</em>           Cache intermediate JavaScript in memory (the default in <em>production</em> mode)</li>
 <li><em>debug</em>           Output debugging information</li>
 </ul>
 
@@ -816,9 +813,9 @@ pseudo globals (local variables) by using <em>as: global</em>, which again is sy
 <p>Apply an application level setting <em>name</em> to <em>val</em>, or
 get the value of <em>name</em> when <em>val</em> is not present:</p>
 
-<pre><code>app.set('reload views', 200);
-app.set('reload views');
-// =&gt; 200
+<pre><code>app.set('views', __dirname + '/views');
+app.set('views');
+// =&gt; ...path...
 </code></pre>
 
 <h3 id="app-enable-name-">app.enable(name)</h3>
