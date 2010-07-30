@@ -97,10 +97,10 @@ Polymorphic parameter access can be done using `req.param()`:
 		req.param('id');
 	});
 
-Route parameters are also passed as the third argument:
+Route parameters are available via `req.params`:
 
-    app.get('/user/:id', function(req, res, params){
-		params.id;
+    app.get('/user/:id', function(req, res){
+		req.params.id;
     });
 
 ### Passing Route Control
@@ -114,11 +114,11 @@ implemented for practical use:
     });
 
 Now Express has access to Connect's _next()_ function,
-which is passed as the fourth and final argument. Calling _next()_ will
+which is passed as the third and final argument. Calling _next()_ will
 pass control to the next _matching route_, or continue down the stack
 of Connect middleware.
 
-    app.get('/user/:id?', function(req, res, params, next){
+    app.get('/user/:id?', function(req, res, next){
 	    next();
     });
 

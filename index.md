@@ -38,3 +38,12 @@ The following are the major contributors of Express (in no specific order).
   * View the [Connect Wiki](http://wiki.github.com/senchalabs/connect/) for contrib middleware
   * View the [examples](http://github.com/visionmedia/express/tree/master/examples/)
   * View the [source](http://github.com/visionmedia/express)
+
+## Apps Using Express
+
+  * [wtfjs](http://wtfjs.com/) - JavaScript WTFs :)
+  * [Node Knockout](http://nodeknockout.com/) - node knockout competition site
+  * [Node News](http://nodejs.se/) - node news aggregator
+  * [Code Shelver](http://codeshelver.com/) - GitHub watch list app
+  * [Clickdummy](http://clickdummy.net/) - Fast prototyping for designers
+  * [E-Resistible](e-resistible.co.uk) - Online takeaway ordering app 

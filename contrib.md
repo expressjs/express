@@ -31,3 +31,8 @@ To accept a contribution, you should follow these guidelines:
   * Your commit(s) should be _focused_, do not commit once for several changes
   * Do _not_ alter release information such as the _version_, or _History.md_
   * Indents are _4_ spaces.
+
+### Documentation
+
+To contribute documentation edit the markdown files in _./docs_, however
+do _not_ run _make docs_, as they will be re-built and published with each release.

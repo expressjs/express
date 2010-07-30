@@ -212,6 +212,7 @@
 <li><a href="#app-error-function-">app.error()</a></li>
 <li><a href="#app-helpers-obj-">app.helpers()</a></li>
 <li><a href="#app-dynamicHelpers-obj-">app.dynamicHelpers()</a></li>
+<li><a href="#app-mounted-fn-">app.mounted()</a></li>
 <li><a href="#app-listen-port-host-">app.listen()</a></li>
 </ul>
 				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
@@ -235,8 +236,7 @@
 
 <p>npm:</p>
 
-<pre><code>$ npm install connect
-$ npm install express
+<pre><code>$ npm install express
 </code></pre>
 
 <p>git clone, first update the submodules:</p>
@@ -269,11 +269,15 @@ can use the <em>configure()</em> method to setup needs required by the current e
 prior to the environment specific callback.</p>
 
 <p>In the example below we only <em>dumpExceptions</em>, and respond with exception stack traces
-in <em>development</em> mode, however for both environments we utilize <em>methodOverride</em> and <em>bodyDecoder</em>.</p>
+in <em>development</em> mode, however for both environments we utilize <em>methodOverride</em> and <em>bodyDecoder</em>.
+Note the use of <em>app.router</em>, which can (optionally) be used to mount the application routes,
+otherwise the first call to <em>app.{get,put,del,post}()</em> will mount the routes.</p>
 
 <pre><code>app.configure(function(){
     app.use(connect.methodOverride());
     app.use(connect.bodyDecoder());
+    app.use(app.router);
+    app.use(connect.staticProvider(__dirname + '/public'));
 });
 
 app.configure('development', function(){
@@ -312,12 +316,9 @@ or more specifically <em>EXPRESS_ENV</em>, for example:</p>
 
 <ul>
 <li><em>env</em> Application environment set internally, use <em>app.set('env')</em> on <em>Server#listen()</em></li>
-<li><em>home</em> Application base path used with <em>res.redirect()</em>, when mounted defaults
-to <em>Server#route</em>, otherwise "/". Assigned on <em>Server#listen()</em>.</li>
+<li><em>home</em> Application base path used for <em>res.redirect()</em> and transparently handling mounted apps.</li>
 <li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
 <li><em>view engine</em> Default view engine name for views rendered without extensions</li>
-<li><em>reload views</em> Reloads altered views, by default watches for <em>mtime</em> changes with
-  with a 5 minute interval. Example: <em>app.set('reload views', 60000);</em></li>
 </ul>
 
 
@@ -325,11 +326,11 @@ to <em>Server#route</em>, otherwise "/". Assigned on <em>Server#listen()</em>.</
 
 <p>Express utilizes the HTTP verbs to provide a meaningful, expressive routing API.
 For example we may want to render a user's account for the path <em>/user/12</em>, this
-can be done by defining the route below. The values associated to the named placeholders,
-are passed as the <em>third</em> argument, which here we name <em>params</em>.</p>
+can be done by defining the route below. The values associated to the named placeholders
+are available as <code>req.params</code>.</p>
 
-<pre><code>app.get('/user/:id', function(req, res, params){
-    res.send('user ' + params.id);
+<pre><code>app.get('/user/:id', function(req, res){
+    res.send('user ' + req.params.id);
 });
 </code></pre>
 
@@ -340,10 +341,10 @@ when <em>/user/:id</em> is compiled, a simplified version of the regexp may look
 </code></pre>
 
 <p>Regular expression literals may also be passed for complex uses. Since capture
-groups with literal <em>RegExp</em>'s are anonymous we can access them directly from the <em>params</em> array.</p>
+groups with literal <em>RegExp</em>'s are anonymous we can access them directly <code>req.params</code>.</p>
 
-<pre><code>app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res, params){
-    res.send(params);
+<pre><code>app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res){
+    res.send(req.params);
 });
 </code></pre>
 
@@ -393,18 +394,20 @@ may consume:</p>
 
 <h3 id="Passing-Route-Control">Passing Route Control</h3>
 
-<p>We may pass control to the next <em>matching</em> route, by calling the <em>fourth</em> parameter,
-the <em>next()</em> function. When a match cannot be made, control is passed back to Connect.</p>
+<p>We may pass control to the next <em>matching</em> route, by calling the <em>third</em> argument,
+the <em>next()</em> function. When a match cannot be made, control is passed back to Connect,
+and middleware continue to be invoked.</p>
 
-<pre><code>app.get('/users/:id?', function(req, res, params){
-    if (params.id) {
+<pre><code>app.get('/users/:id?', function(req, res){
+    var id = req.params.id;
+    if (id) {
         // do something
     } else {
         next();
     }
 });
 
-app.get('/users', function(req, res, params){
+app.get('/users', function(req, res){
     // do something else
 });
 </code></pre>
@@ -614,9 +617,9 @@ req.accepts('png');
 <p>Return the value of param <em>name</em> when present.</p>
 
 <ul>
-<li>Checks route placeholders, ex: /user/:id</li>
-<li>Checks query string params, ex: ?id=12</li>
-<li>Checks urlencoded body params, ex: id=12</li>
+<li>Checks route placeholders (<em>req.params</em>), ex: /user/:id</li>
+<li>Checks query string params (<em>req.query</em>), ex: ?id=12</li>
+<li>Checks urlencoded body params (<em>req.body</em>), ex: id=12</li>
 </ul>
 
 
@@ -753,7 +756,6 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 <ul>
 <li><em>context|scope</em>   Template evaluation context (<em>this</em>)</li>
 <li><em>locals</em>          Object containing local variables</li>
-<li><em>cache</em>           Cache intermediate JavaScript in memory (the default in <em>production</em> mode)</li>
 <li><em>debug</em>           Output debugging information</li>
 </ul>
 
@@ -811,9 +813,9 @@ pseudo globals (local variables) by using <em>as: global</em>, which again is sy
 <p>Apply an application level setting <em>name</em> to <em>val</em>, or
 get the value of <em>name</em> when <em>val</em> is not present:</p>
 
-<pre><code>app.set('reload views', 200);
-app.set('reload views');
-// =&gt; 200
+<pre><code>app.set('views', __dirname + '/views');
+app.set('views');
+// =&gt; ...path...
 </code></pre>
 
 <h3 id="app-enable-name-">app.enable(name)</h3>
@@ -860,8 +862,8 @@ app.configure('development', function(){
 
 <p>We may also map dynamic redirects:</p>
 
-<pre><code>app.redirect('comments', function(req, res, params){
-    return '/post/' + params.id + '/comments';
+<pre><code>app.redirect('comments', function(req, res){
+    return '/post/' + req.params.id + '/comments';
 });
 </code></pre>
 
@@ -905,12 +907,12 @@ as well as the <em>name()</em> function exposed.</p>
 <h3 id="app-dynamicHelpers-obj-">app.dynamicHelpers(obj)</h3>
 
 <p>Registers dynamic view helpers. Dynamic view helpers
-are simply functions which accept <em>req</em>, <em>res</em>, and <em>params</em>, and are
+are simply functions which accept <em>req</em>, <em>res</em>, and are
 evaluated against the <em>Server</em> instance before a view is rendered. The <em>return value</em> of this function
 becomes the local variable it is associated with.</p>
 
 <pre><code>app.dynamicHelpers({
-    session: function(req, res, params){
+    session: function(req, res){
         return req.session;
     }
 });
@@ -919,6 +921,21 @@ becomes the local variable it is associated with.</p>
 <p>All views would now have <em>session</em> available so that session data can be accessed via <em>session.name</em> etc:</p>
 
 <pre><code>&lt;%= session.name %&gt;
+</code></pre>
+
+<h3 id="app-mounted-fn-">app.mounted(fn)</h3>
+
+<p>Assign a callback <em>fn</em> which is called when this <em>Server</em> is passed to <em>Server#use()</em>.</p>
+
+<pre><code>var app = express.createServer(),
+    blog = express.createServer();
+
+blog.mounted(function(parent){
+    // parent is app
+    // "this" is blog
+});
+
+app.use(blog);
 </code></pre>
 
 <h3 id="app-listen-port-host-">app.listen([port[, host]])</h3>

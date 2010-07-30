@@ -114,7 +114,7 @@ code .this { color: #19469D; }</style>
  </p>
 </td>
 <td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">version</span> = <span class="string">'1.0.0beta2'</span>;</code></pre>
+<pre><code><span class="variable">exports</span>.<span class="variable">version</span> = <span class="string">'1.0.0rc'</span>;</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -264,12 +264,12 @@ the <code>connect.bodyDecoder</code> middleware.</p>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">param</span> = <span class="keyword">function</span>(<span class="variable">name</span>){
     <span class="comment">// Route params like /user/:id</span>
-    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">params</span>.<span class="variable">path</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
-        <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">params</span>.<span class="variable">path</span>[<span class="variable">name</span>]; 
+    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">params</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
+        <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">params</span>[<span class="variable">name</span>]; 
     }
     <span class="comment">// Query string params</span>
-    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">params</span>.<span class="variable">get</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
-        <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">params</span>.<span class="variable">get</span>[<span class="variable">name</span>]; 
+    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">query</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
+        <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">query</span>[<span class="variable">name</span>]; 
     }
     <span class="comment">// Request body params via connect.bodyDecoder</span>
     <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">body</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="this">this</span>.<span class="variable">body</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
@@ -613,10 +613,17 @@ to '/'.</p>
     <span class="this">this</span>.<span class="variable">dynamicViewHelpers</span> = {};
     <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">middleware</span> || []);
 
+    <span class="comment">// Default &quot;home&quot; to / </span>
+    <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'home'</span>, <span class="string">'/'</span>);
+
+    <span class="comment">// Set &quot;env&quot; to EXPRESS_ENV or connectEnv.name</span>
+    <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>,
+        <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">EXPRESS_ENV</span> ||
+        <span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">name</span>);
+
     <span class="comment">// Expose objects to each other</span>
     <span class="this">this</span>.<span class="variable">use</span>(<span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-        <span class="variable">req</span>.<span class="variable">params</span> = <span class="variable">req</span>.<span class="variable">params</span> || {};
-        <span class="variable">req</span>.<span class="variable">params</span>.<span class="variable">get</span> = {};
+        <span class="variable">req</span>.<span class="variable">query</span> = {};
         <span class="variable">res</span>.<span class="variable">headers</span> = {};
         <span class="variable">req</span>.<span class="variable">app</span> = <span class="variable">res</span>.<span class="variable">app</span> = <span class="variable">self</span>;
         <span class="variable">req</span>.<span class="variable">res</span> = <span class="variable">res</span>;
@@ -624,15 +631,18 @@ to '/'.</p>
         <span class="variable">req</span>.<span class="variable">next</span> = <span class="variable">next</span>;
         <span class="comment">// Assign req.params.get</span>
         <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">url</span>.<span class="variable">indexOf</span>(<span class="string">'?'</span>) &<span class="variable">gt</span>; <span class="number integer">0</span>) {
-            <span class="comment">// TODO: consider simple substr to increase performance</span>
             <span class="keyword">var</span> <span class="variable">query</span> = <span class="variable">url</span>.<span class="variable">parse</span>(<span class="variable">req</span>.<span class="variable">url</span>).<span class="variable">query</span>;
-            <span class="variable">req</span>.<span class="variable">params</span>.<span class="variable">get</span> = <span class="variable">queryString</span>.<span class="variable">parse</span>(<span class="variable">query</span>);
+            <span class="variable">req</span>.<span class="variable">query</span> = <span class="variable">queryString</span>.<span class="variable">parse</span>(<span class="variable">query</span>);
         }
         <span class="variable">next</span>();
     });
 
     <span class="comment">// Use router, expose as app.get(), etc</span>
-    <span class="this">this</span>.<span class="variable">router</span> = <span class="variable">router</span>(<span class="keyword">function</span>(<span class="variable">app</span>){ <span class="variable">self</span>.<span class="variable">routes</span> = <span class="variable">app</span>; });
+    <span class="keyword">var</span> <span class="variable">fn</span> = <span class="variable">router</span>(<span class="keyword">function</span>(<span class="variable">app</span>){ <span class="variable">self</span>.<span class="variable">routes</span> = <span class="variable">app</span>; });
+    <span class="this">this</span>.<span class="variable">__defineGetter__</span>(<span class="string">'router'</span>, <span class="keyword">function</span>(){
+        <span class="this">this</span>.<span class="variable">__usedRouter</span> = <span class="variable">true</span>;
+        <span class="keyword">return</span> <span class="variable">fn</span>;
+    });
 };</code></pre>
 </td>
 </tr>
@@ -647,29 +657,61 @@ to '/'.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Start listening on the given <code>port</code> / <code>host</code>.</p>
+<p>Proxy <code>connect.Server#use()</code> to apply settings to
+mounted applications.</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>Number</em>  port</p></li><li><p><strong>param</strong>: <em>String</em>  host</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String | Function | Server</em>  route</p></li><li><p><strong>param</strong>: <em>Function | Server</em>  middleware</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span> = <span class="keyword">function</span>(<span class="variable">port</span>, <span class="variable">host</span>){
-    <span class="comment">// Default &quot;home&quot; to the mounted route or '/'</span>
-    <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">set</span>(<span class="string">'home'</span>)) {
-        <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'home'</span>, <span class="this">this</span>.<span class="variable">route</span> || <span class="string">'/'</span>);
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">use</span> = <span class="keyword">function</span>(<span class="variable">route</span>, <span class="variable">middleware</span>){
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">route</span> !== <span class="string">'string'</span>) {
+        <span class="variable">middleware</span> = <span class="variable">route</span>, <span class="variable">route</span> = <span class="string">'/'</span>;
     }
 
-    <span class="comment">// Set &quot;env&quot; to {EXPRESS,CONNECT}_ENV</span>
-    <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>, <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">EXPRESS_ENV</span> || <span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">name</span>);
-    <span class="this">this</span>.<span class="variable">runConfig</span>(<span class="string">'any'</span>, <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>));
+    <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">use</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">route</span>, <span class="variable">middleware</span>);
 
-    <span class="comment">// Setup view reloading</span>
-    <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">set</span>(<span class="string">'reload views'</span>)) {
-        <span class="variable">view</span>.<span class="variable">watcher</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'reload views'</span>));
+    <span class="comment">// Mounted an app</span>
+    <span class="keyword">if</span> (<span class="variable">middleware</span> <span class="variable">instanceof</span> <span class="class">Server</span>) {
+        <span class="comment">// Home is /:route/:home</span>
+        <span class="keyword">var</span> <span class="variable">app</span> = <span class="variable">middleware</span>,
+            <span class="variable">home</span> = <span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'home'</span>);
+        <span class="keyword">if</span> (<span class="variable">home</span> === <span class="string">'/'</span>) <span class="variable">home</span> = <span class="string">''</span>;
+        <span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'home'</span>, (<span class="variable">app</span>.<span class="variable">route</span> || <span class="string">''</span>) + <span class="variable">home</span>);
+        <span class="comment">// Mounted hook</span>
+        <span class="keyword">if</span> (<span class="variable">app</span>.<span class="variable">__mounted</span>) <span class="variable">app</span>.<span class="variable">__mounted</span>.<span class="variable">call</span>(<span class="variable">app</span>, <span class="this">this</span>);
     }
 
-    <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">port</span>, <span class="variable">host</span>);
+    <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Assign a callback <code>fn</code> which is called
+when this <code>Server</code> is passed to <code>Server#use()</code>.</p>
+
+<h2>Examples</h2>
+
+<p>   var app = express.createServer(),
+       blog = express.createServer();</p>
+
+<p>   blog.mounted(function(parent){
+       // parent is app
+       // "this" is blog
+   });</p>
+
+<p>   app.use(blog);</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">mounted</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
+    <span class="this">this</span>.<span class="variable">__mounted</span> = <span class="variable">fn</span>;
+    <span class="keyword">return</span> <span class="this">this</span>;
 };</code></pre>
 </td>
 </tr>
@@ -786,16 +828,20 @@ can be called several times to apply additional helpers.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Disable <code>setting</code>.</p>
+<p>Configure callback for the given <code>env</code>.</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  env</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">configure</span> = <span class="keyword">function</span>(<span class="variable">env</span>, <span class="variable">fn</span>){
-    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">env</span> === <span class="string">'function'</span>) <span class="variable">fn</span> = <span class="variable">env</span>, <span class="variable">env</span> = <span class="string">'any'</span>;
-    (<span class="this">this</span>.<span class="variable">config</span>[<span class="variable">env</span>] = <span class="this">this</span>.<span class="variable">config</span>[<span class="variable">env</span>] || []).<span class="variable">push</span>(<span class="variable">fn</span>);
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">env</span> === <span class="string">'function'</span>) {
+        <span class="variable">fn</span> = <span class="variable">env</span>, <span class="variable">env</span> = <span class="string">'all'</span>;
+    }
+    <span class="keyword">if</span> (<span class="variable">env</span> === <span class="string">'all'</span> || <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>) === <span class="variable">env</span>) {
+        <span class="variable">fn</span>.<span class="variable">call</span>(<span class="this">this</span>);
+    }
     <span class="keyword">return</span> <span class="this">this</span>;
 };
 
@@ -805,7 +851,6 @@ can be called several times to apply additional helpers.</p>
     <span class="class">Server</span>.<span class="variable">prototype</span>[<span class="variable">method</span>] = <span class="keyword">function</span>(<span class="variable">path</span>, <span class="variable">fn</span>){
         <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">__usedRouter</span>) {
             <span class="this">this</span>.<span class="variable">use</span>(<span class="this">this</span>.<span class="variable">router</span>);
-            <span class="this">this</span>.<span class="variable">__usedRouter</span> = <span class="variable">true</span>;
         }
         <span class="this">this</span>.<span class="variable">routes</span>[<span class="variable">method</span>](<span class="variable">path</span>, <span class="variable">fn</span>);
         <span class="keyword">return</span> <span class="this">this</span>;
@@ -974,7 +1019,7 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 <p> Most engines accept one or more of the following options,
  both <em>haml</em> and <em>jade</em> accept all:</p>
 
-<ul><li><code>context|scope</code>   Template evaluation context (<code>this</code>)</li><li><code>locals</code>    Object containing local variables</li><li><code>filename</code>  Filename used for the <code>cache</code> option</li><li><code>cache</code>     Cache intermediate JavaScript in memory</li><li><code>debug</code>     Output debugging information</li></ul>
+<ul><li><code>context|scope</code>   Template evaluation context (<code>this</code>)</li><li><code>locals</code>    Object containing local variables</li><li><code>debug</code>     Output debugging information</li></ul>
 
 <h2></h2>
 
@@ -1035,7 +1080,11 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
         <span class="keyword">var</span> <span class="variable">key</span> = <span class="variable">keys</span>[<span class="variable">i</span>],
             <span class="variable">val</span> = <span class="variable">dynamicHelpers</span>[<span class="variable">key</span>];
         <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">val</span> === <span class="string">'function'</span>) {
-            <span class="variable">helpers</span>[<span class="variable">key</span>] = <span class="variable">val</span>.<span class="variable">call</span>(<span class="this">this</span>.<span class="variable">app</span>, <span class="this">this</span>.<span class="variable">req</span>, <span class="this">this</span>, <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">params</span>.<span class="variable">path</span>);
+            <span class="variable">helpers</span>[<span class="variable">key</span>] = <span class="variable">val</span>.<span class="variable">call</span>(
+                <span class="this">this</span>.<span class="variable">app</span>, 
+                <span class="this">this</span>.<span class="variable">req</span>, 
+                <span class="this">this</span>, 
+                <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">params</span>.<span class="variable">path</span>);
         }
     }
 
@@ -1057,7 +1106,7 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 
     <span class="comment">// Cache contents</span>
     <span class="keyword">try</span> {
-        <span class="keyword">var</span> <span class="variable">str</span> = <span class="variable">viewCache</span>[<span class="variable">path</span>] || <span class="variable">cacheViewSync</span>(<span class="variable">path</span>);
+        <span class="keyword">var</span> <span class="variable">str</span> = (<span class="variable">options</span>.<span class="variable">cache</span> ? <span class="variable">viewCache</span>[<span class="variable">path</span>] : <span class="keyword">null</span>) || <span class="variable">cacheViewSync</span>(<span class="variable">path</span>);
     } <span class="keyword">catch</span> (<span class="variable">err</span>) {
         <span class="keyword">return</span> <span class="variable">error</span>(<span class="variable">err</span>);
     }
