@@ -99,11 +99,15 @@ module.exports = {
             { body: '<html><body><p>Welcome</p></body></html>' });
     },
     
-    'test #render() specific layout': function(assert){
-        var app = create();
+    'test #render() specific layout': function(assert, beforeExit){
+        var app = create(),
+            called;
 
         app.get('/', function(req, res){
-            res.render('index.jade', { layout: 'cool-layout.jade' });
+            res.render('index.jade', { layout: 'cool-layout.jade' }, function(err, html){
+                called = true;
+                res.send(html);
+            });
         });
         app.get('/no-ext', function(req, res){
             res.render('index.jade', { layout: 'cool-layout' });
@@ -127,6 +131,10 @@ module.exports = {
         assert.response(app,
             { url: '/absolute' },
             { body: '<foo></foo>' });
+
+        beforeExit(function(){
+           assert.ok(called, 'Layout callback never called'); 
+        });
     },
     
     'test #render() specific layout "view engine"': function(assert){
