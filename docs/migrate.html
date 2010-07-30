@@ -251,7 +251,7 @@ use(Cookie);
 var app = express.createServer(
     connect.logger(),
     connect.methodOverride(),
-    connect.cookie()
+    connect.cookieDecoder()
 );
 </code></pre>
 
@@ -298,10 +298,10 @@ fetching a route, query string, or request body parameter:</p>
 });
 </code></pre>
 
-<p>Route parameters are also passed as the third argument:</p>
+<p>Route parameters are available via <code>req.params</code>:</p>
 
-<pre><code>app.get('/user/:id', function(req, res, params){
-    params.id;
+<pre><code>app.get('/user/:id', function(req, res){
+    req.params.id;
 });
 </code></pre>
 
@@ -317,11 +317,11 @@ implemented for practical use:</p>
 </code></pre>
 
 <p>Now Express has access to Connect's <em>next()</em> function,
-which is passed as the fourth and final argument. Calling <em>next()</em> will
+which is passed as the third and final argument. Calling <em>next()</em> will
 pass control to the next <em>matching route</em>, or continue down the stack
 of Connect middleware.</p>
 
-<pre><code>app.get('/user/:id?', function(req, res, params, next){
+<pre><code>app.get('/user/:id?', function(req, res, next){
     next();
 });
 
