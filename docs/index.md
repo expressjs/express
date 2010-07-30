@@ -19,6 +19,7 @@
   * Session based flash notifications
   * Built on [Connect](http://github.com/senchalabs/connect)
   * [Executable](executable.html) for generating applications quickly
+  * High test coverage
 
 ## Contributors
 

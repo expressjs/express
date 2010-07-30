@@ -39,6 +39,7 @@ git clone, first update the submodules:
   * Environment based configuration
   * Session based flash notifications
   * Built on [Connect](http://github.com/senchalabs/connect)
+  * High test coverage
   * Executable for generating applications quickly
 
 Via Connect:
