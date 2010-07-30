@@ -8,7 +8,7 @@
     { "name": "Aaron Heckmann", "email": "aaron.heckmann+github@gmail.com" },
     { "name": "Ciaran Jessup", "email": "ciaranj@gmail.com" }
   ],
-  "dependencies": { "connect": ">= 0.2.2" },
+  "dependencies": { "connect": ">= 0.2.3" },
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "directories": { "lib": "./lib/express" },
   "scripts": { "test": "make test" },
