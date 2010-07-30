@@ -1,3 +1,20 @@
+
+1.0.0rc / 2010-07-28
+==================
+
+  * Added mounted hook. Closes #369
+  * Added connect dependency to _package.json_
+
+  * Removed "reload views" setting and support code
+    development env never caches, production always caches.
+
+  * Removed _param_ in route callbacks, signature is now
+    simply (req, res, next), previously (req, res, params, next).
+    Use _req.params_ for path captures, _req.query_ for GET params.
+
+  * Fixed "home" setting
+  * Fixed middleware/router precedence issue. Closes #366
+  * Fixed; _configure()_ callbacks called immediately. Closes #368
 	
 1.0.0beta2 / 2010-07-23
 ==================
