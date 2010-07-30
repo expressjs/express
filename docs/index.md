@@ -47,4 +47,5 @@ The following are the major contributors of Express (in no specific order).
   * [Node News](http://nodejs.se/) - node news aggregator
   * [Code Shelver](http://codeshelver.com/) - GitHub watch list app
   * [Clickdummy](http://clickdummy.net/) - Fast prototyping for designers
-  * [E-Resistible](e-resistible.co.uk) - Online takeaway ordering app 
+  * [E-Resistible](http://e-resistible.co.uk) - Online takeaway ordering app 
+  * [Storify](http://storify.com) - The future of publishing
