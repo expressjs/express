@@ -22,7 +22,7 @@ app.get('/', function(req, res){
         + '</form>');
 });
 
-app.post('/', function(req, res, params, next){
+app.post('/', function(req, res, next){
 
     // connect-form adds the req.form object
     // we can (optionally) define onComplete, passing
