@@ -59,6 +59,32 @@ var jadeIndex = [
 ].join('\n');
 
 /**
+ * App test template.
+ */
+
+var appTest = [
+    "",
+    "// Run $ expresso",
+    "",
+    "/**",
+    " * Module dependencies.",
+    " */",
+    "",
+    "var app = require('../app');",
+    "",
+    "module.exports = {",
+    "    'GET /': function(assert){",
+    "        assert.response(app,",
+    "            { url: '/' },",
+    "            { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' }},",
+    "            function(res){",
+    "                assert.includes(res.body, '<title>Express</title>');",
+    "            });",
+    "    }",
+    "};",
+].join('\n');
+
+/**
  * App template.
  */
 
@@ -71,7 +97,7 @@ var app = [
     'var express = require(\'express\'),',
     '    connect = require(\'connect\');',
     '',
-    'var app = express.createServer();',
+    'var app = module.exports = express.createServer();',
     '',
     '// Configuration',
     '',
@@ -102,7 +128,9 @@ var app = [
     '    });',
     '});',
     '',
-    'app.listen(3000);',
+    '// Only listen on $ node app.js',
+    '',
+    'if (!module.parent) app.listen(3000);',
     ''
 ].join('\n');
 
@@ -140,6 +168,9 @@ while (args.length) {
         mkdir(path + '/views/partials', function(){
             write(path + '/views/layout.jade', jadeLayout);
             write(path + '/views/index.jade', jadeIndex);
+        });
+        mkdir(path + '/test', function(){
+            write(path + '/test/app.test.js', appTest);
         });
         write(path + '/app.js', app);
     });
