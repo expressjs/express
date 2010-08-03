@@ -155,7 +155,7 @@ We may pass control to the next _matching_ route, by calling the _third_ argumen
 the _next()_ function. When a match cannot be made, control is passed back to Connect,
 and middleware continue to be invoked.
 
-	app.get('/users/:id?', function(req, res){
+	app.get('/users/:id?', function(req, res, next){
 		var id = req.params.id;
 		if (id) {
 			// do something
