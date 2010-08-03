@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.6.6
 .\" http://github.com/rtomayko/ronn/
 .
-.TH "GUIDE" "" "July 2010" "" ""
+.TH "GUIDE" "" "August 2010" "" ""
 .
 .SS "Installation"
 curl:
@@ -254,7 +254,7 @@ We may pass control to the next \fImatching\fR route, by calling the \fIthird\fR
 .
 .nf
 
-app\.get(\'/users/:id?\', function(req, res){
+app\.get(\'/users/:id?\', function(req, res, next){
     var id = req\.params\.id;
     if (id) {
         // do something

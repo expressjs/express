@@ -398,7 +398,7 @@ may consume:</p>
 the <em>next()</em> function. When a match cannot be made, control is passed back to Connect,
 and middleware continue to be invoked.</p>
 
-<pre><code>app.get('/users/:id?', function(req, res){
+<pre><code>app.get('/users/:id?', function(req, res, next){
     var id = req.params.id;
     if (id) {
         // do something
