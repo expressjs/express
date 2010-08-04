@@ -83,6 +83,7 @@ Express supports the following settings out of the box:
   * _home_ Application base path used for _res.redirect()_ and transparently handling mounted apps.
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
+  * _partials_ Root view partials directory defaulting to _views_/partials. 
 
 ### Routing
 
