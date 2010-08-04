@@ -347,5 +347,23 @@ module.exports = {
         assert.response(app,
             { url: '/nothing' },
             { body: 'Hello' });
+    },
+    
+    'test "partials" setting': function(assert){
+        var app = create();
+        app.set('partials', __dirname + '/fixtures/sub-templates');
+
+        app.get('/', function(req, res){
+            res.render('items.jade', {
+                layout: false,
+                locals: {
+                    items: ['foo', 'bar']
+                }
+            });
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: '<ul><li class="item">foo</li><li class="item">bar</li></ul>' });
     }
 };
