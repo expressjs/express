@@ -30,6 +30,7 @@ uninstall-support:
 	cd support/jade && $(MAKE) uninstall
 
 install-docs:
+	@mkdir -p $(PREFIX)/share/man/man1
 	cp -f docs/executable.1 $(PREFIX)/share/man/man1/express.1
 
 uninstall-docs:
