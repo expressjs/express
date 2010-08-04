@@ -13,6 +13,7 @@ HTMLDOCS =$(DOCS:.md=.html)
 
 install: install-docs
 	@mkdir -p $(PREFIX)/bin
+	@mkdir -p $(LIB_PREFIX)
 	cp -f bin/express $(PREFIX)/bin/express
 	cp -fr lib/express $(LIB_PREFIX)/express
 
