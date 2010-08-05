@@ -376,7 +376,6 @@ module.exports = {
             close: '}}'
         });
         
-        
         app.get('/', function(req, res, next){
             res.render('user.ejs', {
                 locals: {
@@ -386,8 +385,21 @@ module.exports = {
             });
         });
         
+        app.get('/video', function(req, res, next){
+            res.render('video.ejs', {
+                open: '<?',
+                close: '?>',
+                locals: {
+                    title: 'keyboard cat'
+                }
+            });
+        });
+        
         assert.response(app,
             { url: '/' },
-            { body: '<h1>tj</h1><p>tj@vision-media.ca</p>' });
+            { body: '<h1>tj</h1>\n<p>tj@vision-media.ca</p>' });
+        assert.response(app,
+            { url: '/video' },
+            { body: '<h1>keyboard cat</h1>' });
     }
 };
