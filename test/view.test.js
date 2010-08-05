@@ -365,5 +365,29 @@ module.exports = {
         assert.response(app,
             { url: '/' },
             { body: '<ul><li class="item">foo</li><li class="item">bar</li></ul>' });
+    },
+    
+    'test "view options"': function(assert){
+        var app = create();
+        
+        app.set('view options', {
+            layout: false,
+            open: '{{',
+            close: '}}'
+        });
+        
+        
+        app.get('/', function(req, res, next){
+            res.render('user.ejs', {
+                locals: {
+                    name: 'tj',
+                    email: 'tj@vision-media.ca'
+                }
+            });
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: '<h1>tj</h1><p>tj@vision-media.ca</p>' });
     }
 };
