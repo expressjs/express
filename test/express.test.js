@@ -8,6 +8,10 @@ module.exports = {
         assert.ok(server instanceof connect.Server, 'Test serverlication inheritance');
     },
     
+    'test connect middleware autoloaders': function(assert){
+        assert.equal(express.errorHandler, connect.errorHandler);
+    },
+    
     'test basic server': function(assert){
         var server = express.createServer();
 
