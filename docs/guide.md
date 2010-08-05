@@ -42,18 +42,18 @@ Note the use of _app.router_, which can (optionally) be used to mount the applic
 otherwise the first call to _app.{get,put,del,post}()_ will mount the routes.
 
     app.configure(function(){
-		app.use(connect.methodOverride());
-		app.use(connect.bodyDecoder());
+		app.use(express.methodOverride());
+		app.use(express.bodyDecoder());
 		app.use(app.router);
-		app.use(connect.staticProvider(__dirname + '/public'));
+		app.use(express.staticProvider(__dirname + '/public'));
 	});
 	
 	app.configure('development', function(){
-		app.use(connect.errorHandler({ dumpExceptions: true, showStack: true }));
+		app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 	});
 	
 	app.configure('production', function(){
-		app.use(connect.errorHandler());
+		app.use(express.errorHandler());
 	});
 
 For internal and arbitrary settings Express provides the _set(key[, val])_, _enable(key)_, _disable(key)_ methods:
@@ -175,17 +175,25 @@ and middleware continue to be invoked.
 The Express _Plugin_ is no more! middleware via [Connect](http://github.com/extjs/Connect) can be
 passed to _express.createServer()_ as you would with a regular Connect server. For example:
 
-	var connect = require('connect'),
-		express = require('express');
+	var express = require('express');
 
     var app = express.createServer(
-		connect.logger(),
-		connect.bodyDecoder()
+		express.logger(),
+		express.bodyDecoder()
 	);
 
 Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks:
 
-    app.use(connect.logger({ format: ':method :uri' }));
+    app.use(express.logger({ format: ':method :uri' }));
+
+Typically with connect middleware you would _require('connect')_ like so:
+
+    var connect = require('connect');
+    app.use(connect.logger());
+
+This is somewhat annoying, so express re-exports these middleware properties, however they are _identical_:
+
+    app.use(express.logger());
 
 ### Error Handling
 
@@ -236,12 +244,12 @@ Our apps could also utilize the Connect _errorHandler_ middleware
 to report on exceptions. For example if we wish to output exceptions 
 in "development" mode to _stderr_ we can use:
 
-    app.use(connect.errorHandler({ dumpExceptions: true }));
+    app.use(express.errorHandler({ dumpExceptions: true }));
 
 Also during development we may want fancy html pages to show exceptions
 that are passed or thrown, so we can set _showStack_ to true:
 
-    app.use(connect.errorHandler({ showStack: true, dumpExceptions: true }));
+    app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
 
 The _errorHandler_ middleware also responds with _json_ if _Accept: application/json_
 is present, which is useful for developing apps that rely heavily on client-side JavaScript.
@@ -374,7 +382,7 @@ Return the value of param _name_ when present.
 
 To utilize urlencoded request bodies, _req.body_
 should be an object. This can be done by using
-the _connect.bodyDecoder_ middleware.
+the _express.bodyDecoder_ middleware.
 
 ### req.flash(type[, msg])
 

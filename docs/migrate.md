@@ -51,22 +51,19 @@ similar to below:
 
 Which we can now _use()_ within our app, or pass to the _express.createServer()_ method:
 
-	var connect = require('connect');
-
     var app = express.createServer(
-		connect.logger(),
-		connect.methodOverride(),
-		connect.cookieDecoder()
+		express.logger(),
+		express.methodOverride(),
+		express.cookieDecoder()
 	);
 
 or:
 
-    var connect = require('connect');
 	var app = express.createServer();
 
-	app.use(connect.logger());
-	app.use(connect.methodOverride());
-	app.use(connect.cookieDecoder());
+	app.use(express.logger());
+	app.use(express.methodOverride());
+	app.use(express.cookieDecoder());
 
 For documentation on creating Connect middleware visit [Middleware Authoring](http://extjs.github.com/Connect/#Middleware-Authoring).
 
