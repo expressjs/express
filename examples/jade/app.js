@@ -3,8 +3,7 @@
  * Module dependencies.
  */
 
-var express = require('./../../lib/express'),
-    connect = require('connect');
+var express = require('./../../lib/express');
 
 // Path to our public directory
 
@@ -14,8 +13,8 @@ var pub = __dirname + '/public';
 // and then serve with connect's staticProvider
 
 var app = express.createServer(
-    connect.compiler({ src: pub, enable: ['sass'] }),
-    connect.staticProvider(pub)
+    express.compiler({ src: pub, enable: ['sass'] }),
+    express.staticProvider(pub)
 );
 
 // Optional since express defaults to CWD/views

@@ -4,7 +4,6 @@
  */
 
 var express = require('./../../lib/express'),
-    connect = require('connect'),
     http = require('http');
 
 var app = express.createServer();
@@ -110,7 +109,7 @@ app.get('/repos/*', function(req, res, next){
 });
 
 // Serve statics from ./public
-app.use(connect.staticProvider(__dirname + '/public'));
+app.use(express.staticProvider(__dirname + '/public'));
 
 // Listen on port 3000
 app.listen(3000);

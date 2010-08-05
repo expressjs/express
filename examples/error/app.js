@@ -3,8 +3,7 @@
  * Module dependencies.
  */
 
-var express = require('./../../lib/express'),
-    connect = require('connect');
+var express = require('./../../lib/express');
 
 var app = express.createServer();
 
@@ -21,6 +20,6 @@ app.get('/next', function(req, res, next){
 // The errorHandler middleware in this case will dump exceptions to stderr
 // as well as show the stack trace in responses, currently handles text/plain,
 // text/html, and application/json responses to aid in development
-app.use('/', connect.errorHandler({ dumpExceptions: true, showStack: true }));
+app.use('/', express.errorHandler({ dumpExceptions: true, showStack: true }));
 
 app.listen(3000);

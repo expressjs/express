@@ -5,7 +5,6 @@
 
 var express = require('./../../lib/express'),
     form = require('./../../support/connect-form'),
-    connect = require('connect'),
     sys = require('sys');
 
 var app = express.createServer(
