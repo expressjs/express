@@ -83,6 +83,7 @@ Express supports the following settings out of the box:
   * _home_ Application base path used for _res.redirect()_ and transparently handling mounted apps.
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
+  * _view options_ An object specifying global view options
   * _partials_ Root view partials directory defaulting to _views_/partials. 
 
 ### Routing
@@ -280,6 +281,23 @@ When _view engine_ is set, extensions are entirely optional, however we can stil
 mix and match template engines:
 
     res.render('another-page.ejs');
+
+Express also provides the _view options_ setting, which is applied each time a view is rendered, so for example if you rarely use layouts you may set:
+
+	app.set('view options', {
+	    layout: false
+	});
+
+Which can then be overridden within the `res.render()` call if need be:
+
+    res.render('myview.ejs', { layout: true });
+
+A good example of this is specifying custom _ejs_ opening and closing tags:
+
+	app.set('view options', {
+	    open: '{{',
+	    close: '}}'
+	});
 
 ### View Partials
 

@@ -41,6 +41,7 @@ git clone, first update the submodules:
   * Built on [Connect](http://github.com/senchalabs/connect)
   * High test coverage
   * Executable for generating applications quickly
+  * Application level view options
 
 Via Connect:
 

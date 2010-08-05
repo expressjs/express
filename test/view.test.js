@@ -365,5 +365,41 @@ module.exports = {
         assert.response(app,
             { url: '/' },
             { body: '<ul><li class="item">foo</li><li class="item">bar</li></ul>' });
+    },
+    
+    'test "view options"': function(assert){
+        var app = create();
+        
+        app.set('view options', {
+            layout: false,
+            open: '{{',
+            close: '}}'
+        });
+        
+        app.get('/', function(req, res, next){
+            res.render('user.ejs', {
+                locals: {
+                    name: 'tj',
+                    email: 'tj@vision-media.ca'
+                }
+            });
+        });
+        
+        app.get('/video', function(req, res, next){
+            res.render('video.ejs', {
+                open: '<?',
+                close: '?>',
+                locals: {
+                    title: 'keyboard cat'
+                }
+            });
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: '<h1>tj</h1>\n<p>tj@vision-media.ca</p>' });
+        assert.response(app,
+            { url: '/video' },
+            { body: '<h1>keyboard cat</h1>' });
     }
 };
