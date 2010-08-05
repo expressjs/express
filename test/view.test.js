@@ -137,8 +137,8 @@ module.exports = {
         assert.response(app,
             { url: '/nope' },
             function(res){
-                assert.ok(res.body.indexOf('ReferenceError') >= 0);
-                assert.ok(res.body.indexOf('doesNotExist') >= 0);
+                assert.ok(res.body.indexOf('Error: ENOENT') >= 0);
+                assert.ok(res.body.indexOf('nope.jade') >= 0);
             });
 
         beforeExit(function(){
