@@ -15,7 +15,7 @@ var create = function(){
 
 module.exports = {
     'test #render()': function(assert){
-        var app = create(connect.errorHandler({ showMessage: true }));
+        var app = create();
         app.set('view engine', 'jade');
 
         app.get('/', function(req, res){
@@ -118,6 +118,9 @@ module.exports = {
         app.get('/absolute', function(req, res){
             res.render('index.jade', { layout: __dirname + '/fixtures/layouts/foo.jade' });
         });
+        app.get('/nope', function(req, res){
+            res.render('index.jade', { layout: 'nope.jade' });
+        });
 
         assert.response(app,
             { url: '/' },
@@ -131,6 +134,12 @@ module.exports = {
         assert.response(app,
             { url: '/absolute' },
             { body: '<foo></foo>' });
+        assert.response(app,
+            { url: '/nope' },
+            function(res){
+                assert.ok(res.body.indexOf('ReferenceError') >= 0);
+                assert.ok(res.body.indexOf('doesNotExist') >= 0);
+            });
 
         beforeExit(function(){
            assert.ok(called, 'Layout callback never called'); 
