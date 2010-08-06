@@ -77,12 +77,12 @@ module.exports = {
         // Custom handler
         var app = express.createServer();
         
-        app.get('/', function(req, res, next){
-            next(new Error('broken'));
-        });
-        
         app.error(function(err, req, res){
             res.send('Shit: ' + err.message, 500);
+        });
+
+        app.get('/', function(req, res, next){
+            next(new Error('broken'));
         });
         
         assert.response(app,
@@ -91,13 +91,6 @@ module.exports = {
         
         // Multiple error()s
         var app = express.createServer();
-        
-        app.get('/', function(req, res, next){
-            throw new Error('broken');
-        });
-        app.get('/foo', function(req, res, next){
-            throw new Error('oh noes');
-        });
         
         app.error(function(err, req, res, next){
             if (err.message === 'broken') {
@@ -109,6 +102,13 @@ module.exports = {
         
         app.error(function(err, req, res, next){
             res.send(err.message, 500);
+        });
+
+        app.get('/', function(req, res, next){
+            throw new Error('broken');
+        });
+        app.get('/foo', function(req, res, next){
+            throw new Error('oh noes');
         });
         
         assert.response(app,

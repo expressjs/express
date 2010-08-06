@@ -20,21 +20,13 @@ function NotFound(msg){
 
 sys.inherits(NotFound, Error);
 
-app.get('/', function(req, res){
-    res.render('index.jade');
-});
-
-app.get('/404', function(req, res){
-    throw new NotFound;
-});
-
-app.get('/500', function(req, res){
-    throw new Error('keyboard cat!');
-});
-
 // We can call app.error() several times as shown below.
 // Here we check for an instanceof NotFound and show the
 // 404 page, or we pass on to the next error handler.
+
+// These handlers could potentially be defined within
+// configure() blocks to provide introspection when
+// in the development environment.
 
 app.error(function(err, req, res, next){
     if (err instanceof NotFound) {
@@ -53,6 +45,20 @@ app.error(function(err, req, res){
            error: err
        } 
     });
+});
+
+// Routes
+
+app.get('/', function(req, res){
+    res.render('index.jade');
+});
+
+app.get('/404', function(req, res){
+    throw new NotFound;
+});
+
+app.get('/500', function(req, res){
+    throw new Error('keyboard cat!');
 });
 
 app.listen(3000);
