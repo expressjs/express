@@ -1,0 +1,12 @@
+<% if (hasMessages) { %>
+    <div id="messages">
+        <% for (var type in types) { %>
+            <h2><%= type %> messages</h2>
+            <ul id="<%= type %>">
+                <% types[type].forEach(function(msg){ %>
+                    <li><%= msg %></li>
+                <% }) %>
+            </ul>
+        <% } %>
+    </div>
+<% } %>

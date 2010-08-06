@@ -17,23 +17,32 @@ var app = express.createServer(
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-//
+// Dynamic helpers are functions which are executed
+// on each view render, unless dynamicHelpers is false.
+
+// So for example we do not need to call messages() in our
+// template, "messages" will be populated with the return
+// value of this function.
 
 app.dynamicHelpers({
     messages: function(req, res){
-        var types = req.flash(),
-            keys = Object.keys(types),
-            len = keys.length;
-        if (len) {
-            return '<div id="messages">' + keys.map(function(key){
-                var msgs = types[key];
-                return '<ul id="messages-' + key + '">' + msgs.map(function(msg){
-                    return '<li>' + msg + '</li>';
-                }).join('\n') + '</ul>';
-            }).join('\n') + '</div>';
-        } else {
-            return '';
-        }
+        // Grab the flash messages
+        var messages = req.flash();
+        // We will render the "messages.ejs" partial
+        return res.partial('messages', {
+            // Our target object is our messages
+            object: messages,
+            // We want it to be named "types" in the partial
+            // since they are keyed like this:
+            // { info: ['foo'], error: ['bar']}
+            as: 'types',
+            // Pass a local named "hasMessages" so we can easily
+            // check if we have any messages at all
+            locals: { hasMessages: Object.keys(messages).length },
+            // We dont want dynamicHelpers in this partial, as
+            // it would cause infinite recursion
+            dynamicHelpers: false
+        });
     }
 });
 
