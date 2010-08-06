@@ -221,6 +221,11 @@ We can call _app.error()_ several times as shown below.
 Here we check for an instanceof _NotFound_ and show the
 404 page, or we pass on to the next error handler.
 
+Note that these handlers can be defined anywhere, as they
+will be placed below the route handlers on _listen()_. This 
+allows for definition within _configure()_ blocks so we can
+handle exceptions in different ways based on the environment.
+
 	app.error(function(err, req, res, next){
 	    if (err instanceof NotFound) {
 	        res.render('404.jade');
