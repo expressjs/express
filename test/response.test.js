@@ -173,14 +173,17 @@ module.exports = {
     
     'test #sendfile()': function(assert){
         var app = express.createServer();
-        
-        app.get('/*', function(req, res){
+
+        app.get('/*', function(req, res, next){
             var file = req.params[0],
                 filePath = __dirname + '/fixtures/' + file;
             res.sendfile(filePath, function(err, path){
                 assert.equal(path, filePath);
+                if (err) next(err);
             });
         });
+        
+        app.use(express.errorHandler());
         
         assert.response(app,
             { url: '/user.json' },
@@ -190,7 +193,7 @@ module.exports = {
             { body: '%p Hello World', status: 200, headers: { 'Content-Type': 'application/octet-stream' }});
         assert.response(app,
             { url: '/doesNotExist' },
-            { body: 'Not Found', status: 404 });
+            { body: 'Internal Server Error', status: 500 });
         assert.response(app,
             { url: '/partials' },
             { body: 'Internal Server Error', status: 500 });
