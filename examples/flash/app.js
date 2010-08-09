@@ -53,6 +53,16 @@ app.dynamicHelpers({
     }
 });
 
+app.dynamicHelpers({
+    // Another dynamic helper example. Since dynamic
+    // helpers resolve at view rendering time, we can
+    // "inject" the "page" local variable per request
+    // providing us with the request url.
+    page: function(req, res){
+        return req.url;
+    } 
+});
+
 app.get('/', function(req, res){
     // Not very realistic notifications but illustrates usage
     req.flash('info', 'email queued');
