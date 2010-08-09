@@ -25,15 +25,27 @@ app.get('/item/:id.:format?', function(req, res, next){
     var id = req.params.id,
         format = req.params.format,
         item = items[id];
-    console.dir(req.params)
     // Ensure item exists
     if (item) {
+        // Serve the format
         switch (format) {
             case 'json':
+                // Detects json
                 res.send(item);
+                break;
+            case 'xml':
+                // Set contentType as xml then sends
+                // the string
+                var xml = ''
+                    + '<items>'
+                    + '<item>' + item.name + '</item>'
+                    + '</items>';
+                res.contentType('.xml');
+                res.send(xml);
                 break;
             case 'html':
             default:
+                // By default send some hmtl
                 res.send('<h1>' + item.name + '</h1>');
         }
     } else {
