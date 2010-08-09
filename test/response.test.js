@@ -203,7 +203,10 @@ module.exports = {
         var app = express.createServer();
         
         app.get('/json', function(req, res, next){
-            res.download(__dirname + '/fixtures/user.json', 'account.json');
+            var filePath = __dirname + '/fixtures/user.json';
+            res.download(filePath, 'account.json', function(err, path){
+                assert.equal(filePath, path);
+            });
         });
 
         app.get('/*', function(req, res, next){
