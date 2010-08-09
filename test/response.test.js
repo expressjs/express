@@ -200,8 +200,8 @@ module.exports = {
             res.download(__dirname + '/fixtures/user.json', 'account.json');
         });
 
-        app.get('/:file', function(req, res, next){
-            res.download(__dirname + '/fixtures/' + req.params.file);
+        app.get('/*', function(req, res, next){
+            res.download(__dirname + '/fixtures/' + req.params[0]);
         });
         
         assert.response(app,
