@@ -175,8 +175,11 @@ module.exports = {
         var app = express.createServer();
         
         app.get('/*', function(req, res){
-            var file = req.params[0];
-            res.sendfile(__dirname + '/fixtures/' + file);
+            var file = req.params[0],
+                filePath = __dirname + '/fixtures/' + file;
+            res.sendfile(filePath, function(err, path){
+                assert.equal(path, filePath);
+            });
         });
         
         assert.response(app,
