@@ -57,7 +57,7 @@ module.exports = {
             { body: 'wahoo!', headers: { 'Content-Type': 'application/octet-stream' }});
     },
     
-    'test #contentType': function(assert){
+    'test #contentType()': function(assert){
         var app = express.createServer();
         
         app.get('/html', function(req, res){
@@ -71,7 +71,7 @@ module.exports = {
             { body: '<p>yay</p>', headers: { 'Content-Type': 'text/html; charset=utf-8' }});
     },
     
-    'test #attachment': function(assert){
+    'test #attachment()': function(assert){
         var app = express.createServer();
         
         app.get('/style.css', function(req, res){
