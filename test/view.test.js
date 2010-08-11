@@ -27,6 +27,12 @@ module.exports = {
         app.get('/haml', function(req, res){
             res.render('hello.haml', { layout: false });
         });
+        app.get('/callback/layout/no-options', function(req, res){
+            res.render('hello.jade', function(err, str){
+                assert.ok(!err);
+                res.send(str.replace(':(', ':)'));
+            });
+        });
         app.get('/callback/layout', function(req, res){
             res.render('hello.jade', {}, function(err, str){
                 assert.ok(!err);
@@ -73,6 +79,9 @@ module.exports = {
             { body: '\n<p>:)</p>' });
         assert.response(app,
             { url: '/callback/layout' },
+            { body: '<html><body><p>:)</p></body></html>' });
+        assert.response(app,
+            { url: '/callback/layout/no-options' },
             { body: '<html><body><p>:)</p></body></html>' });
         assert.response(app,
             { url: '/error' },
