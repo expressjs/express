@@ -440,5 +440,19 @@ module.exports = {
         assert.response(app,
             { url: '/video' },
             { body: '<h1>keyboard cat</h1>' });
+    },
+    
+    'test .register()': function(assert){
+        var app = create();
+        
+        app.register('.bar', require('jade'));
+        
+        app.get('/', function(req, res, next){
+            res.render('foo.bar', { layout: false });
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: '<p>This is actually jade :)</p>' });
     }
 };
