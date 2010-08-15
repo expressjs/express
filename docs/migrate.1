@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.6.6
 .\" http://github.com/rtomayko/ronn/
 .
-.TH "MIGRATE" "" "July 2010" "" ""
+.TH "MIGRATE" "" "August 2010" "" ""
 .
 .SS "Built On Connect"
 Express 1\.x is written to run on\-top of the Connect \fIhttp://extjs\.github\.com/Connect\fR middlware framework, thus the \fIPlugin\fR has been replaced by Connect\'s middleware\. By abstracting our middleware to Connect we allow additional community frameworks to develop robust, high\-level frameworks using the same technologies as Express\.
@@ -74,12 +74,10 @@ Which we can now \fIuse()\fR within our app, or pass to the \fIexpress\.createSe
 .
 .nf
 
-var connect = require(\'connect\');
-
 var app = express\.createServer(
-    connect\.logger(),
-    connect\.methodOverride(),
-    connect\.cookieDecoder()
+    express\.logger(),
+    express\.methodOverride(),
+    express\.cookieDecoder()
 );
 .
 .fi
@@ -93,12 +91,11 @@ or:
 .
 .nf
 
-var connect = require(\'connect\');
 var app = express\.createServer();
 
-app\.use(connect\.logger());
-app\.use(connect\.methodOverride());
-app\.use(connect\.cookieDecoder());
+app\.use(express\.logger());
+app\.use(express\.methodOverride());
+app\.use(express\.cookieDecoder());
 .
 .fi
 .

@@ -263,9 +263,8 @@ is present, which is useful for developing apps that rely heavily on client-side
 
 View filenames take the form _NAME_._ENGINE_, where _ENGINE_ is the name
 of the module that will be required. For example the view _layout.ejs_ will
-tell the view system to _require('ejs')_, the module being loaded must (currently)
-export the method _exports.render(str, options)_ to comply with Express, however 
-with will likely be extensible in the future.
+tell the view system to _require('ejs')_, the module being loaded must export the method _exports.render(str, options)_ to comply with Express, however 
+_app.register()_ can be used to map engines to file extensions, so that for example "foo.html" can be rendered by jade.
 
 Below is an example using [Haml.js](http://github.com/visionmedia/haml.js) to render _index.html_,
 and since we do not use _layout: false_ the rendered contents of _index.html_ will be passed as 
@@ -663,6 +662,31 @@ Assign a callback _fn_ which is called when this _Server_ is passed to _Server#u
     });
     
     app.use(blog);
+
+### app.register(ext, exports)
+
+Register the given template engine _exports_
+as _ext_. For example we may wish to map ".html"
+files to jade:
+
+     app.register('.html', require('jade'));
+
+This is also useful for libraries that may not
+match extensions correctly. For example my haml.js
+library is installed from npm as "hamljs" so instead
+of layout.hamljs, we can register the engine as ".haml":
+
+     app.register('.haml', require('haml-js'));
+
+For engines that do not comply with the Express
+specification, we can also wrap their api this way.
+
+     app.register('.foo', {
+         render: function(str, options) {
+             // perhaps their api is
+             // foo.toHTML(str, options);
+         }
+     });
 
 ### app.listen([port[, host]])
 

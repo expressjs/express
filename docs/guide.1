@@ -74,18 +74,18 @@ In the example below we only \fIdumpExceptions\fR, and respond with exception st
 .nf
 
 app\.configure(function(){
-    app\.use(connect\.methodOverride());
-    app\.use(connect\.bodyDecoder());
+    app\.use(express\.methodOverride());
+    app\.use(express\.bodyDecoder());
     app\.use(app\.router);
-    app\.use(connect\.staticProvider(__dirname + \'/public\'));
+    app\.use(express\.staticProvider(__dirname + \'/public\'));
 });
 
 app\.configure(\'development\', function(){
-    app\.use(connect\.errorHandler({ dumpExceptions: true, showStack: true }));
+    app\.use(express\.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app\.configure(\'production\', function(){
-    app\.use(connect\.errorHandler());
+    app\.use(express\.errorHandler());
 });
 .
 .fi
@@ -142,6 +142,12 @@ Express supports the following settings out of the box:
 .
 .IP "\(bu" 4
 \fIview engine\fR Default view engine name for views rendered without extensions
+.
+.IP "\(bu" 4
+\fIview options\fR An object specifying global view options
+.
+.IP "\(bu" 4
+\fIpartials\fR Root view partials directory defaulting to \fIviews\fR/partials\.
 .
 .IP "" 0
 .
@@ -278,12 +284,11 @@ The Express \fIPlugin\fR is no more! middleware via Connect \fIhttp://github\.co
 .
 .nf
 
-var connect = require(\'connect\'),
-    express = require(\'express\');
+var express = require(\'express\');
 
 var app = express\.createServer(
-    connect\.logger(),
-    connect\.bodyDecoder()
+    express\.logger(),
+    express\.bodyDecoder()
 );
 .
 .fi
@@ -297,7 +302,34 @@ Alternatively we can \fIuse()\fR them which is useful when adding middleware wit
 .
 .nf
 
-app\.use(connect\.logger({ format: \':method :uri\' }));
+app\.use(express\.logger({ format: \':method :uri\' }));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Typically with connect middleware you would \fIrequire(\'connect\')\fR like so:
+.
+.IP "" 4
+.
+.nf
+
+var connect = require(\'connect\');
+app\.use(connect\.logger());
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This is somewhat annoying, so express re\-exports these middleware properties, however they are \fIidentical\fR:
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.logger());
 .
 .fi
 .
@@ -332,6 +364,9 @@ app\.get(\'/500\', function(req, res){
 .
 .P
 We can call \fIapp\.error()\fR several times as shown below\. Here we check for an instanceof \fINotFound\fR and show the 404 page, or we pass on to the next error handler\.
+.
+.P
+Note that these handlers can be defined anywhere, as they will be placed below the route handlers on \fIlisten()\fR\. This allows for definition within \fIconfigure()\fR blocks so we can handle exceptions in different ways based on the environment\.
 .
 .IP "" 4
 .
@@ -375,7 +410,7 @@ Our apps could also utilize the Connect \fIerrorHandler\fR middleware to report 
 .
 .nf
 
-app\.use(connect\.errorHandler({ dumpExceptions: true }));
+app\.use(express\.errorHandler({ dumpExceptions: true }));
 .
 .fi
 .
@@ -388,7 +423,7 @@ Also during development we may want fancy html pages to show exceptions that are
 .
 .nf
 
-app\.use(connect\.errorHandler({ showStack: true, dumpExceptions: true }));
+app\.use(express\.errorHandler({ showStack: true, dumpExceptions: true }));
 .
 .fi
 .
@@ -398,7 +433,7 @@ app\.use(connect\.errorHandler({ showStack: true, dumpExceptions: true }));
 The \fIerrorHandler\fR middleware also responds with \fIjson\fR if \fIAccept: application/json\fR is present, which is useful for developing apps that rely heavily on client\-side JavaScript\.
 .
 .SS "View Rendering"
-View filenames take the form \fINAME\fR\.\fIENGINE\fR, where \fIENGINE\fR is the name of the module that will be required\. For example the view \fIlayout\.ejs\fR will tell the view system to \fIrequire(\'ejs\')\fR, the module being loaded must (currently) export the method \fIexports\.render(str, options)\fR to comply with Express, however with will likely be extensible in the future\.
+View filenames take the form \fINAME\fR\.\fIENGINE\fR, where \fIENGINE\fR is the name of the module that will be required\. For example the view \fIlayout\.ejs\fR will tell the view system to \fIrequire(\'ejs\')\fR, the module being loaded must export the method \fIexports\.render(str, options)\fR to comply with Express, however \fIapp\.register()\fR can be used to map engines to file extensions, so that for example \"foo\.html\" can be rendered by jade\.
 .
 .P
 Below is an example using Haml\.js \fIhttp://github\.com/visionmedia/haml\.js\fR to render \fIindex\.html\fR, and since we do not use \fIlayout: false\fR the rendered contents of \fIindex\.html\fR will be passed as the \fIbody\fR local variable in \fIlayout\.haml\fR\.
@@ -464,6 +499,50 @@ When \fIview engine\fR is set, extensions are entirely optional, however we can 
 .nf
 
 res\.render(\'another\-page\.ejs\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Express also provides the \fIview options\fR setting, which is applied each time a view is rendered, so for example if you rarely use layouts you may set:
+.
+.IP "" 4
+.
+.nf
+
+app\.set(\'view options\', {
+    layout: false
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Which can then be overridden within the \fBres\.render()\fR call if need be:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'myview\.ejs\', { layout: true });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+A good example of this is specifying custom \fIejs\fR opening and closing tags:
+.
+.IP "" 4
+.
+.nf
+
+app\.set(\'view options\', {
+    open: \'{{\',
+    close: \'}}\'
+});
 .
 .fi
 .
@@ -595,7 +674,7 @@ Checks urlencoded body params (\fIreq\.body\fR), ex: id=12
 .IP "" 0
 .
 .P
-To utilize urlencoded request bodies, \fIreq\.body\fR should be an object\. This can be done by using the \fIconnect\.bodyDecoder\fR middleware\.
+To utilize urlencoded request bodies, \fIreq\.body\fR should be an object\. This can be done by using the \fIexpress\.bodyDecoder\fR middleware\.
 .
 .SS "req\.flash(type[, msg])"
 Queue flash \fImsg\fR of the given \fItype\fR\.
@@ -1071,6 +1150,50 @@ blog\.mounted(function(parent){
 });
 
 app\.use(blog);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.register(ext, exports)"
+Register the given template engine \fIexports\fR as \fIext\fR\. For example we may wish to map \"\.html\" files to jade:
+.
+.IP "" 4
+.
+.nf
+
+ app\.register(\'\.html\', require(\'jade\'));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This is also useful for libraries that may not match extensions correctly\. For example my haml\.js library is installed from npm as \"hamljs\" so instead of layout\.hamljs, we can register the engine as \"\.haml\":
+.
+.IP "" 4
+.
+.nf
+
+ app\.register(\'\.haml\', require(\'haml\-js\'));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+For engines that do not comply with the Express specification, we can also wrap their api this way\.
+.
+.IP "" 4
+.
+.nf
+
+ app\.register(\'\.foo\', {
+     render: function(str, options) {
+         // perhaps their api is
+         // foo\.toHTML(str, options);
+     }
+ });
 .
 .fi
 .

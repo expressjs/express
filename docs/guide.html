@@ -213,6 +213,7 @@
 <li><a href="#app-helpers-obj-">app.helpers()</a></li>
 <li><a href="#app-dynamicHelpers-obj-">app.dynamicHelpers()</a></li>
 <li><a href="#app-mounted-fn-">app.mounted()</a></li>
+<li><a href="#app-register-ext-exports-">app.register()</a></li>
 <li><a href="#app-listen-port-host-">app.listen()</a></li>
 </ul>
 				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
@@ -274,18 +275,18 @@ Note the use of <em>app.router</em>, which can (optionally) be used to mount the
 otherwise the first call to <em>app.{get,put,del,post}()</em> will mount the routes.</p>
 
 <pre><code>app.configure(function(){
-    app.use(connect.methodOverride());
-    app.use(connect.bodyDecoder());
+    app.use(express.methodOverride());
+    app.use(express.bodyDecoder());
     app.use(app.router);
-    app.use(connect.staticProvider(__dirname + '/public'));
+    app.use(express.staticProvider(__dirname + '/public'));
 });
 
 app.configure('development', function(){
-    app.use(connect.errorHandler({ dumpExceptions: true, showStack: true }));
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
-    app.use(connect.errorHandler());
+    app.use(express.errorHandler());
 });
 </code></pre>
 
@@ -319,6 +320,8 @@ or more specifically <em>EXPRESS_ENV</em>, for example:</p>
 <li><em>home</em> Application base path used for <em>res.redirect()</em> and transparently handling mounted apps.</li>
 <li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
 <li><em>view engine</em> Default view engine name for views rendered without extensions</li>
+<li><em>view options</em> An object specifying global view options</li>
+<li><em>partials</em> Root view partials directory defaulting to <em>views</em>/partials.</li>
 </ul>
 
 
@@ -417,18 +420,28 @@ app.get('/users', function(req, res){
 <p>The Express <em>Plugin</em> is no more! middleware via <a href="http://github.com/extjs/Connect">Connect</a> can be
 passed to <em>express.createServer()</em> as you would with a regular Connect server. For example:</p>
 
-<pre><code>var connect = require('connect'),
-    express = require('express');
+<pre><code>var express = require('express');
 
 var app = express.createServer(
-    connect.logger(),
-    connect.bodyDecoder()
+    express.logger(),
+    express.bodyDecoder()
 );
 </code></pre>
 
 <p>Alternatively we can <em>use()</em> them which is useful when adding middleware within <em>configure()</em> blocks:</p>
 
-<pre><code>app.use(connect.logger({ format: ':method :uri' }));
+<pre><code>app.use(express.logger({ format: ':method :uri' }));
+</code></pre>
+
+<p>Typically with connect middleware you would <em>require('connect')</em> like so:</p>
+
+<pre><code>var connect = require('connect');
+app.use(connect.logger());
+</code></pre>
+
+<p>This is somewhat annoying, so express re-exports these middleware properties, however they are <em>identical</em>:</p>
+
+<pre><code>app.use(express.logger());
 </code></pre>
 
 <h3 id="Error-Handling">Error Handling</h3>
@@ -458,6 +471,11 @@ app.get('/500', function(req, res){
 Here we check for an instanceof <em>NotFound</em> and show the
 404 page, or we pass on to the next error handler.</p>
 
+<p>Note that these handlers can be defined anywhere, as they
+will be placed below the route handlers on <em>listen()</em>. This
+allows for definition within <em>configure()</em> blocks so we can
+handle exceptions in different ways based on the environment.</p>
+
 <pre><code>app.error(function(err, req, res, next){
     if (err instanceof NotFound) {
         res.render('404.jade');
@@ -483,13 +501,13 @@ this demo, however you can choose whatever you like</p>
 to report on exceptions. For example if we wish to output exceptions
 in "development" mode to <em>stderr</em> we can use:</p>
 
-<pre><code>app.use(connect.errorHandler({ dumpExceptions: true }));
+<pre><code>app.use(express.errorHandler({ dumpExceptions: true }));
 </code></pre>
 
 <p>Also during development we may want fancy html pages to show exceptions
 that are passed or thrown, so we can set <em>showStack</em> to true:</p>
 
-<pre><code>app.use(connect.errorHandler({ showStack: true, dumpExceptions: true }));
+<pre><code>app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
 </code></pre>
 
 <p>The <em>errorHandler</em> middleware also responds with <em>json</em> if <em>Accept: application/json</em>
@@ -499,9 +517,8 @@ is present, which is useful for developing apps that rely heavily on client-side
 
 <p>View filenames take the form <em>Express</em>.<em>ENGINE</em>, where <em>ENGINE</em> is the name
 of the module that will be required. For example the view <em>layout.ejs</em> will
-tell the view system to <em>require('ejs')</em>, the module being loaded must (currently)
-export the method <em>exports.render(str, options)</em> to comply with Express, however
-with will likely be extensible in the future.</p>
+tell the view system to <em>require('ejs')</em>, the module being loaded must export the method <em>exports.render(str, options)</em> to comply with Express, however
+<em>app.register()</em> can be used to map engines to file extensions, so that for example "foo.html" can be rendered by jade.</p>
 
 <p>Below is an example using <a href="http://github.com/visionmedia/haml.js">Haml.js</a> to render <em>index.html</em>,
 and since we do not use <em>layout: false</em> the rendered contents of <em>index.html</em> will be passed as
@@ -534,6 +551,26 @@ so for example when using <a href="http://github.com/visionmedia/jade">Jade</a> 
 mix and match template engines:</p>
 
 <pre><code>res.render('another-page.ejs');
+</code></pre>
+
+<p>Express also provides the <em>view options</em> setting, which is applied each time a view is rendered, so for example if you rarely use layouts you may set:</p>
+
+<pre><code>app.set('view options', {
+    layout: false
+});
+</code></pre>
+
+<p>Which can then be overridden within the <code>res.render()</code> call if need be:</p>
+
+<pre><code>res.render('myview.ejs', { layout: true });
+</code></pre>
+
+<p>A good example of this is specifying custom <em>ejs</em> opening and closing tags:</p>
+
+<pre><code>app.set('view options', {
+    open: '{{',
+    close: '}}'
+});
 </code></pre>
 
 <h3 id="View-Partials">View Partials</h3>
@@ -625,7 +662,7 @@ req.accepts('png');
 
 <p>To utilize urlencoded request bodies, <em>req.body</em>
 should be an object. This can be done by using
-the <em>connect.bodyDecoder</em> middleware.</p>
+the <em>express.bodyDecoder</em> middleware.</p>
 
 <h3 id="req-flash-type-msg-">req.flash(type[, msg])</h3>
 
@@ -936,6 +973,34 @@ blog.mounted(function(parent){
 });
 
 app.use(blog);
+</code></pre>
+
+<h3 id="app-register-ext-exports-">app.register(ext, exports)</h3>
+
+<p>Register the given template engine <em>exports</em>
+as <em>ext</em>. For example we may wish to map ".html"
+files to jade:</p>
+
+<pre><code> app.register('.html', require('jade'));
+</code></pre>
+
+<p>This is also useful for libraries that may not
+match extensions correctly. For example my haml.js
+library is installed from npm as "hamljs" so instead
+of layout.hamljs, we can register the engine as ".haml":</p>
+
+<pre><code> app.register('.haml', require('haml-js'));
+</code></pre>
+
+<p>For engines that do not comply with the Express
+specification, we can also wrap their api this way.</p>
+
+<pre><code> app.register('.foo', {
+     render: function(str, options) {
+         // perhaps their api is
+         // foo.toHTML(str, options);
+     }
+ });
 </code></pre>
 
 <h3 id="app-listen-port-host-">app.listen([port[, host]])</h3>
