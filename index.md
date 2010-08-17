@@ -12,6 +12,7 @@
   * Robust routing
   * Redirection helpers
   * Dynamic view helpers
+  * Application level view options
   * Content negotiation
   * Focus on high performance
   * View rendering and partials support
@@ -49,3 +50,4 @@ The following are the major contributors of Express (in no specific order).
   * [Clickdummy](http://clickdummy.net/) - Fast prototyping for designers
   * [E-Resistible](http://e-resistible.co.uk) - Online takeaway ordering app 
   * [Storify](http://storify.com) - The future of publishing
+  * [Ogre](http://ogre.adc4gis.com/) - Translates spatial files into GeoJSON

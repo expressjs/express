@@ -246,23 +246,20 @@ use(Cookie);
 
 <p>Which we can now <em>use()</em> within our app, or pass to the <em>express.createServer()</em> method:</p>
 
-<pre><code>var connect = require('connect');
-
-var app = express.createServer(
-    connect.logger(),
-    connect.methodOverride(),
-    connect.cookieDecoder()
+<pre><code>var app = express.createServer(
+    express.logger(),
+    express.methodOverride(),
+    express.cookieDecoder()
 );
 </code></pre>
 
 <p>or:</p>
 
-<pre><code>var connect = require('connect');
-var app = express.createServer();
+<pre><code>var app = express.createServer();
 
-app.use(connect.logger());
-app.use(connect.methodOverride());
-app.use(connect.cookieDecoder());
+app.use(express.logger());
+app.use(express.methodOverride());
+app.use(express.cookieDecoder());
 </code></pre>
 
 <p>For documentation on creating Connect middleware visit <a href="http://extjs.github.com/Connect/#Middleware-Authoring">Middleware Authoring</a>.</p>

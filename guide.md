@@ -42,18 +42,18 @@ Note the use of _app.router_, which can (optionally) be used to mount the applic
 otherwise the first call to _app.{get,put,del,post}()_ will mount the routes.
 
     app.configure(function(){
-		app.use(connect.methodOverride());
-		app.use(connect.bodyDecoder());
+		app.use(express.methodOverride());
+		app.use(express.bodyDecoder());
 		app.use(app.router);
-		app.use(connect.staticProvider(__dirname + '/public'));
+		app.use(express.staticProvider(__dirname + '/public'));
 	});
 	
 	app.configure('development', function(){
-		app.use(connect.errorHandler({ dumpExceptions: true, showStack: true }));
+		app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 	});
 	
 	app.configure('production', function(){
-		app.use(connect.errorHandler());
+		app.use(express.errorHandler());
 	});
 
 For internal and arbitrary settings Express provides the _set(key[, val])_, _enable(key)_, _disable(key)_ methods:
@@ -83,6 +83,8 @@ Express supports the following settings out of the box:
   * _home_ Application base path used for _res.redirect()_ and transparently handling mounted apps.
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
+  * _view options_ An object specifying global view options
+  * _partials_ Root view partials directory defaulting to _views_/partials. 
 
 ### Routing
 
@@ -173,17 +175,25 @@ and middleware continue to be invoked.
 The Express _Plugin_ is no more! middleware via [Connect](http://github.com/extjs/Connect) can be
 passed to _express.createServer()_ as you would with a regular Connect server. For example:
 
-	var connect = require('connect'),
-		express = require('express');
+	var express = require('express');
 
     var app = express.createServer(
-		connect.logger(),
-		connect.bodyDecoder()
+		express.logger(),
+		express.bodyDecoder()
 	);
 
 Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks:
 
-    app.use(connect.logger({ format: ':method :uri' }));
+    app.use(express.logger({ format: ':method :uri' }));
+
+Typically with connect middleware you would _require('connect')_ like so:
+
+    var connect = require('connect');
+    app.use(connect.logger());
+
+This is somewhat annoying, so express re-exports these middleware properties, however they are _identical_:
+
+    app.use(express.logger());
 
 ### Error Handling
 
@@ -211,6 +221,11 @@ We can call _app.error()_ several times as shown below.
 Here we check for an instanceof _NotFound_ and show the
 404 page, or we pass on to the next error handler.
 
+Note that these handlers can be defined anywhere, as they
+will be placed below the route handlers on _listen()_. This 
+allows for definition within _configure()_ blocks so we can
+handle exceptions in different ways based on the environment.
+
 	app.error(function(err, req, res, next){
 	    if (err instanceof NotFound) {
 	        res.render('404.jade');
@@ -234,12 +249,12 @@ Our apps could also utilize the Connect _errorHandler_ middleware
 to report on exceptions. For example if we wish to output exceptions 
 in "development" mode to _stderr_ we can use:
 
-    app.use(connect.errorHandler({ dumpExceptions: true }));
+    app.use(express.errorHandler({ dumpExceptions: true }));
 
 Also during development we may want fancy html pages to show exceptions
 that are passed or thrown, so we can set _showStack_ to true:
 
-    app.use(connect.errorHandler({ showStack: true, dumpExceptions: true }));
+    app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
 
 The _errorHandler_ middleware also responds with _json_ if _Accept: application/json_
 is present, which is useful for developing apps that rely heavily on client-side JavaScript.
@@ -248,9 +263,8 @@ is present, which is useful for developing apps that rely heavily on client-side
 
 View filenames take the form _NAME_._ENGINE_, where _ENGINE_ is the name
 of the module that will be required. For example the view _layout.ejs_ will
-tell the view system to _require('ejs')_, the module being loaded must (currently)
-export the method _exports.render(str, options)_ to comply with Express, however 
-with will likely be extensible in the future.
+tell the view system to _require('ejs')_, the module being loaded must export the method _exports.render(str, options)_ to comply with Express, however 
+_app.register()_ can be used to map engines to file extensions, so that for example "foo.html" can be rendered by jade.
 
 Below is an example using [Haml.js](http://github.com/visionmedia/haml.js) to render _index.html_,
 and since we do not use _layout: false_ the rendered contents of _index.html_ will be passed as 
@@ -279,6 +293,23 @@ When _view engine_ is set, extensions are entirely optional, however we can stil
 mix and match template engines:
 
     res.render('another-page.ejs');
+
+Express also provides the _view options_ setting, which is applied each time a view is rendered, so for example if you rarely use layouts you may set:
+
+	app.set('view options', {
+	    layout: false
+	});
+
+Which can then be overridden within the `res.render()` call if need be:
+
+    res.render('myview.ejs', { layout: true });
+
+A good example of this is specifying custom _ejs_ opening and closing tags:
+
+	app.set('view options', {
+	    open: '{{',
+	    close: '}}'
+	});
 
 ### View Partials
 
@@ -355,7 +386,7 @@ Return the value of param _name_ when present.
 
 To utilize urlencoded request bodies, _req.body_
 should be an object. This can be done by using
-the _connect.bodyDecoder_ middleware.
+the _express.bodyDecoder_ middleware.
 
 ### req.flash(type[, msg])
 
@@ -631,6 +662,31 @@ Assign a callback _fn_ which is called when this _Server_ is passed to _Server#u
     });
     
     app.use(blog);
+
+### app.register(ext, exports)
+
+Register the given template engine _exports_
+as _ext_. For example we may wish to map ".html"
+files to jade:
+
+     app.register('.html', require('jade'));
+
+This is also useful for libraries that may not
+match extensions correctly. For example my haml.js
+library is installed from npm as "hamljs" so instead
+of layout.hamljs, we can register the engine as ".haml":
+
+     app.register('.haml', require('haml-js'));
+
+For engines that do not comply with the Express
+specification, we can also wrap their api this way.
+
+     app.register('.foo', {
+         render: function(str, options) {
+             // perhaps their api is
+             // foo.toHTML(str, options);
+         }
+     });
 
 ### app.listen([port[, host]])
 
