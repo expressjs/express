@@ -1,4 +1,19 @@
 
+1.0.0rc2 / 2010-08-17 
+==================
+
+  * Added `app.register()` for template engine mapping. Closes #390
+  * Added `res.render()` callback support as second argument (no options)
+  * Added callback support to `res.download()`
+  * Added callback support for `res.sendfile()`
+  * Added support for middleware access via `express.middlewareName()` vs `connect.middlewareName()`
+  * Added "partials" setting to docs
+  * Added default expresso tests to `express(1)` generated app. Closes #384
+  * Fixed `res.sendfile()` error handling, defer via `next()`
+  * Fixed `res.render()` callback when a layout is used [thanks guillermo]
+  * Fixed; `make install` creating ~/.node_libraries when not present
+  * Fixed issue preventing error handlers from being defined anywhere. Closes #387 
+
 1.0.0rc / 2010-07-28
 ==================
 

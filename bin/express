@@ -12,7 +12,7 @@ var sys = require('sys'),
  * Framework version.
  */
 
-var version = '1.0.0rc';
+var version = '1.0.0rc2';
 
 /**
  * Usage documentation.
