@@ -77,8 +77,12 @@ The following are the major contributors of Express (in no specific order).
     
 The latest release of Express is compatible with node --version:
 
-    v0.1.102
-    
+    v0.1.104
+
+and connect --version:
+
+    0.2.4
+
 ## License 
 
 (The MIT License)
