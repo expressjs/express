@@ -143,7 +143,7 @@ module.exports = {
             { body: 'Redirecting to http://google.com', status: 301, headers: { Location: 'http://google.com' }});
         assert.response(app,
             { url: '/back' },
-            { body: 'Redirecting to /', status: 302, headers: { Location: '/' }});
+            { body: 'Redirecting to /', status: 302, headers: { Location: '/', 'Content-Type': 'text/plain' }});
         assert.response(app,
             { url: '/back', headers: { Referer: '/foo' }},
             { body: 'Redirecting to /foo', status: 302, headers: { Location: '/foo' }});
