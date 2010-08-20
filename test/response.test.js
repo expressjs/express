@@ -135,6 +135,7 @@ module.exports = {
         });
 
         app2.get('/user/:id', function(req, res){
+            res.header('X-Foo', 'bar');
             res.redirect('blog');
         });
         
@@ -168,7 +169,7 @@ module.exports = {
             { body: 'Redirecting to http://google.com', headers: { Location: 'http://google.com' }});
         assert.response(app2,
             { url: '/user/12' },
-            { body: 'Redirecting to /user/12/blog', headers: { Location: '/user/12/blog' }});
+            { body: 'Redirecting to /user/12/blog', headers: { Location: '/user/12/blog', 'X-Foo': 'bar' }});
     },
     
     'test #sendfile()': function(assert){
