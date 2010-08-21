@@ -11,7 +11,7 @@ module.exports = {
     // /users
     
     index: function(req, res){
-        res.send('users: ' + JSON.stringify(users));
+        res.render(users);
     },
 
     // /users/:id
@@ -20,7 +20,7 @@ module.exports = {
         var id = req.params.id,
             user = users[id];
         if (user) {
-            res.send('user: ' + JSON.stringify(user));
+            res.render(user);
         } else {
             next(new Error('User ' + id + ' does not exist'));
         }

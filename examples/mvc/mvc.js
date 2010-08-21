@@ -27,8 +27,14 @@ function bootController(app, file) {
         actions = require('./controllers/' + name),
         plural = name + 's', // realistically we would use an inflection lib
         prefix = '/' + plural; 
+
+    // Special case for "app"
+    if (name == 'app') {
+        prefix = '/';
+    }
+
     Object.keys(actions).map(function(action){
-        var fn = actions[action];
+        var fn = controllerAction(name, plural, action, actions[action]);
         switch(action) {
             case 'index':
                 app.get(prefix, fn);
@@ -53,4 +59,26 @@ function bootController(app, file) {
                 break;
         }
     });
+}
+
+// Proxy res.render() to add some magic
+
+function controllerAction(name, plural, action, fn) {
+    return function(req, res, next){
+        var render = res.render,
+            path = __dirname + '/views/' + name + '/' + action + '.ejs';
+        res.render = function(obj, options, fn){
+            res.render = render;
+            options = options || {};
+            options.locals = options.locals || {};
+            // Expose obj as the "users" or "user" local
+            if (action == 'index') {
+                options.locals[plural] = obj;
+            } else {
+                options.locals[name] = obj;
+            }
+            return res.render(path, options, fn);
+        };
+        fn.apply(this, arguments);
+    };
 }
