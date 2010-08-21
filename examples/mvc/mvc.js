@@ -66,7 +66,7 @@ function bootController(app, file) {
 function controllerAction(name, plural, action, fn) {
     return function(req, res, next){
         var render = res.render,
-            path = __dirname + '/views/' + name + '/' + action + '.ejs';
+            path = __dirname + '/views/' + name + '/' + action + '.html';
         res.render = function(obj, options, fn){
             res.render = render;
             options = options || {};
