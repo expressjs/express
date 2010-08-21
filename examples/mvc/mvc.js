@@ -19,11 +19,24 @@ function bootApplication(app) {
     app.use(express.methodOverride());
     app.use(express.cookieDecoder());
     app.use(express.session());
+    app.use(app.router);
 
+    // Example 404 page via simple Connect middleware
+    app.use(function(req, res){
+        res.render('404');
+    });
+
+    // Setup ejs views as default, with .html as the extension
     app.set('views', __dirname + '/views');
     app.register('.html', require('ejs'));
-    
+    app.set('view engine', 'html');
+
+    // Some dynamic view helpers
     app.dynamicHelpers({
+        request: function(req){
+            return req;
+        },
+
         hasMessages: function(req){
             return req.session.flash;
         },
