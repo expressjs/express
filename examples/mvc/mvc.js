@@ -39,7 +39,7 @@ function bootApplication(app) {
         },
 
         hasMessages: function(req){
-            return req.session.flash;
+            return Object.keys(req.session.flash || {}).length;
         },
 
         messages: function(req){
