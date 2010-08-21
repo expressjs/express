@@ -46,7 +46,7 @@ module.exports = {
         var id = req.params.id;
         get(id, function(err, user){
             if (err) return next(err);
-            users[id] = req.body;
+            users[id] = req.body.user;
             users[id].id = id;
             res.redirect('back');
         });
