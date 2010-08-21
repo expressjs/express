@@ -1,0 +1,24 @@
+body {
+  padding: 30px;
+  font: 12px/1.4 "Helvetica Nueue", "Lucida Grande", Arial, sans-serif;
+}
+a {
+  color: #00aaff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+#messages {
+  width: 95%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #00DD00;
+  -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+}
+#messages li {
+  list-style: none;
+}
+#messages em {
+  font-weight: bold;
+}

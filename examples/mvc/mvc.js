@@ -20,6 +20,7 @@ function bootApplication(app) {
     app.use(express.cookieDecoder());
     app.use(express.session());
     app.use(app.router);
+    app.use(express.staticProvider(__dirname + '/public'));
 
     // Example 404 page via simple Connect middleware
     app.use(function(req, res){
