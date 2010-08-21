@@ -1,0 +1,7 @@
+<h1>Users</h1>
+<%- partial('messages') %>
+<ul>
+    <% users.forEach(function(user){ %>
+        <li><a href="/users/<%= user.id %>"><%= user.name %></a></li>
+    <% }) %>
+</ul>
