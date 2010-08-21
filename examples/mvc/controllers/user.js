@@ -44,10 +44,11 @@ module.exports = {
     
     update: function(req, res, next){
         var id = req.params.id;
-        get(id, function(err, user){
+        get(id, function(err){
             if (err) return next(err);
-            users[id] = req.body.user;
-            users[id].id = id;
+            var user = users[id] = req.body.user;
+            user.id = id;
+            req.flash('info', 'Successfully updated _' + user.name + '_.');
             res.redirect('back');
         });
     }

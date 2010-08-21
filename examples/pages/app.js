@@ -57,8 +57,8 @@ app.get('/404', function(req, res){
     throw new NotFound;
 });
 
-app.get('/500', function(req, res){
-    throw new Error('keyboard cat!');
+app.get('/500', function(req, res, next){
+    next(new Error('keyboard cat!'));
 });
 
 app.listen(3000);

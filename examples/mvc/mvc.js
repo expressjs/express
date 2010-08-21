@@ -3,11 +3,41 @@
  * Module dependencies.
  */
 
-var fs = require('fs');
+var fs = require('fs'),
+    express = require('../../lib/express');
 
 exports.boot = function(app){
+    bootApplication(app);
     bootControllers(app);
 };
+
+// App settings and middleware
+
+function bootApplication(app) {
+    app.use(express.logger({ format: ':method :url :status' }));
+    app.use(express.bodyDecoder());
+    app.use(express.methodOverride());
+    app.use(express.cookieDecoder());
+    app.use(express.session());
+
+    app.set('views', __dirname + '/views');
+    app.register('.html', require('ejs'));
+    
+    app.dynamicHelpers({
+        hasMessages: function(req){
+            return req.session.flash;
+        },
+
+        messages: function(req){
+            return function(){
+                var msgs = req.flash();
+                return Object.keys(msgs).reduce(function(arr, type){
+                    return arr.concat(msgs[type]);
+                }, []);
+            }
+        }
+    });
+}
 
 // Bootstrap controllers
 
