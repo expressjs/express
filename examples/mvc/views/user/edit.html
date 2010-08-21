@@ -1,0 +1,6 @@
+<h1>Editing user <%- user.name %></h1>
+<form method="post" action="/users/<%- user.id %>">
+  <input type="hidden" name="_method" value="put" />
+  <input type="text" name="name", value="<%- user.name %>" />
+  <input type="submit" value="Update" />
+</form>

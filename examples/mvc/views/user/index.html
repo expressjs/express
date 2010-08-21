@@ -1,6 +1,6 @@
 <h1>Users</h1>
 <ul>
     <% users.forEach(function(user){ %>
-        <li><%- user.name %></li>
+        <li><a href="/users/<%- user.id %>"><%- user.name %></a></li>
     <% }) %>
 </ul>

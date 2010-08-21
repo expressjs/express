@@ -5,7 +5,11 @@
 
 var express = require('../../lib/express');
 
-var app = express.createServer();
+var app = express.createServer(
+    express.logger({ format: ':method :url :status' }),
+    express.bodyDecoder(),
+    express.methodOverride()
+);
 
 // Allow ejs templates to utilize ".html" extensions
 app.register('.html', require('ejs'));
