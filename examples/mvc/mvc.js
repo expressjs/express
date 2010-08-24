@@ -84,7 +84,7 @@ function bootController(app, file) {
                 app.get(prefix, fn);
                 break;
             case 'show':
-                app.get(prefix + '/:id', fn);
+                app.get(prefix + '/:id.:format?', fn);
                 break;
             case 'add':
                 app.get(prefix + '/:id/add', fn);
@@ -110,18 +110,23 @@ function bootController(app, file) {
 function controllerAction(name, plural, action, fn) {
     return function(req, res, next){
         var render = res.render,
+            format = req.params.format,
             path = __dirname + '/views/' + name + '/' + action + '.html';
         res.render = function(obj, options, fn){
-            res.render = render;
-            options = options || {};
-            options.locals = options.locals || {};
-            // Expose obj as the "users" or "user" local
-            if (action == 'index') {
-                options.locals[plural] = obj;
+            if (action == 'show' && format && format === 'json') {
+                res.send(obj);
             } else {
-                options.locals[name] = obj;
+                res.render = render;
+                options = options || {};
+                options.locals = options.locals || {};
+                // Expose obj as the "users" or "user" local
+                if (action == 'index') {
+                    options.locals[plural] = obj;
+                } else {
+                    options.locals[name] = obj;
+                }
+                return res.render(path, options, fn);
             }
-            return res.render(path, options, fn);
         };
         fn.apply(this, arguments);
     };
