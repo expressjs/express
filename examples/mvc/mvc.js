@@ -22,6 +22,12 @@ function bootApplication(app) {
     app.use(app.router);
     app.use(express.staticProvider(__dirname + '/public'));
 
+    // Example 500 page
+    app.error(function(err, req, res){
+        console.dir(err)
+        res.render('500');
+    });
+
     // Example 404 page via simple Connect middleware
     app.use(function(req, res){
         res.render('404');
@@ -113,24 +119,32 @@ function controllerAction(name, plural, action, fn) {
             format = req.params.format,
             path = __dirname + '/views/' + name + '/' + action + '.html';
         res.render = function(obj, options, fn){
+            res.render = render;
+            // Template path
+            if (typeof obj === 'string') {
+                return res.render(obj, options, fn);
+            }
+
+            // Format support
             if (action == 'show' && format) {
                 if (format === 'json') {
-                    res.send(obj);
+                    return res.send(obj);
                 } else {
                     throw new Error('unsupported format "' + format + '"');
                 }
-            } else {
-                res.render = render;
-                options = options || {};
-                options.locals = options.locals || {};
-                // Expose obj as the "users" or "user" local
-                if (action == 'index') {
-                    options.locals[plural] = obj;
-                } else {
-                    options.locals[name] = obj;
-                }
-                return res.render(path, options, fn);
             }
+
+            // Render template
+            res.render = render;
+            options = options || {};
+            options.locals = options.locals || {};
+            // Expose obj as the "users" or "user" local
+            if (action == 'index') {
+                options.locals[plural] = obj;
+            } else {
+                options.locals[name] = obj;
+            }
+            return res.render(path, options, fn);
         };
         fn.apply(this, arguments);
     };
