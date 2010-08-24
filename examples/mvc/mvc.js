@@ -22,6 +22,12 @@ function bootApplication(app) {
     app.use(app.router);
     app.use(express.staticProvider(__dirname + '/public'));
 
+    // Example 500 page
+    app.error(function(err, req, res){
+        console.dir(err)
+        res.render('500');
+    });
+
     // Example 404 page via simple Connect middleware
     app.use(function(req, res){
         res.render('404');
@@ -84,7 +90,7 @@ function bootController(app, file) {
                 app.get(prefix, fn);
                 break;
             case 'show':
-                app.get(prefix + '/:id', fn);
+                app.get(prefix + '/:id.:format?', fn);
                 break;
             case 'add':
                 app.get(prefix + '/:id/add', fn);
@@ -110,8 +116,25 @@ function bootController(app, file) {
 function controllerAction(name, plural, action, fn) {
     return function(req, res, next){
         var render = res.render,
+            format = req.params.format,
             path = __dirname + '/views/' + name + '/' + action + '.html';
         res.render = function(obj, options, fn){
+            res.render = render;
+            // Template path
+            if (typeof obj === 'string') {
+                return res.render(obj, options, fn);
+            }
+
+            // Format support
+            if (action == 'show' && format) {
+                if (format === 'json') {
+                    return res.send(obj);
+                } else {
+                    throw new Error('unsupported format "' + format + '"');
+                }
+            }
+
+            // Render template
             res.render = render;
             options = options || {};
             options.locals = options.locals || {};
