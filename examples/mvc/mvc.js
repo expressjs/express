@@ -113,8 +113,12 @@ function controllerAction(name, plural, action, fn) {
             format = req.params.format,
             path = __dirname + '/views/' + name + '/' + action + '.html';
         res.render = function(obj, options, fn){
-            if (action == 'show' && format && format === 'json') {
-                res.send(obj);
+            if (action == 'show' && format) {
+                if (format === 'json') {
+                    res.send(obj);
+                } else {
+                    throw new Error('unsupported format "' + format + '"');
+                }
             } else {
                 res.render = render;
                 options = options || {};
