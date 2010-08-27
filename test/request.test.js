@@ -117,6 +117,12 @@ module.exports = {
             connect.session({ store: memoryStore })
         );
 
+        app.flashFormatters = {
+            u: function(val){
+                return String(val).toUpperCase();
+            }
+        };
+
         app.get('/', function(req, res){
             assert.eql([], req.flash('info'));
             assert.eql([], req.flash('error'));
@@ -137,6 +143,9 @@ module.exports = {
             
             req.flash('info', 'Welcome _%s_ to %s', 'TJ', 'something');
             assert.eql(['Welcome <em>TJ</em> to something'], req.flash('info'));
+
+            req.flash('info', 'Foo %u', 'bar');
+            assert.eql(['Foo BAR'], req.flash('info'));
 
             res.send('ok');
         });
