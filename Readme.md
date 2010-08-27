@@ -2,7 +2,7 @@
 # Express
       
   Insanely fast (and small) server-side JavaScript web development framework
-  built on [node](http://nodejs.org) and [Connect](http://github.com/extjs/Connect).
+  built on [node](http://nodejs.org) and [Connect](http://github.com/senchalabs/connect).
   
      var app = express.createServer();
     

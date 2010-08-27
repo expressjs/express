@@ -172,7 +172,7 @@ and middleware continue to be invoked.
 
 ### Middleware
 
-The Express _Plugin_ is no more! middleware via [Connect](http://github.com/extjs/Connect) can be
+The Express _Plugin_ is no more! middleware via [Connect](http://github.com/senchalabs/connect) can be
 passed to _express.createServer()_ as you would with a regular Connect server. For example:
 
 	var express = require('express');
