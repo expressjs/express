@@ -15,6 +15,12 @@ var sys = require('sys'),
 var version = '1.0.0rc2';
 
 /**
+ * stdin stream.
+ */
+
+var stdin;
+
+/**
  * Usage documentation.
  */
 
@@ -159,6 +165,29 @@ while (args.length) {
 // Generate application
 
 (function createApplication(path) {
+    emptyDirectory(path, function(empty){
+        if (empty) {
+            createApplicationAt(path);
+        } else {
+            confirm('destination is not empty, continue? ', function(ok){
+                if (ok) {
+                    stdin.destroy();
+                    createApplicationAt(path);
+                } else {
+                    abort('aborting');
+                }
+            });
+        }
+    });
+})(path);
+
+/**
+ * Create application at the given directory `path`.
+ *
+ * @param {String} path
+ */
+
+function createApplicationAt(path) {
     mkdir(path, function(){
         mkdir(path + '/pids');
         mkdir(path + '/logs');
@@ -176,7 +205,21 @@ while (args.length) {
         });
         write(path + '/app.js', app);
     });
-})(path);
+}
+
+/**
+ * Check if the given directory `path` is empty.
+ *
+ * @param {String} path
+ * @param {Function} fn
+ */
+
+function emptyDirectory(path, fn) {
+    fs.readdir(path, function(err, files){
+        if (err && err.errno !== process.ENOENT) throw err;
+        fn(!files || !files.length);
+    });
+}
 
 /**
  * echo str > path.
@@ -188,6 +231,36 @@ while (args.length) {
 function write(path, str) {
     fs.writeFile(path, str);
     sys.puts('   create : ' + path);
+}
+
+/**
+ * Prompt confirmation with the given `msg`.
+ *
+ * @param {String} msg
+ * @param {Function} fn
+ */
+
+function confirm(msg, fn) {
+    prompt(msg, function(val){
+        fn(/^ *y(es)?/i.test(val));
+    });
+}
+
+/**
+ * Prompt input with the given `msg` and callback `fn`.
+ *
+ * @param {String} msg
+ * @param {Function} fn
+ */
+
+function prompt(msg, fn) {
+    stdin = stdin || process.openStdin();
+    sys[msg[msg.length - 1] == ' ' ? 'print' : 'puts'](msg);
+    stdin.setEncoding('ascii');
+    stdin.addListener('data', function(data){
+        fn(data);
+        stdin.removeListener('data', arguments.callee);
+    });
 }
 
 /**
