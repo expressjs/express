@@ -334,14 +334,14 @@ for free:
 
   * _firstInCollection_  True if this is the first object
   * _indexInCollection_  Index of the object in the collection
-  * _lastInCollection _  True if this is the last object
+  * _lastInCollection_  True if this is the last object
 
 ### Template Engines
 
 Below are a few template engines commonly used with Express:
 
-  * [Jade](http://github.com/visionmedia/jade) haml.js successor
-  * [Haml](http://github.com/visionmedia/haml.js) indented templates
+  * [Jade](http://jade-lang.com) haml.js successor
+  * [Haml](http://github.com/visionmedia/haml.js) pythonic indented templates
   * [EJS](http://github.com/visionmedia/ejs) Embedded JavaScript
 
 ### req.header(key[, defaultValue])
