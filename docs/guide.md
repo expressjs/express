@@ -406,6 +406,10 @@ Queue flash _msg_ of the given _type_.
     req.flash();
     // => { error: ['email delivery failed'], info: [] }
 
+Flash notification message may also utilize formatters, by default only the %s string formatter is available:
+
+    req.flash('info', 'email delivery to _%s_ from _%s_ failed.', toUser, fromUser);
+
 ### req.isXMLHttpRequest
 
 Also aliased as _req.xhr_, this getter checks the _X-Requested-With_ header
