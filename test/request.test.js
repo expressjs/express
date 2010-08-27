@@ -135,9 +135,9 @@ module.exports = {
             req.flash('info', '<script>');
             assert.eql(['Email <em>sent</em>.', '&lt;script&gt;'], req.flash('info'));
             
-            req.flash('info', 'Welcome _%s_, to %s', 'TJ', 'something');
-            assert.eql(['Welcome TJ to Something'], req.flash('info'));
-            
+            req.flash('info', 'Welcome _%s_ to %s', 'TJ', 'something');
+            assert.eql(['Welcome <em>TJ</em> to something'], req.flash('info'));
+
             res.send('ok');
         });
         
