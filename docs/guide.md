@@ -715,3 +715,31 @@ Then try it out:
     Content-Length: 11
     
 	Hello World
+
+### contentFor(req, res)
+
+The contentFor dynamic helpers lets you pass content from views to other views and the layout.
+To install the helpers, add them as dynamic helpers:
+
+    app.dynamicHelpers(contentFor: require('express/helpers/contentFor'));
+
+Then, in your views (examples in Jade)...
+
+    // check whether title content has been set:
+    - if (contentFor.exists('title'))
+      h1 #{ contentFor.get('title') }
+
+    // set content for title:
+    #{ contentFor.set('title', post.title) }
+
+    // get the subtitle, using a default value if it doesn't exist:
+    h2 #{ contentFor.fetch('subtitle', 'My Great Ideas') }
+
+    // append content to the sidebar:
+    #{ contentFor.append('sidebar', '<div class="widget">Some Widget</div>') }
+    #{ contentFor.append('sidebar', '<div class="widget">Another Widget</div>') }
+
+`set` is aliased as `put`, `exists` as `has`, and `fetch` as `yield`. `set`, `fetch`,
+and `append` (and their aliases) all take either a String or a Function as a second
+argument. If the latter, it will be called with the _request_ and _response_ as
+arguments.
