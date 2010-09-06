@@ -36,6 +36,10 @@ module.exports = {
         app.get('/buffer', function(req, res){
             res.send(new Buffer('wahoo!'));
         });
+        
+        app.get('/noargs', function(req, res, next){
+            res.send();
+        });
 
         assert.response(app,
             { url: '/html' },
@@ -55,6 +59,9 @@ module.exports = {
         assert.response(app,
             { url: '/buffer' },
             { body: 'wahoo!', headers: { 'Content-Type': 'application/octet-stream' }});
+        assert.response(app,
+            { url: '/noargs' },
+            { status: 204 });
     },
     
     'test #contentType()': function(assert){
