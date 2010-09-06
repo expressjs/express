@@ -61,7 +61,10 @@ module.exports = {
             { body: 'wahoo!', headers: { 'Content-Type': 'application/octet-stream' }});
         assert.response(app,
             { url: '/noargs' },
-            { status: 204 });
+            { status: 204 }, function(res){
+                assert.equal(undefined, res.headers['content-type']);
+                assert.equal(undefined, res.headers['content-length']);
+            });
     },
     
     'test #contentType()': function(assert){
