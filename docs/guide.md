@@ -474,6 +474,7 @@ The `res.send()` method is a high level response utility allowing you to pass
 objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status
 code based responses. The following are all valid uses:
 
+     res.send(); // 204
      res.send(new Buffer('wahoo'));
      res.send({ some: 'json' });
      res.send('<p>some html</p>');
@@ -511,6 +512,8 @@ automatically, however otherwise a response of _200_ and _text/html_ is given.
   - _context|scope_   Template evaluation context (_this_)
   - _locals_          Object containing local variables
   - _debug_           Output debugging information
+  - _status_          Response status code, defaults to 200
+  - _headers_         Response headers object
 
 ### res.partial(view[, options])
 

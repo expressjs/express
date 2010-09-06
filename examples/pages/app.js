@@ -53,6 +53,7 @@ sys.inherits(NotFound, Error);
 app.error(function(err, req, res, next){
     if (err instanceof NotFound) {
         res.render('404.jade', {
+            status: 404,
             locals: {
                 error: err
             }
@@ -67,9 +68,10 @@ app.error(function(err, req, res, next){
 
 app.error(function(err, req, res){
     res.render('500.jade', {
-       locals: {
-           error: err
-       } 
+        status: 500,
+        locals: {
+            error: err
+        } 
     });
 });
 

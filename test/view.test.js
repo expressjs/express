@@ -208,13 +208,49 @@ module.exports = {
             { body: '<p>2</p>'});
     },
     
+    'test #render() status': function(assert){
+        var app = create();
+        
+        app.get('/', function(req, res){
+            res.render('hello.jade', {
+                layout: false,
+                status: 404
+            });
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: '<p>:(</p>', status: 404 });
+    },
+    
+    'test #render() headers': function(assert){
+        var app = create();
+        
+        app.get('/', function(req, res){
+            res.render('hello.jade', {
+                layout: false,
+                status: 500,
+                headers: {
+                    'X-Foo': 'bar'
+                }
+            });
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: '<p>:(</p>', status: 500, headers: {
+                'X-Foo': 'bar',
+                'Content-Type': 'text/html; charset=utf-8'
+            }});
+    },
+    
     'test #render() view helpers': function(assert){
         var app = create();
 
         app.helpers({ 
             lastName: 'holowaychuk',
-            foo: function(){
-               return 'bar'; 
+            greetings: function(sess, lastName){
+               return 'Hello ' + sess.name + ' ' + lastName; 
             }
         });
 
@@ -245,10 +281,10 @@ module.exports = {
         
         assert.response(app,
             { url: '/' },
-            { body: '<p>tj holowaychuk bar</p>' });
+            { body: '<p>Hello tj holowaychuk</p>' });
         assert.response(app,
             { url: '/precedence' },
-            { body: '<p>tj foobar bar</p>' });
+            { body: '<p>Hello tj foobar</p>' });
     },
     
     'test #partial()': function(assert){
