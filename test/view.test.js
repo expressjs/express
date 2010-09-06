@@ -212,12 +212,36 @@ module.exports = {
         var app = create();
         
         app.get('/', function(req, res){
-            res.render('hello.jade', { layout: false, status: 404 });
+            res.render('hello.jade', {
+                layout: false,
+                status: 404
+            });
         });
         
         assert.response(app,
             { url: '/' },
             { body: '<p>:(</p>', status: 404 });
+    },
+    
+    'test #render() headers': function(assert){
+        var app = create();
+        
+        app.get('/', function(req, res){
+            res.render('hello.jade', {
+                layout: false,
+                status: 500,
+                headers: {
+                    'X-Foo': 'bar'
+                }
+            });
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: '<p>:(</p>', status: 500, headers: {
+                'X-Foo': 'bar',
+                'Content-Type': 'text/html; charset=utf-8'
+            }});
     },
     
     'test #render() view helpers': function(assert){
