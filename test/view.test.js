@@ -213,8 +213,8 @@ module.exports = {
 
         app.helpers({ 
             lastName: 'holowaychuk',
-            foo: function(){
-               return 'bar'; 
+            greetings: function(sess, lastName){
+               return 'Hello ' + sess.name + ' ' + lastName; 
             }
         });
 
@@ -245,10 +245,10 @@ module.exports = {
         
         assert.response(app,
             { url: '/' },
-            { body: '<p>tj holowaychuk bar</p>' });
+            { body: '<p>Hello tj holowaychuk</p>' });
         assert.response(app,
             { url: '/precedence' },
-            { body: '<p>tj foobar bar</p>' });
+            { body: '<p>Hello tj foobar</p>' });
     },
     
     'test #partial()': function(assert){
