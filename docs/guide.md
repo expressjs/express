@@ -511,6 +511,8 @@ automatically, however otherwise a response of _200_ and _text/html_ is given.
   - _context|scope_   Template evaluation context (_this_)
   - _locals_          Object containing local variables
   - _debug_           Output debugging information
+  - _status_          Response status code, defaults to 200
+  - _headers_         Response headers object
 
 ### res.partial(view[, options])
 
