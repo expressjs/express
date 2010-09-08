@@ -269,6 +269,10 @@ module.exports = {
             req.session = { name: 'tj' };
             res.render('dynamic-helpers.jade', { layout: false });
         });
+        app.get('/ejs', function(req, res){
+            req.session = { name: 'tj' };
+            res.render('dynamic-helpers.ejs', { layout: false });
+        });
         app.get('/precedence', function(req, res){
             req.session = { name: 'tj' };
             res.render('dynamic-helpers.jade', {
@@ -281,6 +285,9 @@ module.exports = {
         
         assert.response(app,
             { url: '/' },
+            { body: '<p>Hello tj holowaychuk</p>' });
+        assert.response(app,
+            { url: '/ejs' },
             { body: '<p>Hello tj holowaychuk</p>' });
         assert.response(app,
             { url: '/precedence' },
