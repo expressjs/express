@@ -51,22 +51,19 @@ similar to below:
 
 Which we can now _use()_ within our app, or pass to the _express.createServer()_ method:
 
-	var connect = require('connect');
-
     var app = express.createServer(
-		connect.logger(),
-		connect.methodOverride(),
-		connect.cookie()
+		express.logger(),
+		express.methodOverride(),
+		express.cookieDecoder()
 	);
 
 or:
 
-    var connect = require('connect');
 	var app = express.createServer();
 
-	app.use(connect.logger());
-	app.use(connect.methodOverride());
-	app.use(connect.cookieDecoder());
+	app.use(express.logger());
+	app.use(express.methodOverride());
+	app.use(express.cookieDecoder());
 
 For documentation on creating Connect middleware visit [Middleware Authoring](http://extjs.github.com/Connect/#Middleware-Authoring).
 
@@ -97,10 +94,10 @@ Polymorphic parameter access can be done using `req.param()`:
 		req.param('id');
 	});
 
-Route parameters are also passed as the third argument:
+Route parameters are available via `req.params`:
 
-    app.get('/user/:id', function(req, res, params){
-		params.id;
+    app.get('/user/:id', function(req, res){
+		req.params.id;
     });
 
 ### Passing Route Control
@@ -114,11 +111,11 @@ implemented for practical use:
     });
 
 Now Express has access to Connect's _next()_ function,
-which is passed as the fourth and final argument. Calling _next()_ will
+which is passed as the third and final argument. Calling _next()_ will
 pass control to the next _matching route_, or continue down the stack
 of Connect middleware.
 
-    app.get('/user/:id?', function(req, res, params, next){
+    app.get('/user/:id?', function(req, res, next){
 	    next();
     });
 

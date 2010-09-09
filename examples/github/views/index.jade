@@ -1,5 +1,8 @@
-h1= name
-p.summary
-  | <a href="http://github.com/#{name}">#{name}</a> has <strong>#{repos.length}</strong> repositories 
-  | with a total of <strong>#{totalWatchers}</strong> watchers.
-table#repos!= partial('repo', repos)
+- each user in users
+  .user
+    h2= user.name
+    p.summary
+      | <a href="http://github.com/#{user.name}">#{user.name}</a> has
+      | <strong>#{user.repos.length}</strong> repositories 
+      | with a total of <strong>#{user.totalWatchers}</strong> watchers.
+    table#repos!= partial('repo', user.repos)

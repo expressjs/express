@@ -1,10 +1,10 @@
 .\" generated with Ronn/v0.6.6
 .\" http://github.com/rtomayko/ronn/
 .
-.TH "GUIDE" "" "July 2010" "" ""
+.TH "GUIDE" "" "August 2010" "" ""
 .
 .SS "Installation"
-curl (or similar):
+curl:
 .
 .IP "" 4
 .
@@ -23,7 +23,6 @@ npm:
 .
 .nf
 
-$ npm install connect
 $ npm install express
 .
 .fi
@@ -68,23 +67,25 @@ app\.listen(3000);
 Express supports arbitrary environments, such as \fIproduction\fR and \fIdevelopment\fR\. Developers can use the \fIconfigure()\fR method to setup needs required by the current environment\. When \fIconfigure()\fR is called without an environment name it will be run in \fIevery\fR environment prior to the environment specific callback\.
 .
 .P
-In the example below we only \fIdumpExceptions\fR, and respond with exception stack traces in \fIdevelopment\fR mode, however for both environments we utilize \fImethodOverride\fR and \fIbodyDecoder\fR\.
+In the example below we only \fIdumpExceptions\fR, and respond with exception stack traces in \fIdevelopment\fR mode, however for both environments we utilize \fImethodOverride\fR and \fIbodyDecoder\fR\. Note the use of \fIapp\.router\fR, which can (optionally) be used to mount the application routes, otherwise the first call to \fIapp\.{get,put,del,post}()\fR will mount the routes\.
 .
 .IP "" 4
 .
 .nf
 
 app\.configure(function(){
-    app\.use(connect\.methodOverride());
-    app\.use(connect\.bodyDecoder());
+    app\.use(express\.methodOverride());
+    app\.use(express\.bodyDecoder());
+    app\.use(app\.router);
+    app\.use(express\.staticProvider(__dirname + \'/public\'));
 });
 
 app\.configure(\'development\', function(){
-    app\.use(connect\.errorHandler({ dumpExceptions: true, showStack: true }));
+    app\.use(express\.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app\.configure(\'production\', function(){
-    app\.use(connect\.errorHandler());
+    app\.use(express\.errorHandler());
 });
 .
 .fi
@@ -131,10 +132,10 @@ $ EXPRESS_ENV=production node app\.js
 Express supports the following settings out of the box:
 .
 .IP "\(bu" 4
-\fIenv\fR Application environment set internally, use \fIapp\.set(\'env\')\fR to utilize
+\fIenv\fR Application environment set internally, use \fIapp\.set(\'env\')\fR on \fIServer#listen()\fR
 .
 .IP "\(bu" 4
-\fIhome\fR Application base path used with \fIres\.redirect()\fR
+\fIhome\fR Application base path used for \fIres\.redirect()\fR and transparently handling mounted apps\.
 .
 .IP "\(bu" 4
 \fIviews\fR Root views directory defaulting to \fBCWD/views\fR
@@ -143,19 +144,22 @@ Express supports the following settings out of the box:
 \fIview engine\fR Default view engine name for views rendered without extensions
 .
 .IP "\(bu" 4
-\fIreload views\fR Reloads altered views, by default watches for \fImtime\fR changes with with a 5 minute interval\. Example: \fIapp\.set(\'reload views\', 60000);\fR
+\fIview options\fR An object specifying global view options
+.
+.IP "\(bu" 4
+\fIpartials\fR Root view partials directory defaulting to \fIviews\fR/partials\.
 .
 .IP "" 0
 .
 .SS "Routing"
-Express utilizes the HTTP verbs to provide a meaningful, expressive routing API\. For example we may want to render a user\'s account for the path \fI/user/12\fR, this can be done by defining the route below\. The values associated to the named placeholders, are passed as the \fIthird\fR argument, which here we name \fIparams\fR\.
+Express utilizes the HTTP verbs to provide a meaningful, expressive routing API\. For example we may want to render a user\'s account for the path \fI/user/12\fR, this can be done by defining the route below\. The values associated to the named placeholders are available as \fBreq\.params\fR\.
 .
 .IP "" 4
 .
 .nf
 
-app\.get(\'/user/:id\', function(req, res, params){
-    res\.send(\'user \' + params\.id);
+app\.get(\'/user/:id\', function(req, res){
+    res\.send(\'user \' + req\.params\.id);
 });
 .
 .fi
@@ -176,13 +180,35 @@ A route is simple a string which is compiled to a \fIRegExp\fR internally\. For 
 .IP "" 0
 .
 .P
-Literal regular expressions may also be passed for complex uses:
+Regular expression literals may also be passed for complex uses\. Since capture groups with literal \fIRegExp\fR\'s are anonymous we can access them directly \fBreq\.params\fR\.
 .
 .IP "" 4
 .
 .nf
 
-app\.get(/^\\/foo(bar)?$/, function(){});
+app\.get(/^\\/users?(?:\\/(\\d+)(?:\\\.\\\.(\\d+))?)?/, function(req, res){
+    res\.send(req\.params);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Curl requests against the previously defined route:
+.
+.IP "" 4
+.
+.nf
+
+   $ curl http://dev:3000/user
+   [null,null]
+   $ curl http://dev:3000/users
+   [null,null]
+   $ curl http://dev:3000/users/1
+   [\"1\",null]
+   $ curl http://dev:3000/users/1\.\.15
+   [\"1\",\"15\"]
 .
 .fi
 .
@@ -228,21 +254,22 @@ Below are some route examples, and the associated paths that they may consume:
 .IP "" 0
 .
 .SS "Passing Route Control"
-We may pass control to the next \fImatching\fR route, by calling the \fIfourth\fR parameter, the \fInext()\fR function\. When a match cannot be made, control is passed back to Connect\.
+We may pass control to the next \fImatching\fR route, by calling the \fIthird\fR argument, the \fInext()\fR function\. When a match cannot be made, control is passed back to Connect, and middleware continue to be invoked\.
 .
 .IP "" 4
 .
 .nf
 
-app\.get(\'/users/:id?\', function(req, res, params){
-    if (params\.id) {
+app\.get(\'/users/:id?\', function(req, res, next){
+    var id = req\.params\.id;
+    if (id) {
         // do something
     } else {
         next();
     }
 });
 
-app\.get(\'/users\', function(req, res, params){
+app\.get(\'/users\', function(req, res){
     // do something else
 });
 .
@@ -257,12 +284,11 @@ The Express \fIPlugin\fR is no more! middleware via Connect \fIhttp://github\.co
 .
 .nf
 
-var connect = require(\'connect\'),
-    express = require(\'express\');
+var express = require(\'express\');
 
 var app = express\.createServer(
-    connect\.logger(),
-    connect\.bodyDecoder()
+    express\.logger(),
+    express\.bodyDecoder()
 );
 .
 .fi
@@ -276,7 +302,34 @@ Alternatively we can \fIuse()\fR them which is useful when adding middleware wit
 .
 .nf
 
-app\.use(connect\.logger({ format: \':method :uri\' }));
+app\.use(express\.logger({ format: \':method :uri\' }));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Typically with connect middleware you would \fIrequire(\'connect\')\fR like so:
+.
+.IP "" 4
+.
+.nf
+
+var connect = require(\'connect\');
+app\.use(connect\.logger());
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This is somewhat annoying, so express re\-exports these middleware properties, however they are \fIidentical\fR:
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.logger());
 .
 .fi
 .
@@ -311,6 +364,9 @@ app\.get(\'/500\', function(req, res){
 .
 .P
 We can call \fIapp\.error()\fR several times as shown below\. Here we check for an instanceof \fINotFound\fR and show the 404 page, or we pass on to the next error handler\.
+.
+.P
+Note that these handlers can be defined anywhere, as they will be placed below the route handlers on \fIlisten()\fR\. This allows for definition within \fIconfigure()\fR blocks so we can handle exceptions in different ways based on the environment\.
 .
 .IP "" 4
 .
@@ -354,7 +410,7 @@ Our apps could also utilize the Connect \fIerrorHandler\fR middleware to report 
 .
 .nf
 
-app\.use(connect\.errorHandler({ dumpExceptions: true }));
+app\.use(express\.errorHandler({ dumpExceptions: true }));
 .
 .fi
 .
@@ -367,7 +423,7 @@ Also during development we may want fancy html pages to show exceptions that are
 .
 .nf
 
-app\.use(connect\.errorHandler({ showStack: true, dumpExceptions: true }));
+app\.use(express\.errorHandler({ showStack: true, dumpExceptions: true }));
 .
 .fi
 .
@@ -377,7 +433,7 @@ app\.use(connect\.errorHandler({ showStack: true, dumpExceptions: true }));
 The \fIerrorHandler\fR middleware also responds with \fIjson\fR if \fIAccept: application/json\fR is present, which is useful for developing apps that rely heavily on client\-side JavaScript\.
 .
 .SS "View Rendering"
-View filenames take the form \fINAME\fR\.\fIENGINE\fR, where \fIENGINE\fR is the name of the module that will be required\. For example the view \fIlayout\.ejs\fR will tell the view system to \fIrequire(\'ejs\')\fR, the module being loaded must (currently) export the method \fIexports\.render(str, options)\fR to comply with Express, however with will likely be extensible in the future\.
+View filenames take the form \fINAME\fR\.\fIENGINE\fR, where \fIENGINE\fR is the name of the module that will be required\. For example the view \fIlayout\.ejs\fR will tell the view system to \fIrequire(\'ejs\')\fR, the module being loaded must export the method \fIexports\.render(str, options)\fR to comply with Express, however \fIapp\.register()\fR can be used to map engines to file extensions, so that for example \"foo\.html\" can be rendered by jade\.
 .
 .P
 Below is an example using Haml\.js \fIhttp://github\.com/visionmedia/haml\.js\fR to render \fIindex\.html\fR, and since we do not use \fIlayout: false\fR the rendered contents of \fIindex\.html\fR will be passed as the \fIbody\fR local variable in \fIlayout\.haml\fR\.
@@ -448,6 +504,50 @@ res\.render(\'another\-page\.ejs\');
 .
 .IP "" 0
 .
+.P
+Express also provides the \fIview options\fR setting, which is applied each time a view is rendered, so for example if you rarely use layouts you may set:
+.
+.IP "" 4
+.
+.nf
+
+app\.set(\'view options\', {
+    layout: false
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Which can then be overridden within the \fBres\.render()\fR call if need be:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'myview\.ejs\', { layout: true });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+A good example of this is specifying custom \fIejs\fR opening and closing tags:
+.
+.IP "" 4
+.
+.nf
+
+app\.set(\'view options\', {
+    open: \'{{\',
+    close: \'}}\'
+});
+.
+.fi
+.
+.IP "" 0
+.
 .SS "View Partials"
 The Express view system has built\-in support for partials and collections, which are sort of \"mini\" views representing a document fragment\. For example rather than iterating in a view to display comments, we would use a partial with collection support:
 .
@@ -497,7 +597,7 @@ When using the partial collection support a few \"magic\" variables are provided
 \fIindexInCollection\fR Index of the object in the collection
 .
 .IP "\(bu" 4
-_lastInCollection _ True if this is the last object
+\fIlastInCollection\fR True if this is the last object
 .
 .IP "" 0
 .
@@ -505,10 +605,10 @@ _lastInCollection _ True if this is the last object
 Below are a few template engines commonly used with Express:
 .
 .IP "\(bu" 4
-Jade \fIhttp://github\.com/visionmedia/jade\fR haml\.js successor
+Jade \fIhttp://jade\-lang\.com\fR haml\.js successor
 .
 .IP "\(bu" 4
-Haml \fIhttp://github\.com/visionmedia/haml\.js\fR indented templates
+Haml \fIhttp://github\.com/visionmedia/haml\.js\fR pythonic indented templates
 .
 .IP "\(bu" 4
 EJS \fIhttp://github\.com/visionmedia/ejs\fR Embedded JavaScript
@@ -563,18 +663,18 @@ req\.accepts(\'png\');
 Return the value of param \fIname\fR when present\.
 .
 .IP "\(bu" 4
-Checks route placeholders, ex: /user/:id
+Checks route placeholders (\fIreq\.params\fR), ex: /user/:id
 .
 .IP "\(bu" 4
-Checks query string params, ex: ?id=12
+Checks query string params (\fIreq\.query\fR), ex: ?id=12
 .
 .IP "\(bu" 4
-Checks urlencoded body params, ex: id=12
+Checks urlencoded body params (\fIreq\.body\fR), ex: id=12
 .
 .IP "" 0
 .
 .P
-To utilize urlencoded request bodies, \fIreq\.body\fR should be an object\. This can be done by using the \fIconnect\.bodyDecoder\fR middleware\.
+To utilize urlencoded request bodies, \fIreq\.body\fR should be an object\. This can be done by using the \fIexpress\.bodyDecoder\fR middleware\.
 .
 .SS "req\.flash(type[, msg])"
 Queue flash \fImsg\fR of the given \fItype\fR\.
@@ -761,9 +861,6 @@ Most engines accept one or more of the following options, both haml \fIhttp://gi
 \fIlocals\fR Object containing local variables
 .
 .IP "\(bu" 4
-\fIcache\fR Cache intermediate JavaScript in memory (the default in \fIproduction\fR mode)
-.
-.IP "\(bu" 4
 \fIdebug\fR Output debugging information
 .
 .IP "" 0
@@ -856,9 +953,9 @@ Apply an application level setting \fIname\fR to \fIval\fR, or get the value of 
 .
 .nf
 
-app\.set(\'reload views\', 200);
-app\.set(\'reload views\');
-// => 200
+app\.set(\'views\', __dirname + \'/views\');
+app\.set(\'views\');
+// => \.\.\.path\.\.\.
 .
 .fi
 .
@@ -939,8 +1036,8 @@ We may also map dynamic redirects:
 .
 .nf
 
-app\.redirect(\'comments\', function(req, res, params){
-    return \'/post/\' + params\.id + \'/comments\';
+app\.redirect(\'comments\', function(req, res){
+    return \'/post/\' + req\.params\.id + \'/comments\';
 });
 .
 .fi
@@ -1008,14 +1105,14 @@ Our view could now utilize the \fIfirstName\fR and \fIlastName\fR variables, as 
 .IP "" 0
 .
 .SS "app\.dynamicHelpers(obj)"
-Registers dynamic view helpers\. Dynamic view helpers are simply functions which accept \fIreq\fR, \fIres\fR, and \fIparams\fR, and are evaluated against the \fIServer\fR instance before a view is rendered\. The \fIreturn value\fR of this function becomes the local variable it is associated with\.
+Registers dynamic view helpers\. Dynamic view helpers are simply functions which accept \fIreq\fR, \fIres\fR, and are evaluated against the \fIServer\fR instance before a view is rendered\. The \fIreturn value\fR of this function becomes the local variable it is associated with\.
 .
 .IP "" 4
 .
 .nf
 
 app\.dynamicHelpers({
-    session: function(req, res, params){
+    session: function(req, res){
         return req\.session;
     }
 });
@@ -1032,6 +1129,71 @@ All views would now have \fIsession\fR available so that session data can be acc
 .nf
 
 <%= session\.name %>
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.mounted(fn)"
+Assign a callback \fIfn\fR which is called when this \fIServer\fR is passed to \fIServer#use()\fR\.
+.
+.IP "" 4
+.
+.nf
+
+var app = express\.createServer(),
+    blog = express\.createServer();
+
+blog\.mounted(function(parent){
+    // parent is app
+    // \"this\" is blog
+});
+
+app\.use(blog);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.register(ext, exports)"
+Register the given template engine \fIexports\fR as \fIext\fR\. For example we may wish to map \"\.html\" files to jade:
+.
+.IP "" 4
+.
+.nf
+
+ app\.register(\'\.html\', require(\'jade\'));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This is also useful for libraries that may not match extensions correctly\. For example my haml\.js library is installed from npm as \"hamljs\" so instead of layout\.hamljs, we can register the engine as \"\.haml\":
+.
+.IP "" 4
+.
+.nf
+
+ app\.register(\'\.haml\', require(\'haml\-js\'));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+For engines that do not comply with the Express specification, we can also wrap their api this way\.
+.
+.IP "" 4
+.
+.nf
+
+ app\.register(\'\.foo\', {
+     render: function(str, options) {
+         // perhaps their api is
+         // foo\.toHTML(str, options);
+     }
+ });
 .
 .fi
 .

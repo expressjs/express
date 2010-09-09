@@ -8,17 +8,22 @@ module.exports = {
         assert.ok(server instanceof connect.Server, 'Test serverlication inheritance');
     },
     
+    'test connect middleware autoloaders': function(assert){
+        assert.equal(express.errorHandler, connect.errorHandler);
+    },
+    
     'test basic server': function(assert){
         var server = express.createServer();
 
         server.get('/', function(req, res){
+            assert.equal('test', server.set('env'), 'env setting was not set properly');
             res.writeHead(200, {});
             res.end('wahoo');
         });
 
-        server.put('/user/:id', function(req, res, params){
+        server.put('/user/:id', function(req, res){
             res.writeHead(200, {});
-            res.end('updated user ' + params.id)
+            res.end('updated user ' + req.params.id)
         });
 
         assert.response(server,
@@ -59,7 +64,7 @@ module.exports = {
         // Passing down middleware stack
         var app = express.createServer();
         
-        app.get('/', function(req, res, params, next){
+        app.get('/', function(req, res, next){
             next(new Error('broken'));
         });
         
@@ -72,12 +77,12 @@ module.exports = {
         // Custom handler
         var app = express.createServer();
         
-        app.get('/', function(req, res, params, next){
-            next(new Error('broken'));
-        });
-        
         app.error(function(err, req, res){
             res.send('Shit: ' + err.message, 500);
+        });
+
+        app.get('/', function(req, res, next){
+            next(new Error('broken'));
         });
         
         assert.response(app,
@@ -86,13 +91,6 @@ module.exports = {
         
         // Multiple error()s
         var app = express.createServer();
-        
-        app.get('/', function(req, res, params, next){
-            throw new Error('broken');
-        });
-        app.get('/foo', function(req, res, params, next){
-            throw new Error('oh noes');
-        });
         
         app.error(function(err, req, res, next){
             if (err.message === 'broken') {
@@ -104,6 +102,13 @@ module.exports = {
         
         app.error(function(err, req, res, next){
             res.send(err.message, 500);
+        });
+
+        app.get('/', function(req, res, next){
+            throw new Error('broken');
+        });
+        app.get('/foo', function(req, res, next){
+            throw new Error('oh noes');
         });
         
         assert.response(app,
@@ -117,8 +122,8 @@ module.exports = {
     'test next()': function(assert){
         var app = express.createServer();
         
-        app.get('/user.:format?', function(req, res, params, next){
-            switch (params.format) {
+        app.get('/user.:format?', function(req, res, next){
+            switch (req.params.format) {
                 case 'json':
                     res.writeHead(200, {});
                     res.end('some json');
@@ -145,7 +150,7 @@ module.exports = {
     'test #use()': function(assert){
         var app = express.createServer();
 
-        app.get('/users', function(req, res, params, next){
+        app.get('/users', function(req, res, next){
             next(new Error('fail!!'));
         });
         app.use('/', connect.errorHandler({ showMessage: true }));
@@ -157,8 +162,8 @@ module.exports = {
     
     'test #configure()': function(assert, beforeExit){
         var calls = [];
-        var server = express.createServer();
         process.env.EXPRESS_ENV = 'development';
+        var server = express.createServer();
         
         // Config blocks
         var ret = server.configure(function(){
@@ -179,6 +184,47 @@ module.exports = {
         beforeExit(function(){
             assert.eql(['any', 'dev'], calls);
         });
+    },
+    
+    'test #configure() immediate call': function(assert){
+        var app = express.createServer();
+
+        app.configure(function(){
+            app.use(connect.bodyDecoder());
+        });
+        
+        app.post('/', function(req, res){
+            res.send(req.param('name') || 'nope');
+        });
+
+        assert.response(app,
+            { url: '/', method: 'POST', data: 'name=tj', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
+            { body: 'tj' });
+    },
+
+    'test #configure() precedence': function(assert){
+        var app = express.createServer();
+    
+        app.configure(function(){
+            app.use(function(req, res, next){
+                res.writeHead(200, {});
+                res.write('first');
+                next();
+            });
+            app.use(app.router);
+            app.use(function(req, res, next){
+                res.end('last');
+            });
+        });
+        
+        app.get('/', function(req, res, next){
+            res.write(' route ');
+            next();
+        });
+    
+        assert.response(app,
+            { url: '/' },
+            { body: 'first route last' });
     },
     
     'test #set()': function(assert){
@@ -221,5 +267,54 @@ module.exports = {
         assert.response(app,
             { url: '/', method: 'POST', data: 'name=tj', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
             { body: '{"name":"tj"}' });
+    },
+    
+    'test mounting': function(assert){
+        var called,
+            app = express.createServer(),
+            blog = express.createServer(),
+            map = express.createServer();
+
+        map.set('home', '/map');
+        
+        map.mounted(function(parent){
+            called = true;
+            assert.equal(this, map, 'mounted() is not in context of the child app');
+            assert.equal(app, parent, 'mounted() was not called with parent app');
+        });
+        
+        app.use('/blog', blog);
+        app.use('/contact', map);
+        assert.equal('/blog', blog.route);
+        assert.equal('/contact', map.route);
+        assert.ok(called, 'mounted() hook failed');
+        
+        app.get('/', function(req, res){
+            assert.equal('/', app.set('home'), "home did not default to /");
+            assert.equal('/blog', blog.set('home'), "home did not default to Server#route when mounted");
+            assert.equal('/contact/map', map.set('home'), 'home did not prepend route on Server#use()');
+            res.send('main app');
+        });
+
+        blog.get('/', function(req, res){
+            res.send('blog index');
+        });
+        
+        blog.get('/post/:id', function(req, res){
+            res.send('blog post ' + req.params.id);
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            { body: 'main app' });
+        assert.response(app,
+            { url: '/blog' },
+            { body: 'blog index' });
+        assert.response(app,
+            { url: '/blog/post/12' },
+            { body: 'blog post 12' });
+        assert.response(blog,
+            { url: '/' },
+            { body: 'blog index' });
     }
 };

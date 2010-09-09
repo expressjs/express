@@ -13,6 +13,7 @@ HTMLDOCS =$(DOCS:.md=.html)
 
 install: install-docs
 	@mkdir -p $(PREFIX)/bin
+	@mkdir -p $(LIB_PREFIX)
 	cp -f bin/express $(PREFIX)/bin/express
 	cp -fr lib/express $(LIB_PREFIX)/express
 
@@ -29,6 +30,7 @@ uninstall-support:
 	cd support/jade && $(MAKE) uninstall
 
 install-docs:
+	@mkdir -p $(PREFIX)/share/man/man1
 	cp -f docs/executable.1 $(PREFIX)/share/man/man1/express.1
 
 uninstall-docs:

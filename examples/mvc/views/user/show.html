@@ -1,0 +1,7 @@
+<h1>Viewing user #<%= user.id %></h1>
+<%- partial('messages') %>
+<ul>
+  <li><%- user.name %></li>
+  <li><%- user.email %></li>
+  <li><a href="<%= user.id %>/edit">Edit</a> this user</li>
+</ul>

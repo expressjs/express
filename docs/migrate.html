@@ -1,33 +1,7 @@
 <html>
 	<head>
 		<title>Express - node web framework</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-		<script>
-			$(function(){
-				var done;
-				$(document).scroll(function(event){
-					if (!done) {
-						$('#toc').animate({
-							top: 0
-						});
-					}
-				});
-			});
-		</script>
 		<style>
-		    #header {
-				position: absolute;
-				top: 10px;
-				left: 0;
-		        padding: 12px 0;
-				text-indent: 40px;
-				width: 100%;
-		        border-top: 1px solid rgba(0,0,0,0.7);
-		        border-bottom: 1px solid rgba(0,0,0,0.7);
-		        background: rgba(255,255,255,0.1) url(http://www.sencha.com/favicon.ico) no-repeat 15px 50%;
-				text-align: left;
-				color: #fff;
-		    }
 			#tagline {
 			  margin-left: 75px;
 			  margin-bottom: 30px;
@@ -123,17 +97,18 @@
 
 			#container {
 			  margin: 0 auto;
-			  padding-top: 110px;
+			  padding-top: 80px;
 			  width: 550px; }
 
 			#toc {
 				position: fixed;
-				top: 60px;
+				top: 0;
 				left: 0;
 				margin: 0 0 0 15px;
 				padding: 15px;
 				height: 100%;
 				background: rgba(0,0,0,0.2);
+				overflow: auto;
 				border-right: 1px solid rgba(255,255,255,0.05);
 			}
 			#toc li {
@@ -176,7 +151,6 @@
 		<a href='http://github.com/visionmedia/express'> 
 		  <img alt='Fork me on GitHub' id='ribbon' src='http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png' /> 
 		</a>
-		<div id="header"><strong>Sencha</strong> labs</div>
 		<div id="wrapper">
 			<div id="container">
 				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
@@ -246,23 +220,20 @@ use(Cookie);
 
 <p>Which we can now <em>use()</em> within our app, or pass to the <em>express.createServer()</em> method:</p>
 
-<pre><code>var connect = require('connect');
-
-var app = express.createServer(
-    connect.logger(),
-    connect.methodOverride(),
-    connect.cookie()
+<pre><code>var app = express.createServer(
+    express.logger(),
+    express.methodOverride(),
+    express.cookieDecoder()
 );
 </code></pre>
 
 <p>or:</p>
 
-<pre><code>var connect = require('connect');
-var app = express.createServer();
+<pre><code>var app = express.createServer();
 
-app.use(connect.logger());
-app.use(connect.methodOverride());
-app.use(connect.cookieDecoder());
+app.use(express.logger());
+app.use(express.methodOverride());
+app.use(express.cookieDecoder());
 </code></pre>
 
 <p>For documentation on creating Connect middleware visit <a href="http://extjs.github.com/Connect/#Middleware-Authoring">Middleware Authoring</a>.</p>
@@ -298,10 +269,10 @@ fetching a route, query string, or request body parameter:</p>
 });
 </code></pre>
 
-<p>Route parameters are also passed as the third argument:</p>
+<p>Route parameters are available via <code>req.params</code>:</p>
 
-<pre><code>app.get('/user/:id', function(req, res, params){
-    params.id;
+<pre><code>app.get('/user/:id', function(req, res){
+    req.params.id;
 });
 </code></pre>
 
@@ -317,11 +288,11 @@ implemented for practical use:</p>
 </code></pre>
 
 <p>Now Express has access to Connect's <em>next()</em> function,
-which is passed as the fourth and final argument. Calling <em>next()</em> will
+which is passed as the third and final argument. Calling <em>next()</em> will
 pass control to the next <em>matching route</em>, or continue down the stack
 of Connect middleware.</p>
 
-<pre><code>app.get('/user/:id?', function(req, res, params, next){
+<pre><code>app.get('/user/:id?', function(req, res, next){
     next();
 });
 

@@ -12,7 +12,13 @@ var sys = require('sys'),
  * Framework version.
  */
 
-var version = '1.0.0beta';
+var version = '1.0.0rc2';
+
+/**
+ * stdin stream.
+ */
+
+var stdin;
 
 /**
  * Usage documentation.
@@ -39,13 +45,14 @@ var jadeLayout = [
 ].join('\n');
 
 /**
- * Default sass template.
+ * Default less template.
  */
 
-var sass = [
-    'body',
-    '  :padding 50px',
-    '  :font 14px "Lucida Grande", "Helvetica Nueue", Arial, sans-serif'
+var less = [
+    'body {',
+    '  padding: 50px;',
+    '  font: 14px "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;',
+    '}'
 ].join('\n');
 
 /**
@@ -58,6 +65,32 @@ var jadeIndex = [
 ].join('\n');
 
 /**
+ * App test template.
+ */
+
+var appTest = [
+    "",
+    "// Run $ expresso",
+    "",
+    "/**",
+    " * Module dependencies.",
+    " */",
+    "",
+    "var app = require('../app');",
+    "",
+    "module.exports = {",
+    "    'GET /': function(assert){",
+    "        assert.response(app,",
+    "            { url: '/' },",
+    "            { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' }},",
+    "            function(res){",
+    "                assert.includes(res.body, '<title>Express</title>');",
+    "            });",
+    "    }",
+    "};",
+].join('\n');
+
+/**
  * App template.
  */
 
@@ -67,30 +100,27 @@ var app = [
     ' * Module dependencies.',
     ' */',
     '',
-    'var express = require(\'express\'),',
-    '    connect = require(\'connect\');',
+    'var express = require(\'express\');',
     '',
-    '// Create and export Express app',
-    '',
-    'var app = express.createServer();',
+    'var app = module.exports = express.createServer();',
     '',
     '// Configuration',
     '',
     'app.configure(function(){',
     '    app.set(\'views\', __dirname + \'/views\');',
-    '    app.use(connect.bodyDecoder());',
-    '    app.use(connect.methodOverride());',
-    '    app.use(connect.compiler({ src: __dirname + \'/public\', enable: [\'sass\'] }));',
-    '    app.use(connect.staticProvider(__dirname + \'/public\'));',
+    '    app.use(express.bodyDecoder());',
+    '    app.use(express.methodOverride());',
+    '    app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'less\'] }));',
+    '    app.use(app.router);',
+    '    app.use(express.staticProvider(__dirname + \'/public\'));',
     '});',
     '',
     'app.configure(\'development\', function(){',
-    '    app.set(\'reload views\', 1000);',
-    '    app.use(connect.errorHandler({ dumpExceptions: true, showStack: true })); ',
+    '    app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); ',
     '});',
     '',
     'app.configure(\'production\', function(){',
-    '   app.use(connect.errorHandler()); ',
+    '   app.use(express.errorHandler()); ',
     '});',
     '',
     '// Routes',
@@ -103,7 +133,12 @@ var app = [
     '    });',
     '});',
     '',
-    'app.listen(3000);',
+    '// Only listen on $ node app.js',
+    '',
+    'if (!module.parent) {',
+    '    app.listen(3000);',
+    '    console.log("Express server listening on port %d", app.address().port)',
+    '}',
     ''
 ].join('\n');
 
@@ -130,21 +165,61 @@ while (args.length) {
 // Generate application
 
 (function createApplication(path) {
+    emptyDirectory(path, function(empty){
+        if (empty) {
+            createApplicationAt(path);
+        } else {
+            confirm('destination is not empty, continue? ', function(ok){
+                if (ok) {
+                    stdin.destroy();
+                    createApplicationAt(path);
+                } else {
+                    abort('aborting');
+                }
+            });
+        }
+    });
+})(path);
+
+/**
+ * Create application at the given directory `path`.
+ *
+ * @param {String} path
+ */
+
+function createApplicationAt(path) {
     mkdir(path, function(){
         mkdir(path + '/pids');
         mkdir(path + '/logs');
         mkdir(path + '/public/javascripts');
         mkdir(path + '/public/images');
         mkdir(path + '/public/stylesheets', function(){
-            write(path + '/public/stylesheets/style.sass', sass);
+            write(path + '/public/stylesheets/style.less', less);
         });
         mkdir(path + '/views/partials', function(){
             write(path + '/views/layout.jade', jadeLayout);
             write(path + '/views/index.jade', jadeIndex);
         });
+        mkdir(path + '/test', function(){
+            write(path + '/test/app.test.js', appTest);
+        });
         write(path + '/app.js', app);
     });
-})(path);
+}
+
+/**
+ * Check if the given directory `path` is empty.
+ *
+ * @param {String} path
+ * @param {Function} fn
+ */
+
+function emptyDirectory(path, fn) {
+    fs.readdir(path, function(err, files){
+        if (err && err.errno !== process.ENOENT) throw err;
+        fn(!files || !files.length);
+    });
+}
 
 /**
  * echo str > path.
@@ -156,6 +231,36 @@ while (args.length) {
 function write(path, str) {
     fs.writeFile(path, str);
     sys.puts('   create : ' + path);
+}
+
+/**
+ * Prompt confirmation with the given `msg`.
+ *
+ * @param {String} msg
+ * @param {Function} fn
+ */
+
+function confirm(msg, fn) {
+    prompt(msg, function(val){
+        fn(/^ *y(es)?/i.test(val));
+    });
+}
+
+/**
+ * Prompt input with the given `msg` and callback `fn`.
+ *
+ * @param {String} msg
+ * @param {Function} fn
+ */
+
+function prompt(msg, fn) {
+    stdin = stdin || process.openStdin();
+    sys[msg[msg.length - 1] == ' ' ? 'print' : 'puts'](msg);
+    stdin.setEncoding('ascii');
+    stdin.addListener('data', function(data){
+        fn(data);
+        stdin.removeListener('data', arguments.callee);
+    });
 }
 
 /**

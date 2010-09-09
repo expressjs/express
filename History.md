@@ -1,4 +1,54 @@
 
+1.0.0rc2 / 2010-08-17 
+==================
+
+  * Added `app.register()` for template engine mapping. Closes #390
+  * Added `res.render()` callback support as second argument (no options)
+  * Added callback support to `res.download()`
+  * Added callback support for `res.sendfile()`
+  * Added support for middleware access via `express.middlewareName()` vs `connect.middlewareName()`
+  * Added "partials" setting to docs
+  * Added default expresso tests to `express(1)` generated app. Closes #384
+  * Fixed `res.sendfile()` error handling, defer via `next()`
+  * Fixed `res.render()` callback when a layout is used [thanks guillermo]
+  * Fixed; `make install` creating ~/.node_libraries when not present
+  * Fixed issue preventing error handlers from being defined anywhere. Closes #387 
+
+1.0.0rc / 2010-07-28
+==================
+
+  * Added mounted hook. Closes #369
+  * Added connect dependency to _package.json_
+
+  * Removed "reload views" setting and support code
+    development env never caches, production always caches.
+
+  * Removed _param_ in route callbacks, signature is now
+    simply (req, res, next), previously (req, res, params, next).
+    Use _req.params_ for path captures, _req.query_ for GET params.
+
+  * Fixed "home" setting
+  * Fixed middleware/router precedence issue. Closes #366
+  * Fixed; _configure()_ callbacks called immediately. Closes #368
+	
+1.0.0beta2 / 2010-07-23
+==================
+
+  * Added more examples
+  * Added; exporting `Server` constructor
+  * Added `Server#helpers()` for view locals
+  * Added `Server#dynamicHelpers()` for dynamic view locals. Closes #349
+  * Added support for absolute view paths
+  * Added; _home_ setting defaults to `Server#route` for mounted apps. Closes #363
+  * Added Guillermo Rauch to the contributor list
+  * Added support for "as" for non-collection partials. Closes #341
+  * Fixed _install.sh_, ensuring _~/.node_libraries_ exists. Closes #362 [thanks jf]
+  * Fixed `res.render()` exceptions, now passed to `next()` when no callback is given [thanks guillermo]
+  * Fixed instanceof `Array` checks, now `Array.isArray()`
+  * Fixed express(1) expansion of public dirs. Closes #348
+  * Fixed middleware precedence. Closes #345
+  * Fixed view watcher, now async [thanks aheckmann]
+
 1.0.0beta / 2010-07-15
 ==================
 

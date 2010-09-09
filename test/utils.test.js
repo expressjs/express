@@ -6,7 +6,7 @@
 var utils = require('express/utils');
 
 module.exports = {
-    'test miniMarkdown': function(assert){
+    'test miniMarkdown()': function(assert){
         assert.equal('<em>foo</em>', utils.miniMarkdown('_foo_'));
         assert.equal('<em>foo</em>', utils.miniMarkdown('*foo*'));
         assert.equal('<strong>foo</strong>', utils.miniMarkdown('**foo**'));

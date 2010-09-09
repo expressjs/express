@@ -3,20 +3,19 @@
  * Module dependencies.
  */
 
-var express = require('./../../lib/express'),
-    connect = require('connect');
+var express = require('./../../lib/express');
 
 var app = express.createServer(
-    connect.logger(),
+    express.logger(),
 
     // Required by session() middleware
-    connect.cookieDecoder(),
+    express.cookieDecoder(),
 
     // Populates:
     //   - req.session
     //   - req.sessionStore
     //   - req.sessionHash (the SID fingerprint)
-    connect.session()
+    express.session()
 );
 
 app.get('/', function(req, res){

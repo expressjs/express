@@ -1,33 +1,7 @@
 <html>
 	<head>
 		<title>Express - node web framework</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-		<script>
-			$(function(){
-				var done;
-				$(document).scroll(function(event){
-					if (!done) {
-						$('#toc').animate({
-							top: 0
-						});
-					}
-				});
-			});
-		</script>
 		<style>
-		    #header {
-				position: absolute;
-				top: 10px;
-				left: 0;
-		        padding: 12px 0;
-				text-indent: 40px;
-				width: 100%;
-		        border-top: 1px solid rgba(0,0,0,0.7);
-		        border-bottom: 1px solid rgba(0,0,0,0.7);
-		        background: rgba(255,255,255,0.1) url(http://www.sencha.com/favicon.ico) no-repeat 15px 50%;
-				text-align: left;
-				color: #fff;
-		    }
 			#tagline {
 			  margin-left: 75px;
 			  margin-bottom: 30px;
@@ -123,17 +97,18 @@
 
 			#container {
 			  margin: 0 auto;
-			  padding-top: 110px;
+			  padding-top: 80px;
 			  width: 550px; }
 
 			#toc {
 				position: fixed;
-				top: 60px;
+				top: 0;
 				left: 0;
 				margin: 0 0 0 15px;
 				padding: 15px;
 				height: 100%;
 				background: rgba(0,0,0,0.2);
+				overflow: auto;
 				border-right: 1px solid rgba(255,255,255,0.05);
 			}
 			#toc li {
@@ -176,7 +151,6 @@
 		<a href='http://github.com/visionmedia/express'> 
 		  <img alt='Fork me on GitHub' id='ribbon' src='http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png' /> 
 		</a>
-		<div id="header"><strong>Sencha</strong> labs</div>
 		<div id="wrapper">
 			<div id="container">
 				<a href='http://github.com/visionmedia/express' id='logo'>Express</a> 
@@ -230,6 +204,11 @@ simply execute:</p>
 <li>Indents are <em>4</em> spaces.</li>
 </ul>
 
+
+<h3 id="Documentation">Documentation</h3>
+
+<p>To contribute documentation edit the markdown files in <em>./docs</em>, however
+do <em>not</em> run <em>make docs</em>, as they will be re-built and published with each release.</p>
 
 </div>
 			</div>

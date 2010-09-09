@@ -2,7 +2,7 @@
 # Express
       
   Insanely fast (and small) server-side JavaScript web development framework
-  built on [node](http://nodejs.org) and [Connect](http://github.com/extjs/Connect).
+  built on [node](http://nodejs.org) and [Connect](http://github.com/senchalabs/connect).
   
      var app = express.createServer();
     
@@ -16,10 +16,9 @@
 
 npm:
 
-    $ npm install connect
     $ npm install express
 
-curl (or similar):
+curl:
 
     $ curl -# http://expressjs.com/install.sh | sh
 
@@ -40,7 +39,9 @@ git clone, first update the submodules:
   * Environment based configuration
   * Session based flash notifications
   * Built on [Connect](http://github.com/senchalabs/connect)
+  * High test coverage
   * Executable for generating applications quickly
+  * Application level view options
 
 Via Connect:
 
@@ -65,19 +66,21 @@ The following are the major contributors of Express (in no specific order).
 
 ## More Information
 
+  * Express [Contrib](http://github.com/visionmedia/express-contrib) repo for additional functionality
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
   * [Google Group](http://groups.google.com/group/express-js) for discussion
-  * [JavaScript Extensions &amp; Utilities](http://github.com/visionmedia/ext.js)
-  * [JavaScript Sass](http://github.com/visionmedia/sass.js)
-  * [JavaScript Haml](http://github.com/visionmedia/haml.js)
-  * [JavaScript Jade](http://github.com/visionmedia/jade) Haml successor
+  * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
 
 ## Node Compatibility
     
 The latest release of Express is compatible with node --version:
 
-    v0.1.100
-    
+    v0.2.0
+
+and connect --version:
+
+    0.2.4
+
 ## License 
 
 (The MIT License)

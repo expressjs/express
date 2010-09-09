@@ -4,7 +4,6 @@
  */
 
 var express = require('./../../lib/express'),
-    connect = require('connect'),
     http = require('http');
 
 var app = express.createServer();
@@ -79,25 +78,38 @@ app.get('/', function(req, res){
  * Display repos.
  */
 
-app.get('/repos/:user', function(req, res, params, next){
-    var name = params.user;
-    request('/repos/show/' + name, function(err, user){
-        if (err) {
-            next(err)
+app.get('/repos/*', function(req, res, next){
+    var names = req.params[0].split('/'),
+        users = [];
+    (function fetchData(name){
+        // We have a user name
+        if (name) {
+            console.log('... fetching %s', name);
+            request('/repos/show/' + name, function(err, user){
+                if (err) {
+                    next(err)
+                } else {
+                    user.totalWatchers = totalWatchers(user.repositories);
+                    user.repos = sort(user.repositories);
+                    user.name = name;
+                    users.push(user);
+                    fetchData(names.shift());
+                }
+            });
+        // No more users
         } else {
+            console.log('... done');
             res.render('index.jade', {
                 locals: {
-                    totalWatchers: totalWatchers(user.repositories),
-                    repos: sort(user.repositories),
-                    name: name
+                    users: users
                 }
             });
         }
-    });
+    })(names.shift());
 });
 
 // Serve statics from ./public
-app.use(connect.staticProvider(__dirname + '/public'));
+app.use(express.staticProvider(__dirname + '/public'));
 
 // Listen on port 3000
 app.listen(3000);

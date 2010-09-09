@@ -5,14 +5,13 @@
 
 var express = require('./../../lib/express'),
     form = require('./../../support/connect-form'),
-    connect = require('connect'),
     sys = require('sys');
 
 var app = express.createServer(
     // connect-form (http://github.com/visionmedia/connect-form)
     // middleware uses the formidable middleware to parse urlencoded
     // and multipart form data
-    form()
+    form({ keepExtensions: true })
 );
 
 app.get('/', function(req, res){
@@ -22,7 +21,7 @@ app.get('/', function(req, res){
         + '</form>');
 });
 
-app.post('/', function(req, res, params, next){
+app.post('/', function(req, res, next){
 
     // connect-form adds the req.form object
     // we can (optionally) define onComplete, passing
@@ -31,7 +30,9 @@ app.post('/', function(req, res, params, next){
         if (err) {
             next(err);
         } else {
-            sys.puts('\nuploaded ' + files.image.filename);
+            console.log('\nuploaded %s to %s', 
+                files.image.filename,
+                files.image.path);
             res.redirect('back');
         }
     });

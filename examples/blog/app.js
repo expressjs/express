@@ -5,18 +5,17 @@
 
 var express = require('./../../lib/express');
 
-// Load our blog app
-var blog = require('./blog');
+// Our app IS the exports, this prevents require('./app').app,
+// instead it is require('./app');
+var app = module.exports = express.createServer();
 
-// Define our main application
+// Illustrates that an app can be broken into
+// several files, but yet extend the same app
+require('./main');
+require('./contact');
 
-var app = express.createServer();
-
-app.get('/', function(req, res){
-    res.send('<p>Visit /blog</p>');
-});
-
-// "mount" our blog app to the /blog path
-app.use('/blog', blog);
+// Illustrates that one app (Server instance) can
+// be "mounted" to another at the given route.
+app.use('/blog', require('./blog'));
 
 app.listen(3000);

@@ -1,13 +1,12 @@
 
 ### Installation
 
-curl (or similar):
+curl:
 
     $ curl -# http://expressjs.com/install.sh | sh
 
 npm:
 
-    $ npm install connect
     $ npm install express
 
 git clone, first update the submodules:
@@ -39,18 +38,22 @@ prior to the environment specific callback.
 
 In the example below we only _dumpExceptions_, and respond with exception stack traces
 in _development_ mode, however for both environments we utilize _methodOverride_ and _bodyDecoder_.
+Note the use of _app.router_, which can (optionally) be used to mount the application routes,
+otherwise the first call to _app.{get,put,del,post}()_ will mount the routes.
 
     app.configure(function(){
-		app.use(connect.methodOverride());
-		app.use(connect.bodyDecoder());
+		app.use(express.methodOverride());
+		app.use(express.bodyDecoder());
+		app.use(app.router);
+		app.use(express.staticProvider(__dirname + '/public'));
 	});
 	
 	app.configure('development', function(){
-		app.use(connect.errorHandler({ dumpExceptions: true, showStack: true }));
+		app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 	});
 	
 	app.configure('production', function(){
-		app.use(connect.errorHandler());
+		app.use(express.errorHandler());
 	});
 
 For internal and arbitrary settings Express provides the _set(key[, val])_, _enable(key)_, _disable(key)_ methods:
@@ -76,22 +79,22 @@ or more specifically _EXPRESS_ENV_, for example:
 
 Express supports the following settings out of the box:
 
-  * _env_ Application environment set internally, use _app.set('env')_ to utilize
-  * _home_ Application base path used with _res.redirect()_
+  * _env_ Application environment set internally, use _app.set('env')_ on _Server#listen()_
+  * _home_ Application base path used for _res.redirect()_ and transparently handling mounted apps.
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
-  * _reload views_ Reloads altered views, by default watches for _mtime_ changes with
-      with a 5 minute interval. Example: _app.set('reload views', 60000);_
+  * _view options_ An object specifying global view options
+  * _partials_ Root view partials directory defaulting to _views_/partials. 
 
 ### Routing
 
 Express utilizes the HTTP verbs to provide a meaningful, expressive routing API.
 For example we may want to render a user's account for the path _/user/12_, this
-can be done by defining the route below. The values associated to the named placeholders,
-are passed as the _third_ argument, which here we name _params_.
+can be done by defining the route below. The values associated to the named placeholders 
+are available as `req.params`.
 
-    app.get('/user/:id', function(req, res, params){
-		res.send('user ' + params.id);
+    app.get('/user/:id', function(req, res){
+		res.send('user ' + req.params.id);
 	});
 
 A route is simple a string which is compiled to a _RegExp_ internally. For example
@@ -99,9 +102,23 @@ when _/user/:id_ is compiled, a simplified version of the regexp may look simila
 
     \/user\/([^\/]+)\/?
 
-Literal regular expressions may also be passed for complex uses:
+Regular expression literals may also be passed for complex uses. Since capture
+groups with literal _RegExp_'s are anonymous we can access them directly `req.params`.
 
-	app.get(/^\/foo(bar)?$/, function(){});
+    app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res){
+        res.send(req.params);
+    });
+
+Curl requests against the previously defined route:
+
+       $ curl http://dev:3000/user
+       [null,null]
+       $ curl http://dev:3000/users
+       [null,null]
+       $ curl http://dev:3000/users/1
+       ["1",null]
+       $ curl http://dev:3000/users/1..15
+       ["1","15"]
 
 Below are some route examples, and the associated paths that they
 may consume:
@@ -136,37 +153,47 @@ may consume:
 
 ### Passing Route Control
 
-We may pass control to the next _matching_ route, by calling the _fourth_ parameter,
-the _next()_ function. When a match cannot be made, control is passed back to Connect.
+We may pass control to the next _matching_ route, by calling the _third_ argument,
+the _next()_ function. When a match cannot be made, control is passed back to Connect,
+and middleware continue to be invoked.
 
-	app.get('/users/:id?', function(req, res, params){
-		if (params.id) {
+	app.get('/users/:id?', function(req, res, next){
+		var id = req.params.id;
+		if (id) {
 			// do something
 		} else {
 			next();
 		}
 	});
 	
-	app.get('/users', function(req, res, params){
+	app.get('/users', function(req, res){
 		// do something else
 	});
 
 ### Middleware
 
-The Express _Plugin_ is no more! middleware via [Connect](http://github.com/extjs/Connect) can be
+The Express _Plugin_ is no more! middleware via [Connect](http://github.com/senchalabs/connect) can be
 passed to _express.createServer()_ as you would with a regular Connect server. For example:
 
-	var connect = require('connect'),
-		express = require('express');
+	var express = require('express');
 
     var app = express.createServer(
-		connect.logger(),
-		connect.bodyDecoder()
+		express.logger(),
+		express.bodyDecoder()
 	);
 
 Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks:
 
-    app.use(connect.logger({ format: ':method :uri' }));
+    app.use(express.logger({ format: ':method :uri' }));
+
+Typically with connect middleware you would _require('connect')_ like so:
+
+    var connect = require('connect');
+    app.use(connect.logger());
+
+This is somewhat annoying, so express re-exports these middleware properties, however they are _identical_:
+
+    app.use(express.logger());
 
 ### Error Handling
 
@@ -194,6 +221,11 @@ We can call _app.error()_ several times as shown below.
 Here we check for an instanceof _NotFound_ and show the
 404 page, or we pass on to the next error handler.
 
+Note that these handlers can be defined anywhere, as they
+will be placed below the route handlers on _listen()_. This 
+allows for definition within _configure()_ blocks so we can
+handle exceptions in different ways based on the environment.
+
 	app.error(function(err, req, res, next){
 	    if (err instanceof NotFound) {
 	        res.render('404.jade');
@@ -217,12 +249,12 @@ Our apps could also utilize the Connect _errorHandler_ middleware
 to report on exceptions. For example if we wish to output exceptions 
 in "development" mode to _stderr_ we can use:
 
-    app.use(connect.errorHandler({ dumpExceptions: true }));
+    app.use(express.errorHandler({ dumpExceptions: true }));
 
 Also during development we may want fancy html pages to show exceptions
 that are passed or thrown, so we can set _showStack_ to true:
 
-    app.use(connect.errorHandler({ showStack: true, dumpExceptions: true }));
+    app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
 
 The _errorHandler_ middleware also responds with _json_ if _Accept: application/json_
 is present, which is useful for developing apps that rely heavily on client-side JavaScript.
@@ -231,9 +263,8 @@ is present, which is useful for developing apps that rely heavily on client-side
 
 View filenames take the form _NAME_._ENGINE_, where _ENGINE_ is the name
 of the module that will be required. For example the view _layout.ejs_ will
-tell the view system to _require('ejs')_, the module being loaded must (currently)
-export the method _exports.render(str, options)_ to comply with Express, however 
-with will likely be extensible in the future.
+tell the view system to _require('ejs')_, the module being loaded must export the method _exports.render(str, options)_ to comply with Express, however 
+_app.register()_ can be used to map engines to file extensions, so that for example "foo.html" can be rendered by jade.
 
 Below is an example using [Haml.js](http://github.com/visionmedia/haml.js) to render _index.html_,
 and since we do not use _layout: false_ the rendered contents of _index.html_ will be passed as 
@@ -263,6 +294,23 @@ mix and match template engines:
 
     res.render('another-page.ejs');
 
+Express also provides the _view options_ setting, which is applied each time a view is rendered, so for example if you rarely use layouts you may set:
+
+	app.set('view options', {
+	    layout: false
+	});
+
+Which can then be overridden within the `res.render()` call if need be:
+
+    res.render('myview.ejs', { layout: true });
+
+A good example of this is specifying custom _ejs_ opening and closing tags:
+
+	app.set('view options', {
+	    open: '{{',
+	    close: '}}'
+	});
+
 ### View Partials
 
 The Express view system has built-in support for partials and collections, which are
@@ -286,14 +334,14 @@ for free:
 
   * _firstInCollection_  True if this is the first object
   * _indexInCollection_  Index of the object in the collection
-  * _lastInCollection _  True if this is the last object
+  * _lastInCollection_  True if this is the last object
 
 ### Template Engines
 
 Below are a few template engines commonly used with Express:
 
-  * [Jade](http://github.com/visionmedia/jade) haml.js successor
-  * [Haml](http://github.com/visionmedia/haml.js) indented templates
+  * [Jade](http://jade-lang.com) haml.js successor
+  * [Haml](http://github.com/visionmedia/haml.js) pythonic indented templates
   * [EJS](http://github.com/visionmedia/ejs) Embedded JavaScript
 
 ### req.header(key[, defaultValue])
@@ -332,13 +380,13 @@ to "text/html" using the mime lookup table.
 
 Return the value of param _name_ when present.
 
-  - Checks route placeholders, ex: /user/:id
-  - Checks query string params, ex: ?id=12
-  - Checks urlencoded body params, ex: id=12
+  - Checks route placeholders (_req.params_), ex: /user/:id
+  - Checks query string params (_req.query_), ex: ?id=12
+  - Checks urlencoded body params (_req.body_), ex: id=12
 
 To utilize urlencoded request bodies, _req.body_
 should be an object. This can be done by using
-the _connect.bodyDecoder_ middleware.
+the _express.bodyDecoder_ middleware.
 
 ### req.flash(type[, msg])
 
@@ -357,6 +405,10 @@ Queue flash _msg_ of the given _type_.
 
     req.flash();
     // => { error: ['email delivery failed'], info: [] }
+
+Flash notification message may also utilize formatters, by default only the %s string formatter is available:
+
+    req.flash('info', 'email delivery to _%s_ from _%s_ failed.', toUser, fromUser);
 
 ### req.isXMLHttpRequest
 
@@ -422,6 +474,7 @@ The `res.send()` method is a high level response utility allowing you to pass
 objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status
 code based responses. The following are all valid uses:
 
+     res.send(); // 204
      res.send(new Buffer('wahoo'));
      res.send({ some: 'json' });
      res.send('<p>some html</p>');
@@ -458,8 +511,9 @@ automatically, however otherwise a response of _200_ and _text/html_ is given.
 
   - _context|scope_   Template evaluation context (_this_)
   - _locals_          Object containing local variables
-  - _cache_           Cache intermediate JavaScript in memory (the default in _production_ mode)
   - _debug_           Output debugging information
+  - _status_          Response status code, defaults to 200
+  - _headers_         Response headers object
 
 ### res.partial(view[, options])
 
@@ -504,9 +558,9 @@ pseudo globals (local variables) by using _as: global_, which again is syntactic
 Apply an application level setting _name_ to _val_, or
 get the value of _name_ when _val_ is not present:
 
-    app.set('reload views', 200);
-    app.set('reload views');
-    // => 200
+    app.set('views', __dirname + '/views');
+    app.set('views');
+    // => ...path...
 
 ### app.enable(name)
 
@@ -548,8 +602,8 @@ Now in a route we may call:
 
 We may also map dynamic redirects:
 
-    app.redirect('comments', function(req, res, params){
-        return '/post/' + params.id + '/comments';
+    app.redirect('comments', function(req, res){
+        return '/post/' + req.params.id + '/comments';
     });
 
 So now we may do the following, and the redirect will dynamically adjust to
@@ -588,12 +642,12 @@ as well as the _name()_ function exposed.
 ### app.dynamicHelpers(obj)
 
 Registers dynamic view helpers. Dynamic view helpers
-are simply functions which accept _req_, _res_, and _params_, and are
+are simply functions which accept _req_, _res_, and are
 evaluated against the _Server_ instance before a view is rendered. The _return value_ of this function
 becomes the local variable it is associated with.
 
     app.dynamicHelpers({
-		session: function(req, res, params){
+		session: function(req, res){
 			return req.session;
 		}
     });
@@ -601,6 +655,45 @@ becomes the local variable it is associated with.
 All views would now have _session_ available so that session data can be accessed via _session.name_ etc:
 
     <%= session.name %>
+
+### app.mounted(fn)
+
+Assign a callback _fn_ which is called when this _Server_ is passed to _Server#use()_.
+
+    var app = express.createServer(),
+        blog = express.createServer();
+    
+    blog.mounted(function(parent){
+        // parent is app
+        // "this" is blog
+    });
+    
+    app.use(blog);
+
+### app.register(ext, exports)
+
+Register the given template engine _exports_
+as _ext_. For example we may wish to map ".html"
+files to jade:
+
+     app.register('.html', require('jade'));
+
+This is also useful for libraries that may not
+match extensions correctly. For example my haml.js
+library is installed from npm as "hamljs" so instead
+of layout.hamljs, we can register the engine as ".haml":
+
+     app.register('.haml', require('haml-js'));
+
+For engines that do not comply with the Express
+specification, we can also wrap their api this way.
+
+     app.register('.foo', {
+         render: function(str, options) {
+             // perhaps their api is
+             // foo.toHTML(str, options);
+         }
+     });
 
 ### app.listen([port[, host]])
 
