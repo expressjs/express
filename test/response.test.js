@@ -250,8 +250,8 @@ module.exports = {
         assert.response(app,
             { url: '/' },
             function(res){
-                assert.length(res.headers['set-cookie'], 1);
-                assert.length(
+                //assert.length(res.headers['set-cookie'], 1);
+                assert.equal(
                     'rememberme=yes; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly',
                     res.headers['set-cookie'][0]);
             });
