@@ -1,7 +1,10 @@
-.\" generated with Ronn/v0.6.6
-.\" http://github.com/rtomayko/ronn/
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "GUIDE" "" "August 2010" "" ""
+.TH "GUIDE" "" "September 2010" "" ""
+.
+.SH "NAME"
+\fBguide\fR
 .
 .SS "Installation"
 curl:
@@ -102,7 +105,7 @@ For internal and arbitrary settings Express provides the \fIset(key[, val])\fR, 
 app\.configure(function(){
     app\.set(\'views\', __dirname + \'/views\');
     app\.set(\'views\');
-    // => \"\.\.\. views directory \.\.\.\"
+    // => "\.\.\. views directory \.\.\."
 
     app\.enable(\'some feature\');
     // same as app\.set(\'some feature\', true);
@@ -173,7 +176,7 @@ A route is simple a string which is compiled to a \fIRegExp\fR internally\. For 
 .
 .nf
 
-\\/user\\/([^\\/]+)\\/?
+\e/user\e/([^\e/]+)\e/?
 .
 .fi
 .
@@ -186,7 +189,7 @@ Regular expression literals may also be passed for complex uses\. Since capture 
 .
 .nf
 
-app\.get(/^\\/users?(?:\\/(\\d+)(?:\\\.\\\.(\\d+))?)?/, function(req, res){
+app\.get(/^\e/users?(?:\e/(\ed+)(?:\e\.\e\.(\ed+))?)?/, function(req, res){
     res\.send(req\.params);
 });
 .
@@ -206,9 +209,9 @@ Curl requests against the previously defined route:
    $ curl http://dev:3000/users
    [null,null]
    $ curl http://dev:3000/users/1
-   [\"1\",null]
+   ["1",null]
    $ curl http://dev:3000/users/1\.\.15
-   [\"1\",\"15\"]
+   ["1","15"]
 .
 .fi
 .
@@ -221,30 +224,30 @@ Below are some route examples, and the associated paths that they may consume:
 .
 .nf
 
- \"/user/:id\"
+ "/user/:id"
  /user/12
 
- \"/users/:id?\"
+ "/users/:id?"
  /users/5
  /users
 
- \"/files/*\"
+ "/files/*"
  /files/jquery\.js
  /files/javascripts/jquery\.js
 
- \"/file/*\.*\"
+ "/file/*\.*"
  /files/jquery\.js
  /files/javascripts/jquery\.js
 
- \"/user/:id/:operation?\"
+ "/user/:id/:operation?"
  /user/1
  /user/1/edit
 
- \"/products\.:format\"
+ "/products\.:format"
  /products\.json
  /products\.xml
 
- \"/products\.:format?\"
+ "/products\.:format?"
  /products\.json
  /products\.xml
  /products
@@ -278,7 +281,7 @@ app\.get(\'/users\', function(req, res){
 .IP "" 0
 .
 .SS "Middleware"
-The Express \fIPlugin\fR is no more! middleware via Connect \fIhttp://github\.com/extjs/Connect\fR can be passed to \fIexpress\.createServer()\fR as you would with a regular Connect server\. For example:
+The Express \fIPlugin\fR is no more! middleware via Connect \fIhttp://github\.com/senchalabs/connect\fR can be passed to \fIexpress\.createServer()\fR as you would with a regular Connect server\. For example:
 .
 .IP "" 4
 .
@@ -404,7 +407,7 @@ app\.error(function(err, req, res){
 .IP "" 0
 .
 .P
-Our apps could also utilize the Connect \fIerrorHandler\fR middleware to report on exceptions\. For example if we wish to output exceptions in \"development\" mode to \fIstderr\fR we can use:
+Our apps could also utilize the Connect \fIerrorHandler\fR middleware to report on exceptions\. For example if we wish to output exceptions in "development" mode to \fIstderr\fR we can use:
 .
 .IP "" 4
 .
@@ -433,7 +436,7 @@ app\.use(express\.errorHandler({ showStack: true, dumpExceptions: true }));
 The \fIerrorHandler\fR middleware also responds with \fIjson\fR if \fIAccept: application/json\fR is present, which is useful for developing apps that rely heavily on client\-side JavaScript\.
 .
 .SS "View Rendering"
-View filenames take the form \fINAME\fR\.\fIENGINE\fR, where \fIENGINE\fR is the name of the module that will be required\. For example the view \fIlayout\.ejs\fR will tell the view system to \fIrequire(\'ejs\')\fR, the module being loaded must export the method \fIexports\.render(str, options)\fR to comply with Express, however \fIapp\.register()\fR can be used to map engines to file extensions, so that for example \"foo\.html\" can be rendered by jade\.
+View filenames take the form \fINAME\fR\.\fIENGINE\fR, where \fIENGINE\fR is the name of the module that will be required\. For example the view \fIlayout\.ejs\fR will tell the view system to \fIrequire(\'ejs\')\fR, the module being loaded must export the method \fIexports\.render(str, options)\fR to comply with Express, however \fIapp\.register()\fR can be used to map engines to file extensions, so that for example "foo\.html" can be rendered by jade\.
 .
 .P
 Below is an example using Haml\.js \fIhttp://github\.com/visionmedia/haml\.js\fR to render \fIindex\.html\fR, and since we do not use \fIlayout: false\fR the rendered contents of \fIindex\.html\fR will be passed as the \fIbody\fR local variable in \fIlayout\.haml\fR\.
@@ -549,7 +552,7 @@ app\.set(\'view options\', {
 .IP "" 0
 .
 .SS "View Partials"
-The Express view system has built\-in support for partials and collections, which are sort of \"mini\" views representing a document fragment\. For example rather than iterating in a view to display comments, we would use a partial with collection support:
+The Express view system has built\-in support for partials and collections, which are sort of "mini" views representing a document fragment\. For example rather than iterating in a view to display comments, we would use a partial with collection support:
 .
 .IP "" 4
 .
@@ -588,7 +591,7 @@ partial(\'comments\', comments);
 .IP "" 0
 .
 .P
-When using the partial collection support a few \"magic\" variables are provided for free:
+When using the partial collection support a few "magic" variables are provided for free:
 .
 .IP "\(bu" 4
 \fIfirstInCollection\fR True if this is the first object
@@ -634,7 +637,7 @@ req\.header(\'Accept\', \'*/*\');
 Check if the \fIAccept\fR header is present, and includes the given \fItype\fR\.
 .
 .P
-When the \fIAccept\fR header is not present \fItrue\fR is returned\. Otherwise the given \fItype\fR is matched by an exact match, and then subtypes\. You may pass the subtype such as \"html\" which is then converted internally to \"text/html\" using the mime lookup table\.
+When the \fIAccept\fR header is not present \fItrue\fR is returned\. Otherwise the given \fItype\fR is matched by an exact match, and then subtypes\. You may pass the subtype such as "html" which is then converted internally to "text/html" using the mime lookup table\.
 .
 .IP "" 4
 .
@@ -701,6 +704,19 @@ req\.flash();
 .
 .IP "" 0
 .
+.P
+Flash notification message may also utilize formatters, by default only the %s string formatter is available:
+.
+.IP "" 4
+.
+.nf
+
+req\.flash(\'info\', \'email delivery to _%s_ from _%s_ failed\.\', toUser, fromUser);
+.
+.fi
+.
+.IP "" 0
+.
 .SS "req\.isXMLHttpRequest"
 Also aliased as \fIreq\.xhr\fR, this getter checks the \fIX\-Requested\-With\fR header to see if it was issued by an \fIXMLHttpRequest\fR:
 .
@@ -744,14 +760,14 @@ Sets the \fIContent\-Type\fR response header to the given \fItype\fR\.
 
   var filename = \'path/to/image\.png\';
   res\.contentType(filename);
-  // res\.headers[\'Content\-Type\'] is now \"image/png\"
+  // res\.headers[\'Content\-Type\'] is now "image/png"
 .
 .fi
 .
 .IP "" 0
 .
 .SS "res\.attachment([filename])"
-Sets the \fIContent\-Disposition\fR response header to \"attachment\", with optional \fIfilename\fR\.
+Sets the \fIContent\-Disposition\fR response header to "attachment", with optional \fIfilename\fR\.
 .
 .IP "" 4
 .
@@ -814,6 +830,7 @@ The \fBres\.send()\fR method is a high level response utility allowing you to pa
 .
 .nf
 
+ res\.send(); // 204
  res\.send(new Buffer(\'wahoo\'));
  res\.send({ some: \'json\' });
  res\.send(\'<p>some html</p>\');
@@ -846,7 +863,51 @@ res\.redirect(\'back\');
 .IP "" 0
 .
 .P
-Express supports \"redirect mapping\", which by default provides \fIhome\fR, and \fIback\fR\. The \fIback\fR map checks the \fIReferrer\fR and \fIReferer\fR headers, while \fIhome\fR utilizes the \"home\" setting and defaults to \"/\"\.
+Express supports "redirect mapping", which by default provides \fIhome\fR, and \fIback\fR\. The \fIback\fR map checks the \fIReferrer\fR and \fIReferer\fR headers, while \fIhome\fR utilizes the "home" setting and defaults to "/"\.
+.
+.SS "res\.cookie(name, val[, options])"
+Sets the given cookie \fIname\fR to \fIval\fR, with \fIoptions\fR such as "httpOnly: true", "expires", "secure" etc\.
+.
+.IP "" 4
+.
+.nf
+
+// "Remember me" for 15 minutes
+res\.cookie(\'rememberme\', \'yes\', { expires: new Date(Date\.now() + 900000), httpOnly: true });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To parse incoming \fICookie\fR headers, use the \fIcookieDecoder\fR middleware, which provides the \fIreq\.cookies\fR object:
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.cookieDecoder());
+
+app\.get(\'/\', function(req, res){
+    // use req\.cookies\.rememberme
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.clearCookie(name)"
+Clear cookie \fIname\fR by setting "expires" far in the past\.
+.
+.IP "" 4
+.
+.nf
+
+res\.clearCookie(\'rememberme\');
+.
+.fi
+.
+.IP "" 0
 .
 .SS "res\.render(view[, options[, fn]])"
 Render \fIview\fR with the given \fIoptions\fR and optional callback \fIfn\fR\. When a callback function is given a response will \fInot\fR be made automatically, however otherwise a response of \fI200\fR and \fItext/html\fR is given\.
@@ -862,6 +923,12 @@ Most engines accept one or more of the following options, both haml \fIhttp://gi
 .
 .IP "\(bu" 4
 \fIdebug\fR Output debugging information
+.
+.IP "\(bu" 4
+\fIstatus\fR Response status code, defaults to 200
+.
+.IP "\(bu" 4
+\fIheaders\fR Response headers object
 .
 .IP "" 0
 .
@@ -905,7 +972,7 @@ partial(\'movie\', movies);
 .IP "" 0
 .
 .P
-To change the local from \fImovie\fR to \fIvideo\fR we can use the \"as\" option:
+To change the local from \fImovie\fR to \fIvideo\fR we can use the "as" option:
 .
 .IP "" 4
 .
@@ -933,7 +1000,7 @@ partial(\'movie\', { collection: movies, as: this });
 .IP "" 0
 .
 .P
-Another alternative is to \"explode\" the properties of the collection item into pseudo globals (local variables) by using \fIas: global\fR, which again is syntactic sugar:
+Another alternative is to "explode" the properties of the collection item into pseudo globals (local variables) by using \fIas: global\fR, which again is syntactic sugar:
 .
 .IP "" 4
 .
@@ -1146,7 +1213,7 @@ var app = express\.createServer(),
 
 blog\.mounted(function(parent){
     // parent is app
-    // \"this\" is blog
+    // "this" is blog
 });
 
 app\.use(blog);
@@ -1156,7 +1223,7 @@ app\.use(blog);
 .IP "" 0
 .
 .SS "app\.register(ext, exports)"
-Register the given template engine \fIexports\fR as \fIext\fR\. For example we may wish to map \"\.html\" files to jade:
+Register the given template engine \fIexports\fR as \fIext\fR\. For example we may wish to map "\.html" files to jade:
 .
 .IP "" 4
 .
@@ -1169,7 +1236,7 @@ Register the given template engine \fIexports\fR as \fIext\fR\. For example we m
 .IP "" 0
 .
 .P
-This is also useful for libraries that may not match extensions correctly\. For example my haml\.js library is installed from npm as \"hamljs\" so instead of layout\.hamljs, we can register the engine as \"\.haml\":
+This is also useful for libraries that may not match extensions correctly\. For example my haml\.js library is installed from npm as "hamljs" so instead of layout\.hamljs, we can register the engine as "\.haml":
 .
 .IP "" 4
 .

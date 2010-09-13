@@ -17,6 +17,9 @@ if (file) {
                 var parts = title.split('.'),
                     recv = parts.shift(),
                     method = parts.shift();
+                if (recv == 'app') recv = 'Server';
+                if (recv == 'req') recv = 'Request';
+                if (recv == 'res') recv = 'Response';
                 sections[recv] = sections[recv] || [];
                 sections[recv].push('<li><a href="#' + id + '">' + method + '</a></li>');
             } else {
