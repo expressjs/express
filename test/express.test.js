@@ -288,6 +288,11 @@ module.exports = {
         assert.equal('/blog', blog.route);
         assert.equal('/contact', map.route);
         assert.ok(called, 'mounted() hook failed');
+
+        app.set("test", "parent setting");
+        assert.equal(blog.set("test"), "parent setting", "settings did not inherit from parent app")
+        blog.set("test", "overridden");
+        assert.equal(blog.set("test"), "overridden", "mounted app setting did not override parent app")
         
         app.get('/', function(req, res){
             assert.equal('/', app.set('home'), "home did not default to /");
