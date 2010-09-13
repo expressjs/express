@@ -500,6 +500,27 @@ Express supports "redirect mapping", which by default provides _home_, and _back
 The _back_ map checks the _Referrer_ and _Referer_ headers, while _home_ utilizes
 the "home" setting and defaults to "/".
 
+### res.cookie(name, val[, options])
+
+Sets the given cookie _name_ to _val_, with _options_ such as "httpOnly: true", "expires", "secure" etc.
+
+    // "Remember me" for 15 minutes 
+    res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOnly: true });
+
+To parse incoming _Cookie_ headers, use the _cookieDecoder_ middleware, which provides the _req.cookies_ object:
+
+    app.use(express.cookieDecoder());
+    
+    app.get('/', function(req, res){
+        // use req.cookies.rememberme
+    });
+
+### res.clearCookie(name)
+
+Clear cookie _name_ by setting "expires" far in the past.
+
+    res.clearCookie('rememberme');
+
 ### res.render(view[, options[, fn]])
 
 Render _view_ with the given _options_ and optional callback _fn_.
