@@ -237,5 +237,23 @@ module.exports = {
                 'Content-Type': 'application/json',
                 'Content-Disposition': 'attachment; filename="account.json"'
             }});
+    },
+    
+    'test #cookie()': function(assert){
+        var app = express.createServer();
+        
+        app.get('/', function(req, res){
+            res.cookie('rememberme', 'yes', { expires: new Date(1), httpOnly: true });
+            res.redirect('/');
+        });
+        
+        assert.response(app,
+            { url: '/' },
+            function(res){
+                assert.length(res.headers['set-cookie'], 1);
+                assert.length(
+                    'rememberme=yes; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly',
+                    res.headers['set-cookie'][0]);
+            });
     }
 };

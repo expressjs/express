@@ -14,7 +14,7 @@ var app = express.createServer(
     // Populates:
     //   - req.session
     //   - req.sessionStore
-    //   - req.sessionHash (the SID fingerprint)
+    //   - req.sessionID
     express.session()
 );
 
