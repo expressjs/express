@@ -273,5 +273,17 @@ module.exports = {
                     'rememberme=; expires=Thu, 01 Jan 1970 00:00:00 GMT',
                     res.headers['set-cookie'][0]);
             });
+    },
+    
+    'test HEAD': function(assert){
+        var app = express.createServer();
+        
+        app.get('/', function(req, res, next){
+            res.send('Hello World');
+        });
+        
+        assert.response(app,
+            { url: '/', method: 'HEAD' },
+            { body: '', headers: { 'Content-Length': 11 }});
     }
 };
