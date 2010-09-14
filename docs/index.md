@@ -51,3 +51,4 @@ The following are the major contributors of Express (in no specific order).
   * [E-Resistible](http://e-resistible.co.uk) - Online takeaway ordering app 
   * [Storify](http://storify.com) - The future of publishing
   * [Ogre](http://ogre.adc4gis.com/) - Translates spatial files into GeoJSON
+  * [Widescript](http://widescript.com/) - A digital reading app targeted to people who study or make use of reference material
