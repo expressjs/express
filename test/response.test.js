@@ -224,6 +224,10 @@ module.exports = {
             res.download(__dirname + '/fixtures/' + req.params[0]);
         });
         
+        app.error(function(err, req, res){
+            res.send(404);
+        })
+        
         assert.response(app,
             { url: '/user.json' },
             { body: '{"name":"tj"}', status: 200, headers: {
@@ -237,6 +241,12 @@ module.exports = {
                 'Content-Type': 'application/json',
                 'Content-Disposition': 'attachment; filename="account.json"'
             }});
+        
+        assert.response(app,
+            { url: '/missing' },
+            function(res){
+                assert.equal(null, res.headers['content-disposition']);
+            });
     },
     
     'test #cookie()': function(assert){
