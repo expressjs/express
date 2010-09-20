@@ -1,4 +1,27 @@
 
+1.0.0rc3 / 2010-09-20 
+==================
+
+  * Added confirmation for `express(1)` app generation. Closes #391
+  * Added extending of flash formatters via `app.flashFormatters`
+  * Added flash formatter support. Closes #411
+  * Added streaming support to `res.sendfile()` using `sys.pump()` when >= "stream threshold"
+  * Added _stream threshold_ setting for `res.sendfile()`
+  * Added `res.send()` __HEAD__ support
+  * Added `res.clearCookie()`
+  * Added `res.cookie()`
+  * Added `res.render()` headers option
+  * Added `res.redirect()` response bodies
+  * Added `res.render()` status option support. Closes #425 [thanks aheckmann]
+  * Fixed `res.sendfile()` responding with 403 on malicious path
+  * Fixed `res.download()` bug; when an error occurs remove _Content-Disposition_
+  * Fixed; mounted apps settings now inherit from parent app [aheckmann]
+  * Fixed; stripping Content-Length / Content-Type when 204
+  * Fixed `res.send()` 204. Closes #419
+  * Fixed multiple _Set-Cookie_ headers via `res.header()`. Closes #402
+  * Fixed bug messing with error handlers when `listenFD()` is called instead of `listen()`. [thanks guillermo]
+
+
 1.0.0rc2 / 2010-08-17 
 ==================
 
