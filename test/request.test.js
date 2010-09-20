@@ -153,5 +153,26 @@ module.exports = {
         assert.response(app,
             { url: '/' },
             { body: 'ok' });
+    },
+
+    'test #local()': function(assert) {
+        var app = express.createServer();
+
+	app.get('/', function(req, res) {
+	    assert.eql(undefined, req.local('userId'));
+
+            req.local('userId', 'abc');
+            assert.eql('abc', req.local('userId'));
+
+            req.local('userId', ['a','b']);
+            assert.eql(['a','b'], req.local('userId'));
+
+            res.send('ok');
+	});
+
+        assert.response(app,
+            { url: '/' },
+            { body: 'ok' });
     }
+
 };
