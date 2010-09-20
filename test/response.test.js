@@ -239,6 +239,7 @@ module.exports = {
             { url: '/json' },
             { body: '{"name":"tj"}', status: 200, headers: {
                 'Content-Type': 'application/json',
+                'Content-Length': '13',
                 'Content-Disposition': 'attachment; filename="account.json"'
             }});
         
