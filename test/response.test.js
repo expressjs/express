@@ -197,7 +197,10 @@ module.exports = {
         });
         
         app.use(express.errorHandler());
-        
+
+        assert.response(app,
+            { url: '/../express.test.js' },
+            { body: 'Forbidden', status: 403 });
         assert.response(app,
             { url: '/user.json' },
             { body: '{"name":"tj"}', status: 200, headers: { 'Content-Type': 'application/json' }});

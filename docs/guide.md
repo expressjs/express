@@ -452,11 +452,6 @@ Used by `res.download()` to transfer an arbitrary file.
 
     res.sendfile('path/to/my.file');
 
-This is _not_ a substitution for Connect's _staticProvider_ middleware, it does not
-support HTTP caching, and does not perform any security checks. This method is utilized
-by _res.download()_ to transfer static files, and allows you do to so from outside of
-the public directory, so suitable security checks should be applied.
-
 This method accepts a callback which when given will be called on an exception, as well as when the transfer has completed. When a callback is not given, and the file has __not__ been streamed, _next(err)_ will be called on an exception.
 
     res.sendfile(path, function(err, path){
