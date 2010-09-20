@@ -185,6 +185,8 @@ module.exports = {
     'test #sendfile()': function(assert){
         var app = express.createServer();
 
+        app.set('stream threshold', 2 * 1024)
+
         app.get('/*', function(req, res, next){
             var file = req.params[0],
                 filePath = __dirname + '/fixtures/' + file;
@@ -208,6 +210,9 @@ module.exports = {
         assert.response(app,
             { url: '/partials' },
             { body: 'Internal Server Error', status: 500 });
+        assert.response(app,
+            { url: '/large.json' },
+            { status: 200, headers: { 'Content-Length': 2535, 'Content-Type': 'application/json' }});
     },
     
     'test #download()': function(assert){
@@ -239,6 +244,7 @@ module.exports = {
             { url: '/json' },
             { body: '{"name":"tj"}', status: 200, headers: {
                 'Content-Type': 'application/json',
+                'Content-Length': '13',
                 'Content-Disposition': 'attachment; filename="account.json"'
             }});
         
