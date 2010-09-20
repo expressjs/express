@@ -84,7 +84,8 @@ Express supports the following settings out of the box:
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
   * _view options_ An object specifying global view options
-  * _partials_ Root view partials directory defaulting to _views_/partials. 
+  * _partials_ Root view partials directory defaulting to _views_/partials.
+  * _stream threshold_ Bytesize indicating when a file should be streamed for _res.sendfile()_ using _fs.ReadStream()_ and _sys.pump()_.
 
 ### Routing
 
@@ -455,6 +456,18 @@ This is _not_ a substitution for Connect's _staticProvider_ middleware, it does 
 support HTTP caching, and does not perform any security checks. This method is utilized
 by _res.download()_ to transfer static files, and allows you do to so from outside of
 the public directory, so suitable security checks should be applied.
+
+This method accepts a callback which when given will be called on an exception, as well as when the transfer has completed. When a callback is not given, and the file has __not__ been streamed, _next(err)_ will be called on an exception.
+
+    res.sendfile(path, function(err, path){
+      if (err) {
+        // handle the error
+      } else {
+        console.log('transferred %s', path);
+      }
+    });
+
+When the filesize exceeds the _stream threshold_ (defaulting to 32k), the file will be streamed using _fs.ReadStream_ and _sys.pump()_.
 
 ### res.download(file[, filename])
 
