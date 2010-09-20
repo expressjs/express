@@ -152,6 +152,9 @@ Express supports the following settings out of the box:
 .IP "\(bu" 4
 \fIpartials\fR Root view partials directory defaulting to \fIviews\fR/partials\.
 .
+.IP "\(bu" 4
+\fIstream threshold\fR Bytesize indicating when a file should be streamed for \fIres\.sendfile()\fR using \fIfs\.ReadStream()\fR and \fIsys\.pump()\fR\.
+.
 .IP "" 0
 .
 .SS "Routing"
@@ -793,7 +796,26 @@ res\.sendfile(\'path/to/my\.file\');
 .IP "" 0
 .
 .P
-This is \fInot\fR a substitution for Connect\'s \fIstaticProvider\fR middleware, it does not support HTTP caching, and does not perform any security checks\. This method is utilized by \fIres\.download()\fR to transfer static files, and allows you do to so from outside of the public directory, so suitable security checks should be applied\.
+This method accepts a callback which when given will be called on an exception, as well as when the transfer has completed\. When a callback is not given, and the file has \fBnot\fR been streamed, \fInext(err)\fR will be called on an exception\.
+.
+.IP "" 4
+.
+.nf
+
+res\.sendfile(path, function(err, path){
+  if (err) {
+    // handle the error
+  } else {
+    console\.log(\'transferred %s\', path);
+  }
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+When the filesize exceeds the \fIstream threshold\fR (defaulting to 32k), the file will be streamed using \fIfs\.ReadStream\fR and \fIsys\.pump()\fR\.
 .
 .SS "res\.download(file[, filename])"
 Transfer the given \fIfile\fR as an attachment with optional alternative \fIfilename\fR\.
