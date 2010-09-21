@@ -538,7 +538,7 @@ automatically, however otherwise a response of _200_ and _text/html_ is given.
  Most engines accept one or more of the following options,
  both [haml](http://github.com/visionmedia/haml.js) and [jade](http://github.com/visionmedia/jade) accept all:
 
-  - _context|scope_   Template evaluation context (_this_)
+  - _scope_           Template evaluation context (value of _this_)
   - _locals_          Object containing local variables
   - _debug_           Output debugging information
   - _status_          Response status code, defaults to 200
