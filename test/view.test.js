@@ -182,8 +182,8 @@ module.exports = {
         app.set('view engine', 'jade');
         
         app.get('/', function(req, res){
-            res.internal = '1';
-            res.method = function(){
+            req.internal = '1';
+            req.method = function(){
                 return this.internal;
             };
             res.render('scope.jade', { layout: false });
