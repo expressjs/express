@@ -1,12 +1,13 @@
 <h1>Login</h1>
+<%- message %>
 <form method="post" action="/login">
   <p>
     <label>Username:</label>
-    <input type="text" name="user[name]">
+    <input type="text" name="username">
   </p>
   <p>
     <label>Password:</label>
-    <input type="text" name="user[pass]">
+    <input type="text" name="password">
   </p>
   <p>
     <input type="submit" value="Login">
