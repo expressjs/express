@@ -45,6 +45,7 @@ test:
 		-I support/ejs/lib \
 		$(TESTFLAGS) \
 		test/*.test.js
+
 test-cov:
 	@TESTFLAGS=--cov $(MAKE) test
 
@@ -53,7 +54,9 @@ docs: docs/api.html $(MANPAGES) $(HTMLDOCS)
 	@./support/toc.js docs/guide.html
 
 docs/api.html: lib/express/*.js
-	dox --title Express \
+	dox \
+		--private \
+		--title Express \
 		--desc "High performance web framework for [node](http://nodejs.org)." \
 		$(shell find lib/express/* -type f) > $@
 
