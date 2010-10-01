@@ -70,10 +70,9 @@ For internal and arbitrary settings Express provides the _set(key[, val])_, _ena
 		// same as app.set('some feature', false);
 	});
 
-To alter the environment we can set the _CONNECT_ENV_ environment variable,
-or more specifically _EXPRESS_ENV_, for example:
+To alter the environment we can set the _NODE_ENV_ environment variable, for example:
 
-    $ EXPRESS_ENV=production node app.js
+    $ NODE_ENV=production node app.js
 
 ### Settings
 

@@ -75,7 +75,7 @@ The following are the major contributors of Express (in no specific order).
     
 The latest release of Express is compatible with node --version:
 
-    v0.2.1
+    v0.2.2
 
 and connect --version:
 
