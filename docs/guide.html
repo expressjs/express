@@ -16,8 +16,8 @@
 			  font: 14px/1.4 "Helvetica Neue", "Lucida Grande", "Arial";
 			  font-size: 14px;
 			  line-height: 1.5;
-			  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.1);
-			  -moz-text-stroke: 1px rgba(0, 0, 0, 0.1);
+			  -webkit-font-smoothing: antialiased;
+			  -moz-font-smoothing: antialiased;
 			  background: url(images/bg.jpg) 50% 0 no-repeat;
 			  color: #8b8b8b; }
 
@@ -40,13 +40,17 @@
 			  a:hover {
 			    opacity: 0.8; }
 
-			h1, h2, h3 {
+			h1, h2, h3, h4 {
 			  margin: 45px 0 0 0;
 			  color: white;
 			  text-shadow: 1px 2px 2px rgba(0,0,0,0.6); }
 
 			h3 {
 			  font-size: 18px; }
+			h4 {
+			  margin-left: 10px;
+			  font-size: 14px;
+			}
 
 			pre {
 			  margin: 20px 10px;
@@ -178,6 +182,7 @@
 <li><a href="#Settings">Settings</a></li>
 <li><a href="#Routing">Routing</a></li>
 <li><a href="#Passing-Route-Control">Passing Route Control</a></li>
+<li><a href="#HTTP-Methods">HTTP Methods</a></li>
 <li><a href="#Middleware">Middleware</a></li>
 <li><a href="#Error-Handling">Error Handling</a></li>
 <li><a href="#View-Rendering">View Rendering</a></li>
@@ -418,6 +423,55 @@ and middleware continue to be invoked.</p>
 
 app.get('/users', function(req, res){
     // do something else
+});
+</code></pre>
+
+<h3 id="HTTP-Methods">HTTP Methods</h3>
+
+<p>We have seen <em>app.get()</em> a few times, however Express also exposes other familiar HTTP verbs in the same manor, such as <em>app.post()</em>, <em>app.del()</em>, etc.</p>
+
+<p> A common example for <em>POST</em> usage, is when "submitting" a form. Below we simply set our form method to "post" in our html, and control will be given to the route we have defined below it.</p>
+
+<p>   <form method="post" action="/" /></p>
+
+<pre><code>   &lt;input type="text" name="user[name]" /&gt;
+   &lt;input type="text" name="user[email]" /&gt;
+   &lt;input type="submit" value="Submit" /&gt;
+</code></pre>
+
+<p>   </p>
+
+<p>By default Express does not know what to do with this request body, so we should add the <em>bodyDecoder</em> middleware, which will parse <em>application/x-www-form-urlencoded</em> request bodies and place the variables in <em>req.body</em>. We can do this by "using" the middleware as shown below:</p>
+
+<pre><code>app.use(express.bodyDecoder());
+</code></pre>
+
+<p>Our route below will now have access to the <em>req.body.user</em> object which will contain the <em>name</em> and <em>email</em> properties when defined.</p>
+
+<pre><code>app.post('/', function(req, res){
+    console.log(req.body.user);
+    res.redirect('back');
+});
+</code></pre>
+
+<p>When using methods such as <em>PUT</em> with a form, we can utilize a hidden input named <em>_method</em>, which can be used to alter the HTTP method. To do so we first need the <em>methodOverride</em> middleware, which should be placed below <em>bodyDecoder</em> so that it can utilize it's <em>req.body</em> containing the form values.</p>
+
+<pre><code>app.use(express.bodyDecoder());
+app.use(express.methodOverride());
+</code></pre>
+
+<p>The reason that these are not always defaults, is simply because these are not required for Express to be fully functional. Depending on the needs of your application, you may not need these at all, your methods such as <em>PUT</em> and <em>DELETE</em> can still be accessed by clients which can use them directly, although <em>methodOverride</em> provides a great solution for forms. Below shows what the usage of <em>PUT</em> might look like:</p>
+
+<pre><code>&lt;form method="post" action="/"&gt;
+  &lt;input type="hidden" name="_method" value="put" /&gt;
+  &lt;input type="text" name="user[name]" /&gt;
+  &lt;input type="text" name="user[email]" /&gt;
+  &lt;input type="submit" value="Submit" /&gt;    
+&lt;/form&gt;
+
+app.put('/', function(){
+    console.log(req.body.user);
+    res.redirect('back');
 });
 </code></pre>
 
@@ -835,7 +889,7 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
  both <a href="http://github.com/visionmedia/haml.js">haml</a> and <a href="http://github.com/visionmedia/jade">jade</a> accept all:</p>
 
 <ul>
-<li><em>context|scope</em>   Template evaluation context (<em>this</em>)</li>
+<li><em>scope</em>           Template evaluation context (value of <em>this</em>)</li>
 <li><em>locals</em>          Object containing local variables</li>
 <li><em>debug</em>           Output debugging information</li>
 <li><em>status</em>          Response status code, defaults to 200</li>

@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "GUIDE" "" "September 2010" "" ""
+.TH "GUIDE" "" "October 2010" "" ""
 .
 .SH "NAME"
 \fBguide\fR
@@ -277,6 +277,94 @@ app\.get(\'/users/:id?\', function(req, res, next){
 
 app\.get(\'/users\', function(req, res){
     // do something else
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "HTTP Methods"
+We have seen \fIapp\.get()\fR a few times, however Express also exposes other familiar HTTP verbs in the same manor, such as \fIapp\.post()\fR, \fIapp\.del()\fR, etc\.
+.
+.P
+A common example for \fIPOST\fR usage, is when "submitting" a form\. Below we simply set our form method to "post" in our html, and control will be given to the route we have defined below it\.
+.
+.P
+.
+.IP "" 4
+.
+.nf
+
+   <input type="text" name="user[name]" />
+   <input type="text" name="user[email]" />
+   <input type="submit" value="Submit" />
+.
+.fi
+.
+.IP "" 0
+.
+.P
+.
+.P
+By default Express does not know what to do with this request body, so we should add the \fIbodyDecoder\fR middleware, which will parse \fIapplication/x\-www\-form\-urlencoded\fR request bodies and place the variables in \fIreq\.body\fR\. We can do this by "using" the middleware as shown below:
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.bodyDecoder());
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Our route below will now have access to the \fIreq\.body\.user\fR object which will contain the \fIname\fR and \fIemail\fR properties when defined\.
+.
+.IP "" 4
+.
+.nf
+
+app\.post(\'/\', function(req, res){
+    console\.log(req\.body\.user);
+    res\.redirect(\'back\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+When using methods such as \fIPUT\fR with a form, we can utilize a hidden input named \fI_method\fR, which can be used to alter the HTTP method\. To do so we first need the \fImethodOverride\fR middleware, which should be placed below \fIbodyDecoder\fR so that it can utilize it\'s \fIreq\.body\fR containing the form values\.
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.bodyDecoder());
+app\.use(express\.methodOverride());
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The reason that these are not always defaults, is simply because these are not required for Express to be fully functional\. Depending on the needs of your application, you may not need these at all, your methods such as \fIPUT\fR and \fIDELETE\fR can still be accessed by clients which can use them directly, although \fImethodOverride\fR provides a great solution for forms\. Below shows what the usage of \fIPUT\fR might look like:
+.
+.IP "" 4
+.
+.nf
+
+<form method="post" action="/">
+  <input type="hidden" name="_method" value="put" />
+  <input type="text" name="user[name]" />
+  <input type="text" name="user[email]" />
+  <input type="submit" value="Submit" />
+</form>
+
+app\.put(\'/\', function(){
+    console\.log(req\.body\.user);
+    res\.redirect(\'back\');
 });
 .
 .fi
@@ -938,7 +1026,7 @@ Render \fIview\fR with the given \fIoptions\fR and optional callback \fIfn\fR\. 
 Most engines accept one or more of the following options, both haml \fIhttp://github\.com/visionmedia/haml\.js\fR and jade \fIhttp://github\.com/visionmedia/jade\fR accept all:
 .
 .IP "\(bu" 4
-\fIcontext|scope\fR Template evaluation context (\fIthis\fR)
+\fIscope\fR Template evaluation context (value of \fIthis\fR)
 .
 .IP "\(bu" 4
 \fIlocals\fR Object containing local variables
