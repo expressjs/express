@@ -171,6 +171,48 @@ and middleware continue to be invoked.
 		// do something else
 	});
 
+### HTTP Methods
+
+We have seen _app.get()_ a few times, however Express also exposes other familiar HTTP verbs in the same manor, such as _app.post()_, _app.del()_, etc.
+
+ A common example for _POST_ usage, is when "submitting" a form. Below we simply set our form method to "post" in our html, and control will be given to the route we have defined below it.
+ 
+   <form method="post" action="/">
+       <input type="text" name="user[name]" />
+       <input type="text" name="user[email]" />
+       <input type="submit" value="Submit" />
+   </form>
+
+By default Express does not know what to do with this request body, so we should add the _bodyDecoder_ middleware, which will parse _application/x-www-form-urlencoded_ request bodies and place the variables in _req.body_. We can do this by "using" the middleware as shown below:
+
+    app.use(express.bodyDecoder());
+
+Our route below will now have access to the _req.body.user_ object which will contain the _name_ and _email_ properties when defined.
+
+    app.post('/', function(req, res){
+        console.log(req.body.user);
+        res.redirect('back');
+    });
+
+When using methods such as _PUT_ with a form, we can utilize a hidden input named _\_method_, which can be used to alter the HTTP method. To do so we first need the _methodOverride_ middleware, which should be placed below _bodyDecoder_ so that it can utilize it's _req.body_ containing the form values.
+
+    app.use(express.bodyDecoder());
+    app.use(express.methodOverride());
+
+The reason that these are not always defaults, is simply because these are not required for Express to be fully functional. Depending on the needs of your application, you may not need these at all, your methods such as _PUT_ and _DELETE_ can still be accessed by clients which can use them directly, although _methodOverride_ provides a great solution for forms. Below shows what the usage of _PUT_ might look like:
+
+    <form method="post" action="/">
+      <input type="hidden" name="_method" value="put" />
+      <input type="text" name="user[name]" />
+      <input type="text" name="user[email]" />
+      <input type="submit" value="Submit" />    
+    </form>
+
+    app.put('/', function(){
+        console.log(req.body.user);
+        res.redirect('back');
+    });
+
 ### Middleware
 
 The Express _Plugin_ is no more! middleware via [Connect](http://github.com/senchalabs/connect) can be
