@@ -51,7 +51,7 @@ var jadeLayout = [
 var less = [
     'body {',
     '  padding: 50px;',
-    '  font: 14px "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;',
+    '  font: 14px "Lucida Grande", "Helvetica Neue", Arial, sans-serif;',
     '}'
 ].join('\n');
 
