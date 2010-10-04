@@ -119,13 +119,13 @@ app\.configure(function(){
 .IP "" 0
 .
 .P
-To alter the environment we can set the \fICONNECT_ENV\fR environment variable, or more specifically \fIEXPRESS_ENV\fR, for example:
+To alter the environment we can set the \fINODE_ENV\fR environment variable, for example:
 .
 .IP "" 4
 .
 .nf
 
-$ EXPRESS_ENV=production node app\.js
+$ NODE_ENV=production node app\.js
 .
 .fi
 .
@@ -372,18 +372,18 @@ app\.put(\'/\', function(){
 .IP "" 0
 .
 .SS "Middleware"
-The Express \fIPlugin\fR is no more! middleware via Connect \fIhttp://github\.com/senchalabs/connect\fR can be passed to \fIexpress\.createServer()\fR as you would with a regular Connect server\. For example:
+Middleware via Connect \fIhttp://github\.com/senchalabs/connect\fR can be passed to \fIexpress\.createServer()\fR as you would with a regular Connect server\. For example:
 .
 .IP "" 4
 .
 .nf
 
-var express = require(\'express\');
+  var express = require(\'express\');
 
 var app = express\.createServer(
     express\.logger(),
     express\.bodyDecoder()
-);
+  );
 .
 .fi
 .
@@ -627,6 +627,45 @@ res\.render(\'myview\.ejs\', { layout: true });
 .IP "" 0
 .
 .P
+When an alternate layout is required, we may also specify a path\. For example if we have \fIview engine\fR set to \fIjade\fR and a file named \fI\./views/mylayout\.jade\fR we can simply pass:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'page\', { layout: \'mylayout\' });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Otherwise we must specify the extension:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'page\', { layout: \'mylayout\.jade\' });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+These paths may also be absolute:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'page\', { layout: __dirname + \'/\.\./\.\./mylayout\.jade\' });
+.
+.fi
+.
+.IP "" 0
+.
+.P
 A good example of this is specifying custom \fIejs\fR opening and closing tags:
 .
 .IP "" 4
@@ -706,6 +745,35 @@ Haml \fIhttp://github\.com/visionmedia/haml\.js\fR pythonic indented templates
 .
 .IP "\(bu" 4
 EJS \fIhttp://github\.com/visionmedia/ejs\fR Embedded JavaScript
+.
+.IP "" 0
+.
+.SS "Session Support"
+Sessions support can be added by using Connect\'s \fIsession\fR middleware\. To do so we also need the \fIcookieDecoder\fR middleware place above it, which will parse and populate cookie data to \fIreq\.cookies\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.cookieDecoder());
+app\.use(express\.session());
+.
+.fi
+.
+.IP "" 0
+.
+.P
+By default the \fIsession\fR middleware uses the memory store bundled with Connect, however many implementations exist\. For example connect\-redis \fIhttp://github\.com/visionmedia/connect\-redis\fR supplies a Redis \fIhttp://code\.google\.com/p/redis/\fR session store and can be used as shown below:
+.
+.IP "" 4
+.
+.nf
+
+var RedisStore = require(\'connect\-redis\');
+app\.use(express\.cookieDecoder());
+app\.use(express\.session({ store: new RedisStore }));
+.
+.fi
 .
 .IP "" 0
 .
