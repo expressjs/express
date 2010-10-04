@@ -253,6 +253,44 @@ module.exports = {
                 'Content-Range': 'bytes 0-499/2535'
             }, status: 206 });
     },
+
+    'test #sendfile() Range invalid syntax': function(assert){
+        var app = express.createServer();
+        
+        app.set('stream threshold', 1024);
+        
+        app.get('/*', function(req, res, next){
+            var file = req.params[0],
+                path = __dirname + '/fixtures/' + file;
+            res.sendfile(path);
+        });
+
+        assert.response(app,
+            { url: '/large.json', headers: { 'Range': 'basdytes=asdf' }},
+            { headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': 2535
+            }, status: 200 });
+    },
+  
+    'test #sendfile() Range invalid range': function(assert){
+        var app = express.createServer();
+        
+        app.set('stream threshold', 1024);
+        
+        app.get('/*', function(req, res, next){
+            var file = req.params[0],
+                path = __dirname + '/fixtures/' + file;
+            res.sendfile(path);
+        });
+
+        assert.response(app,
+            { url: '/large.json', headers: { 'Range': 'bytes=500-10' }},
+            { headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': 2535
+            }, status: 200 });
+    },
     
     'test #download()': function(assert){
         var app = express.createServer();
