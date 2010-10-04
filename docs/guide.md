@@ -346,6 +346,18 @@ Which can then be overridden within the `res.render()` call if need be:
 
     res.render('myview.ejs', { layout: true });
 
+When an alternate layout is required, we may also specify a path. For example if we have _view engine_ set to _jade_ and a file named _./views/mylayout.jade_ we can simply pass:
+
+    res.render('page', { layout: 'mylayout' });
+
+Otherwise we must specify the extension:
+
+    res.render('page', { layout: 'mylayout.jade' });
+
+These paths may also be absolute:
+
+    res.render('page', { layout: __dirname + '/../../mylayout.jade' });
+
 A good example of this is specifying custom _ejs_ opening and closing tags:
 
 	app.set('view options', {
