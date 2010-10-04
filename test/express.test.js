@@ -162,7 +162,7 @@ module.exports = {
     
     'test #configure()': function(assert, beforeExit){
         var calls = [];
-        process.env.EXPRESS_ENV = 'development';
+        process.env.NODE_ENV = 'development';
         var server = express.createServer();
         
         // Config blocks

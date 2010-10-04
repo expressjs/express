@@ -37,7 +37,7 @@ uninstall-docs:
 	rm -f $(PREFIX)/share/man/man1/express.1
 
 test:
-	@CONNECT_ENV=test ./support/expresso/bin/expresso \
+	@NODE_ENV=test ./support/expresso/bin/expresso \
 		-I lib \
 		-I support/connect/lib \
 		-I support/haml/lib \

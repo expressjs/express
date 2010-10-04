@@ -9,5 +9,5 @@ var app = express.createServer();
 
 require('./mvc').boot(app);
 
-app.listen();
+app.listen(3000);
 console.log('Application server started on port 3000');
