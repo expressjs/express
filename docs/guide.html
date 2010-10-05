@@ -17,7 +17,6 @@
 			  font-size: 14px;
 			  line-height: 1.5;
 			  -webkit-font-smoothing: antialiased;
-			  -moz-font-smoothing: antialiased;
 			  background: url(images/bg.jpg) 50% 0 no-repeat;
 			  color: #8b8b8b; }
 
@@ -188,6 +187,7 @@
 <li><a href="#View-Rendering">View Rendering</a></li>
 <li><a href="#View-Partials">View Partials</a></li>
 <li><a href="#Template-Engines">Template Engines</a></li>
+<li><a href="#Session-Support">Session Support</a></li>
 <li><a href="#" class="toggle">+</a> <a class="section-title" href="#">Request</a><ul class="section" id="section-Request">
 <li><a href="#req-header-key-defaultValue-">header()</a></li>
 <li><a href="#req-accepts-type-">accepts()</a></li>
@@ -315,10 +315,9 @@ app.configure('production', function(){
 });
 </code></pre>
 
-<p>To alter the environment we can set the <em>CONNECT_ENV</em> environment variable,
-or more specifically <em>EXPRESS_ENV</em>, for example:</p>
+<p>To alter the environment we can set the <em>NODE_ENV</em> environment variable, for example:</p>
 
-<pre><code>$ EXPRESS_ENV=production node app.js
+<pre><code>$ NODE_ENV=production node app.js
 </code></pre>
 
 <h3 id="Settings">Settings</h3>
@@ -477,15 +476,15 @@ app.put('/', function(){
 
 <h3 id="Middleware">Middleware</h3>
 
-<p>The Express <em>Plugin</em> is no more! middleware via <a href="http://github.com/senchalabs/connect">Connect</a> can be
+<p>Middleware via <a href="http://github.com/senchalabs/connect">Connect</a> can be
 passed to <em>express.createServer()</em> as you would with a regular Connect server. For example:</p>
 
-<pre><code>var express = require('express');
+<pre><code>  var express = require('express');
 
 var app = express.createServer(
     express.logger(),
     express.bodyDecoder()
-);
+  );
 </code></pre>
 
 <p>Alternatively we can <em>use()</em> them which is useful when adding middleware within <em>configure()</em> blocks:</p>
@@ -625,6 +624,21 @@ mix and match template engines:</p>
 <pre><code>res.render('myview.ejs', { layout: true });
 </code></pre>
 
+<p>When an alternate layout is required, we may also specify a path. For example if we have <em>view engine</em> set to <em>jade</em> and a file named <em>./views/mylayout.jade</em> we can simply pass:</p>
+
+<pre><code>res.render('page', { layout: 'mylayout' });
+</code></pre>
+
+<p>Otherwise we must specify the extension:</p>
+
+<pre><code>res.render('page', { layout: 'mylayout.jade' });
+</code></pre>
+
+<p>These paths may also be absolute:</p>
+
+<pre><code>res.render('page', { layout: __dirname + '/../../mylayout.jade' });
+</code></pre>
+
 <p>A good example of this is specifying custom <em>ejs</em> opening and closing tags:</p>
 
 <pre><code>app.set('view options', {
@@ -674,6 +688,21 @@ for free:</p>
 <li><a href="http://github.com/visionmedia/ejs">EJS</a> Embedded JavaScript</li>
 </ul>
 
+
+<h3 id="Session-Support">Session Support</h3>
+
+<p>Sessions support can be added by using Connect's <em>session</em> middleware. To do so we also need the <em>cookieDecoder</em> middleware place above it, which will parse and populate cookie data to <em>req.cookies</em>.</p>
+
+<pre><code>app.use(express.cookieDecoder());
+app.use(express.session());
+</code></pre>
+
+<p>By default the <em>session</em> middleware uses the memory store bundled with Connect, however many implementations exist. For example <a href="http://github.com/visionmedia/connect-redis">connect-redis</a> supplies a <a href="http://code.google.com/p/redis/">Redis</a> session store and can be used as shown below:</p>
+
+<pre><code>var RedisStore = require('connect-redis');
+app.use(express.cookieDecoder());
+app.use(express.session({ store: new RedisStore }));
+</code></pre>
 
 <h3 id="req-header-key-defaultValue-">req.header(key[, defaultValue])</h3>
 

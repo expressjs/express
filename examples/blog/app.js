@@ -1,4 +1,7 @@
 
+// Expose modules in ./support for demo purposes
+require.paths.unshift(__dirname + '/../../support');
+
 /**
  * Module dependencies.
  */
@@ -19,3 +22,4 @@ require('./contact');
 app.use('/blog', require('./blog'));
 
 app.listen(3000);
+console.log('Express started on port 3000');

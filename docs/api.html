@@ -394,6 +394,7 @@ and use the %s specifier to be replaced by the associated argument:</p>
     <span class="variable">pump</span> = <span class="variable">require</span>(<span class="string">'sys'</span>).<span class="variable">pump</span>,
     <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>),
     <span class="variable">mime</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>).<span class="variable">mime</span>,
+    <span class="variable">parseRange</span> = <span class="variable">require</span>(<span class="string">'./utils'</span>).<span class="variable">parseRange</span>,
     <span class="class">Buffer</span> = <span class="variable">require</span>(<span class="string">'buffer'</span>).<span class="class">Buffer</span>;</code></pre>
 </td>
 </tr>
@@ -515,7 +516,8 @@ file will be streamed using an <code>fs.ReadStream</code> and <code>sys.pump()</
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">sendfile</span> = <span class="keyword">function</span>(<span class="variable">path</span>, <span class="variable">fn</span>){
     <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>,
-        <span class="variable">streamThreshold</span> = <span class="this">this</span>.<span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'stream threshold'</span>) || <span class="number integer">32</span> * <span class="number integer">1024</span>;
+        <span class="variable">streamThreshold</span> = <span class="this">this</span>.<span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'stream threshold'</span>) || <span class="number integer">32</span> * <span class="number integer">1024</span>,
+        <span class="variable">ranges</span> = <span class="variable">self</span>.<span class="variable">req</span>.<span class="variable">headers</span>.<span class="variable">range</span>;
 
     <span class="keyword">if</span> (~<span class="variable">path</span>.<span class="variable">indexOf</span>(<span class="string">'..'</span>)) <span class="this">this</span>.<span class="variable">send</span>(<span class="number integer">403</span>);
 
@@ -531,10 +533,27 @@ file will be streamed using an <code>fs.ReadStream</code> and <code>sys.pump()</
     <span class="variable">fs</span>.<span class="variable">stat</span>(<span class="variable">path</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">stat</span>){
         <span class="keyword">if</span> (<span class="variable">err</span>) <span class="keyword">return</span> <span class="variable">error</span>(<span class="variable">err</span>);
         <span class="keyword">if</span> (<span class="variable">stat</span>.<span class="variable">size</span> &<span class="variable">gt</span>;= <span class="variable">streamThreshold</span>) {
-            <span class="keyword">var</span> <span class="variable">stream</span> = <span class="variable">fs</span>.<span class="variable">createReadStream</span>(<span class="variable">path</span>);
+            <span class="keyword">var</span> <span class="variable">status</span> = <span class="number integer">200</span>;
+            <span class="keyword">if</span> (<span class="variable">ranges</span>) <span class="variable">ranges</span> = <span class="variable">parseRange</span>(<span class="variable">stat</span>.<span class="variable">size</span>, <span class="variable">ranges</span>);
+            <span class="keyword">if</span> (<span class="variable">ranges</span>) {
+                <span class="keyword">var</span> <span class="variable">stream</span> = <span class="variable">fs</span>.<span class="variable">createReadStream</span>(<span class="variable">path</span>, <span class="variable">ranges</span>[<span class="number integer">0</span>]),
+                    <span class="variable">start</span> = <span class="variable">ranges</span>[<span class="number integer">0</span>].<span class="variable">start</span>,
+                    <span class="variable">end</span> = <span class="variable">ranges</span>[<span class="number integer">0</span>].<span class="variable">end</span>;
+                <span class="variable">status</span> = <span class="number integer">206</span>;
+                <span class="variable">self</span>.<span class="variable">header</span>(<span class="string">'Content-Range'</span>, <span class="string">'bytes '</span>
+                    + <span class="variable">start</span>
+                    + <span class="string">'-'</span>
+                    + <span class="variable">end</span>
+                    + <span class="string">'/'</span>
+                    + <span class="variable">stat</span>.<span class="variable">size</span>);
+                <span class="variable">self</span>.<span class="variable">header</span>(<span class="string">'Content-Length'</span>, <span class="variable">end</span> - <span class="variable">start</span> + <span class="number integer">1</span>);
+            } <span class="keyword">else</span> {
+                <span class="keyword">var</span> <span class="variable">stream</span> = <span class="variable">fs</span>.<span class="variable">createReadStream</span>(<span class="variable">path</span>);
+                <span class="variable">self</span>.<span class="variable">header</span>(<span class="string">'Content-Length'</span>, <span class="variable">stat</span>.<span class="variable">size</span>);
+            }
             <span class="variable">self</span>.<span class="variable">contentType</span>(<span class="variable">path</span>);
-            <span class="variable">self</span>.<span class="variable">header</span>(<span class="string">'Content-Length'</span>, <span class="variable">stat</span>.<span class="variable">size</span>);
-            <span class="variable">self</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, <span class="variable">self</span>.<span class="variable">headers</span>);
+            <span class="variable">self</span>.<span class="variable">header</span>(<span class="string">'Accept-Ranges'</span>, <span class="string">'bytes'</span>);
+            <span class="variable">self</span>.<span class="variable">writeHead</span>(<span class="variable">status</span>, <span class="variable">self</span>.<span class="variable">headers</span>);
             <span class="variable">pump</span>(<span class="variable">stream</span>, <span class="variable">self</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
                 <span class="variable">fn</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">fn</span>(<span class="variable">err</span>, <span class="variable">path</span>, <span class="variable">true</span>);
             });
@@ -772,10 +791,14 @@ to '/'.</p>
     <span class="comment">// Default &quot;home&quot; to / </span>
     <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'home'</span>, <span class="string">'/'</span>);
 
-    <span class="comment">// Set &quot;env&quot; to EXPRESS_ENV or connectEnv.name</span>
-    <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>,
-        <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">EXPRESS_ENV</span> ||
-        <span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">name</span>);
+    <span class="comment">// DEPRECATED: remove in 1.0</span>
+    <span class="keyword">if</span> (<span class="variable">process</span>.<span class="variable">env</span>.<span class="class">EXPRESS_ENV</span>) {
+      <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">NODE_ENV</span> = <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">EXPRESS_ENV</span>;
+      <span class="variable">console</span>.<span class="variable">warn</span>(<span class="string">'\x1b[33mWarning\x1b[0m: EXPRESS_ENV is deprecated, use NODE_ENV.'</span>);
+    }
+
+    <span class="comment">// Set &quot;env&quot; to NODE_ENV</span>
+    <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>, <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">NODE_ENV</span>);
 
     <span class="comment">// Expose objects to each other</span>
     <span class="this">this</span>.<span class="variable">use</span>(<span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
@@ -1091,7 +1114,7 @@ primarily for the "flash" middleware:</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  str</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  str</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span>.<span class="variable">miniMarkdown</span> = <span class="keyword">function</span>(<span class="variable">str</span>){
@@ -1108,7 +1131,7 @@ primarily for the "flash" middleware:</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  html</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  html</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span>.<span class="variable">htmlEscape</span> = <span class="keyword">function</span>(<span class="variable">html</span>) {
@@ -1117,6 +1140,40 @@ primarily for the "flash" middleware:</p>
         .<span class="variable">replace</span>(<span class="regexp">/&quot;/g</span>, <span class="string">'&quot;'</span>)
         .<span class="variable">replace</span>(<span class="regexp">/&lt;/g</span>, <span class="string">'&lt;'</span>)
         .<span class="variable">replace</span>(<span class="regexp">/&gt;/g</span>, <span class="string">'&gt;'</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Parse "Range" header <code>str</code> relative to the given file <code>size</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Number</em>  size</p></li><li><p><strong>param</strong>: <em>String</em>  str</p></li><li><p><strong>return</strong>: <em>Array</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">parseRange</span> = <span class="keyword">function</span>(<span class="variable">size</span>, <span class="variable">str</span>){
+    <span class="keyword">var</span> <span class="variable">valid</span> = <span class="variable">true</span>;
+    <span class="keyword">var</span> <span class="variable">arr</span> = <span class="variable">str</span>.<span class="variable">substr</span>(<span class="number integer">6</span>).<span class="variable">split</span>(<span class="string">','</span>).<span class="variable">map</span>(<span class="keyword">function</span>(<span class="variable">range</span>){
+        <span class="keyword">var</span> <span class="variable">range</span> = <span class="variable">range</span>.<span class="variable">split</span>(<span class="string">'-'</span>),
+            <span class="variable">start</span> = <span class="variable">parseInt</span>(<span class="variable">range</span>[<span class="number integer">0</span>], <span class="number integer">10</span>),
+            <span class="variable">end</span> = <span class="variable">parseInt</span>(<span class="variable">range</span>[<span class="number integer">1</span>], <span class="number integer">10</span>);
+
+        <span class="comment">// -500</span>
+        <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">start</span>)) {
+            <span class="variable">start</span> = <span class="variable">size</span> - <span class="variable">end</span>;
+            <span class="variable">end</span> = <span class="variable">size</span> - <span class="number integer">1</span>;
+        <span class="comment">// 500-</span>
+        } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">end</span>)) {
+            <span class="variable">end</span> = <span class="variable">size</span> - <span class="number integer">1</span>;
+        }
+
+        <span class="comment">// Invalid</span>
+        <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">start</span>) || <span class="variable">isNaN</span>(<span class="variable">end</span>) || <span class="variable">start</span> &<span class="variable">gt</span>; <span class="variable">end</span>) <span class="variable">valid</span> = <span class="variable">false</span>;
+
+        <span class="keyword">return</span> { <span class="variable">start</span>: <span class="variable">start</span>, <span class="variable">end</span>: <span class="variable">end</span> };
+    });
+    <span class="keyword">return</span> <span class="variable">valid</span> ? <span class="variable">arr</span> : <span class="variable">undefined</span>;
 };</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="lib/express/view.js"><a href="#">view</a></h2></td><td>lib/express/view.js</td></tr><tr class="code">
@@ -1153,6 +1210,34 @@ of calls to <code>require()</code>.</p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">viewCache</span> = {};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Synchronously cache view at the given <code>path</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  path</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">function</span> <span class="variable">cacheViewSync</span>(<span class="variable">path</span>) {
+    <span class="keyword">return</span> <span class="variable">viewCache</span>[<span class="variable">path</span>] = <span class="variable">fs</span>.<span class="variable">readFileSync</span>(<span class="variable">path</span>, <span class="string">'utf8'</span>);
+}</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Return view root path for the given <code>app</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>express.Server</em>  app</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">function</span> <span class="variable">viewRoot</span>(<span class="variable">app</span>) {
+    <span class="keyword">return</span> <span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'views'</span>) || <span class="variable">process</span>.<span class="variable">cwd</span>() + <span class="string">'/views'</span>;
+}</code></pre>
 </td>
 </tr>
 <tr class="code">

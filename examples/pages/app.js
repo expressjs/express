@@ -1,4 +1,7 @@
 
+// Expose modules in ./support for demo purposes
+require.paths.unshift(__dirname + '/../../support');
+
 /**
  * Module dependencies.
  */
@@ -7,6 +10,13 @@ var express = require('./../../lib/express');
 
 var app = express.createServer(),
     sys = require('sys');
+
+// Serve default connect favicon
+app.use(express.favicon());
+
+// Logger is placed below favicon, so favicon.ico
+// requests will not be logged
+app.use(express.logger({ format: '":method :url" :status' }));
 
 // "app.router" positions our routes 
 // specifically above the middleware
@@ -90,3 +100,4 @@ app.get('/500', function(req, res, next){
 });
 
 app.listen(3000);
+console.log('Express app started on port 3000');

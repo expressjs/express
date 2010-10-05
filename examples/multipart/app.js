@@ -1,10 +1,13 @@
 
+// Expose modules in ./support for demo purposes
+require.paths.unshift(__dirname + '/../../support');
+
 /**
  * Module dependencies.
  */
 
-var express = require('./../../lib/express'),
-    form = require('./../../support/connect-form'),
+var express = require('../../lib/express'),
+    form = require('connect-form'),
     sys = require('sys');
 
 var app = express.createServer(
@@ -46,3 +49,4 @@ app.post('/', function(req, res, next){
 });
 
 app.listen(3000);
+console.log('Express app started on port 3000');

@@ -47,7 +47,7 @@ var User = {
         res.send(destroyed ? 'destroyed' : 'Cannot find user');
     },
     range: function(req, res, a, b){
-        res.send(users.slice(a, b));
+        res.send(users.slice(a, b+1));
     }
 };
 
@@ -72,3 +72,4 @@ app.get('/', function(req, res){
 });
 
 app.listen(3000);
+console.log('Express app started on port 3000');
