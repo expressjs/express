@@ -1,4 +1,7 @@
 
+// Expose modules in ./support for demo purposes
+require.paths.unshift(__dirname + '/../../support');
+
 /**
  * Module dependencies.
  */
@@ -90,3 +93,4 @@ app.get('/500', function(req, res, next){
 });
 
 app.listen(3000);
+console.log('Express app started on port 3000');
