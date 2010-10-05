@@ -1,4 +1,7 @@
 
+// Expose modules in ./support for demo purposes
+require.paths.unshift(__dirname + '/../../support');
+
 /**
  * Module dependencies.
  */
@@ -84,7 +87,7 @@ app.get('/repos/*', function(req, res, next){
     (function fetchData(name){
         // We have a user name
         if (name) {
-            console.log('... fetching %s', name);
+            console.log('... fetching \x1b[33m%s\x1b[0m', name);
             request('/repos/show/' + name, function(err, user){
                 if (err) {
                     next(err)
@@ -113,3 +116,4 @@ app.use(express.staticProvider(__dirname + '/public'));
 
 // Listen on port 3000
 app.listen(3000);
+console.log('Express app started on port 3000');

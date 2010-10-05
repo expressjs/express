@@ -60,3 +60,4 @@ app.get('/item/:id.:format?', function(req, res, next){
 app.use(express.errorHandler({ showStack: true }));
 
 app.listen(3000);
+console.log('Express app started on port 3000');
