@@ -11,6 +11,13 @@ var express = require('./../../lib/express');
 var app = express.createServer(),
     sys = require('sys');
 
+// Serve default connect favicon
+app.use(express.favicon());
+
+// Logger is placed below favicon, so favicon.ico
+// requests will not be logged
+app.use(express.logger({ format: '":method :url" :status' }));
+
 // "app.router" positions our routes 
 // specifically above the middleware
 // assigned below
