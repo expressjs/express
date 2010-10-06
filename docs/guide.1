@@ -777,6 +777,43 @@ app\.use(express\.session({ store: new RedisStore }));
 .
 .IP "" 0
 .
+.P
+Now the \fIreq\.session\fR and \fIreq\.sessionStore\fR properties will be accessible to all routes and subsequent middleware\. Properties on \fIreq\.session\fR are automatically saved on a response, so for example if we wish to shopping cart data:
+.
+.IP "" 4
+.
+.nf
+
+var RedisStore = require(\'connect\-redis\');
+app\.use(express\.cookieDecoder());
+app\.use(express\.session({ store: new RedisStore }));
+app\.use(express\.bodyDecoder());
+
+app\.post(\'/add\-to\-cart\', function(req, res){
+  // Perhaps we posted several items with a form
+  // (use the bodyDecoder() middleware for this)
+  var items = req\.body\.items;
+  req\.session\.items = items;
+  res\.redirect(\'back\');
+});
+
+app\.get(\'/add\-to\-cart\', function(req, res){
+  // When redirected back to GET /add\-to\-cart
+  // we could check req\.session\.items && req\.session\.items\.length
+  // to print out a message
+  if (req\.session\.items && req\.session\.items\.length) {
+    req\.flash(\'info\', \'You have %s items in your cart\', req\.session\.items\.length);
+  }
+  res\.render(\'shopping\-cart\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The \fIreq\.session\fR object also has methods such as \fISession#touch()\fR, \fISession#destroy()\fR, \fISession#regenerate()\fR among others to maintain and manipulate sessions\. For more information view the Connect Session \fIhttp://senchalabs\.github\.com/connect/session\.html\fR documentation\.
+.
 .SS "req\.header(key[, defaultValue])"
 Get the case\-insensitive request header \fIkey\fR, with optional \fIdefaultValue\fR:
 .
