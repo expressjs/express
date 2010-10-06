@@ -704,6 +704,34 @@ app.use(express.cookieDecoder());
 app.use(express.session({ store: new RedisStore }));
 </code></pre>
 
+<p>Now the <em>req.session</em> and <em>req.sessionStore</em> properties will be accessible to all routes and subsequent middleware. Properties on <em>req.session</em> are automatically saved on a response, so for example if we wish to shopping cart data:</p>
+
+<pre><code>var RedisStore = require('connect-redis');
+app.use(express.cookieDecoder());
+app.use(express.session({ store: new RedisStore }));
+app.use(express.bodyDecoder());
+
+app.post('/add-to-cart', function(req, res){
+  // Perhaps we posted several items with a form
+  // (use the bodyDecoder() middleware for this)
+  var items = req.body.items;
+  req.session.items = items;
+  res.redirect('back');
+});
+
+app.get('/add-to-cart', function(req, res){
+  // When redirected back to GET /add-to-cart
+  // we could check req.session.items &amp;&amp; req.session.items.length
+  // to print out a message
+  if (req.session.items &amp;&amp; req.session.items.length) {
+    req.flash('info', 'You have %s items in your cart', req.session.items.length);
+  }
+  res.render('shopping-cart');
+});
+</code></pre>
+
+<p>The <em>req.session</em> object also has methods such as <em>Session#touch()</em>, <em>Session#destroy()</em>, <em>Session#regenerate()</em> among others to maintain and manipulate sessions. For more information view the <a href="http://senchalabs.github.com/connect/session.html">Connect Session</a> documentation.</p>
+
 <h3 id="req-header-key-defaultValue-">req.header(key[, defaultValue])</h3>
 
 <p>Get the case-insensitive request header <em>key</em>, with optional <em>defaultValue</em>:</p>
