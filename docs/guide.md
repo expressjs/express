@@ -411,6 +411,33 @@ By default the _session_ middleware uses the memory store bundled with Connect, 
     app.use(express.cookieDecoder());
     app.use(express.session({ store: new RedisStore }));
 
+Now the _req.session_ and _req.sessionStore_ properties will be accessible to all routes and subsequent middleware. Properties on _req.session_ are automatically saved on a response, so for example if we wish to shopping cart data:
+
+    var RedisStore = require('connect-redis');
+    app.use(express.cookieDecoder());
+    app.use(express.session({ store: new RedisStore }));
+    app.use(express.bodyDecoder());
+
+    app.post('/add-to-cart', function(req, res){
+      // Perhaps we posted several items with a form
+      // (use the bodyDecoder() middleware for this)
+      var items = req.body.items;
+      req.session.items = items;
+      res.redirect('back');
+    });
+
+    app.get('/add-to-cart', function(req, res){
+      // When redirected back to GET /add-to-cart
+      // we could check req.session.items && req.session.items.length
+      // to print out a message
+      if (req.session.items && req.session.items.length) {
+        req.flash('info', 'You have %s items in your cart', req.session.items.length);
+      }
+      res.render('shopping-cart');
+    });
+
+The _req.session_ object also has methods such as _Session#touch()_, _Session#destroy()_, _Session#regenerate()_ among others to maintain and manipulate sessions. For more information view the [Connect Session](http://senchalabs.github.com/connect/session.html) documentation.
+
 ### req.header(key[, defaultValue])
 
 Get the case-insensitive request header _key_, with optional _defaultValue_:
