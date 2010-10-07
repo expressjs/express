@@ -6,7 +6,8 @@
   "contributors": [ 
     { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }, 
     { "name": "Aaron Heckmann", "email": "aaron.heckmann+github@gmail.com" },
-    { "name": "Ciaran Jessup", "email": "ciaranj@gmail.com" }
+    { "name": "Ciaran Jessup", "email": "ciaranj@gmail.com" },
+    { "name": "Guillermo Rauch", "email": "rauchg@gmail.com" }
   ],
   "dependencies": { "connect": ">= 0.2.5" },
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
