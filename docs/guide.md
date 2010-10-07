@@ -203,8 +203,8 @@ Typically async data retrieval might look similar to below, where we take the _:
 
     app.get('/user/:id', function(req, res, next){
         loadUser(req.params.id, function(err, user){
-          if (err) return next(err);
-          res.send('Viewing user ' + user.name);
+            if (err) return next(err);
+            res.send('Viewing user ' + user.name);
         });
     });
 
@@ -229,8 +229,8 @@ Multiple route middleware can be applied, and will be executed sequentially to a
 
     function andRestrictToSelf(req, res, next) {
         req.authenticatedUser.id == req.user.id
-          ? next()
-          : next(new Error('Unauthorized'));
+            ? next()
+            : next(new Error('Unauthorized'));
     }
     
     app.get('/user/:id/edit', loadUser, andRestrictToSelf, function(req, res){
@@ -242,8 +242,8 @@ Keeping in mind that middleware are simply functions, we can define function tha
     function andRestrictTo(role) {
         return function(req, res, next) {
           req.authenticatedUser.role == role
-            ? next()
-            : next(new Error('Unauthorized'));
+              ? next()
+              : next(new Error('Unauthorized'));
         }
     }
     
