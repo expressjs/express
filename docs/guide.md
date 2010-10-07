@@ -155,7 +155,7 @@ may consume:
 
 We may pass control to the next _matching_ route, by calling the _third_ argument,
 the _next()_ function. When a match cannot be made, control is passed back to Connect,
-and middleware continue to be invoked.
+and middleware continue to be invoked. The same is true for several routes which have the same path defined, they will simply be executed in order until one does _not_ call _next()_.
 
 	app.get('/users/:id?', function(req, res, next){
 		var id = req.params.id;
@@ -169,6 +169,10 @@ and middleware continue to be invoked.
 	app.get('/users', function(req, res){
 		// do something else
 	});
+
+### Route Middleware
+
+Routes may utilize route-specific middleware by passing one or more additional callbacks (or arrays) to the method. This feature is extremely useful for restricting access, loading data used by the route etc.
 
 ### HTTP Methods
 
