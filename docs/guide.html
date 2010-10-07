@@ -181,9 +181,9 @@
 <li><a href="#Settings">Settings</a></li>
 <li><a href="#Routing">Routing</a></li>
 <li><a href="#Passing-Route-Control">Passing Route Control</a></li>
+<li><a href="#Middleware">Middleware</a></li>
 <li><a href="#Route-Middleware">Route Middleware</a></li>
 <li><a href="#HTTP-Methods">HTTP Methods</a></li>
-<li><a href="#Middleware">Middleware</a></li>
 <li><a href="#Error-Handling">Error Handling</a></li>
 <li><a href="#View-Rendering">View Rendering</a></li>
 <li><a href="#View-Partials">View Partials</a></li>
@@ -426,6 +426,35 @@ app.get('/users', function(req, res){
 });
 </code></pre>
 
+<h3 id="Middleware">Middleware</h3>
+
+<p>Middleware via <a href="http://github.com/senchalabs/connect">Connect</a> can be
+passed to <em>express.createServer()</em> as you would with a regular Connect server. For example:</p>
+
+<pre><code>  var express = require('express');
+
+var app = express.createServer(
+    express.logger(),
+    express.bodyDecoder()
+  );
+</code></pre>
+
+<p>Alternatively we can <em>use()</em> them which is useful when adding middleware within <em>configure()</em> blocks:</p>
+
+<pre><code>app.use(express.logger({ format: ':method :uri' }));
+</code></pre>
+
+<p>Typically with connect middleware you would <em>require('connect')</em> like so:</p>
+
+<pre><code>var connect = require('connect');
+app.use(connect.logger());
+</code></pre>
+
+<p>This is somewhat annoying, so express re-exports these middleware properties, however they are <em>identical</em>:</p>
+
+<pre><code>app.use(express.logger());
+</code></pre>
+
 <h3 id="Route-Middleware">Route Middleware</h3>
 
 <p>Routes may utilize route-specific middleware by passing one or more additional callbacks (or arrays) to the method. This feature is extremely useful for restricting access, loading data used by the route etc.</p>
@@ -567,35 +596,6 @@ app.put('/', function(){
     console.log(req.body.user);
     res.redirect('back');
 });
-</code></pre>
-
-<h3 id="Middleware">Middleware</h3>
-
-<p>Middleware via <a href="http://github.com/senchalabs/connect">Connect</a> can be
-passed to <em>express.createServer()</em> as you would with a regular Connect server. For example:</p>
-
-<pre><code>  var express = require('express');
-
-var app = express.createServer(
-    express.logger(),
-    express.bodyDecoder()
-  );
-</code></pre>
-
-<p>Alternatively we can <em>use()</em> them which is useful when adding middleware within <em>configure()</em> blocks:</p>
-
-<pre><code>app.use(express.logger({ format: ':method :uri' }));
-</code></pre>
-
-<p>Typically with connect middleware you would <em>require('connect')</em> like so:</p>
-
-<pre><code>var connect = require('connect');
-app.use(connect.logger());
-</code></pre>
-
-<p>This is somewhat annoying, so express re-exports these middleware properties, however they are <em>identical</em>:</p>
-
-<pre><code>app.use(express.logger());
 </code></pre>
 
 <h3 id="Error-Handling">Error Handling</h3>

@@ -283,6 +283,64 @@ app\.get(\'/users\', function(req, res){
 .
 .IP "" 0
 .
+.SS "Middleware"
+Middleware via Connect \fIhttp://github\.com/senchalabs/connect\fR can be passed to \fIexpress\.createServer()\fR as you would with a regular Connect server\. For example:
+.
+.IP "" 4
+.
+.nf
+
+  var express = require(\'express\');
+
+var app = express\.createServer(
+    express\.logger(),
+    express\.bodyDecoder()
+  );
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Alternatively we can \fIuse()\fR them which is useful when adding middleware within \fIconfigure()\fR blocks:
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.logger({ format: \':method :uri\' }));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Typically with connect middleware you would \fIrequire(\'connect\')\fR like so:
+.
+.IP "" 4
+.
+.nf
+
+var connect = require(\'connect\');
+app\.use(connect\.logger());
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This is somewhat annoying, so express re\-exports these middleware properties, however they are \fIidentical\fR:
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.logger());
+.
+.fi
+.
+.IP "" 0
+.
 .SS "Route Middleware"
 Routes may utilize route\-specific middleware by passing one or more additional callbacks (or arrays) to the method\. This feature is extremely useful for restricting access, loading data used by the route etc\.
 .
@@ -535,64 +593,6 @@ app\.put(\'/\', function(){
     console\.log(req\.body\.user);
     res\.redirect(\'back\');
 });
-.
-.fi
-.
-.IP "" 0
-.
-.SS "Middleware"
-Middleware via Connect \fIhttp://github\.com/senchalabs/connect\fR can be passed to \fIexpress\.createServer()\fR as you would with a regular Connect server\. For example:
-.
-.IP "" 4
-.
-.nf
-
-  var express = require(\'express\');
-
-var app = express\.createServer(
-    express\.logger(),
-    express\.bodyDecoder()
-  );
-.
-.fi
-.
-.IP "" 0
-.
-.P
-Alternatively we can \fIuse()\fR them which is useful when adding middleware within \fIconfigure()\fR blocks:
-.
-.IP "" 4
-.
-.nf
-
-app\.use(express\.logger({ format: \':method :uri\' }));
-.
-.fi
-.
-.IP "" 0
-.
-.P
-Typically with connect middleware you would \fIrequire(\'connect\')\fR like so:
-.
-.IP "" 4
-.
-.nf
-
-var connect = require(\'connect\');
-app\.use(connect\.logger());
-.
-.fi
-.
-.IP "" 0
-.
-.P
-This is somewhat annoying, so express re\-exports these middleware properties, however they are \fIidentical\fR:
-.
-.IP "" 4
-.
-.nf
-
-app\.use(express\.logger());
 .
 .fi
 .
