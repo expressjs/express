@@ -92,13 +92,14 @@ app.post('/login', function(req, res){
                 // in the session store to be retrieved,
                 // or in this case the entire user object
                 req.session.user = user;
+                res.redirect('back');
             });
         } else {
             req.session.error = 'Authentication failed, please check your '
                 + ' username and password.'
                 + ' (use "tj" and "foobar")';
+            res.redirect('back');
         }
-        res.redirect('back');
     });
 });
 
