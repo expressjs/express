@@ -355,8 +355,12 @@ module.exports = {
         app.get('/booze', [allow('member')], restrictAge(18), function(req, res){
             res.send(200);
         });
-        
-        ['xxx', 'booze'].forEach(function(thing){
+
+        app.get('/tobi', [allow('member')], [restrictAge(18)], function(req, res){
+            res.send(200);
+        });
+
+        ['xxx', 'booze', 'tobi'].forEach(function(thing){
             assert.response(app,
                 { url: '/' + thing },
                 { body: 'Unauthorized', status: 401 });
