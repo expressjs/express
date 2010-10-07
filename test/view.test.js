@@ -244,8 +244,9 @@ module.exports = {
             }});
     },
     
-    'test #render() view helpers': function(assert){
-        var app = create();
+    'test #render() view helpers': function(assert, beforeExit){
+        var app = create(),
+            calls = 0;
 
         app.helpers({ 
             lastName: 'holowaychuk',
@@ -256,6 +257,7 @@ module.exports = {
 
         var ret = app.dynamicHelpers({
             session: function(req, res){
+                ++calls;
                 assert.equal('object', typeof req, 'Test dynamic helper req');
                 assert.equal('object', typeof res, 'Test dynamic helper res');
                 assert.ok(this instanceof express.Server, 'Test dynamic helper app scope');
@@ -276,7 +278,6 @@ module.exports = {
         app.get('/precedence', function(req, res){
             req.session = { name: 'tj' };
             res.render('dynamic-helpers.jade', {
-                layout: false,
                 locals: {
                     lastName: 'foobar'
                 }
@@ -291,7 +292,11 @@ module.exports = {
             { body: '<p>Hello tj holowaychuk</p>' });
         assert.response(app,
             { url: '/precedence' },
-            { body: '<p>Hello tj foobar</p>' });
+            { body: '<html><body><p>Hello tj foobar</p></body></html>' });
+
+        beforeExit(function(){
+            assert.equal(3, calls);
+        });
     },
     
     'test #partial()': function(assert){
