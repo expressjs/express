@@ -62,8 +62,26 @@ function authenticate(name, pass, fn) {
     fn(new Error('invalid password'));
 }
 
+function restrict(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    req.session.error = 'Access denied!';
+    res.redirect('/login');
+  }
+}
+
+function accessLogger(req, res, next) {
+    console.log('/restricted accessed by %s', req.session.user.name);
+    next();
+}
+
 app.get('/', function(req, res){
     res.redirect('/login');
+});
+
+app.get('/restricted', restrict, accessLogger, function(req, res){
+    res.send('Wahoo! restricted area');
 });
 
 app.get('/logout', function(req, res){
@@ -77,7 +95,8 @@ app.get('/logout', function(req, res){
 app.get('/login', function(req, res){
     if (req.session.user) {
         req.session.success = 'Authenticated as ' + req.session.user.name
-            + ' click to <a href="/logout">logout</a>.';
+            + ' click to <a href="/logout">logout</a>. '
+            + ' You may now access <a href="/restricted">/restricted</a>.';
     }
     res.render('login');
 });
@@ -92,13 +111,14 @@ app.post('/login', function(req, res){
                 // in the session store to be retrieved,
                 // or in this case the entire user object
                 req.session.user = user;
+                res.redirect('back');
             });
         } else {
             req.session.error = 'Authentication failed, please check your '
                 + ' username and password.'
                 + ' (use "tj" and "foobar")';
+            res.redirect('back');
         }
-        res.redirect('back');
     });
 });
 

@@ -321,5 +321,55 @@ module.exports = {
         assert.response(blog,
             { url: '/' },
             { body: 'blog index' });
+    },
+    
+    'test route middleware': function(assert){
+        var app = express.createServer();
+
+        function allow(role) {
+            return function(req, res, next) {
+                // this is totally not real, dont use this :)
+                // for tests only
+                if (req.headers['x-role'] == role) {
+                    next();
+                } else {
+                    res.send(401);
+                }
+            }
+        }
+        
+        function restrictAge(age) {
+            return function(req, res, next){
+                if (req.headers['x-age'] >= age) {
+                    next();
+                } else {
+                    res.send(403);
+                }
+            }
+        }
+
+        app.get('/xxx', allow('member'), restrictAge(18), function(req, res){
+            res.send(200);
+        });
+
+        app.get('/booze', [allow('member')], restrictAge(18), function(req, res){
+            res.send(200);
+        });
+
+        app.get('/tobi', [allow('member')], [[restrictAge(18)]], function(req, res){
+            res.send(200);
+        });
+
+        ['xxx', 'booze', 'tobi'].forEach(function(thing){
+            assert.response(app,
+                { url: '/' + thing },
+                { body: 'Unauthorized', status: 401 });
+            assert.response(app,
+                { url: '/' + thing, headers: { 'X-Role': 'member' }},
+                { body: 'Forbidden', status: 403 });
+            assert.response(app,
+                { url: '/' + thing, headers: { 'X-Role': 'member', 'X-Age': 18 }},
+                { body: 'OK', status: 200 });
+        });
     }
 };
