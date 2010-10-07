@@ -351,15 +351,21 @@ module.exports = {
         app.get('/xxx', allow('member'), restrictAge(18), function(req, res){
             res.send(200);
         });
+
+        app.get('/booze', [allow('member')], restrictAge(18), function(req, res){
+            res.send(200);
+        });
         
-        assert.response(app,
-            { url: '/xxx' },
-            { body: 'Unauthorized', status: 401 });
-        assert.response(app,
-            { url: '/xxx', headers: { 'X-Role': 'member' }},
-            { body: 'Forbidden', status: 403 });
-        assert.response(app,
-            { url: '/xxx', headers: { 'X-Role': 'member', 'X-Age': 18 }},
-            { body: 'OK', status: 200 });
+        ['xxx', 'booze'].forEach(function(thing){
+            assert.response(app,
+                { url: '/' + thing },
+                { body: 'Unauthorized', status: 401 });
+            assert.response(app,
+                { url: '/' + thing, headers: { 'X-Role': 'member' }},
+                { body: 'Forbidden', status: 403 });
+            assert.response(app,
+                { url: '/' + thing, headers: { 'X-Role': 'member', 'X-Age': 18 }},
+                { body: 'OK', status: 200 });
+        });
     }
 };
