@@ -199,70 +199,70 @@ This is somewhat annoying, so express re-exports these middleware properties, ho
 
 Routes may utilize route-specific middleware by passing one or more additional callbacks (or arrays) to the method. This feature is extremely useful for restricting access, loading data used by the route etc.
 
-Typically async data retrieval might look similar to below, where we take the ":id" parameter, and attempt loading a user. 
+Typically async data retrieval might look similar to below, where we take the _:id_ parameter, and attempt loading a user. 
 
-  app.get('/user/:id', function(req, res, next){
-      loadUser(req.params.id, function(err, user){
-        if (err) return next(err);
-        res.send('Viewing user ' + user.name);
-      });
-  });
+    app.get('/user/:id', function(req, res, next){
+        loadUser(req.params.id, function(err, user){
+          if (err) return next(err);
+          res.send('Viewing user ' + user.name);
+        });
+    });
 
 To keep things DRY and to increase readability we can apply this logic within a middleware. As you can see below, abstracting this logic into middleware allows us to reuse it, and clean up our route at the same time. 
 
-  function loadUser(req, res, next) {
-      // You would fetch your user from the db
-      var user = users[req.params.id];
-      if (user) {
-          req.user = user;
-          next();
-      } else {
-          next(new Error('Failed to load user ' + req.params.id));
-      }
-  }
-
-  app.get('/user/:id', loadUser, function(req, res){
-      res.send('Viewing user ' + req.user.name);
-  });
+    function loadUser(req, res, next) {
+        // You would fetch your user from the db
+        var user = users[req.params.id];
+        if (user) {
+            req.user = user;
+            next();
+        } else {
+            next(new Error('Failed to load user ' + req.params.id));
+        }
+    }
+   
+    app.get('/user/:id', loadUser, function(req, res){
+        res.send('Viewing user ' + req.user.name);
+    });
 
 Multiple route middleware can be applied, and will be executed sequentially to apply further logic such as restricting access to a user account. In the example below only the authenticated user may edit his/her account.
 
-  function andRestrictToSelf(req, res, next) {
-      req.authenticatedUser.id == req.user.id
-        ? next()
-        : next(new Error('Unauthorized'));
-  }
-  
-  app.get('/user/:id/edit', loadUser, andRestrictToSelf, function(req, res){
-      res.send('Editing user ' + req.user.name);
-  });
+    function andRestrictToSelf(req, res, next) {
+        req.authenticatedUser.id == req.user.id
+          ? next()
+          : next(new Error('Unauthorized'));
+    }
+    
+    app.get('/user/:id/edit', loadUser, andRestrictToSelf, function(req, res){
+        res.send('Editing user ' + req.user.name);
+    });
 
 Keeping in mind that middleware are simply functions, we can define function that _returns_ the middleware in order to create a more expressive and flexible solution as shown below.
 
-  function andRestrictTo(role) {
-      return function(req, res, next) {
-        req.authenticatedUser.role == role
-          ? next()
-          : next(new Error('Unauthorized'));
-      }
-  }
-
-  app.del('/user/:id', loadUser, andRestrictTo('admin'), function(req, res){
-      res.send('Deleted user ' + req.user.name);
-  });
+    function andRestrictTo(role) {
+        return function(req, res, next) {
+          req.authenticatedUser.role == role
+            ? next()
+            : next(new Error('Unauthorized'));
+        }
+    }
+    
+    app.del('/user/:id', loadUser, andRestrictTo('admin'), function(req, res){
+        res.send('Deleted user ' + req.user.name);
+    });
 
 Commonly used "stacks" of middleware can be passed as an array (_applied recursively_), which can be mixed and matched to any degree.
 
-  var a = [middleware1, middleware2]
-    , b = [middleware3, middleware4]
-    , all = [a, b];
-
-  app.get('/foo', a, function(){});
-  app.get('/bar', a, function(){});
-
-  app.get('/', a, middleware3, middleware4, function(){});
-  app.get('/', a, b, function(){});
-  app.get('/', all, function(){});
+    var a = [middleware1, middleware2]
+      , b = [middleware3, middleware4]
+      , all = [a, b];
+    
+    app.get('/foo', a, function(){});
+    app.get('/bar', a, function(){});
+    
+    app.get('/', a, middleware3, middleware4, function(){});
+    app.get('/', a, b, function(){});
+    app.get('/', all, function(){});
 
 For this example in full, view the [route middleware example](http://github.com/visionmedia/express/blob/master/examples/route-middleware/app.js) in the repository.
 
