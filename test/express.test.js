@@ -356,7 +356,7 @@ module.exports = {
             res.send(200);
         });
 
-        app.get('/tobi', [allow('member')], [restrictAge(18)], function(req, res){
+        app.get('/tobi', [allow('member')], [[restrictAge(18)]], function(req, res){
             res.send(200);
         });
 
