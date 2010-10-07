@@ -170,6 +170,31 @@ and middleware continue to be invoked. The same is true for several routes which
 		// do something else
 	});
 
+### Middleware
+
+Middleware via [Connect](http://github.com/senchalabs/connect) can be
+passed to _express.createServer()_ as you would with a regular Connect server. For example:
+
+	  var express = require('express');
+
+    var app = express.createServer(
+	  	express.logger(),
+	  	express.bodyDecoder()
+	  );
+
+Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks:
+
+    app.use(express.logger({ format: ':method :uri' }));
+
+Typically with connect middleware you would _require('connect')_ like so:
+
+    var connect = require('connect');
+    app.use(connect.logger());
+
+This is somewhat annoying, so express re-exports these middleware properties, however they are _identical_:
+
+    app.use(express.logger());
+
 ### Route Middleware
 
 Routes may utilize route-specific middleware by passing one or more additional callbacks (or arrays) to the method. This feature is extremely useful for restricting access, loading data used by the route etc.
@@ -282,31 +307,6 @@ The reason that these are not always defaults, is simply because these are not r
         console.log(req.body.user);
         res.redirect('back');
     });
-
-### Middleware
-
-Middleware via [Connect](http://github.com/senchalabs/connect) can be
-passed to _express.createServer()_ as you would with a regular Connect server. For example:
-
-	  var express = require('express');
-
-    var app = express.createServer(
-	  	express.logger(),
-	  	express.bodyDecoder()
-	  );
-
-Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks:
-
-    app.use(express.logger({ format: ':method :uri' }));
-
-Typically with connect middleware you would _require('connect')_ like so:
-
-    var connect = require('connect');
-    app.use(connect.logger());
-
-This is somewhat annoying, so express re-exports these middleware properties, however they are _identical_:
-
-    app.use(express.logger());
 
 ### Error Handling
 
