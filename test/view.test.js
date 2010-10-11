@@ -436,6 +436,40 @@ module.exports = {
             { body: 'Hello' });
     },
     
+    'test #partial() with array-like collection': function(assert){
+        var app = create();
+
+        var movies = {
+            0: { title: 'Nightmare Before Christmas', director: 'Tim Burton' },
+            1: { title: 'Avatar', director: 'James Cameron' },
+            length: 2
+        };
+        app.get('/movies', function(req, res){
+            res.render('movies.jade', { locals: { movies: movies }});
+        });
+            
+        var html = [
+            '<html>',
+            '<body>',
+            '<ul>',
+            '<li>',
+            '<div class="title">Nightmare Before Christmas</div>',
+            '<div class="director">Tim Burton</div>',
+            '</li>',
+            '<li>',
+            '<div class="title">Avatar</div>',
+            '<div class="director">James Cameron</div>',
+            '</li>',
+            '</ul>',
+            '</body>',
+            '</html>'
+        ].join('');
+
+        assert.response(app,
+            { url: '/movies' },
+            { body: html });
+    },
+    
     'test "partials" setting': function(assert){
         var app = create();
         app.set('partials', __dirname + '/fixtures/sub-templates');
