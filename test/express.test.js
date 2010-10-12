@@ -30,7 +30,7 @@ module.exports = {
             res.send('Destroyed');
         });
 
-        server.delete('/something', function(req, res){
+        server.delete('/something/else', function(req, res){
             res.send('Destroyed');
         });
 
