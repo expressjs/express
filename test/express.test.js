@@ -26,6 +26,14 @@ module.exports = {
             res.end('updated user ' + req.params.id)
         });
 
+        server.del('/something', function(req, res){
+            res.send('Destroyed');
+        });
+
+        server.delete('/something', function(req, res){
+            res.send('Destroyed');
+        });
+
         assert.response(server,
             { url: '/' },
             { body: 'wahoo' });
@@ -33,6 +41,14 @@ module.exports = {
         assert.response(server,
             { url: '/user/12', method: 'PUT' },
             { body: 'updated user 12' });
+
+        assert.response(server,
+          { url: '/something', method: 'DELETE' },
+          { body: 'Destroyed' });
+
+        assert.response(server,
+          { url: '/something/else', method: 'DELETE' },
+          { body: 'Destroyed' });
     },
     
     'test constructor middleware': function(assert, beforeExit){
