@@ -31,7 +31,7 @@ var users = [
     { name: 'tobi' }
 ];
 
-// Fake model
+// Fake controller
 
 var User = {
     index: function(req, res){

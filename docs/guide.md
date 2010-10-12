@@ -272,11 +272,11 @@ We have seen _app.get()_ a few times, however Express also exposes other familia
 
  A common example for _POST_ usage, is when "submitting" a form. Below we simply set our form method to "post" in our html, and control will be given to the route we have defined below it.
  
-   <form method="post" action="/">
-       <input type="text" name="user[name]" />
-       <input type="text" name="user[email]" />
-       <input type="submit" value="Submit" />
-   </form>
+     <form method="post" action="/">
+         <input type="text" name="user[name]" />
+         <input type="text" name="user[email]" />
+         <input type="submit" value="Submit" />
+     </form>
 
 By default Express does not know what to do with this request body, so we should add the _bodyDecoder_ middleware, which will parse _application/x-www-form-urlencoded_ request bodies and place the variables in _req.body_. We can do this by "using" the middleware as shown below:
 
