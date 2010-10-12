@@ -463,8 +463,8 @@ app.use(connect.logger());
 
 <pre><code>app.get('/user/:id', function(req, res, next){
     loadUser(req.params.id, function(err, user){
-      if (err) return next(err);
-      res.send('Viewing user ' + user.name);
+        if (err) return next(err);
+        res.send('Viewing user ' + user.name);
     });
 });
 </code></pre>
@@ -491,8 +491,8 @@ app.get('/user/:id', loadUser, function(req, res){
 
 <pre><code>function andRestrictToSelf(req, res, next) {
     req.authenticatedUser.id == req.user.id
-      ? next()
-      : next(new Error('Unauthorized'));
+        ? next()
+        : next(new Error('Unauthorized'));
 }
 
 app.get('/user/:id/edit', loadUser, andRestrictToSelf, function(req, res){
@@ -505,8 +505,8 @@ app.get('/user/:id/edit', loadUser, andRestrictToSelf, function(req, res){
 <pre><code>function andRestrictTo(role) {
     return function(req, res, next) {
       req.authenticatedUser.role == role
-        ? next()
-        : next(new Error('Unauthorized'));
+          ? next()
+          : next(new Error('Unauthorized'));
     }
 }
 
@@ -537,14 +537,12 @@ app.get('/', all, function(){});
 
 <p> A common example for <em>POST</em> usage, is when "submitting" a form. Below we simply set our form method to "post" in our html, and control will be given to the route we have defined below it.</p>
 
-<p>   <form method="post" action="/" /></p>
-
-<pre><code>   &lt;input type="text" name="user[name]" /&gt;
-   &lt;input type="text" name="user[email]" /&gt;
-   &lt;input type="submit" value="Submit" /&gt;
+<pre><code> &lt;form method="post" action="/"&gt;
+     &lt;input type="text" name="user[name]" /&gt;
+     &lt;input type="text" name="user[email]" /&gt;
+     &lt;input type="submit" value="Submit" /&gt;
+ &lt;/form&gt;
 </code></pre>
-
-<p>   </p>
 
 <p>By default Express does not know what to do with this request body, so we should add the <em>bodyDecoder</em> middleware, which will parse <em>application/x-www-form-urlencoded</em> request bodies and place the variables in <em>req.body</em>. We can do this by "using" the middleware as shown below:</p>
 
