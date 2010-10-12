@@ -353,8 +353,8 @@ Typically async data retrieval might look similar to below, where we take the \f
 
 app\.get(\'/user/:id\', function(req, res, next){
     loadUser(req\.params\.id, function(err, user){
-      if (err) return next(err);
-      res\.send(\'Viewing user \' + user\.name);
+        if (err) return next(err);
+        res\.send(\'Viewing user \' + user\.name);
     });
 });
 .
@@ -397,8 +397,8 @@ Multiple route middleware can be applied, and will be executed sequentially to a
 
 function andRestrictToSelf(req, res, next) {
     req\.authenticatedUser\.id == req\.user\.id
-      ? next()
-      : next(new Error(\'Unauthorized\'));
+        ? next()
+        : next(new Error(\'Unauthorized\'));
 }
 
 app\.get(\'/user/:id/edit\', loadUser, andRestrictToSelf, function(req, res){
@@ -419,8 +419,8 @@ Keeping in mind that middleware are simply functions, we can define function tha
 function andRestrictTo(role) {
     return function(req, res, next) {
       req\.authenticatedUser\.role == role
-        ? next()
-        : next(new Error(\'Unauthorized\'));
+          ? next()
+          : next(new Error(\'Unauthorized\'));
     }
 }
 
@@ -463,21 +463,19 @@ We have seen \fIapp\.get()\fR a few times, however Express also exposes other fa
 .P
 A common example for \fIPOST\fR usage, is when "submitting" a form\. Below we simply set our form method to "post" in our html, and control will be given to the route we have defined below it\.
 .
-.P
-.
 .IP "" 4
 .
 .nf
 
-   <input type="text" name="user[name]" />
-   <input type="text" name="user[email]" />
-   <input type="submit" value="Submit" />
+ <form method="post" action="/">
+     <input type="text" name="user[name]" />
+     <input type="text" name="user[email]" />
+     <input type="submit" value="Submit" />
+ </form>
 .
 .fi
 .
 .IP "" 0
-.
-.P
 .
 .P
 By default Express does not know what to do with this request body, so we should add the \fIbodyDecoder\fR middleware, which will parse \fIapplication/x\-www\-form\-urlencoded\fR request bodies and place the variables in \fIreq\.body\fR\. We can do this by "using" the middleware as shown below:

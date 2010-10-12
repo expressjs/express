@@ -382,6 +382,382 @@ and use the %s specifier to be replaced by the associated argument:</p>
 <pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'isXMLHttpRequest'</span>, <span class="variable">isxhr</span>);
 <span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'xhr'</span>, <span class="variable">isxhr</span>);</code></pre>
 </td>
+</tr><tr class="filename"><td><h2 id="lib/express/server.js"><a href="#">server</a></h2></td><td>lib/express/server.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">url</span> = <span class="variable">require</span>(<span class="string">'url'</span>),
+    <span class="variable">view</span> = <span class="variable">require</span>(<span class="string">'./view'</span>),
+    <span class="variable">connect</span> = <span class="variable">require</span>(<span class="string">'connect'</span>),
+    <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>),
+    <span class="variable">queryString</span> = <span class="variable">require</span>(<span class="string">'querystring'</span>),
+    <span class="variable">router</span> = <span class="variable">require</span>(<span class="string">'connect/middleware/router'</span>);</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Initialize a new <code>Server</code> with optional <code>middleware</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Array</em>  middleware</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="class">Server</span>(<span class="variable">middleware</span>){
+    <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
+    <span class="this">this</span>.<span class="variable">config</span> = {};
+    <span class="this">this</span>.<span class="variable">settings</span> = {};
+    <span class="this">this</span>.<span class="variable">redirects</span> = {};
+    <span class="this">this</span>.<span class="variable">viewHelpers</span> = {};
+    <span class="this">this</span>.<span class="variable">dynamicViewHelpers</span> = {};
+    <span class="this">this</span>.<span class="variable">errorHandlers</span> = [];
+    <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">middleware</span> || []);
+
+    <span class="comment">// Default &quot;home&quot; to / </span>
+    <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'home'</span>, <span class="string">'/'</span>);
+
+    <span class="comment">// DEPRECATED: remove in 1.0</span>
+    <span class="keyword">if</span> (<span class="variable">process</span>.<span class="variable">env</span>.<span class="class">EXPRESS_ENV</span>) {
+      <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">NODE_ENV</span> = <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">EXPRESS_ENV</span>;
+      <span class="variable">console</span>.<span class="variable">warn</span>(<span class="string">'\x1b[33mWarning\x1b[0m: EXPRESS_ENV is deprecated, use NODE_ENV.'</span>);
+    }
+
+    <span class="comment">// Set &quot;env&quot; to NODE_ENV, defaulting to &quot;development&quot;</span>
+    <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>, <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">NODE_ENV</span> || <span class="string">'development'</span>);
+
+    <span class="comment">// Expose objects to each other</span>
+    <span class="this">this</span>.<span class="variable">use</span>(<span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="variable">req</span>.<span class="variable">query</span> = {};
+        <span class="variable">res</span>.<span class="variable">headers</span> = {};
+        <span class="variable">req</span>.<span class="variable">app</span> = <span class="variable">res</span>.<span class="variable">app</span> = <span class="variable">self</span>;
+        <span class="variable">req</span>.<span class="variable">res</span> = <span class="variable">res</span>;
+        <span class="variable">res</span>.<span class="variable">req</span> = <span class="variable">req</span>;
+        <span class="variable">req</span>.<span class="variable">next</span> = <span class="variable">next</span>;
+        <span class="comment">// Assign req.params.get</span>
+        <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">url</span>.<span class="variable">indexOf</span>(<span class="string">'?'</span>) &<span class="variable">gt</span>; <span class="number integer">0</span>) {
+            <span class="keyword">var</span> <span class="variable">query</span> = <span class="variable">url</span>.<span class="variable">parse</span>(<span class="variable">req</span>.<span class="variable">url</span>).<span class="variable">query</span>;
+            <span class="variable">req</span>.<span class="variable">query</span> = <span class="variable">exports</span>.<span class="variable">parseQueryString</span>(<span class="variable">query</span>);
+        }
+        <span class="variable">next</span>();
+    });
+
+    <span class="comment">// Use router, expose as app.get(), etc</span>
+    <span class="keyword">var</span> <span class="variable">fn</span> = <span class="variable">router</span>(<span class="keyword">function</span>(<span class="variable">app</span>){ <span class="variable">self</span>.<span class="variable">routes</span> = <span class="variable">app</span>; });
+    <span class="this">this</span>.<span class="variable">__defineGetter__</span>(<span class="string">'router'</span>, <span class="keyword">function</span>(){
+        <span class="this">this</span>.<span class="variable">__usedRouter</span> = <span class="variable">true</span>;
+        <span class="keyword">return</span> <span class="variable">fn</span>;
+    });
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Inherit from <code>connect.Server</code>.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">__proto__</span> = <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Support swappable querystring parsers.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">parseQueryString</span> = <span class="variable">queryString</span>.<span class="variable">parse</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Proxy in order to register error handlers.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span> = <span class="keyword">function</span>(){
+    <span class="this">this</span>.<span class="variable">registerErrorHandlers</span>();
+    <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span>.<span class="variable">apply</span>(<span class="this">this</span>, <span class="variable">arguments</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Proxy in order to register error handlers.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listenFD</span> = <span class="keyword">function</span>(){
+    <span class="this">this</span>.<span class="variable">registerErrorHandlers</span>();
+    <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listenFD</span>.<span class="variable">apply</span>(<span class="this">this</span>, <span class="variable">arguments</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Register error handlers. This is automatically
+called from within <code>Server#listen()</code> and <code>Server#listenFD()</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">registerErrorHandlers</span> = <span class="keyword">function</span>(){
+    <span class="this">this</span>.<span class="variable">errorHandlers</span>.<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">fn</span>){
+        <span class="this">this</span>.<span class="variable">use</span>(<span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+            <span class="variable">fn</span>.<span class="variable">apply</span>(<span class="this">this</span>, <span class="variable">arguments</span>);
+        });
+    }, <span class="this">this</span>);
+    <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Proxy <code>connect.Server#use()</code> to apply settings to
+mounted applications.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String | Function | Server</em>  route</p></li><li><p><strong>param</strong>: <em>Function | Server</em>  middleware</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">use</span> = <span class="keyword">function</span>(<span class="variable">route</span>, <span class="variable">middleware</span>){
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">route</span> !== <span class="string">'string'</span>) {
+        <span class="variable">middleware</span> = <span class="variable">route</span>, <span class="variable">route</span> = <span class="string">'/'</span>;
+    }
+
+    <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">use</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">route</span>, <span class="variable">middleware</span>);
+
+    <span class="comment">// Mounted an app</span>
+    <span class="keyword">if</span> (<span class="variable">middleware</span> <span class="variable">instanceof</span> <span class="class">Server</span>) {
+        <span class="comment">// Home is /:route/:home</span>
+        <span class="keyword">var</span> <span class="variable">app</span> = <span class="variable">middleware</span>,
+            <span class="variable">home</span> = <span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'home'</span>);
+        <span class="keyword">if</span> (<span class="variable">home</span> === <span class="string">'/'</span>) <span class="variable">home</span> = <span class="string">''</span>;
+        <span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'home'</span>, (<span class="variable">app</span>.<span class="variable">route</span> || <span class="string">''</span>) + <span class="variable">home</span>);
+        <span class="variable">app</span>.<span class="variable">parent</span> = <span class="this">this</span>;
+        <span class="comment">// Mounted hook</span>
+        <span class="keyword">if</span> (<span class="variable">app</span>.<span class="variable">__mounted</span>) <span class="variable">app</span>.<span class="variable">__mounted</span>.<span class="variable">call</span>(<span class="variable">app</span>, <span class="this">this</span>);
+    }
+
+    <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Assign a callback <code>fn</code> which is called
+when this <code>Server</code> is passed to <code>Server#use()</code>.</p>
+
+<h2>Examples</h2>
+
+<p>   var app = express.createServer(),
+       blog = express.createServer();</p>
+
+<p>   blog.mounted(function(parent){
+       // parent is app
+       // "this" is blog
+   });</p>
+
+<p>   app.use(blog);</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">mounted</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
+    <span class="this">this</span>.<span class="variable">__mounted</span> = <span class="variable">fn</span>;
+    <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<h2>See view.register.</h2>
+
+<h2></h2>
+
+<ul><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">register</span> = <span class="keyword">function</span>(){
+    <span class="variable">view</span>.<span class="variable">register</span>.<span class="variable">apply</span>(<span class="this">this</span>, <span class="variable">arguments</span>);
+    <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Register the given view helpers <code>obj</code>. This method
+can be called several times to apply additional helpers.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Object</em>  obj</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">helpers</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
+    <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="this">this</span>.<span class="variable">viewHelpers</span>, <span class="variable">obj</span>);
+    <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Register the given dynamic view helpers <code>obj</code>. This method
+can be called several times to apply additional helpers.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Object</em>  obj</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">dynamicHelpers</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
+    <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="this">this</span>.<span class="variable">dynamicViewHelpers</span>, <span class="variable">obj</span>);
+    <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Assign a custom exception handler callback <code>fn</code>.
+These handlers are always <em>last</em> in the middleware stack.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">error</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
+    <span class="this">this</span>.<span class="variable">errorHandlers</span>.<span class="variable">push</span>(<span class="variable">fn</span>);
+    <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Assign <code>setting</code> to <code>val</code>, or return <code>setting</code>'s value.
+Mounted servers inherit their parent server's settings.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>param</strong>: <em>String</em>  val</p></li><li><p><strong>return</strong>: <em>Server | Mixed</em>  for chaining, or the setting value</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">set</span> = <span class="keyword">function</span>(<span class="variable">setting</span>, <span class="variable">val</span>){
+    <span class="keyword">if</span> (<span class="variable">val</span> === <span class="variable">undefined</span>) {
+        <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">settings</span>.<span class="variable">hasOwnProperty</span>(<span class="variable">setting</span>)) {
+            <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">settings</span>[<span class="variable">setting</span>];
+        } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">parent</span>) {
+            <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">parent</span>.<span class="variable">set</span>(<span class="variable">setting</span>);
+        }
+    } <span class="keyword">else</span> {
+        <span class="this">this</span>.<span class="variable">settings</span>[<span class="variable">setting</span>] = <span class="variable">val</span>;
+        <span class="keyword">return</span> <span class="this">this</span>;
+    }
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Enable <code>setting</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">enable</span> = <span class="keyword">function</span>(<span class="variable">setting</span>){
+    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">set</span>(<span class="variable">setting</span>, <span class="variable">true</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Disable <code>setting</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">disable</span> = <span class="keyword">function</span>(<span class="variable">setting</span>){
+    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">set</span>(<span class="variable">setting</span>, <span class="variable">false</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Redirect <code>key</code> to <code>url</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  key</p></li><li><p><strong>param</strong>: <em>String</em>  url</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">redirect</span> = <span class="keyword">function</span>(<span class="variable">key</span>, <span class="variable">url</span>){
+    <span class="this">this</span>.<span class="variable">redirects</span>[<span class="variable">key</span>] = <span class="variable">url</span>;
+    <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Configure callback for the given <code>env</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  env</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">configure</span> = <span class="keyword">function</span>(<span class="variable">env</span>, <span class="variable">fn</span>){
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">env</span> === <span class="string">'function'</span>) {
+        <span class="variable">fn</span> = <span class="variable">env</span>, <span class="variable">env</span> = <span class="string">'all'</span>;
+    }
+    <span class="keyword">if</span> (<span class="variable">env</span> === <span class="string">'all'</span> || <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>) === <span class="variable">env</span>) {
+        <span class="variable">fn</span>.<span class="variable">call</span>(<span class="this">this</span>);
+    }
+    <span class="keyword">return</span> <span class="this">this</span>;
+};
+
+<span class="comment">// Generate routing methods</span>
+
+(<span class="keyword">function</span>(<span class="variable">method</span>){
+    <span class="class">Server</span>.<span class="variable">prototype</span>[<span class="variable">method</span>] = <span class="keyword">function</span>(<span class="variable">path</span>, <span class="variable">fn</span>){
+        <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
+
+        <span class="comment">// Ensure router is mounted</span>
+        <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">__usedRouter</span>) {
+            <span class="this">this</span>.<span class="variable">use</span>(<span class="this">this</span>.<span class="variable">router</span>);
+        }
+
+        <span class="comment">// Route specific middleware support</span>
+        <span class="keyword">if</span> (<span class="variable">arguments</span>.<span class="variable">length</span> &<span class="variable">gt</span>; <span class="number integer">2</span>) {
+            <span class="keyword">var</span> <span class="variable">args</span> = <span class="class">Array</span>.<span class="variable">prototype</span>.<span class="variable">slice</span>.<span class="variable">call</span>(<span class="variable">arguments</span>, <span class="number integer">1</span>);
+            <span class="variable">fn</span> = <span class="variable">args</span>.<span class="variable">pop</span>();
+            (<span class="keyword">function</span> <span class="variable">stack</span>(<span class="variable">middleware</span>){
+                <span class="variable">middleware</span>.<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">fn</span>){
+                    <span class="keyword">if</span> (<span class="class">Array</span>.<span class="variable">isArray</span>(<span class="variable">fn</span>)) {
+                        <span class="variable">stack</span>(<span class="variable">fn</span>);
+                    } <span class="keyword">else</span> {
+                        <span class="variable">self</span>[<span class="variable">method</span>](<span class="variable">path</span>, <span class="variable">fn</span>);
+                    }
+                });
+            })(<span class="variable">args</span>);
+        }
+
+        <span class="comment">// Generate the route</span>
+        <span class="this">this</span>.<span class="variable">routes</span>[<span class="variable">method</span>](<span class="variable">path</span>, <span class="variable">fn</span>);
+        <span class="keyword">return</span> <span class="this">this</span>;
+    };
+    <span class="keyword">return</span> <span class="variable">arguments</span>.<span class="variable">callee</span>;
+})(<span class="string">'get'</span>)(<span class="string">'post'</span>)(<span class="string">'put'</span>)(<span class="string">'del'</span>);
+</code></pre>
+</td>
 </tr><tr class="filename"><td><h2 id="lib/express/response.js"><a href="#">response</a></h2></td><td>lib/express/response.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.
@@ -754,374 +1130,6 @@ to '/'.</p>
 };
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/express/server.js"><a href="#">server</a></h2></td><td>lib/express/server.js</td></tr><tr class="code">
-<td class="docs">
-<p>Module dependencies.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>),
-    <span class="variable">url</span> = <span class="variable">require</span>(<span class="string">'url'</span>),
-    <span class="variable">view</span> = <span class="variable">require</span>(<span class="string">'./view'</span>),
-    <span class="variable">connect</span> = <span class="variable">require</span>(<span class="string">'connect'</span>),
-    <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>),
-    <span class="variable">queryString</span> = <span class="variable">require</span>(<span class="string">'querystring'</span>),
-    <span class="variable">router</span> = <span class="variable">require</span>(<span class="string">'connect/middleware/router'</span>);</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Initialize a new <code>Server</code> with optional <code>middleware</code>.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>Array</em>  middleware</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="class">Server</span>(<span class="variable">middleware</span>){
-    <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
-    <span class="this">this</span>.<span class="variable">config</span> = {};
-    <span class="this">this</span>.<span class="variable">settings</span> = {};
-    <span class="this">this</span>.<span class="variable">redirects</span> = {};
-    <span class="this">this</span>.<span class="variable">viewHelpers</span> = {};
-    <span class="this">this</span>.<span class="variable">dynamicViewHelpers</span> = {};
-    <span class="this">this</span>.<span class="variable">errorHandlers</span> = [];
-    <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">middleware</span> || []);
-
-    <span class="comment">// Default &quot;home&quot; to / </span>
-    <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'home'</span>, <span class="string">'/'</span>);
-
-    <span class="comment">// DEPRECATED: remove in 1.0</span>
-    <span class="keyword">if</span> (<span class="variable">process</span>.<span class="variable">env</span>.<span class="class">EXPRESS_ENV</span>) {
-      <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">NODE_ENV</span> = <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">EXPRESS_ENV</span>;
-      <span class="variable">console</span>.<span class="variable">warn</span>(<span class="string">'\x1b[33mWarning\x1b[0m: EXPRESS_ENV is deprecated, use NODE_ENV.'</span>);
-    }
-
-    <span class="comment">// Set &quot;env&quot; to NODE_ENV</span>
-    <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>, <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">NODE_ENV</span>);
-
-    <span class="comment">// Expose objects to each other</span>
-    <span class="this">this</span>.<span class="variable">use</span>(<span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-        <span class="variable">req</span>.<span class="variable">query</span> = {};
-        <span class="variable">res</span>.<span class="variable">headers</span> = {};
-        <span class="variable">req</span>.<span class="variable">app</span> = <span class="variable">res</span>.<span class="variable">app</span> = <span class="variable">self</span>;
-        <span class="variable">req</span>.<span class="variable">res</span> = <span class="variable">res</span>;
-        <span class="variable">res</span>.<span class="variable">req</span> = <span class="variable">req</span>;
-        <span class="variable">req</span>.<span class="variable">next</span> = <span class="variable">next</span>;
-        <span class="comment">// Assign req.params.get</span>
-        <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">url</span>.<span class="variable">indexOf</span>(<span class="string">'?'</span>) &<span class="variable">gt</span>; <span class="number integer">0</span>) {
-            <span class="keyword">var</span> <span class="variable">query</span> = <span class="variable">url</span>.<span class="variable">parse</span>(<span class="variable">req</span>.<span class="variable">url</span>).<span class="variable">query</span>;
-            <span class="variable">req</span>.<span class="variable">query</span> = <span class="variable">queryString</span>.<span class="variable">parse</span>(<span class="variable">query</span>);
-        }
-        <span class="variable">next</span>();
-    });
-
-    <span class="comment">// Use router, expose as app.get(), etc</span>
-    <span class="keyword">var</span> <span class="variable">fn</span> = <span class="variable">router</span>(<span class="keyword">function</span>(<span class="variable">app</span>){ <span class="variable">self</span>.<span class="variable">routes</span> = <span class="variable">app</span>; });
-    <span class="this">this</span>.<span class="variable">__defineGetter__</span>(<span class="string">'router'</span>, <span class="keyword">function</span>(){
-        <span class="this">this</span>.<span class="variable">__usedRouter</span> = <span class="variable">true</span>;
-        <span class="keyword">return</span> <span class="variable">fn</span>;
-    });
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Inherit from <code>connect.Server</code>.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="variable">sys</span>.<span class="variable">inherits</span>(<span class="class">Server</span>, <span class="variable">connect</span>.<span class="class">Server</span>);</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Proxy in order to register error handlers.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span> = <span class="keyword">function</span>(){
-    <span class="this">this</span>.<span class="variable">registerErrorHandlers</span>();
-    <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listen</span>.<span class="variable">apply</span>(<span class="this">this</span>, <span class="variable">arguments</span>);
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Proxy in order to register error handlers.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listenFD</span> = <span class="keyword">function</span>(){
-    <span class="this">this</span>.<span class="variable">registerErrorHandlers</span>();
-    <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">listenFD</span>.<span class="variable">apply</span>(<span class="this">this</span>, <span class="variable">arguments</span>);
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Register error handlers. This is automatically
-called from within <code>Server#listen()</code> and <code>Server#listenFD()</code>.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">registerErrorHandlers</span> = <span class="keyword">function</span>(){
-    <span class="this">this</span>.<span class="variable">errorHandlers</span>.<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">fn</span>){
-        <span class="this">this</span>.<span class="variable">use</span>(<span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-            <span class="variable">fn</span>.<span class="variable">apply</span>(<span class="this">this</span>, <span class="variable">arguments</span>);
-        });
-    }, <span class="this">this</span>);
-    <span class="keyword">return</span> <span class="this">this</span>;
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Proxy <code>connect.Server#use()</code> to apply settings to
-mounted applications.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String | Function | Server</em>  route</p></li><li><p><strong>param</strong>: <em>Function | Server</em>  middleware</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">use</span> = <span class="keyword">function</span>(<span class="variable">route</span>, <span class="variable">middleware</span>){
-    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">route</span> !== <span class="string">'string'</span>) {
-        <span class="variable">middleware</span> = <span class="variable">route</span>, <span class="variable">route</span> = <span class="string">'/'</span>;
-    }
-
-    <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">use</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">route</span>, <span class="variable">middleware</span>);
-
-    <span class="comment">// Mounted an app</span>
-    <span class="keyword">if</span> (<span class="variable">middleware</span> <span class="variable">instanceof</span> <span class="class">Server</span>) {
-        <span class="comment">// Home is /:route/:home</span>
-        <span class="keyword">var</span> <span class="variable">app</span> = <span class="variable">middleware</span>,
-            <span class="variable">home</span> = <span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'home'</span>);
-        <span class="keyword">if</span> (<span class="variable">home</span> === <span class="string">'/'</span>) <span class="variable">home</span> = <span class="string">''</span>;
-        <span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'home'</span>, (<span class="variable">app</span>.<span class="variable">route</span> || <span class="string">''</span>) + <span class="variable">home</span>);
-        <span class="variable">app</span>.<span class="variable">parent</span> = <span class="this">this</span>;
-        <span class="comment">// Mounted hook</span>
-        <span class="keyword">if</span> (<span class="variable">app</span>.<span class="variable">__mounted</span>) <span class="variable">app</span>.<span class="variable">__mounted</span>.<span class="variable">call</span>(<span class="variable">app</span>, <span class="this">this</span>);
-    }
-
-    <span class="keyword">return</span> <span class="this">this</span>;
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Assign a callback <code>fn</code> which is called
-when this <code>Server</code> is passed to <code>Server#use()</code>.</p>
-
-<h2>Examples</h2>
-
-<p>   var app = express.createServer(),
-       blog = express.createServer();</p>
-
-<p>   blog.mounted(function(parent){
-       // parent is app
-       // "this" is blog
-   });</p>
-
-<p>   app.use(blog);</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">mounted</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
-    <span class="this">this</span>.<span class="variable">__mounted</span> = <span class="variable">fn</span>;
-    <span class="keyword">return</span> <span class="this">this</span>;
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<h2>See view.register.</h2>
-
-<h2></h2>
-
-<ul><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">register</span> = <span class="keyword">function</span>(){
-    <span class="variable">view</span>.<span class="variable">register</span>.<span class="variable">apply</span>(<span class="this">this</span>, <span class="variable">arguments</span>);
-    <span class="keyword">return</span> <span class="this">this</span>;
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Register the given view helpers <code>obj</code>. This method
-can be called several times to apply additional helpers.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>Object</em>  obj</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">helpers</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
-    <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="this">this</span>.<span class="variable">viewHelpers</span>, <span class="variable">obj</span>);
-    <span class="keyword">return</span> <span class="this">this</span>;
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Register the given dynamic view helpers <code>obj</code>. This method
-can be called several times to apply additional helpers.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>Object</em>  obj</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">dynamicHelpers</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
-    <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="this">this</span>.<span class="variable">dynamicViewHelpers</span>, <span class="variable">obj</span>);
-    <span class="keyword">return</span> <span class="this">this</span>;
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Assign a custom exception handler callback <code>fn</code>.
-These handlers are always <em>last</em> in the middleware stack.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">error</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
-    <span class="this">this</span>.<span class="variable">errorHandlers</span>.<span class="variable">push</span>(<span class="variable">fn</span>);
-    <span class="keyword">return</span> <span class="this">this</span>;
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Assign <code>setting</code> to <code>val</code>, or return <code>setting</code>'s value.
-Mounted servers inherit their parent server's settings.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>param</strong>: <em>String</em>  val</p></li><li><p><strong>return</strong>: <em>Server | Mixed</em>  for chaining, or the setting value</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">set</span> = <span class="keyword">function</span>(<span class="variable">setting</span>, <span class="variable">val</span>){
-    <span class="keyword">if</span> (<span class="variable">val</span> === <span class="variable">undefined</span>) {
-        <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">settings</span>.<span class="variable">hasOwnProperty</span>(<span class="variable">setting</span>)) {
-            <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">settings</span>[<span class="variable">setting</span>];
-        } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">parent</span>) {
-            <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">parent</span>.<span class="variable">set</span>(<span class="variable">setting</span>);
-        }
-    } <span class="keyword">else</span> {
-        <span class="this">this</span>.<span class="variable">settings</span>[<span class="variable">setting</span>] = <span class="variable">val</span>;
-        <span class="keyword">return</span> <span class="this">this</span>;
-    }
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Enable <code>setting</code>.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">enable</span> = <span class="keyword">function</span>(<span class="variable">setting</span>){
-    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">set</span>(<span class="variable">setting</span>, <span class="variable">true</span>);
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Disable <code>setting</code>.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">disable</span> = <span class="keyword">function</span>(<span class="variable">setting</span>){
-    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">set</span>(<span class="variable">setting</span>, <span class="variable">false</span>);
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Redirect <code>key</code> to <code>url</code>.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  key</p></li><li><p><strong>param</strong>: <em>String</em>  url</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">redirect</span> = <span class="keyword">function</span>(<span class="variable">key</span>, <span class="variable">url</span>){
-    <span class="this">this</span>.<span class="variable">redirects</span>[<span class="variable">key</span>] = <span class="variable">url</span>;
-    <span class="keyword">return</span> <span class="this">this</span>;
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Configure callback for the given <code>env</code>.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  env</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">configure</span> = <span class="keyword">function</span>(<span class="variable">env</span>, <span class="variable">fn</span>){
-    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">env</span> === <span class="string">'function'</span>) {
-        <span class="variable">fn</span> = <span class="variable">env</span>, <span class="variable">env</span> = <span class="string">'all'</span>;
-    }
-    <span class="keyword">if</span> (<span class="variable">env</span> === <span class="string">'all'</span> || <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>) === <span class="variable">env</span>) {
-        <span class="variable">fn</span>.<span class="variable">call</span>(<span class="this">this</span>);
-    }
-    <span class="keyword">return</span> <span class="this">this</span>;
-};
-
-<span class="comment">// Generate routing methods</span>
-
-(<span class="keyword">function</span>(<span class="variable">method</span>){
-    <span class="class">Server</span>.<span class="variable">prototype</span>[<span class="variable">method</span>] = <span class="keyword">function</span>(<span class="variable">path</span>, <span class="variable">fn</span>){
-        <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
-
-        <span class="comment">// Ensure router is mounted</span>
-        <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">__usedRouter</span>) {
-            <span class="this">this</span>.<span class="variable">use</span>(<span class="this">this</span>.<span class="variable">router</span>);
-        }
-
-        <span class="comment">// Route specific middleware support</span>
-        <span class="keyword">if</span> (<span class="variable">arguments</span>.<span class="variable">length</span> &<span class="variable">gt</span>; <span class="number integer">2</span>) {
-            <span class="keyword">var</span> <span class="variable">args</span> = <span class="class">Array</span>.<span class="variable">prototype</span>.<span class="variable">slice</span>.<span class="variable">call</span>(<span class="variable">arguments</span>, <span class="number integer">1</span>);
-            <span class="variable">fn</span> = <span class="variable">args</span>.<span class="variable">pop</span>();
-            (<span class="keyword">function</span> <span class="variable">stack</span>(<span class="variable">middleware</span>){
-                <span class="variable">middleware</span>.<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">fn</span>){
-                    <span class="keyword">if</span> (<span class="class">Array</span>.<span class="variable">isArray</span>(<span class="variable">fn</span>)) {
-                        <span class="variable">stack</span>(<span class="variable">fn</span>);
-                    } <span class="keyword">else</span> {
-                        <span class="variable">self</span>[<span class="variable">method</span>](<span class="variable">path</span>, <span class="variable">fn</span>);
-                    }
-                });
-            })(<span class="variable">args</span>);
-        }
-
-        <span class="comment">// Generate the route</span>
-        <span class="this">this</span>.<span class="variable">routes</span>[<span class="variable">method</span>](<span class="variable">path</span>, <span class="variable">fn</span>);
-        <span class="keyword">return</span> <span class="this">this</span>;
-    };
-    <span class="keyword">return</span> <span class="variable">arguments</span>.<span class="variable">callee</span>;
-})(<span class="string">'get'</span>)(<span class="string">'post'</span>)(<span class="string">'put'</span>)(<span class="string">'del'</span>);
-</code></pre>
-</td>
 </tr><tr class="filename"><td><h2 id="lib/express/utils.js"><a href="#">utils</a></h2></td><td>lib/express/utils.js</td></tr><tr class="code">
 <td class="docs">
 <p>Parse mini markdown implementation.
@@ -1206,7 +1214,6 @@ primarily for the "flash" middleware:</p>
     <span class="variable">mime</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>).<span class="variable">mime</span>,
     <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>),
     <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>),
-    <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>),
     <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>);</code></pre>
 </td>
 </tr>
@@ -1316,7 +1323,7 @@ For example <em>video.html</em> will have a object <em>video</em> available to i
     }
 
     <span class="comment">// Allow collection to be passed as second param</span>
-    <span class="keyword">if</span> (<span class="class">Array</span>.<span class="variable">isArray</span>(<span class="variable">options</span>)) {
+    <span class="keyword">if</span> (<span class="variable">options</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">options</span>.<span class="variable">hasOwnProperty</span>(<span class="string">'length'</span>)) {
         <span class="variable">options</span> = { <span class="variable">collection</span>: <span class="variable">options</span> };
     }
 
@@ -1330,16 +1337,19 @@ For example <em>video.html</em> will have a object <em>video</em> available to i
     <span class="keyword">var</span> <span class="variable">collection</span> = <span class="variable">options</span>.<span class="variable">collection</span>;
     <span class="keyword">if</span> (<span class="variable">collection</span>) {
         <span class="keyword">var</span> <span class="variable">name</span> = <span class="variable">options</span>.<span class="variable">as</span> || <span class="variable">view</span>.<span class="variable">split</span>(<span class="string">'.'</span>)[<span class="number integer">0</span>],
-            <span class="variable">len</span> = <span class="variable">collection</span>.<span class="variable">length</span>;
+            <span class="variable">len</span> = <span class="variable">collection</span>.<span class="variable">length</span>,
+            <span class="variable">buf</span> = <span class="string">''</span>;
         <span class="keyword">delete</span> <span class="variable">options</span>.<span class="variable">collection</span>;
         <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">collectionLength</span> = <span class="variable">len</span>;
-        <span class="keyword">return</span> <span class="variable">collection</span>.<span class="variable">map</span>(<span class="keyword">function</span>(<span class="variable">val</span>, <span class="variable">i</span>){
+        <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">collection</span>.<span class="variable">length</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
+            <span class="keyword">var</span> <span class="variable">val</span> = <span class="variable">collection</span>[<span class="variable">i</span>];
             <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">firstInCollection</span> = <span class="variable">i</span> === <span class="number integer">0</span>;
             <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">indexInCollection</span> = <span class="variable">i</span>;
             <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">lastInCollection</span> = <span class="variable">i</span> === <span class="variable">len</span> - <span class="number integer">1</span>;
             <span class="variable">options</span>.<span class="variable">object</span> = <span class="variable">val</span>;
-            <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">partial</span>(<span class="variable">view</span>, <span class="variable">options</span>);
-        }, <span class="this">this</span>).<span class="variable">join</span>(<span class="string">''</span>);
+            <span class="variable">buf</span> += <span class="this">this</span>.<span class="variable">partial</span>(<span class="variable">view</span>, <span class="variable">options</span>);
+        }
+        <span class="keyword">return</span> <span class="variable">buf</span>;
     } <span class="keyword">else</span> {
         <span class="keyword">if</span> (<span class="variable">options</span>.<span class="variable">object</span>) {
             <span class="keyword">var</span> <span class="variable">name</span> = <span class="variable">options</span>.<span class="variable">as</span> || <span class="variable">view</span>.<span class="variable">split</span>(<span class="string">'.'</span>)[<span class="number integer">0</span>];
@@ -1435,17 +1445,24 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 
     <span class="comment">// Dynamic helper support</span>
     <span class="keyword">if</span> (<span class="variable">options</span>.<span class="variable">dynamicHelpers</span> !== <span class="variable">false</span>) {
-        <span class="keyword">var</span> <span class="variable">keys</span> = <span class="class">Object</span>.<span class="variable">keys</span>(<span class="variable">dynamicHelpers</span>);
-        <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">keys</span>.<span class="variable">length</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
-            <span class="keyword">var</span> <span class="variable">key</span> = <span class="variable">keys</span>[<span class="variable">i</span>],
-                <span class="variable">val</span> = <span class="variable">dynamicHelpers</span>[<span class="variable">key</span>];
-            <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">val</span> === <span class="string">'function'</span>) {
-                <span class="variable">helpers</span>[<span class="variable">key</span>] = <span class="variable">val</span>.<span class="variable">call</span>(
-                    <span class="this">this</span>.<span class="variable">app</span>, 
-                    <span class="this">this</span>.<span class="variable">req</span>, 
-                    <span class="this">this</span>);
+        <span class="comment">// cache</span>
+        <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">__dynamicHelpers</span>) {
+            <span class="this">this</span>.<span class="variable">__dynamicHelpers</span> = {};
+            <span class="keyword">var</span> <span class="variable">keys</span> = <span class="class">Object</span>.<span class="variable">keys</span>(<span class="variable">dynamicHelpers</span>);
+            <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">keys</span>.<span class="variable">length</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
+                <span class="keyword">var</span> <span class="variable">key</span> = <span class="variable">keys</span>[<span class="variable">i</span>],
+                    <span class="variable">val</span> = <span class="variable">dynamicHelpers</span>[<span class="variable">key</span>];
+                <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">val</span> === <span class="string">'function'</span>) {
+                    <span class="this">this</span>.<span class="variable">__dynamicHelpers</span>[<span class="variable">key</span>] = <span class="variable">val</span>.<span class="variable">call</span>(
+                        <span class="this">this</span>.<span class="variable">app</span>, 
+                        <span class="this">this</span>.<span class="variable">req</span>, 
+                        <span class="this">this</span>);
+                }
             }
         }
+
+        <span class="comment">// apply</span>
+        <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="variable">helpers</span>, <span class="this">this</span>.<span class="variable">__dynamicHelpers</span>);
     }
 
     <span class="comment">// Always expose partial() as a local</span>
