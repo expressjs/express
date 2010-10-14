@@ -1,4 +1,23 @@
 
+1.0.0rc4 / 2010-10-14 
+==================
+
+  * Added _NODE_ENV_ support, _EXPRESS_ENV_ is deprecated and will be removed in 1.0.0
+  * Added route-middleware support (very helpful, see the [docs](http://expressjs.com/guide.html#Route-Middleware))
+  * Added _jsonp callback_ setting to enable/disable jsonp autowrapping [Dav Glass]
+  * Added callback query check on response.send to autowrap JSON objects for simple webservice implementations [Dav Glass]
+  * Added `partial()` support for array-like collections. Closes #434
+  * Added support for swappable querystring parsers
+  * Added session usage docs. Closes #443
+  * Added dynamic helper caching. Closes #439 [suggested by maritz]
+  * Added authentication example
+  * Added basic Range support to `res.sendfile()` (and `res.download()` etc)
+  * Changed; `express(1)` generated app using 2 spaces instead of 4
+  * Default env to "development" again [aheckmann]
+  * Removed _context_ option is no more, use "scope"
+  * Fixed; exposing _./support_ libs to examples so they can run without installs
+  * Fixed mvc example
+
 1.0.0rc3 / 2010-09-20 
 ==================
 
