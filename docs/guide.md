@@ -884,7 +884,7 @@ specification, we can also wrap their api this way.
      app.register('.foo', {
          render: function(str, options) {
              // perhaps their api is
-             // foo.toHTML(str, options);
+             // return foo.toHTML(str, options);
          }
      });
 
