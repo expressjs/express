@@ -4,9 +4,8 @@
  * Module dependencies.
  */
 
-var sys = require('sys'),
-    fs = require('fs'),
-    childProcess = require('child_process');
+var fs = require('fs')
+  , exec = require('child_process').exec;
 
 /**
  * Framework version.
@@ -25,23 +24,23 @@ var stdin;
  */
 
 var usage = ''
-    + '\x1b[1mUsage\x1b[0m: express [options] [PATH]\n'
-    + '\n'
-    + '\x1b[1mOptions\x1b[0m:\n'
-    + '  -v, --version Output framework version\n'
-    + '  -h, --help    Output help information\n';
+  + '\x1b[1mUsage\x1b[0m: express [options] [PATH]\n'
+  + '\n'
+  + '\x1b[1mOptions\x1b[0m:\n'
+  + '  -v, --version Output framework version\n'
+  + '  -h, --help    Output help information\n';
 
 /**
  * Jade layout template.
  */
 
 var jadeLayout = [
-    '!!!',
-    'html',
-    '  head',
-    '    title= title',
-    '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')',
-    '  body!= body'
+    '!!!'
+  , 'html'
+  ,  '  head'
+  ,  '    title= title'
+  ,  '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
+  ,  '  body!= body'
 ].join('\n');
 
 /**
@@ -49,10 +48,10 @@ var jadeLayout = [
  */
 
 var less = [
-    'body {',
-    '  padding: 50px;',
-    '  font: 14px "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;',
-    '}'
+    'body {'
+  , '  padding: 50px;'
+  , '  font: 14px "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;'
+  , '}'
 ].join('\n');
 
 /**
@@ -60,8 +59,8 @@ var less = [
  */
 
 var jadeIndex = [
-    'h1= title',
-    'p Welcome to #{title}'
+    'h1= title'
+  , 'p Welcome to #{title}'
 ].join('\n');
 
 /**
@@ -69,25 +68,25 @@ var jadeIndex = [
  */
 
 var appTest = [
-    "",
-    "// Run $ expresso",
-    "",
-    "/**",
-    " * Module dependencies.",
-    " */",
-    "",
-    "var app = require('../app');",
-    "",
-    "module.exports = {",
-    "  'GET /': function(assert){",
-    "    assert.response(app,",
-    "      { url: '/' },",
-    "      { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' }},",
-    "      function(res){",
-    "          assert.includes(res.body, '<title>Express</title>');",
-    "      });",
-    "  }",
-    "};",
+    ""
+  , "// Run $ expresso"
+  , ""
+  , "/**"
+  , " * Module dependencies."
+  , " */"
+  , ""
+  , "var app = require('../app');"
+  , "",
+  , "module.exports = {"
+  , "  'GET /': function(assert){"
+  , "    assert.response(app,"
+  , "      { url: '/' },"
+  , "      { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' }},"
+  , "      function(res){"
+  , "          assert.includes(res.body, '<title>Express</title>');"
+  , "      });"
+  , "  }"
+  , "};"
 ].join('\n');
 
 /**
@@ -95,90 +94,91 @@ var appTest = [
  */
 
 var app = [
-    '',
-    '/**',
-    ' * Module dependencies.',
-    ' */',
-    '',
-    'var express = require(\'express\');',
-    '',
-    'var app = module.exports = express.createServer();',
-    '',
-    '// Configuration',
-    '',
-    'app.configure(function(){',
-    '  app.set(\'views\', __dirname + \'/views\');',
-    '  app.use(express.bodyDecoder());',
-    '  app.use(express.methodOverride());',
-    '  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'less\'] }));',
-    '  app.use(app.router);',
-    '  app.use(express.staticProvider(__dirname + \'/public\'));',
-    '});',
-    '',
-    'app.configure(\'development\', function(){',
-    '  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); ',
-    '});',
-    '',
-    'app.configure(\'production\', function(){',
-    '  app.use(express.errorHandler()); ',
-    '});',
-    '',
-    '// Routes',
-    '',
-    'app.get(\'/\', function(req, res){',
-    '  res.render(\'index.jade\', {',
-    '    locals: {',
-    '        title: \'Express\'',
-    '    }',
-    '  });',
-    '});',
-    '',
-    '// Only listen on $ node app.js',
-    '',
-    'if (!module.parent) {',
-    '  app.listen(3000);',
-    '  console.log("Express server listening on port %d", app.address().port)',
-    '}',
     ''
+  , '/**'
+  , ' * Module dependencies.'
+  , ' */'
+  , ''
+  , 'var express = require(\'express\');'
+  , ''
+  , 'var app = module.exports = express.createServer();'
+  , ''
+  , '// Configuration'
+  , ''
+  , 'app.configure(function(){'
+  , '  app.set(\'views\', __dirname + \'/views\');'
+  , '  app.use(express.bodyDecoder());'
+  , '  app.use(express.methodOverride());'
+  , '  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'less\'] }));'
+  , '  app.use(app.router);'
+  , '  app.use(express.staticProvider(__dirname + \'/public\'));'
+  , '});'
+  , ''
+  , 'app.configure(\'development\', function(){'
+  , '  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); '
+  , '});'
+  , ''
+  , 'app.configure(\'production\', function(){'
+  , '  app.use(express.errorHandler()); '
+  , '});'
+  , ''
+  , '// Routes'
+  , ''
+  , 'app.get(\'/\', function(req, res){'
+  , '  res.render(\'index.jade\', {'
+  , '    locals: {'
+  , '        title: \'Express\''
+  , '    }'
+  , '  });'
+  , '});'
+  , ''
+  , '// Only listen on $ node app.js'
+  , ''
+  , 'if (!module.parent) {'
+  , '  app.listen(3000);'
+  , '  console.log("Express server listening on port %d", app.address().port)'
+  , '}'
+  , ''
 ].join('\n');
 
 // Parse arguments
 
-var args = process.argv.slice(2),
-    path = '.';
+var args = process.argv.slice(2)
+  , path = '.';
+
 while (args.length) {
-    var arg = args.shift();
-    switch (arg) {
-        case '-h':
-        case '--help':
-            abort(usage);
-            break;
-        case '-v':
-        case '--version':
-            abort(version);
-            break;
-        default:
-            path = arg;
-    }
+  var arg = args.shift();
+  switch (arg) {
+    case '-h':
+    case '--help':
+      abort(usage);
+      break;
+    case '-v':
+    case '--version':
+      abort(version);
+      break;
+    default:
+        path = arg;
+  }
 }
 
 // Generate application
 
 (function createApplication(path) {
-    emptyDirectory(path, function(empty){
-        if (empty) {
-            createApplicationAt(path);
+  emptyDirectory(path, function(empty){
+    if (empty) {
+      createApplicationAt(path);
+    } else {
+      confirm('destination is not empty, continue? ', function(ok){
+        if (ok) {
+          stdin.destroy();
+          createApplicationAt(path);
         } else {
-            confirm('destination is not empty, continue? ', function(ok){
-                if (ok) {
-                    stdin.destroy();
-                    createApplicationAt(path);
-                } else {
-                    abort('aborting');
-                }
-            });
+          abort('aborting');
         }
-    });
+      });
+    }
+  });
 })(path);
 
 /**
@@ -188,23 +188,23 @@ while (args.length) {
  */
 
 function createApplicationAt(path) {
-    mkdir(path, function(){
-        mkdir(path + '/pids');
-        mkdir(path + '/logs');
-        mkdir(path + '/public/javascripts');
-        mkdir(path + '/public/images');
-        mkdir(path + '/public/stylesheets', function(){
-            write(path + '/public/stylesheets/style.less', less);
-        });
-        mkdir(path + '/views/partials', function(){
-            write(path + '/views/layout.jade', jadeLayout);
-            write(path + '/views/index.jade', jadeIndex);
-        });
-        mkdir(path + '/test', function(){
-            write(path + '/test/app.test.js', appTest);
-        });
-        write(path + '/app.js', app);
+  mkdir(path, function(){
+    mkdir(path + '/pids');
+    mkdir(path + '/logs');
+    mkdir(path + '/public/javascripts');
+    mkdir(path + '/public/images');
+    mkdir(path + '/public/stylesheets', function(){
+      write(path + '/public/stylesheets/style.less', less);
     });
+    mkdir(path + '/views/partials', function(){
+      write(path + '/views/layout.jade', jadeLayout);
+      write(path + '/views/index.jade', jadeIndex);
+    });
+    mkdir(path + '/test', function(){
+      write(path + '/test/app.test.js', appTest);
+    });
+    write(path + '/app.js', app);
+  });
 }
 
 /**
@@ -215,10 +215,10 @@ function createApplicationAt(path) {
  */
 
 function emptyDirectory(path, fn) {
-    fs.readdir(path, function(err, files){
-        if (err && err.errno !== process.ENOENT) throw err;
-        fn(!files || !files.length);
-    });
+  fs.readdir(path, function(err, files){
+    if (err && err.errno !== process.ENOENT) throw err;
+    fn(!files || !files.length);
+  });
 }
 
 /**
@@ -229,8 +229,8 @@ function emptyDirectory(path, fn) {
  */
 
 function write(path, str) {
-    fs.writeFile(path, str);
-    sys.puts('   create : ' + path);
+  fs.writeFile(path, str);
+  sys.puts('   create : ' + path);
 }
 
 /**
@@ -241,9 +241,9 @@ function write(path, str) {
  */
 
 function confirm(msg, fn) {
-    prompt(msg, function(val){
-        fn(/^ *y(es)?/i.test(val));
-    });
+  prompt(msg, function(val){
+    fn(/^ *y(es)?/i.test(val));
+  });
 }
 
 /**
@@ -254,13 +254,13 @@ function confirm(msg, fn) {
  */
 
 function prompt(msg, fn) {
-    stdin = stdin || process.openStdin();
-    sys[msg[msg.length - 1] == ' ' ? 'print' : 'puts'](msg);
-    stdin.setEncoding('ascii');
-    stdin.addListener('data', function(data){
-        fn(data);
-        stdin.removeListener('data', arguments.callee);
-    });
+  stdin = stdin || process.openStdin();
+  sys[msg[msg.length - 1] == ' ' ? 'print' : 'puts'](msg);
+  stdin.setEncoding('ascii');
+  stdin.addListener('data', function(data){
+    fn(data);
+    stdin.removeListener('data', arguments.callee);
+  });
 }
 
 /**
@@ -271,11 +271,11 @@ function prompt(msg, fn) {
  */
 
 function mkdir(path, fn) {
-    childProcess.exec('mkdir -p ' + path, function(err){
-        if (err) throw err;
-        sys.puts('   create : ' + path);
-        fn && fn();
-    });
+  exec('mkdir -p ' + path, function(err){
+    if (err) throw err;
+    sys.puts('   create : ' + path);
+    fn && fn();
+  });
 }
 
 /**
@@ -285,6 +285,6 @@ function mkdir(path, fn) {
  */
 
 function abort(str) {
-    sys.error(str);
-    process.exit(1);
+  sys.error(str);
+  process.exit(1);
 }
