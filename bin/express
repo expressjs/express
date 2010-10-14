@@ -5,6 +5,7 @@
  */
 
 var fs = require('fs')
+  , sys = require('sys')
   , exec = require('child_process').exec;
 
 /**
@@ -230,7 +231,7 @@ function emptyDirectory(path, fn) {
 
 function write(path, str) {
   fs.writeFile(path, str);
-  sys.puts('   create : ' + path);
+  console.log('   create : ' + path);
 }
 
 /**
@@ -273,7 +274,7 @@ function prompt(msg, fn) {
 function mkdir(path, fn) {
   exec('mkdir -p ' + path, function(err){
     if (err) throw err;
-    sys.puts('   create : ' + path);
+    console.log('   create : ' + path);
     fn && fn();
   });
 }
@@ -285,6 +286,6 @@ function mkdir(path, fn) {
  */
 
 function abort(str) {
-  sys.error(str);
+  console.error(str);
   process.exit(1);
 }
