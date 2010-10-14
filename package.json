@@ -1,7 +1,7 @@
 {
   "name": "express",
   "description": "Sinatra inspired web development framework",
-  "version": "1.0.0rc3",
+  "version": "1.0.0rc4",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [ 
     { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }, 
@@ -9,7 +9,7 @@
     { "name": "Ciaran Jessup", "email": "ciaranj@gmail.com" },
     { "name": "Guillermo Rauch", "email": "rauchg@gmail.com" }
   ],
-  "dependencies": { "connect": ">= 0.2.5" },
+  "dependencies": { "connect": ">= 0.2.6" },
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "directories": { "lib": "./lib/express" },
   "scripts": { "test": "make test" },
