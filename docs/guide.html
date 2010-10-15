@@ -321,6 +321,8 @@ app.configure('production', function(){
 <pre><code>$ NODE_ENV=production node app.js
 </code></pre>
 
+<p>This is <em>very</em> important, as many caching mechanisms are <em>only enabled</em> when in production.</p>
+
 <h3 id="Settings">Settings</h3>
 
 <p>Express supports the following settings out of the box:</p>
@@ -740,7 +742,7 @@ however if we wished we could use an ejs partial, within a haml view for example
 <p>And once again even further, when rendering a collection we can simply pass
 an array, if no other options are desired:</p>
 
-<pre><code>partial('comments', comments);
+<pre><code>partial('comment', comments);
 </code></pre>
 
 <p>When using the partial collection support a few "magic" variables are provided
@@ -750,8 +752,11 @@ for free:</p>
 <li><em>firstInCollection</em>  True if this is the first object</li>
 <li><em>indexInCollection</em>  Index of the object in the collection</li>
 <li><em>lastInCollection</em>  True if this is the last object</li>
+<li><em>collectionLength</em>  Length of the collection</li>
 </ul>
 
+
+<p>For documentation on altering the object name view <a href="http://expressjs.com/guide.html#res-partial-view-options-">res.partial()</a>.</p>
 
 <h3 id="Template-Engines">Template Engines</h3>
 
@@ -761,6 +766,7 @@ for free:</p>
 <li><a href="http://jade-lang.com">Jade</a> haml.js successor</li>
 <li><a href="http://github.com/visionmedia/haml.js">Haml</a> pythonic indented templates</li>
 <li><a href="http://github.com/visionmedia/ejs">EJS</a> Embedded JavaScript</li>
+<li><a href="http://github.com/mauricemach/coffeekup">CoffeeKup</a> CoffeeScript based templating</li>
 </ul>
 
 
@@ -1051,7 +1057,9 @@ For example <em>video.html</em> will have a object <em>video</em> available to i
 <p>The following are equivalent, and the name of collection value when passed
 to the partial will be <em>movie</em> as derived from the name.</p>
 
-<pre><code>partial('movie.jade', { collection: movies });
+<pre><code>partial('theatre/movie.jade', { collection: movies });
+partial('theatre/movie.jade', movies);
+partial('movie.jade', { collection: movies });
 partial('movie.jade', movies);
 partial('movie', movies);
 // In view: movie.director
