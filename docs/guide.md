@@ -74,6 +74,8 @@ To alter the environment we can set the _NODE_ENV_ environment variable, for exa
 
     $ NODE_ENV=production node app.js
 
+This is _very_ important, as many caching mechanisms are _only enabled_ when in production.
+
 ### Settings
 
 Express supports the following settings out of the box:
