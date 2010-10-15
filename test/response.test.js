@@ -169,6 +169,11 @@ module.exports = {
             res.redirect('blog');
         });
         
+        app2.get('/image/redirect', function(req, res){
+            res.contentType('.png');
+            res.redirect('/my/image');
+        });
+        
         assert.response(app,
             { url: '/' },
             { body: 'Redirecting to http://google.com', status: 301, headers: { Location: 'http://google.com' }});
@@ -200,6 +205,10 @@ module.exports = {
         assert.response(app2,
             { url: '/user/12' },
             { body: 'Redirecting to /user/12/blog', headers: { Location: '/user/12/blog', 'X-Foo': 'bar' }});
+
+        assert.response(app2,
+            { url: '/image/redirect' },
+            { body: 'Redirecting to /my/image', headers: { Location: '/my/image', 'Content-Type': 'image/png' }});
     },
     
     'test #sendfile()': function(assert){
