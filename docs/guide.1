@@ -131,6 +131,9 @@ $ NODE_ENV=production node app\.js
 .
 .IP "" 0
 .
+.P
+This is \fIvery\fR important, as many caching mechanisms are \fIonly enabled\fR when in production\.
+.
 .SS "Settings"
 Express supports the following settings out of the box:
 .
@@ -828,7 +831,7 @@ And once again even further, when rendering a collection we can simply pass an a
 .
 .nf
 
-partial(\'comments\', comments);
+partial(\'comment\', comments);
 .
 .fi
 .
@@ -846,7 +849,13 @@ When using the partial collection support a few "magic" variables are provided f
 .IP "\(bu" 4
 \fIlastInCollection\fR True if this is the last object
 .
+.IP "\(bu" 4
+\fIcollectionLength\fR Length of the collection
+.
 .IP "" 0
+.
+.P
+For documentation on altering the object name view res\.partial() \fIhttp://expressjs\.com/guide\.html#res\-partial\-view\-options\-\fR\.
 .
 .SS "Template Engines"
 Below are a few template engines commonly used with Express:
@@ -859,6 +868,9 @@ Haml \fIhttp://github\.com/visionmedia/haml\.js\fR pythonic indented templates
 .
 .IP "\(bu" 4
 EJS \fIhttp://github\.com/visionmedia/ejs\fR Embedded JavaScript
+.
+.IP "\(bu" 4
+CoffeeKup \fIhttp://github\.com/mauricemach/coffeekup\fR CoffeeScript based templating
 .
 .IP "" 0
 .
@@ -1291,6 +1303,8 @@ The following are equivalent, and the name of collection value when passed to th
 .
 .nf
 
+partial(\'theatre/movie\.jade\', { collection: movies });
+partial(\'theatre/movie\.jade\', movies);
 partial(\'movie\.jade\', { collection: movies });
 partial(\'movie\.jade\', movies);
 partial(\'movie\', movies);
