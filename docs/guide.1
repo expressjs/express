@@ -911,9 +911,9 @@ Now the \fIreq\.session\fR and \fIreq\.sessionStore\fR properties will be access
 .nf
 
 var RedisStore = require(\'connect\-redis\');
+app\.use(express\.bodyDecoder());
 app\.use(express\.cookieDecoder());
 app\.use(express\.session({ store: new RedisStore }));
-app\.use(express\.bodyDecoder());
 
 app\.post(\'/add\-to\-cart\', function(req, res){
   // Perhaps we posted several items with a form

@@ -788,9 +788,9 @@ app.use(express.session({ store: new RedisStore }));
 <p>Now the <em>req.session</em> and <em>req.sessionStore</em> properties will be accessible to all routes and subsequent middleware. Properties on <em>req.session</em> are automatically saved on a response, so for example if we wish to shopping cart data:</p>
 
 <pre><code>var RedisStore = require('connect-redis');
+app.use(express.bodyDecoder());
 app.use(express.cookieDecoder());
 app.use(express.session({ store: new RedisStore }));
-app.use(express.bodyDecoder());
 
 app.post('/add-to-cart', function(req, res){
   // Perhaps we posted several items with a form
