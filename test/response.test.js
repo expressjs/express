@@ -148,6 +148,10 @@ module.exports = {
             res.redirect('home');
         });
         
+        app.get('/html', function(req, res){
+            res.redirect('http://google.com');
+        });
+        
         app2.get('/', function(req, res){
             res.redirect('http://google.com', 301);
         });
@@ -168,37 +172,41 @@ module.exports = {
             res.header('X-Foo', 'bar');
             res.redirect('blog');
         });
-        
+
+
         assert.response(app,
-            { url: '/' },
+            { url: '/html', headers: { Accept: 'text/html,text/plain' }},
+            { body: '<p>Redirecting to <a href="http://google.com">http://google.com</a></p>' });
+        assert.response(app,
+            { url: '/', headers: { Accept: 'text/plain' }},
             { body: 'Redirecting to http://google.com', status: 301, headers: { Location: 'http://google.com' }});
         assert.response(app,
-            { url: '/back' },
+            { url: '/back', headers: { Accept: 'text/plain' }},
             { body: 'Redirecting to /', status: 302, headers: { Location: '/', 'Content-Type': 'text/plain' }});
         assert.response(app,
-            { url: '/back', headers: { Referer: '/foo' }},
+            { url: '/back', headers: { Referer: '/foo', Accept: 'text/plain' }},
             { body: 'Redirecting to /foo', status: 302, headers: { Location: '/foo' }});
         assert.response(app,
-            { url: '/back', headers: { Referrer: '/foo' }},
+            { url: '/back', headers: { Referrer: '/foo', Accept: 'text/plain' }},
             { body: 'Redirecting to /foo', status: 302, headers: { Location: '/foo' }});
         assert.response(app,
-            { url: '/home' },
+            { url: '/home', headers: { Accept: 'text/plain' } },
             { body: 'Redirecting to /', status: 302, headers: { Location: '/' }});
 
         assert.response(app2,
-            { url: '/' },
+            { url: '/', headers: { Accept: 'text/plain' }},
             { body: 'Redirecting to http://google.com', status: 301, headers: { Location: 'http://google.com' }});
         assert.response(app2,
-            { url: '/back' },
+            { url: '/back', headers: { Accept: 'text/plain' }},
             { body: 'Redirecting to /blog', status: 302, headers: { Location: '/blog' }});
         assert.response(app2,
-            { url: '/home' },
+            { url: '/home', headers: { Accept: 'text/plain' }},
             { body: 'Redirecting to /blog', status: 302, headers: { Location: '/blog' }});
         assert.response(app2,
-            { url: '/google' },
+            { url: '/google', headers: { Accept: 'text/plain' }},
             { body: 'Redirecting to http://google.com', headers: { Location: 'http://google.com' }});
         assert.response(app2,
-            { url: '/user/12' },
+            { url: '/user/12', headers: { Accept: 'text/plain' }},
             { body: 'Redirecting to /user/12/blog', headers: { Location: '/user/12/blog', 'X-Foo': 'bar' }});
     },
     
