@@ -466,6 +466,37 @@ module.exports = {
             { body: '<li>Role: admin</li><li>Role: member</li>' });
     },
     
+    'test #partial() inheriting initial locals': function(assert){
+        var app = create();
+
+        app.get('/pets', function(req, res, next){
+            res.render('pets.jade', {
+                locals: {
+                    site: 'My Cool Pets',
+                    pets: ['Tobi', 'Jane', 'Bandit']
+                }
+            });
+        });
+
+        var html = [
+            '<html>',
+            '<body>',
+            '<h1>My Cool Pets</h1>',
+            '<p>We have 3 cool pets\n</p>',
+            '<ul>',
+            '<li>Tobi is the coolest of My Cool Pets</li>',
+            '<li>Jane</li>',
+            '<li>Bandit</li>',
+            '</ul>',
+            '</body>',
+            '</html>'
+        ].join('');
+
+        assert.response(app,
+            { url: '/pets' },
+            { body: html });
+    },
+    
     'test #partial() with array-like collection': function(assert){
         var app = create();
 
