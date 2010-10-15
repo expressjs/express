@@ -352,6 +352,18 @@ module.exports = {
         assert.response(app,
             { url: '/user' },
             { body: '<p>tj</p>' });
+
+        // as: with object collection
+        app.get('/user/object', function(req, res){
+            res.send(res.partial('user.jade', {
+                as: 'person',
+                collection: { 0: { name: 'tj' }, length: 1 }
+            }));
+        });
+        
+        assert.response(app,
+            { url: '/user' },
+            { body: '<p>tj</p>' });
         
         // as: this collection option
         app.get('/person', function(req, res){
@@ -434,6 +446,24 @@ module.exports = {
         assert.response(app,
             { url: '/nothing' },
             { body: 'Hello' });
+
+        // Path segments + "as"
+        app.get('/role/as', function(req, res){
+            res.send(res.partial('user/role.ejs', { as: 'role', collection: ['admin', 'member'] }));
+        });
+
+        assert.response(app,
+            { url: '/role/as' },
+            { body: '<li>Role: admin</li><li>Role: member</li>' });
+
+        // Deduce name from last segment
+        app.get('/role', function(req, res){
+            res.send(res.partial('user/role.ejs', ['admin', 'member']));
+        });
+
+        assert.response(app,
+            { url: '/role' },
+            { body: '<li>Role: admin</li><li>Role: member</li>' });
     },
     
     'test #partial() with array-like collection': function(assert){

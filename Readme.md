@@ -79,7 +79,7 @@ The latest release of Express is compatible with node --version:
 
 and connect --version:
 
-    0.2.5
+    0.2.6
 
 ## License 
 

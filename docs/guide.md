@@ -452,7 +452,7 @@ however if we wished we could use an ejs partial, within a haml view for example
 And once again even further, when rendering a collection we can simply pass
 an array, if no other options are desired:
 
-    partial('comments', comments);
+    partial('comment', comments);
 
 When using the partial collection support a few "magic" variables are provided
 for free:
@@ -460,6 +460,9 @@ for free:
   * _firstInCollection_  True if this is the first object
   * _indexInCollection_  Index of the object in the collection
   * _lastInCollection_  True if this is the last object
+  * _collectionLength_  Length of the collection
+
+For documentation on altering the object name view [res.partial()](http://expressjs.com/guide.html#res-partial-view-options-).
 
 ### Template Engines
 
@@ -468,6 +471,7 @@ Below are a few template engines commonly used with Express:
   * [Jade](http://jade-lang.com) haml.js successor
   * [Haml](http://github.com/visionmedia/haml.js) pythonic indented templates
   * [EJS](http://github.com/visionmedia/ejs) Embedded JavaScript
+  * [CoffeeKup](http://github.com/mauricemach/coffeekup) CoffeeScript based templating
 
 ### Session Support
 
@@ -724,6 +728,8 @@ to the view as a local variable.
 The following are equivalent, and the name of collection value when passed
 to the partial will be _movie_ as derived from the name.
 
+    partial('theatre/movie.jade', { collection: movies });
+    partial('theatre/movie.jade', movies);
     partial('movie.jade', { collection: movies });
     partial('movie.jade', movies);
     partial('movie', movies);
@@ -884,7 +890,7 @@ specification, we can also wrap their api this way.
      app.register('.foo', {
          render: function(str, options) {
              // perhaps their api is
-             // foo.toHTML(str, options);
+             // return foo.toHTML(str, options);
          }
      });
 

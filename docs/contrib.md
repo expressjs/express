@@ -30,7 +30,7 @@ To accept a contribution, you should follow these guidelines:
   * Your alterations or additions _must_ include tests
   * Your commit(s) should be _focused_, do not commit once for several changes
   * Do _not_ alter release information such as the _version_, or _History.md_
-  * Indents are _4_ spaces.
+  * Indents are _2_ spaces.
 
 ### Documentation
 
