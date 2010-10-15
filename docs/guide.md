@@ -491,9 +491,9 @@ By default the _session_ middleware uses the memory store bundled with Connect, 
 Now the _req.session_ and _req.sessionStore_ properties will be accessible to all routes and subsequent middleware. Properties on _req.session_ are automatically saved on a response, so for example if we wish to shopping cart data:
 
     var RedisStore = require('connect-redis');
+    app.use(express.bodyDecoder());
     app.use(express.cookieDecoder());
     app.use(express.session({ store: new RedisStore }));
-    app.use(express.bodyDecoder());
 
     app.post('/add-to-cart', function(req, res){
       // Perhaps we posted several items with a form
