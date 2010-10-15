@@ -84,7 +84,7 @@ var appTest = [
   , "      { url: '/' },"
   , "      { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' }},"
   , "      function(res){"
-  , "          assert.includes(res.body, '<title>Express</title>');"
+  , "        assert.includes(res.body, '<title>Express</title>');"
   , "      });"
   , "  }"
   , "};"
@@ -108,6 +108,7 @@ var app = [
   , ''
   , 'app.configure(function(){'
   , '  app.set(\'views\', __dirname + \'/views\');'
+  , '  app.set(\'view engine\', \'jade\');'
   , '  app.use(express.bodyDecoder());'
   , '  app.use(express.methodOverride());'
   , '  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'less\'] }));'
@@ -126,9 +127,9 @@ var app = [
   , '// Routes'
   , ''
   , 'app.get(\'/\', function(req, res){'
-  , '  res.render(\'index.jade\', {'
+  , '  res.render(\'index\', {'
   , '    locals: {'
-  , '        title: \'Express\''
+  , '      title: \'Express\''
   , '    }'
   , '  });'
   , '});'
