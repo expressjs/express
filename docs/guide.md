@@ -515,6 +515,10 @@ Now the _req.session_ and _req.sessionStore_ properties will be accessible to al
 
 The _req.session_ object also has methods such as _Session#touch()_, _Session#destroy()_, _Session#regenerate()_ among others to maintain and manipulate sessions. For more information view the [Connect Session](http://senchalabs.github.com/connect/session.html) documentation.
 
+### Migration Guide
+
+ Pre-beta Express developers may reference the [Migration Guide](migrate.html) to get up to speed on how to upgrade your application.
+
 ### req.header(key[, defaultValue])
 
 Get the case-insensitive request header _key_, with optional _defaultValue_:
