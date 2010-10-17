@@ -80,6 +80,10 @@
 
 			.sect {
 			  margin-left: 40px; }
+			img {
+			  margin-left: 20px;
+			  margin-bottom: 15px;
+			}
 
 			#logo {
 			  display: block;
@@ -189,6 +193,7 @@
 <li><a href="#View-Partials">View Partials</a></li>
 <li><a href="#Template-Engines">Template Engines</a></li>
 <li><a href="#Session-Support">Session Support</a></li>
+<li><a href="#Migration-Guide">Migration Guide</a></li>
 <li><a href="#" class="toggle">+</a> <a class="section-title" href="#">Request</a><ul class="section" id="section-Request">
 <li><a href="#req-header-key-defaultValue-">header()</a></li>
 <li><a href="#req-accepts-type-">accepts()</a></li>
@@ -232,7 +237,7 @@
 					<li><a href="index.html">Home</a></li>
 					<li><a href="guide.html">Guide</a></li>
 					<li><a href="contrib.html">Contributing</a></li>
-					<li><a href="migrate.html">1.x Migration</a></li>
+					<li><a href="applications.html">Applications</a></li>
 				</ul>
 <div class='mp'>
 <h2 id="Express">Express</h2>
@@ -812,6 +817,10 @@ app.get('/add-to-cart', function(req, res){
 </code></pre>
 
 <p>The <em>req.session</em> object also has methods such as <em>Session#touch()</em>, <em>Session#destroy()</em>, <em>Session#regenerate()</em> among others to maintain and manipulate sessions. For more information view the <a href="http://senchalabs.github.com/connect/session.html">Connect Session</a> documentation.</p>
+
+<h3 id="Migration-Guide">Migration Guide</h3>
+
+<p> Pre-beta Express developers may reference the <a href="migrate.html">Migration Guide</a> to get up to speed on how to upgrade your application.</p>
 
 <h3 id="req-header-key-defaultValue-">req.header(key[, defaultValue])</h3>
 

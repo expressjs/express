@@ -6,7 +6,8 @@ DOCS = docs/index.md \
 	   docs/executable.md \
 	   docs/contrib.md \
 	   docs/guide.md \
-	   docs/migrate.md
+	   docs/migrate.md \
+	   docs/applications.md
 
 MANPAGES =$(DOCS:.md=.1)
 HTMLDOCS =$(DOCS:.md=.html)
