@@ -23,7 +23,7 @@
 
 [Node Knockout](http://nodeknockout.com) organized the first ever node-specific competition with hundreds of contestants.
 
-[![Node Knockout Competition Express](images/apps/nodeko.png)]
+[![Node Knockout Competition Express](images/apps/nodeko.png)](http://nodeknockout.com)
 
 [Widescript](http://widescript.com) is an innovative app that helps you focus and interact with your texts - on your desktop, your couch or on the go.
 
