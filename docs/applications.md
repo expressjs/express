@@ -31,6 +31,12 @@
 
 [e-resistable](http://www.e-resistible.co.uk/) is an online order takeaway system providing an intuitive way to fill your belly from your computer!
 
+[![Online Takeaway](images/apps/e-resistable.png)](http://www.e-resistible.co.uk)
+
+[Top Twitter Trends](http://toptwittertrends.com) utilizes MongoDB, Socket.IO, jQuery and many other exciting libraries to bring you trending tweets in realtime.
+
+[![Twitter Trends](images/apps/toptwittertrends.png)](http://toptwittertrends.com)
+
 <br />
 
 The applications shown above are not listed in any specific order. To have an application added or removed please contact [TJ Holowaychuk](http://github.com/visionmedia).
