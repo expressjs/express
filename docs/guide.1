@@ -911,9 +911,9 @@ Now the \fIreq\.session\fR and \fIreq\.sessionStore\fR properties will be access
 .nf
 
 var RedisStore = require(\'connect\-redis\');
+app\.use(express\.bodyDecoder());
 app\.use(express\.cookieDecoder());
 app\.use(express\.session({ store: new RedisStore }));
-app\.use(express\.bodyDecoder());
 
 app\.post(\'/add\-to\-cart\', function(req, res){
   // Perhaps we posted several items with a form
@@ -939,6 +939,9 @@ app\.get(\'/add\-to\-cart\', function(req, res){
 .
 .P
 The \fIreq\.session\fR object also has methods such as \fISession#touch()\fR, \fISession#destroy()\fR, \fISession#regenerate()\fR among others to maintain and manipulate sessions\. For more information view the Connect Session \fIhttp://senchalabs\.github\.com/connect/session\.html\fR documentation\.
+.
+.SS "Migration Guide"
+Pre\-beta Express developers may reference the Migration Guide \fImigrate\.html\fR to get up to speed on how to upgrade your application\.
 .
 .SS "req\.header(key[, defaultValue])"
 Get the case\-insensitive request header \fIkey\fR, with optional \fIdefaultValue\fR:
@@ -979,6 +982,68 @@ req\.accepts(\'application/json\');
 req\.accepts(\'image/png\');
 req\.accepts(\'png\');
 // => false
+.
+.fi
+.
+.IP "" 0
+.
+.SS "req\.is(type)"
+Check if the incoming request contains the \fIContent\-Type\fR header field, and it contains the give mime \fItype\fR\.
+.
+.IP "" 4
+.
+.nf
+
+   // With Content\-Type: text/html; charset=utf\-8
+   req\.is(\'html\');
+   // => true
+
+   req\.is(\'text/html\');
+   // => true
+
+   // When Content\-Type is application/json
+   req\.is(\'json\');
+   // => true
+
+   req\.is(\'application/json\');
+   // => true
+
+   req\.is(\'html\');
+   // => false
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Ad\-hoc callbacks can also be registered with Express, to perform assertions again the request, for example if we need an expressive way to check if our incoming request is an image, we can register \fI"an image"\fR callback:
+.
+.IP "" 4
+.
+.nf
+
+    app\.is(\'an image\', function(req){
+      return 0 == req\.headers[\'content\-type\']\.indexOf(\'image\');
+    });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Now within our route callbacks, we can use to to assert content types such as \fI"image/jpeg"\fR, \fI"image/png"\fR, etc\.
+.
+.IP "" 4
+.
+.nf
+
+   app\.post(\'/image/upload\', function(req, res, next){
+     if (req\.is(\'an image\')) {
+       // do something
+     } else {
+       next();
+     }
+   });
 .
 .fi
 .

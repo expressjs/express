@@ -491,9 +491,9 @@ By default the _session_ middleware uses the memory store bundled with Connect, 
 Now the _req.session_ and _req.sessionStore_ properties will be accessible to all routes and subsequent middleware. Properties on _req.session_ are automatically saved on a response, so for example if we wish to shopping cart data:
 
     var RedisStore = require('connect-redis');
+    app.use(express.bodyDecoder());
     app.use(express.cookieDecoder());
     app.use(express.session({ store: new RedisStore }));
-    app.use(express.bodyDecoder());
 
     app.post('/add-to-cart', function(req, res){
       // Perhaps we posted several items with a form
@@ -514,6 +514,10 @@ Now the _req.session_ and _req.sessionStore_ properties will be accessible to al
     });
 
 The _req.session_ object also has methods such as _Session#touch()_, _Session#destroy()_, _Session#regenerate()_ among others to maintain and manipulate sessions. For more information view the [Connect Session](http://senchalabs.github.com/connect/session.html) documentation.
+
+### Migration Guide
+
+ Pre-beta Express developers may reference the [Migration Guide](migrate.html) to get up to speed on how to upgrade your application.
 
 ### req.header(key[, defaultValue])
 
@@ -546,6 +550,48 @@ to "text/html" using the mime lookup table.
     req.accepts('image/png');
     req.accepts('png');
     // => false
+
+### req.is(type)
+
+Check if the incoming request contains the _Content-Type_
+header field, and it contains the give mime _type_.
+ 
+       // With Content-Type: text/html; charset=utf-8
+       req.is('html');
+       // => true
+       
+       req.is('text/html');
+       // => true
+       
+       // When Content-Type is application/json
+       req.is('json');
+       // => true
+       
+       req.is('application/json');
+       // => true
+       
+       req.is('html');
+       // => false
+  
+Ad-hoc callbacks can also be registered with Express, to perform
+assertions again the request, for example if we need an expressive
+way to check if our incoming request is an image, we can register _"an image"_
+callback:
+  
+        app.is('an image', function(req){
+          return 0 == req.headers['content-type'].indexOf('image');
+        });
+  
+Now within our route callbacks, we can use to to assert content types
+such as _"image/jpeg"_, _"image/png"_, etc.
+  
+       app.post('/image/upload', function(req, res, next){
+         if (req.is('an image')) {
+           // do something
+         } else {
+           next();
+         }
+       });
 
 ### req.param(name)
 

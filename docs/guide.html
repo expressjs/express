@@ -80,6 +80,10 @@
 
 			.sect {
 			  margin-left: 40px; }
+			img {
+			  margin-left: 20px;
+			  margin-bottom: 15px;
+			}
 
 			#logo {
 			  display: block;
@@ -189,9 +193,11 @@
 <li><a href="#View-Partials">View Partials</a></li>
 <li><a href="#Template-Engines">Template Engines</a></li>
 <li><a href="#Session-Support">Session Support</a></li>
+<li><a href="#Migration-Guide">Migration Guide</a></li>
 <li><a href="#" class="toggle">+</a> <a class="section-title" href="#">Request</a><ul class="section" id="section-Request">
 <li><a href="#req-header-key-defaultValue-">header()</a></li>
 <li><a href="#req-accepts-type-">accepts()</a></li>
+<li><a href="#req-is-type-">is()</a></li>
 <li><a href="#req-param-name-">param()</a></li>
 <li><a href="#req-flash-type-msg-">flash()</a></li>
 <li><a href="#req-isXMLHttpRequest">isXMLHttpRequest</a></li>
@@ -232,7 +238,7 @@
 					<li><a href="index.html">Home</a></li>
 					<li><a href="guide.html">Guide</a></li>
 					<li><a href="contrib.html">Contributing</a></li>
-					<li><a href="migrate.html">1.x Migration</a></li>
+					<li><a href="applications.html">Applications</a></li>
 				</ul>
 <div class='mp'>
 <h2 id="Express">Express</h2>
@@ -788,9 +794,9 @@ app.use(express.session({ store: new RedisStore }));
 <p>Now the <em>req.session</em> and <em>req.sessionStore</em> properties will be accessible to all routes and subsequent middleware. Properties on <em>req.session</em> are automatically saved on a response, so for example if we wish to shopping cart data:</p>
 
 <pre><code>var RedisStore = require('connect-redis');
+app.use(express.bodyDecoder());
 app.use(express.cookieDecoder());
 app.use(express.session({ store: new RedisStore }));
-app.use(express.bodyDecoder());
 
 app.post('/add-to-cart', function(req, res){
   // Perhaps we posted several items with a form
@@ -812,6 +818,10 @@ app.get('/add-to-cart', function(req, res){
 </code></pre>
 
 <p>The <em>req.session</em> object also has methods such as <em>Session#touch()</em>, <em>Session#destroy()</em>, <em>Session#regenerate()</em> among others to maintain and manipulate sessions. For more information view the <a href="http://senchalabs.github.com/connect/session.html">Connect Session</a> documentation.</p>
+
+<h3 id="Migration-Guide">Migration Guide</h3>
+
+<p> Pre-beta Express developers may reference the <a href="migrate.html">Migration Guide</a> to get up to speed on how to upgrade your application.</p>
 
 <h3 id="req-header-key-defaultValue-">req.header(key[, defaultValue])</h3>
 
@@ -845,6 +855,51 @@ req.accepts('application/json');
 req.accepts('image/png');
 req.accepts('png');
 // =&gt; false
+</code></pre>
+
+<h3 id="req-is-type-">req.is(type)</h3>
+
+<p>Check if the incoming request contains the <em>Content-Type</em>
+header field, and it contains the give mime <em>type</em>.</p>
+
+<pre><code>   // With Content-Type: text/html; charset=utf-8
+   req.is('html');
+   // =&gt; true
+
+   req.is('text/html');
+   // =&gt; true
+
+   // When Content-Type is application/json
+   req.is('json');
+   // =&gt; true
+
+   req.is('application/json');
+   // =&gt; true
+
+   req.is('html');
+   // =&gt; false
+</code></pre>
+
+<p>Ad-hoc callbacks can also be registered with Express, to perform
+assertions again the request, for example if we need an expressive
+way to check if our incoming request is an image, we can register <em>"an image"</em>
+callback:</p>
+
+<pre><code>    app.is('an image', function(req){
+      return 0 == req.headers['content-type'].indexOf('image');
+    });
+</code></pre>
+
+<p>Now within our route callbacks, we can use to to assert content types
+such as <em>"image/jpeg"</em>, <em>"image/png"</em>, etc.</p>
+
+<pre><code>   app.post('/image/upload', function(req, res, next){
+     if (req.is('an image')) {
+       // do something
+     } else {
+       next();
+     }
+   });
 </code></pre>
 
 <h3 id="req-param-name-">req.param(name)</h3>
