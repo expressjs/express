@@ -153,5 +153,58 @@ module.exports = {
         assert.response(app,
             { url: '/' },
             { body: 'ok' });
+    },
+    
+    'test #is()': function(assert){
+        var app = express.createServer();
+        
+        app.get('/', function(req, res, next){
+            if (req.is('html')) return res.send('html');
+            res.send('not sure');
+        });
+        
+        app.post('/', function(req, res, next){
+            if (req.is('html')) return res.send('/ html');
+            if (req.is('json')) return res.send('/ json');
+            if (req.is('png')) return res.send('/ png');
+            res.send('/ not sure');
+        });
+        
+        app.post('/long', function(req, res, next){
+          if (req.is('text/html')) return res.send('/long html');
+          if (req.is('application/json')) return res.send('/long json');
+          if (req.is('image/png')) return res.send('/long png');
+          res.send('/long not sure');
+        });
+
+        assert.response(app,
+          { url: '/' },
+          { body: 'not sure' });
+
+        assert.response(app,
+          { url: '/', method: 'POST', headers: { 'Content-Type': 'text/html' }},
+          { body: '/ html' });
+        assert.response(app,
+          { url: '/', method: 'POST', headers: { 'Content-Type': 'application/json; charset=utf-8' }},
+          { body: '/ json' });
+        assert.response(app,
+          { url: '/', method: 'POST', headers: { 'Content-Type': 'image/png' }},
+          { body: '/ png' });
+        assert.response(app,
+          { url: '/', method: 'POST' },
+          { body: '/ not sure' });
+
+        assert.response(app,
+          { url: '/long', method: 'POST', headers: { 'Content-Type': 'text/html' }},
+          { body: '/long html' });
+        assert.response(app,
+          { url: '/long', method: 'POST', headers: { 'Content-Type': 'application/json; charset=utf-8' }},
+          { body: '/long json' });
+        assert.response(app,
+          { url: '/long', method: 'POST', headers: { 'Content-Type': 'image/png' }},
+          { body: '/long png' });
+        assert.response(app,
+          { url: '/long', method: 'POST' },
+          { body: '/long not sure' });
     }
 };
