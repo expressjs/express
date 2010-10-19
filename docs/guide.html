@@ -864,15 +864,11 @@ header field, and it contains the give mime <em>type</em>.</p>
 
 <pre><code>   // With Content-Type: text/html; charset=utf-8
    req.is('html');
-   // =&gt; true
-
    req.is('text/html');
    // =&gt; true
 
    // When Content-Type is application/json
    req.is('json');
-   // =&gt; true
-
    req.is('application/json');
    // =&gt; true
 
@@ -900,6 +896,19 @@ such as <em>"image/jpeg"</em>, <em>"image/png"</em>, etc.</p>
        next();
      }
    });
+</code></pre>
+
+<p>Keep in mind this method is <em>not</em> limited to checking <em>Content-Type</em>, you
+can perform any request assertion you wish.</p>
+
+<p>Wildcard matches can also be made, simplifying our example above for <em>"an image"</em>, by asserting the <em>subtype</em> only:</p>
+
+<pre><code>req.is('image/*');
+</code></pre>
+
+<p>We may also assert the <em>type</em> as shown below, which would return true for <em>"application/json"</em>, and <em>"text/json"</em>.</p>
+
+<pre><code>req.is('*/json');
 </code></pre>
 
 <h3 id="req-param-name-">req.param(name)</h3>

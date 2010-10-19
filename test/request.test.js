@@ -232,5 +232,31 @@ module.exports = {
         assert.response(app,
           { url: '/custom', method: 'PUT', headers: { 'Content-Type': 'image/png' }},
           { body: '/custom an image' });
+    },
+    
+    'test #is() wildcard': function(assert){
+      var app = express.createServer();
+
+      app.post('/', function(req, res, next){
+        if (req.is('image/*')) return res.send('image');
+        if (req.is('*/json')) return res.send('json');
+        res.send('not sure');
+      });
+
+      assert.response(app,
+        { url: '/', method: 'POST', headers: { 'Content-Type': 'image/png' }},
+        { body: 'image' });
+      assert.response(app,
+        { url: '/', method: 'POST', headers: { 'Content-Type': 'image/jpeg' }},
+        { body: 'image' });
+      assert.response(app,
+        { url: '/', method: 'POST', headers: { 'Content-Type': 'text/plain' }},
+        { body: 'not sure' });
+      assert.response(app,
+        { url: '/', method: 'POST', headers: { 'Content-Type': 'text/json' }},
+        { body: 'json' });
+      assert.response(app,
+        { url: '/', method: 'POST', headers: { 'Content-Type': 'application/json' }},
+        { body: 'json' });
     }
 };

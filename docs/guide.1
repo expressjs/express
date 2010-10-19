@@ -996,15 +996,11 @@ Check if the incoming request contains the \fIContent\-Type\fR header field, and
 
    // With Content\-Type: text/html; charset=utf\-8
    req\.is(\'html\');
-   // => true
-
    req\.is(\'text/html\');
    // => true
 
    // When Content\-Type is application/json
    req\.is(\'json\');
-   // => true
-
    req\.is(\'application/json\');
    // => true
 
@@ -1044,6 +1040,35 @@ Now within our route callbacks, we can use to to assert content types such as \f
        next();
      }
    });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Keep in mind this method is \fInot\fR limited to checking \fIContent\-Type\fR, you can perform any request assertion you wish\.
+.
+.P
+Wildcard matches can also be made, simplifying our example above for \fI"an image"\fR, by asserting the \fIsubtype\fR only:
+.
+.IP "" 4
+.
+.nf
+
+req\.is(\'image/*\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+We may also assert the \fItype\fR as shown below, which would return true for \fI"application/json"\fR, and \fI"text/json"\fR\.
+.
+.IP "" 4
+.
+.nf
+
+req\.is(\'*/json\');
 .
 .fi
 .

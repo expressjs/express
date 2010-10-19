@@ -558,15 +558,11 @@ header field, and it contains the give mime _type_.
  
        // With Content-Type: text/html; charset=utf-8
        req.is('html');
-       // => true
-       
        req.is('text/html');
        // => true
        
        // When Content-Type is application/json
        req.is('json');
-       // => true
-       
        req.is('application/json');
        // => true
        
@@ -592,6 +588,17 @@ such as _"image/jpeg"_, _"image/png"_, etc.
            next();
          }
        });
+
+Keep in mind this method is _not_ limited to checking _Content-Type_, you
+can perform any request assertion you wish.
+
+Wildcard matches can also be made, simplifying our example above for _"an image"_, by asserting the _subtype_ only:
+
+    req.is('image/*');
+
+We may also assert the _type_ as shown below, which would return true for _"application/json"_, and _"text/json"_.
+
+    req.is('*/json');
 
 ### req.param(name)
 
