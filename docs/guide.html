@@ -902,6 +902,19 @@ such as <em>"image/jpeg"</em>, <em>"image/png"</em>, etc.</p>
    });
 </code></pre>
 
+<p>Keep in mind this method is <em>not</em> limited to checking <em>Content-Type</em>, you
+can perform any request assertion you wish.</p>
+
+<p>Wildcard matches can also be made, simplifying our example above for <em>"an image"</em>, by asserting the <em>subtype</em> only:</p>
+
+<pre><code>req.is('image/*');
+</code></pre>
+
+<p>We may also assert the <em>type</em> as shown below, which would return true for <em>"application/json"</em>, and <em>"text/json"</em>.</p>
+
+<pre><code>req.is('*/json');
+</code></pre>
+
 <h3 id="req-param-name-">req.param(name)</h3>
 
 <p>Return the value of param <em>name</em> when present.</p>

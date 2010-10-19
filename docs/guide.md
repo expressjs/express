@@ -596,6 +596,14 @@ such as _"image/jpeg"_, _"image/png"_, etc.
 Keep in mind this method is _not_ limited to checking _Content-Type_, you
 can perform any request assertion you wish.
 
+Wildcard matches can also be made, simplifying our example above for _"an image"_, by asserting the _subtype_ only:
+
+    req.is('image/*');
+
+We may also assert the _type_ as shown below, which would return true for _"application/json"_, and _"text/json"_.
+
+    req.is('*/json');
+
 ### req.param(name)
 
 Return the value of param _name_ when present.

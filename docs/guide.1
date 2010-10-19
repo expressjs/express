@@ -1049,6 +1049,35 @@ Now within our route callbacks, we can use to to assert content types such as \f
 .
 .IP "" 0
 .
+.P
+Keep in mind this method is \fInot\fR limited to checking \fIContent\-Type\fR, you can perform any request assertion you wish\.
+.
+.P
+Wildcard matches can also be made, simplifying our example above for \fI"an image"\fR, by asserting the \fIsubtype\fR only:
+.
+.IP "" 4
+.
+.nf
+
+req\.is(\'image/*\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+We may also assert the \fItype\fR as shown below, which would return true for \fI"application/json"\fR, and \fI"text/json"\fR\.
+.
+.IP "" 4
+.
+.nf
+
+req\.is(\'*/json\');
+.
+.fi
+.
+.IP "" 0
+.
 .SS "req\.param(name)"
 Return the value of param \fIname\fR when present\.
 .
