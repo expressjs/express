@@ -593,6 +593,9 @@ such as _"image/jpeg"_, _"image/png"_, etc.
          }
        });
 
+Keep in mind this method is _not_ limited to checking _Content-Type_, you
+can perform any request assertion you wish.
+
 ### req.param(name)
 
 Return the value of param _name_ when present.
