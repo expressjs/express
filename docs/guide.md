@@ -551,6 +551,48 @@ to "text/html" using the mime lookup table.
     req.accepts('png');
     // => false
 
+### req.is(type)
+
+Check if the incoming request contains the _Content-Type_
+header field, and it contains the give mime _type_.
+ 
+       // With Content-Type: text/html; charset=utf-8
+       req.is('html');
+       // => true
+       
+       req.is('text/html');
+       // => true
+       
+       // When Content-Type is application/json
+       req.is('json');
+       // => true
+       
+       req.is('application/json');
+       // => true
+       
+       req.is('html');
+       // => false
+  
+Ad-hoc callbacks can also be registered with Express, to perform
+assertions again the request, for example if we need an expressive
+way to check if our incoming request is an image, we can register _"an image"_
+callback:
+  
+        app.is('an image', function(req){
+          return 0 == req.headers['content-type'].indexOf('image');
+        });
+  
+Now within our route callbacks, we can use to to assert content types
+such as _"image/jpeg"_, _"image/png"_, etc.
+  
+       app.post('/image/upload', function(req, res, next){
+         if (req.is('an image')) {
+           // do something
+         } else {
+           next();
+         }
+       });
+
 ### req.param(name)
 
 Return the value of param _name_ when present.
