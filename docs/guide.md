@@ -558,15 +558,11 @@ header field, and it contains the give mime _type_.
  
        // With Content-Type: text/html; charset=utf-8
        req.is('html');
-       // => true
-       
        req.is('text/html');
        // => true
        
        // When Content-Type is application/json
        req.is('json');
-       // => true
-       
        req.is('application/json');
        // => true
        
