@@ -864,15 +864,11 @@ header field, and it contains the give mime <em>type</em>.</p>
 
 <pre><code>   // With Content-Type: text/html; charset=utf-8
    req.is('html');
-   // =&gt; true
-
    req.is('text/html');
    // =&gt; true
 
    // When Content-Type is application/json
    req.is('json');
-   // =&gt; true
-
    req.is('application/json');
    // =&gt; true
 

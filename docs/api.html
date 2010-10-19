@@ -108,63 +108,7 @@ code .this { color: #19469D; }</style>
 		</script>
 	</head>
 	<body>
-<table id="source"><tbody><tr><td><h1>Express</h1><p>High performance web framework for <a href="http://nodejs.org">node</a>.</p></td><td></td></tr><tr class="filename"><td><h2 id="lib/express/index.js"><a href="#">index</a></h2></td><td>lib/express/index.js</td></tr><tr class="code">
-<td class="docs">
-<p>Re-export connect auto-loaders.</p>
-
-<p>This prevents the need to <code>require('connect')</code> in order
-to access core middleware, so for example <code>express.logger()</code> instead
-of <code>require('connect').logger()</code>.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="variable">require</span>(<span class="string">'connect'</span>).<span class="variable">middleware</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Framework version.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">version</span> = <span class="string">'1.0.0rc4'</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Module dependencies.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">exports</span>.<span class="class">Server</span> = <span class="variable">require</span>(<span class="string">'./server'</span>);</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Shortcut for <code>new Server(...)</code>.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>Function</em>  ...</p></li><li><p><strong>return</strong>: <em>Server</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">createServer</span> = <span class="keyword">function</span>(){
-  <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">Server</span>(<span class="class">Array</span>.<span class="variable">prototype</span>.<span class="variable">slice</span>.<span class="variable">call</span>(<span class="variable">arguments</span>));
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>View extensions.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="variable">require</span>(<span class="string">'./view'</span>);
-<span class="variable">require</span>(<span class="string">'./response'</span>);
-<span class="variable">require</span>(<span class="string">'./request'</span>);
-</code></pre>
-</td>
-</tr><tr class="filename"><td><h2 id="lib/express/request.js"><a href="#">request</a></h2></td><td>lib/express/request.js</td></tr><tr class="code">
+<table id="source"><tbody><tr><td><h1>Express</h1><p>High performance web framework for <a href="http://nodejs.org">node</a>.</p></td><td></td></tr><tr class="filename"><td><h2 id="lib/express/request.js"><a href="#">request</a></h2></td><td>lib/express/request.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.
  </p>
@@ -371,38 +315,38 @@ header field, and it contains the give mime <code>type</code>.</p>
 
 <h2>Examples</h2>
 
-<p>   // With Content-Type: text/html; charset=utf-8
-   req.is('html');
-   req.is('text/html');
-   // =&gt; true</p>
+<pre><code> // With Content-Type: text/html; charset=utf-8
+ req.is('html');
+ req.is('text/html');
+ // =&gt; true
 
-<p>   // When Content-Type is application/json
-   req.is('json');
-   req.is('application/json');
-   // =&gt; true</p>
+ // When Content-Type is application/json
+ req.is('json');
+ req.is('application/json');
+ // =&gt; true
 
-<p>   req.is('html');
-   // =&gt; false</p>
+ req.is('html');
+ // =&gt; false</code></pre>
 
 <p>Ad-hoc callbacks can also be registered with Express, to perform
 assertions again the request, for example if we need an expressive
 way to check if our incoming request is an image, we can register "an image"
 callback:</p>
 
-<pre><code>app.is('an image', function(req){
-  return 0 == req.headers['content-type'].indexOf('image');
-});</code></pre>
+<pre><code>  app.is('an image', function(req){
+    return 0 == req.headers['content-type'].indexOf('image');
+  });</code></pre>
 
 <p> Now within our route callbacks, we can use to to assert content types
  such as "image/jpeg", "image/png", etc.</p>
 
-<p>   app.post('/image/upload', function(req, res, next){
-     if (req.is('an image')) {
-       // do something
-     } else {
-       next();
-     }
-   });</p>
+<pre><code> app.post('/image/upload', function(req, res, next){
+   if (req.is('an image')) {
+     // do something
+   } else {
+     next();
+   }
+ });</code></pre>
 
 <h2></h2>
 
@@ -444,6 +388,62 @@ callback:</p>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'isXMLHttpRequest'</span>, <span class="variable">isxhr</span>);
 <span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'xhr'</span>, <span class="variable">isxhr</span>);
+</code></pre>
+</td>
+</tr><tr class="filename"><td><h2 id="lib/express/index.js"><a href="#">index</a></h2></td><td>lib/express/index.js</td></tr><tr class="code">
+<td class="docs">
+<p>Re-export connect auto-loaders.</p>
+
+<p>This prevents the need to <code>require('connect')</code> in order
+to access core middleware, so for example <code>express.logger()</code> instead
+of <code>require('connect').logger()</code>.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="variable">require</span>(<span class="string">'connect'</span>).<span class="variable">middleware</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Framework version.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">version</span> = <span class="string">'1.0.0rc4'</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Module dependencies.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">exports</span>.<span class="class">Server</span> = <span class="variable">require</span>(<span class="string">'./server'</span>);</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Shortcut for <code>new Server(...)</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Function</em>  ...</p></li><li><p><strong>return</strong>: <em>Server</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">createServer</span> = <span class="keyword">function</span>(){
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">Server</span>(<span class="class">Array</span>.<span class="variable">prototype</span>.<span class="variable">slice</span>.<span class="variable">call</span>(<span class="variable">arguments</span>));
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>View extensions.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="variable">require</span>(<span class="string">'./view'</span>);
+<span class="variable">require</span>(<span class="string">'./response'</span>);
+<span class="variable">require</span>(<span class="string">'./request'</span>);
 </code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="lib/express/response.js"><a href="#">response</a></h2></td><td>lib/express/response.js</td></tr><tr class="code">
@@ -825,81 +825,6 @@ to '/'.</p>
 
   <span class="comment">// Respond</span>
   <span class="this">this</span>.<span class="variable">send</span>(<span class="variable">body</span>, { <span class="class">Location</span>: <span class="variable">url</span> }, <span class="variable">status</span>);
-};
-</code></pre>
-</td>
-</tr><tr class="filename"><td><h2 id="lib/express/utils.js"><a href="#">utils</a></h2></td><td>lib/express/utils.js</td></tr><tr class="code">
-<td class="docs">
-<p>Parse mini markdown implementation.
-The following conversions are supported,
-primarily for the "flash" middleware:</p>
-
-<p>   <em>foo</em> or <em>foo</em> become &lt;em&gt;foo&lt;/em&gt;
-   <strong>foo</strong> or <strong>foo</strong> become &lt;strong&gt;foo&lt;/strong&gt;
-   <a href="B">A</a> becomes &lt;a href="B"&gt;A&lt;/a&gt;</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  str</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">miniMarkdown</span> = <span class="keyword">function</span>(<span class="variable">str</span>){
-  <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">str</span>)
-    .<span class="variable">replace</span>(<span class="regexp">/(__|\*\*)(.*?)\1/g</span>, <span class="string">'&lt;strong&gt;$2&lt;/strong&gt;'</span>)
-    .<span class="variable">replace</span>(<span class="regexp">/(_|\*)(.*?)\1/g</span>, <span class="string">'&lt;em&gt;$2&lt;/em&gt;'</span>)
-    .<span class="variable">replace</span>(<span class="regexp">/\[([^\]]+)\]\(([^)]+)\)/g</span>, <span class="string">'&lt;a href=&quot;$2&quot;&gt;$1&lt;/a&gt;'</span>);
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Escape special characters in the given string of html.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  html</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">htmlEscape</span> = <span class="keyword">function</span>(<span class="variable">html</span>) {
-  <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">html</span>)
-    .<span class="variable">replace</span>(<span class="regexp">/&amp;/g</span>, <span class="string">'&amp;'</span>)
-    .<span class="variable">replace</span>(<span class="regexp">/&quot;/g</span>, <span class="string">'&quot;'</span>)
-    .<span class="variable">replace</span>(<span class="regexp">/&lt;/g</span>, <span class="string">'&lt;'</span>)
-    .<span class="variable">replace</span>(<span class="regexp">/&gt;/g</span>, <span class="string">'&gt;'</span>);
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Parse "Range" header <code>str</code> relative to the given file <code>size</code>.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>Number</em>  size</p></li><li><p><strong>param</strong>: <em>String</em>  str</p></li><li><p><strong>return</strong>: <em>Array</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">parseRange</span> = <span class="keyword">function</span>(<span class="variable">size</span>, <span class="variable">str</span>){
-  <span class="keyword">var</span> <span class="variable">valid</span> = <span class="variable">true</span>;
-  <span class="keyword">var</span> <span class="variable">arr</span> = <span class="variable">str</span>.<span class="variable">substr</span>(<span class="number integer">6</span>).<span class="variable">split</span>(<span class="string">','</span>).<span class="variable">map</span>(<span class="keyword">function</span>(<span class="variable">range</span>){
-    <span class="keyword">var</span> <span class="variable">range</span> = <span class="variable">range</span>.<span class="variable">split</span>(<span class="string">'-'</span>)
-      , <span class="variable">start</span> = <span class="variable">parseInt</span>(<span class="variable">range</span>[<span class="number integer">0</span>], <span class="number integer">10</span>)
-      , <span class="variable">end</span> = <span class="variable">parseInt</span>(<span class="variable">range</span>[<span class="number integer">1</span>], <span class="number integer">10</span>);
-
-    <span class="comment">// -500</span>
-    <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">start</span>)) {
-      <span class="variable">start</span> = <span class="variable">size</span> - <span class="variable">end</span>;
-      <span class="variable">end</span> = <span class="variable">size</span> - <span class="number integer">1</span>;
-    <span class="comment">// 500-</span>
-    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">end</span>)) {
-      <span class="variable">end</span> = <span class="variable">size</span> - <span class="number integer">1</span>;
-    }
-
-    <span class="comment">// Invalid</span>
-    <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">start</span>) || <span class="variable">isNaN</span>(<span class="variable">end</span>) || <span class="variable">start</span> &<span class="variable">gt</span>; <span class="variable">end</span>) <span class="variable">valid</span> = <span class="variable">false</span>;
-
-    <span class="keyword">return</span> { <span class="variable">start</span>: <span class="variable">start</span>, <span class="variable">end</span>: <span class="variable">end</span> };
-  });
-  <span class="keyword">return</span> <span class="variable">valid</span> ? <span class="variable">arr</span> : <span class="variable">undefined</span>;
 };
 </code></pre>
 </td>
@@ -1301,6 +1226,81 @@ Mounted servers inherit their parent server's settings.</p>
 <span class="comment">// Alias delete as &quot;del&quot;</span>
 
 <span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">del</span> = <span class="class">Server</span>.<span class="variable">prototype</span>.<span class="keyword">delete</span>;
+</code></pre>
+</td>
+</tr><tr class="filename"><td><h2 id="lib/express/utils.js"><a href="#">utils</a></h2></td><td>lib/express/utils.js</td></tr><tr class="code">
+<td class="docs">
+<p>Parse mini markdown implementation.
+The following conversions are supported,
+primarily for the "flash" middleware:</p>
+
+<p>   <em>foo</em> or <em>foo</em> become &lt;em&gt;foo&lt;/em&gt;
+   <strong>foo</strong> or <strong>foo</strong> become &lt;strong&gt;foo&lt;/strong&gt;
+   <a href="B">A</a> becomes &lt;a href="B"&gt;A&lt;/a&gt;</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  str</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">miniMarkdown</span> = <span class="keyword">function</span>(<span class="variable">str</span>){
+  <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">str</span>)
+    .<span class="variable">replace</span>(<span class="regexp">/(__|\*\*)(.*?)\1/g</span>, <span class="string">'&lt;strong&gt;$2&lt;/strong&gt;'</span>)
+    .<span class="variable">replace</span>(<span class="regexp">/(_|\*)(.*?)\1/g</span>, <span class="string">'&lt;em&gt;$2&lt;/em&gt;'</span>)
+    .<span class="variable">replace</span>(<span class="regexp">/\[([^\]]+)\]\(([^)]+)\)/g</span>, <span class="string">'&lt;a href=&quot;$2&quot;&gt;$1&lt;/a&gt;'</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Escape special characters in the given string of html.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  html</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">htmlEscape</span> = <span class="keyword">function</span>(<span class="variable">html</span>) {
+  <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">html</span>)
+    .<span class="variable">replace</span>(<span class="regexp">/&amp;/g</span>, <span class="string">'&amp;'</span>)
+    .<span class="variable">replace</span>(<span class="regexp">/&quot;/g</span>, <span class="string">'&quot;'</span>)
+    .<span class="variable">replace</span>(<span class="regexp">/&lt;/g</span>, <span class="string">'&lt;'</span>)
+    .<span class="variable">replace</span>(<span class="regexp">/&gt;/g</span>, <span class="string">'&gt;'</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Parse "Range" header <code>str</code> relative to the given file <code>size</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Number</em>  size</p></li><li><p><strong>param</strong>: <em>String</em>  str</p></li><li><p><strong>return</strong>: <em>Array</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">parseRange</span> = <span class="keyword">function</span>(<span class="variable">size</span>, <span class="variable">str</span>){
+  <span class="keyword">var</span> <span class="variable">valid</span> = <span class="variable">true</span>;
+  <span class="keyword">var</span> <span class="variable">arr</span> = <span class="variable">str</span>.<span class="variable">substr</span>(<span class="number integer">6</span>).<span class="variable">split</span>(<span class="string">','</span>).<span class="variable">map</span>(<span class="keyword">function</span>(<span class="variable">range</span>){
+    <span class="keyword">var</span> <span class="variable">range</span> = <span class="variable">range</span>.<span class="variable">split</span>(<span class="string">'-'</span>)
+      , <span class="variable">start</span> = <span class="variable">parseInt</span>(<span class="variable">range</span>[<span class="number integer">0</span>], <span class="number integer">10</span>)
+      , <span class="variable">end</span> = <span class="variable">parseInt</span>(<span class="variable">range</span>[<span class="number integer">1</span>], <span class="number integer">10</span>);
+
+    <span class="comment">// -500</span>
+    <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">start</span>)) {
+      <span class="variable">start</span> = <span class="variable">size</span> - <span class="variable">end</span>;
+      <span class="variable">end</span> = <span class="variable">size</span> - <span class="number integer">1</span>;
+    <span class="comment">// 500-</span>
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">end</span>)) {
+      <span class="variable">end</span> = <span class="variable">size</span> - <span class="number integer">1</span>;
+    }
+
+    <span class="comment">// Invalid</span>
+    <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">start</span>) || <span class="variable">isNaN</span>(<span class="variable">end</span>) || <span class="variable">start</span> &<span class="variable">gt</span>; <span class="variable">end</span>) <span class="variable">valid</span> = <span class="variable">false</span>;
+
+    <span class="keyword">return</span> { <span class="variable">start</span>: <span class="variable">start</span>, <span class="variable">end</span>: <span class="variable">end</span> };
+  });
+  <span class="keyword">return</span> <span class="variable">valid</span> ? <span class="variable">arr</span> : <span class="variable">undefined</span>;
+};
 </code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="lib/express/view.js"><a href="#">view</a></h2></td><td>lib/express/view.js</td></tr><tr class="code">
