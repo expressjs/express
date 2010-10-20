@@ -33,6 +33,12 @@ var sessions = false;
 var cssEngine;
 
 /**
+ * Template engine to utilize.
+ */
+
+var templateEngine = 'jade';
+
+/**
  * Usage documentation.
  */
 
@@ -40,10 +46,11 @@ var usage = ''
   + '\x1b[1mUsage\x1b[0m: express [options] [PATH]\n'
   + '\n'
   + '\x1b[1mOptions\x1b[0m:\n'
-  + '  -s, --sessions      Add session support\n'
-  + '  -c, --css ENGINE    Add stylesheet ENGINE support (less|sass). Defaults to plain css\n'
-  + '  -v, --version       Output framework version\n'
-  + '  -h, --help          Output help information\n'
+  + '  -s, --sessions         Add session support\n'
+  + '  -t, --template ENGINE  Add template ENGINE support (jade|ejs). Defaults to jade\n'
+  + '  -c, --css ENGINE       Add stylesheet ENGINE support (less|sass). Defaults to plain css\n'
+  + '  -v, --version          Output framework version\n'
+  + '  -h, --help             Output help information\n'
   ;
 
 /**
@@ -92,7 +99,7 @@ var ejsLayout = [
 var ejsIndex = [
     '<h1><%= title %></h1>'
   , '<p>Welcome to <%= title %></p>'
-].join('\n');
+  ].join('\n');
 
 /**
  * Default css template.
@@ -230,6 +237,12 @@ while (args.length) {
       args.length
         ? (cssEngine = args.shift())
         : abort('--css requires an argument');
+      break;
+    case '-t':
+    case '--template':
+      args.length
+        ? (templateEngine = args.shift())
+        : abort('--template requires an argument');
       break;
     default:
         path = arg;
