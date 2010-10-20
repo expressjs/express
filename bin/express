@@ -53,10 +53,45 @@ var usage = ''
 var jadeLayout = [
     '!!!'
   , 'html'
-  ,  '  head'
-  ,  '    title= title'
-  ,  '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
-  ,  '  body!= body'
+  , '  head'
+  , '    title= title'
+  , '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
+  , '  body!= body'
+].join('\n');
+
+/**
+ * Jade index template.
+ */
+
+var jadeIndex = [
+    'h1= title'
+  , 'p Welcome to #{title}'
+].join('\n');
+
+/**
+ * EJS layout template.
+ */
+
+var ejsLayout = [
+    '<!DOCTYPE html>'
+  , '<html>'
+  , '  <head>'
+  , '    <title><%= title %></title>'
+  , '    <link rel=\'stylesheet\' href=\'/stylesheets/style.css\' />'
+  , '  </head>'
+  , '  <body>'
+  , '    <%- body %>'
+  , '  </body>'
+  , '</html>'
+].join('\n');
+
+/**
+ * EJS index template.
+ */
+
+var ejsIndex = [
+    '<h1><%= title %></h1>'
+  , '<p>Welcome to <%= title %></p>'
 ].join('\n');
 
 /**
@@ -89,15 +124,6 @@ var sass = [
     'body'
   , '  :padding 50px'
   , '  :font 14px "Lucida Grande", Helvetica, Arial, sans-serif'
-].join('\n');
-
-/**
- * Jade index template.
- */
-
-var jadeIndex = [
-    'h1= title'
-  , 'p Welcome to #{title}'
 ].join('\n');
 
 /**
