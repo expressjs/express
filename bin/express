@@ -177,7 +177,7 @@ var app = [
   , ''
   , 'app.configure(function(){'
   , '  app.set(\'views\', __dirname + \'/views\');'
-  , '  app.set(\'view engine\', \'jade\');'
+  , '  app.set(\'view engine\', \':TEMPLATE\');'
   , '  app.use(express.bodyDecoder());'
   , '  app.use(express.methodOverride());:SESS:CSS'
   , '  app.use(app.router);'
@@ -293,8 +293,16 @@ function createApplicationAt(path) {
       }
     });
     mkdir(path + '/views/partials', function(){
-      write(path + '/views/layout.jade', jadeLayout);
-      write(path + '/views/index.jade', jadeIndex);
+      switch (templateEngine) {
+        case 'ejs':
+          write(path + '/views/layout.ejs', ejsLayout);
+          write(path + '/views/index.ejs', ejsIndex);
+          break;
+        case 'jade':
+          write(path + '/views/layout.jade', jadeLayout);
+          write(path + '/views/index.jade', jadeIndex);
+          break;
+      }
     });
     mkdir(path + '/test', function(){
       write(path + '/test/app.test.js', appTest);
@@ -315,6 +323,9 @@ function createApplicationAt(path) {
       ? '\n  app.use(express.cookieDecoder());\n  app.use(express.session());'
       : '');
 
+    // Template support
+    app = app.replace(':TEMPLATE', templateEngine);
+
     write(path + '/app.js', app);
 
     // Suggestions
@@ -325,8 +336,8 @@ function createApplicationAt(path) {
           , cssEngine);
       }
       console.log('   - make sure you have installed %s: \x1b[33m$ npm install %s\x1b[0m'
-        , 'jade'
-        , 'jade');
+        , templateEngine
+        , templateEngine);
     });
   });
 }
