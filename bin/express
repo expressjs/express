@@ -30,7 +30,7 @@ var sessions = false;
  * CSS engine to utilize.
  */
 
-var cssEngine = 'none';
+var cssEngine;
 
 /**
  * Usage documentation.
@@ -277,6 +277,18 @@ function createApplicationAt(path) {
       : '');
 
     write(path + '/app.js', app);
+
+    // Suggestions
+    process.on('exit', function(){
+      if (cssEngine) {
+        console.log('   - make sure you have installed %s: \x1b[33m$ npm install %s\x1b[0m'
+          , cssEngine
+          , cssEngine);
+      }
+      console.log('   - make sure you have installed %s: \x1b[33m$ npm install %s\x1b[0m'
+        , 'jade'
+        , 'jade');
+    });
   });
 }
 
@@ -303,7 +315,7 @@ function emptyDirectory(path, fn) {
 
 function write(path, str) {
   fs.writeFile(path, str);
-  console.log('   create : ' + path);
+  console.log('   \x1b[33mcreate\x1b[0m : ' + path);
 }
 
 /**
@@ -346,7 +358,7 @@ function prompt(msg, fn) {
 function mkdir(path, fn) {
   exec('mkdir -p ' + path, function(err){
     if (err) throw err;
-    console.log('   create : ' + path);
+    console.log('   \x1b[33mcreate\x1b[0m : ' + path);
     fn && fn();
   });
 }
