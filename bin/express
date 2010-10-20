@@ -21,6 +21,12 @@ var version = '1.0.0rc4';
 var stdin;
 
 /**
+ * CSS engine to utilize.
+ */
+
+var cssEngine = 'none';
+
+/**
  * Usage documentation.
  */
 
@@ -28,8 +34,9 @@ var usage = ''
   + '\x1b[1mUsage\x1b[0m: express [options] [PATH]\n'
   + '\n'
   + '\x1b[1mOptions\x1b[0m:\n'
-  + '  -v, --version Output framework version\n'
-  + '  -h, --help    Output help information\n';
+  + '  -c, --css ENGINE  Utilize stylesheet ENGINE (less|sass). Defaults to plain css\n'
+  + '  -v, --version     Output framework version\n'
+  + '  -h, --help        Output help information\n';
 
 /**
  * Jade layout template.
@@ -45,14 +52,35 @@ var jadeLayout = [
 ].join('\n');
 
 /**
+ * Default css template.
+ */
+
+var css = [
+    'body {'
+  , '  padding: 50px;'
+  , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
+  , '}'
+].join('\n');
+
+/**
  * Default less template.
  */
 
 var less = [
     'body {'
   , '  padding: 50px;'
-  , '  font: 14px "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;'
+  , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
   , '}'
+].join('\n');
+
+/**
+ * Default sass template.
+ */
+
+var sass = [
+    'body'
+  , '  :padding 50px'
+  , '  :font 14px "Lucida Grande", Helvetica, Arial, sans-serif'
 ].join('\n');
 
 /**
@@ -110,8 +138,7 @@ var app = [
   , '  app.set(\'views\', __dirname + \'/views\');'
   , '  app.set(\'view engine\', \'jade\');'
   , '  app.use(express.bodyDecoder());'
-  , '  app.use(express.methodOverride());'
-  , '  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'less\'] }));'
+  , '  app.use(express.methodOverride());__CSS__'
   , '  app.use(app.router);'
   , '  app.use(express.staticProvider(__dirname + \'/public\'));'
   , '});'
@@ -159,6 +186,12 @@ while (args.length) {
     case '--version':
       abort(version);
       break;
+    case '-c':
+    case '--css':
+      args.length
+        ? (cssEngine = args.shift())
+        : abort('--css requires an argument');
+      break;
     default:
         path = arg;
   }
@@ -196,7 +229,16 @@ function createApplicationAt(path) {
     mkdir(path + '/public/javascripts');
     mkdir(path + '/public/images');
     mkdir(path + '/public/stylesheets', function(){
-      write(path + '/public/stylesheets/style.less', less);
+      switch (cssEngine) {
+        case 'less':
+          write(path + '/public/stylesheets/style.less', less);
+          break;
+        case 'sass':
+          write(path + '/public/stylesheets/style.sass', sass);
+          break;
+        default:
+          write(path + '/public/stylesheets/style.css', css);
+      }
     });
     mkdir(path + '/views/partials', function(){
       write(path + '/views/layout.jade', jadeLayout);
@@ -205,6 +247,14 @@ function createApplicationAt(path) {
     mkdir(path + '/test', function(){
       write(path + '/test/app.test.js', appTest);
     });
+    switch (cssEngine) {
+      case 'sass':
+      case 'less':
+        app = app.replace('__CSS__', '\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
+        break;
+      default:
+        app = app.replace('__CSS__', '');
+    }
     write(path + '/app.js', app);
   });
 }
