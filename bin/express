@@ -33,6 +33,12 @@ var sessions = false;
 var cssEngine;
 
 /**
+ * Template engine to utilize.
+ */
+
+var templateEngine = 'jade';
+
+/**
  * Usage documentation.
  */
 
@@ -40,10 +46,11 @@ var usage = ''
   + '\x1b[1mUsage\x1b[0m: express [options] [PATH]\n'
   + '\n'
   + '\x1b[1mOptions\x1b[0m:\n'
-  + '  -s, --sessions      Add session support\n'
-  + '  -c, --css ENGINE    Add stylesheet ENGINE support (less|sass). Defaults to plain css\n'
-  + '  -v, --version       Output framework version\n'
-  + '  -h, --help          Output help information\n'
+  + '  -s, --sessions         Add session support\n'
+  + '  -t, --template ENGINE  Add template ENGINE support (jade|ejs). Defaults to jade\n'
+  + '  -c, --css ENGINE       Add stylesheet ENGINE support (less|sass). Defaults to plain css\n'
+  + '  -v, --version          Output framework version\n'
+  + '  -h, --help             Output help information\n'
   ;
 
 /**
@@ -53,11 +60,46 @@ var usage = ''
 var jadeLayout = [
     '!!!'
   , 'html'
-  ,  '  head'
-  ,  '    title= title'
-  ,  '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
-  ,  '  body!= body'
+  , '  head'
+  , '    title= title'
+  , '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
+  , '  body!= body'
 ].join('\n');
+
+/**
+ * Jade index template.
+ */
+
+var jadeIndex = [
+    'h1= title'
+  , 'p Welcome to #{title}'
+].join('\n');
+
+/**
+ * EJS layout template.
+ */
+
+var ejsLayout = [
+    '<!DOCTYPE html>'
+  , '<html>'
+  , '  <head>'
+  , '    <title><%= title %></title>'
+  , '    <link rel=\'stylesheet\' href=\'/stylesheets/style.css\' />'
+  , '  </head>'
+  , '  <body>'
+  , '    <%- body %>'
+  , '  </body>'
+  , '</html>'
+].join('\n');
+
+/**
+ * EJS index template.
+ */
+
+var ejsIndex = [
+    '<h1><%= title %></h1>'
+  , '<p>Welcome to <%= title %></p>'
+  ].join('\n');
 
 /**
  * Default css template.
@@ -89,15 +131,6 @@ var sass = [
     'body'
   , '  :padding 50px'
   , '  :font 14px "Lucida Grande", Helvetica, Arial, sans-serif'
-].join('\n');
-
-/**
- * Jade index template.
- */
-
-var jadeIndex = [
-    'h1= title'
-  , 'p Welcome to #{title}'
 ].join('\n');
 
 /**
@@ -144,7 +177,7 @@ var app = [
   , ''
   , 'app.configure(function(){'
   , '  app.set(\'views\', __dirname + \'/views\');'
-  , '  app.set(\'view engine\', \'jade\');'
+  , '  app.set(\'view engine\', \':TEMPLATE\');'
   , '  app.use(express.bodyDecoder());'
   , '  app.use(express.methodOverride());:SESS:CSS'
   , '  app.use(app.router);'
@@ -205,6 +238,12 @@ while (args.length) {
         ? (cssEngine = args.shift())
         : abort('--css requires an argument');
       break;
+    case '-t':
+    case '--template':
+      args.length
+        ? (templateEngine = args.shift())
+        : abort('--template requires an argument');
+      break;
     default:
         path = arg;
   }
@@ -254,8 +293,16 @@ function createApplicationAt(path) {
       }
     });
     mkdir(path + '/views/partials', function(){
-      write(path + '/views/layout.jade', jadeLayout);
-      write(path + '/views/index.jade', jadeIndex);
+      switch (templateEngine) {
+        case 'ejs':
+          write(path + '/views/layout.ejs', ejsLayout);
+          write(path + '/views/index.ejs', ejsIndex);
+          break;
+        case 'jade':
+          write(path + '/views/layout.jade', jadeLayout);
+          write(path + '/views/index.jade', jadeIndex);
+          break;
+      }
     });
     mkdir(path + '/test', function(){
       write(path + '/test/app.test.js', appTest);
@@ -276,6 +323,9 @@ function createApplicationAt(path) {
       ? '\n  app.use(express.cookieDecoder());\n  app.use(express.session());'
       : '');
 
+    // Template support
+    app = app.replace(':TEMPLATE', templateEngine);
+
     write(path + '/app.js', app);
 
     // Suggestions
@@ -286,8 +336,8 @@ function createApplicationAt(path) {
           , cssEngine);
       }
       console.log('   - make sure you have installed %s: \x1b[33m$ npm install %s\x1b[0m'
-        , 'jade'
-        , 'jade');
+        , templateEngine
+        , templateEngine);
     });
   });
 }
