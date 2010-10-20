@@ -11,7 +11,8 @@ application structure, this executable creates a maintainable base app.
 
 ## Options
 
-    -c, --css ENGINE      Utilize css ENGINE (less|sass). Defaults to plain css
+    -s, --sessions        Add session support
+    -c, --css ENGINE      Add css ENGINE support (less|sass). Defaults to plain css
     -v, --version         Output framework version
     -h, --help            Display help information
 

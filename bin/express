@@ -21,10 +21,16 @@ var version = '1.0.0rc4';
 var stdin;
 
 /**
+ * Add session support.
+ */
+
+var sessions = false;
+
+/**
  * CSS engine to utilize.
  */
 
-var cssEngine = 'none';
+var cssEngine;
 
 /**
  * Usage documentation.
@@ -34,9 +40,11 @@ var usage = ''
   + '\x1b[1mUsage\x1b[0m: express [options] [PATH]\n'
   + '\n'
   + '\x1b[1mOptions\x1b[0m:\n'
-  + '  -c, --css ENGINE  Utilize stylesheet ENGINE (less|sass). Defaults to plain css\n'
-  + '  -v, --version     Output framework version\n'
-  + '  -h, --help        Output help information\n';
+  + '  -s, --sessions      Add session support\n'
+  + '  -c, --css ENGINE    Add stylesheet ENGINE support (less|sass). Defaults to plain css\n'
+  + '  -v, --version       Output framework version\n'
+  + '  -h, --help          Output help information\n'
+  ;
 
 /**
  * Jade layout template.
@@ -138,7 +146,7 @@ var app = [
   , '  app.set(\'views\', __dirname + \'/views\');'
   , '  app.set(\'view engine\', \'jade\');'
   , '  app.use(express.bodyDecoder());'
-  , '  app.use(express.methodOverride());__CSS__'
+  , '  app.use(express.methodOverride());:SESS:CSS'
   , '  app.use(app.router);'
   , '  app.use(express.staticProvider(__dirname + \'/public\'));'
   , '});'
@@ -185,6 +193,11 @@ while (args.length) {
     case '-v':
     case '--version':
       abort(version);
+      break;
+    case '-s':
+    case '--session':
+    case '--sessions':
+      sessions = true;
       break;
     case '-c':
     case '--css':
@@ -247,15 +260,35 @@ function createApplicationAt(path) {
     mkdir(path + '/test', function(){
       write(path + '/test/app.test.js', appTest);
     });
+
+    // CSS Engine support
     switch (cssEngine) {
       case 'sass':
       case 'less':
-        app = app.replace('__CSS__', '\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
+        app = app.replace(':CSS', '\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
         break;
       default:
-        app = app.replace('__CSS__', '');
+        app = app.replace(':CSS', '');
     }
+
+    // Session support
+    app = app.replace(':SESS', sessions
+      ? '\n  app.use(express.cookieDecoder());\n  app.use(express.session());'
+      : '');
+
     write(path + '/app.js', app);
+
+    // Suggestions
+    process.on('exit', function(){
+      if (cssEngine) {
+        console.log('   - make sure you have installed %s: \x1b[33m$ npm install %s\x1b[0m'
+          , cssEngine
+          , cssEngine);
+      }
+      console.log('   - make sure you have installed %s: \x1b[33m$ npm install %s\x1b[0m'
+        , 'jade'
+        , 'jade');
+    });
   });
 }
 
@@ -282,7 +315,7 @@ function emptyDirectory(path, fn) {
 
 function write(path, str) {
   fs.writeFile(path, str);
-  console.log('   create : ' + path);
+  console.log('   \x1b[33mcreate\x1b[0m : ' + path);
 }
 
 /**
@@ -325,7 +358,7 @@ function prompt(msg, fn) {
 function mkdir(path, fn) {
   exec('mkdir -p ' + path, function(err){
     if (err) throw err;
-    console.log('   create : ' + path);
+    console.log('   \x1b[33mcreate\x1b[0m : ' + path);
     fn && fn();
   });
 }
