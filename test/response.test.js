@@ -57,11 +57,11 @@ module.exports = {
 
         assert.response(app,
             { url: '/jsonp?callback=test' },
-            { body: 'test({"foo":"bar"});', status: 201, headers: { 'Content-Type': 'application/json', 'X-Foo': 'baz' }});
+            { body: 'test({"foo":"bar"});', status: 201, headers: { 'Content-Type': 'text/javascript', 'X-Foo': 'baz' }});
 
         assert.response(app,
             { url: '/jsonp?callback=baz' },
-            { body: 'baz({"foo":"bar"});', status: 201, headers: { 'Content-Type': 'application/json', 'X-Foo': 'baz' }});
+            { body: 'baz({"foo":"bar"});', status: 201, headers: { 'Content-Type': 'text/javascript', 'X-Foo': 'baz' }});
 
         assert.response(app,
             { url: '/json?callback=test' },
