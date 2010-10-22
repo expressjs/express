@@ -492,14 +492,14 @@ module.exports = {
         app.get('/', function(req, res, next){
             res.render('pet-land.jade', {
                 locals: {
-                    pets: ['Tobi', 'Jane']
+                    pets: ['Ewald']
                 }
             });
         });
 
         assert.response(app,
             { url: '/' },
-            { body: '<li>Tobi is the coolest of Animal land</li><li>Jane</li>' });
+            { body: '<html><body><div><li>Ewald is the coolest of Animal land</li></div></body></html>' });
     },
     
     'test #partial() inheriting initial locals': function(assert){
