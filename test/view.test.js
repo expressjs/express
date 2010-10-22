@@ -466,6 +466,26 @@ module.exports = {
             { body: '<li>Role: admin</li><li>Role: member</li>' });
     },
     
+    'test #partial() locals': function(assert){
+        var app = create();
+
+        app.get('/', function(req, res, next){
+            res.send(res.render('pet-count.jade', {
+              partial: true,
+              layout: false,
+              locals: {
+                pets: {
+                  count: 5
+                }
+              }
+            }));
+        });
+
+        assert.response(app,
+            { url: '/' },
+            { body: 'We have 5 cool pets' });
+    },
+    
     'test #partial() inheriting initial locals': function(assert){
         var app = create();
 
