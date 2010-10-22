@@ -9,6 +9,11 @@
 
 [![Storify](images/apps/storify.png)](http://storify.com)
 
+
+[Pakistan Survey](http://pakistansurvey.org/) by [Development Seed](http://developmentseed.org), provides in-depth agency-specific analysis from regional experts with data from 1,000 interviews across 120 villages in all seven tribal agencies and mapping of 142 reported drone strikes in FATA through July 2010.
+
+[![Pakistan Survey](images/apps/developmentseed.png)](http://pakistansurvey.org)
+
 [Markup.IO](http://markup.io) allows you to draw directly on _any_ website, then share with others to share your thoughts.
 
 [![Markup.IO](images/apps/markupio.png)](http://markup.io)
