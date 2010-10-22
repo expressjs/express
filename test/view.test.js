@@ -470,12 +470,12 @@ module.exports = {
         var app = create();
 
         app.get('/', function(req, res, next){
-            res.send(res.render('pet-count.jade', {
+            res.send(res.partial('pet-count.jade', {
               partial: true,
               layout: false,
               locals: {
                 pets: {
-                  count: 5
+                  length: 5
                 }
               }
             }));
@@ -483,7 +483,7 @@ module.exports = {
 
         assert.response(app,
             { url: '/' },
-            { body: 'We have 5 cool pets' });
+            { body: 'We have 5 cool pets\n' });
     },
     
     'test #partial() inheriting initial locals': function(assert){
