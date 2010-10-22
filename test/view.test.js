@@ -490,14 +490,11 @@ module.exports = {
         var app = create();
 
         app.get('/', function(req, res, next){
-            res.send(res.partial('pet.jade', {
-              partial: true,
-              layout: false,
-              collection: ['Tobi', 'Jane'],
-              locals: {
-                site: 'Animal land'
-              }
-            }));
+            res.render('pet-land.jade', {
+                locals: {
+                    pets: ['Tobi', 'Jane']
+                }
+            });
         });
 
         assert.response(app,
