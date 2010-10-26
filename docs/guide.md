@@ -836,6 +836,11 @@ get the value of _name_ when _val_ is not present:
     app.set('views');
     // => ...path...
 
+Alternatively you may simply access the settings via _app.settings_:
+
+    app.settings.views
+    // => ...path...
+
 ### app.enable(name)
 
 Enable the given setting _name_:
