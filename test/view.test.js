@@ -471,8 +471,6 @@ module.exports = {
 
         app.get('/', function(req, res, next){
             res.send(res.partial('pet-count.jade', {
-              partial: true,
-              layout: false,
               locals: {
                 pets: {
                   length: 5
@@ -484,6 +482,38 @@ module.exports = {
         assert.response(app,
             { url: '/' },
             { body: 'We have 5 cool pets\n' });
+    },
+    
+    'test #partial() locals precedence': function(assert){
+        var app = create();
+
+        app.get('/', function(req, res, next){
+            res.render('greetings.jade', {
+              locals: {
+                  name: 'TJ'
+                , otherName: 'Overridden'
+              }
+            });
+        });
+
+        assert.response(app,
+            { url: '/' },
+            { body: '<html><body><h1>TJ</h1><p>Welcome Overridden</p></body></html>' });
+    },
+    
+    'test #partial() object': function(assert){
+        var app = create();
+
+        app.get('/', function(req, res, next){
+            res.send(res.partial('movie.jade', {
+                title: 'Foobar'
+              , director: 'Tim Burton'
+            }));
+        });
+
+        assert.response(app,
+            { url: '/' },
+            { body: '<li><div class="title">Foobar</div><div class="director">Tim Burton</div></li>' });
     },
     
     'test #partial() locals with collection': function(assert){
