@@ -484,6 +484,23 @@ module.exports = {
             { body: 'We have 5 cool pets\n' });
     },
     
+    'test #partial() locals precedence': function(assert){
+        var app = create();
+
+        app.get('/', function(req, res, next){
+            res.render('greetings.jade', {
+              locals: {
+                  name: 'TJ'
+                , otherName: 'Overridden'
+              }
+            });
+        });
+
+        assert.response(app,
+            { url: '/' },
+            { body: '<html><body><h1>TJ</h1><p>Welcome Overridden</p></body></html>' });
+    },
+    
     'test #partial() object': function(assert){
         var app = create();
 
