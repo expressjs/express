@@ -488,12 +488,15 @@ module.exports = {
         var app = create();
 
         app.get('/', function(req, res, next){
-            res.send(res.partial('item.jade', 'Wahoo'));
+            res.send(res.partial('movie.jade', {
+                title: 'Foobar'
+              , director: 'Tim Burton'
+            }));
         });
 
         assert.response(app,
             { url: '/' },
-            { body: '<li>Wahoo</li>\n' });
+            { body: '<li><div class="title">Foobar</div><div class="director">Tim Burton</div></li>' });
     },
     
     'test #partial() locals with collection': function(assert){
