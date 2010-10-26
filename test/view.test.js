@@ -484,6 +484,21 @@ module.exports = {
             { body: 'We have 5 cool pets\n' });
     },
     
+    'test #partial() object': function(assert){
+        var app = create();
+
+        app.get('/', function(req, res, next){
+            res.send(res.partial('movie.jade', {
+                title: 'Foobar'
+              , director: 'Tim Burton'
+            }));
+        });
+
+        assert.response(app,
+            { url: '/' },
+            { body: '<li><div class="title">Foobar</div><div class="director">Tim Burton</div></li>' });
+    },
+    
     'test #partial() locals with collection': function(assert){
         var app = create();
 
