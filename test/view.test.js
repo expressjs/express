@@ -471,8 +471,6 @@ module.exports = {
 
         app.get('/', function(req, res, next){
             res.send(res.partial('pet-count.jade', {
-              partial: true,
-              layout: false,
               locals: {
                 pets: {
                   length: 5
