@@ -772,7 +772,8 @@ automatically, however otherwise a response of _200_ and _text/html_ is given.
 Render _view_ partial with the given _options_. This method is always available
 to the view as a local variable.
 
-- _as_ Variable name for each _collection_ value, defaults to the view name.
+- _object_ the object named by _as_ or derived from the view name
+- _as_ Variable name for each _collection_ or _object_ value, defaults to the view name.
   * as: 'something' will add the _something_ local variable
   * as: this will use the collection value as the template context
   * as: global will merge the collection value's properties with _locals_
@@ -804,8 +805,27 @@ of _movie.director_ we could use _this.director_.
 Another alternative is to "explode" the properties of the collection item into
 pseudo globals (local variables) by using _as: global_, which again is syntactic sugar:
 
-    partials('movie', { collection: movies, as: global });
+    partial('movie', { collection: movies, as: global });
     // In view: director
+
+This same logic applies to a single partial object usage:
+
+    partial('movie', { object: movie, as: this });
+    // In view: this.director
+
+    partial('movie', { object: movie, as: global });
+    // In view: director
+
+    partial('movie', { object: movie, as: 'video' });
+    // In view: video.director
+
+    partial('movie', { object: movie });
+    // In view: movie.director
+
+When a non-collection (does _not_ have _.length_) is passed as the second argument, it is assumed to be the _object_, after which the object's local variable name is derived from the view name:
+
+    partial('movie', movie);
+    // => In view: movie.director
 
 ### app.set(name[, val])
 
