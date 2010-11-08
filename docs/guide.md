@@ -474,6 +474,7 @@ Below are a few template engines commonly used with Express:
   * [Haml](http://github.com/visionmedia/haml.js) pythonic indented templates
   * [EJS](http://github.com/visionmedia/ejs) Embedded JavaScript
   * [CoffeeKup](http://github.com/mauricemach/coffeekup) CoffeeScript based templating
+  * [jQuery Templates](https://github.com/kof/node-jqtpl) for node
 
 ### Session Support
 
@@ -834,6 +835,11 @@ get the value of _name_ when _val_ is not present:
 
     app.set('views', __dirname + '/views');
     app.set('views');
+    // => ...path...
+
+Alternatively you may simply access the settings via _app.settings_:
+
+    app.settings.views
     // => ...path...
 
 ### app.enable(name)

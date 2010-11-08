@@ -243,7 +243,7 @@ module.exports = {
             { body: 'Internal Server Error', status: 500 });
         assert.response(app,
             { url: '/large.json' },
-            { status: 200, headers: { 'Content-Length': 2535, 'Content-Type': 'application/json' }});
+            { status: 200, headers: { 'Content-Type': 'application/json' }});
     },
     
     'test #sendfile() Accept-Ranges': function(assert){
@@ -277,7 +277,6 @@ module.exports = {
             { url: '/large.json', headers: { 'Range': 'bytes=0-499' }},
             { headers: {
                 'Content-Type': 'application/json',
-                'Content-Length': 500,
                 'Content-Range': 'bytes 0-499/2535'
             }, status: 206 });
     },
@@ -296,8 +295,7 @@ module.exports = {
         assert.response(app,
             { url: '/large.json', headers: { 'Range': 'basdytes=asdf' }},
             { headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': 2535
+                'Content-Type': 'application/json'
             }, status: 200 });
     },
   
@@ -315,8 +313,7 @@ module.exports = {
         assert.response(app,
             { url: '/large.json', headers: { 'Range': 'bytes=500-10' }},
             { headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': 2535
+                'Content-Type': 'application/json'
             }, status: 200 });
     },
     
