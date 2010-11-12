@@ -33,6 +33,19 @@ module.exports = {
         server.delete('/something/else', function(req, res){
             res.send('Destroyed');
         });
+        
+        server.all('/staff/:id', function(req, res, next){
+          req.staff = { id: req.params.id };
+          next();
+        });
+
+        server.get('/staff/:id', function(req, res){
+          res.send('GET Staff ' + req.staff.id);
+        });
+        
+        server.post('/staff/:id', function(req, res){
+          res.send('POST Staff ' + req.staff.id);
+        });
 
         assert.response(server,
             { url: '/' },
@@ -49,6 +62,14 @@ module.exports = {
         assert.response(server,
           { url: '/something/else', method: 'DELETE' },
           { body: 'Destroyed' });
+  
+        assert.response(server,
+          { url: '/staff/12' },
+          { body: 'GET Staff 12' });
+        
+        assert.response(server,
+          { url: '/staff/12', method: 'POST' },
+          { body: 'POST Staff 12' });
     },
     
     'test constructor middleware': function(assert, beforeExit){
