@@ -46,6 +46,10 @@ module.exports = {
         server.post('/staff/:id', function(req, res){
           res.send('POST Staff ' + req.staff.id);
         });
+        
+        server.all('*', function(req, res){
+          res.send('requested ' + req.url);
+        });
 
         assert.response(server,
             { url: '/' },
@@ -70,6 +74,10 @@ module.exports = {
         assert.response(server,
           { url: '/staff/12', method: 'POST' },
           { body: 'POST Staff 12' });
+        
+        assert.response(server,
+          { url: '/foo/bar/baz', method: 'DELETE' },
+          { body: 'requested /foo/bar/baz' });
     },
     
     'test constructor middleware': function(assert, beforeExit){
