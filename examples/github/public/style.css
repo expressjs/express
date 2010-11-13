@@ -1,6 +1,6 @@
 body {
     padding: 30px 50px;
-    font: 12px/1.4 "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;
+    font: 12px/1.4 "Helvetica Neue", Arial, sans-serif;
 }
 a {
     color: #00AAFF;
@@ -12,7 +12,7 @@ a:hover {
 .user {
   margin: 0 10px;
   float: left;
-  width: 30%;
+  width: 25%;
 }
 table td:nth-child(2) {
   padding: 0 5px;

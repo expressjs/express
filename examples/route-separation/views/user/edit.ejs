@@ -1,0 +1,9 @@
+<h1>Editing <%= user.name %></h1>
+<div id="user">
+  <form method="post">
+    <input type="hidden" value="put" name="_method" />
+    <p>Name: <input type="text" value="<%= user.name %>" name="user[name]"/></p>
+    <p>Email: <input type="text" value="<%= user.email %>" name="user[email]"/></p>
+    <p><input type="submit" value="Save" /></p>
+  </form>
+</div>

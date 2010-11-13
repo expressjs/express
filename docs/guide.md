@@ -42,19 +42,19 @@ Note the use of _app.router_, which can (optionally) be used to mount the applic
 otherwise the first call to _app.{get,put,del,post}()_ will mount the routes.
 
     app.configure(function(){
-		app.use(express.methodOverride());
-		app.use(express.bodyDecoder());
-		app.use(app.router);
-		app.use(express.staticProvider(__dirname + '/public'));
-	});
+  		app.use(express.methodOverride());
+  		app.use(express.bodyDecoder());
+  		app.use(app.router);
+  		app.use(express.staticProvider(__dirname + '/public'));
+  	});
 	
-	app.configure('development', function(){
-		app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-	});
+  	app.configure('development', function(){
+  		app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  	});
 	
-	app.configure('production', function(){
-		app.use(express.errorHandler());
-	});
+  	app.configure('production', function(){
+  		app.use(express.errorHandler());
+  	});
 
 For internal and arbitrary settings Express provides the _set(key[, val])_, _enable(key)_, _disable(key)_ methods:
 
@@ -96,8 +96,8 @@ can be done by defining the route below. The values associated to the named plac
 are available as `req.params`.
 
     app.get('/user/:id', function(req, res){
-		res.send('user ' + req.params.id);
-	});
+  		res.send('user ' + req.params.id);
+  	});
 
 A route is simple a string which is compiled to a _RegExp_ internally. For example
 when _/user/:id_ is compiled, a simplified version of the regexp may look similar to:
@@ -153,6 +153,19 @@ may consume:
 	 /products.xml
 	 /products
 
+For example we can __POST__ some json, and echo the json back using the _bodyDecoder_ middleware which will parse json request bodies (as well as others), and place the result in _req.body_:
+
+    var express = require('express')
+      , app = express.createServer();
+
+    app.use(express.bodyDecoder());
+
+    app.post('/', function(req, res){
+      res.send(req.body);
+    });
+
+    app.listen(3000);
+
 ### Passing Route Control
 
 We may pass control to the next _matching_ route, by calling the _third_ argument,
@@ -171,6 +184,40 @@ and middleware continue to be invoked. The same is true for several routes which
 	app.get('/users', function(req, res){
 		// do something else
 	});
+
+Express 1.0 also introduces the _all()_ method, which provides a route callback matching any HTTP method. This is useful in many ways, one example being the loading of resources before executing subsequent routes as shown below:
+
+    var express = require('express')
+      , app = express.createServer();
+
+    var users = [{ name: 'tj' }];
+
+    app.all('/user/:id/:op?', function(req, res, next){
+      req.user = users[req.params.id];
+      if (req.user) {
+        next();
+      } else {
+        next(new Error('cannot find user ' + req.params.id));
+      }
+    });
+
+    app.get('/user/:id', function(req, res){
+      res.send('viewing ' + req.user.name);
+    });
+
+    app.get('/user/:id/edit', function(req, res){
+      res.send('editing ' + req.user.name);
+    });
+
+    app.put('/user/:id', function(req, res){
+      res.send('updating ' + req.user.name);
+    });
+
+    app.get('*', function(req, res){
+      res.send('what???', 404);
+    });
+
+    app.listen(3000); 
 
 ### Middleware
 

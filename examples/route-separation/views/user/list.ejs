@@ -1,0 +1,9 @@
+<h1>Users</h1>
+<ul id="users">
+  <% users.forEach(function(user, id){ %>
+    <li>
+      <a href="/user/<%= id %>"><%= user.name %></a>
+      <a class="edit" href="/user/<%= id %>/edit">edit</a>
+    </li>
+  <% }) %>
+</ul>
