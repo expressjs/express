@@ -16,6 +16,7 @@ var express = require('express')
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.use(express.bodyDecoder());
+app.use(express.methodOverride());
 app.use(express.staticProvider(__dirname + '/public'));
 
 // General
@@ -29,6 +30,7 @@ app.all('/user/:id/:op?', user.load);
 app.get('/user/:id', user.view);
 app.get('/user/:id/view', user.view);
 app.get('/user/:id/edit', user.edit);
+app.put('/user/:id/edit', user.update);
 
 app.listen(3000);
 console.log('Express app started on port 3000');

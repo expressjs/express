@@ -1,7 +1,9 @@
 <div id="user">
   <h1>Editing <%= user.name %></h1>
   <form method="post">
-    <p>Email: <input type="text" value="<%= user.email %>" name="user[name]"/></p>
+    <input type="hidden" value="put" name="_method" />
+    <p>Name: <input type="text" value="<%= user.name %>" name="user[name]"/></p>
+    <p>Email: <input type="text" value="<%= user.email %>" name="user[email]"/></p>
     <p><input type="submit" value="Save" /></p>
   </form>
 </div>
