@@ -1,0 +1,18 @@
+body {
+  padding: 50px;
+  font: 14px "Helvetica Neue", Arial, sans-serif;
+}
+a {
+  color: #00AEFF;
+  text-decoration: none;
+}
+a.edit {
+  color: #000;
+  opacity: .3;
+}
+a.edit::before {
+  content: '[ ';
+}
+a.edit::after {
+  content: ' ]';
+}
