@@ -1,5 +1,5 @@
+<h1>Editing <%= user.name %></h1>
 <div id="user">
-  <h1>Editing <%= user.name %></h1>
   <form method="post">
     <input type="hidden" value="put" name="_method" />
     <p>Name: <input type="text" value="<%= user.name %>" name="user[name]"/></p>

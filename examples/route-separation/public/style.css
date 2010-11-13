@@ -16,3 +16,9 @@ a.edit::before {
 a.edit::after {
   content: ' ]';
 }
+dt {
+  font-weight: bold;
+}
+dd {
+  margin: 15px;
+}
