@@ -22,12 +22,6 @@ curl:
 
     $ curl -# http://expressjs.com/install.sh | sh
 
-git clone, first update the submodules:
-
-    $ git submodule update --init
-    $ make install
-    $ make install-support
-
 ## Features
 
   * Robust routing
@@ -79,7 +73,9 @@ The latest release of Express is compatible with node --version:
 
 and connect --version:
 
-    0.2.6
+    0.3.0
+
+Express 1.x is maintained in the _1.x_ branch.
 
 ## License 
 

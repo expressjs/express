@@ -1,5 +1,5 @@
 
-PREFIX = /usr/local
+PREFIX ?= /usr/local
 LIB_PREFIX = ~/.node_libraries
 
 DOCS = docs/index.md \
@@ -24,11 +24,9 @@ uninstall: uninstall-docs
 
 install-support:
 	cd support/connect && $(MAKE) install
-	cd support/jade && $(MAKE) install
 
 uninstall-support:
 	cd support/connect && $(MAKE) uninstall
-	cd support/jade && $(MAKE) uninstall
 
 install-docs:
 	@mkdir -p $(PREFIX)/share/man/man1

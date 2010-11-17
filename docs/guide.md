@@ -9,12 +9,6 @@ npm:
 
     $ npm install express
 
-git clone, first update the submodules:
-
-    $ git submodule update --init
-    $ make install
-    $ make install-support
-
 ### Creating An Application
 
 The _express.Server_ now inherits from _http.Server_, however
