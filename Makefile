@@ -1,5 +1,5 @@
 
-PREFIX = /usr/local
+PREFIX ?= /usr/local
 LIB_PREFIX = ~/.node_libraries
 
 DOCS = docs/index.md \
