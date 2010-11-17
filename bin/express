@@ -12,7 +12,7 @@ var fs = require('fs')
  * Framework version.
  */
 
-var version = '1.0.0rc4';
+var version = '1.0.0';
 
 /**
  * stdin stream.
