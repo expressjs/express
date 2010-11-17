@@ -73,7 +73,9 @@ The latest release of Express is compatible with node --version:
 
 and connect --version:
 
-    0.2.6
+    0.3.0
+
+Express 1.x is maintained in the _1.x_ branch.
 
 ## License 
 

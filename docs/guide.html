@@ -414,6 +414,20 @@ may consume:</p>
  /products
 </code></pre>
 
+<p>For example we can <strong>POST</strong> some json, and echo the json back using the <em>bodyDecoder</em> middleware which will parse json request bodies (as well as others), and place the result in <em>req.body</em>:</p>
+
+<pre><code>var express = require('express')
+  , app = express.createServer();
+
+app.use(express.bodyDecoder());
+
+app.post('/', function(req, res){
+  res.send(req.body);
+});
+
+app.listen(3000);
+</code></pre>
+
 <h3 id="Passing-Route-Control">Passing Route Control</h3>
 
 <p>We may pass control to the next <em>matching</em> route, by calling the <em>third</em> argument,
@@ -432,6 +446,41 @@ and middleware continue to be invoked. The same is true for several routes which
 app.get('/users', function(req, res){
     // do something else
 });
+</code></pre>
+
+<p>Express 1.0 also introduces the <em>all()</em> method, which provides a route callback matching any HTTP method. This is useful in many ways, one example being the loading of resources before executing subsequent routes as shown below:</p>
+
+<pre><code>var express = require('express')
+  , app = express.createServer();
+
+var users = [{ name: 'tj' }];
+
+app.all('/user/:id/:op?', function(req, res, next){
+  req.user = users[req.params.id];
+  if (req.user) {
+    next();
+  } else {
+    next(new Error('cannot find user ' + req.params.id));
+  }
+});
+
+app.get('/user/:id', function(req, res){
+  res.send('viewing ' + req.user.name);
+});
+
+app.get('/user/:id/edit', function(req, res){
+  res.send('editing ' + req.user.name);
+});
+
+app.put('/user/:id', function(req, res){
+  res.send('updating ' + req.user.name);
+});
+
+app.get('*', function(req, res){
+  res.send('what???', 404);
+});
+
+app.listen(3000); 
 </code></pre>
 
 <h3 id="Middleware">Middleware</h3>
@@ -773,6 +822,7 @@ for free:</p>
 <li><a href="http://github.com/visionmedia/haml.js">Haml</a> pythonic indented templates</li>
 <li><a href="http://github.com/visionmedia/ejs">EJS</a> Embedded JavaScript</li>
 <li><a href="http://github.com/mauricemach/coffeekup">CoffeeKup</a> CoffeeScript based templating</li>
+<li><a href="https://github.com/kof/node-jqtpl">jQuery Templates</a> for node</li>
 </ul>
 
 
@@ -1105,7 +1155,8 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 to the view as a local variable.</p>
 
 <ul>
-<li><p><em>as</em> Variable name for each <em>collection</em> value, defaults to the view name.</p>
+<li><em>object</em> the object named by <em>as</em> or derived from the view name</li>
+<li><p><em>as</em> Variable name for each <em>collection</em> or <em>object</em> value, defaults to the view name.</p>
 
 <ul>
 <li>as: 'something' will add the <em>something</em> local variable</li>
@@ -1145,8 +1196,29 @@ of <em>movie.director</em> we could use <em>this.director</em>.</p>
 <p>Another alternative is to "explode" the properties of the collection item into
 pseudo globals (local variables) by using <em>as: global</em>, which again is syntactic sugar:</p>
 
-<pre><code>partials('movie', { collection: movies, as: global });
+<pre><code>partial('movie', { collection: movies, as: global });
 // In view: director
+</code></pre>
+
+<p>This same logic applies to a single partial object usage:</p>
+
+<pre><code>partial('movie', { object: movie, as: this });
+// In view: this.director
+
+partial('movie', { object: movie, as: global });
+// In view: director
+
+partial('movie', { object: movie, as: 'video' });
+// In view: video.director
+
+partial('movie', { object: movie });
+// In view: movie.director
+</code></pre>
+
+<p>When a non-collection (does <em>not</em> have <em>.length</em>) is passed as the second argument, it is assumed to be the <em>object</em>, after which the object's local variable name is derived from the view name:</p>
+
+<pre><code>partial('movie', movie);
+// =&gt; In view: movie.director
 </code></pre>
 
 <h3 id="app-set-name-val-">app.set(name[, val])</h3>
@@ -1156,6 +1228,12 @@ get the value of <em>name</em> when <em>val</em> is not present:</p>
 
 <pre><code>app.set('views', __dirname + '/views');
 app.set('views');
+// =&gt; ...path...
+</code></pre>
+
+<p>Alternatively you may simply access the settings via <em>app.settings</em>:</p>
+
+<pre><code>app.settings.views
 // =&gt; ...path...
 </code></pre>
 
