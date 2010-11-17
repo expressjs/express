@@ -6,7 +6,7 @@ require.paths.unshift(__dirname + '/../../support');
  * Module dependencies.
  */
 
-var express = require('express')
+var express = require('../../lib/express')
   , app = express.createServer()
   , site = require('./site')
   , post = require('./post')
