@@ -5,36 +5,25 @@
   * Added; deduce partial object names from the last segment.
     For example by default `partial('forum/post', postObject)` will
     give you the _post_ object, providing a meaningful default.
-
   * Added http status code string representation to `res.redirect()` body
   * Added; `res.redirect()` supporting _text/plain_ and _text/html_ via __Accept__.
-
   * Added `req.is()` to aid in content negotiation
-
   * Added partial local inheritance [suggested by masylum]. Closes #102
     providing access to parent template locals.
-
   * Added _-s, --session[s]_ flag to express(1) to add session related middleware
   * Added _--template_ flag to express(1) to specify the
     template engine to use.
-
   * Added _--css_ flag to express(1) to specify the 
     stylesheet engine to use (or just plain css by default).
-
   * Added `app.all()` support [thanks aheckmann]
-
   * Added partial direct object support.
     You may now `partial('user', user)` providing the "user" local,
     vs previously `partial('user', { object: user })`.
-    
   * Added _route-separation_ example since many people question ways
     to do this with CommonJS modules. Also view the _blog_ example for
     an alternative.
-
   * Performance; caching view path derived partial object names
-
   * Fixed partial local inheritance precedence. [reported by Nick Poulden] Closes #454
-
   * Fixed jsonp support; _text/javascript_ as per mailinglist discussion
 
 1.0.0rc4 / 2010-10-14 
