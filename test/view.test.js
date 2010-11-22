@@ -7,7 +7,7 @@ var express = require('express')
   , connect = require('connect')
   , assert = require('assert')
   , should = require('should')
-  , view = require('express/view');
+  , View = require('express/view');
 
 /**
  * Create a test server with views set to ./fixtures.
@@ -20,6 +20,109 @@ var create = function(){
 };
 
 module.exports = {
+  'test View#path': function(){
+    var view = new View('forum/thread.ejs', { root: '/www/mysite/views' });
+    view.path.should.equal('/www/mysite/views/forum/thread.ejs');
+
+    var view = new View('/www/mysite/views/path.ejs');
+    view.path.should.equal('/www/mysite/views/path.ejs');
+
+    var view = new View('user', { parentView: view });
+    view.path.should.equal('/www/mysite/views/user.ejs');
+
+    var view = new View('user/list', { parentView: view });
+    view.path.should.equal('/www/mysite/views/user/list.ejs');
+
+    var view = new View('user.jade', { parentView: new View('foo', { root: '/bar' }) });
+    view.path.should.equal('/bar/user.jade');
+
+    var view = new View('/foo.bar.baz/user.ejs');
+    view.path.should.equal('/foo.bar.baz/user.ejs');
+    
+    var view = new View('/foo.bar.baz/user', { parentView: view });
+    view.path.should.equal('/foo.bar.baz/user.ejs');
+
+    var view = new View('user', { parentView: view });
+    view.path.should.equal('/foo.bar.baz/user.ejs');
+  },
+  
+  'test View#path for partials': function(){
+    var view = new View('user.ejs', { root: '/www', partial: true });
+    view.path.should.equal('/www/_user.ejs');
+
+    var view = new View('user', { parentView: view, root: '/www', partial: true });
+    view.path.should.equal('/www/_user.ejs');
+    
+    var view = new View('forum/thread', { parentView: view, partial: true });
+    view.path.should.equal('/www/forum/_thread.ejs');
+
+    var view = new View('forum/thread.jade', { root: '/www', partial: true });
+    view.path.should.equal('/www/forum/_thread.jade');
+  },
+  
+  'test View#engine': function(){
+    var view = new View('/absolute/path.ejs');
+    view.engine.should.equal('ejs');
+
+    var view = new View('user', { parentView: view });
+    view.engine.should.equal('ejs');
+
+    var view = new View('/user', { defaultViewEngine: 'jade' });
+    view.engine.should.equal('jade');
+
+    var view = new View('/foo.bar/user.ejs');
+    view.engine.should.equal('ejs');
+  },
+  
+  'test View#extension': function(){
+    var view = new View('/absolute/path.ejs');
+    view.extension.should.equal('.ejs');
+
+    var view = new View('user', { parentView: view });
+    view.extension.should.equal('.ejs');
+
+    var view = new View('/user', { defaultViewEngine: 'jade' });
+    view.extension.should.equal('.jade');
+
+    var view = new View('/foo.bar/user.ejs');
+    view.extension.should.equal('.ejs');
+  },
+  
+  'test View#dirname': function(){
+    var view = new View('/absolute/path.ejs');
+    view.dirname.should.equal('/absolute');
+
+    var view = new View('user', { parentView: view });
+    view.dirname.should.equal('/absolute');
+  },
+  
+  'test View#objectName': function(){
+    var view = new View('/path/to/user.ejs', { partial: true });
+    view.objectName.should.equal('user');
+
+    var view = new View('/path/to/user-post.ejs', { partial: true });
+    view.objectName.should.equal('userPost');
+
+    var view = new View('/path/to/user_post.ejs', { partial: true });
+    view.objectName.should.equal('userPost');
+
+    var view = new View('/path/to/forum   thread post.ejs', { partial: true });
+    view.objectName.should.equal('forumThreadPost');
+    
+    var view = new View('/path/to/forum   thread post.ejs', { as: 'post', partial: true });
+    view.objectName.should.equal('post');
+  },
+  
+  'test View#contents': function(){
+    var view = new View(__dirname + '/fixtures/hello.jade');
+    view.contents.should.equal('p :(');
+  },
+  
+  'test View#templateEngine': function(){
+    var view = new View(__dirname + '/fixtures/hello.jade');
+    view.templateEngine.should.equal(require('jade'));
+  },
+
   'test #render()': function(){
     var app = create();
     app.set('view engine', 'jade');
