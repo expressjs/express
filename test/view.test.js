@@ -7,7 +7,8 @@ var express = require('express')
   , connect = require('connect')
   , assert = require('assert')
   , should = require('should')
-  , View = require('express/view');
+  , View = require('express/view')
+  , Partial = View.Partial
 
 /**
  * Create a test server with views set to ./fixtures.
@@ -46,20 +47,6 @@ module.exports = {
     view.path.should.equal('/foo.bar.baz/user.ejs');
   },
   
-  'test View#path for partials': function(){
-    var view = new View('user.ejs', { root: '/www', partial: true });
-    view.path.should.equal('/www/_user.ejs');
-
-    var view = new View('user', { parentView: view, root: '/www', partial: true });
-    view.path.should.equal('/www/_user.ejs');
-    
-    var view = new View('forum/thread', { parentView: view, partial: true });
-    view.path.should.equal('/www/forum/_thread.ejs');
-
-    var view = new View('forum/thread.jade', { root: '/www', partial: true });
-    view.path.should.equal('/www/forum/_thread.jade');
-  },
-  
   'test View#engine': function(){
     var view = new View('/absolute/path.ejs');
     view.engine.should.equal('ejs');
@@ -67,7 +54,7 @@ module.exports = {
     var view = new View('user', { parentView: view });
     view.engine.should.equal('ejs');
 
-    var view = new View('/user', { defaultViewEngine: 'jade' });
+    var view = new View('/user', { defaultEngine: 'jade' });
     view.engine.should.equal('jade');
 
     var view = new View('/foo.bar/user.ejs');
@@ -81,7 +68,7 @@ module.exports = {
     var view = new View('user', { parentView: view });
     view.extension.should.equal('.ejs');
 
-    var view = new View('/user', { defaultViewEngine: 'jade' });
+    var view = new View('/user', { defaultEngine: 'jade' });
     view.extension.should.equal('.jade');
 
     var view = new View('/foo.bar/user.ejs');
@@ -96,23 +83,6 @@ module.exports = {
     view.dirname.should.equal('/absolute');
   },
   
-  'test View#objectName': function(){
-    var view = new View('/path/to/user.ejs', { partial: true });
-    view.objectName.should.equal('user');
-
-    var view = new View('/path/to/user-post.ejs', { partial: true });
-    view.objectName.should.equal('userPost');
-
-    var view = new View('/path/to/user_post.ejs', { partial: true });
-    view.objectName.should.equal('userPost');
-
-    var view = new View('/path/to/forum   thread post.ejs', { partial: true });
-    view.objectName.should.equal('forumThreadPost');
-    
-    var view = new View('/path/to/forum   thread post.ejs', { as: 'post', partial: true });
-    view.objectName.should.equal('post');
-  },
-  
   'test View#contents': function(){
     var view = new View(__dirname + '/fixtures/hello.jade');
     view.contents.should.equal('p :(');
@@ -121,6 +91,37 @@ module.exports = {
   'test View#templateEngine': function(){
     var view = new View(__dirname + '/fixtures/hello.jade');
     view.templateEngine.should.equal(require('jade'));
+  },
+  
+  'test Partial#objectName': function(){
+    var view = new Partial('/path/to/user.ejs');
+    view.objectName.should.equal('user');
+
+    var view = new Partial('/path/to/user-post.ejs');
+    view.objectName.should.equal('userPost');
+
+    var view = new Partial('/path/to/user_post.ejs');
+    view.objectName.should.equal('userPost');
+
+    var view = new Partial('/path/to/forum   thread post.ejs');
+    view.objectName.should.equal('forumThreadPost');
+    
+    var view = new Partial('/path/to/forum   thread post.ejs', { as: 'post' });
+    view.objectName.should.equal('post');
+  },
+  
+  'test Partial#path for partials': function(){
+    var view = new Partial('user.ejs', { root: '/www' });
+    view.path.should.equal('/www/_user.ejs');
+
+    var view = new Partial('user', { parentView: view, root: '/www' });
+    view.path.should.equal('/www/_user.ejs');
+    
+    var view = new Partial('forum/thread', { parentView: view });
+    view.path.should.equal('/www/forum/_thread.ejs');
+
+    var view = new Partial('forum/thread.jade', { root: '/www' });
+    view.path.should.equal('/www/forum/_thread.jade');
   },
 
   'test #render()': function(){
@@ -135,9 +136,9 @@ module.exports = {
       res.render('index', { layout: false });
     });
 
-    app.get('/haml', function(req, res){
-      res.render('hello.haml', { layout: false });
-    });
+    // app.get('/haml', function(req, res){
+    //   res.render('hello.haml', { layout: false });
+    // });
 
     app.get('/callback/layout/no-options', function(req, res){
       res.render('hello.jade', function(err, str){
@@ -153,12 +154,12 @@ module.exports = {
       });
     });
 
-    app.get('/callback', function(req, res){
-      res.render('hello.haml', { layout: false }, function(err, str){
-        assert.ok(!err);
-        res.send(str.replace('Hello World', ':)'));
-      });
-    });
+    // app.get('/callback', function(req, res){
+    //   res.render('hello.haml', { layout: false }, function(err, str){
+    //     assert.ok(!err);
+    //     res.send(str.replace('Hello World', ':)'));
+    //   });
+    // });
 
     app.get('/invalid', function(req, res){
       res.render('invalid.jade', { layout: false });
@@ -189,12 +190,12 @@ module.exports = {
     assert.response(app,
       { url: '/absolute' },
       { body: '<p>Welcome</p>' });
-    assert.response(app,
-      { url: '/haml' },
-      { body: '\n<p>Hello World</p>' });
-    assert.response(app,
-      { url: '/callback' },
-      { body: '\n<p>:)</p>' });
+    // assert.response(app,
+    //   { url: '/haml' },
+    //   { body: '\n<p>Hello World</p>' });
+    // assert.response(app,
+    //   { url: '/callback' },
+    //   { body: '\n<p>:)</p>' });
     assert.response(app,
       { url: '/callback/layout' },
       { body: '<html><body><p>:)</p></body></html>' });
@@ -731,7 +732,7 @@ module.exports = {
     
     assert.response(app,
       { url: '/' },
-      { body: '<ul><li class="item">foo</li><li class="item">bar</li></ul>' });
+      { body: '<ul><li>foo</li><li>bar</li></ul>' });
   },
   
   'test "view options"': function(){
