@@ -31,13 +31,13 @@ app.set('view engine', 'jade');
 
 // Dummy users
 var users = [
-    { name: 'tj', email: 'tj@sencha.com' }
+    { name: 'tj', email: 'tj@vision-media.ca' }
   , { name: 'ciaran', email: 'ciaranj@gmail.com' }
   , { name: 'aaron', email: 'aaron.heckmann+github@gmail.com' }
 ];
 
 app.get('/', function(req, res){
-  res.render('users', { users: users });
+  res.render('user/list', { users: users });
 });
 
 app.listen(3000);
