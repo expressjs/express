@@ -729,9 +729,9 @@ module.exports = {
     var app = create();
     
     app.set('view options', {
-      layout: false,
-      open: '{{',
-      close: '}}'
+        layout: false
+      , open: '{{'
+      , close: '}}'
     });
     
     app.get('/', function(req, res, next){
