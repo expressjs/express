@@ -398,9 +398,7 @@ module.exports = {
     app.get('/precedence', function(req, res){
       req.session = { name: 'tj' };
       res.render('dynamic-helpers.jade', {
-        locals: {
-          lastName: 'foobar'
-        }
+        lastName: 'foobar'
       });
     });
     
@@ -424,7 +422,7 @@ module.exports = {
 
     // Auto-assigned local w/ collection option
     app.get('/', function(req, res){
-      res.render('items.jade', { locals: { items: ['one', 'two'] }});
+      res.render('items.jade', { items: ['one', 'two'] });
     });
     
    assert.response(app,
@@ -437,7 +435,7 @@ module.exports = {
       { title: 'Avatar', director: 'James Cameron' }
     ];
     app.get('/movies', function(req, res){
-      res.render('movies.jade', { locals: { movies: movies }});
+      res.render('movies.jade', { movies: movies });
     });
         
     var html = [
@@ -609,10 +607,8 @@ module.exports = {
 
     app.get('/', function(req, res, next){
       res.render('greetings.jade', {
-        locals: {
-            name: 'TJ'
-          , otherName: 'Overridden'
-        }
+          name: 'TJ'
+        , otherName: 'Overridden'
       });
     });
 
@@ -641,9 +637,7 @@ module.exports = {
 
     app.get('/', function(req, res, next){
       res.render('pet-land.jade', {
-        locals: {
-          pets: ['Ewald']
-        }
+        pets: ['Ewald']
       });
     });
 
@@ -657,10 +651,8 @@ module.exports = {
 
     app.get('/pets', function(req, res, next){
       res.render('pets.jade', {
-        locals: {
-          site: 'My Cool Pets',
-          pets: ['Tobi', 'Jane', 'Bandit']
-        }
+          site: 'My Cool Pets'
+        , pets: ['Tobi', 'Jane', 'Bandit']
       });
     });
 
@@ -692,7 +684,7 @@ module.exports = {
       length: 2
     };
     app.get('/movies', function(req, res){
-        res.render('movies.jade', { locals: { movies: movies }});
+        res.render('movies.jade', { movies: movies });
     });
         
     var html = [
@@ -724,9 +716,7 @@ module.exports = {
     app.get('/', function(req, res){
       res.render('items.jade', {
         layout: false,
-        locals: {
-          items: ['foo', 'bar']
-        }
+        items: ['foo', 'bar']
       });
     });
     
@@ -746,20 +736,16 @@ module.exports = {
     
     app.get('/', function(req, res, next){
       res.render('user.ejs', {
-        locals: {
-          name: 'tj',
-          email: 'tj@vision-media.ca'
-        }
+          name: 'tj'
+        , email: 'tj@vision-media.ca'
       });
     });
     
     app.get('/video', function(req, res, next){
       res.render('video.ejs', {
-        open: '<?',
-        close: '?>',
-        locals: {
-          title: 'keyboard cat'
-        }
+          open: '<?'
+        , close: '?>'
+        , title: 'keyboard cat'
       });
     });
     
