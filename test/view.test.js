@@ -93,21 +93,13 @@ module.exports = {
     view.templateEngine.should.equal(require('jade'));
   },
   
-  'test Partial#objectName': function(){
-    var view = new Partial('/path/to/user.ejs');
-    view.objectName.should.equal('user');
-
-    var view = new Partial('/path/to/user-post.ejs');
-    view.objectName.should.equal('userPost');
-
-    var view = new Partial('/path/to/user_post.ejs');
-    view.objectName.should.equal('userPost');
-
-    var view = new Partial('/path/to/forum   thread post.ejs');
-    view.objectName.should.equal('forumThreadPost');
-    
-    var view = new Partial('/path/to/forum   thread post.ejs', { as: 'post' });
-    view.objectName.should.equal('post');
+  'test Partial.resolveObjectName()': function(){
+    var resolve = Partial.resolveObjectName;
+    resolve('/path/to/user.ejs').should.equal('user');
+    resolve('/path/to/user-post.ejs').should.equal('userPost');
+    resolve('/path/to/user   post.ejs').should.equal('userPost');
+    resolve('forum thread post.ejs').should.equal('forumThreadPost');
+    resolve('forum   thread post.ejs').should.equal('forumThreadPost');
   },
   
   'test Partial#path for partials': function(){
