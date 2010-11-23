@@ -37,11 +37,7 @@ var users = [
 ];
 
 app.get('/', function(req, res){
-  res.render('users', {
-    locals: {
-      users: users
-    }
-  });
+  res.render('users', { users: users });
 });
 
 app.listen(3000);
