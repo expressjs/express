@@ -759,6 +759,8 @@ By default the _Content-Type_ response header is set, however if explicitly
 assigned through `res.send()` or previously with `res.header()` or `res.contentType()`
 it will not be set again.
 
+Note that this method _end()_ the response, so you will want to use node's _res.writeHead()_ / _res.write()_ for multiple writes or streaming.
+
 ### res.redirect(url[, status])
 
 Redirect to the given _url_ with a default response _status_ of 302.
