@@ -11,10 +11,11 @@ var app = express.createServer();
 
 app.resource = function(path, obj) {
   this.get(path, obj.index);
-  this.get(path + '/:a..:b', function(req, res){
+  this.get(path + '/:a..:b.:format?', function(req, res){
     var a = parseInt(req.params.a, 10)
-      , b = parseInt(req.params.b, 10);
-    obj.range(req, res, a, b);
+      , b = parseInt(req.params.b, 10)
+      , format = req.params.format;
+    obj.range(req, res, a, b, format);
   });
   this.get(path + '/:id', obj.show);
   this.del(path + '/:id', obj.destroy);
@@ -31,7 +32,7 @@ var users = [
   , { name: 'tobi' }
 ];
 
-// Fake mode.
+// Fake controller.
 
 var User = {
   index: function(req, res){
@@ -46,8 +47,20 @@ var User = {
     delete users[id];
     res.send(destroyed ? 'destroyed' : 'Cannot find user');
   },
-  range: function(req, res, a, b){
-    res.send(users.slice(a, b+1));
+  range: function(req, res, a, b, format){
+    var range = users.slice(a, b + 1);
+    switch (format) {
+      case 'json':
+        res.send(range);
+        break;
+      case 'html':
+      default:
+        var html = '<ul>' + range.map(function(user){
+          return '<li>' + user.name + '</li>';
+        }).join('\n') + '</ul>';
+        res.send(html);
+        break;
+    }
   }
 };
 
@@ -66,6 +79,7 @@ app.get('/', function(req, res){
     , '<li>GET /users/1</li>'
     , '<li>GET /users/3</li>'
     , '<li>GET /users/1..3</li>'
+    , '<li>GET /users/1..3.json</li>'
     , '<li>DELETE /users/4</li>'
     , '</ul>'
   ].join('\n')); 
