@@ -8,10 +8,5 @@ var posts = [
   ];
 
 exports.list = function(req, res){
-  res.render('post/list', {
-    locals: {
-        title: 'Posts'
-      , posts: posts
-    }
-  });
+  res.render('post/list', { title: 'Posts', posts: posts });
 };
