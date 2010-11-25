@@ -26,53 +26,53 @@ app.use(express.cookieDecoder());
 app.use(express.session());
 
 app.get('/', function(req, res){
-    // get ?name=foo
-    var name = req.param('name') || '';
-    
-    // Switch the button label based if we have a name
-    var label = name ? 'Update' : 'Save';
+  // get ?name=foo
+  var name = req.param('name') || '';
+  
+  // Switch the button label based if we have a name
+  var label = name ? 'Update' : 'Save';
 
-    // Buffer all flash messages.
-    // Typically this would all be done in a template
-    // however for illustration purposes we iterate
-    // here.
-    
-    // The messages in req.flash() persist until called,
-    // at which time they are flushed from the session
-    var msgs = '<ul>',
-        flash = req.flash();
-    Object.keys(flash).forEach(function(type){
-        flash[type].forEach(function(msg){
-            msgs += '<li class="' + type + '">' + msg + '</li>';
-        });
+  // Buffer all flash messages.
+  // Typically this would all be done in a template
+  // however for illustration purposes we iterate
+  // here.
+  
+  // The messages in req.flash() persist until called,
+  // at which time they are flushed from the session
+  var msgs = '<ul>',
+      flash = req.flash();
+  Object.keys(flash).forEach(function(type){
+    flash[type].forEach(function(msg){
+      msgs += '<li class="' + type + '">' + msg + '</li>';
     });
-    msgs += '</ul>';
+  });
+  msgs += '</ul>';
 
-    // If we have a name, we are updating,
-    // so add the hidden _method input
-    res.send(msgs
-        + '<form method="post">'
-        + (name ? '<input type="hidden" value="put" name="_method" />' : '')
-        + 'Name: <input type="text" name="name" value="' + name + '" />'
-        + '<input type="submit" value="' + label + '" />'
-        + '</form>');
+  // If we have a name, we are updating,
+  // so add the hidden _method input
+  res.send(msgs
+    + '<form method="post">'
+    + (name ? '<input type="hidden" value="put" name="_method" />' : '')
+    + 'Name: <input type="text" name="name" value="' + name + '" />'
+    + '<input type="submit" value="' + label + '" />'
+    + '</form>');
 });
 
 app.post('/', function(req, res){
-    if (req.body.name) {
-        // Typically here we would create a resource
-        req.flash('info', 'Saved ' + req.body.name);
-        res.redirect('/?name=' + req.body.name);
-    } else {
-        req.flash('error', 'Error: name required');
-        res.redirect('/');
-    }
+  if (req.body.name) {
+    // Typically here we would create a resource
+    req.flash('info', 'Saved ' + req.body.name);
+    res.redirect('/?name=' + req.body.name);
+  } else {
+    req.flash('error', 'Error: name required');
+    res.redirect('/');
+  }
 });
 
 app.put('/', function(req, res){
-    // Typically here we would update a resource
-    req.flash('info', 'Updated ' + req.body.name);
-    res.redirect('/?name=' + req.body.name);
+  // Typically here we would update a resource
+  req.flash('info', 'Updated ' + req.body.name);
+  res.redirect('/?name=' + req.body.name);
 });
 
 app.listen(3000);
