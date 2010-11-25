@@ -8,8 +8,7 @@ require.paths.unshift(__dirname + '/../../support');
 
 var express = require('./../../lib/express');
 
-var app = express.createServer(),
-    sys = require('sys');
+var app = express.createServer();
 
 // Serve default connect favicon
 app.use(express.favicon());
@@ -32,7 +31,7 @@ app.use(app.router);
 // exception
 
 app.use(function(req, res, next){
-    next(new NotFound(req.url));
+  next(new NotFound(req.url));
 });
 
 app.set('views', __dirname + '/views');
@@ -40,17 +39,21 @@ app.set('views', __dirname + '/views');
 // Provide our app with the notion of NotFound exceptions
 
 function NotFound(path){
-    this.name = 'NotFound';
-    if (path) {
-        Error.call(this, 'Cannot find ' + path);
-        this.path = path;
-    } else {
-        Error.call(this, 'Not Found');
-    }
-    Error.captureStackTrace(this, arguments.callee);
+  this.name = 'NotFound';
+  if (path) {
+    Error.call(this, 'Cannot find ' + path);
+    this.path = path;
+  } else {
+    Error.call(this, 'Not Found');
+  }
+  Error.captureStackTrace(this, arguments.callee);
 }
 
-sys.inherits(NotFound, Error);
+/**
+ * Inherit from `Error.prototype`.
+ */
+
+NotFound.prototype.__proto__ = Error.prototype;
 
 // We can call app.error() several times as shown below.
 // Here we check for an instanceof NotFound and show the
@@ -62,14 +65,9 @@ sys.inherits(NotFound, Error);
 
 app.error(function(err, req, res, next){
     if (err instanceof NotFound) {
-        res.render('404.jade', {
-            status: 404,
-            locals: {
-                error: err
-            }
-        });
+      res.render('404.jade', { status: 404, error: err });
     } else {
-        next(err);
+      next(err);
     }
 });
 
@@ -77,26 +75,21 @@ app.error(function(err, req, res, next){
 // this demo, however you can choose whatever you like
 
 app.error(function(err, req, res){
-    res.render('500.jade', {
-        status: 500,
-        locals: {
-            error: err
-        } 
-    });
+  res.render('500.jade', { status: 500, error: err });
 });
 
 // Routes
 
 app.get('/', function(req, res){
-    res.render('index.jade');
+  res.render('index.jade');
 });
 
 app.get('/404', function(req, res){
-    throw new NotFound;
+  throw new NotFound(req.url);
 });
 
 app.get('/500', function(req, res, next){
-    next(new Error('keyboard cat!'));
+  next(new Error('keyboard cat!'));
 });
 
 app.listen(3000);
