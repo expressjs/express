@@ -290,7 +290,7 @@ function createApplicationAt(path) {
           write(path + '/public/stylesheets/style.css', css);
       }
     });
-    mkdir(path + '/views/partials', function(){
+    mkdir(path + '/views', function(){
       switch (templateEngine) {
         case 'ejs':
           write(path + '/views/layout.ejs', ejsLayout);
