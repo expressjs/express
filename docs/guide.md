@@ -79,7 +79,6 @@ Express supports the following settings out of the box:
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
   * _view options_ An object specifying global view options
-  * _partials_ Root view partials directory defaulting to _views_/partials.
   * _stream threshold_ Bytesize indicating when a file should be streamed for _res.sendfile()_ using _fs.ReadStream()_ and _sys.pump()_.
 
 ### Routing
@@ -506,6 +505,8 @@ for free:
   * _collectionLength_  Length of the collection
 
 For documentation on altering the object name view [res.partial()](http://expressjs.com/guide.html#res-partial-view-options-).
+
+NOTE: partials are not recommended for large collections (150+) because the view system adds to the overhead. For example do _not_ implement a simple ul list with partial collection support, simply create a partial and iterate within that single partial, as this is far more efficient than rendering 150+ templates.
 
 ### Template Engines
 
