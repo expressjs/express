@@ -51,7 +51,9 @@ module.exports = {
     
     app.get('/all', function(req, res){
       req.accepts('html').should.be.true;
+      req.accepts('.html').should.be.true;
       req.accepts('json').should.be.true;
+      req.accepts('.json').should.be.true;
       res.send('ok');
     });
     
