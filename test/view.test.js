@@ -103,17 +103,22 @@ module.exports = {
   },
   
   'test Partial#path for partials': function(){
-    var view = new Partial('user.ejs', { root: '/www' });
-    view.path.should.equal('/www/_user.ejs');
+    var fixtures = __dirname + '/fixtures';
+    
+    var view = new Partial('user.jade', { root: fixtures });
+    view.path.should.equal(fixtures + '/_user.jade');
 
-    var view = new Partial('user', { parentView: view, root: '/www' });
-    view.path.should.equal('/www/_user.ejs');
+    var view = new Partial('user', { parentView: view, root: fixtures });
+    view.path.should.equal(fixtures + '/_user.jade');
     
     var view = new Partial('forum/thread', { parentView: view });
-    view.path.should.equal('/www/forum/_thread.ejs');
+    view.path.should.equal(fixtures + '/forum/_thread.jade');
 
-    var view = new Partial('forum/thread.jade', { root: '/www' });
-    view.path.should.equal('/www/forum/_thread.jade');
+    var view = new Partial('forum/thread.jade', { root: fixtures });
+    view.path.should.equal(fixtures + '/forum/_thread.jade');
+
+    var view = new Partial('thread', { parentView: view });
+    view.path.should.equal(fixtures + '/forum/_thread.jade');
   },
 
   'test #render()': function(){
