@@ -7,7 +7,7 @@ var users = [
 ];
 
 exports.list = function(req, res){
-  res.render('user/list', { title: 'Users', users: users });
+  res.render('users', { title: 'Users', users: users });
 };
 
 exports.load = function(req, res, next){
@@ -21,14 +21,14 @@ exports.load = function(req, res, next){
 };
 
 exports.view = function(req, res){
-  res.render('user/view', {
+  res.render('users/view', {
       title: 'Viewing user ' + req.user.name
     , user: req.user
   });
 };
 
 exports.edit = function(req, res){
-  res.render('user/edit', {
+  res.render('users/edit', {
       title: 'Editing user ' + req.user.name
     , user: req.user
   });
