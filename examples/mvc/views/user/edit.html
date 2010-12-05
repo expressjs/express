@@ -1,5 +1,5 @@
 <h1>Editing user <%= user.name %></h1>
-<%- partial('messages') %>
+<%- partial('../messages') %>
 <form method="post" action="/users/<%= user.id %>">
   <input type="hidden" name="_method" value="put" />
   <p>Name: <input type="text" name="user[name]", value="<%= user.name %>" /></p>
