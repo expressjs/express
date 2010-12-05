@@ -116,6 +116,9 @@ module.exports = {
 
     var view = new Partial('forum/thread.jade', { root: fixtures });
     view.path.should.equal(fixtures + '/forum/_thread.jade');
+
+    var view = new Partial('thread', { parentView: view });
+    view.path.should.equal(fixtures + '/forum/_thread.jade');
   },
 
   'test #render()': function(){
