@@ -37,7 +37,7 @@ var users = [
 ];
 
 app.get('/', function(req, res){
-  res.render('user/list', { users: users });
+  res.render('users', { users: users });
 });
 
 app.listen(3000);
