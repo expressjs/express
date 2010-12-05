@@ -64,7 +64,8 @@ The following are the major contributors of Express (in no specific order).
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
-  * [Introduction Screencast](http://screenr.com/mAL)
+  * Screencast - [Introduction](http://bit.ly/eRYu0O)
+  * Screencast - [View Partials](http://bit.ly/dU13Fx)
 
 ## Node Compatibility
     
