@@ -22,7 +22,7 @@ var users = [
 ];
 
 app.get('/', function(req, res){
-  res.render('users.ejs', { users: users });
+  res.render('user/list.ejs', { users: users });
 });
 
 app.listen(3000);
