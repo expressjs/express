@@ -55,9 +55,9 @@ app.get('/user/:user', function(req, res, next){
 
 app.get('/users/:from-:to', function(req, res, next){
   var from = req.params.from
-    , to = req.params.ro
-    , names = users.slice(from, to).map(function(user){ return user.name; });
-  res.send('users ' + names.join(', '));
+    , to = req.params.to
+    , names = users.map(function(user){ return user.name; });
+  res.send('users ' + names.slice(from, to).join(', '));
 });
 
 app.listen(3000);
