@@ -437,8 +437,7 @@ module.exports = {
     ];
 
     function integer(n){ return parseInt(n, 10); };
-    app.param(':from', integer);
-    app.param('from', integer);
+    app.param(['to', 'from'], integer);
 
     app.param('user', function(req, res, next, id){
       if (req.user = users[id]) {
