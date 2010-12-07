@@ -66,6 +66,8 @@ The following are the major contributors of Express (in no specific order).
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
   * Screencast - [Introduction](http://bit.ly/eRYu0O)
   * Screencast - [View Partials](http://bit.ly/dU13Fx)
+  * Screencast - [Route Specific Middleware](http://bit.ly/hX4IaH)
+  * Screencast - [Route Path Placeholder Preconditions](http://bit.ly/eNqmVs)
 
 ## Node Compatibility
     
