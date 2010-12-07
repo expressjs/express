@@ -423,5 +423,52 @@ module.exports = {
         { url: '/' + thing, headers: { 'X-Role': 'member', 'X-Age': 18 }},
         { body: 'OK', status: 200 });
     });
+  },
+  
+  'test .param()': function(){
+    var app = express.createServer();
+
+    var users = [
+        { name: 'tj' }
+      , { name: 'tobi' }
+      , { name: 'loki' }
+      , { name: 'jane' }
+      , { name: 'bandit' }
+    ];
+
+    function integer(n){ return parseInt(n, 10); };
+    app.param(':from', integer);
+    app.param('from', integer);
+
+    app.param('user', function(req, res, next, id){
+      if (req.user = users[id]) {
+        next();
+      } else {
+        next(new Error('failed to find user'));
+      }
+    });
+
+    app.get('/user/:user', function(req, res, next){
+      res.send('user ' + req.user.name);
+    });
+
+    app.get('/users/:from-:to', function(req, res, next){
+      var names = users.slice(req.params.from, req.params.to).map(function(user){
+        return user.name;
+      });
+      res.send('users ' + names.join(', '));
+    });
+    
+    assert.response(app,
+      { url: '/user/0' },
+      { body: 'user tj' });
+    
+    assert.response(app,
+      { url: '/user/1' },
+      { body: 'user tobi' });
+    
+    assert.response(app,
+      { url: '/users/0-3' },
+      { body: 'users tj, tobi, loki' });
   }
 };
