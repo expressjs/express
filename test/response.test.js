@@ -98,9 +98,17 @@ module.exports = {
       res.end('<p>yay</p>');
     });
     
+    app.get('/json', function(req, res, next){
+      res.contentType('json');
+      res.send('{"foo":"bar"}');
+    });
+    
     assert.response(app,
       { url: '/html' },
       { body: '<p>yay</p>', headers: { 'Content-Type': 'text/html; charset=utf-8' }});
+    assert.response(app,
+      { url: '/json' },
+      { headers: { 'Content-Type': 'application/json' }});
   },
   
   'test #attachment()': function(){
