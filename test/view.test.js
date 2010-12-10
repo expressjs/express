@@ -106,19 +106,19 @@ module.exports = {
     var fixtures = __dirname + '/fixtures';
     
     var view = new Partial('user.jade', { root: fixtures });
-    view.path.should.equal(fixtures + '/_user.jade');
+    view.path.should.equal(fixtures + '/user.jade');
 
     var view = new Partial('user', { parentView: view, root: fixtures });
-    view.path.should.equal(fixtures + '/_user.jade');
+    view.path.should.equal(fixtures + '/user.jade');
     
     var view = new Partial('forum/thread', { parentView: view });
-    view.path.should.equal(fixtures + '/forum/_thread.jade');
+    view.path.should.equal(fixtures + '/forum/thread.jade');
 
     var view = new Partial('forum/thread.jade', { root: fixtures });
-    view.path.should.equal(fixtures + '/forum/_thread.jade');
+    view.path.should.equal(fixtures + '/forum/thread.jade');
 
     var view = new Partial('thread', { parentView: view });
-    view.path.should.equal(fixtures + '/forum/_thread.jade');
+    view.path.should.equal(fixtures + '/forum/thread.jade');
   },
 
   'test #render()': function(){
