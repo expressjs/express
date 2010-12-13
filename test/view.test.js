@@ -363,8 +363,11 @@ module.exports = {
     var app = create()
       , calls = 0;
 
+    app.locals({
+      lastName: 'holowaychuk'
+    });
+
     app.helpers({ 
-      lastName: 'holowaychuk',
       greetings: function(sess, lastName){
         return 'Hello ' + sess.name + ' ' + lastName; 
       }
