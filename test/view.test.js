@@ -169,9 +169,9 @@ module.exports = {
     });
 
     app.get('/error', function(req, res){
-        res.render('invalid.jade', { layout: false }, function(err){
-            res.send(err.arguments[0]);
-        });
+      res.render('invalid.jade', { layout: false }, function(err){
+        res.send(err.arguments[0]);
+      });
     });
 
     app.get('/absolute', function(req, res){
