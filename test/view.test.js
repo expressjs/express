@@ -373,9 +373,9 @@ module.exports = {
     var ret = app.dynamicHelpers({
       session: function(req, res){
         ++calls;
-        assert.equal('object', typeof req, 'Test dynamic helper req');
-        assert.equal('object', typeof res, 'Test dynamic helper res');
-        assert.ok(this instanceof express.Server, 'Test dynamic helper app scope');
+        req.should.be.a('object');
+        res.should.be.a('object');
+        this.should.be.an.instanceof(express.Server);
         return req.session;
       }
     });
