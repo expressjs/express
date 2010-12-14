@@ -155,7 +155,7 @@ var appTest = [
   , " * Module dependencies."
   , " */"
   , ""
-  , "var app = require('../app');"
+  , "var app = require('../app')"
   , "  , assert = require('assert');"
   , "",
   , "module.exports = {"
