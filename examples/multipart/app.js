@@ -41,7 +41,7 @@ app.post('/', function(req, res, next){
 
   // We can add listeners for several form
   // events such as "progress"
-  req.form.addListener('progress', function(bytesReceived, bytesExpected){
+  req.form.on('progress', function(bytesReceived, bytesExpected){
     var percent = (bytesReceived / bytesExpected * 100) | 0;
     process.stdout.write('Uploading: %' + percent + '\r');
   });
