@@ -1,8 +1,4 @@
 
 exports.index = function(req, res){
-  res.render('index', {
-    locals: {
-      title: 'Route Separation Example'
-    }
-  });
+  res.render('index', { title: 'Route Separation Example' });
 };

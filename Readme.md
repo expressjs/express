@@ -7,7 +7,7 @@
      var app = express.createServer();
     
      app.get('/', function(req, res){
-         res.send('Hello World');
+       res.send('Hello World');
      });
 
 	 app.listen(3000);
@@ -64,12 +64,16 @@ The following are the major contributors of Express (in no specific order).
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
+  * Screencast - [Introduction](http://bit.ly/eRYu0O)
+  * Screencast - [View Partials](http://bit.ly/dU13Fx)
+  * Screencast - [Route Specific Middleware](http://bit.ly/hX4IaH)
+  * Screencast - [Route Path Placeholder Preconditions](http://bit.ly/eNqmVs)
 
 ## Node Compatibility
     
 The latest release of Express is compatible with node --version:
 
-    v0.2.4
+    v0.2.5
 
 and connect --version:
 

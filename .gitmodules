@@ -16,3 +16,6 @@
 [submodule "support/jade"]
 	path = support/jade
 	url = git://github.com/visionmedia/jade.git
+[submodule "support/should"]
+	path = support/should
+	url = git://github.com/visionmedia/should.js.git

@@ -110,6 +110,10 @@ var css = [
   , '  padding: 50px;'
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
   , '}'
+  , ''
+  , 'a {'
+  , '  color: #00B7FF;'
+  , '}'
 ].join('\n');
 
 /**
@@ -121,6 +125,10 @@ var less = [
   , '  padding: 50px;'
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
   , '}'
+  , ''
+  , 'a {'
+  , '  color: #00B7FF;'
+  , '}'
 ].join('\n');
 
 /**
@@ -131,6 +139,8 @@ var sass = [
     'body'
   , '  :padding 50px'
   , '  :font 14px "Lucida Grande", Helvetica, Arial, sans-serif'
+  , 'a'
+  , '  :color #00B7FF'
 ].join('\n');
 
 /**
@@ -145,10 +155,11 @@ var appTest = [
   , " * Module dependencies."
   , " */"
   , ""
-  , "var app = require('../app');"
+  , "var app = require('../app')"
+  , "  , assert = require('assert');"
   , "",
   , "module.exports = {"
-  , "  'GET /': function(assert){"
+  , "  'GET /': function(){"
   , "    assert.response(app,"
   , "      { url: '/' },"
   , "      { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' }},"
@@ -179,7 +190,7 @@ var app = [
   , '  app.set(\'views\', __dirname + \'/views\');'
   , '  app.set(\'view engine\', \':TEMPLATE\');'
   , '  app.use(express.bodyDecoder());'
-  , '  app.use(express.methodOverride());:SESS:CSS'
+  , '  app.use(express.methodOverride());{sess}{css}'
   , '  app.use(app.router);'
   , '  app.use(express.staticProvider(__dirname + \'/public\'));'
   , '});'
@@ -196,9 +207,7 @@ var app = [
   , ''
   , 'app.get(\'/\', function(req, res){'
   , '  res.render(\'index\', {'
-  , '    locals: {'
-  , '      title: \'Express\''
-  , '    }'
+  , '    title: \'Express\''
   , '  });'
   , '});'
   , ''
@@ -292,7 +301,7 @@ function createApplicationAt(path) {
           write(path + '/public/stylesheets/style.css', css);
       }
     });
-    mkdir(path + '/views/partials', function(){
+    mkdir(path + '/views', function(){
       switch (templateEngine) {
         case 'ejs':
           write(path + '/views/layout.ejs', ejsLayout);
@@ -312,14 +321,14 @@ function createApplicationAt(path) {
     switch (cssEngine) {
       case 'sass':
       case 'less':
-        app = app.replace(':CSS', '\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
+        app = app.replace('{css}', '\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
         break;
       default:
-        app = app.replace(':CSS', '');
+        app = app.replace('{css}', '');
     }
 
     // Session support
-    app = app.replace(':SESS', sessions
+    app = app.replace('{sess}', sessions
       ? '\n  app.use(express.cookieDecoder());\n  app.use(express.session());'
       : '');
 
