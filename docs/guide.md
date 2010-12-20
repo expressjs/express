@@ -163,7 +163,7 @@ For example we can __POST__ some json, and echo the json back using the _bodyDec
 
     app.listen(3000);
 
-Express 2.0.0-pre also supports named capture groups. Typically we may use a "dump" placeholder such as "/user/:id" which has no restraints, however say for example we are limiting a user id to digits, we may use _/user/:id(\d+)_ which will _not_ match unless the placeholder value contains only digits.
+Express 2.0.0-pre also supports named capture groups. Typically we may use a "dump" placeholder such as "/user/:id" which has no restraints, however say for example we are limiting a user id to digits, we may use _'/user/:id(\\d+)'_ which will _not_ match unless the placeholder value contains only digits.
 
 ### Passing Route Control
 
