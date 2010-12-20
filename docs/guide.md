@@ -98,7 +98,7 @@ when _/user/:id_ is compiled, a simplified version of the regexp may look simila
     \/user\/([^\/]+)\/?
 
 Regular expression literals may also be passed for complex uses. Since capture
-groups with literal _RegExp_'s are anonymous we can access them directly `req.params`.
+groups with literal _RegExp_'s are anonymous we can access them directly `req.params`. So our first capture group would be _req.params[0]_ and the second would follow as _req.params[1]_.
 
     app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res){
         res.send(req.params);
@@ -145,6 +145,10 @@ may consume:
 	 /products.json
 	 /products.xml
 	 /products
+	 
+	 "/user/:id.:format?"
+	 /user/12
+	 /user/12.json
 
 For example we can __POST__ some json, and echo the json back using the _bodyDecoder_ middleware which will parse json request bodies (as well as others), and place the result in _req.body_:
 
@@ -158,6 +162,8 @@ For example we can __POST__ some json, and echo the json back using the _bodyDec
     });
 
     app.listen(3000);
+
+Express 2.0.0-pre also supports named capture groups. Typically we may use a "dump" placeholder such as "/user/:id" which has no restraints, however say for example we are limiting a user id to digits, we may use _/user/:id(\d+)_ which will _not_ match unless the placeholder value contains only digits.
 
 ### Passing Route Control
 

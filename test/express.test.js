@@ -425,6 +425,18 @@ module.exports = {
     });
   },
   
+  'test named capture groups': function(){
+    var app = express.createServer();
+
+    app.get('/user/:id(\d+)', function(req, res){
+      res.send('user ' + req.params.id);
+    });
+
+    assert.response(app,
+      { url: '/user/12' },
+      { body: 'user 12' });
+  },
+  
   'test .param()': function(){
     var app = express.createServer();
 
