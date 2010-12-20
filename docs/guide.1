@@ -171,7 +171,7 @@ A route is simple a string which is compiled to a \fIRegExp\fR internally\. For 
 .IP "" 0
 .
 .P
-Regular expression literals may also be passed for complex uses\. Since capture groups with literal \fIRegExp\fR\'s are anonymous we can access them directly \fBreq\.params\fR\.
+Regular expression literals may also be passed for complex uses\. Since capture groups with literal \fIRegExp\fR\'s are anonymous we can access them directly \fBreq\.params\fR\. So our first capture group would be \fIreq\.params[0]\fR and the second would follow as \fIreq\.params[1]\fR\.
 .
 .IP "" 4
 .
@@ -239,6 +239,10 @@ Below are some route examples, and the associated paths that they may consume:
  /products\.json
  /products\.xml
  /products
+
+ "/user/:id\.:format?"
+ /user/12
+ /user/12\.json
 .
 .fi
 .
@@ -265,6 +269,9 @@ app\.listen(3000);
 .fi
 .
 .IP "" 0
+.
+.P
+Express 2\.0\.0\-pre also supports named capture groups\. Typically we may use a "dump" placeholder such as "/user/:id" which has no restraints, however say for example we are limiting a user id to digits, we may use \fI\'/user/:id(\ed+)\'\fR which will \fInot\fR match unless the placeholder value contains only digits\.
 .
 .SS "Passing Route Control"
 We may pass control to the next \fImatching\fR route, by calling the \fIthird\fR argument, the \fInext()\fR function\. When a match cannot be made, control is passed back to Connect, and middleware continue to be invoked\. The same is true for several routes which have the same path defined, they will simply be executed in order until one does \fInot\fR call \fInext()\fR\.

@@ -133,7 +133,7 @@
 				font-size: 11px;
 			}
 			#menu {
-			  margin-left: 80px;
+			  margin-left: 75px;
 			  padding: 0;
 			  padding-bottom: 30px; }
 			  #menu li {
@@ -355,7 +355,7 @@ when <em>/user/:id</em> is compiled, a simplified version of the regexp may look
 </code></pre>
 
 <p>Regular expression literals may also be passed for complex uses. Since capture
-groups with literal <em>RegExp</em>'s are anonymous we can access them directly <code>req.params</code>.</p>
+groups with literal <em>RegExp</em>'s are anonymous we can access them directly <code>req.params</code>. So our first capture group would be <em>req.params[0]</em> and the second would follow as <em>req.params[1]</em>.</p>
 
 <pre><code>app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res){
     res.send(req.params);
@@ -404,6 +404,10 @@ may consume:</p>
  /products.json
  /products.xml
  /products
+
+ "/user/:id.:format?"
+ /user/12
+ /user/12.json
 </code></pre>
 
 <p>For example we can <strong>POST</strong> some json, and echo the json back using the <em>bodyDecoder</em> middleware which will parse json request bodies (as well as others), and place the result in <em>req.body</em>:</p>
@@ -419,6 +423,8 @@ app.post('/', function(req, res){
 
 app.listen(3000);
 </code></pre>
+
+<p>Express 2.0.0-pre also supports named capture groups. Typically we may use a "dump" placeholder such as "/user/:id" which has no restraints, however say for example we are limiting a user id to digits, we may use <em>'/user/:id(\d+)'</em> which will <em>not</em> match unless the placeholder value contains only digits.</p>
 
 <h3 id="Passing-Route-Control">Passing Route Control</h3>
 
