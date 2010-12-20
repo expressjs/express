@@ -697,6 +697,85 @@ app\.use(express\.errorHandler({ showStack: true, dumpExceptions: true }));
 .P
 The \fIerrorHandler\fR middleware also responds with \fIjson\fR if \fIAccept: application/json\fR is present, which is useful for developing apps that rely heavily on client\-side JavaScript\.
 .
+.SS "Route Preconditions"
+Route placeholder pre\-conditions can drastically improve the readability of your application, through implicit loading of data, and validation of request urls\. For example if you are constantly fetching common data for several routes, such as loading a user for \fI/user/:id\fR,we might typically do something like below:
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/user/:userId\', function(req, res, next){
+  User\.get(req\.params\.userId, function(err, user){
+    if (err) return next(err);
+    res\.send(\'user \' + user\.name);
+  });
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+With route preconditions our placeholders can be mapped to callbacks which may perform validation, coercion, or even loading data from a database\. Below we invoke \fIapp\.param()\fR with the parameter name we wish to map to some middleware, as you can see we receive the \fIid\fR argument which contains the placeholder value\. Using this we load the user and perform error handling as usual, and simple call \fInext()\fR to pass control to the next precondition or route handler\.
+.
+.IP "" 4
+.
+.nf
+
+app\.param(\'userId\', function(req, res, next, id){
+  User\.get(id, function(err, user){
+    if (err) return next(err);
+    if (!user) return next(new Error(\'failed to find user\'));
+    req\.user = user;
+    next();
+  });
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Doing so, as mentioned drastically improves our route readability, and allows us to easily share this logic throughout our application:
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/user/:userId\', function(req, res){
+  res\.send(\'user \' + req\.user\.name);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+For simple cases such as route placeholder validation and coercion we can simple pass a callback which has an arity of 1 (accepts one argument)\. Any errors thrown will be passed to \fInext(err)\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.param(\'number\', function(n){ return parseInt(n, 10); });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+We may also apply the same callback to several placeholders, for example a route GET \fI/commits/:from\-:to\fR are both numbers, so we may define them as an array:
+.
+.IP "" 4
+.
+.nf
+
+app\.param([\'from\', \'to\'], function(n){ return parseInt(n, 10); });
+.
+.fi
+.
+.IP "" 0
+.
 .SS "View Rendering"
 View filenames take the form \fINAME\fR\.\fIENGINE\fR, where \fIENGINE\fR is the name of the module that will be required\. For example the view \fIlayout\.ejs\fR will tell the view system to \fIrequire(\'ejs\')\fR, the module being loaded must export the method \fIexports\.render(str, options)\fR to comply with Express, however \fIapp\.register()\fR can be used to map engines to file extensions, so that for example "foo\.html" can be rendered by jade\.
 .

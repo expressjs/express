@@ -420,6 +420,42 @@ that are passed or thrown, so we can set _showStack_ to true:
 The _errorHandler_ middleware also responds with _json_ if _Accept: application/json_
 is present, which is useful for developing apps that rely heavily on client-side JavaScript.
 
+### Route Preconditions
+
+Route placeholder pre-conditions can drastically improve the readability of your application, through implicit loading of data, and validation of request urls. For example if you are constantly fetching common data for several routes, such as loading a user for _/user/:id_,we might typically do something like below:
+
+    app.get('/user/:userId', function(req, res, next){
+      User.get(req.params.userId, function(err, user){
+        if (err) return next(err);
+        res.send('user ' + user.name);
+      });
+    }); 
+
+With route preconditions our placeholders can be mapped to callbacks which may perform validation, coercion, or even loading data from a database. Below we invoke _app.param()_ with the parameter name we wish to map to some middleware, as you can see we receive the _id_ argument which contains the placeholder value. Using this we load the user and perform error handling as usual, and simple call _next()_ to pass control to the next precondition or route handler.
+
+    app.param('userId', function(req, res, next, id){
+      User.get(id, function(err, user){
+        if (err) return next(err);
+        if (!user) return next(new Error('failed to find user'));
+        req.user = user;
+        next();
+      });
+    });
+
+Doing so, as mentioned drastically improves our route readability, and allows us to easily share this logic throughout our application:
+
+    app.get('/user/:userId', function(req, res){
+      res.send('user ' + req.user.name);
+    });
+
+For simple cases such as route placeholder validation and coercion we can simple pass a callback which has an arity of 1 (accepts one argument). Any errors thrown will be passed to _next(err)_.
+
+    app.param('number', function(n){ return parseInt(n, 10); });
+
+We may also apply the same callback to several placeholders, for example a route GET _/commits/:from-:to_ are both numbers, so we may define them as an array:
+
+    app.param(['from', 'to'], function(n){ return parseInt(n, 10); });
+
 ### View Rendering
 
 View filenames take the form _NAME_._ENGINE_, where _ENGINE_ is the name
