@@ -428,13 +428,17 @@ module.exports = {
   'test named capture groups': function(){
     var app = express.createServer();
 
-    app.get('/user/:id(\d+)', function(req, res){
+    app.get('/user/:id([0-9]{2,10})', function(req, res){
       res.send('user ' + req.params.id);
     });
 
     assert.response(app,
       { url: '/user/12' },
       { body: 'user 12' });
+    
+    assert.response(app,
+      { url: '/user/ab' },
+      { body: 'Cannot GET /user/ab' });
   },
   
   'test .param()': function(){
