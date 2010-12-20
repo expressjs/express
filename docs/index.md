@@ -40,3 +40,4 @@ The following are the major contributors of Express (in no specific order).
   * View the [Connect Wiki](http://wiki.github.com/senchalabs/connect/) for contrib middleware
   * View the [examples](http://github.com/visionmedia/express/tree/master/examples/)
   * View the [source](http://github.com/visionmedia/express)
+  * View the [contrib guide](contrib.html)
