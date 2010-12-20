@@ -3,6 +3,7 @@ PREFIX ?= /usr/local
 LIB_PREFIX = ~/.node_libraries
 
 DOCS = docs/index.md \
+	   docs/screencasts.md \
 	   docs/executable.md \
 	   docs/contrib.md \
 	   docs/guide.md \
