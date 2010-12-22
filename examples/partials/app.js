@@ -18,13 +18,13 @@ app.set('views', __dirname + '/views');
 // (although you can still mix and match)
 app.set('view engine', 'jade');
 
-// Dummy model
+// Dummy record
 var ninja = {
   name: 'leonardo',
   summary: { email: 'hunter.loftis+github@gmail.com', master: 'splinter', description: 'peaceful leader' },
   weapons: ['katana', 'fists', 'shell'],
   victims: ['shredder', 'brain', 'beebop', 'rocksteady']
-}
+};
 
 app.get('/', function(req, res){
   res.render('ninjas/show', { ninja: ninja });
