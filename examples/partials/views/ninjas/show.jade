@@ -7,6 +7,8 @@ h1= ninja.name
 // file, partial name = '_weapon', resolves to 'weapon' object within partial
 #weapons
   h2 Weapons
+  // the weapon partial is rendered once per item in
+  // the weapons array or "collection"
   ul!= partial('weapon', ninja.weapons)
   
 // partial name 'victim_name' resolves to '_victim_name.jade' file and 'victimName' object
