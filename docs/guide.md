@@ -936,12 +936,18 @@ Enable the given setting _name_:
     app.set('some arbitrary setting');
     // => true
 
+    app.enabled('some arbitrary setting');
+    // => true
+
 ### app.disable(name)
 
 Disable the given setting _name_:
 
     app.disable('some setting');
     app.set('some setting');
+    // => false
+    
+    app.disabled('some setting');
     // => false
 
 ### app.configure(env|function[, function])
