@@ -489,5 +489,21 @@ module.exports = {
     assert.response(app,
       { url: '/users/0-3' },
       { body: 'users tj, tobi, loki' });
+  },
+  
+  'test OPTIONS': function(){
+    var app = express.createServer();
+    
+    app.get('/', function(){});
+    app.get('/user/:id', function(){});
+    app.put('/user/:id', function(){});
+    
+    assert.response(app,
+      { url: '/', method: 'OPTIONS' },
+      { headers: { Allow: 'GET' }});
+    
+    assert.response(app,
+      { url: '/user/12', method: 'OPTIONS' },
+      { headers: { Allow: 'GET,PUT' }});
   }
 };
