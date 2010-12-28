@@ -9,7 +9,7 @@
     { "name": "Ciaran Jessup", "email": "ciaranj@gmail.com" },
     { "name": "Guillermo Rauch", "email": "rauchg@gmail.com" }
   ],
-  "dependencies": { "connect": ">= 0.5.1" },
+  "dependencies": { "connect": ">= 0.5.2" },
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "directories": { "lib": "./lib/express" },
   "scripts": { "test": "make test" },
