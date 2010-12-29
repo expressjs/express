@@ -769,5 +769,19 @@ module.exports = {
     assert.response(app,
       { url: '/' },
       { body: '<p>This is actually jade :)</p>' });
+  },
+
+  'test global-variable-leak `str`': function() {
+    var app = create();
+    app.set('view engine', 'jade');
+    
+    app.get('/', function(req, res){
+      res.render('index', { layout: 'cool-layout' });
+      assert.equal(typeof global.str, 'undefined');
+    });
+
+    assert.response(app,
+      { url: '/' },
+      { body: '<cool><p>Welcome</p></cool>' });
   }
 };
