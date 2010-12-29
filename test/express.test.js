@@ -18,6 +18,16 @@ module.exports = {
     express.errorHandler.should.equal(connect.errorHandler);
   },
   
+  'test createServer() precedence': function(){
+    var app = express.createServer(function(req, res){
+      res.send(req.query.bar);
+    });
+    
+    assert.response(app,
+      { url: '/foo?bar=baz' },
+      { body: 'baz' });
+  },
+  
   'test basic server': function(){
     var server = express.createServer();
 
