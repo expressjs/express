@@ -914,6 +914,23 @@ When a non-collection (does _not_ have _.length_) is passed as the second argume
     partial('movie', movie);
     // => In view: movie.director
 
+### res.local(name[, val])
+
+Get or set the given local variable _name_. The locals built up for a response are applied to those given to the view rendering methods such as `res.render()`.
+
+      app.all('/movie/:id', function(req, res, next){
+        Movie.get(req.params.id, function(err, movie){
+          // Assigns res.locals.movie = movie
+          res.local('movie', movie);
+        });
+      });
+      
+      app.get('/movie/:id', function(req, res){
+        // movie is already a local, however we
+        // can pass more if we wish
+        res.render('movie', { displayReviews: true });
+      });
+
 ### app.set(name[, val])
 
 Apply an application level setting _name_ to _val_, or
