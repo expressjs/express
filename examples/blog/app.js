@@ -22,6 +22,7 @@ app.configure(function(){
   app.use(express.bodyDecoder());
   app.use(express.methodOverride());
   app.use(app.router);
+  app.use(express.staticProvider(__dirname + '/public'));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
