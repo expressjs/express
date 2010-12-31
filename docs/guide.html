@@ -215,6 +215,7 @@
 <li><a href="#res-clearCookie-name-">clearCookie()</a></li>
 <li><a href="#res-render-view-options-fn-">render()</a></li>
 <li><a href="#res-partial-view-options-">partial()</a></li>
+<li><a href="#res-local-name-val-">local()</a></li>
 </ul></li>
 <li><a href="#" class="toggle">+</a> <a class="section-title" href="#">Server</a><ul class="section" id="section-Server">
 <li><a href="#app-set-name-val-">set()</a></li>
@@ -1265,6 +1266,24 @@ partial('movie', { object: movie });
 // =&gt; In view: movie.director
 </code></pre>
 
+<h3 id="res-local-name-val-">res.local(name[, val])</h3>
+
+<p>Get or set the given local variable <em>name</em>. The locals built up for a response are applied to those given to the view rendering methods such as <code>res.render()</code>.</p>
+
+<pre><code>  app.all('/movie/:id', function(req, res, next){
+    Movie.get(req.params.id, function(err, movie){
+      // Assigns res.locals.movie = movie
+      res.local('movie', movie);
+    });
+  });
+
+  app.get('/movie/:id', function(req, res){
+    // movie is already a local, however we
+    // can pass more if we wish
+    res.render('movie', { displayReviews: true });
+  });
+</code></pre>
+
 <h3 id="app-set-name-val-">app.set(name[, val])</h3>
 
 <p>Apply an application level setting <em>name</em> to <em>val</em>, or
@@ -1288,6 +1307,9 @@ app.set('views');
 <pre><code>app.enable('some arbitrary setting');
 app.set('some arbitrary setting');
 // =&gt; true
+
+app.enabled('some arbitrary setting');
+// =&gt; true
 </code></pre>
 
 <h3 id="app-disable-name-">app.disable(name)</h3>
@@ -1296,6 +1318,9 @@ app.set('some arbitrary setting');
 
 <pre><code>app.disable('some setting');
 app.set('some setting');
+// =&gt; false
+
+app.disabled('some setting');
 // =&gt; false
 </code></pre>
 

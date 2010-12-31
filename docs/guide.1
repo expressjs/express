@@ -1628,6 +1628,30 @@ partial(\'movie\', movie);
 .
 .IP "" 0
 .
+.SS "res\.local(name[, val])"
+Get or set the given local variable \fIname\fR\. The locals built up for a response are applied to those given to the view rendering methods such as \fBres\.render()\fR\.
+.
+.IP "" 4
+.
+.nf
+
+  app\.all(\'/movie/:id\', function(req, res, next){
+    Movie\.get(req\.params\.id, function(err, movie){
+      // Assigns res\.locals\.movie = movie
+      res\.local(\'movie\', movie);
+    });
+  });
+
+  app\.get(\'/movie/:id\', function(req, res){
+    // movie is already a local, however we
+    // can pass more if we wish
+    res\.render(\'movie\', { displayReviews: true });
+  });
+.
+.fi
+.
+.IP "" 0
+.
 .SS "app\.set(name[, val])"
 Apply an application level setting \fIname\fR to \fIval\fR, or get the value of \fIname\fR when \fIval\fR is not present:
 .
@@ -1667,6 +1691,9 @@ Enable the given setting \fIname\fR:
 app\.enable(\'some arbitrary setting\');
 app\.set(\'some arbitrary setting\');
 // => true
+
+app\.enabled(\'some arbitrary setting\');
+// => true
 .
 .fi
 .
@@ -1681,6 +1708,9 @@ Disable the given setting \fIname\fR:
 
 app\.disable(\'some setting\');
 app\.set(\'some setting\');
+// => false
+
+app\.disabled(\'some setting\');
 // => false
 .
 .fi
