@@ -8,11 +8,22 @@ var Post = exports = module.exports = function Post(title, body) {
   this.id = ++ids;
   this.title = title;
   this.body = body;
+  this.createdAt = new Date;
 };
 
-Post.prototype.update =
 Post.prototype.save = function(fn){
-  exports.update(this, fn);
+  db[this.id] = this;
+  fn();
+};
+
+Post.prototype.update = function(data, fn){
+  this.updatedAt = new Date;
+  for (var key in data) {
+    if (undefined != data[key]) {
+      this[key] = data[key];
+    }
+  }
+  this.save(fn);
 };
 
 Post.prototype.destroy = function(fn){
@@ -25,10 +36,6 @@ exports.count = function(fn){
 
 exports.get = function(id, fn){
   fn(null, db[id]);
-};
-
-exports.update = function(post, fn){
-  fn(null, db[post.id] = db);
 };
 
 exports.destroy = function(id, fn) {

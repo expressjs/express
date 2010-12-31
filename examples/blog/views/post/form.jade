@@ -4,7 +4,7 @@
 - else
   h1 New Post
 
-form#post(action='/post', method='post')
+form#post(action='/post' + (post.title ? '/' + post.id : ''), method='post')
   - if (post.title)
     input(type='hidden', name='_method', value='put')
   p

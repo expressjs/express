@@ -1,0 +1,6 @@
+.post
+  h1= post.title
+  p.date.created Created at #{post.createdAt}
+  - if (post.updatedAt)
+    p.date.updated Updated at #{post.updatedAt}
+  pre.body= post.body
