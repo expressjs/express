@@ -100,7 +100,7 @@ module.exports = {
     );
     
     app.get('/user/:id?', function(req, res){
-      res.send('user ' + req.param('id'));
+      res.send('user ' + req.param('id', 'unknown'));
     });
     
     app.post('/user', function(req, res){
@@ -114,6 +114,10 @@ module.exports = {
     assert.response(app,
       { url: '/user?id=5' },
       { body: 'user 5' });
+    
+    assert.response(app,
+      { url: '/user' },
+      { body: 'user unknown' });
     
     assert.response(app,
       { url: '/user', method: 'POST', data: 'id=1', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},

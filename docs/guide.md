@@ -685,9 +685,9 @@ We may also assert the _type_ as shown below, which would return true for _"appl
 
     req.is('*/json');
 
-### req.param(name)
+### req.param(name[, default])
 
-Return the value of param _name_ when present.
+Return the value of param _name_ when present or _default_.
 
   - Checks route placeholders (_req.params_), ex: /user/:id
   - Checks query string params (_req.query_), ex: ?id=12
