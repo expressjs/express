@@ -10,7 +10,7 @@ var basicAuth = require('../../../lib/express').basicAuth
  * Apply basic auth to all post related routes
  */
 
-app.all('/post/*', basicAuth(function(user, pass){
+app.all('/post(/*)?', basicAuth(function(user, pass){
   return 'admin' == user && 'express' == pass;
 }));
 

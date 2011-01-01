@@ -1,9 +1,9 @@
 body {
-  font: 13px;
+  font: 13px "Helvetica Neue", Arial, sans-serif;
   color: #111;
   padding: 60px 80px;
 }
-h1 {
+h1, h2 {
   color: #c00;
 }
 a {
@@ -32,4 +32,9 @@ input:focus {
 textarea {
   width: 500px;
   height: 200px;
+}
+a.edit {
+  margin-left: 10px;
+  font-size: 11px;
+  font-weight: normal;
 }
