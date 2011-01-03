@@ -39,14 +39,16 @@ otherwise the first call to _app.{get,put,del,post}()_ will mount the routes.
   		app.use(express.methodOverride());
   		app.use(express.bodyDecoder());
   		app.use(app.router);
-  		app.use(express.staticProvider(__dirname + '/public'));
   	});
 	
   	app.configure('development', function(){
+  		app.use(express.staticProvider(__dirname + '/public'));
   		app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   	});
 	
   	app.configure('production', function(){
+  	  var oneYear = 31557600000;
+  		app.use(express.staticProvider({ root: __dirname + '/public', maxAge: oneYear }));
   		app.use(express.errorHandler());
   	});
 
