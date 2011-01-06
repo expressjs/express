@@ -4,6 +4,9 @@
     = post.title
     a.edit(href='/post/' + post.id + '/edit') Edit
   
+  // flash messages
+  != messages()
+  
   // dates
   p.date.created Created at #{post.createdAt}
   - if (post.updatedAt)

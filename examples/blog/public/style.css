@@ -38,3 +38,21 @@ a.edit {
   font-size: 11px;
   font-weight: normal;
 }
+.date {
+  font-size: 11px;
+}
+#messages ul {
+  padding: 10px;
+  border: 1px solid;
+}
+#messages ul li {
+  list-style: none;
+}
+#messages ul.info {
+  color: #2EBBE6;
+  background: #F7FBFD;
+}
+#messages ul.error {
+  color: #E4250C;
+  background: #FDEAE7;
+}

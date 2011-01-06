@@ -16,6 +16,17 @@ Post.prototype.save = function(fn){
   fn();
 };
 
+Post.prototype.validate = function(fn){
+  if (!this.title) return fn(new Error('_title_ required'));
+  if (!this.body) return fn(new Error('_body_ required'));
+  if (this.body.length < 10) {
+    return fn(new Error(
+        '_body_ should be at least **10** characters long, was only _' + this.title.length + '_'));
+  }
+  fn();
+};
+
+
 Post.prototype.update = function(data, fn){
   this.updatedAt = new Date;
   for (var key in data) {
