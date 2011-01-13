@@ -66,6 +66,10 @@ module.exports = {
       { body: 'baz({"foo":"bar"});', status: 201, headers: { 'Content-Type': 'text/javascript', 'X-Foo': 'baz' }});
 
     assert.response(app,
+      { url: '/jsonp?callback=invalid()[]' },
+      { body: 'invalid({"foo":"bar"});', status: 201, headers: { 'Content-Type': 'text/javascript', 'X-Foo': 'baz' }});
+
+    assert.response(app,
       { url: '/json?callback=test' },
       { body: '{"foo":"bar"}', status: 201, headers: { 'Content-Type': 'application/json', 'X-Foo': 'baz' }});
 
