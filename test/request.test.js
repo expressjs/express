@@ -7,7 +7,7 @@ var express = require('express')
   , connect = require('connect')
   , assert = require('assert')
   , should = require('should')
-  , MemoryStore = require('connect/middleware/session/memory');
+  , MemoryStore = express.session.MemoryStore;
 
 // Prevent reap timer
 var memoryStore = new MemoryStore({ reapInterval: -1 });
@@ -127,7 +127,7 @@ module.exports = {
   'test #flash()': function(){
     var app = express.createServer(
       connect.cookieDecoder(),
-      connect.session({ store: memoryStore })
+      connect.session({ secret: 'something', store: memoryStore })
     );
 
     app.flashFormatters = {
