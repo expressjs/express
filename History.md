@@ -1,4 +1,9 @@
 
+1.0.3 / 2011-01-13 
+==================
+
+  * Remove unsafe characters from JSONP callback names [Ryan Grove]
+
 1.0.2 / 2011-01-10 
 ==================
 
