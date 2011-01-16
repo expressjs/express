@@ -15,7 +15,7 @@ var app = express.createServer(
     //   - req.session
     //   - req.sessionStore
     //   - req.sessionID
-    express.session()
+    express.session({ secret: 'keyboard cat' })
 );
 
 app.get('/', function(req, res){

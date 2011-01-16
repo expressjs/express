@@ -114,7 +114,7 @@ module.exports = {
     'test #flash()': function(assert){
         var app = express.createServer(
             connect.cookieDecoder(),
-            connect.session({ store: memoryStore })
+            connect.session({ store: memoryStore, secret: 'wahoo' })
         );
 
         app.flashFormatters = {
