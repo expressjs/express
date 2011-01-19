@@ -227,8 +227,6 @@ module.exports = {
   'test #sendfile()': function(){
     var app = express.createServer();
 
-    app.set('stream threshold', 2 * 1024)
-
     app.get('/*', function(req, res, next){
       var file = req.params[0]
         , filePath = __dirname + '/fixtures/' + file;
@@ -263,8 +261,6 @@ module.exports = {
   'test #sendfile() Accept-Ranges': function(){
     var app = express.createServer();
     
-    app.set('stream threshold', 1024);
-    
     app.get('/*', function(req, res, next){
       var file = req.params[0]
         , path = __dirname + '/fixtures/' + file;
@@ -278,8 +274,6 @@ module.exports = {
   
   'test #sendfile() Range': function(){
     var app = express.createServer();
-    
-    app.set('stream threshold', 1024);
     
     app.get('/*', function(req, res, next){
       var file = req.params[0]
@@ -298,8 +292,6 @@ module.exports = {
   'test #sendfile() Range invalid syntax': function(){
     var app = express.createServer();
     
-    app.set('stream threshold', 1024);
-    
     app.get('/*', function(req, res, next){
       var file = req.params[0]
         , path = __dirname + '/fixtures/' + file;
@@ -308,15 +300,11 @@ module.exports = {
 
     assert.response(app,
       { url: '/large.json', headers: { 'Range': 'basdytes=asdf' }},
-      { headers: {
-        'Content-Type': 'application/json'
-      }, status: 200 });
+      { body: 'Requested Range Not Satisfiable', status: 416 });
   },
 
   'test #sendfile() Range invalid range': function(){
     var app = express.createServer();
-    
-    app.set('stream threshold', 1024);
     
     app.get('/*', function(req, res, next){
       var file = req.params[0]
@@ -326,9 +314,7 @@ module.exports = {
 
     assert.response(app,
       { url: '/large.json', headers: { 'Range': 'bytes=500-10' }},
-      { headers: {
-        'Content-Type': 'application/json'
-      }, status: 200 });
+      { body: 'Requested Range Not Satisfiable', status: 416 });
   },
   
   'test #download()': function(){
