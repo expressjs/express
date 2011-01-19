@@ -7,3 +7,4 @@ lib-cov
 *.out
 *.pid
 benchmarks/graphs
+testing.js
