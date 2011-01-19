@@ -81,7 +81,6 @@ Express supports the following settings out of the box:
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
   * _view options_ An object specifying global view options
-  * _stream threshold_ Bytesize indicating when a file should be streamed for _res.sendfile()_ using _fs.ReadStream()_ and _sys.pump()_.
 
 ### Routing
 
@@ -771,8 +770,6 @@ This method accepts a callback which when given will be called on an exception, 
         console.log('transferred %s', path);
       }
     });
-
-When the filesize exceeds the _stream threshold_ (defaulting to 32k), the file will be streamed using _fs.ReadStream_ and _sys.pump()_.
 
 ### res.download(file[, filename])
 
