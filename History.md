@@ -1,4 +1,22 @@
 
+1.0.3 / 2011-01-13 
+==================
+
+  * Remove unsafe characters from JSONP callback names [Ryan Grove]
+
+1.0.2 / 2011-01-10 
+==================
+
+  * Removed nested require, using `connect.router`
+
+1.0.1 / 2010-12-29 
+==================
+
+  * Fixed for middleware stacked via `createServer()`
+    previously the `foo` middleware passed to `createServer(foo)`
+    would not have access to Express methods such as `res.send()`
+    or props like `req.query` etc.
+
 1.0.0 / 2010-11-16 
 ==================
 
