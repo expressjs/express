@@ -18,6 +18,16 @@ module.exports = {
     express.errorHandler.should.equal(connect.errorHandler);
   },
   
+  'test createServer() precedence': function(){
+    var app = express.createServer(function(req, res){
+      res.send(req.query.bar);
+    });
+    
+    assert.response(app,
+      { url: '/foo?bar=baz' },
+      { body: 'baz' });
+  },
+  
   'test basic server': function(){
     var server = express.createServer();
 
@@ -293,14 +303,18 @@ module.exports = {
       var app = express.createServer();
       var ret = app.enable('some feature');
       ret.should.equal(app);
-      app.set('some feature').should.equal(true);
+      app.set('some feature').should.be.true;
+      app.enabled('some feature').should.be.true;
+      app.enabled('something else').should.be.false;
   },
   
   'test #disable()': function(){
       var app = express.createServer();
       var ret = app.disable('some feature');
       ret.should.equal(app);
-      app.set('some feature').should.equal(false);
+      app.set('some feature').should.be.false;
+      app.disabled('some feature').should.be.true;
+      app.disabled('something else').should.be.true;
   },
   
   'test middleware precedence': function(){
@@ -425,6 +439,22 @@ module.exports = {
     });
   },
   
+  'test named capture groups': function(){
+    var app = express.createServer();
+
+    app.get('/user/:id([0-9]{2,10})', function(req, res){
+      res.send('user ' + req.params.id);
+    });
+
+    assert.response(app,
+      { url: '/user/12' },
+      { body: 'user 12' });
+    
+    assert.response(app,
+      { url: '/user/ab' },
+      { body: 'Cannot GET /user/ab' });
+  },
+  
   'test .param()': function(){
     var app = express.createServer();
 
@@ -469,5 +499,21 @@ module.exports = {
     assert.response(app,
       { url: '/users/0-3' },
       { body: 'users tj, tobi, loki' });
+  },
+  
+  'test OPTIONS': function(){
+    var app = express.createServer();
+    
+    app.get('/', function(){});
+    app.get('/user/:id', function(){});
+    app.put('/user/:id', function(){});
+    
+    assert.response(app,
+      { url: '/', method: 'OPTIONS' },
+      { headers: { Allow: 'GET' }});
+    
+    assert.response(app,
+      { url: '/user/12', method: 'OPTIONS' },
+      { headers: { Allow: 'GET,PUT' }});
   }
 };

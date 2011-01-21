@@ -1,0 +1,19 @@
+h1 Blog
+
+!= messages()
+
+- if (count)
+  p Display all #{count} post(s)
+  #posts!= partial('post', posts)
+- else
+  p 
+    | It looks like you have no posts!
+  p
+    | Click
+    a(href='/post/add') here
+    | to create a post. Login
+    | as
+    em "admin"
+    | and
+    em "express"
+    | .

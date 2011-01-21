@@ -7,7 +7,7 @@ var express = require('express')
   , connect = require('connect')
   , assert = require('assert')
   , should = require('should')
-  , MemoryStore = require('connect/middleware/session/memory');
+  , MemoryStore = express.session.MemoryStore;
 
 // Prevent reap timer
 var memoryStore = new MemoryStore({ reapInterval: -1 });
@@ -100,7 +100,7 @@ module.exports = {
     );
     
     app.get('/user/:id?', function(req, res){
-      res.send('user ' + req.param('id'));
+      res.send('user ' + req.param('id', 'unknown'));
     });
     
     app.post('/user', function(req, res){
@@ -116,6 +116,10 @@ module.exports = {
       { body: 'user 5' });
     
     assert.response(app,
+      { url: '/user' },
+      { body: 'user unknown' });
+    
+    assert.response(app,
       { url: '/user', method: 'POST', data: 'id=1', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
       { body: 'user 1' });
   },
@@ -123,7 +127,7 @@ module.exports = {
   'test #flash()': function(){
     var app = express.createServer(
       connect.cookieDecoder(),
-      connect.session({ store: memoryStore })
+      connect.session({ secret: 'something', store: memoryStore })
     );
 
     app.flashFormatters = {

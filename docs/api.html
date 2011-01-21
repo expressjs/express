@@ -127,7 +127,7 @@ of <code>require('connect').logger()</code>.
  </p>
 </td>
 <td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">version</span> = <span class="string">'1.0.0'</span>;</code></pre>
+<pre><code><span class="variable">exports</span>.<span class="variable">version</span> = <span class="string">'2.0.0-pre'</span>;</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -180,288 +180,6 @@ of <code>require('connect').logger()</code>.
 <pre><code><span class="variable">require</span>(<span class="string">'./request'</span>);
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/express/request.js"><a href="#">request</a></h2></td><td>lib/express/request.js</td></tr><tr class="code">
-<td class="docs">
-<p>Module dependencies.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>)
-  , <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'./utils'</span>)
-  , <span class="variable">mime</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>).<span class="variable">mime</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Default flash formatters.</p>
-
-<ul><li><p><strong>type</strong>: <em>Object</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">flashFormatters</span> = <span class="variable">exports</span>.<span class="variable">flashFormatters</span> = {
-  <span class="variable">s</span>: <span class="keyword">function</span>(<span class="variable">val</span>){
-    <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">val</span>);
-  }
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Return request header or optional default.</p>
-
-<h2>Examples</h2>
-
-<pre><code>req.header('Content-Type');
-// =&gt; "text/plain"
-
-req.header('content-type');
-// =&gt; "text/plain"
-
-req.header('Accept');
-// =&gt; undefined
-
-req.header('Accept', 'text/html');
-// =&gt; "text/html"</code></pre>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  name</p></li><li><p><strong>param</strong>: <em>String</em>  defaultValue</p></li><li><p><strong>return</strong>: <em>String</em>  </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">header</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">defaultValue</span>){
-  <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">headers</span>[<span class="variable">name</span>.<span class="variable">toLowerCase</span>()] || <span class="variable">defaultValue</span>;
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Check if the <em>Accept</em> header is present, and includes the given <code>type</code>.</p>
-
-<p>When the <em>Accept</em> header is not present <code>true</code> is returned. Otherwise
-the given <code>type</code> is matched by an exact match, and then subtypes. You
-may pass the subtype such as "html" which is then converted internally
-to "text/html" using the mime lookup table.</p>
-
-<h2>Examples</h2>
-
-<pre><code>// Accept: text/html
-req.accepts('html');
-// =&gt; true
-
-// Accept: text/*; application/json
-req.accepts('html');
-req.accepts('text/html');
-req.accepts('text/plain');
-req.accepts('application/json');
-// =&gt; true
-
-req.accepts('image/png');
-req.accepts('png');
-// =&gt; false</code></pre>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">accepts</span> = <span class="keyword">function</span>(<span class="variable">type</span>){
-  <span class="keyword">var</span> <span class="variable">accept</span> = <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'Accept'</span>);
-  <span class="keyword">if</span> (!<span class="variable">accept</span> || <span class="variable">accept</span> === '*</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>') {
-    return true;
-  } else if (type) {
-    // Allow "html" vs "text/html" etc
-    if (type.indexOf('/') &lt; 0) {
-      type = mime.types['.' + type];
-    }
-    // Check if we have a direct match
-    if (accept.indexOf(type) &gt;= 0) {
-      return true;
-    // Check if we have type/<em>
-    } else {
-      type = type.split('/')[0] + '/</em>';
-      return accept.indexOf(type) &gt;= 0;
-    }
-  } else {
-    return false;
-  }
-};</p>
-
-<p>/**
-Return the value of param <code>name</code> when present.</p>
-
-<ul><li>Checks route placeholders, ex: <em>/user/:id</em></li><li>Checks query string params, ex: ?id=12</li><li>Checks urlencoded body params, ex: id=12</li></ul>
-
-<p>To utilize urlencoded request bodies, <code>req.body</code>
-should be an object. This can be done by using
-the <code>connect.bodyDecoder</code> middleware.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  name</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">param</span> = <span class="keyword">function</span>(<span class="variable">name</span>){
-  <span class="comment">// Route params like /user/:id</span>
-  <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">params</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
-    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">params</span>[<span class="variable">name</span>]; 
-  }
-  <span class="comment">// Query string params</span>
-  <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">query</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
-    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">query</span>[<span class="variable">name</span>]; 
-  }
-  <span class="comment">// Request body params via connect.bodyDecoder</span>
-  <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">body</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="this">this</span>.<span class="variable">body</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
-    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">body</span>[<span class="variable">name</span>];
-  }
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Queue flash <code>msg</code> of the given <code>type</code>.</p>
-
-<h2>Examples</h2>
-
-<pre><code> req.flash('info', 'email sent');
- req.flash('error', 'email delivery failed');
- req.flash('info', 'email re-sent');
- // =&gt; 2
-
- req.flash('info');
- // =&gt; ['email sent', 'email re-sent']
-
- req.flash('info');
- // =&gt; []
-
- req.flash();
- // =&gt; { error: ['email delivery failed'], info: [] }</code></pre>
-
-<h2>Formatting</h2>
-
-<p>Flash notifications also support arbitrary formatting support.
-For example you may pass variable arguments to <code>req.flash()</code>
-and use the %s specifier to be replaced by the associated argument:</p>
-
-<pre><code>req.flash('info', 'email has been sent to %s.', userName);</code></pre>
-
-<p>To add custom formatters use the <code>exports.flashFormatters</code> object.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>param</strong>: <em>String</em>  msg</p></li><li><p><strong>return</strong>: <em>Array | Object | Number</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">flash</span> = <span class="keyword">function</span>(<span class="variable">type</span>, <span class="variable">msg</span>){
-  <span class="keyword">var</span> <span class="variable">msgs</span> = <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> = <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> || {};
-  <span class="keyword">if</span> (<span class="variable">type</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">msg</span>) {
-    <span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">2</span>
-      , <span class="variable">args</span> = <span class="variable">arguments</span>
-      , <span class="variable">formatters</span> = <span class="this">this</span>.<span class="variable">app</span>.<span class="variable">flashFormatters</span> || {};
-    <span class="variable">formatters</span>.<span class="variable">__proto__</span> = <span class="variable">flashFormatters</span>;
-    <span class="variable">msg</span> = <span class="variable">utils</span>.<span class="variable">miniMarkdown</span>(<span class="variable">utils</span>.<span class="variable">htmlEscape</span>(<span class="variable">msg</span>));
-    <span class="variable">msg</span> = <span class="variable">msg</span>.<span class="variable">replace</span>(<span class="regexp">/%([a-zA-Z])/g</span>, <span class="keyword">function</span>(<span class="variable">_</span>, <span class="variable">format</span>){
-      <span class="keyword">var</span> <span class="variable">formatter</span> = <span class="variable">formatters</span>[<span class="variable">format</span>];
-      <span class="keyword">if</span> (<span class="variable">formatter</span>) <span class="keyword">return</span> <span class="variable">formatter</span>(<span class="variable">args</span>[<span class="variable">i</span>++]);
-    });
-    <span class="keyword">return</span> (<span class="variable">msgs</span>[<span class="variable">type</span>] = <span class="variable">msgs</span>[<span class="variable">type</span>] || []).<span class="variable">push</span>(<span class="variable">msg</span>);
-  } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">type</span>) {
-    <span class="keyword">var</span> <span class="variable">arr</span> = <span class="variable">msgs</span>[<span class="variable">type</span>];
-    <span class="keyword">delete</span> <span class="variable">msgs</span>[<span class="variable">type</span>];
-    <span class="keyword">return</span> <span class="variable">arr</span> || [];
-  } <span class="keyword">else</span> {
-    <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> = {};
-    <span class="keyword">return</span> <span class="variable">msgs</span>;
-  }
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Check if the incoming request contains the "Content-Type" 
-header field, and it contains the give mime <code>type</code>.</p>
-
-<h2>Examples</h2>
-
-<pre><code> // With Content-Type: text/html; charset=utf-8
- req.is('html');
- req.is('text/html');
- // =&gt; true
-
- // When Content-Type is application/json
- req.is('json');
- req.is('application/json');
- // =&gt; true
-
- req.is('html');
- // =&gt; false</code></pre>
-
-<p>Ad-hoc callbacks can also be registered with Express, to perform
-assertions again the request, for example if we need an expressive
-way to check if our incoming request is an image, we can register "an image"
-callback:</p>
-
-<pre><code>  app.is('an image', function(req){
-    return 0 == req.headers['content-type'].indexOf('image');
-  });</code></pre>
-
-<p> Now within our route callbacks, we can use to to assert content types
- such as "image/jpeg", "image/png", etc.</p>
-
-<pre><code> app.post('/image/upload', function(req, res, next){
-   if (req.is('an image')) {
-     // do something
-   } else {
-     next();
-   }
- });</code></pre>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">is</span> = <span class="keyword">function</span>(<span class="variable">type</span>){
-  <span class="keyword">var</span> <span class="variable">fn</span> = <span class="this">this</span>.<span class="variable">app</span>.<span class="variable">is</span>(<span class="variable">type</span>);
-  <span class="keyword">if</span> (<span class="variable">fn</span>) <span class="keyword">return</span> <span class="variable">fn</span>(<span class="this">this</span>);
-  <span class="keyword">var</span> <span class="variable">contentType</span> = <span class="this">this</span>.<span class="variable">headers</span>[<span class="string">'content-type'</span>];
-  <span class="keyword">if</span> (!<span class="variable">contentType</span>) <span class="keyword">return</span>;
-  <span class="keyword">if</span> (!~<span class="variable">type</span>.<span class="variable">indexOf</span>(<span class="string">'/'</span>)) <span class="variable">type</span> = <span class="variable">mime</span>.<span class="variable">type</span>(<span class="string">'.'</span> + <span class="variable">type</span>);
-  <span class="comment">// TODO: remove when connect no longer appends charset...</span>
-  <span class="keyword">if</span> (~<span class="variable">type</span>.<span class="variable">indexOf</span>(<span class="string">';'</span>)) <span class="variable">type</span> = <span class="variable">type</span>.<span class="variable">split</span>(<span class="string">';'</span>)[<span class="number integer">0</span>];
-  <span class="keyword">if</span> (~<span class="variable">type</span>.<span class="variable">indexOf</span>(<span class="string">'*'</span>)) {
-    <span class="variable">type</span> = <span class="variable">type</span>.<span class="variable">split</span>(<span class="string">'/'</span>)
-    <span class="variable">contentType</span> = <span class="variable">contentType</span>.<span class="variable">split</span>(<span class="string">'/'</span>);
-    <span class="keyword">if</span> (<span class="string">'*'</span> == <span class="variable">type</span>[<span class="number integer">0</span>] &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">type</span>[<span class="number integer">1</span>] == <span class="variable">contentType</span>[<span class="number integer">1</span>]) <span class="keyword">return</span> <span class="variable">true</span>;
-    <span class="keyword">if</span> (<span class="string">'*'</span> == <span class="variable">type</span>[<span class="number integer">1</span>] &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">type</span>[<span class="number integer">0</span>] == <span class="variable">contentType</span>[<span class="number integer">0</span>]) <span class="keyword">return</span> <span class="variable">true</span>;
-  }
-  <span class="keyword">return</span> ~<span class="variable">contentType</span>.<span class="variable">indexOf</span>(<span class="variable">type</span>);
-};
-
-<span class="comment">// Callback for isXMLHttpRequest / xhr</span>
-
-<span class="keyword">function</span> <span class="variable">isxhr</span>() {
-  <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'X-Requested-With'</span>, <span class="string">''</span>).<span class="variable">toLowerCase</span>() === <span class="string">'xmlhttprequest'</span>;
-}</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Check if the request was an <em>XMLHttpRequest</em>.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'isXMLHttpRequest'</span>, <span class="variable">isxhr</span>);
-<span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'xhr'</span>, <span class="variable">isxhr</span>);
-</code></pre>
-</td>
 </tr><tr class="filename"><td><h2 id="lib/express/response.js"><a href="#">response</a></h2></td><td>lib/express/response.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.
@@ -472,9 +190,9 @@ callback:</p>
   , <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>)
   , <span class="variable">path</span> = <span class="variable">require</span>(<span class="string">'path'</span>)
   , <span class="variable">pump</span> = <span class="variable">require</span>(<span class="string">'sys'</span>).<span class="variable">pump</span>
-  , <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>)
-  , <span class="variable">mime</span> = <span class="variable">require</span>(<span class="string">'connect/utils'</span>).<span class="variable">mime</span>
-  , <span class="variable">parseRange</span> = <span class="variable">require</span>(<span class="string">'./utils'</span>).<span class="variable">parseRange</span>;</code></pre>
+  , <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'connect'</span>).<span class="variable">utils</span>
+  , <span class="variable">parseRange</span> = <span class="variable">require</span>(<span class="string">'./utils'</span>).<span class="variable">parseRange</span>
+  , <span class="variable">mime</span> = <span class="variable">utils</span>.<span class="variable">mime</span>;</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -658,7 +376,12 @@ file will be streamed using an <code>fs.ReadStream</code> and <code>sys.pump()</
 
 <pre><code>var filename = 'path/to/image.png';
 res.contentType(filename);
-// res.headers['Content-Type'] is now "image/png"</code></pre>
+// res.headers['Content-Type'] is now "image/png"
+
+res.contentType('.html');
+res.contentType('html');
+res.contentType('json');
+res.contentType('png');</code></pre>
 
 <h2></h2>
 
@@ -666,6 +389,7 @@ res.contentType(filename);
 </td>
 <td class="code">
 <pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">contentType</span> = <span class="keyword">function</span>(<span class="variable">type</span>){
+  <span class="keyword">if</span> (!~<span class="variable">type</span>.<span class="variable">indexOf</span>(<span class="string">'.'</span>)) <span class="variable">type</span> = <span class="string">'.'</span> + <span class="variable">type</span>;
   <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'Content-Type'</span>, <span class="variable">mime</span>.<span class="variable">type</span>(<span class="variable">type</span>));
 };</code></pre>
 </td>
@@ -840,7 +564,320 @@ to '/'.</p>
 
   <span class="comment">// Respond</span>
   <span class="this">this</span>.<span class="variable">send</span>(<span class="variable">body</span>, { <span class="class">Location</span>: <span class="variable">url</span> }, <span class="variable">status</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Assign the view local variable <code>name</code> to <code>val</code> or return the
+local previously assigned to <code>name</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  name</p></li><li><p><strong>param</strong>: <em>Mixed</em>  val</p></li><li><p><strong>return</strong>: <em>Mixed</em>  val</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">local</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">val</span>){
+  <span class="this">this</span>.<span class="variable">locals</span> = <span class="this">this</span>.<span class="variable">locals</span> || {};
+  <span class="keyword">return</span> <span class="variable">undefined</span> === <span class="variable">val</span>
+    ? <span class="this">this</span>.<span class="variable">locals</span>[<span class="variable">name</span>]
+    : <span class="this">this</span>.<span class="variable">locals</span>[<span class="variable">name</span>] = <span class="variable">val</span>;
 };
+
+</code></pre>
+</td>
+</tr><tr class="filename"><td><h2 id="lib/express/request.js"><a href="#">request</a></h2></td><td>lib/express/request.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>)
+  , <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'./utils'</span>)
+  , <span class="variable">mime</span> = <span class="variable">require</span>(<span class="string">'connect'</span>).<span class="variable">utils</span>.<span class="variable">mime</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Default flash formatters.</p>
+
+<ul><li><p><strong>type</strong>: <em>Object</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">flashFormatters</span> = <span class="variable">exports</span>.<span class="variable">flashFormatters</span> = {
+  <span class="variable">s</span>: <span class="keyword">function</span>(<span class="variable">val</span>){
+    <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">val</span>);
+  }
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Return request header or optional default.</p>
+
+<h2>Examples</h2>
+
+<pre><code>req.header('Content-Type');
+// =&gt; "text/plain"
+
+req.header('content-type');
+// =&gt; "text/plain"
+
+req.header('Accept');
+// =&gt; undefined
+
+req.header('Accept', 'text/html');
+// =&gt; "text/html"</code></pre>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  name</p></li><li><p><strong>param</strong>: <em>String</em>  defaultValue</p></li><li><p><strong>return</strong>: <em>String</em>  </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">header</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">defaultValue</span>){
+  <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">headers</span>[<span class="variable">name</span>.<span class="variable">toLowerCase</span>()] || <span class="variable">defaultValue</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Check if the <em>Accept</em> header is present, and includes the given <code>type</code>.</p>
+
+<p>When the <em>Accept</em> header is not present <code>true</code> is returned. Otherwise
+the given <code>type</code> is matched by an exact match, and then subtypes. You
+may pass the subtype such as "html" which is then converted internally
+to "text/html" using the mime lookup table.</p>
+
+<h2>Examples</h2>
+
+<pre><code>// Accept: text/html
+req.accepts('html');
+// =&gt; true
+
+// Accept: text/*; application/json
+req.accepts('html');
+req.accepts('text/html');
+req.accepts('text/plain');
+req.accepts('application/json');
+// =&gt; true
+
+req.accepts('image/png');
+req.accepts('png');
+// =&gt; false</code></pre>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">accepts</span> = <span class="keyword">function</span>(<span class="variable">type</span>){
+  <span class="keyword">var</span> <span class="variable">accept</span> = <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'Accept'</span>);
+
+  <span class="comment">// Normalize extensions &quot;.json&quot; -&gt; &quot;json&quot;</span>
+  <span class="keyword">if</span> (<span class="variable">type</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="string">'.'</span> == <span class="variable">type</span>[<span class="number integer">0</span>]) <span class="variable">type</span> = <span class="variable">type</span>.<span class="variable">substr</span>(<span class="number integer">1</span>);
+
+  <span class="comment">// When Accept does not exist, or is '*</span></code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>' return true 
+  if (!accept || '</p>
+</td>
+<td class="code">
+<pre><code>*' == <span class="variable">accept</span>) {
+    <span class="keyword">return</span> <span class="variable">true</span>;
+  } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">type</span>) {
+    <span class="comment">// Allow &quot;html&quot; vs &quot;text/html&quot; etc</span>
+    <span class="keyword">if</span> (<span class="variable">type</span>.<span class="variable">indexOf</span>(<span class="string">'/'</span>) &<span class="variable">lt</span>; <span class="number integer">0</span>) {
+      <span class="variable">type</span> = <span class="variable">mime</span>.<span class="variable">types</span>[<span class="string">'.'</span> + <span class="variable">type</span>];
+    }
+
+    <span class="comment">// Check if we have a direct match</span>
+    <span class="keyword">if</span> (~<span class="variable">accept</span>.<span class="variable">indexOf</span>(<span class="variable">type</span>)) <span class="keyword">return</span> <span class="variable">true</span>;
+
+    <span class="comment">// Check if we have type</span></code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<pre><code>type = type.split('/')[0] + '/*';
+return accept.indexOf(type) &gt;= 0;</code></pre>
+
+<p>  } else {
+    return false;
+  }
+};</p>
+
+<p>/**
+Return the value of param <code>name</code> when present.</p>
+
+<ul><li>Checks route placeholders, ex: <em>/user/:id</em></li><li>Checks query string params, ex: ?id=12</li><li>Checks urlencoded body params, ex: id=12</li></ul>
+
+<p>To utilize urlencoded request bodies, <code>req.body</code>
+should be an object. This can be done by using
+the <code>connect.bodyDecoder</code> middleware.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  name</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">param</span> = <span class="keyword">function</span>(<span class="variable">name</span>){
+  <span class="comment">// Route params like /user/:id</span>
+  <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">params</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
+    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">params</span>[<span class="variable">name</span>]; 
+  }
+  <span class="comment">// Query string params</span>
+  <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">query</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
+    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">query</span>[<span class="variable">name</span>]; 
+  }
+  <span class="comment">// Request body params via connect.bodyDecoder</span>
+  <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">body</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="this">this</span>.<span class="variable">body</span>[<span class="variable">name</span>] !== <span class="variable">undefined</span>) {
+    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">body</span>[<span class="variable">name</span>];
+  }
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Queue flash <code>msg</code> of the given <code>type</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code> req.flash('info', 'email sent');
+ req.flash('error', 'email delivery failed');
+ req.flash('info', 'email re-sent');
+ // =&gt; 2
+
+ req.flash('info');
+ // =&gt; ['email sent', 'email re-sent']
+
+ req.flash('info');
+ // =&gt; []
+
+ req.flash();
+ // =&gt; { error: ['email delivery failed'], info: [] }</code></pre>
+
+<h2>Formatting</h2>
+
+<p>Flash notifications also support arbitrary formatting support.
+For example you may pass variable arguments to <code>req.flash()</code>
+and use the %s specifier to be replaced by the associated argument:</p>
+
+<pre><code>req.flash('info', 'email has been sent to %s.', userName);</code></pre>
+
+<p>To add custom formatters use the <code>exports.flashFormatters</code> object.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>param</strong>: <em>String</em>  msg</p></li><li><p><strong>return</strong>: <em>Array | Object | Number</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">flash</span> = <span class="keyword">function</span>(<span class="variable">type</span>, <span class="variable">msg</span>){
+  <span class="keyword">var</span> <span class="variable">msgs</span> = <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> = <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> || {};
+  <span class="keyword">if</span> (<span class="variable">type</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">msg</span>) {
+    <span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">2</span>
+      , <span class="variable">args</span> = <span class="variable">arguments</span>
+      , <span class="variable">formatters</span> = <span class="this">this</span>.<span class="variable">app</span>.<span class="variable">flashFormatters</span> || {};
+    <span class="variable">formatters</span>.<span class="variable">__proto__</span> = <span class="variable">flashFormatters</span>;
+    <span class="variable">msg</span> = <span class="variable">utils</span>.<span class="variable">miniMarkdown</span>(<span class="variable">utils</span>.<span class="variable">htmlEscape</span>(<span class="variable">msg</span>));
+    <span class="variable">msg</span> = <span class="variable">msg</span>.<span class="variable">replace</span>(<span class="regexp">/%([a-zA-Z])/g</span>, <span class="keyword">function</span>(<span class="variable">_</span>, <span class="variable">format</span>){
+      <span class="keyword">var</span> <span class="variable">formatter</span> = <span class="variable">formatters</span>[<span class="variable">format</span>];
+      <span class="keyword">if</span> (<span class="variable">formatter</span>) <span class="keyword">return</span> <span class="variable">formatter</span>(<span class="variable">args</span>[<span class="variable">i</span>++]);
+    });
+    <span class="keyword">return</span> (<span class="variable">msgs</span>[<span class="variable">type</span>] = <span class="variable">msgs</span>[<span class="variable">type</span>] || []).<span class="variable">push</span>(<span class="variable">msg</span>);
+  } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">type</span>) {
+    <span class="keyword">var</span> <span class="variable">arr</span> = <span class="variable">msgs</span>[<span class="variable">type</span>];
+    <span class="keyword">delete</span> <span class="variable">msgs</span>[<span class="variable">type</span>];
+    <span class="keyword">return</span> <span class="variable">arr</span> || [];
+  } <span class="keyword">else</span> {
+    <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> = {};
+    <span class="keyword">return</span> <span class="variable">msgs</span>;
+  }
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Check if the incoming request contains the "Content-Type" 
+header field, and it contains the give mime <code>type</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code> // With Content-Type: text/html; charset=utf-8
+ req.is('html');
+ req.is('text/html');
+ // =&gt; true
+
+ // When Content-Type is application/json
+ req.is('json');
+ req.is('application/json');
+ // =&gt; true
+
+ req.is('html');
+ // =&gt; false</code></pre>
+
+<p>Ad-hoc callbacks can also be registered with Express, to perform
+assertions again the request, for example if we need an expressive
+way to check if our incoming request is an image, we can register "an image"
+callback:</p>
+
+<pre><code>  app.is('an image', function(req){
+    return 0 == req.headers['content-type'].indexOf('image');
+  });</code></pre>
+
+<p> Now within our route callbacks, we can use to to assert content types
+ such as "image/jpeg", "image/png", etc.</p>
+
+<pre><code> app.post('/image/upload', function(req, res, next){
+   if (req.is('an image')) {
+     // do something
+   } else {
+     next();
+   }
+ });</code></pre>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  type</p></li><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">is</span> = <span class="keyword">function</span>(<span class="variable">type</span>){
+  <span class="keyword">var</span> <span class="variable">fn</span> = <span class="this">this</span>.<span class="variable">app</span>.<span class="variable">is</span>(<span class="variable">type</span>);
+  <span class="keyword">if</span> (<span class="variable">fn</span>) <span class="keyword">return</span> <span class="variable">fn</span>(<span class="this">this</span>);
+  <span class="keyword">var</span> <span class="variable">contentType</span> = <span class="this">this</span>.<span class="variable">headers</span>[<span class="string">'content-type'</span>];
+  <span class="keyword">if</span> (!<span class="variable">contentType</span>) <span class="keyword">return</span>;
+  <span class="keyword">if</span> (!~<span class="variable">type</span>.<span class="variable">indexOf</span>(<span class="string">'/'</span>)) <span class="variable">type</span> = <span class="variable">mime</span>.<span class="variable">type</span>(<span class="string">'.'</span> + <span class="variable">type</span>);
+  <span class="comment">// TODO: remove when connect no longer appends charset...</span>
+  <span class="keyword">if</span> (~<span class="variable">type</span>.<span class="variable">indexOf</span>(<span class="string">';'</span>)) <span class="variable">type</span> = <span class="variable">type</span>.<span class="variable">split</span>(<span class="string">';'</span>)[<span class="number integer">0</span>];
+  <span class="keyword">if</span> (~<span class="variable">type</span>.<span class="variable">indexOf</span>(<span class="string">'*'</span>)) {
+    <span class="variable">type</span> = <span class="variable">type</span>.<span class="variable">split</span>(<span class="string">'/'</span>)
+    <span class="variable">contentType</span> = <span class="variable">contentType</span>.<span class="variable">split</span>(<span class="string">'/'</span>);
+    <span class="keyword">if</span> (<span class="string">'*'</span> == <span class="variable">type</span>[<span class="number integer">0</span>] &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">type</span>[<span class="number integer">1</span>] == <span class="variable">contentType</span>[<span class="number integer">1</span>]) <span class="keyword">return</span> <span class="variable">true</span>;
+    <span class="keyword">if</span> (<span class="string">'*'</span> == <span class="variable">type</span>[<span class="number integer">1</span>] &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">type</span>[<span class="number integer">0</span>] == <span class="variable">contentType</span>[<span class="number integer">0</span>]) <span class="keyword">return</span> <span class="variable">true</span>;
+  }
+  <span class="keyword">return</span> ~<span class="variable">contentType</span>.<span class="variable">indexOf</span>(<span class="variable">type</span>);
+};
+
+<span class="comment">// Callback for isXMLHttpRequest / xhr</span>
+
+<span class="keyword">function</span> <span class="variable">isxhr</span>() {
+  <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">header</span>(<span class="string">'X-Requested-With'</span>, <span class="string">''</span>).<span class="variable">toLowerCase</span>() === <span class="string">'xmlhttprequest'</span>;
+}</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Check if the request was an <em>XMLHttpRequest</em>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'isXMLHttpRequest'</span>, <span class="variable">isxhr</span>);
+<span class="variable">http</span>.<span class="class">IncomingMessage</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'xhr'</span>, <span class="variable">isxhr</span>);
 </code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="lib/express/server.js"><a href="#">server</a></h2></td><td>lib/express/server.js</td></tr><tr class="code">
@@ -854,7 +891,8 @@ to '/'.</p>
   , <span class="variable">connect</span> = <span class="variable">require</span>(<span class="string">'connect'</span>)
   , <span class="variable">utils</span> = <span class="variable">connect</span>.<span class="variable">utils</span>
   , <span class="variable">queryString</span> = <span class="variable">require</span>(<span class="string">'querystring'</span>)
-  , <span class="variable">router</span> = <span class="variable">require</span>(<span class="string">'connect/middleware/router'</span>);</code></pre>
+  , <span class="variable">router</span> = <span class="variable">require</span>(<span class="string">'connect'</span>).<span class="variable">router</span>
+  , <span class="variable">methods</span> = <span class="variable">router</span>.<span class="variable">methods</span>.<span class="variable">concat</span>([<span class="string">'del'</span>, <span class="string">'all'</span>]);</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -875,19 +913,10 @@ to '/'.</p>
   <span class="this">this</span>.<span class="variable">viewHelpers</span> = {};
   <span class="this">this</span>.<span class="variable">dynamicViewHelpers</span> = {};
   <span class="this">this</span>.<span class="variable">errorHandlers</span> = [];
-  <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">middleware</span> || []);
+  <span class="variable">connect</span>.<span class="class">Server</span>.<span class="variable">call</span>(<span class="this">this</span>, []);
 
   <span class="comment">// Default &quot;home&quot; to / </span>
   <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'home'</span>, <span class="string">'/'</span>);
-
-  <span class="comment">// DEPRECATED: remove in 1.0</span>
-  <span class="keyword">if</span> (<span class="variable">process</span>.<span class="variable">env</span>.<span class="class">EXPRESS_ENV</span>) {
-    <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">NODE_ENV</span> = <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">EXPRESS_ENV</span>;
-    <span class="variable">console</span>.<span class="variable">warn</span>(<span class="string">'\x1b[33mWarning\x1b[0m: EXPRESS_ENV is deprecated, use NODE_ENV.'</span>);
-  }
-
-  <span class="comment">// TODO: remove when Connect removes &quot;Server&quot; ...</span>
-  <span class="this">this</span>.<span class="variable">showVersion</span> = <span class="variable">false</span>;
 
   <span class="comment">// Set &quot;env&quot; to NODE_ENV, defaulting to &quot;development&quot;</span>
   <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>, <span class="variable">process</span>.<span class="variable">env</span>.<span class="class">NODE_ENV</span> || <span class="string">'development'</span>);
@@ -908,11 +937,23 @@ to '/'.</p>
     <span class="variable">next</span>();
   });
 
+  <span class="comment">// Apply middleware</span>
+  <span class="keyword">if</span> (<span class="variable">middleware</span>) {
+    <span class="variable">middleware</span>.<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">fn</span>){
+      <span class="variable">self</span>.<span class="variable">use</span>(<span class="variable">fn</span>);
+    });
+  }
+
   <span class="comment">// Use router, expose as app.get(), etc</span>
   <span class="keyword">var</span> <span class="variable">fn</span> = <span class="variable">router</span>(<span class="keyword">function</span>(<span class="variable">app</span>){ <span class="variable">self</span>.<span class="variable">routes</span> = <span class="variable">app</span>; });
   <span class="this">this</span>.<span class="variable">__defineGetter__</span>(<span class="string">'router'</span>, <span class="keyword">function</span>(){
     <span class="this">this</span>.<span class="variable">__usedRouter</span> = <span class="variable">true</span>;
     <span class="keyword">return</span> <span class="variable">fn</span>;
+  });
+
+  <span class="comment">// Default production configuration</span>
+  <span class="this">this</span>.<span class="variable">configure</span>(<span class="string">'production'</span>, <span class="keyword">function</span>(){
+    <span class="this">this</span>.<span class="variable">enable</span>(<span class="string">'cache views'</span>);
   });
 };</code></pre>
 </td>
@@ -1065,7 +1106,8 @@ can be called several times to apply additional helpers.</p>
 <ul><li><p><strong>param</strong>: <em>Object</em>  obj</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">helpers</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">helpers</span> = 
+<span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">locals</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
   <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="this">this</span>.<span class="variable">viewHelpers</span>, <span class="variable">obj</span>);
   <span class="keyword">return</span> <span class="this">this</span>;
 };</code></pre>
@@ -1083,6 +1125,62 @@ can be called several times to apply additional helpers.</p>
 <td class="code">
 <pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">dynamicHelpers</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
   <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="this">this</span>.<span class="variable">dynamicViewHelpers</span>, <span class="variable">obj</span>);
+  <span class="keyword">return</span> <span class="this">this</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Map the given param placeholder <code>name</code>(s) to the given callback <code>fn</code>.</p>
+
+<p>Param mapping is used to provide pre-conditions to routes
+which us normalized placeholders. For example ":user_id" may
+attempt to load the user from the database, where as ":num" may 
+pass the value through <code>parseInt(num, 10)</code>.</p>
+
+<p>When the callback function accepts only a single argument, the
+value of placeholder is passed:</p>
+
+<p>   app.param('page', function(n){ return parseInt(n, 10); });</p>
+
+<p>After which "/users/:page" would automatically provide us with
+an integer for <code>req.params.page</code>. If desired we could use the callback 
+signature shown below, and immediately <code>next(new Error('invalid page'))</code>
+when <code>parseInt</code> fails.</p>
+
+<p>Alternatively the callback may accept the request, response, next, and
+the value, acting like middlware:</p>
+
+<p>   app.param('userId', function(req, res, next, id){
+     User.find(id, function(err, user){
+       if (err) {
+         next(err);
+       } else if (user) {
+         req.user = user;
+         next();
+       } else {
+         next(new Error('failed to load user'));
+       }
+     });
+   });</p>
+
+<p>Now every time ":userId" is present, the associated user object
+will be loaded and assigned before the route handler is invoked.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String | Array</em>  name</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>return</strong>: <em>Server</em>  for chaining</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">param</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">fn</span>){
+  <span class="keyword">if</span> (<span class="class">Array</span>.<span class="variable">isArray</span>(<span class="variable">name</span>)) {
+    <span class="variable">name</span>.<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">name</span>){
+      <span class="this">this</span>.<span class="variable">param</span>(<span class="variable">name</span>, <span class="variable">fn</span>);
+    }, <span class="this">this</span>);
+  } <span class="keyword">else</span> {
+    <span class="keyword">if</span> (<span class="string">':'</span> == <span class="variable">name</span>[<span class="number integer">0</span>]) <span class="variable">name</span> = <span class="variable">name</span>.<span class="variable">substr</span>(<span class="number integer">1</span>);
+    <span class="this">this</span>.<span class="variable">routes</span>.<span class="variable">param</span>(<span class="variable">name</span>, <span class="variable">fn</span>);
+  }
   <span class="keyword">return</span> <span class="this">this</span>;
 };</code></pre>
 </td>
@@ -1145,6 +1243,34 @@ Mounted servers inherit their parent server's settings.</p>
 </tr>
 <tr class="code">
 <td class="docs">
+<p>Check if <code>setting</code> is enabled.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">enabled</span> = <span class="keyword">function</span>(<span class="variable">setting</span>){
+  <span class="keyword">return</span> !!<span class="this">this</span>.<span class="variable">set</span>(<span class="variable">setting</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Check if <code>setting</code> is disabled.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  setting</p></li><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">disabled</span> = <span class="keyword">function</span>(<span class="variable">setting</span>){
+  <span class="keyword">return</span> !<span class="this">this</span>.<span class="variable">set</span>(<span class="variable">setting</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
 <p>Enable <code>setting</code>.</p>
 
 <h2></h2>
@@ -1199,7 +1325,7 @@ Mounted servers inherit their parent server's settings.</p>
   <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">env</span> === <span class="string">'function'</span>) {
     <span class="variable">fn</span> = <span class="variable">env</span>, <span class="variable">env</span> = <span class="string">'all'</span>;
   }
-  <span class="keyword">if</span> (<span class="variable">env</span> === <span class="string">'all'</span> || <span class="this">this</span>.<span class="variable">set</span>(<span class="string">'env'</span>) === <span class="variable">env</span>) {
+  <span class="keyword">if</span> (<span class="string">'all'</span> == <span class="variable">env</span> || <span class="variable">env</span> == <span class="this">this</span>.<span class="variable">settings</span>.<span class="variable">env</span>) {
     <span class="variable">fn</span>.<span class="variable">call</span>(<span class="this">this</span>);
   }
   <span class="keyword">return</span> <span class="this">this</span>;
@@ -1207,7 +1333,7 @@ Mounted servers inherit their parent server's settings.</p>
 
 <span class="comment">// Generate routing methods</span>
 
-(<span class="keyword">function</span>(<span class="variable">method</span>){
+<span class="keyword">function</span> <span class="variable">generateMethod</span>(<span class="variable">method</span>){
   <span class="class">Server</span>.<span class="variable">prototype</span>[<span class="variable">method</span>] = <span class="keyword">function</span>(<span class="variable">path</span>, <span class="variable">fn</span>){
     <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
 
@@ -1236,14 +1362,159 @@ Mounted servers inherit their parent server's settings.</p>
     <span class="keyword">return</span> <span class="this">this</span>;
   };
   <span class="keyword">return</span> <span class="variable">arguments</span>.<span class="variable">callee</span>;
-})(<span class="string">'get'</span>)(<span class="string">'post'</span>)(<span class="string">'put'</span>)(<span class="string">'delete'</span>)(<span class="string">'all'</span>);
+}
+
+<span class="variable">methods</span>.<span class="variable">forEach</span>(<span class="variable">generateMethod</span>);
 
 <span class="comment">// Alias delete as &quot;del&quot;</span>
 
 <span class="class">Server</span>.<span class="variable">prototype</span>.<span class="variable">del</span> = <span class="class">Server</span>.<span class="variable">prototype</span>.<span class="keyword">delete</span>;
 </code></pre>
 </td>
+</tr><tr class="filename"><td><h2 id="lib/express/view/partial.js"><a href="#">partial</a></h2></td><td>lib/express/view/partial.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="class">View</span> = <span class="variable">require</span>(<span class="string">'./view'</span>)
+  , <span class="variable">basename</span> = <span class="variable">require</span>(<span class="string">'path'</span>).<span class="variable">basename</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Memory cache.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">cache</span> = {};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Initialize a new <code>Partial</code> for the given <code>view</code> and <code>options</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  view</p></li><li><p><strong>param</strong>: <em>Object</em>  options</p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="class">Partial</span> = <span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="class">Partial</span>(<span class="variable">view</span>, <span class="variable">options</span>) {
+  <span class="variable">options</span> = <span class="variable">options</span> || {};
+  <span class="class">View</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">view</span>, <span class="variable">options</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Inherit from <code>View.prototype</code>.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="class">Partial</span>.<span class="variable">prototype</span>.<span class="variable">__proto__</span> = <span class="class">View</span>.<span class="variable">prototype</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Resolve partial object name from the view path.</p>
+
+<h2>Examples</h2>
+
+<p>  "user.ejs" becomes "user"
+  "forum thread.ejs" becomes "forumThread"
+  "forum/thread/post.ejs" becomes "post"
+  "blog-post.ejs" becomes "blogPost"</p>
+
+<h2></h2>
+
+<ul><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">resolveObjectName</span> = <span class="keyword">function</span>(<span class="variable">view</span>){
+  <span class="keyword">return</span> <span class="variable">cache</span>[<span class="variable">view</span>] || (<span class="variable">cache</span>[<span class="variable">view</span>] = <span class="variable">view</span>
+    .<span class="variable">split</span>(<span class="string">'/'</span>)
+    .<span class="variable">slice</span>(-<span class="number integer">1</span>)[<span class="number integer">0</span>]
+    .<span class="variable">split</span>(<span class="string">'.'</span>)[<span class="number integer">0</span>]
+    .<span class="variable">replace</span>(<span class="regexp">/^_/</span>, <span class="string">''</span>)
+    .<span class="variable">replace</span>(<span class="regexp">/[^a-zA-Z0-9 ]+/g</span>, <span class="string">' '</span>)
+    .<span class="variable">split</span>(<span class="regexp">/ +/</span>).<span class="variable">map</span>(<span class="keyword">function</span>(<span class="variable">word</span>, <span class="variable">i</span>){
+      <span class="keyword">return</span> <span class="variable">i</span>
+        ? <span class="variable">word</span>[<span class="number integer">0</span>].<span class="variable">toUpperCase</span>() + <span class="variable">word</span>.<span class="variable">substr</span>(<span class="number integer">1</span>)
+        : <span class="variable">word</span>;
+    }).<span class="variable">join</span>(<span class="string">''</span>));
+};</code></pre>
+</td>
 </tr><tr class="filename"><td><h2 id="lib/express/utils.js"><a href="#">utils</a></h2></td><td>lib/express/utils.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">path</span> = <span class="variable">require</span>(<span class="string">'path'</span>)
+  , <span class="variable">basename</span> = <span class="variable">path</span>.<span class="variable">basename</span>
+  , <span class="variable">dirname</span> = <span class="variable">path</span>.<span class="variable">dirname</span>
+  , <span class="variable">extname</span> = <span class="variable">path</span>.<span class="variable">extname</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Memory cache.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">cache</span> = {
+    <span class="variable">basename</span>: {}
+  , <span class="variable">dirname</span>: {}
+  , <span class="variable">extname</span>: {}
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Cached basename.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  path</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">basename</span> = <span class="keyword">function</span>(<span class="variable">path</span>){
+  <span class="keyword">return</span> <span class="variable">cache</span>.<span class="variable">basename</span>[<span class="variable">path</span>]
+    || (<span class="variable">cache</span>.<span class="variable">basename</span>[<span class="variable">path</span>] = <span class="variable">basename</span>(<span class="variable">path</span>));
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Cached dirname.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  path</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">dirname</span> = <span class="keyword">function</span>(<span class="variable">path</span>){
+  <span class="keyword">return</span> <span class="variable">cache</span>.<span class="variable">dirname</span>[<span class="variable">path</span>]
+    || (<span class="variable">cache</span>.<span class="variable">dirname</span>[<span class="variable">path</span>] = <span class="variable">dirname</span>(<span class="variable">path</span>));
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Cached extname.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  path</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">extname</span> = <span class="keyword">function</span>(<span class="variable">path</span>){
+  <span class="keyword">return</span> <span class="variable">cache</span>.<span class="variable">extname</span>[<span class="variable">path</span>]
+    || (<span class="variable">cache</span>.<span class="variable">extname</span>[<span class="variable">path</span>] = <span class="variable">extname</span>(<span class="variable">path</span>));
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
 <td class="docs">
 <p>Parse mini markdown implementation.
 The following conversions are supported,
@@ -1286,6 +1557,24 @@ primarily for the "flash" middleware:</p>
 </tr>
 <tr class="code">
 <td class="docs">
+<p>Clone <code>obj</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Object</em>  obj</p></li><li><p><strong>return</strong>: <em>Object</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">clone</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
+  <span class="keyword">var</span> <span class="variable">ret</span> = {};
+  <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">key</span> <span class="keyword">in</span> <span class="variable">obj</span>) {
+    <span class="variable">ret</span>[<span class="variable">key</span>] = <span class="variable">obj</span>[<span class="variable">key</span>];
+  }
+  <span class="keyword">return</span> <span class="variable">ret</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
 <p>Parse "Range" header <code>str</code> relative to the given file <code>size</code>.</p>
 
 <h2></h2>
@@ -1318,26 +1607,24 @@ primarily for the "flash" middleware:</p>
 };
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/express/view.js"><a href="#">view</a></h2></td><td>lib/express/view.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/express/view/view.js"><a href="#">view</a></h2></td><td>lib/express/view/view.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.
  </p>
 </td>
 <td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">extname</span> = <span class="variable">require</span>(<span class="string">'path'</span>).<span class="variable">extname</span>
-  , <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'connect'</span>).<span class="variable">utils</span>
-  , <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>)
+<pre><code><span class="keyword">var</span> <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'../utils'</span>)
+  , <span class="variable">extname</span> = <span class="variable">utils</span>.<span class="variable">extname</span>
+  , <span class="variable">dirname</span> = <span class="variable">utils</span>.<span class="variable">dirname</span>
+  , <span class="variable">basename</span> = <span class="variable">utils</span>.<span class="variable">basename</span>
   , <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>)
-  , <span class="variable">mime</span> = <span class="variable">utils</span>.<span class="variable">mime</span>;</code></pre>
+  , <span class="variable">stat</span> = <span class="variable">fs</span>.<span class="variable">statSync</span>;</code></pre>
 </td>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Cache supported template engine exports to
-increase performance by lowering the number
-of calls to <code>require()</code>.</p>
-
-<ul><li><p><strong>type</strong>: <em>Object</em></p></li></ul>
+<p>Memory cache.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">cache</span> = {};</code></pre>
@@ -1345,71 +1632,164 @@ of calls to <code>require()</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Cache view contents to prevent I/O hits.</p>
-
-<ul><li><p><strong>type</strong>: <em>Object</em></p></li></ul>
+<p>Existance cache.
+ </p>
 </td>
 <td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">viewCache</span> = {};</code></pre>
+<pre><code><span class="keyword">var</span> <span class="variable">exists</span> = {};</code></pre>
 </td>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Cache view path derived names.</p>
-
-<ul><li><p><strong>type</strong>: <em>Object</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">viewNameCache</span> = {};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Synchronously cache view at the given <code>path</code>.</p>
+<p>Initialize a new <code>View</code> with the given <code>view</code> path and <code>options</code>.</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  path</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  view</p></li><li><p><strong>param</strong>: <em>Object</em>  options</p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">cacheViewSync</span>(<span class="variable">path</span>) {
-  <span class="keyword">return</span> <span class="variable">viewCache</span>[<span class="variable">path</span>] = <span class="variable">fs</span>.<span class="variable">readFileSync</span>(<span class="variable">path</span>, <span class="string">'utf8'</span>);
-}</code></pre>
+<pre><code><span class="keyword">var</span> <span class="class">View</span> = <span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="class">View</span>(<span class="variable">view</span>, <span class="variable">options</span>) {
+  <span class="variable">options</span> = <span class="variable">options</span> || {};
+  <span class="comment">// TODO: more caching</span>
+  <span class="this">this</span>.<span class="variable">view</span> = <span class="variable">view</span>;
+  <span class="this">this</span>.<span class="variable">root</span> = <span class="variable">options</span>.<span class="variable">root</span>;
+  <span class="this">this</span>.<span class="variable">relative</span> = <span class="variable">false</span> !== <span class="variable">options</span>.<span class="variable">relative</span>;
+  <span class="this">this</span>.<span class="variable">defaultEngine</span> = <span class="variable">options</span>.<span class="variable">defaultEngine</span>;
+  <span class="this">this</span>.<span class="variable">parent</span> = <span class="variable">options</span>.<span class="variable">parentView</span>;
+  <span class="this">this</span>.<span class="variable">basename</span> = <span class="variable">basename</span>(<span class="variable">view</span>);
+  <span class="this">this</span>.<span class="variable">engine</span> = <span class="this">this</span>.<span class="variable">resolveEngine</span>();
+  <span class="this">this</span>.<span class="variable">extension</span> = <span class="string">'.'</span> + <span class="this">this</span>.<span class="variable">engine</span>;
+  <span class="this">this</span>.<span class="variable">path</span> = <span class="this">this</span>.<span class="variable">resolvePath</span>();
+  <span class="this">this</span>.<span class="variable">dirname</span> = <span class="variable">dirname</span>(<span class="this">this</span>.<span class="variable">path</span>);
+};</code></pre>
 </td>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Return view root path for the given <code>app</code>.</p>
+<p>Check if the view path exists.</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>express.Server</em>  app</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+<ul><li><p><strong>return</strong>: <em>Boolean</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">viewRoot</span>(<span class="variable">app</span>) {
-  <span class="keyword">return</span> <span class="variable">app</span>.<span class="variable">set</span>(<span class="string">'views'</span>) || <span class="variable">process</span>.<span class="variable">cwd</span>() + <span class="string">'/views'</span>;
-}</code></pre>
+<pre><code><span class="class">View</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'exists'</span>, <span class="keyword">function</span>(){
+  <span class="keyword">var</span> <span class="variable">path</span> = <span class="this">this</span>.<span class="variable">path</span>;
+  <span class="keyword">if</span> (<span class="keyword">null</span> != <span class="variable">exists</span>[<span class="variable">path</span>]) {
+    <span class="keyword">return</span> <span class="variable">exists</span>[<span class="variable">path</span>];
+  } <span class="keyword">else</span> {
+    <span class="keyword">try</span> {
+      <span class="variable">stat</span>(<span class="variable">path</span>);
+      <span class="keyword">return</span> <span class="variable">exists</span>[<span class="variable">path</span>] = <span class="variable">true</span>;
+    } <span class="keyword">catch</span> (<span class="variable">err</span>) {
+      <span class="keyword">return</span> <span class="variable">exists</span>[<span class="variable">path</span>] = <span class="variable">false</span>;
+    }
+  }
+});</code></pre>
 </td>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Return object name deduced from the given <code>view</code> path.</p>
-
-<h2>Examples</h2>
-
-<p>   "movie/director" -&gt; director
-   "movie.director" -&gt; director
-   "forum/thread/post" -&gt; post
-   "forum/thread.post" -&gt; post</p>
+<p>Resolve view engine.</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  view</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+<ul><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">objectName</span>(<span class="variable">view</span>) {
-  <span class="keyword">return</span> <span class="variable">view</span>.<span class="variable">split</span>(<span class="string">'/'</span>).<span class="variable">slice</span>(-<span class="number integer">1</span>)[<span class="number integer">0</span>].<span class="variable">split</span>(<span class="string">'.'</span>)[<span class="number integer">0</span>];
-}</code></pre>
+<pre><code><span class="class">View</span>.<span class="variable">prototype</span>.<span class="variable">resolveEngine</span> = <span class="keyword">function</span>(){
+  <span class="comment">// Explicit</span>
+  <span class="keyword">if</span> (~<span class="this">this</span>.<span class="variable">basename</span>.<span class="variable">indexOf</span>(<span class="string">'.'</span>)) <span class="keyword">return</span> <span class="variable">extname</span>(<span class="this">this</span>.<span class="variable">basename</span>).<span class="variable">substr</span>(<span class="number integer">1</span>);
+  <span class="comment">// Inherit from parent</span>
+  <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">parent</span>) <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">parent</span>.<span class="variable">engine</span>;
+  <span class="comment">// Default</span>
+  <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">defaultEngine</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Resolve view path.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>private</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">View</span>.<span class="variable">prototype</span>.<span class="variable">resolvePath</span> = <span class="keyword">function</span>(){
+  <span class="keyword">var</span> <span class="variable">path</span> = <span class="this">this</span>.<span class="variable">view</span>;
+  <span class="comment">// Implicit engine</span>
+  <span class="keyword">if</span> (!~<span class="this">this</span>.<span class="variable">basename</span>.<span class="variable">indexOf</span>(<span class="string">'.'</span>)) <span class="variable">path</span> += <span class="this">this</span>.<span class="variable">extension</span>;
+  <span class="comment">// Absolute</span>
+  <span class="keyword">if</span> (<span class="string">'/'</span> == <span class="variable">path</span>[<span class="number integer">0</span>]) <span class="keyword">return</span> <span class="variable">path</span>;
+  <span class="comment">// Relative to parent</span>
+  <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">relative</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="this">this</span>.<span class="variable">parent</span>) <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">parent</span>.<span class="variable">dirname</span> + <span class="string">'/'</span> + <span class="variable">path</span>;
+  <span class="comment">// Relative to root</span>
+  <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">root</span>
+    ? <span class="this">this</span>.<span class="variable">root</span> + <span class="string">'/'</span> + <span class="variable">path</span>
+    : <span class="variable">path</span>;
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Get view contents. This is a one-time hit, so we
+can afford to be sync.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">View</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'contents'</span>, <span class="keyword">function</span>(){
+  <span class="keyword">return</span> <span class="variable">fs</span>.<span class="variable">readFileSync</span>(<span class="this">this</span>.<span class="variable">path</span>, <span class="string">'utf8'</span>);
+});</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Get template engine api, cache exports to reduce
+require() calls.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>return</strong>: <em>Object</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">View</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'templateEngine'</span>, <span class="keyword">function</span>(){
+  <span class="keyword">var</span> <span class="variable">ext</span> = <span class="this">this</span>.<span class="variable">extension</span>;
+  <span class="keyword">return</span> <span class="variable">cache</span>[<span class="variable">ext</span>] || (<span class="variable">cache</span>[<span class="variable">ext</span>] = <span class="variable">require</span>(<span class="this">this</span>.<span class="variable">engine</span>));
+});</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Return index path alternative.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">View</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'indexPath'</span>, <span class="keyword">function</span>(){
+  <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">dirname</span>
+    + <span class="string">'/'</span> + <span class="this">this</span>.<span class="variable">basename</span>.<span class="variable">replace</span>(<span class="this">this</span>.<span class="variable">extension</span>, <span class="string">''</span>)
+    + <span class="string">'/index'</span> + <span class="this">this</span>.<span class="variable">extension</span>;
+});</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Return _ prefix path alternative</p>
+
+<h2></h2>
+
+<ul><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">View</span>.<span class="variable">prototype</span>.<span class="variable">__defineGetter__</span>(<span class="string">'prefixPath'</span>, <span class="keyword">function</span>(){
+  <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">dirname</span> + <span class="string">'/_'</span> + <span class="this">this</span>.<span class="variable">basename</span>;
+});</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -1419,6 +1799,10 @@ as <code>ext</code>. For example we may wish to map ".html"
 files to jade:</p>
 
 <p>   app.register('.html', require('jade'));</p>
+
+<p>or</p>
+
+<p>   app.register('html', require('jade'));</p>
 
 <p>This is also useful for libraries that may not
 match extensions correctly. For example my haml.js
@@ -1443,8 +1827,57 @@ specification, we can also wrap their api this way.</p>
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span>.<span class="variable">register</span> = <span class="keyword">function</span>(<span class="variable">ext</span>, <span class="variable">exports</span>) {
+  <span class="keyword">if</span> (<span class="string">'.'</span> != <span class="variable">ext</span>[<span class="number integer">0</span>]) <span class="variable">ext</span> = <span class="string">'.'</span> + <span class="variable">ext</span>;
   <span class="variable">cache</span>[<span class="variable">ext</span>] = <span class="variable">exports</span>;
-};</code></pre>
+};
+</code></pre>
+</td>
+</tr><tr class="filename"><td><h2 id="lib/express/view.js"><a href="#">view</a></h2></td><td>lib/express/view.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">path</span> = <span class="variable">require</span>(<span class="string">'path'</span>)
+  , <span class="variable">extname</span> = <span class="variable">path</span>.<span class="variable">extname</span>
+  , <span class="variable">dirname</span> = <span class="variable">path</span>.<span class="variable">dirname</span>
+  , <span class="variable">basename</span> = <span class="variable">path</span>.<span class="variable">basename</span>
+  , <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'connect'</span>).<span class="variable">utils</span>
+  , <span class="variable">clone</span> = <span class="variable">require</span>(<span class="string">'./utils'</span>).<span class="variable">clone</span>
+  , <span class="class">View</span> = <span class="variable">require</span>(<span class="string">'./view/view'</span>)
+  , <span class="class">Partial</span> = <span class="variable">require</span>(<span class="string">'./view/partial'</span>)
+  , <span class="variable">merge</span> = <span class="variable">utils</span>.<span class="variable">merge</span>
+  , <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>)
+  , <span class="variable">mime</span> = <span class="variable">utils</span>.<span class="variable">mime</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Memory cache.</p>
+
+<ul><li><p><strong>type</strong>: <em>Object</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">cache</span> = {};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Expose constructors.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="class">View</span>;
+<span class="variable">exports</span>.<span class="class">Partial</span> = <span class="class">Partial</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Export template engine registrar.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">register</span> = <span class="class">View</span>.<span class="variable">register</span>;</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -1461,12 +1894,12 @@ For example <em>video.html</em> will have a object <em>video</em> available to i
 <ul><li><p><strong>param</strong>: <em>String</em>  view</p></li><li><p><strong>param</strong>: <em>Object | Array</em>  options, collection, or object</p></li><li><p><strong>return</strong>: <em>String</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">partial</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>, <span class="variable">ext</span>, <span class="variable">locals</span>){
-  <span class="variable">locals</span> = <span class="variable">locals</span> || {};
+<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">partial</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>, <span class="variable">locals</span>, <span class="variable">parent</span>){
+  <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
 
   <span class="comment">// Inherit parent view extension when not present</span>
-  <span class="keyword">if</span> (<span class="variable">ext</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">view</span>.<span class="variable">indexOf</span>(<span class="string">'.'</span>) &<span class="variable">lt</span>; <span class="number integer">0</span>) {
-    <span class="variable">view</span> += <span class="variable">ext</span>;
+  <span class="keyword">if</span> (<span class="variable">parent</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; !~<span class="variable">view</span>.<span class="variable">indexOf</span>(<span class="string">'.'</span>)) {
+    <span class="variable">view</span> += <span class="variable">parent</span>.<span class="variable">extension</span>;
   }
 
   <span class="comment">// Allow collection to be passed as second param</span>
@@ -1481,18 +1914,33 @@ For example <em>video.html</em> will have a object <em>video</em> available to i
   }
 
   <span class="comment">// Inherit locals from parent</span>
-  <span class="variable">options</span>.<span class="variable">locals</span> = <span class="variable">options</span>.<span class="variable">locals</span>
-    ? <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="variable">locals</span>, <span class="variable">options</span>.<span class="variable">locals</span>)
-    : <span class="variable">locals</span>;
+  <span class="variable">merge</span>(<span class="variable">options</span>, <span class="variable">locals</span>);
+  
+  <span class="comment">// Merge locals</span>
+  <span class="keyword">if</span> (<span class="variable">options</span>.<span class="variable">locals</span>) {
+    <span class="variable">merge</span>(<span class="variable">options</span>, <span class="variable">options</span>.<span class="variable">locals</span>);
+  }
 
   <span class="comment">// Partials dont need layouts</span>
-  <span class="variable">options</span>.<span class="variable">partial</span> = <span class="variable">true</span>;
+  <span class="variable">options</span>.<span class="variable">renderPartial</span> = <span class="variable">true</span>;
   <span class="variable">options</span>.<span class="variable">layout</span> = <span class="variable">false</span>;
 
   <span class="comment">// Deduce name from view path</span>
-  <span class="keyword">var</span> <span class="variable">name</span> = <span class="variable">options</span>.<span class="variable">as</span>
-    || <span class="variable">viewNameCache</span>[<span class="variable">view</span>]
-    || (<span class="variable">viewNameCache</span>[<span class="variable">view</span>] = <span class="variable">objectName</span>(<span class="variable">view</span>));
+  <span class="keyword">var</span> <span class="variable">name</span> = <span class="variable">options</span>.<span class="variable">as</span> || <span class="class">Partial</span>.<span class="variable">resolveObjectName</span>(<span class="variable">view</span>);
+
+  <span class="comment">// Render partial</span>
+  <span class="keyword">function</span> <span class="variable">render</span>(){
+    <span class="keyword">if</span> (<span class="variable">options</span>.<span class="variable">object</span>) {
+      <span class="keyword">if</span> (<span class="string">'string'</span> == <span class="keyword">typeof</span> <span class="variable">name</span>) {
+        <span class="variable">options</span>[<span class="variable">name</span>] = <span class="variable">options</span>.<span class="variable">object</span>;
+      } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">name</span> === <span class="variable">global</span>) {
+        <span class="variable">merge</span>(<span class="variable">options</span>, <span class="variable">options</span>.<span class="variable">object</span>);
+      } <span class="keyword">else</span> {
+        <span class="variable">options</span>.<span class="variable">scope</span> = <span class="variable">options</span>.<span class="variable">object</span>;
+      }
+    }
+    <span class="keyword">return</span> <span class="variable">self</span>.<span class="variable">render</span>(<span class="variable">view</span>, <span class="variable">options</span>, <span class="keyword">null</span>, <span class="variable">parent</span>);
+  }
 
   <span class="comment">// Collection support</span>
   <span class="keyword">var</span> <span class="variable">collection</span> = <span class="variable">options</span>.<span class="variable">collection</span>;
@@ -1500,27 +1948,18 @@ For example <em>video.html</em> will have a object <em>video</em> available to i
     <span class="keyword">var</span> <span class="variable">len</span> = <span class="variable">collection</span>.<span class="variable">length</span>
       , <span class="variable">buf</span> = <span class="string">''</span>;
     <span class="keyword">delete</span> <span class="variable">options</span>.<span class="variable">collection</span>;
-    <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">collectionLength</span> = <span class="variable">len</span>;
+    <span class="variable">options</span>.<span class="variable">collectionLength</span> = <span class="variable">len</span>;
     <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
       <span class="keyword">var</span> <span class="variable">val</span> = <span class="variable">collection</span>[<span class="variable">i</span>];
-      <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">firstInCollection</span> = <span class="variable">i</span> === <span class="number integer">0</span>;
-      <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">indexInCollection</span> = <span class="variable">i</span>;
-      <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">lastInCollection</span> = <span class="variable">i</span> === <span class="variable">len</span> - <span class="number integer">1</span>;
+      <span class="variable">options</span>.<span class="variable">firstInCollection</span> = <span class="variable">i</span> === <span class="number integer">0</span>;
+      <span class="variable">options</span>.<span class="variable">indexInCollection</span> = <span class="variable">i</span>;
+      <span class="variable">options</span>.<span class="variable">lastInCollection</span> = <span class="variable">i</span> === <span class="variable">len</span> - <span class="number integer">1</span>;
       <span class="variable">options</span>.<span class="variable">object</span> = <span class="variable">val</span>;
-      <span class="variable">buf</span> += <span class="this">this</span>.<span class="variable">partial</span>(<span class="variable">view</span>, <span class="variable">options</span>);
+      <span class="variable">buf</span> += <span class="variable">render</span>();
     }
     <span class="keyword">return</span> <span class="variable">buf</span>;
   } <span class="keyword">else</span> {
-    <span class="keyword">if</span> (<span class="variable">options</span>.<span class="variable">object</span>) {
-      <span class="keyword">if</span> (<span class="string">'string'</span> == <span class="keyword">typeof</span> <span class="variable">name</span>) {
-        <span class="variable">options</span>.<span class="variable">locals</span>[<span class="variable">name</span>] = <span class="variable">options</span>.<span class="variable">object</span>;
-      } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">name</span> === <span class="variable">global</span>) {
-        <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="variable">options</span>.<span class="variable">locals</span>, <span class="variable">options</span>.<span class="variable">object</span>);
-      } <span class="keyword">else</span> {
-        <span class="variable">options</span>.<span class="variable">scope</span> = <span class="variable">options</span>.<span class="variable">object</span>;
-      }
-    }
-    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">render</span>(<span class="variable">view</span>, <span class="variable">options</span>);
+    <span class="keyword">return</span> <span class="variable">render</span>();
   }
 };</code></pre>
 </td>
@@ -1536,99 +1975,101 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 <p> Most engines accept one or more of the following options,
  both <em>haml</em> and <em>jade</em> accept all:</p>
 
-<ul><li><code>scope</code>     Template evaluation context (the value of <code>this</code>)</li><li><code>locals</code>    Object containing local variables</li><li><code>debug</code>     Output debugging information</li><li><code>status</code>    Response status code, defaults to 200</li><li><code>headers</code>   Response headers object</li></ul>
+<ul><li><code>scope</code>     Template evaluation context (the value of <code>this</code>)</li><li><code>debug</code>     Output debugging information</li><li><code>status</code>    Response status code, defaults to 200</li><li><code>headers</code>   Response headers object</li></ul>
 
 <h2></h2>
 
 <ul><li><p><strong>param</strong>: <em>String</em>  view</p></li><li><p><strong>param</strong>: <em>Object | Function</em>  options or callback function</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">render</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>, <span class="variable">fn</span>){
+<pre><code><span class="variable">http</span>.<span class="class">ServerResponse</span>.<span class="variable">prototype</span>.<span class="variable">render</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>, <span class="variable">fn</span>, <span class="variable">parent</span>){
   <span class="comment">// Support callback function as second arg</span>
   <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">options</span> === <span class="string">'function'</span>) {
     <span class="variable">fn</span> = <span class="variable">options</span>, <span class="variable">options</span> = {};
   }
   
-  <span class="keyword">var</span> <span class="variable">options</span> = <span class="variable">options</span> || {}
+  <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>
     , <span class="variable">app</span> = <span class="this">this</span>.<span class="variable">app</span>
+    , <span class="variable">options</span> = <span class="variable">options</span> || {}
+    , <span class="variable">helpers</span> = <span class="variable">app</span>.<span class="variable">viewHelpers</span>
+    , <span class="variable">dynamicHelpers</span> = <span class="variable">app</span>.<span class="variable">dynamicViewHelpers</span>
     , <span class="variable">viewOptions</span> = <span class="variable">app</span>.<span class="variable">settings</span>[<span class="string">'view options'</span>]
-    , <span class="variable">defaultEngine</span> = <span class="variable">app</span>.<span class="variable">settings</span>[<span class="string">'view engine'</span>];
+    , <span class="variable">cacheTemplates</span> = <span class="variable">app</span>.<span class="variable">settings</span>[<span class="string">'cache views'</span>];
 
-  <span class="comment">// Mixin &quot;view options&quot;</span>
-  <span class="keyword">if</span> (<span class="variable">viewOptions</span>) <span class="variable">options</span>.<span class="variable">__proto__</span> = <span class="variable">viewOptions</span>;
-
-  <span class="comment">// Support &quot;view engine&quot; setting</span>
-  <span class="keyword">if</span> (<span class="variable">view</span>.<span class="variable">indexOf</span>(<span class="string">'.'</span>) &<span class="variable">lt</span>; <span class="number integer">0</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">defaultEngine</span>) {
-    <span class="variable">view</span> += <span class="string">'.'</span> + <span class="variable">defaultEngine</span>;
-  }
+  <span class="comment">// Merge &quot;view options&quot;</span>
+  <span class="keyword">if</span> (<span class="variable">viewOptions</span>) <span class="variable">options</span> = <span class="variable">merge</span>(<span class="variable">clone</span>(<span class="variable">viewOptions</span>), <span class="variable">options</span>);
 
   <span class="comment">// Defaults</span>
   <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>
-    , <span class="variable">helpers</span> = <span class="this">this</span>.<span class="variable">app</span>.<span class="variable">viewHelpers</span>
-    , <span class="variable">dynamicHelpers</span> = <span class="this">this</span>.<span class="variable">app</span>.<span class="variable">dynamicViewHelpers</span>
-    , <span class="variable">root</span> = <span class="variable">viewRoot</span>(<span class="this">this</span>.<span class="variable">app</span>)
-    , <span class="variable">ext</span> = <span class="variable">extname</span>(<span class="variable">view</span>)
-    , <span class="variable">partial</span> = <span class="variable">options</span>.<span class="variable">partial</span>
-    , <span class="variable">layout</span> = <span class="variable">options</span>.<span class="variable">layout</span> === <span class="variable">undefined</span> ? <span class="variable">true</span> : <span class="variable">options</span>.<span class="variable">layout</span>
-    , <span class="variable">layout</span> = <span class="variable">layout</span> === <span class="variable">true</span>
-      ? <span class="string">'layout'</span> + <span class="variable">ext</span>
-      : <span class="variable">layout</span>;
+    , <span class="variable">root</span> = <span class="variable">app</span>.<span class="variable">settings</span>.<span class="variable">views</span> || <span class="variable">process</span>.<span class="variable">cwd</span>() + <span class="string">'/views'</span>
+    , <span class="variable">partial</span> = <span class="variable">options</span>.<span class="variable">renderPartial</span>
+    , <span class="variable">layout</span> = <span class="variable">options</span>.<span class="variable">layout</span>;
 
-  <span class="comment">// Allow layout name without extension</span>
-  <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">layout</span> === <span class="string">'string'</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">layout</span>.<span class="variable">indexOf</span>(<span class="string">'.'</span>) &<span class="variable">lt</span>; <span class="number integer">0</span>) {
-    <span class="variable">layout</span> += <span class="variable">ext</span>;
+  <span class="comment">// Layout support</span>
+  <span class="keyword">if</span> (<span class="variable">true</span> === <span class="variable">layout</span> || <span class="variable">undefined</span> === <span class="variable">layout</span>) {
+    <span class="variable">layout</span> = <span class="string">'layout'</span>;
   }
 
   <span class="comment">// Default execution scope to the response</span>
   <span class="variable">options</span>.<span class="variable">scope</span> = <span class="variable">options</span>.<span class="variable">scope</span> || <span class="this">this</span>.<span class="variable">req</span>;
 
-  <span class="comment">// Auto-cache in production</span>
-  <span class="keyword">if</span> (<span class="string">'production'</span> == <span class="variable">app</span>.<span class="variable">settings</span>.<span class="variable">env</span>) {
-    <span class="variable">options</span>.<span class="variable">cache</span> = <span class="variable">true</span>;
+  <span class="comment">// Populate view</span>
+  <span class="variable">options</span>.<span class="variable">parentView</span> = <span class="variable">parent</span>;
+
+  <span class="comment">// &quot;views&quot; setting</span>
+  <span class="variable">options</span>.<span class="variable">root</span> = <span class="variable">root</span>;
+
+  <span class="comment">// &quot;view engine&quot; setting</span>
+  <span class="variable">options</span>.<span class="variable">defaultEngine</span> = <span class="variable">app</span>.<span class="variable">settings</span>[<span class="string">'view engine'</span>];
+
+  <span class="comment">// Populate view</span>
+  <span class="comment">// TODO: cache</span>
+  <span class="keyword">var</span> <span class="variable">orig</span> = <span class="variable">view</span> = <span class="variable">partial</span>
+    ? <span class="keyword">new</span> <span class="class">Partial</span>(<span class="variable">view</span>, <span class="variable">options</span>)
+    : <span class="keyword">new</span> <span class="class">View</span>(<span class="variable">view</span>, <span class="variable">options</span>);
+
+  <span class="comment">// Ensure view exists, otherwise try _ prefix</span>
+  <span class="keyword">if</span> (!<span class="variable">view</span>.<span class="variable">exists</span>) {
+    <span class="variable">view</span> = <span class="variable">partial</span>
+      ? <span class="keyword">new</span> <span class="class">Partial</span>(<span class="variable">view</span>.<span class="variable">prefixPath</span>, <span class="variable">options</span>)
+      : <span class="keyword">new</span> <span class="class">View</span>(<span class="variable">view</span>.<span class="variable">prefixPath</span>, <span class="variable">options</span>);
   }
-
-  <span class="comment">// Partials support</span>
-  <span class="keyword">if</span> (<span class="variable">options</span>.<span class="variable">partial</span>) {
-    <span class="variable">root</span> = <span class="variable">app</span>.<span class="variable">settings</span>.<span class="variable">partials</span> || <span class="variable">root</span> + <span class="string">'/partials'</span>;
+  
+  <span class="comment">// Ensure view _ prefix exists, otherwise try index</span>
+  <span class="keyword">if</span> (!<span class="variable">view</span>.<span class="variable">exists</span>) {
+    <span class="variable">view</span> = <span class="variable">partial</span>
+      ? <span class="keyword">new</span> <span class="class">Partial</span>(<span class="variable">orig</span>.<span class="variable">indexPath</span>, <span class="variable">options</span>)
+      : <span class="keyword">new</span> <span class="class">View</span>(<span class="variable">orig</span>.<span class="variable">indexPath</span>, <span class="variable">options</span>);
   }
-
-  <span class="comment">// View path</span>
-  <span class="keyword">var</span> <span class="variable">path</span> = <span class="variable">view</span>[<span class="number integer">0</span>] === <span class="string">'/'</span>
-    ? <span class="variable">view</span>
-    : <span class="variable">root</span> + <span class="string">'/'</span> + <span class="variable">view</span>;
-
-  <span class="comment">// Pass filename to the engine and view</span>
-  <span class="keyword">var</span> <span class="variable">locals</span> = <span class="variable">options</span>.<span class="variable">locals</span> = <span class="variable">options</span>.<span class="variable">locals</span> || {};
-  <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">__filename</span> = <span class="variable">options</span>.<span class="variable">filename</span> = <span class="variable">path</span>;
-
+  
+  <span class="comment">// Merge res.locals</span>
+  <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">locals</span>) {
+    <span class="variable">options</span> = <span class="variable">merge</span>(<span class="this">this</span>.<span class="variable">locals</span>, <span class="variable">options</span>);
+  }
+  
   <span class="comment">// Dynamic helper support</span>
   <span class="keyword">if</span> (<span class="variable">false</span> !== <span class="variable">options</span>.<span class="variable">dynamicHelpers</span>) {
     <span class="comment">// cache</span>
     <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">__dynamicHelpers</span>) {
       <span class="this">this</span>.<span class="variable">__dynamicHelpers</span> = {};
-      <span class="keyword">var</span> <span class="variable">keys</span> = <span class="class">Object</span>.<span class="variable">keys</span>(<span class="variable">dynamicHelpers</span>);
-      <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">keys</span>.<span class="variable">length</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
-        <span class="keyword">var</span> <span class="variable">key</span> = <span class="variable">keys</span>[<span class="variable">i</span>]
-          , <span class="variable">val</span> = <span class="variable">dynamicHelpers</span>[<span class="variable">key</span>];
-        <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">val</span> === <span class="string">'function'</span>) {
-          <span class="this">this</span>.<span class="variable">__dynamicHelpers</span>[<span class="variable">key</span>] = <span class="variable">val</span>.<span class="variable">call</span>(
-                <span class="this">this</span>.<span class="variable">app</span>
-              , <span class="this">this</span>.<span class="variable">req</span>
-              , <span class="this">this</span>);
-        }
+      <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">key</span> <span class="keyword">in</span> <span class="variable">dynamicHelpers</span>) {
+        <span class="this">this</span>.<span class="variable">__dynamicHelpers</span>[<span class="variable">key</span>] = <span class="variable">dynamicHelpers</span>[<span class="variable">key</span>].<span class="variable">call</span>(
+            <span class="this">this</span>.<span class="variable">app</span>
+          , <span class="this">this</span>.<span class="variable">req</span>
+          , <span class="this">this</span>);
       }
     }
 
     <span class="comment">// apply</span>
-    <span class="variable">helpers</span>.<span class="variable">__proto__</span> = <span class="this">this</span>.<span class="variable">__dynamicHelpers</span>;
+    <span class="variable">merge</span>(<span class="variable">options</span>, <span class="this">this</span>.<span class="variable">__dynamicHelpers</span>);
   }
 
   <span class="comment">// Merge view helpers</span>
-  <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">__proto__</span> = <span class="variable">helpers</span>;
+  <span class="variable">options</span> = <span class="variable">merge</span>(<span class="variable">clone</span>(<span class="variable">helpers</span>), <span class="variable">options</span>);
 
   <span class="comment">// Always expose partial() as a local</span>
-  <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">partial</span> = <span class="keyword">function</span>(<span class="variable">view</span>, <span class="variable">options</span>){
-    <span class="keyword">return</span> <span class="variable">self</span>.<span class="variable">partial</span>.<span class="variable">call</span>(<span class="variable">self</span>, <span class="variable">view</span>, <span class="variable">options</span>, <span class="variable">ext</span>, <span class="variable">locals</span>);
+  <span class="variable">options</span>.<span class="variable">partial</span> = <span class="keyword">function</span>(<span class="variable">path</span>, <span class="variable">opts</span>){
+    <span class="keyword">return</span> <span class="variable">self</span>.<span class="variable">partial</span>(<span class="variable">path</span>, <span class="variable">opts</span>, <span class="variable">options</span>, <span class="variable">view</span>);
   };
 
   <span class="keyword">function</span> <span class="variable">error</span>(<span class="variable">err</span>) {
@@ -1639,29 +2080,24 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
     }
   }
 
-  <span class="comment">// Cache contents</span>
-  <span class="keyword">try</span> {
-    <span class="keyword">var</span> <span class="variable">str</span> = (<span class="variable">options</span>.<span class="variable">cache</span> ? <span class="variable">viewCache</span>[<span class="variable">path</span>] : <span class="keyword">null</span>) || <span class="variable">cacheViewSync</span>(<span class="variable">path</span>);
-  } <span class="keyword">catch</span> (<span class="variable">err</span>) {
-    <span class="keyword">return</span> <span class="variable">error</span>(<span class="variable">err</span>);
-  }
-
-  <span class="comment">// Cache template engine exports</span>
-  <span class="keyword">var</span> <span class="variable">engine</span> = <span class="variable">cache</span>[<span class="variable">ext</span>] || (<span class="variable">cache</span>[<span class="variable">ext</span>] = <span class="variable">require</span>(<span class="variable">ext</span>.<span class="variable">substr</span>(<span class="number integer">1</span>)));
-
   <span class="comment">// Attempt render</span>
   <span class="keyword">try</span> {
-    <span class="keyword">var</span> <span class="variable">str</span> = <span class="variable">engine</span>.<span class="variable">render</span>(<span class="variable">str</span>, <span class="variable">options</span>);
+    <span class="keyword">var</span> <span class="variable">engine</span> = <span class="variable">view</span>.<span class="variable">templateEngine</span>
+      , <span class="variable">template</span> = <span class="variable">cacheTemplates</span>
+        ? <span class="variable">cache</span>[<span class="variable">view</span>.<span class="variable">path</span>] || (<span class="variable">cache</span>[<span class="variable">view</span>.<span class="variable">path</span>] = <span class="variable">engine</span>.<span class="variable">compile</span>(<span class="variable">view</span>.<span class="variable">contents</span>, <span class="variable">options</span>))
+        : <span class="variable">engine</span>.<span class="variable">compile</span>(<span class="variable">view</span>.<span class="variable">contents</span>, <span class="variable">options</span>)
+      , <span class="variable">str</span> = <span class="variable">template</span>.<span class="variable">call</span>(<span class="variable">options</span>.<span class="variable">scope</span>, <span class="variable">options</span>);
   } <span class="keyword">catch</span> (<span class="variable">err</span>) {
     <span class="keyword">return</span> <span class="variable">error</span>(<span class="variable">err</span>);
   }
 
   <span class="comment">// Layout support</span>
   <span class="keyword">if</span> (<span class="variable">layout</span>) {
-    <span class="variable">options</span>.<span class="variable">layout</span> = <span class="variable">false</span>;
-    <span class="variable">options</span>.<span class="variable">locals</span>.<span class="variable">body</span> = <span class="variable">str</span>;
     <span class="variable">options</span>.<span class="variable">isLayout</span> = <span class="variable">true</span>;
-    <span class="variable">self</span>.<span class="variable">render</span>(<span class="variable">layout</span>, <span class="variable">options</span>, <span class="variable">fn</span>);
+    <span class="variable">options</span>.<span class="variable">layout</span> = <span class="variable">false</span>;
+    <span class="variable">options</span>.<span class="variable">body</span> = <span class="variable">str</span>;
+    <span class="variable">options</span>.<span class="variable">relative</span> = <span class="variable">false</span>;
+    <span class="variable">self</span>.<span class="variable">render</span>(<span class="variable">layout</span>, <span class="variable">options</span>, <span class="variable">fn</span>, <span class="variable">view</span>);
   } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">partial</span>) {
     <span class="keyword">return</span> <span class="variable">str</span>;
   } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">fn</span>) {

@@ -133,7 +133,7 @@
 				font-size: 11px;
 			}
 			#menu {
-			  margin-left: 65px;
+			  margin-left: 75px;
 			  padding: 0;
 			  padding-bottom: 30px; }
 			  #menu li {
@@ -189,6 +189,7 @@
 <li><a href="#Route-Middleware">Route Middleware</a></li>
 <li><a href="#HTTP-Methods">HTTP Methods</a></li>
 <li><a href="#Error-Handling">Error Handling</a></li>
+<li><a href="#Route-Preconditions">Route Preconditions</a></li>
 <li><a href="#View-Rendering">View Rendering</a></li>
 <li><a href="#View-Partials">View Partials</a></li>
 <li><a href="#Template-Engines">Template Engines</a></li>
@@ -214,6 +215,7 @@
 <li><a href="#res-clearCookie-name-">clearCookie()</a></li>
 <li><a href="#res-render-view-options-fn-">render()</a></li>
 <li><a href="#res-partial-view-options-">partial()</a></li>
+<li><a href="#res-local-name-val-">local()</a></li>
 </ul></li>
 <li><a href="#" class="toggle">+</a> <a class="section-title" href="#">Server</a><ul class="section" id="section-Server">
 <li><a href="#app-set-name-val-">set()</a></li>
@@ -237,7 +239,7 @@
 				<ul id="menu">
 					<li><a href="index.html">Home</a></li>
 					<li><a href="guide.html">Guide</a></li>
-					<li><a href="contrib.html">Contributing</a></li>
+					<li><a href="screencasts.html">Screencasts</a></li>
 					<li><a href="applications.html">Applications</a></li>
 				</ul>
 <div class='mp'>
@@ -255,13 +257,6 @@
 <p>npm:</p>
 
 <pre><code>$ npm install express
-</code></pre>
-
-<p>git clone, first update the submodules:</p>
-
-<pre><code>$ git submodule update --init
-$ make install
-$ make install-support
 </code></pre>
 
 <h3 id="Creating-An-Application">Creating An Application</h3>
@@ -339,7 +334,6 @@ app.configure('production', function(){
 <li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
 <li><em>view engine</em> Default view engine name for views rendered without extensions</li>
 <li><em>view options</em> An object specifying global view options</li>
-<li><em>partials</em> Root view partials directory defaulting to <em>views</em>/partials.</li>
 <li><em>stream threshold</em> Bytesize indicating when a file should be streamed for <em>res.sendfile()</em> using <em>fs.ReadStream()</em> and <em>sys.pump()</em>.</li>
 </ul>
 
@@ -363,7 +357,7 @@ when <em>/user/:id</em> is compiled, a simplified version of the regexp may look
 </code></pre>
 
 <p>Regular expression literals may also be passed for complex uses. Since capture
-groups with literal <em>RegExp</em>'s are anonymous we can access them directly <code>req.params</code>.</p>
+groups with literal <em>RegExp</em>'s are anonymous we can access them directly <code>req.params</code>. So our first capture group would be <em>req.params[0]</em> and the second would follow as <em>req.params[1]</em>.</p>
 
 <pre><code>app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res){
     res.send(req.params);
@@ -412,6 +406,10 @@ may consume:</p>
  /products.json
  /products.xml
  /products
+
+ "/user/:id.:format?"
+ /user/12
+ /user/12.json
 </code></pre>
 
 <p>For example we can <strong>POST</strong> some json, and echo the json back using the <em>bodyDecoder</em> middleware which will parse json request bodies (as well as others), and place the result in <em>req.body</em>:</p>
@@ -427,6 +425,8 @@ app.post('/', function(req, res){
 
 app.listen(3000);
 </code></pre>
+
+<p>Express 2.0.0-pre also supports named capture groups. Typically we may use a "dump" placeholder such as "/user/:id" which has no restraints, however say for example we are limiting a user id to digits, we may use <em>'/user/:id(\d+)'</em> which will <em>not</em> match unless the placeholder value contains only digits.</p>
 
 <h3 id="Passing-Route-Control">Passing Route Control</h3>
 
@@ -704,6 +704,47 @@ that are passed or thrown, so we can set <em>showStack</em> to true:</p>
 <p>The <em>errorHandler</em> middleware also responds with <em>json</em> if <em>Accept: application/json</em>
 is present, which is useful for developing apps that rely heavily on client-side JavaScript.</p>
 
+<h3 id="Route-Preconditions">Route Preconditions</h3>
+
+<p>Route placeholder pre-conditions can drastically improve the readability of your application, through implicit loading of data, and validation of request urls. For example if you are constantly fetching common data for several routes, such as loading a user for <em>/user/:id</em>,we might typically do something like below:</p>
+
+<pre><code>app.get('/user/:userId', function(req, res, next){
+  User.get(req.params.userId, function(err, user){
+    if (err) return next(err);
+    res.send('user ' + user.name);
+  });
+}); 
+</code></pre>
+
+<p>With route preconditions our placeholders can be mapped to callbacks which may perform validation, coercion, or even loading data from a database. Below we invoke <em>app.param()</em> with the parameter name we wish to map to some middleware, as you can see we receive the <em>id</em> argument which contains the placeholder value. Using this we load the user and perform error handling as usual, and simple call <em>next()</em> to pass control to the next precondition or route handler.</p>
+
+<pre><code>app.param('userId', function(req, res, next, id){
+  User.get(id, function(err, user){
+    if (err) return next(err);
+    if (!user) return next(new Error('failed to find user'));
+    req.user = user;
+    next();
+  });
+});
+</code></pre>
+
+<p>Doing so, as mentioned drastically improves our route readability, and allows us to easily share this logic throughout our application:</p>
+
+<pre><code>app.get('/user/:userId', function(req, res){
+  res.send('user ' + req.user.name);
+});
+</code></pre>
+
+<p>For simple cases such as route placeholder validation and coercion we can simple pass a callback which has an arity of 1 (accepts one argument). Any errors thrown will be passed to <em>next(err)</em>.</p>
+
+<pre><code>app.param('number', function(n){ return parseInt(n, 10); });
+</code></pre>
+
+<p>We may also apply the same callback to several placeholders, for example a route GET <em>/commits/:from-:to</em> are both numbers, so we may define them as an array:</p>
+
+<pre><code>app.param(['from', 'to'], function(n){ return parseInt(n, 10); });
+</code></pre>
+
 <h3 id="View-Rendering">View Rendering</h3>
 
 <p>View filenames take the form <em>Express</em>.<em>ENGINE</em>, where <em>ENGINE</em> is the name
@@ -812,6 +853,8 @@ for free:</p>
 
 
 <p>For documentation on altering the object name view <a href="http://expressjs.com/guide.html#res-partial-view-options-">res.partial()</a>.</p>
+
+<p>NOTE: partials are not recommended for large collections (150+) because the view system adds to the overhead. For example do <em>not</em> implement a simple ul list with partial collection support, simply create a partial and iterate within that single partial, as this is far more efficient than rendering 150+ templates.</p>
 
 <h3 id="Template-Engines">Template Engines</h3>
 
@@ -1092,6 +1135,8 @@ code based responses. The following are all valid uses:</p>
 assigned through <code>res.send()</code> or previously with <code>res.header()</code> or <code>res.contentType()</code>
 it will not be set again.</p>
 
+<p>Note that this method <em>end()</em> the response, so you will want to use node's <em>res.writeHead()</em> / <em>res.write()</em> for multiple writes or streaming.</p>
+
 <h3 id="res-redirect-url-status-">res.redirect(url[, status])</h3>
 
 <p>Redirect to the given <em>url</em> with a default response <em>status</em> of 302.</p>
@@ -1221,6 +1266,24 @@ partial('movie', { object: movie });
 // =&gt; In view: movie.director
 </code></pre>
 
+<h3 id="res-local-name-val-">res.local(name[, val])</h3>
+
+<p>Get or set the given local variable <em>name</em>. The locals built up for a response are applied to those given to the view rendering methods such as <code>res.render()</code>.</p>
+
+<pre><code>  app.all('/movie/:id', function(req, res, next){
+    Movie.get(req.params.id, function(err, movie){
+      // Assigns res.locals.movie = movie
+      res.local('movie', movie);
+    });
+  });
+
+  app.get('/movie/:id', function(req, res){
+    // movie is already a local, however we
+    // can pass more if we wish
+    res.render('movie', { displayReviews: true });
+  });
+</code></pre>
+
 <h3 id="app-set-name-val-">app.set(name[, val])</h3>
 
 <p>Apply an application level setting <em>name</em> to <em>val</em>, or
@@ -1244,6 +1307,9 @@ app.set('views');
 <pre><code>app.enable('some arbitrary setting');
 app.set('some arbitrary setting');
 // =&gt; true
+
+app.enabled('some arbitrary setting');
+// =&gt; true
 </code></pre>
 
 <h3 id="app-disable-name-">app.disable(name)</h3>
@@ -1252,6 +1318,9 @@ app.set('some arbitrary setting');
 
 <pre><code>app.disable('some setting');
 app.set('some setting');
+// =&gt; false
+
+app.disabled('some setting');
 // =&gt; false
 </code></pre>
 

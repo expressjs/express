@@ -42,14 +42,16 @@ otherwise the first call to _app.{get,put,del,post}()_ will mount the routes.
   		app.use(express.methodOverride());
   		app.use(express.bodyDecoder());
   		app.use(app.router);
-  		app.use(express.staticProvider(__dirname + '/public'));
   	});
 	
   	app.configure('development', function(){
+  		app.use(express.staticProvider(__dirname + '/public'));
   		app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   	});
 	
   	app.configure('production', function(){
+  	  var oneYear = 31557600000;
+  		app.use(express.staticProvider({ root: __dirname + '/public', maxAge: oneYear }));
   		app.use(express.errorHandler());
   	});
 
@@ -82,7 +84,6 @@ Express supports the following settings out of the box:
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
   * _view options_ An object specifying global view options
-  * _stream threshold_ Bytesize indicating when a file should be streamed for _res.sendfile()_ using _fs.ReadStream()_ and _sys.pump()_.
 
 ### Routing
 
@@ -101,7 +102,7 @@ when _/user/:id_ is compiled, a simplified version of the regexp may look simila
     \/user\/([^\/]+)\/?
 
 Regular expression literals may also be passed for complex uses. Since capture
-groups with literal _RegExp_'s are anonymous we can access them directly `req.params`.
+groups with literal _RegExp_'s are anonymous we can access them directly `req.params`. So our first capture group would be _req.params[0]_ and the second would follow as _req.params[1]_.
 
     app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res){
         res.send(req.params);
@@ -148,6 +149,10 @@ may consume:
 	 /products.json
 	 /products.xml
 	 /products
+	 
+	 "/user/:id.:format?"
+	 /user/12
+	 /user/12.json
 
 For example we can __POST__ some json, and echo the json back using the _bodyDecoder_ middleware which will parse json request bodies (as well as others), and place the result in _req.body_:
 
@@ -161,6 +166,8 @@ For example we can __POST__ some json, and echo the json back using the _bodyDec
     });
 
     app.listen(3000);
+
+Express 2.0.0-pre also supports named capture groups. Typically we may use a "dump" placeholder such as "/user/:id" which has no restraints, however say for example we are limiting a user id to digits, we may use _'/user/:id(\\d+)'_ which will _not_ match unless the placeholder value contains only digits.
 
 ### Passing Route Control
 
@@ -417,6 +424,42 @@ that are passed or thrown, so we can set _showStack_ to true:
 The _errorHandler_ middleware also responds with _json_ if _Accept: application/json_
 is present, which is useful for developing apps that rely heavily on client-side JavaScript.
 
+### Route Preconditions
+
+Route placeholder pre-conditions can drastically improve the readability of your application, through implicit loading of data, and validation of request urls. For example if you are constantly fetching common data for several routes, such as loading a user for _/user/:id_,we might typically do something like below:
+
+    app.get('/user/:userId', function(req, res, next){
+      User.get(req.params.userId, function(err, user){
+        if (err) return next(err);
+        res.send('user ' + user.name);
+      });
+    }); 
+
+With route preconditions our placeholders can be mapped to callbacks which may perform validation, coercion, or even loading data from a database. Below we invoke _app.param()_ with the parameter name we wish to map to some middleware, as you can see we receive the _id_ argument which contains the placeholder value. Using this we load the user and perform error handling as usual, and simple call _next()_ to pass control to the next precondition or route handler.
+
+    app.param('userId', function(req, res, next, id){
+      User.get(id, function(err, user){
+        if (err) return next(err);
+        if (!user) return next(new Error('failed to find user'));
+        req.user = user;
+        next();
+      });
+    });
+
+Doing so, as mentioned drastically improves our route readability, and allows us to easily share this logic throughout our application:
+
+    app.get('/user/:userId', function(req, res){
+      res.send('user ' + req.user.name);
+    });
+
+For simple cases such as route placeholder validation and coercion we can simple pass a callback which has an arity of 1 (accepts one argument). Any errors thrown will be passed to _next(err)_.
+
+    app.param('number', function(n){ return parseInt(n, 10); });
+
+We may also apply the same callback to several placeholders, for example a route GET _/commits/:from-:to_ are both numbers, so we may define them as an array:
+
+    app.param(['from', 'to'], function(n){ return parseInt(n, 10); });
+
 ### View Rendering
 
 View filenames take the form _NAME_._ENGINE_, where _ENGINE_ is the name
@@ -646,9 +689,9 @@ We may also assert the _type_ as shown below, which would return true for _"appl
 
     req.is('*/json');
 
-### req.param(name)
+### req.param(name[, default])
 
-Return the value of param _name_ when present.
+Return the value of param _name_ when present or _default_.
 
   - Checks route placeholders (_req.params_), ex: /user/:id
   - Checks query string params (_req.query_), ex: ?id=12
@@ -730,8 +773,6 @@ This method accepts a callback which when given will be called on an exception, 
         console.log('transferred %s', path);
       }
     });
-
-When the filesize exceeds the _stream threshold_ (defaulting to 32k), the file will be streamed using _fs.ReadStream_ and _sys.pump()_.
 
 ### res.download(file[, filename])
 
@@ -875,6 +916,23 @@ When a non-collection (does _not_ have _.length_) is passed as the second argume
     partial('movie', movie);
     // => In view: movie.director
 
+### res.local(name[, val])
+
+Get or set the given local variable _name_. The locals built up for a response are applied to those given to the view rendering methods such as `res.render()`.
+
+      app.all('/movie/:id', function(req, res, next){
+        Movie.get(req.params.id, function(err, movie){
+          // Assigns res.locals.movie = movie
+          res.local('movie', movie);
+        });
+      });
+      
+      app.get('/movie/:id', function(req, res){
+        // movie is already a local, however we
+        // can pass more if we wish
+        res.render('movie', { displayReviews: true });
+      });
+
 ### app.set(name[, val])
 
 Apply an application level setting _name_ to _val_, or
@@ -897,12 +955,18 @@ Enable the given setting _name_:
     app.set('some arbitrary setting');
     // => true
 
+    app.enabled('some arbitrary setting');
+    // => true
+
 ### app.disable(name)
 
 Disable the given setting _name_:
 
     app.disable('some setting');
     app.set('some setting');
+    // => false
+    
+    app.disabled('some setting');
     // => false
 
 ### app.configure(env|function[, function])

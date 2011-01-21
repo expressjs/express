@@ -769,5 +769,98 @@ module.exports = {
     assert.response(app,
       { url: '/' },
       { body: '<p>This is actually jade :)</p>' });
+  },
+  
+  'test res.local()': function(){
+    var app = create();
+    
+    app.get('/video', function(req, res, next){
+      res.local('open', '<?');
+      res.local('close', '?>');
+      res.local('title', 'Wahoo');
+      res.render('video.ejs', { layout: false });
+    });
+    
+    assert.response(app,
+      { url: '/video' },
+      { body: '<h1>Wahoo</h1>' });
+  },
+  
+  'test res.local() render() precedence': function(){
+    var app = create();
+    
+    app.get('/video', function(req, res, next){
+      res.local('open', '<?');
+      res.local('close', '?>');
+      res.local('title', 'Wahoo');
+      res.render('video.ejs', { layout: false, title: 'keyboard cat' });
+    });
+    
+    assert.response(app,
+      { url: '/video' },
+      { body: '<h1>keyboard cat</h1>' });
+  },
+  
+  'test res.local() "view options" precedence': function(){
+    var app = create();
+    
+    app.set('view options', {
+        layout: false
+      , open: '<?'
+      , title: 'Should not show :)'
+    });
+    
+    app.get('/video', function(req, res, next){
+      res.local('close', '?>')
+      res.local('title', 'Wahoo');
+      res.render('video.ejs', { layout: false, title: 'keyboard cat' });
+    });
+    
+    assert.response(app,
+      { url: '/video' },
+      { body: '<h1>keyboard cat</h1>' });
+  },
+  
+  'test res.local() partials': function(){
+    var app = create();
+    
+    app.set('view options', {
+      site: 'My Cool Pets'
+    });
+    
+    app.get('/pets', function(req, res, next){
+      res.local('pets', ['Tobi']);
+      next();
+    });
+    
+    app.get('/pets', function(req, res, next){
+      var pets;
+      if (pets = res.local('pets')) {
+        pets.push('Jane', 'Bandit');
+      }
+      next();
+    });
+
+    app.get('/pets', function(req, res, next){
+      res.render('pets.jade');
+    });
+
+    var html = [
+      '<html>',
+      '<body>',
+      '<h1>My Cool Pets</h1>',
+      '<p>We have 3 cool pets\n</p>',
+      '<ul>',
+      '<li>Tobi is the coolest of My Cool Pets</li>',
+      '<li>Jane</li>',
+      '<li>Bandit</li>',
+      '</ul>',
+      '</body>',
+      '</html>'
+    ].join('');
+
+    assert.response(app,
+      { url: '/pets' },
+      { body: html });
   }
 };

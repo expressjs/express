@@ -14,8 +14,10 @@ app.get('/', function(req, res){
     + '</ul>');
 });
 
-app.get('/files/*', function(req, res){
-  var file = req.params[0];
+// /files/* is accessed via req.params[0]
+// but here we name it :file
+app.get('/files/:file(*)', function(req, res){
+  var file = req.params.file;
   res.download(__dirname + '/files/' + file);
 });
 

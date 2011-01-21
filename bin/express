@@ -9,6 +9,18 @@ var fs = require('fs')
   , exec = require('child_process').exec;
 
 /**
+ * COMPAT: expose constants
+ */
+
+var constants;
+
+try {
+  constants = require('constants');
+} catch (err) {
+  constants = process;
+}
+
+/**
  * Framework version.
  */
 
@@ -360,7 +372,7 @@ function createApplicationAt(path) {
 
 function emptyDirectory(path, fn) {
   fs.readdir(path, function(err, files){
-    if (err && err.errno !== process.ENOENT) throw err;
+    if (err && err.errno !== constants.ENOENT) throw err;
     fn(!files || !files.length);
   });
 }

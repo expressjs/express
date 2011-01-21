@@ -1,18 +1,18 @@
 body {
-    padding: 30px 50px;
-    font: 12px/1.4 "Helvetica Neue", Arial, sans-serif;
+  padding: 30px 50px;
+  font: 12px/1.4 "Helvetica Neue", Arial, sans-serif;
 }
 a {
-    color: #00AAFF;
-    text-decoration: none;
+  color: #00AAFF;
+  text-decoration: none;
 }
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 .user {
   margin: 0 10px;
   float: left;
-  width: 20%;
+  width: 300px;
 }
 table td:nth-child(2) {
   padding: 0 5px;
