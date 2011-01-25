@@ -596,6 +596,18 @@ module.exports = {
       { body: '<ul><li>foo</li><li>empty</li></ul>' });
   },
   
+  'test #partial() with several calls using locals': function(){
+    var app = create();
+
+    app.get('/', function(req, res, next){
+      res.render('list2.jade', { layout: false });
+    });
+    
+    assert.response(app,
+      { url: '/' },
+      { body: '<ul><li>foo</li><li>bar</li><li>empty</li></ul>' });
+  },
+  
   'test #partial() locals': function(){
     var app = create();
 
