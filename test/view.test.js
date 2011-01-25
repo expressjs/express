@@ -563,6 +563,32 @@ module.exports = {
             { body: html });
     },
     
+    'test #partial() in layout': function(assert){
+      var app = create();
+
+      app.get('/', function(req, res){
+        res.render('hello.jade', { layout: 'layouts/pets.jade' });
+      });
+
+      assert.response(app,
+        { url: '/' },
+        { body: '<html><head><title>Pets</title></head><body><p>:(</p></body></html>' });
+    },
+    
+    'test #partial() in layout with "view engine" setting': function(assert){
+      var app = create();
+
+      app.set('view engine', 'jade');
+
+      app.get('/', function(req, res){
+        res.render('hello', { layout: 'layouts/pets' });
+      });
+
+      assert.response(app,
+        { url: '/' },
+        { body: '<html><head><title>Pets</title></head><body><p>:(</p></body></html>' });
+    },
+    
     'test #partial() with array-like collection': function(assert){
         var app = create();
 
