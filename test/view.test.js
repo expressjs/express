@@ -584,6 +584,18 @@ module.exports = {
       { body: '<li>Role: admin</li><li>Role: member</li>' });
   },
   
+  'test #partial() with several calls': function(){
+    var app = create();
+
+    app.get('/', function(req, res, next){
+      res.render('list.jade', { layout: false });
+    });
+    
+    assert.response(app,
+      { url: '/' },
+      { body: '<ul><li>foo</li><li>empty</li></ul>' });
+  },
+  
   'test #partial() locals': function(){
     var app = create();
 
