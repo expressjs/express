@@ -183,6 +183,12 @@ module.exports = {
       { body: 'Internal Server Error' });
   },
   
+  'test error() with route-specific middleware': function(){
+    var app = express.createServer();
+
+    
+  },
+  
   'test next()': function(){
     var app = express.createServer();
     
