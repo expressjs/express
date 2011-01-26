@@ -558,6 +558,7 @@ Below are a few template engines commonly used with Express:
   * [Jade](http://jade-lang.com) haml.js successor
   * [Haml](http://github.com/visionmedia/haml.js) pythonic indented templates
   * [EJS](http://github.com/visionmedia/ejs) Embedded JavaScript
+  * [eco](http://github.com/sstephenson/eco) Embedded CoffeeScript
   * [CoffeeKup](http://github.com/mauricemach/coffeekup) CoffeeScript based templating
   * [jQuery Templates](https://github.com/kof/node-jqtpl) for node
 
