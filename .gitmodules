@@ -19,3 +19,6 @@
 [submodule "support/should"]
 	path = support/should
 	url = git://github.com/visionmedia/should.js.git
+[submodule "support/formidable"]
+	path = support/formidable
+	url = git://github.com/felixge/node-formidable.git
