@@ -13,9 +13,6 @@
 [submodule "support/connect"]
 	path = support/connect
 	url = git://github.com/senchalabs/connect.git
-[submodule "support/jade"]
-	path = support/jade
-	url = git://github.com/visionmedia/jade.git
 [submodule "support/should"]
 	path = support/should
 	url = git://github.com/visionmedia/should.js.git
