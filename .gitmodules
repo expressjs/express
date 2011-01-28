@@ -19,3 +19,6 @@
 [submodule "support/formidable"]
 	path = support/formidable
 	url = git://github.com/felixge/node-formidable.git
+[submodule "support/jade"]
+	path = support/jade
+	url = git://github.com/visionmedia/jade.git
