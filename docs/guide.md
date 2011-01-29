@@ -521,23 +521,23 @@ Below are a few template engines commonly used with Express:
 
 ### Session Support
 
-Sessions support can be added by using Connect's _session_ middleware. To do so we also need the _cookieDecoder_ middleware place above it, which will parse and populate cookie data to _req.cookies_.
+Sessions support can be added by using Connect's _session_ middleware. To do so we also need the _cookieDecoder_ middleware place above it, which will parse and populate cookie data to _req.cookies_. The session middleware requires only a `secret`.
 
     app.use(express.cookieDecoder());
-    app.use(express.session());
+    app.use(express.session({ secret: 'keyboard cat' }));
 
 By default the _session_ middleware uses the memory store bundled with Connect, however many implementations exist. For example [connect-redis](http://github.com/visionmedia/connect-redis) supplies a [Redis](http://code.google.com/p/redis/) session store and can be used as shown below:
 
     var RedisStore = require('connect-redis');
     app.use(express.cookieDecoder());
-    app.use(express.session({ store: new RedisStore }));
+    app.use(express.session({ store: new RedisStore, secret: 'keyboard cat' }));
 
 Now the _req.session_ and _req.sessionStore_ properties will be accessible to all routes and subsequent middleware. Properties on _req.session_ are automatically saved on a response, so for example if we wish to shopping cart data:
 
     var RedisStore = require('connect-redis');
     app.use(express.bodyDecoder());
     app.use(express.cookieDecoder());
-    app.use(express.session({ store: new RedisStore }));
+    app.use(express.session({ store: new RedisStore, secret: 'keyboard cat' }));
 
     app.post('/add-to-cart', function(req, res){
       // Perhaps we posted several items with a form
