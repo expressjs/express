@@ -658,7 +658,7 @@ the _express.bodyDecoder_ middleware.
 
 ### req.flash(type[, msg])
 
-Queue flash _msg_ of the given _type_.
+Queue flash _msg_ of the given _type_. These messages are stored in the session (thus requiring the `session` middleware), enabling them to span one or more requests before flushing.
 
     req.flash('info', 'email sent');
     req.flash('error', 'email delivery failed');
@@ -677,6 +677,8 @@ Queue flash _msg_ of the given _type_.
 Flash notification message may also utilize formatters, by default only the %s string formatter is available:
 
     req.flash('info', 'email delivery to _%s_ from _%s_ failed.', toUser, fromUser);
+
+For HTML flash message check out the [express-contrib](https://github.com/visionmedia/express-contrib) library.
 
 ### req.isXMLHttpRequest
 
