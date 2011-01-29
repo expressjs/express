@@ -18,7 +18,7 @@ function bootApplication(app) {
   app.use(express.bodyDecoder());
   app.use(express.methodOverride());
   app.use(express.cookieDecoder());
-  app.use(express.session());
+  app.use(express.session({ secret: 'keyboard cat' }));
   app.use(app.router);
   app.use(express.staticProvider(__dirname + '/public'));
 

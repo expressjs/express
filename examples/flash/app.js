@@ -12,7 +12,7 @@ var express = require('../../lib/express');
 
 var app = express.createServer(
     express.cookieDecoder()
-  , express.session()
+  , express.session({ secret: 'keyboard cat' })
 );
 
 // View settings

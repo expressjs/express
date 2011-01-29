@@ -16,7 +16,7 @@ app.set('view engine', 'ejs');
 
 app.use(express.bodyDecoder());
 app.use(express.cookieDecoder());
-app.use(express.session());
+app.use(express.session({ secret: 'keyboard cat' }));
 
 // Message helper, ideally we would use req.flash()
 // however this is more light-weight for an example

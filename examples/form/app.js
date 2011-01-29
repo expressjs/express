@@ -23,7 +23,7 @@ app.use(express.cookieDecoder());
 
 // Required by req.flash() for persistent
 // notifications
-app.use(express.session());
+app.use(express.session({ secret: 'keyboard cat' }));
 
 app.get('/', function(req, res){
   // get ?name=foo
