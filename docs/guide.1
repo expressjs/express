@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "GUIDE" "" "November 2010" "" ""
+.TH "GUIDE" "" "January 2011" "" ""
 .
 .SH "NAME"
 \fBguide\fR
@@ -27,21 +27,6 @@ npm:
 .nf
 
 $ npm install express
-.
-.fi
-.
-.IP "" 0
-.
-.P
-git clone, first update the submodules:
-.
-.IP "" 4
-.
-.nf
-
-$ git submodule update \-\-init
-$ make install
-$ make install\-support
 .
 .fi
 .
@@ -80,14 +65,16 @@ app\.configure(function(){
     app\.use(express\.methodOverride());
     app\.use(express\.bodyDecoder());
     app\.use(app\.router);
-    app\.use(express\.staticProvider(__dirname + \'/public\'));
 });
 
 app\.configure(\'development\', function(){
+    app\.use(express\.staticProvider(__dirname + \'/public\'));
     app\.use(express\.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app\.configure(\'production\', function(){
+  var oneYear = 31557600000;
+    app\.use(express\.staticProvider({ root: __dirname + \'/public\', maxAge: oneYear }));
     app\.use(express\.errorHandler());
 });
 .
@@ -938,19 +925,22 @@ EJS \fIhttp://github\.com/visionmedia/ejs\fR Embedded JavaScript
 CoffeeKup \fIhttp://github\.com/mauricemach/coffeekup\fR CoffeeScript based templating
 .
 .IP "\(bu" 4
+Eco \fIhttp://github\.com/sstephenson/eco\fR Embedded CoffeeScript
+.
+.IP "\(bu" 4
 jQuery Templates \fIhttps://github\.com/kof/node\-jqtpl\fR for node
 .
 .IP "" 0
 .
 .SS "Session Support"
-Sessions support can be added by using Connect\'s \fIsession\fR middleware\. To do so we also need the \fIcookieDecoder\fR middleware place above it, which will parse and populate cookie data to \fIreq\.cookies\fR\.
+Sessions support can be added by using Connect\'s \fIsession\fR middleware\. To do so we also need the \fIcookieDecoder\fR middleware place above it, which will parse and populate cookie data to \fIreq\.cookies\fR\. The session middleware requires only a \fBsecret\fR\.
 .
 .IP "" 4
 .
 .nf
 
 app\.use(express\.cookieDecoder());
-app\.use(express\.session());
+app\.use(express\.session({ secret: \'keyboard cat\' }));
 .
 .fi
 .
@@ -965,7 +955,7 @@ By default the \fIsession\fR middleware uses the memory store bundled with Conne
 
 var RedisStore = require(\'connect\-redis\');
 app\.use(express\.cookieDecoder());
-app\.use(express\.session({ store: new RedisStore }));
+app\.use(express\.session({ store: new RedisStore, secret: \'keyboard cat\' }));
 .
 .fi
 .
@@ -981,7 +971,7 @@ Now the \fIreq\.session\fR and \fIreq\.sessionStore\fR properties will be access
 var RedisStore = require(\'connect\-redis\');
 app\.use(express\.bodyDecoder());
 app\.use(express\.cookieDecoder());
-app\.use(express\.session({ store: new RedisStore }));
+app\.use(express\.session({ store: new RedisStore, secret: \'keyboard cat\' }));
 
 app\.post(\'/add\-to\-cart\', function(req, res){
   // Perhaps we posted several items with a form
@@ -1160,7 +1150,7 @@ Checks urlencoded body params (\fIreq\.body\fR), ex: id=12
 To utilize urlencoded request bodies, \fIreq\.body\fR should be an object\. This can be done by using the \fIexpress\.bodyDecoder\fR middleware\.
 .
 .SS "req\.flash(type[, msg])"
-Queue flash \fImsg\fR of the given \fItype\fR\.
+Queue flash \fImsg\fR of the given \fItype\fR\. These messages are stored in the session (thus requiring the \fBsession\fR middleware), enabling them to span one or more requests before flushing\.
 .
 .IP "" 4
 .
@@ -1196,6 +1186,9 @@ req\.flash(\'info\', \'email delivery to _%s_ from _%s_ failed\.\', toUser, from
 .fi
 .
 .IP "" 0
+.
+.P
+For HTML flash message check out the express\-contrib \fIhttps://github\.com/visionmedia/express\-contrib\fR library\.
 .
 .SS "req\.isXMLHttpRequest"
 Also aliased as \fIreq\.xhr\fR, this getter checks the \fIX\-Requested\-With\fR header to see if it was issued by an \fIXMLHttpRequest\fR:

@@ -257,13 +257,6 @@
 <pre><code>$ npm install express
 </code></pre>
 
-<p>git clone, first update the submodules:</p>
-
-<pre><code>$ git submodule update --init
-$ make install
-$ make install-support
-</code></pre>
-
 <h3 id="Creating-An-Application">Creating An Application</h3>
 
 <p>The <em>express.Server</em> now inherits from <em>http.Server</em>, however
@@ -295,14 +288,16 @@ otherwise the first call to <em>app.{get,put,del,post}()</em> will mount the rou
     app.use(express.methodOverride());
     app.use(express.bodyDecoder());
     app.use(app.router);
-    app.use(express.staticProvider(__dirname + '/public'));
 });
 
 app.configure('development', function(){
+    app.use(express.staticProvider(__dirname + '/public'));
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
+  var oneYear = 31557600000;
+    app.use(express.staticProvider({ root: __dirname + '/public', maxAge: oneYear }));
     app.use(express.errorHandler());
 });
 </code></pre>
@@ -822,23 +817,24 @@ for free:</p>
 <li><a href="http://github.com/visionmedia/haml.js">Haml</a> pythonic indented templates</li>
 <li><a href="http://github.com/visionmedia/ejs">EJS</a> Embedded JavaScript</li>
 <li><a href="http://github.com/mauricemach/coffeekup">CoffeeKup</a> CoffeeScript based templating</li>
+<li><a href="http://github.com/sstephenson/eco">Eco</a> Embedded CoffeeScript</li>
 <li><a href="https://github.com/kof/node-jqtpl">jQuery Templates</a> for node</li>
 </ul>
 
 
 <h3 id="Session-Support">Session Support</h3>
 
-<p>Sessions support can be added by using Connect's <em>session</em> middleware. To do so we also need the <em>cookieDecoder</em> middleware place above it, which will parse and populate cookie data to <em>req.cookies</em>.</p>
+<p>Sessions support can be added by using Connect's <em>session</em> middleware. To do so we also need the <em>cookieDecoder</em> middleware place above it, which will parse and populate cookie data to <em>req.cookies</em>. The session middleware requires only a <code>secret</code>.</p>
 
 <pre><code>app.use(express.cookieDecoder());
-app.use(express.session());
+app.use(express.session({ secret: 'keyboard cat' }));
 </code></pre>
 
 <p>By default the <em>session</em> middleware uses the memory store bundled with Connect, however many implementations exist. For example <a href="http://github.com/visionmedia/connect-redis">connect-redis</a> supplies a <a href="http://code.google.com/p/redis/">Redis</a> session store and can be used as shown below:</p>
 
 <pre><code>var RedisStore = require('connect-redis');
 app.use(express.cookieDecoder());
-app.use(express.session({ store: new RedisStore }));
+app.use(express.session({ store: new RedisStore, secret: 'keyboard cat' }));
 </code></pre>
 
 <p>Now the <em>req.session</em> and <em>req.sessionStore</em> properties will be accessible to all routes and subsequent middleware. Properties on <em>req.session</em> are automatically saved on a response, so for example if we wish to shopping cart data:</p>
@@ -846,7 +842,7 @@ app.use(express.session({ store: new RedisStore }));
 <pre><code>var RedisStore = require('connect-redis');
 app.use(express.bodyDecoder());
 app.use(express.cookieDecoder());
-app.use(express.session({ store: new RedisStore }));
+app.use(express.session({ store: new RedisStore, secret: 'keyboard cat' }));
 
 app.post('/add-to-cart', function(req, res){
   // Perhaps we posted several items with a form
@@ -978,7 +974,7 @@ the <em>express.bodyDecoder</em> middleware.</p>
 
 <h3 id="req-flash-type-msg-">req.flash(type[, msg])</h3>
 
-<p>Queue flash <em>msg</em> of the given <em>type</em>.</p>
+<p>Queue flash <em>msg</em> of the given <em>type</em>. These messages are stored in the session (thus requiring the <code>session</code> middleware), enabling them to span one or more requests before flushing.</p>
 
 <pre><code>req.flash('info', 'email sent');
 req.flash('error', 'email delivery failed');
@@ -999,6 +995,8 @@ req.flash();
 
 <pre><code>req.flash('info', 'email delivery to _%s_ from _%s_ failed.', toUser, fromUser);
 </code></pre>
+
+<p>For HTML flash message check out the <a href="https://github.com/visionmedia/express-contrib">express-contrib</a> library.</p>
 
 <h3 id="req-isXMLHttpRequest">req.isXMLHttpRequest</h3>
 
