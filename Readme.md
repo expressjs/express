@@ -73,13 +73,13 @@ The following are the major contributors of Express (in no specific order).
     
 The latest release of Express is compatible with node --version:
 
-    v0.2.5
+    v0.2.6
 
 and connect --version:
 
-    0.5.0
+    0.5.7
 
-Express 1.x is maintained in the _1.x_ branch, and _master_ is 2.0.0-pre, to view 2.x documentation open _docs/index.html_.
+Express `1.x` is maintained in the `1.x` branch, and `master` is `2.0.0-pre` which is targeted to work with node `0.4.x`, to view `2.x` documentation open _docs/index.html_.
 
 ## License 
 
