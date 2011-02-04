@@ -5,22 +5,16 @@
   built on [node](http://nodejs.org) and [Connect](http://github.com/senchalabs/connect).
   
      var app = express.createServer();
-    
+     
      app.get('/', function(req, res){
        res.send('Hello World');
      });
-
-	 app.listen(3000);
+     
+     app.listen(3000);
 
 ## Installation
 
-npm:
-
     $ npm install express
-
-curl:
-
-    $ curl -# http://expressjs.com/install.sh | sh
 
 ## Features
 
@@ -79,7 +73,13 @@ and connect --version:
 
     0.5.7
 
-Express `1.x` is maintained in the `1.x` branch, and `master` is `2.0.0-pre` which is targeted to work with node `0.4.x`, to view `2.x` documentation open _docs/index.html_.
+master (2.0.0-pre) is compatible with node --version:
+
+    v0.3.7
+
+and connect --version:
+
+    0.5.7
 
 ## License 
 

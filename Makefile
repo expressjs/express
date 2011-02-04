@@ -1,7 +1,4 @@
 
-PREFIX ?= /usr/local
-LIB_PREFIX = ~/.node_libraries
-
 DOCS = docs/index.md \
 	   docs/screencasts.md \
 	   docs/executable.md \
@@ -12,29 +9,6 @@ DOCS = docs/index.md \
 
 MANPAGES =$(DOCS:.md=.1)
 HTMLDOCS =$(DOCS:.md=.html)
-
-install: install-docs
-	@mkdir -p $(PREFIX)/bin
-	@mkdir -p $(LIB_PREFIX)
-	cp -f bin/express $(PREFIX)/bin/express
-	cp -fr lib/express $(LIB_PREFIX)/express
-
-uninstall: uninstall-docs
-	rm -f $(PREFIX)/bin/express
-	rm -fr $(LIB_PREFIX)/express
-
-install-support:
-	cd support/connect && $(MAKE) install
-
-uninstall-support:
-	cd support/connect && $(MAKE) uninstall
-
-install-docs:
-	@mkdir -p $(PREFIX)/share/man/man1
-	cp -f docs/executable.1 $(PREFIX)/share/man/man1/express.1
-
-uninstall-docs:
-	rm -f $(PREFIX)/share/man/man1/express.1
 
 test:
 	@NODE_ENV=test ./support/expresso/bin/expresso \
@@ -75,4 +49,4 @@ docs/api.html: lib/express/*.js
 docclean:
 	rm -f docs/*.{1,html}
 
-.PHONY: install uninstall install-docs install-support uninstall-support install-docs uninstall-docs test test-cov docs docclean
+.PHONY: test test-cov docs docclean
