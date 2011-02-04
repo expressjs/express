@@ -362,6 +362,7 @@ module.exports = {
     
     app.get('/', function(req, res){
       res.cookie('rememberme', 'yes', { expires: new Date(1), httpOnly: true });
+      res.cookie('something', 'else');
       res.redirect('/');
     });
     
@@ -369,7 +370,7 @@ module.exports = {
       { url: '/' },
       function(res){
         res.headers['set-cookie']
-          .should.eql(['rememberme=yes; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly']);
+          .should.eql(['rememberme=yes; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly', 'something=else']);
       });
   },
   
