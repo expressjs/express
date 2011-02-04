@@ -22,3 +22,6 @@
 [submodule "support/jade"]
 	path = support/jade
 	url = git://github.com/visionmedia/jade.git
+[submodule "support/qs"]
+	path = support/qs
+	url = git://github.com/visionmedia/node-querystring.git
