@@ -369,7 +369,7 @@ module.exports = {
       { url: '/' },
       function(res){
         res.headers['set-cookie']
-          .should.equal('rememberme=yes; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly');
+          .should.eql(['rememberme=yes; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly']);
       });
   },
   
@@ -385,7 +385,7 @@ module.exports = {
       { url: '/' },
       function(res){
         res.headers['set-cookie']
-          .should.equal('rememberme=; expires=Thu, 01 Jan 1970 00:00:00 GMT');
+          .should.eql(['rememberme=; expires=Thu, 01 Jan 1970 00:00:00 GMT']);
       });
   },
   
