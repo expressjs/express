@@ -9,10 +9,12 @@
     { "name": "Ciaran Jessup", "email": "ciaranj@gmail.com" },
     { "name": "Guillermo Rauch", "email": "rauchg@gmail.com" }
   ],
-  "dependencies": { "connect": ">= 0.5.7" },
+  "dependencies": {
+    "connect": ">= 0.5.7",
+    "querystring": ">= 0.0.1"
+  },
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
-  "directories": { "lib": "./lib/express" },
-  "scripts": { "test": "make test" },
+  "main": "index",
   "bin": { "express": "./bin/express" },
   "engines": { "node": ">= 0.2.0" }
 }
