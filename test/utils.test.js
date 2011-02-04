@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var utils = require('express/utils')
+var utils = require('../lib/utils')
   , should = require('should');
 
 module.exports = {

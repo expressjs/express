@@ -7,7 +7,7 @@ var express = require('express')
   , connect = require('connect')
   , assert = require('assert')
   , should = require('should')
-  , View = require('express/view')
+  , View = require('../lib/view')
   , Partial = View.Partial
 
 /**
