@@ -1,4 +1,10 @@
 
+1.0.4 / 2011-02-05 
+==================
+
+  * Added `qs` dependency to _package.json_
+  * Fixed namespaced `require()`s for latest connect support
+
 1.0.3 / 2011-01-13 
 ==================
 
