@@ -1,4 +1,10 @@
 
+1.0.7 / 2011-02-07 
+==================
+
+  * Fixed `render()` setting inheritance.
+    Mounted apps would not inherit "view engine"
+
 1.0.6 / 2011-02-07 
 ==================
 
