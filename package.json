@@ -10,7 +10,7 @@
     { "name": "Guillermo Rauch", "email": "rauchg@gmail.com" }
   ],
   "dependencies": {
-    "connect": ">= 0.5.x",
+    "connect": ">= 0.5.0",
     "qs": ">= 0.0.2"
   },
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
