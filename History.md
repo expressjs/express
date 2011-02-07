@@ -1,4 +1,9 @@
 
+1.0.6 / 2011-02-07 
+==================
+
+  * Fixed `view engine` setting bug when period is in dirname
+
 1.0.5 / 2011-02-05 
 ==================
 
