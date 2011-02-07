@@ -155,8 +155,8 @@ module.exports = {
         assert.response(app,
             { url: '/nope' },
             function(res){
-                assert.ok(res.body.indexOf('Error: ENOENT') >= 0);
-                assert.ok(res.body.indexOf('nope.jade') >= 0);
+                assert.ok(~res.body.indexOf('Error:'));
+                assert.ok(~res.body.indexOf('nope.jade'));
             });
 
         beforeExit(function(){
