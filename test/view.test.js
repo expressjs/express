@@ -292,6 +292,19 @@ module.exports = {
       { body: '<cool><p>Welcome</p></cool>' });
   },
   
+  'test #render() "view engine" with periods in dirname': function(){
+    var app = create();
+    app.set('view engine', 'jade');
+    
+    app.get('/', function(req, res){
+      res.render('index', { layout: __dirname + '/fixtures/user/../cool-layout' });
+    });
+    
+    assert.response(app,
+      { url: '/' },
+      { body: '<cool><p>Welcome</p></cool>' });
+  },
+  
   'test #render() scope': function(){
     var app = create();
     app.set('view engine', 'jade');
