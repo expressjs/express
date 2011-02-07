@@ -11,7 +11,7 @@
   ],
   "dependencies": {
     "connect": ">= 0.5.7",
-    "querystring": ">= 0.0.1"
+    "qs": ">= 0.0.2"
   },
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "main": "index",
