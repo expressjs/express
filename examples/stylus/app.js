@@ -26,7 +26,13 @@ app.use(stylus.middleware({
   , compile: compile
 }));
 
-app.use(staticProvider(__dirname + '/public'));
+app.use(app.router);
+
+app.use(express.staticProvider(__dirname + '/public'));
+
+app.get('/', function(req, res){
+  res.render('index.jade');
+});
 
 app.listen(3000);
 console.log('server listening on port 3000');
