@@ -38,7 +38,10 @@ app.use(stylus.middleware({
 
 // minimal setup both reading and writting to ./public
 // would look like:
-//   app.use(stylus.minimal({ src: __dirname + '/public' }));
+//   app.use(stylus.middleware({ src: __dirname + '/public' }));
+
+// the middleware itself does not serve the static
+// css files, so we need to expose them with staticProvider
 
 app.use(express.staticProvider(__dirname + '/public'));
 
