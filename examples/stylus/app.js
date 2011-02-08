@@ -27,8 +27,9 @@ app.use(stylus.middleware({
 }));
 
 app.use(app.router);
-
 app.use(express.staticProvider(__dirname + '/public'));
+
+app.set('views', __dirname + '/views');
 
 app.get('/', function(req, res){
   res.render('index.jade');
