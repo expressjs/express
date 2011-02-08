@@ -13,6 +13,11 @@ var app = express.createServer();
 
 // $ npm install stylus
 
+// completely optional, however
+// the compile function allows you to
+// define additional functions exposed to Stylus,
+// alter settings, etc
+
 function compile(str, path, fn) {
   stylus(str)
     .set('filename', path)
@@ -20,13 +25,21 @@ function compile(str, path, fn) {
     .render(fn);
 };
 
+// add the stylus middleware, which re-compiles when
+// a stylesheet has changed, compiling FROM src,
+// TO dest. dest is optional, defaulting to src
+
 app.use(stylus.middleware({
     src: __dirname + '/views'
   , dest: __dirname + '/public'
   , compile: compile
 }));
 
-app.use(app.router);
+
+// minimal setup both reading and writting to ./public
+// would look like:
+//   app.use(stylus.minimal({ src: __dirname + '/public' }));
+
 app.use(express.staticProvider(__dirname + '/public'));
 
 app.set('views', __dirname + '/views');
