@@ -4,7 +4,7 @@
  */
 
 var express = require('express')
-  , Buffer = require('buffer').Buffer
+  , Stream = require('stream').Stream
   , assert = require('assert')
   , should = require('should');
 
@@ -317,13 +317,16 @@ module.exports = {
       { body: 'Requested Range Not Satisfiable', status: 416 });
   },
   
-  'test #download()': function(){
-    var app = express.createServer();
+  'test #download()': function(beforeExit){
+    var app = express.createServer()
+      , calls = 0;
     
     app.get('/json', function(req, res, next){
       var filePath = __dirname + '/fixtures/user.json';
-      res.download(filePath, 'account.json', function(err, path){
-        assert.equal(filePath, path);
+      res.download(filePath, 'account.json', function(err, path, stream){
+        ++calls;
+        path.should.equal(filePath);
+        stream.should.be.an.instanceof(Stream);
       });
     });
 
@@ -355,6 +358,10 @@ module.exports = {
       function(res){
         assert.equal(null, res.headers['content-disposition']);
       });
+
+    beforeExit(function(){
+      calls.should.equal(1);
+    });
   },
   
   'test #cookie()': function(){
