@@ -11,7 +11,7 @@
   ],
   "dependencies": {
     "connect": ">= 0.5.0",
-    "qs": ">= 0.0.3"
+    "qs": ">= 0.0.5"
   },
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "directories": { "lib": "./lib/express" },
