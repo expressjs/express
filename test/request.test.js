@@ -271,5 +271,33 @@ module.exports = {
     assert.response(app,
       { url: '/', method: 'POST', headers: { 'Content-Type': 'application/json' }},
       { body: 'json' });
+  },
+  
+  'test #header() referrer': function(){
+    var app = express.createServer();
+
+    app.get('/correct', function(req, res){
+      res.send(req.header('Referrer'));
+    });
+    
+    app.get('/incorrect', function(req, res){
+      res.send(req.header('Referer'));
+    });
+
+    assert.response(app,
+      { url: '/correct', headers: { Referer: 'expressjs.com' }},
+      { body: 'expressjs.com' });
+
+    assert.response(app,
+      { url: '/correct', headers: { Referrer: 'expressjs.com' }},
+      { body: 'expressjs.com' });
+
+    assert.response(app,
+      { url: '/incorrect', headers: { Referrer: 'expressjs.com' }},
+      { body: 'expressjs.com' });
+
+    assert.response(app,
+      { url: '/incorrect', headers: { Referer: 'expressjs.com' }},
+      { body: 'expressjs.com' });
   }
 };
