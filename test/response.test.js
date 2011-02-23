@@ -81,10 +81,10 @@ module.exports = {
       { body: 'Not Found', status: 404, headers: { 'Content-Type': 'text/plain' }});
     assert.response(app,
       { url: '/error' },
-      { body: 'Oh shit!', status: 500, headers: { 'Content-Type': 'text/plain' }});
+      { body: 'Oh shit!', status: 500, headers: { 'Content-Type': 'text/plain', 'Content-Length': '8' }});
     assert.response(app,
       { url: '/buffer' },
-      { body: 'wahoo!', headers: { 'Content-Type': 'application/octet-stream' }});
+      { body: 'wahoo!', headers: { 'Content-Type': 'application/octet-stream', 'Content-Length': '6' }});
     assert.response(app,
       { url: '/noargs' },
       { status: 204 }, function(res){
