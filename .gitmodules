@@ -25,3 +25,6 @@
 [submodule "support/qs"]
 	path = support/qs
 	url = git://github.com/visionmedia/node-querystring.git
+[submodule "support/mime"]
+	path = support/mime
+	url = https://github.com/bentomas/node-mime.git
