@@ -180,7 +180,7 @@ module.exports = {
 
     assert.response(app,
       { url: '/' },
-      { body: '<p>Welcome</p>', headers: { 'Content-Type': 'text/html; charset=utf-8' }});
+      { body: '<p>Welcome</p>', headers: { 'Content-Type': 'text/html' }});
     assert.response(app,
       { url: '/jade' },
       { body: '<p>Welcome</p>' });
@@ -368,7 +368,7 @@ module.exports = {
       { url: '/' },
       { body: '<p>:(</p>', status: 500, headers: {
           'X-Foo': 'bar',
-          'Content-Type': 'text/html; charset=utf-8'
+          'Content-Type': 'text/html'
       }});
   },
   

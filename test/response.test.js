@@ -52,7 +52,7 @@ module.exports = {
 
     assert.response(app,
       { url: '/html' },
-      { body: '<p>test</p>', headers: { 'Content-Language': 'en', 'Content-Type': 'text/html; charset=utf-8' }});
+      { body: '<p>test</p>', headers: { 'Content-Language': 'en', 'Content-Type': 'text/html' }});
     assert.response(app,
       { url: '/json' },
       { body: '{"foo":"bar"}', status: 201, headers: { 'Content-Type': 'application/json', 'X-Foo': 'baz' }});
@@ -75,10 +75,10 @@ module.exports = {
 
     assert.response(app,
       { url: '/text' },
-      { body: 'wahoo', headers: { 'Content-Type': 'text/plain; charset=utf-8', 'X-Foo': 'bar' }});
+      { body: 'wahoo', headers: { 'Content-Type': 'text/plain', 'X-Foo': 'bar' }});
     assert.response(app,
       { url: '/status' },
-      { body: 'Not Found', status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8' }});
+      { body: 'Not Found', status: 404, headers: { 'Content-Type': 'text/plain' }});
     assert.response(app,
       { url: '/error' },
       { body: 'Oh shit!', status: 500, headers: { 'Content-Type': 'text/plain' }});
@@ -109,7 +109,7 @@ module.exports = {
     
     assert.response(app,
       { url: '/html' },
-      { body: '<p>yay</p>', headers: { 'Content-Type': 'text/html; charset=utf-8' }});
+      { body: '<p>yay</p>', headers: { 'Content-Type': 'text/html' }});
     assert.response(app,
       { url: '/json' },
       { headers: { 'Content-Type': 'application/json' }});
