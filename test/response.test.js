@@ -229,11 +229,8 @@ module.exports = {
 
     app.get('/*', function(req, res, next){
       var file = req.params[0]
-        , filePath = __dirname + '/fixtures/' + file;
-      res.sendfile(filePath, function(err, path){
-        assert.equal(path, filePath);
-        if (err) next(err);
-      });
+        , path = __dirname + '/fixtures/' + file;
+      res.sendfile(path);
     });
     
     app.use(express.errorHandler());
@@ -249,46 +246,46 @@ module.exports = {
       { body: '%p Hello World', status: 200, headers: { 'Content-Type': 'application/octet-stream' }});
     assert.response(app,
       { url: '/doesNotExist' },
-      { body: 'Internal Server Error', status: 500 });
+      { body: 'Cannot GET /doesNotExist', status: 404 });
     assert.response(app,
       { url: '/partials' },
-      { body: 'Internal Server Error', status: 500 });
+      { body: 'Cannot GET /partials', status: 404 });
     assert.response(app,
       { url: '/large.json' },
       { status: 200, headers: { 'Content-Type': 'application/json' }});
   },
+ 
+   'test #sendfile() Accept-Ranges': function(){
+     var app = express.createServer();
+     
+     app.get('/*', function(req, res, next){
+       var file = req.params[0]
+         , path = __dirname + '/fixtures/' + file;
+       res.sendfile(path);
+     });
+     
+     assert.response(app,
+       { url: '/large.json' },
+       { headers: { 'Accept-Ranges': 'bytes' }});
+   },
+   
+   'test #sendfile() Range': function(){
+     var app = express.createServer();
+     
+     app.get('/*', function(req, res, next){
+       var file = req.params[0]
+         , path = __dirname + '/fixtures/' + file;
+       res.sendfile(path);
+     });
+   
+     assert.response(app,
+       { url: '/large.json', headers: { 'Range': 'bytes=0-499' }},
+       { headers: {
+         'Content-Type': 'application/json',
+         'Content-Range': 'bytes 0-499/2535'
+       }, status: 206 });
+   },
   
-  'test #sendfile() Accept-Ranges': function(){
-    var app = express.createServer();
-    
-    app.get('/*', function(req, res, next){
-      var file = req.params[0]
-        , path = __dirname + '/fixtures/' + file;
-      res.sendfile(path);
-    });
-    
-    assert.response(app,
-      { url: '/large.json' },
-      { headers: { 'Accept-Ranges': 'bytes' }});
-  },
-  
-  'test #sendfile() Range': function(){
-    var app = express.createServer();
-    
-    app.get('/*', function(req, res, next){
-      var file = req.params[0]
-        , path = __dirname + '/fixtures/' + file;
-      res.sendfile(path);
-    });
-
-    assert.response(app,
-      { url: '/large.json', headers: { 'Range': 'bytes=0-499' }},
-      { headers: {
-        'Content-Type': 'application/json',
-        'Content-Range': 'bytes 0-499/2535'
-      }, status: 206 });
-  },
-
   'test #sendfile() Range invalid syntax': function(){
     var app = express.createServer();
     
@@ -297,12 +294,12 @@ module.exports = {
         , path = __dirname + '/fixtures/' + file;
       res.sendfile(path);
     });
-
+  
     assert.response(app,
       { url: '/large.json', headers: { 'Range': 'basdytes=asdf' }},
       { body: 'Requested Range Not Satisfiable', status: 416 });
   },
-
+  
   'test #sendfile() Range invalid range': function(){
     var app = express.createServer();
     
@@ -311,25 +308,20 @@ module.exports = {
         , path = __dirname + '/fixtures/' + file;
       res.sendfile(path);
     });
-
+  
     assert.response(app,
       { url: '/large.json', headers: { 'Range': 'bytes=500-10' }},
       { body: 'Requested Range Not Satisfiable', status: 416 });
   },
   
-  'test #download()': function(beforeExit){
-    var app = express.createServer()
-      , calls = 0;
+  'test #download()': function(){
+    var app = express.createServer();
     
     app.get('/json', function(req, res, next){
       var filePath = __dirname + '/fixtures/user.json';
-      res.download(filePath, 'account.json', function(err, path, stream){
-        ++calls;
-        path.should.equal(filePath);
-        stream.should.be.an.instanceof(Stream);
-      });
+      res.download(filePath, 'account.json');
     });
-
+  
     app.get('/*', function(req, res, next){
       res.download(__dirname + '/fixtures/' + req.params[0]);
     });
@@ -344,7 +336,7 @@ module.exports = {
         'Content-Type': 'application/json',
         'Content-Disposition': 'attachment; filename="user.json"'
       }});
-
+  
     assert.response(app,
       { url: '/json' },
       { body: '{"name":"tj"}', status: 200, headers: {
@@ -358,10 +350,6 @@ module.exports = {
       function(res){
         assert.equal(null, res.headers['content-disposition']);
       });
-
-    beforeExit(function(){
-      calls.should.equal(1);
-    });
   },
   
   'test #cookie()': function(){
