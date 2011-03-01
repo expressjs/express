@@ -260,7 +260,7 @@ module.exports = {
     var app = express.createServer();
 
     app.configure(function(){
-      app.use(connect.bodyDecoder());
+      app.use(connect.bodyParser());
     });
     
     app.post('/', function(req, res){
@@ -326,7 +326,7 @@ module.exports = {
   'test middleware precedence': function(){
     var app = express.createServer();
     
-    app.use(connect.bodyDecoder());
+    app.use(connect.bodyParser());
 
     assert.equal(2, app.stack.length);
     

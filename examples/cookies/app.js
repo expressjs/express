@@ -14,10 +14,10 @@ var app = express.createServer(
   express.logger({ format: '\x1b[1m:method\x1b[0m \x1b[33m:url\x1b[0m :response-time' }),
 
   // Provides req.cookies
-  express.cookieDecoder(),
+  express.cookieParser(),
 
   // Parses x-www-form-urlencoded request bodies (and json)
-  express.bodyDecoder()
+  express.bodyParser()
 );
 
 app.get('/', function(req, res){

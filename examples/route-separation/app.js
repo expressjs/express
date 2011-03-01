@@ -16,9 +16,9 @@ var express = require('../../lib/express')
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
-app.use(express.bodyDecoder());
+app.use(express.cookieParser());
 app.use(express.methodOverride());
-app.use(express.staticProvider(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 // General
 

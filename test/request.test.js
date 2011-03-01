@@ -96,7 +96,7 @@ module.exports = {
   
   'test #param()': function(){
     var app = express.createServer(
-      connect.bodyDecoder()
+      connect.bodyParser()
     );
     
     app.get('/user/:id?', function(req, res){

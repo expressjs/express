@@ -15,12 +15,12 @@ exports.boot = function(app){
 
 function bootApplication(app) {
   app.use(express.logger({ format: ':method :url :status' }));
-  app.use(express.bodyDecoder());
+  app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.cookieDecoder());
+  app.use(express.cookieParser());
   app.use(express.session({ secret: 'keyboard cat' }));
   app.use(app.router);
-  app.use(express.staticProvider(__dirname + '/public'));
+  app.use(express.static(__dirname + '/public'));
 
   // Example 500 page
   app.error(function(err, req, res){
