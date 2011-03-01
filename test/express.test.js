@@ -11,7 +11,7 @@ var express = require('express')
 module.exports = {
   'test inheritance': function(){
       var server = express.createServer();
-      server.should.be.an.instanceof(connect.Server);
+      server.should.be.an.instanceof(connect.HTTPServer);
   },
   
   'test connect middleware autoloaders': function(){
