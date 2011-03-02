@@ -17,5 +17,5 @@
   "directories": { "lib": "./lib/express" },
   "scripts": { "test": "make test" },
   "bin": { "express": "./bin/express" },
-  "engines": { "node": ">= 0.2.0" }
+  "engines": { "node": ">= 0.2.0 < 0.4.0" }
 }
