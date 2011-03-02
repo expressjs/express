@@ -11,7 +11,8 @@ h1= ninja.name
   // the weapons array or "collection"
   ul!= partial('weapon', ninja.weapons)
   
-// partial name 'victim_name' resolves to '_victim_name.jade' file and 'victimName' object
+// partial name 'victim' resolves to 'victim.jade'
+// or 'victim/index.jade', providing the "victim" local
 #victims
   h2 Victims
-  ul!= partial('victim_name', ninja.victims)
+  ul!= partial('victim', ninja.victims)

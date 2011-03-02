@@ -16,8 +16,8 @@ var pub = __dirname + '/public';
 // and then serve with connect's staticProvider
 
 var app = express.createServer(
-  express.compiler({ src: pub, enable: ['sass'] }),
-  express.staticProvider(pub)
+    express.compiler({ src: pub, enable: ['sass'] })
+  , express.static(pub)
 );
 
 // Optional since express defaults to CWD/views
