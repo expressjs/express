@@ -12,7 +12,7 @@ var app = express.createServer(
   express.logger(),
 
   // Required by session() middleware
-  express.cookieDecoder(),
+  express.cookieParser(),
 
   // Populates:
   //   - req.session

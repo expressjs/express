@@ -43,7 +43,7 @@ app.use(stylus.middleware({
 // the middleware itself does not serve the static
 // css files, so we need to expose them with staticProvider
 
-app.use(express.staticProvider(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 app.set('views', __dirname + '/views');
 
