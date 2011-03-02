@@ -28,7 +28,7 @@ var ninja = {
 };
 
 app.get('/', function(req, res){
-  res.render('ninjas/show', { ninja: ninja });
+  res.render('ninjas', { ninja: ninja });
 });
 
 app.listen(3000);
