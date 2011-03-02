@@ -187,7 +187,6 @@ module.exports = {
       res.redirect('blog');
     });
 
-
     assert.response(app,
       { url: '/html', headers: { Accept: 'text/html,text/plain' }},
       { body: '<p>Moved Temporarily. Redirecting to <a href="http://google.com">http://google.com</a></p>' });
@@ -254,6 +253,65 @@ module.exports = {
       { url: '/large.json' },
       { status: 200, headers: { 'Content-Type': 'application/json' }});
   },
+  
+  'test #sendfile(path, callback)': function(beforeExit){
+    var app = express.createServer()
+      , calls = 0;
+    
+    app.get('/*', function(req, res, next){
+      var file = req.params[0]
+        , path = __dirname + '/fixtures/' + file;
+      res.sendfile(path, function(err){
+        if (err) return res.send('got an error');
+        ++calls;
+      });
+    });
+
+    assert.response(app,
+      { url: '/forum' },
+      { body: 'got an error' });
+
+    assert.response(app,
+      { url: '/does-not-exist' },
+      { body: 'got an error' });
+
+    assert.response(app,
+      { url: '/large.json' },
+      { headers: { 'Accept-Ranges': 'bytes' }});
+
+    beforeExit(function(){
+      calls.should.equal(1);
+    });
+  },
+  
+  'test #sendfile(path, options, callback)': function(beforeExit){
+    var app = express.createServer()
+      , calls = 0;
+    
+    app.get('/*', function(req, res, next){
+      var file = req.params[0]
+        , path = __dirname + '/fixtures/' + file;
+      res.sendfile(path, { maxAge: 3600000 }, function(err){
+        if (err) return res.send('got an error');
+        ++calls;
+      });
+    });
+
+    assert.response(app,
+      { url: '/does-not-exist' },
+      { body: 'got an error' });
+
+    assert.response(app,
+      { url: '/large.json' },
+      { headers: {
+          'Accept-Ranges': 'bytes'
+        , 'Cache-Control': 'public max-age=3600'
+      }});
+
+    beforeExit(function(){
+      calls.should.equal(1);
+    });
+  },
  
    'test #sendfile() Accept-Ranges': function(){
      var app = express.createServer();
@@ -314,22 +372,29 @@ module.exports = {
       { body: 'Requested Range Not Satisfiable', status: 416 });
   },
   
-  'test #download()': function(){
-    var app = express.createServer();
+  'test #download()': function(beforeExit){
+    var app = express.createServer()
+      , calls = 0;
     
     app.get('/json', function(req, res, next){
-      var filePath = __dirname + '/fixtures/user.json';
-      res.download(filePath, 'account.json');
+      var path = __dirname + '/fixtures/user.json';
+      res.download(path, 'account.json');
     });
-  
+
+    app.get('/callback', function(req, res, next){
+      res.download(__dirname + '/fixtures/pets.json', function(err){
+        ++calls;
+      });
+    });
+
     app.get('/*', function(req, res, next){
       res.download(__dirname + '/fixtures/' + req.params[0]);
     });
-    
-    app.error(function(err, req, res){
-      res.send(404);
-    })
-    
+
+    assert.response(app,
+      { url: '/callback' },
+      { body: '["tobi", "loki", "jane"]' });
+
     assert.response(app,
       { url: '/user.json' },
       { body: '{"name":"tj"}', status: 200, headers: {
@@ -350,6 +415,10 @@ module.exports = {
       function(res){
         assert.equal(null, res.headers['content-disposition']);
       });
+
+    beforeExit(function(){
+      calls.should.equal(1);
+    });
   },
   
   'test #cookie()': function(){
