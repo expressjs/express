@@ -19,10 +19,19 @@ app.get('/', function(req, res){
 
 // /files/* is accessed via req.params[0]
 // but here we name it :file
-app.get('/files/:file(*)', function(req, res){
+app.get('/files/:file(*)', function(req, res, next){
   var file = req.params.file
     , path = __dirname + '/files/' + file;
-  res.download(path);
+  // either res.download(path) and let
+  // express handle failures, or provide
+  // a callback
+  res.download(path, function(err){
+    if (err) return next(err);
+    // the response has invoked .end()
+    // so you cannnot respond here (of course)
+    // but the callback is handy for statistics etc.
+    console.log('transferred %s', path);
+  });
 });
 
 app.error(function(err, req, res, next){
