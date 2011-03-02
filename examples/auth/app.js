@@ -9,14 +9,14 @@ require.paths.unshift(__dirname + '/../../support');
 var express = require('../../lib/express')
   , crypto = require('crypto');
 
-var app = express.createServer();
+var app = express.createServer(
+    express.bodyParser()
+  , express.cookieParser()
+  , express.session({ secret: 'keyboard cat' })
+);
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-
-app.use(express.bodyParser());
-app.use(express.cookieParser());
-app.use(express.session({ secret: 'keyboard cat' }));
 
 // Message helper, ideally we would use req.flash()
 // however this is more light-weight for an example
