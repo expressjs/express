@@ -9,7 +9,7 @@ require.paths.unshift(__dirname + '/../../support');
 var express = require('../../lib/express')
   , messages = require('express-contrib/messages');
 
-app = express.createServer();
+app = module.exports = express.createServer();
 
 // Config
 
@@ -39,5 +39,7 @@ app.configure(function(){
 require('./routes/site');
 require('./routes/post');
 
-app.listen(3000);
-console.log('Express started on port 3000');
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}
