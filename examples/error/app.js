@@ -1,9 +1,12 @@
 
+// Expose modules in ./support for demo purposes
+require.paths.unshift(__dirname + '/../../support');
+
 /**
  * Module dependencies.
  */
 
-var express = require('./../../lib/express');
+var express = require('../../lib/express');
 
 var app = express.createServer();
 
@@ -20,6 +23,6 @@ app.get('/next', function(req, res, next){
 // The errorHandler middleware in this case will dump exceptions to stderr
 // as well as show the stack trace in responses, currently handles text/plain,
 // text/html, and application/json responses to aid in development
-app.use('/', express.errorHandler({ dumpExceptions: true, showStack: true }));
+app.use('/', express.errorHandler({ dump: true, stack: true }));
 
 app.listen(3000);

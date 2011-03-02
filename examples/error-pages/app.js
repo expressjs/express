@@ -6,7 +6,7 @@ require.paths.unshift(__dirname + '/../../support');
  * Module dependencies.
  */
 
-var express = require('./../../lib/express');
+var express = require('../../lib/express');
 
 var app = express.createServer();
 
@@ -64,11 +64,11 @@ NotFound.prototype.__proto__ = Error.prototype;
 // in the development environment.
 
 app.error(function(err, req, res, next){
-    if (err instanceof NotFound) {
-      res.render('404.jade', { status: 404, error: err });
-    } else {
-      next(err);
-    }
+  if (err instanceof NotFound) {
+    res.render('404.jade', { status: 404, error: err });
+  } else {
+    next(err);
+  }
 });
 
 // Here we assume all errors as 500 for the simplicity of

@@ -28,6 +28,11 @@ app.set('view engine', 'ejs');
 // value of this function.
 
 app.dynamicHelpers({
+  // as an alternative to this install the 
+  // express-messages helper via npm
+  // 
+  //  $ npm install express-messages
+  //
   messages: function(req, res){
     // In the case of flash messages
     // we return a function, allowing
