@@ -95,20 +95,44 @@ module.exports = {
 
     assert.response(app,
       { url: '/json?callback=test' },
-      { body: '{"foo":"bar"}', status: 201, headers: { 'Content-Type': 'application/json', 'X-Foo': 'baz' }});
+      { body: '{"foo":"bar"}'
+      , status: 201
+      , headers: {
+          'Content-Type': 'application/json'
+        , 'X-Foo': 'baz'
+      }});
 
     assert.response(app,
       { url: '/text' },
-      { body: 'wahoo', headers: { 'Content-Type': 'text/plain', 'X-Foo': 'bar' }});
+      { body: 'wahoo'
+      , headers: {
+          'Content-Type': 'text/plain'
+        , 'X-Foo': 'bar'
+      }});
+
     assert.response(app,
       { url: '/status' },
-      { body: 'Not Found', status: 404, headers: { 'Content-Type': 'text/plain' }});
+      { body: 'Not Found'
+      , status: 404
+      , headers: { 'Content-Type': 'text/plain' }});
+
     assert.response(app,
       { url: '/error' },
-      { body: 'Oh shit!', status: 500, headers: { 'Content-Type': 'text/plain', 'Content-Length': '8' }});
+      { body: 'Oh shit!'
+      , status: 500
+      , headers: {
+          'Content-Type': 'text/plain'
+        , 'Content-Length': '8'
+      }});
+
     assert.response(app,
       { url: '/buffer' },
-      { body: 'wahoo!', headers: { 'Content-Type': 'application/octet-stream', 'Content-Length': '6' }});
+      { body: 'wahoo!'
+      , headers: {
+          'Content-Type': 'application/octet-stream'
+        , 'Content-Length': '6'
+      }});
+
     assert.response(app,
       { url: '/noargs' },
       { status: 204 }, function(res){
