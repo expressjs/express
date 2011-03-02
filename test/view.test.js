@@ -433,6 +433,8 @@ module.exports = {
   'test #partial()': function(){
     var app = create();
 
+    app.set('view engine', 'jade');
+
     // Auto-assigned local w/ collection option
     app.get('/', function(req, res){
       res.render('items.jade', { items: ['one', 'two'] });
@@ -474,10 +476,10 @@ module.exports = {
 
     // as: str collection option
     app.get('/user', function(req, res){
-      res.send(res.partial('user.jade', {
+      res.partial('user', {
         as: 'person',
         collection: [{ name: 'tj' }]
-      }));
+      });
     });
     
     assert.response(app,
@@ -486,10 +488,10 @@ module.exports = {
 
     // as: with object collection
     app.get('/user/object', function(req, res){
-      res.send(res.partial('user.jade', {
+      res.partial('user.jade', {
         as: 'person',
         collection: { 0: { name: 'tj' }, length: 1 }
-      }));
+      });
     });
     
     assert.response(app,
@@ -498,11 +500,11 @@ module.exports = {
     
     // as: this collection option
     app.get('/person', function(req, res){
-      res.send(res.partial('person.jade', {
+      res.partial('person.jade', {
         as: this,
         collection: [{ name: 'tj' }],
         locals: { label: 'name:' }
-      }));
+      });
     });
     
     assert.response(app,
@@ -511,10 +513,10 @@ module.exports = {
 
     // as: global collection option
     app.get('/videos', function(req, res){
-      res.send(res.partial('video.jade', {
+      res.partial('video.jade', {
         as: global,
         collection: movies
-      }));
+      });
     });
 
     assert.response(app,
@@ -523,10 +525,10 @@ module.exports = {
     
     // Magic variables
     app.get('/magic', function(req, res){
-      res.send(res.partial('magic.jade', {
+      res.partial('magic.jade', {
         as: 'word',
         collection: ['one', 'two', 'three']
-      }));
+      });
     });
     
     assert.response(app,
@@ -535,9 +537,9 @@ module.exports = {
     
     // Non-collection support
     app.get('/movie', function(req, res){
-      res.send(res.partial('movie.jade', {
+      res.partial('movie.jade', {
         object: movies[0]
-      }));
+      });
     });
     
     assert.response(app,
@@ -545,10 +547,10 @@ module.exports = {
       { body: '<li><div class="title">Nightmare Before Christmas</div><div class="director">Tim Burton</div></li>' });
         
     app.get('/video-global', function(req, res){
-      res.send(res.partial('video.jade', {
+      res.partial('video.jade', {
         object: movies[0],
         as: global
-      })); 
+      }); 
     });
     
     // Non-collection as: global
@@ -557,21 +559,25 @@ module.exports = {
       { body: '<p>Tim Burton</p>' });
 
     app.get('/person-this', function(req, res){
-      res.send(res.partial('person.jade', {
+      res.partial('person.jade', {
         object: { name: 'tj' },
         locals: { label: 'User:' },
+        headers: { 'Content-Type': 'text/html; utf-8' },
+        status: 500,
         as: this
-      })); 
+      }); 
     });
     
     // Non-collection as: this
     assert.response(app,
       { url: '/person-this' },
-      { body: '<p>User: tj</p>' });
+      { body: '<p>User: tj</p>'
+      , status: 500
+      , headers: { 'Content-Type': 'text/html; utf-8' }});
 
     // No options
     app.get('/nothing', function(req, res){
-      res.send(res.partial('hello.ejs'));
+      res.partial('hello.ejs');
     });
     
     assert.response(app,
@@ -580,7 +586,7 @@ module.exports = {
 
     // Path segments + "as"
     app.get('/role/as', function(req, res){
-      res.send(res.partial('user/role.ejs', { as: 'role', collection: ['admin', 'member'] }));
+      res.partial('user/role.ejs', { as: 'role', collection: ['admin', 'member'] });
     });
 
     assert.response(app,
@@ -589,7 +595,7 @@ module.exports = {
 
     // Deduce name from last segment
     app.get('/role', function(req, res){
-      res.send(res.partial('user/role.ejs', ['admin', 'member']));
+      res.partial('user/role.ejs', ['admin', 'member']);
     });
 
     assert.response(app,
@@ -624,14 +630,16 @@ module.exports = {
   'test #partial() locals': function(){
     var app = create();
 
+    app.set('view engine', 'jade');
+
     app.get('/', function(req, res, next){
-      res.send(res.partial('pet-count.jade', {
+      res.partial('pet-count', {
         locals: {
           pets: {
             length: 5
           }
         }
-      }));
+      });
     });
 
     assert.response(app,
@@ -658,10 +666,10 @@ module.exports = {
     var app = create();
 
     app.get('/', function(req, res, next){
-      res.send(res.partial('movie.jade', {
+      res.partial('movie.jade', {
           title: 'Foobar'
         , director: 'Tim Burton'
-      }));
+      });
     });
 
     assert.response(app,
