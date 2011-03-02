@@ -17,5 +17,5 @@
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "main": "index",
   "bin": { "express": "./bin/express" },
-  "engines": { "node": ">= 0.4.0" }
+  "engines": { "node": "0.4.x" }
 }
