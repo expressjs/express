@@ -44,6 +44,7 @@ module.exports = function(app){
   app.post('/post', function(req, res){
     var data = req.body.post
       , post = new Post(data.title, data.body);
+
     post.validate(function(err){
       if (err) {
         req.flash('error', err.message);

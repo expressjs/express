@@ -25,7 +25,17 @@ app.mounted(function(other){
 // Flash message helper provided by express-contrib
 // $ npm install express-contrib
 
-app.dynamicHelpers({ messages: messages });
+app.dynamicHelpers({
+    messages: messages
+  , base: function(){
+    // return the app's mount-point
+    // so that urls can adjust. For example
+    // if you run this example /post/add works
+    // however if you run the mounting example
+    // it adjusts to /blog/post/add
+    return '/' == app.route ? '' : app.route;
+  }
+});
 
 // Middleware
 

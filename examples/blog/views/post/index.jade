@@ -2,7 +2,7 @@
   // title
   h2
     = post.title
-    a.edit(href='/post/' + post.id + '/edit') Edit
+    a.edit(href=base + '/post/' + post.id + '/edit') Edit
   
   // flash messages
   != messages()
