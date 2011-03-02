@@ -292,6 +292,27 @@ module.exports = {
       { body: 'Moved Temporarily. Redirecting to /user/12/blog'
       , status: 302, headers: { Location: '/user/12/blog', 'X-Foo': 'bar' }});
   },
+
+  'test #redirect() when mounted': function(){
+    var app = express.createServer()
+      , blog = express.createServer();
+
+
+    blog.get('/posts', function(req, res){
+      res.redirect('/posts/all');
+    });
+
+    blog.get('/posts/all', function(req, res){
+      res.send('all blog posts');
+    });
+
+    app.use('/blog', blog);
+
+    assert.response(app,
+      { url: '/blog/posts' },
+      { status: 302
+      , headers: { Location: '/blog/posts/all' }});
+  },
   
   'test #sendfile()': function(){
     var app = express.createServer();
