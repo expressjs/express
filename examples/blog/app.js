@@ -9,12 +9,18 @@ require.paths.unshift(__dirname + '/../../support');
 var express = require('../../lib/express')
   , messages = require('express-contrib/messages');
 
-app = module.exports = express.createServer();
+var app = module.exports = express.createServer();
 
 // Config
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+
+// mount hook
+
+app.mounted(function(other){
+  console.log('ive been mounted!');
+});
 
 // Flash message helper provided by express-contrib
 // $ npm install express-contrib
@@ -36,8 +42,8 @@ app.configure(function(){
 
 // Routes
 
-require('./routes/site');
-require('./routes/post');
+require('./routes/site')(app);
+require('./routes/post')(app);
 
 if (!module.parent) {
   app.listen(3000);
