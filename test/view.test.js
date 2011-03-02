@@ -844,18 +844,40 @@ module.exports = {
     app.set('view options', {
         layout: false
       , open: '<?'
-      , title: 'Should not show :)'
+      , title: 'Original'
     });
-    
-    app.get('/video', function(req, res, next){
-      res.local('close', '?>')
+
+    function setTitle(req, res, next) {
       res.local('title', 'Wahoo');
+      next();
+    }
+
+    app.get('/video', setTitle, function(req, res, next){
+      res.local('close', '?>')
       res.render('video.ejs', { layout: false, title: 'keyboard cat' });
     });
     
+    app.get('/video/2', setTitle, function(req, res, next){
+      res.local('close', '?>')
+      res.render('video.ejs', { layout: false });
+    });
+
+    app.get('/video/3', function(req, res, next){
+      res.local('close', '?>')
+      res.render('video.ejs', { layout: false });
+    });
+
     assert.response(app,
       { url: '/video' },
       { body: '<h1>keyboard cat</h1>' });
+
+    assert.response(app,
+      { url: '/video/2' },
+      { body: '<h1>Wahoo</h1>' });
+
+    assert.response(app,
+      { url: '/video/3' },
+      { body: '<h1>Original</h1>' });
   },
   
   'test res.local() partials': function(){
