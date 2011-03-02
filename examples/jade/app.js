@@ -40,5 +40,16 @@ app.get('/', function(req, res){
   res.render('users', { users: users });
 });
 
+app.get('/users', function(req, res){
+  // we can use res.partial() as if
+  // we were in a view, utilizing the same api
+  // to render a fragment
+  res.partial('users/user', users);
+});
+
+app.get('/user/:id', function(req, res){
+  res.partial('users/user', users[req.params.id]);
+});
+
 app.listen(3000);
 console.log('Express app started on port 3000');
