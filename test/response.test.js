@@ -52,22 +52,46 @@ module.exports = {
 
     assert.response(app,
       { url: '/html' },
-      { body: '<p>test</p>', headers: { 'Content-Language': 'en', 'Content-Type': 'text/html' }});
+      { body: '<p>test</p>'
+      , headers: {
+          'Content-Language': 'en'
+        , 'Content-Type': 'text/html'
+      }});
+
     assert.response(app,
       { url: '/json' },
-      { body: '{"foo":"bar"}', status: 201, headers: { 'Content-Type': 'application/json', 'X-Foo': 'baz' }});
+      { body: '{"foo":"bar"}'
+      , status: 201
+      , headers: {
+          'Content-Type': 'application/json'
+        , 'X-Foo': 'baz'
+      }});
 
     assert.response(app,
       { url: '/jsonp?callback=test' },
-      { body: 'test({"foo":"bar"});', status: 201, headers: { 'Content-Type': 'text/javascript', 'X-Foo': 'baz' }});
+      { body: 'test({"foo":"bar"});'
+      , status: 201
+      , headers: {
+          'Content-Type': 'text/javascript'
+        , 'X-Foo': 'baz'
+      }});
 
     assert.response(app,
       { url: '/jsonp?callback=baz' },
-      { body: 'baz({"foo":"bar"});', status: 201, headers: { 'Content-Type': 'text/javascript', 'X-Foo': 'baz' }});
+      { body: 'baz({"foo":"bar"});'
+      , status: 201, headers: {
+          'Content-Type': 'text/javascript'
+        , 'X-Foo': 'baz'
+      }});
 
     assert.response(app,
       { url: '/jsonp?callback=invalid()[]' },
-      { body: 'invalid({"foo":"bar"});', status: 201, headers: { 'Content-Type': 'text/javascript', 'X-Foo': 'baz' }});
+      { body: 'invalid({"foo":"bar"});'
+      , status: 201
+      , headers: {
+          'Content-Type': 'text/javascript'
+        , 'X-Foo': 'baz'
+      }});
 
     assert.response(app,
       { url: '/json?callback=test' },
