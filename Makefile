@@ -24,16 +24,9 @@ test:
 test-cov:
 	@TESTFLAGS=--cov $(MAKE) test
 
-docs: docs/api.html $(MANPAGES) $(HTMLDOCS)
+docs: $(MANPAGES) $(HTMLDOCS)
 	@ echo "... generating TOC"
 	@./support/toc.js docs/guide.html
-
-docs/api.html: lib/express/*.js
-	dox \
-		--private \
-		--title Express \
-		--desc "High performance web framework for [node](http://nodejs.org)." \
-		$(shell find lib/express/* -type f) > $@
 
 %.1: %.md
 	@echo "... $< -> $@"
