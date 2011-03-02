@@ -16,12 +16,12 @@ follows the same idiom by providing _express.createServer()_ as shown below. Thi
 that you can utilize Express server's transparently with other libraries.
 
     var app = require('express').createServer();
-	
-	app.get('/', function(req, res){
-		res.send('hello world');
-	});
-	
-	app.listen(3000);
+    
+    app.get('/', function(req, res){
+      res.send('hello world');
+    });
+    
+    app.listen(3000);
 
 ### Configuration
 

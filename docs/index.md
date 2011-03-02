@@ -14,6 +14,7 @@
   * Dynamic view helpers
   * Application level view options
   * Content negotiation
+  * Application mounting
   * Focus on high performance
   * View rendering and partials support
   * Environment based configuration

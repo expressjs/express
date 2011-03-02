@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "GUIDE" "" "December 2010" "" ""
+.TH "GUIDE" "" "March 2011" "" ""
 .
 .SH "NAME"
 \fBguide\fR
@@ -42,7 +42,7 @@ The \fIexpress\.Server\fR now inherits from \fIhttp\.Server\fR, however follows 
 var app = require(\'express\')\.createServer();
 
 app\.get(\'/\', function(req, res){
-    res\.send(\'hello world\');
+  res\.send(\'hello world\');
 });
 
 app\.listen(3000);
@@ -65,14 +65,16 @@ app\.configure(function(){
     app\.use(express\.methodOverride());
     app\.use(express\.bodyDecoder());
     app\.use(app\.router);
-    app\.use(express\.staticProvider(__dirname + \'/public\'));
 });
 
 app\.configure(\'development\', function(){
+    app\.use(express\.staticProvider(__dirname + \'/public\'));
     app\.use(express\.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app\.configure(\'production\', function(){
+  var oneYear = 31557600000;
+    app\.use(express\.staticProvider({ root: __dirname + \'/public\', maxAge: oneYear }));
     app\.use(express\.errorHandler());
 });
 .
@@ -136,9 +138,6 @@ Express supports the following settings out of the box:
 .
 .IP "\(bu" 4
 \fIview options\fR An object specifying global view options
-.
-.IP "\(bu" 4
-\fIstream threshold\fR Bytesize indicating when a file should be streamed for \fIres\.sendfile()\fR using \fIfs\.ReadStream()\fR and \fIsys\.pump()\fR\.
 .
 .IP "" 0
 .
@@ -1213,8 +1212,8 @@ req\.is(\'*/json\');
 .
 .IP "" 0
 .
-.SS "req\.param(name)"
-Return the value of param \fIname\fR when present\.
+.SS "req\.param(name[, default])"
+Return the value of param \fIname\fR when present or \fIdefault\fR\.
 .
 .IP "\(bu" 4
 Checks route placeholders (\fIreq\.params\fR), ex: /user/:id
@@ -1361,9 +1360,6 @@ res\.sendfile(path, function(err, path){
 .fi
 .
 .IP "" 0
-.
-.P
-When the filesize exceeds the \fIstream threshold\fR (defaulting to 32k), the file will be streamed using \fIfs\.ReadStream\fR and \fIsys\.pump()\fR\.
 .
 .SS "res\.download(file[, filename])"
 Transfer the given \fIfile\fR as an attachment with optional alternative \fIfilename\fR\.
