@@ -6,7 +6,7 @@ require.paths.unshift(__dirname + '/../../support');
  * Module dependencies.
  */
 
-var express = require('./../../lib/express')
+var express = require('../../lib/express')
   , http = require('http');
 
 var app = express.createServer();
@@ -27,10 +27,10 @@ app.set('view engine', 'jade');
 function request(path, fn){
   var client = http.createClient(80, 'github.com')
     , req = client.request('GET', '/api/v2/json' + path, { Host: 'github.com' });
-  req.addListener('response', function(res){
+  req.on('response', function(res){
     res.body = '';
-    res.addListener('data', function(chunk){ res.body += chunk; });
-    res.addListener('end', function(){
+    res.on('data', function(chunk){ res.body += chunk; });
+    res.on('end', function(){
       try {
         fn(null, JSON.parse(res.body));
       } catch (err) {
@@ -109,7 +109,7 @@ app.get('/repos/*', function(req, res, next){
 });
 
 // Serve statics from ./public
-app.use(express.staticProvider(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 // Listen on port 3000
 app.listen(3000);

@@ -1,10 +1,12 @@
 
+// Expose modules in ./support for demo purposes
+require.paths.unshift(__dirname + '/../../support');
+
 /**
  * Module dependencies.
  */
 
-var express = require('./../../lib/express'),
-    sys = require('sys');
+var express = require('../../lib/express');
 
 var app = express.createServer();
 

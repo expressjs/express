@@ -1,4 +1,7 @@
 
+// Expose modules in ./support for demo purposes
+require.paths.unshift(__dirname + '/../../support');
+
 /**
  * Module dependencies.
  */
@@ -18,7 +21,8 @@ var items = [
 // Routes
 
 app.get('/', function(req, res, next){
-  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/html');
   res.write('<p>Visit /item/2</p>');
   res.write('<p>Visit /item/2.json</p>');
   res.write('<p>Visit /item/2.xml</p>');
