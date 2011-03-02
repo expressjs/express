@@ -1,9 +1,12 @@
 
+// Expose modules in ./support for demo purposes
+require.paths.unshift(__dirname + '/../../support');
+
 /**
  * Module dependencies.
  */
 
-var express = require('./../../lib/express');
+var express = require('../../lib/express');
 
 var app = express.createServer();
 
@@ -17,12 +20,13 @@ app.get('/', function(req, res){
 // /files/* is accessed via req.params[0]
 // but here we name it :file
 app.get('/files/:file(*)', function(req, res){
-  var file = req.params.file;
-  res.download(__dirname + '/files/' + file);
+  var file = req.params.file
+    , path = __dirname + '/files/' + file;
+  res.download(path);
 });
 
 app.error(function(err, req, res, next){
-  if (process.ENOENT == err.errno) {
+  if ('ENOENT' == err.code) {
     res.send('Cant find that file, sorry!');
   } else {
     // Not a 404
