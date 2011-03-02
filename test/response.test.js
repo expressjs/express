@@ -307,18 +307,25 @@ module.exports = {
     assert.response(app,
       { url: '/../express.test.js' },
       { body: 'Forbidden', status: 403 });
+
     assert.response(app,
       { url: '/user.json' },
-      { body: '{"name":"tj"}', status: 200, headers: { 'Content-Type': 'application/json' }});
+      { body: '{"name":"tj"}'
+      , status: 200, headers: { 'Content-Type': 'application/json' }});
+
     assert.response(app,
       { url: '/hello.haml' },
-      { body: '%p Hello World', status: 200, headers: { 'Content-Type': 'application/octet-stream' }});
+      { body: '%p Hello World'
+      , status: 200, headers: { 'Content-Type': 'application/octet-stream' }});
+
     assert.response(app,
       { url: '/doesNotExist' },
       { body: 'Cannot GET /doesNotExist', status: 404 });
+
     assert.response(app,
       { url: '/partials' },
       { body: 'Cannot GET /partials', status: 404 });
+
     assert.response(app,
       { url: '/large.json' },
       { status: 200, headers: { 'Content-Type': 'application/json' }});
