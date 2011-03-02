@@ -16,7 +16,7 @@ app.use(express.session({ secret: 'keyboard cat' }));
 app.use('/blog', blog);
 
 app.get('/', function(req, res){
-  res.send('Visit /blog');
+  res.send('Visit <a href="/blog">/blog</a>');
 });
 
 app.listen(3000);
