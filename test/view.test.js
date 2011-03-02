@@ -853,17 +853,17 @@ module.exports = {
     }
 
     app.get('/video', setTitle, function(req, res, next){
-      res.local('close', '?>')
+      res.local('close', '?>');
       res.render('video.ejs', { layout: false, title: 'keyboard cat' });
     });
     
     app.get('/video/2', setTitle, function(req, res, next){
-      res.local('close', '?>')
+      res.local('close', '?>');
       res.render('video.ejs', { layout: false });
     });
 
     app.get('/video/3', function(req, res, next){
-      res.local('close', '?>')
+      res.local('close', '?>');
       res.render('video.ejs', { layout: false });
     });
 
