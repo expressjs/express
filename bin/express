@@ -14,12 +14,6 @@ var fs = require('fs')
 var version = '2.0.0-pre';
 
 /**
- * stdin stream.
- */
-
-var stdin;
-
-/**
  * Add session support.
  */
 
@@ -278,7 +272,7 @@ while (args.length) {
     } else {
       confirm('destination is not empty, continue? ', function(ok){
         if (ok) {
-          stdin.destroy();
+          process.stdin.destroy();
           createApplicationAt(path);
         } else {
           abort('aborting');
@@ -415,8 +409,6 @@ function confirm(msg, fn) {
  */
 
 function prompt(msg, fn) {
-  stdin = stdin || process.openStdin();
-
   // prompt
   if (' ' == msg[msg.length - 1]) {
     process.stdout.write(msg);
@@ -425,11 +417,10 @@ function prompt(msg, fn) {
   }
 
   // stdin
-  stdin.setEncoding('ascii');
-  stdin.addListener('data', function(data){
+  process.stdin.setEncoding('ascii');
+  process.stdin.once('data', function(data){
     fn(data);
-    stdin.removeListener('data', arguments.callee);
-  });
+  }).resume();
 }
 
 /**
