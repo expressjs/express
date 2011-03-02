@@ -1,4 +1,11 @@
 
+1.0.8 / 2011-03-01 
+==================
+
+  * Allow `req.query` to be pre-defined (via middleware or other parent app)
+  * "connect": ">= 0.5.0 < 1.0.0". Closes #547
+  * Removed the long deprecated __EXPRESS_ENV__ support
+
 1.0.7 / 2011-02-07 
 ==================
 
