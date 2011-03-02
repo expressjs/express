@@ -391,7 +391,7 @@ function emptyDirectory(path, fn) {
 
 function write(path, str) {
   fs.writeFile(path, str);
-  console.log('   \x1b[33mcreate\x1b[0m : ' + path);
+  console.log('   \x1b[36mcreate\x1b[0m : ' + path);
 }
 
 /**
@@ -416,7 +416,15 @@ function confirm(msg, fn) {
 
 function prompt(msg, fn) {
   stdin = stdin || process.openStdin();
-  sys[msg[msg.length - 1] == ' ' ? 'print' : 'puts'](msg);
+
+  // prompt
+  if (' ' == msg[msg.length - 1]) {
+    process.stdout.write(msg);
+  } else {
+    console.log(msg);
+  }
+
+  // stdin
   stdin.setEncoding('ascii');
   stdin.addListener('data', function(data){
     fn(data);
@@ -434,7 +442,7 @@ function prompt(msg, fn) {
 function mkdir(path, fn) {
   exec('mkdir -p ' + path, function(err){
     if (err) throw err;
-    console.log('   \x1b[33mcreate\x1b[0m : ' + path);
+    console.log('   \x1b[36mcreate\x1b[0m : ' + path);
     fn && fn();
   });
 }
