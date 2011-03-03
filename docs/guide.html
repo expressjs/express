@@ -848,6 +848,8 @@ for free:</p>
 </ul>
 
 
+<p>Local variables passed (or generated) take precedence, however locals passed to the parent view are available in the child view as well. So for example if we were to render a blog post with <em>partial('blog/post', post)</em> it would generate the <em>post</em> local, but the view calling this function had the local <em>user</em>, it would be available to the <em>blog/post</em> view as well.</p>
+
 <p>For documentation on altering the object name view <a href="http://expressjs.com/guide.html#res-partial-view-options-">res.partial()</a>.</p>
 
 <p><strong>NOTE:</strong> be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead.</p>

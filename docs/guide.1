@@ -967,6 +967,9 @@ When using the partial collection support a few "magic" variables are provided f
 .IP "" 0
 .
 .P
+Local variables passed (or generated) take precedence, however locals passed to the parent view are available in the child view as well\. So for example if we were to render a blog post with \fIpartial(\'blog/post\', post)\fR it would generate the \fIpost\fR local, but the view calling this function had the local \fIuser\fR, it would be available to the \fIblog/post\fR view as well\.
+.
+.P
 For documentation on altering the object name view res\.partial() \fIhttp://expressjs\.com/guide\.html#res\-partial\-view\-options\-\fR\.
 .
 .P
