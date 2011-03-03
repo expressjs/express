@@ -1126,14 +1126,21 @@ of layout.hamljs, we can register the engine as ".haml":
      app.register('.haml', require('haml-js'));
 
 For engines that do not comply with the Express
-specification, we can also wrap their api this way.
+specification, we can also wrap their api this way. Below
+we map _.md_ to render markdown files, rendering the html once
+since it will not change on subsequent calls, and support local substitution
+in the form of "{name}".
 
-     app.register('.foo', {
-       render: function(str, options) {
-         // perhaps their api is
-         // return foo.toHTML(str, options);
-       }
-     });
+      app.register('.md', {
+        compile: function(str, options){
+          var html = md.toHTML(str);
+          return function(locals){
+            return html.replace(/\{([^}]+)\}/g, function(_, name){
+              return locals[name];
+            });
+          };
+        }
+      });
 
 ### app.listen([port[, host]])
 

@@ -2003,18 +2003,22 @@ This is also useful for libraries that may not match extensions correctly\. For 
 .IP "" 0
 .
 .P
-For engines that do not comply with the Express specification, we can also wrap their api this way\.
+For engines that do not comply with the Express specification, we can also wrap their api this way\. Below we map \fI\.md\fR to render markdown files, rendering the html once since it will not change on subsequent calls, and support local substitution in the form of "{name}"\.
 .
 .IP "" 4
 .
 .nf
 
- app\.register(\'\.foo\', {
-   render: function(str, options) {
-     // perhaps their api is
-     // return foo\.toHTML(str, options);
-   }
- });
+  app\.register(\'\.md\', {
+    compile: function(str, options){
+      var html = md\.toHTML(str);
+      return function(locals){
+        return html\.replace(/\e{([^}]+)\e}/g, function(_, name){
+          return locals[name];
+        });
+      };
+    }
+  });
 .
 .fi
 .
