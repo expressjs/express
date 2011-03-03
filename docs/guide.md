@@ -240,10 +240,12 @@ Typically with connect middleware you would _require('connect')_ like so:
 
     var connect = require('connect');
     app.use(connect.logger());
+    app.use(connect.bodyParser());
 
 This is somewhat annoying, so express re-exports these middleware properties, however they are _identical_:
 
     app.use(express.logger());
+    app.use(express.bodyParser());
 
 ### Route Middleware
 
@@ -252,53 +254,53 @@ Routes may utilize route-specific middleware by passing one or more additional c
 Typically async data retrieval might look similar to below, where we take the _:id_ parameter, and attempt loading a user. 
 
     app.get('/user/:id', function(req, res, next){
-        loadUser(req.params.id, function(err, user){
-            if (err) return next(err);
-            res.send('Viewing user ' + user.name);
-        });
+      loadUser(req.params.id, function(err, user){
+        if (err) return next(err);
+        res.send('Viewing user ' + user.name);
+      });
     });
 
 To keep things DRY and to increase readability we can apply this logic within a middleware. As you can see below, abstracting this logic into middleware allows us to reuse it, and clean up our route at the same time. 
 
     function loadUser(req, res, next) {
-        // You would fetch your user from the db
-        var user = users[req.params.id];
-        if (user) {
-            req.user = user;
-            next();
-        } else {
-            next(new Error('Failed to load user ' + req.params.id));
-        }
+      // You would fetch your user from the db
+      var user = users[req.params.id];
+      if (user) {
+        req.user = user;
+        next();
+      } else {
+        next(new Error('Failed to load user ' + req.params.id));
+      }
     }
    
     app.get('/user/:id', loadUser, function(req, res){
-        res.send('Viewing user ' + req.user.name);
+      res.send('Viewing user ' + req.user.name);
     });
 
 Multiple route middleware can be applied, and will be executed sequentially to apply further logic such as restricting access to a user account. In the example below only the authenticated user may edit his/her account.
 
     function andRestrictToSelf(req, res, next) {
-        req.authenticatedUser.id == req.user.id
-            ? next()
-            : next(new Error('Unauthorized'));
+      req.authenticatedUser.id == req.user.id
+        ? next()
+        : next(new Error('Unauthorized'));
     }
     
     app.get('/user/:id/edit', loadUser, andRestrictToSelf, function(req, res){
-        res.send('Editing user ' + req.user.name);
+      res.send('Editing user ' + req.user.name);
     });
 
 Keeping in mind that middleware are simply functions, we can define function that _returns_ the middleware in order to create a more expressive and flexible solution as shown below.
 
     function andRestrictTo(role) {
-        return function(req, res, next) {
-          req.authenticatedUser.role == role
-              ? next()
-              : next(new Error('Unauthorized'));
-        }
+      return function(req, res, next) {
+        req.authenticatedUser.role == role
+          ? next()
+          : next(new Error('Unauthorized'));
+      }
     }
     
     app.del('/user/:id', loadUser, andRestrictTo('admin'), function(req, res){
-        res.send('Deleted user ' + req.user.name);
+      res.send('Deleted user ' + req.user.name);
     });
 
 Commonly used "stacks" of middleware can be passed as an array (_applied recursively_), which can be mixed and matched to any degree.
@@ -328,20 +330,20 @@ We have seen _app.get()_ a few times, however Express also exposes other familia
          <input type="submit" value="Submit" />
      </form>
 
-By default Express does not know what to do with this request body, so we should add the _bodyDecoder_ middleware, which will parse _application/x-www-form-urlencoded_ request bodies and place the variables in _req.body_. We can do this by "using" the middleware as shown below:
+By default Express does not know what to do with this request body, so we should add the _bodyParser_ middleware, which will parse _application/x-www-form-urlencoded_ and _application/json_ request bodies and place the variables in _req.body_. We can do this by "using" the middleware as shown below:
 
-    app.use(express.bodyDecoder());
+    app.use(express.bodyParser());
 
 Our route below will now have access to the _req.body.user_ object which will contain the _name_ and _email_ properties when defined.
 
     app.post('/', function(req, res){
-        console.log(req.body.user);
-        res.redirect('back');
+      console.log(req.body.user);
+      res.redirect('back');
     });
 
-When using methods such as _PUT_ with a form, we can utilize a hidden input named _\_method_, which can be used to alter the HTTP method. To do so we first need the _methodOverride_ middleware, which should be placed below _bodyDecoder_ so that it can utilize it's _req.body_ containing the form values.
+When using methods such as _PUT_ with a form, we can utilize a hidden input named _\_method_, which can be used to alter the HTTP method. To do so we first need the _methodOverride_ middleware, which should be placed below _bodyParser_ so that it can utilize it's _req.body_ containing the form values.
 
-    app.use(express.bodyDecoder());
+    app.use(express.bodyParser());
     app.use(express.methodOverride());
 
 The reason that these are not always defaults, is simply because these are not required for Express to be fully functional. Depending on the needs of your application, you may not need these at all, your methods such as _PUT_ and _DELETE_ can still be accessed by clients which can use them directly, although _methodOverride_ provides a great solution for forms. Below shows what the usage of _PUT_ might look like:
@@ -364,21 +366,21 @@ Express provides the _app.error()_ method which receives exceptions thrown withi
 or passed to _next(err)_. Below is an example which serves different pages based on our
 ad-hoc _NotFound_ exception:
 
-	function NotFound(msg){
-	    this.name = 'NotFound';
-	    Error.call(this, msg);
-	    Error.captureStackTrace(this, arguments.callee);
-	}
-
-	sys.inherits(NotFound, Error);
-
-	app.get('/404', function(req, res){
-	    throw new NotFound;
-	});
-
-	app.get('/500', function(req, res){
-	    throw new Error('keyboard cat!');
-	});
+    function NotFound(msg){
+      this.name = 'NotFound';
+      Error.call(this, msg);
+      Error.captureStackTrace(this, arguments.callee);
+    }
+    
+    NotFound.protoype.__proto__ = Error.prototype;
+    
+    app.get('/404', function(req, res){
+      throw new NotFound;
+    });
+    
+    app.get('/500', function(req, res){
+      throw new Error('keyboard cat!');
+    });
 
 We can call _app.error()_ several times as shown below.
 Here we check for an instanceof _NotFound_ and show the
@@ -398,15 +400,13 @@ handle exceptions in different ways based on the environment.
 	});
 
 Here we assume all errors as 500 for the simplicity of
-this demo, however you can choose whatever you like
+this demo, however you can choose whatever you like. For example when node performs filesystem syscalls, you may receive an error object with the _error.code_ of _ENOENT_, meaning "no such file or directory", we can utilize this in our error handling and display a page specific to this if desired.
 
-	app.error(function(err, req, res){
-	    res.render('500.jade', {
-	       locals: {
-	           error: err
-	       } 
-	    });
-	});
+    app.error(function(err, req, res){
+      res.render('500.jade', {
+         error: err
+      });
+    });
 
 Our apps could also utilize the Connect _errorHandler_ middleware
 to report on exceptions. For example if we wish to output exceptions 
@@ -422,9 +422,9 @@ that are passed or thrown, so we can set _showStack_ to true:
 The _errorHandler_ middleware also responds with _json_ if _Accept: application/json_
 is present, which is useful for developing apps that rely heavily on client-side JavaScript.
 
-### Route Preconditions
+### Route Param Pre-conditions
 
-Route placeholder pre-conditions can drastically improve the readability of your application, through implicit loading of data, and validation of request urls. For example if you are constantly fetching common data for several routes, such as loading a user for _/user/:id_,we might typically do something like below:
+Route param pre-conditions can drastically improve the readability of your application, through implicit loading of data, and validation of request urls. For example if you are constantly fetching common data for several routes, such as loading a user for _/user/:id_, we might typically do something like below:
 
     app.get('/user/:userId', function(req, res, next){
       User.get(req.params.userId, function(err, user){
@@ -433,7 +433,7 @@ Route placeholder pre-conditions can drastically improve the readability of your
       });
     }); 
 
-With route preconditions our placeholders can be mapped to callbacks which may perform validation, coercion, or even loading data from a database. Below we invoke _app.param()_ with the parameter name we wish to map to some middleware, as you can see we receive the _id_ argument which contains the placeholder value. Using this we load the user and perform error handling as usual, and simple call _next()_ to pass control to the next precondition or route handler.
+With preconditions our params can be mapped to callbacks which may perform validation, coercion, or even loading data from a database. Below we invoke _app.param()_ with the parameter name we wish to map to some middleware, as you can see we receive the _id_ argument which contains the placeholder value. Using this we load the user and perform error handling as usual, and simple call _next()_ to pass control to the next precondition or route handler.
 
     app.param('userId', function(req, res, next, id){
       User.get(id, function(err, user){
@@ -460,23 +460,21 @@ We may also apply the same callback to several placeholders, for example a route
 
 ### View Rendering
 
-View filenames take the form _NAME_._ENGINE_, where _ENGINE_ is the name
+View filenames take the form "&lt;name&gt;.&lt;engine&gt;", where &lt;engine&gt; is the name
 of the module that will be required. For example the view _layout.ejs_ will
-tell the view system to _require('ejs')_, the module being loaded must export the method _exports.render(str, options)_ to comply with Express, however 
-_app.register()_ can be used to map engines to file extensions, so that for example "foo.html" can be rendered by jade.
+tell the view system to _require('ejs')_, the module being loaded must export the method _exports.compile(str, options)_, and return a _Function_ to comply with Express. To alter this behaviour
+_app.register()_ can be used to map engines to file extensions, so that for example "foo.html" can be rendered by ejs.
 
-Below is an example using [Haml.js](http://github.com/visionmedia/haml.js) to render _index.html_,
-and since we do not use _layout: false_ the rendered contents of _index.html_ will be passed as 
-the _body_ local variable in _layout.haml_.
+Below is an example using [Jade](http://github.com/visionmedia/jade) to render _index.html_,
+and since we do not use _layout: false_ the rendered contents of _index.jade_ will be passed as 
+the _body_ local variable in _layout.jade_.
 
 	app.get('/', function(req, res){
-		res.render('index.haml', {
-			locals: { title: 'My Site' }
-		});
+		res.render('index.jade', { title: 'My Site' });
 	});
 
 The new _view engine_ setting allows us to specify our default template engine,
-so for example when using [Jade](http://github.com/visionmedia/jade) we could set:
+so for example when using jade we could set:
 
     app.set('view engine', 'jade');
 
@@ -496,10 +494,10 @@ mix and match template engines:
 Express also provides the _view options_ setting, which is applied each time a view is rendered, so for example if you rarely use layouts you may set:
 
 	app.set('view options', {
-	    layout: false
+	  layout: false
 	});
 
-Which can then be overridden within the `res.render()` call if need be:
+Which can then be overridden within the _res.render()_ call if need be:
 
     res.render('myview.ejs', { layout: true });
 

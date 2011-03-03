@@ -374,6 +374,7 @@ Typically with connect middleware you would \fIrequire(\'connect\')\fR like so:
 
 var connect = require(\'connect\');
 app\.use(connect\.logger());
+app\.use(connect\.bodyParser());
 .
 .fi
 .
@@ -387,6 +388,7 @@ This is somewhat annoying, so express re\-exports these middleware properties, h
 .nf
 
 app\.use(express\.logger());
+app\.use(express\.bodyParser());
 .
 .fi
 .
@@ -403,10 +405,10 @@ Typically async data retrieval might look similar to below, where we take the \f
 .nf
 
 app\.get(\'/user/:id\', function(req, res, next){
-    loadUser(req\.params\.id, function(err, user){
-        if (err) return next(err);
-        res\.send(\'Viewing user \' + user\.name);
-    });
+  loadUser(req\.params\.id, function(err, user){
+    if (err) return next(err);
+    res\.send(\'Viewing user \' + user\.name);
+  });
 });
 .
 .fi
@@ -421,18 +423,18 @@ To keep things DRY and to increase readability we can apply this logic within a 
 .nf
 
 function loadUser(req, res, next) {
-    // You would fetch your user from the db
-    var user = users[req\.params\.id];
-    if (user) {
-        req\.user = user;
-        next();
-    } else {
-        next(new Error(\'Failed to load user \' + req\.params\.id));
-    }
+  // You would fetch your user from the db
+  var user = users[req\.params\.id];
+  if (user) {
+    req\.user = user;
+    next();
+  } else {
+    next(new Error(\'Failed to load user \' + req\.params\.id));
+  }
 }
 
 app\.get(\'/user/:id\', loadUser, function(req, res){
-    res\.send(\'Viewing user \' + req\.user\.name);
+  res\.send(\'Viewing user \' + req\.user\.name);
 });
 .
 .fi
@@ -447,13 +449,13 @@ Multiple route middleware can be applied, and will be executed sequentially to a
 .nf
 
 function andRestrictToSelf(req, res, next) {
-    req\.authenticatedUser\.id == req\.user\.id
-        ? next()
-        : next(new Error(\'Unauthorized\'));
+  req\.authenticatedUser\.id == req\.user\.id
+    ? next()
+    : next(new Error(\'Unauthorized\'));
 }
 
 app\.get(\'/user/:id/edit\', loadUser, andRestrictToSelf, function(req, res){
-    res\.send(\'Editing user \' + req\.user\.name);
+  res\.send(\'Editing user \' + req\.user\.name);
 });
 .
 .fi
@@ -468,15 +470,15 @@ Keeping in mind that middleware are simply functions, we can define function tha
 .nf
 
 function andRestrictTo(role) {
-    return function(req, res, next) {
-      req\.authenticatedUser\.role == role
-          ? next()
-          : next(new Error(\'Unauthorized\'));
-    }
+  return function(req, res, next) {
+    req\.authenticatedUser\.role == role
+      ? next()
+      : next(new Error(\'Unauthorized\'));
+  }
 }
 
 app\.del(\'/user/:id\', loadUser, andRestrictTo(\'admin\'), function(req, res){
-    res\.send(\'Deleted user \' + req\.user\.name);
+  res\.send(\'Deleted user \' + req\.user\.name);
 });
 .
 .fi
@@ -529,13 +531,13 @@ A common example for \fIPOST\fR usage, is when "submitting" a form\. Below we si
 .IP "" 0
 .
 .P
-By default Express does not know what to do with this request body, so we should add the \fIbodyDecoder\fR middleware, which will parse \fIapplication/x\-www\-form\-urlencoded\fR request bodies and place the variables in \fIreq\.body\fR\. We can do this by "using" the middleware as shown below:
+By default Express does not know what to do with this request body, so we should add the \fIbodyParser\fR middleware, which will parse \fIapplication/x\-www\-form\-urlencoded\fR and \fIapplication/json\fR request bodies and place the variables in \fIreq\.body\fR\. We can do this by "using" the middleware as shown below:
 .
 .IP "" 4
 .
 .nf
 
-app\.use(express\.bodyDecoder());
+app\.use(express\.bodyParser());
 .
 .fi
 .
@@ -549,8 +551,8 @@ Our route below will now have access to the \fIreq\.body\.user\fR object which w
 .nf
 
 app\.post(\'/\', function(req, res){
-    console\.log(req\.body\.user);
-    res\.redirect(\'back\');
+  console\.log(req\.body\.user);
+  res\.redirect(\'back\');
 });
 .
 .fi
@@ -558,13 +560,13 @@ app\.post(\'/\', function(req, res){
 .IP "" 0
 .
 .P
-When using methods such as \fIPUT\fR with a form, we can utilize a hidden input named \fI_method\fR, which can be used to alter the HTTP method\. To do so we first need the \fImethodOverride\fR middleware, which should be placed below \fIbodyDecoder\fR so that it can utilize it\'s \fIreq\.body\fR containing the form values\.
+When using methods such as \fIPUT\fR with a form, we can utilize a hidden input named \fI_method\fR, which can be used to alter the HTTP method\. To do so we first need the \fImethodOverride\fR middleware, which should be placed below \fIbodyParser\fR so that it can utilize it\'s \fIreq\.body\fR containing the form values\.
 .
 .IP "" 4
 .
 .nf
 
-app\.use(express\.bodyDecoder());
+app\.use(express\.bodyParser());
 app\.use(express\.methodOverride());
 .
 .fi
@@ -602,19 +604,19 @@ Express provides the \fIapp\.error()\fR method which receives exceptions thrown 
 .nf
 
 function NotFound(msg){
-    this\.name = \'NotFound\';
-    Error\.call(this, msg);
-    Error\.captureStackTrace(this, arguments\.callee);
+  this\.name = \'NotFound\';
+  Error\.call(this, msg);
+  Error\.captureStackTrace(this, arguments\.callee);
 }
 
-sys\.inherits(NotFound, Error);
+NotFound\.protoype\.__proto__ = Error\.prototype;
 
 app\.get(\'/404\', function(req, res){
-    throw new NotFound;
+  throw new NotFound;
 });
 
 app\.get(\'/500\', function(req, res){
-    throw new Error(\'keyboard cat!\');
+  throw new Error(\'keyboard cat!\');
 });
 .
 .fi
@@ -644,18 +646,16 @@ app\.error(function(err, req, res, next){
 .IP "" 0
 .
 .P
-Here we assume all errors as 500 for the simplicity of this demo, however you can choose whatever you like
+Here we assume all errors as 500 for the simplicity of this demo, however you can choose whatever you like\. For example when node performs filesystem syscalls, you may receive an error object with the \fIerror\.code\fR of \fIENOENT\fR, meaning "no such file or directory", we can utilize this in our error handling and display a page specific to this if desired\.
 .
 .IP "" 4
 .
 .nf
 
 app\.error(function(err, req, res){
-    res\.render(\'500\.jade\', {
-       locals: {
-           error: err
-       }
-    });
+  res\.render(\'500\.jade\', {
+     error: err
+  });
 });
 .
 .fi
@@ -691,8 +691,8 @@ app\.use(express\.errorHandler({ showStack: true, dumpExceptions: true }));
 .P
 The \fIerrorHandler\fR middleware also responds with \fIjson\fR if \fIAccept: application/json\fR is present, which is useful for developing apps that rely heavily on client\-side JavaScript\.
 .
-.SS "Route Preconditions"
-Route placeholder pre\-conditions can drastically improve the readability of your application, through implicit loading of data, and validation of request urls\. For example if you are constantly fetching common data for several routes, such as loading a user for \fI/user/:id\fR,we might typically do something like below:
+.SS "Route Param Pre\-conditions"
+Route param pre\-conditions can drastically improve the readability of your application, through implicit loading of data, and validation of request urls\. For example if you are constantly fetching common data for several routes, such as loading a user for \fI/user/:id\fR, we might typically do something like below:
 .
 .IP "" 4
 .
@@ -710,7 +710,7 @@ app\.get(\'/user/:userId\', function(req, res, next){
 .IP "" 0
 .
 .P
-With route preconditions our placeholders can be mapped to callbacks which may perform validation, coercion, or even loading data from a database\. Below we invoke \fIapp\.param()\fR with the parameter name we wish to map to some middleware, as you can see we receive the \fIid\fR argument which contains the placeholder value\. Using this we load the user and perform error handling as usual, and simple call \fInext()\fR to pass control to the next precondition or route handler\.
+With preconditions our params can be mapped to callbacks which may perform validation, coercion, or even loading data from a database\. Below we invoke \fIapp\.param()\fR with the parameter name we wish to map to some middleware, as you can see we receive the \fIid\fR argument which contains the placeholder value\. Using this we load the user and perform error handling as usual, and simple call \fInext()\fR to pass control to the next precondition or route handler\.
 .
 .IP "" 4
 .
@@ -771,19 +771,17 @@ app\.param([\'from\', \'to\'], function(n){ return parseInt(n, 10); });
 .IP "" 0
 .
 .SS "View Rendering"
-View filenames take the form \fINAME\fR\.\fIENGINE\fR, where \fIENGINE\fR is the name of the module that will be required\. For example the view \fIlayout\.ejs\fR will tell the view system to \fIrequire(\'ejs\')\fR, the module being loaded must export the method \fIexports\.render(str, options)\fR to comply with Express, however \fIapp\.register()\fR can be used to map engines to file extensions, so that for example "foo\.html" can be rendered by jade\.
+View filenames take the form "<name>\.<engine>", where <engine> is the name of the module that will be required\. For example the view \fIlayout\.ejs\fR will tell the view system to \fIrequire(\'ejs\')\fR, the module being loaded must export the method \fIexports\.compile(str, options)\fR, and return a \fIFunction\fR to comply with Express\. To alter this behaviour \fIapp\.register()\fR can be used to map engines to file extensions, so that for example "foo\.html" can be rendered by ejs\.
 .
 .P
-Below is an example using Haml\.js \fIhttp://github\.com/visionmedia/haml\.js\fR to render \fIindex\.html\fR, and since we do not use \fIlayout: false\fR the rendered contents of \fIindex\.html\fR will be passed as the \fIbody\fR local variable in \fIlayout\.haml\fR\.
+Below is an example using Jade \fIhttp://github\.com/visionmedia/jade\fR to render \fIindex\.html\fR, and since we do not use \fIlayout: false\fR the rendered contents of \fIindex\.jade\fR will be passed as the \fIbody\fR local variable in \fIlayout\.jade\fR\.
 .
 .IP "" 4
 .
 .nf
 
 app\.get(\'/\', function(req, res){
-    res\.render(\'index\.haml\', {
-        locals: { title: \'My Site\' }
-    });
+    res\.render(\'index\.jade\', { title: \'My Site\' });
 });
 .
 .fi
@@ -791,7 +789,7 @@ app\.get(\'/\', function(req, res){
 .IP "" 0
 .
 .P
-The new \fIview engine\fR setting allows us to specify our default template engine, so for example when using Jade \fIhttp://github\.com/visionmedia/jade\fR we could set:
+The new \fIview engine\fR setting allows us to specify our default template engine, so for example when using jade we could set:
 .
 .IP "" 4
 .
@@ -850,7 +848,7 @@ Express also provides the \fIview options\fR setting, which is applied each time
 .nf
 
 app\.set(\'view options\', {
-    layout: false
+  layout: false
 });
 .
 .fi
@@ -858,7 +856,7 @@ app\.set(\'view options\', {
 .IP "" 0
 .
 .P
-Which can then be overridden within the \fBres\.render()\fR call if need be:
+Which can then be overridden within the \fIres\.render()\fR call if need be:
 .
 .IP "" 4
 .
