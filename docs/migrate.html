@@ -306,7 +306,30 @@
 
 <p> The <em>stream threshold</em> setting was removed.</p>
 
-<h3 id="View-Engine-Compliance">View Engine Compliance</h3>
+<h3 id="res-render-">res.render()</h3>
+
+<p> Previously locals were passed as a separate key:</p>
+
+<pre><code> res.render('user', { layout: false, locals: { user: user }});
+</code></pre>
+
+<p> In Express 2.0 both the locals and the options are one in the same, meaning you cannot have a local variable named <em>layout</em> as it is reserved for express, however this cleans up the API:</p>
+
+<pre><code> res.render('user', { layout: false, user: user });
+</code></pre>
+
+<h3 id="res-partial-">res.partial()</h3>
+
+<p> Express 2.0 adds the <em>res.partial()</em> method, helpful for rendering partial fragments over WebSockets or Ajax requests etc. The API is identical to the <em>partial()</em> calls within views.</p>
+
+<pre><code> // render a collection of comments
+ res.partial('comment', [comment1, comment2]); 
+
+ // render a single comment
+ res.partial('comment', comment);
+</code></pre>
+
+<h3 id="Template-Engine-Compliance">Template Engine Compliance</h3>
 
 <p> To comply with Express previously engines needed the following signature:</p>
 

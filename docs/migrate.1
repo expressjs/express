@@ -184,7 +184,50 @@ Both of these methods now utilize Connect\'s static file server behind the scene
 .P
 The \fIstream threshold\fR setting was removed\.
 .
-.SS "View Engine Compliance"
+.SS "res\.render()"
+Previously locals were passed as a separate key:
+.
+.IP "" 4
+.
+.nf
+
+ res\.render(\'user\', { layout: false, locals: { user: user }});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+In Express 2\.0 both the locals and the options are one in the same, meaning you cannot have a local variable named \fIlayout\fR as it is reserved for express, however this cleans up the API:
+.
+.IP "" 4
+.
+.nf
+
+ res\.render(\'user\', { layout: false, user: user });
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.partial()"
+Express 2\.0 adds the \fIres\.partial()\fR method, helpful for rendering partial fragments over WebSockets or Ajax requests etc\. The API is identical to the \fIpartial()\fR calls within views\.
+.
+.IP "" 4
+.
+.nf
+
+ // render a collection of comments
+ res\.partial(\'comment\', [comment1, comment2]);
+
+ // render a single comment
+ res\.partial(\'comment\', comment);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Template Engine Compliance"
 To comply with Express previously engines needed the following signature:
 .
 .IP "" 4
