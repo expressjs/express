@@ -66,22 +66,9 @@ The following are the major contributors of Express (in no specific order).
   * Screencast - [Route Path Placeholder Preconditions](http://bit.ly/eNqmVs)
 
 ## Node Compatibility
-    
-The latest release of Express is compatible with node --version:
 
-    v0.2.6
-
-and connect --version:
-
-    0.5.7
-
-master (2.0.0-pre) is compatible with node --version:
-
-    v0.3.7
-
-and connect --version:
-
-    0.5.7
+Express 1.x is compatible with node 0.2.x and connect < 1.0.
+Express 2.x is compatible with node 0.4.x and connect 1.x
 
 ## License 
 
