@@ -281,7 +281,7 @@
 
 <p> Previously only directly values could be passed, so for example:</p>
 
-<pre><code>res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOnly: true });
+<pre><code>res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000) });
 </code></pre>
 
 <p>However now we have the alternative <em>maxAge</em> property which may be used to set <em>expires</em> relative to <em>Date.now()</em> in milliseconds, so our example above can now become:</p>

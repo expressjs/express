@@ -79,7 +79,7 @@
 
  Previously only directly values could be passed, so for example:
 
-    res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOnly: true });
+    res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000) });
 
 However now we have the alternative _maxAge_ property which may be used to set _expires_ relative to _Date.now()_ in milliseconds, so our example above can now become:
 
@@ -101,7 +101,27 @@ However now we have the alternative _maxAge_ property which may be used to set _
 
  The _stream threshold_ setting was removed.
 
-### View Engine Compliance
+### res.render()
+
+ Previously locals were passed as a separate key:
+ 
+     res.render('user', { layout: false, locals: { user: user }});
+
+ In Express 2.0 both the locals and the options are one in the same, meaning you cannot have a local variable named _layout_ as it is reserved for express, however this cleans up the API:
+ 
+     res.render('user', { layout: false, user: user });
+
+### res.partial()
+
+ Express 2.0 adds the _res.partial()_ method, helpful for rendering partial fragments over WebSockets or Ajax requests etc. The API is identical to the _partial()_ calls within views.
+ 
+     // render a collection of comments
+     res.partial('comment', [comment1, comment2]); 
+
+     // render a single comment
+     res.partial('comment', comment);
+
+### Template Engine Compliance
 
  To comply with Express previously engines needed the following signature:
  
