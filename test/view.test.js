@@ -336,42 +336,6 @@ module.exports = {
       { body: '<p>2</p>'});
   },
   
-  'test #render() status': function(){
-    var app = create();
-    
-    app.get('/', function(req, res){
-      res.render('hello.jade', {
-        layout: false,
-        status: 404
-      });
-    });
-    
-    assert.response(app,
-      { url: '/' },
-      { body: '<p>:(</p>', status: 404 });
-  },
-  
-  'test #render() headers': function(){
-    var app = create();
-    
-    app.get('/', function(req, res){
-      res.render('hello.jade', {
-        layout: false,
-        status: 500,
-        headers: {
-          'X-Foo': 'bar'
-        }
-      });
-    });
-    
-    assert.response(app,
-      { url: '/' },
-      { body: '<p>:(</p>', status: 500, headers: {
-          'X-Foo': 'bar',
-          'Content-Type': 'text/html'
-      }});
-  },
-  
   'test #render() view helpers': function(beforeExit){
     var app = create()
       , calls = 0;
@@ -562,8 +526,6 @@ module.exports = {
       res.partial('person.jade', {
         object: { name: 'tj' },
         locals: { label: 'User:' },
-        headers: { 'Content-Type': 'text/html; utf-8' },
-        status: 500,
         as: this
       }); 
     });
@@ -571,9 +533,7 @@ module.exports = {
     // Non-collection as: this
     assert.response(app,
       { url: '/person-this' },
-      { body: '<p>User: tj</p>'
-      , status: 500
-      , headers: { 'Content-Type': 'text/html; utf-8' }});
+      { body: '<p>User: tj</p>' });
 
     // No options
     app.get('/nothing', function(req, res){
