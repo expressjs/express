@@ -847,6 +847,10 @@ Sets the given cookie _name_ to _val_, with options _httpOnly_, _secure_, _expir
     // "Remember me" for 15 minutes 
     res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOnly: true });
 
+The _maxAge_ property may be used to set _expires_ relative to _Date.now()_ in milliseconds, so our example above can now become:
+
+    res.cookie('rememberme', 'yes', { maxAge: 900000 });
+
 To parse incoming _Cookie_ headers, use the _cookieDecoder_ middleware, which provides the _req.cookies_ object:
 
     app.use(express.cookieParser());

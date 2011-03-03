@@ -3,6 +3,7 @@
 ==================
 
   * Added HTTPS support
+  * Added `res.cookie()` maxAge support
   * Added `req.header()` _Referrer_ / _Referer_ special-case, either works
   * Added mount support for `res.redirect()`, now respects the mount-point
   * Added `union()` util, taking place of `merge(clone())` combo
