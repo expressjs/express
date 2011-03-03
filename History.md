@@ -1,4 +1,33 @@
 
+1.0.8 / 2011-03-01 
+==================
+
+  * Allow `req.query` to be pre-defined (via middleware or other parent app)
+  * "connect": ">= 0.5.0 < 1.0.0". Closes #547
+  * Removed the long deprecated __EXPRESS_ENV__ support
+
+1.0.7 / 2011-02-07 
+==================
+
+  * Fixed `render()` setting inheritance.
+    Mounted apps would not inherit "view engine"
+
+1.0.6 / 2011-02-07 
+==================
+
+  * Fixed `view engine` setting bug when period is in dirname
+
+1.0.5 / 2011-02-05 
+==================
+
+  * Added secret to generated app `session()` call
+
+1.0.4 / 2011-02-05 
+==================
+
+  * Added `qs` dependency to _package.json_
+  * Fixed namespaced `require()`s for latest connect support
+
 1.0.3 / 2011-01-13 
 ==================
 
