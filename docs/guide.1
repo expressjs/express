@@ -924,20 +924,7 @@ app\.set(\'view options\', {
 .IP "" 0
 .
 .SS "View Partials"
-The Express view system has built\-in support for partials and collections, which are sort of "mini" views representing a document fragment\. For example rather than iterating in a view to display comments, we would use a partial with collection support:
-.
-.IP "" 4
-.
-.nf
-
-partial(\'comment\.haml\', { collection: comments });
-.
-.fi
-.
-.IP "" 0
-.
-.P
-To make things even less verbose we can assume the extension as \fI\.haml\fR when omitted, however if we wished we could use an ejs partial, within a haml view for example\.
+The Express view system has built\-in support for partials and collections, which are "mini" views representing a document fragment\. For example rather than iterating in a view to display comments, we would use a partial with collection support:
 .
 .IP "" 4
 .
@@ -950,7 +937,7 @@ partial(\'comment\', { collection: comments });
 .IP "" 0
 .
 .P
-And once again even further, when rendering a collection we can simply pass an array, if no other options are desired:
+If no other options are desired, we can omit the object and simply pass our array, which is equivalent to above:
 .
 .IP "" 4
 .
@@ -966,16 +953,16 @@ partial(\'comment\', comments);
 When using the partial collection support a few "magic" variables are provided for free:
 .
 .IP "\(bu" 4
-\fIfirstInCollection\fR True if this is the first object
+\fIfirstInCollection\fR true if this is the first object
 .
 .IP "\(bu" 4
-\fIindexInCollection\fR Index of the object in the collection
+\fIindexInCollection\fR index of the object in the collection
 .
 .IP "\(bu" 4
-\fIlastInCollection\fR True if this is the last object
+\fIlastInCollection\fR true if this is the last object
 .
 .IP "\(bu" 4
-\fIcollectionLength\fR Length of the collection
+\fIcollectionLength\fR length of the collection
 .
 .IP "" 0
 .
@@ -983,16 +970,13 @@ When using the partial collection support a few "magic" variables are provided f
 For documentation on altering the object name view res\.partial() \fIhttp://expressjs\.com/guide\.html#res\-partial\-view\-options\-\fR\.
 .
 .P
-NOTE: partials are not recommended for large collections (150+) because the view system adds to the overhead\. For example do \fInot\fR implement a simple ul list with partial collection support, simply create a partial and iterate within that single partial, as this is far more efficient than rendering 150+ templates\.
+NOTE: be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views\. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead\.
 .
 .SS "Template Engines"
 Below are a few template engines commonly used with Express:
 .
 .IP "\(bu" 4
 Jade \fIhttp://jade\-lang\.com\fR haml\.js successor
-.
-.IP "\(bu" 4
-Haml \fIhttp://github\.com/visionmedia/haml\.js\fR pythonic indented templates
 .
 .IP "\(bu" 4
 EJS \fIhttp://github\.com/visionmedia/ejs\fR Embedded JavaScript
@@ -1006,14 +990,14 @@ jQuery Templates \fIhttps://github\.com/kof/node\-jqtpl\fR for node
 .IP "" 0
 .
 .SS "Session Support"
-Sessions support can be added by using Connect\'s \fIsession\fR middleware\. To do so we also need the \fIcookieDecoder\fR middleware place above it, which will parse and populate cookie data to \fIreq\.cookies\fR\.
+Sessions support can be added by using Connect\'s \fIsession\fR middleware\. To do so we also need the \fIcookieParser\fR middleware place above it, which will parse and populate cookie data to \fIreq\.cookies\fR\.
 .
 .IP "" 4
 .
 .nf
 
-app\.use(express\.cookieDecoder());
-app\.use(express\.session());
+app\.use(express\.cookieParser());
+app\.use(express\.session({ secret: "keyboard cat" }));
 .
 .fi
 .
@@ -1027,8 +1011,8 @@ By default the \fIsession\fR middleware uses the memory store bundled with Conne
 .nf
 
 var RedisStore = require(\'connect\-redis\');
-app\.use(express\.cookieDecoder());
-app\.use(express\.session({ store: new RedisStore }));
+app\.use(express\.cookieParser());
+app\.use(express\.session({ secret: "keyboard cat", store: new RedisStore }));
 .
 .fi
 .
@@ -1042,13 +1026,13 @@ Now the \fIreq\.session\fR and \fIreq\.sessionStore\fR properties will be access
 .nf
 
 var RedisStore = require(\'connect\-redis\');
-app\.use(express\.bodyDecoder());
-app\.use(express\.cookieDecoder());
-app\.use(express\.session({ store: new RedisStore }));
+app\.use(express\.bodyParser());
+app\.use(express\.cookieParser());
+app\.use(express\.session({ secret: "keyboard cat", store: new RedisStore }));
 
 app\.post(\'/add\-to\-cart\', function(req, res){
   // Perhaps we posted several items with a form
-  // (use the bodyDecoder() middleware for this)
+  // (use the bodyParser() middleware for this)
   var items = req\.body\.items;
   req\.session\.items = items;
   res\.redirect(\'back\');
@@ -1069,10 +1053,10 @@ app\.get(\'/add\-to\-cart\', function(req, res){
 .IP "" 0
 .
 .P
-The \fIreq\.session\fR object also has methods such as \fISession#touch()\fR, \fISession#destroy()\fR, \fISession#regenerate()\fR among others to maintain and manipulate sessions\. For more information view the Connect Session \fIhttp://senchalabs\.github\.com/connect/session\.html\fR documentation\.
+The \fIreq\.session\fR object also has methods such as \fISession#touch()\fR, \fISession#destroy()\fR, \fISession#regenerate()\fR among others to maintain and manipulate sessions\. For more information view the Connect Session \fIhttp://senchalabs\.github\.com/connect/middleware\-session\.html\fR documentation\.
 .
 .SS "Migration Guide"
-Pre\-beta Express developers may reference the Migration Guide \fImigrate\.html\fR to get up to speed on how to upgrade your application\.
+Express 1\.x developers may reference the Migration Guide \fImigrate\.html\fR to get up to speed on how to upgrade your application\.
 .
 .SS "req\.header(key[, defaultValue])"
 Get the case\-insensitive request header \fIkey\fR, with optional \fIdefaultValue\fR:
@@ -1084,6 +1068,25 @@ Get the case\-insensitive request header \fIkey\fR, with optional \fIdefaultValu
 req\.header(\'Host\');
 req\.header(\'host\');
 req\.header(\'Accept\', \'*/*\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The \fIReferrer\fR and \fIReferer\fR header fields are special\-cased, either will work:
+.
+.IP "" 4
+.
+.nf
+
+// sent Referrer: http://google\.com
+
+req\.header(\'Referer\');
+// => "http://google\.com"
+
+req\.header(\'Referrer\');
+// => "http://google\.com"
 .
 .fi
 .
@@ -1209,7 +1212,7 @@ req\.is(\'*/json\');
 Return the value of param \fIname\fR when present or \fIdefault\fR\.
 .
 .IP "\(bu" 4
-Checks route placeholders (\fIreq\.params\fR), ex: /user/:id
+Checks route params (\fIreq\.params\fR), ex: /user/:id
 .
 .IP "\(bu" 4
 Checks query string params (\fIreq\.query\fR), ex: ?id=12
@@ -1220,7 +1223,7 @@ Checks urlencoded body params (\fIreq\.body\fR), ex: id=12
 .IP "" 0
 .
 .P
-To utilize urlencoded request bodies, \fIreq\.body\fR should be an object\. This can be done by using the \fIexpress\.bodyDecoder\fR middleware\.
+To utilize urlencoded request bodies, \fIreq\.body\fR should be an object\. This can be done by using the _express\.bodyParser middleware\.
 .
 .SS "req\.flash(type[, msg])"
 Queue flash \fImsg\fR of the given \fItype\fR\.
@@ -1303,7 +1306,7 @@ Sets the \fIContent\-Type\fR response header to the given \fItype\fR\.
 
   var filename = \'path/to/image\.png\';
   res\.contentType(filename);
-  // res\.headers[\'Content\-Type\'] is now "image/png"
+  // Content\-Type is now "image/png"
 .
 .fi
 .
@@ -1322,7 +1325,7 @@ Sets the \fIContent\-Disposition\fR response header to "attachment", with option
 .
 .IP "" 0
 .
-.SS "res\.sendfile(path)"
+.SS "res\.sendfile(path[, options[, callback]])"
 Used by \fBres\.download()\fR to transfer an arbitrary file\.
 .
 .IP "" 4
@@ -1336,15 +1339,15 @@ res\.sendfile(\'path/to/my\.file\');
 .IP "" 0
 .
 .P
-This method accepts a callback which when given will be called on an exception, as well as when the transfer has completed\. When a callback is not given, and the file has \fBnot\fR been streamed, \fInext(err)\fR will be called on an exception\.
+This method accepts an optional callback which is called when an error occurs, or when the transfer is complete\. By default failures call \fBnext(err)\fR, however when a callback is supplied you must do this explicitly, or act on the error\.
 .
 .IP "" 4
 .
 .nf
 
-res\.sendfile(path, function(err, path){
+res\.sendfile(path, function(err){
   if (err) {
-    // handle the error
+    next(err);
   } else {
     console\.log(\'transferred %s\', path);
   }
@@ -1354,7 +1357,22 @@ res\.sendfile(path, function(err, path){
 .
 .IP "" 0
 .
-.SS "res\.download(file[, filename])"
+.P
+Options may also be passed to the internal \fIfs\.createReadStream()\fR call, for example altering the \fIbufferSize\fR:
+.
+.IP "" 4
+.
+.nf
+
+res\.sendfile(path, { bufferSize: 1024 }, function(err){
+  // handle
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.download(file[, filename[, callback]])"
 Transfer the given \fIfile\fR as an attachment with optional alternative \fIfilename\fR\.
 .
 .IP "" 4
@@ -1382,8 +1400,23 @@ res\.sendfile(file);
 .
 .IP "" 0
 .
+.P
+An optional callback may be supplied as either the second or third argument, which is passed to \fIres\.sendfile()\fR:
+.
+.IP "" 4
+.
+.nf
+
+res\.download(path, \'expenses\.doc\', function(err){
+  // handle
+});
+.
+.fi
+.
+.IP "" 0
+.
 .SS "res\.send(body|status[, headers|status[, status]])"
-The \fBres\.send()\fR method is a high level response utility allowing you to pass objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status code based responses\. The following are all valid uses:
+The \fIres\.send()\fR method is a high level response utility allowing you to pass objects to respond with json, strings for html, Buffer instances, or numbers representing the status code\. The following are all valid uses:
 .
 .IP "" 4
 .
@@ -1405,7 +1438,7 @@ The \fBres\.send()\fR method is a high level response utility allowing you to pa
 By default the \fIContent\-Type\fR response header is set, however if explicitly assigned through \fBres\.send()\fR or previously with \fBres\.header()\fR or \fBres\.contentType()\fR it will not be set again\.
 .
 .P
-Note that this method \fIend()\fR the response, so you will want to use node\'s \fIres\.writeHead()\fR / \fIres\.write()\fR for multiple writes or streaming\.
+Note that this method \fIend()\fRs the response, so you will want to use node\'s \fIres\.write()\fR for multiple writes or streaming\.
 .
 .SS "res\.redirect(url[, status])"
 Redirect to the given \fIurl\fR with a default response \fIstatus\fR of 302\.
@@ -1428,7 +1461,7 @@ res\.redirect(\'back\');
 Express supports "redirect mapping", which by default provides \fIhome\fR, and \fIback\fR\. The \fIback\fR map checks the \fIReferrer\fR and \fIReferer\fR headers, while \fIhome\fR utilizes the "home" setting and defaults to "/"\.
 .
 .SS "res\.cookie(name, val[, options])"
-Sets the given cookie \fIname\fR to \fIval\fR, with \fIoptions\fR such as "httpOnly: true", "expires", "secure" etc\.
+Sets the given cookie \fIname\fR to \fIval\fR, with options \fIhttpOnly\fR, \fIsecure\fR, \fIexpires\fR etc\.
 .
 .IP "" 4
 .
@@ -1448,10 +1481,10 @@ To parse incoming \fICookie\fR headers, use the \fIcookieDecoder\fR middleware, 
 .
 .nf
 
-app\.use(express\.cookieDecoder());
+app\.use(express\.cookieParser());
 
 app\.get(\'/\', function(req, res){
-    // use req\.cookies\.rememberme
+  // use req\.cookies\.rememberme
 });
 .
 .fi

@@ -522,67 +522,59 @@ A good example of this is specifying custom _ejs_ opening and closing tags:
 
 ### View Partials
 
-The Express view system has built-in support for partials and collections, which are
-sort of "mini" views representing a document fragment. For example rather than iterating
+The Express view system has built-in support for partials and collections, which are "mini" views representing a document fragment. For example rather than iterating
 in a view to display comments, we would use a partial with collection support:
-
-    partial('comment.haml', { collection: comments });
-
-To make things even less verbose we can assume the extension as _.haml_ when omitted,
-however if we wished we could use an ejs partial, within a haml view for example.
 
     partial('comment', { collection: comments });
 
-And once again even further, when rendering a collection we can simply pass
-an array, if no other options are desired:
+If no other options are desired, we can omit the object and simply pass our array, which is equivalent to above:
 
     partial('comment', comments);
 
 When using the partial collection support a few "magic" variables are provided
 for free:
 
-  * _firstInCollection_  True if this is the first object
-  * _indexInCollection_  Index of the object in the collection
-  * _lastInCollection_  True if this is the last object
-  * _collectionLength_  Length of the collection
+  * _firstInCollection_  true if this is the first object
+  * _indexInCollection_  index of the object in the collection
+  * _lastInCollection_  true if this is the last object
+  * _collectionLength_  length of the collection
 
 For documentation on altering the object name view [res.partial()](http://expressjs.com/guide.html#res-partial-view-options-).
 
-NOTE: partials are not recommended for large collections (150+) because the view system adds to the overhead. For example do _not_ implement a simple ul list with partial collection support, simply create a partial and iterate within that single partial, as this is far more efficient than rendering 150+ templates.
+NOTE: be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead.
 
 ### Template Engines
 
 Below are a few template engines commonly used with Express:
 
   * [Jade](http://jade-lang.com) haml.js successor
-  * [Haml](http://github.com/visionmedia/haml.js) pythonic indented templates
   * [EJS](http://github.com/visionmedia/ejs) Embedded JavaScript
   * [CoffeeKup](http://github.com/mauricemach/coffeekup) CoffeeScript based templating
   * [jQuery Templates](https://github.com/kof/node-jqtpl) for node
 
 ### Session Support
 
-Sessions support can be added by using Connect's _session_ middleware. To do so we also need the _cookieDecoder_ middleware place above it, which will parse and populate cookie data to _req.cookies_.
+Sessions support can be added by using Connect's _session_ middleware. To do so we also need the _cookieParser_ middleware place above it, which will parse and populate cookie data to _req.cookies_.
 
-    app.use(express.cookieDecoder());
-    app.use(express.session());
+    app.use(express.cookieParser());
+    app.use(express.session({ secret: "keyboard cat" }));
 
 By default the _session_ middleware uses the memory store bundled with Connect, however many implementations exist. For example [connect-redis](http://github.com/visionmedia/connect-redis) supplies a [Redis](http://code.google.com/p/redis/) session store and can be used as shown below:
 
     var RedisStore = require('connect-redis');
-    app.use(express.cookieDecoder());
-    app.use(express.session({ store: new RedisStore }));
+    app.use(express.cookieParser());
+    app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
 
 Now the _req.session_ and _req.sessionStore_ properties will be accessible to all routes and subsequent middleware. Properties on _req.session_ are automatically saved on a response, so for example if we wish to shopping cart data:
 
     var RedisStore = require('connect-redis');
-    app.use(express.bodyDecoder());
-    app.use(express.cookieDecoder());
-    app.use(express.session({ store: new RedisStore }));
+    app.use(express.bodyParser());
+    app.use(express.cookieParser());
+    app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
 
     app.post('/add-to-cart', function(req, res){
       // Perhaps we posted several items with a form
-      // (use the bodyDecoder() middleware for this)
+      // (use the bodyParser() middleware for this)
       var items = req.body.items;
       req.session.items = items;
       res.redirect('back');
@@ -598,11 +590,11 @@ Now the _req.session_ and _req.sessionStore_ properties will be accessible to al
       res.render('shopping-cart');
     });
 
-The _req.session_ object also has methods such as _Session#touch()_, _Session#destroy()_, _Session#regenerate()_ among others to maintain and manipulate sessions. For more information view the [Connect Session](http://senchalabs.github.com/connect/session.html) documentation.
+The _req.session_ object also has methods such as _Session#touch()_, _Session#destroy()_, _Session#regenerate()_ among others to maintain and manipulate sessions. For more information view the [Connect Session](http://senchalabs.github.com/connect/middleware-session.html) documentation.
 
 ### Migration Guide
 
- Pre-beta Express developers may reference the [Migration Guide](migrate.html) to get up to speed on how to upgrade your application.
+ Express 1.x developers may reference the [Migration Guide](migrate.html) to get up to speed on how to upgrade your application.
 
 ### req.header(key[, defaultValue])
 
@@ -611,6 +603,16 @@ Get the case-insensitive request header _key_, with optional _defaultValue_:
     req.header('Host');
     req.header('host');
     req.header('Accept', '*/*');
+
+The _Referrer_ and _Referer_ header fields are special-cased, either will work:
+
+    // sent Referrer: http://google.com
+
+    req.header('Referer');
+    // => "http://google.com"
+
+    req.header('Referrer');
+    // => "http://google.com"
 
 ### req.accepts(type)
 
@@ -689,13 +691,13 @@ We may also assert the _type_ as shown below, which would return true for _"appl
 
 Return the value of param _name_ when present or _default_.
 
-  - Checks route placeholders (_req.params_), ex: /user/:id
+  - Checks route params (_req.params_), ex: /user/:id
   - Checks query string params (_req.query_), ex: ?id=12
   - Checks urlencoded body params (_req.body_), ex: id=12
 
 To utilize urlencoded request bodies, _req.body_
 should be an object. This can be done by using
-the _express.bodyDecoder_ middleware.
+the _express.bodyParser middleware.
 
 ### req.flash(type[, msg])
 
@@ -734,9 +736,9 @@ Get or set the response header _key_.
     res.header('Content-Length');
     // => undefined
 
-	res.header('Content-Length', 123);
+    res.header('Content-Length', 123);
     // => 123
-
+    
     res.header('Content-Length');
     // => 123
 
@@ -746,7 +748,7 @@ Sets the _Content-Type_ response header to the given _type_.
 
       var filename = 'path/to/image.png';
       res.contentType(filename);
-      // res.headers['Content-Type'] is now "image/png"
+      // Content-Type is now "image/png"
 
 ### res.attachment([filename])
 
@@ -754,23 +756,30 @@ Sets the _Content-Disposition_ response header to "attachment", with optional _f
 
       res.attachment('path/to/my/image.png');
 
-### res.sendfile(path)
+### res.sendfile(path[, options[, callback]])
 
 Used by `res.download()` to transfer an arbitrary file. 
 
     res.sendfile('path/to/my.file');
 
-This method accepts a callback which when given will be called on an exception, as well as when the transfer has completed. When a callback is not given, and the file has __not__ been streamed, _next(err)_ will be called on an exception.
+This method accepts an optional callback which is called when
+an error occurs, or when the transfer is complete. By default failures call `next(err)`, however when a callback is supplied you must do this explicitly, or act on the error.
 
-    res.sendfile(path, function(err, path){
+    res.sendfile(path, function(err){
       if (err) {
-        // handle the error
+        next(err);
       } else {
         console.log('transferred %s', path);
       }
     });
 
-### res.download(file[, filename])
+Options may also be passed to the internal _fs.createReadStream()_ call, for example altering the _bufferSize_:
+
+    res.sendfile(path, { bufferSize: 1024 }, function(err){
+      // handle
+    });
+
+### res.download(file[, filename[, callback]])
 
 Transfer the given _file_ as an attachment with optional alternative _filename_.
 
@@ -782,11 +791,16 @@ This is equivalent to:
     res.attachment(file);
     res.sendfile(file);
 
+An optional callback may be supplied as either the second or third argument, which is passed to _res.sendfile()_:
+
+    res.download(path, 'expenses.doc', function(err){
+      // handle
+    });
+
 ### res.send(body|status[, headers|status[, status]])
 
-The `res.send()` method is a high level response utility allowing you to pass
-objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status
-code based responses. The following are all valid uses:
+The _res.send()_ method is a high level response utility allowing you to pass
+objects to respond with json, strings for html, Buffer instances, or numbers representing the status code. The following are all valid uses:
 
      res.send(); // 204
      res.send(new Buffer('wahoo'));
@@ -800,7 +814,7 @@ By default the _Content-Type_ response header is set, however if explicitly
 assigned through `res.send()` or previously with `res.header()` or `res.contentType()`
 it will not be set again.
 
-Note that this method _end()_ the response, so you will want to use node's _res.writeHead()_ / _res.write()_ for multiple writes or streaming.
+Note that this method _end()_s the response, so you will want to use node's _res.write()_ for multiple writes or streaming.
 
 ### res.redirect(url[, status])
 
@@ -818,17 +832,17 @@ the "home" setting and defaults to "/".
 
 ### res.cookie(name, val[, options])
 
-Sets the given cookie _name_ to _val_, with _options_ such as "httpOnly: true", "expires", "secure" etc.
+Sets the given cookie _name_ to _val_, with options _httpOnly_, _secure_, _expires_ etc.
 
     // "Remember me" for 15 minutes 
     res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOnly: true });
 
 To parse incoming _Cookie_ headers, use the _cookieDecoder_ middleware, which provides the _req.cookies_ object:
 
-    app.use(express.cookieDecoder());
+    app.use(express.cookieParser());
     
     app.get('/', function(req, res){
-        // use req.cookies.rememberme
+      // use req.cookies.rememberme
     });
 
 ### res.clearCookie(name)

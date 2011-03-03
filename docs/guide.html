@@ -208,8 +208,8 @@
 <li><a href="#res-header-key-val-">header()</a></li>
 <li><a href="#res-contentType-type-">contentType()</a></li>
 <li><a href="#res-attachment-filename-">attachment()</a></li>
-<li><a href="#res-sendfile-path-">sendfile()</a></li>
-<li><a href="#res-download-file-filename-">download()</a></li>
+<li><a href="#res-sendfile-path-options-callback-">sendfile()</a></li>
+<li><a href="#res-download-file-filename-callback-">download()</a></li>
 <li><a href="#res-send-body-status-headers-status-status-">send()</a></li>
 <li><a href="#res-redirect-url-status-">redirect()</a></li>
 <li><a href="#res-cookie-name-val-options-">cookie()</a></li>
@@ -823,21 +823,13 @@ mix and match template engines:</p>
 
 <h3 id="View-Partials">View Partials</h3>
 
-<p>The Express view system has built-in support for partials and collections, which are
-sort of "mini" views representing a document fragment. For example rather than iterating
+<p>The Express view system has built-in support for partials and collections, which are "mini" views representing a document fragment. For example rather than iterating
 in a view to display comments, we would use a partial with collection support:</p>
-
-<pre><code>partial('comment.haml', { collection: comments });
-</code></pre>
-
-<p>To make things even less verbose we can assume the extension as <em>.haml</em> when omitted,
-however if we wished we could use an ejs partial, within a haml view for example.</p>
 
 <pre><code>partial('comment', { collection: comments });
 </code></pre>
 
-<p>And once again even further, when rendering a collection we can simply pass
-an array, if no other options are desired:</p>
+<p>If no other options are desired, we can omit the object and simply pass our array, which is equivalent to above:</p>
 
 <pre><code>partial('comment', comments);
 </code></pre>
@@ -846,16 +838,16 @@ an array, if no other options are desired:</p>
 for free:</p>
 
 <ul>
-<li><em>firstInCollection</em>  True if this is the first object</li>
-<li><em>indexInCollection</em>  Index of the object in the collection</li>
-<li><em>lastInCollection</em>  True if this is the last object</li>
-<li><em>collectionLength</em>  Length of the collection</li>
+<li><em>firstInCollection</em>  true if this is the first object</li>
+<li><em>indexInCollection</em>  index of the object in the collection</li>
+<li><em>lastInCollection</em>  true if this is the last object</li>
+<li><em>collectionLength</em>  length of the collection</li>
 </ul>
 
 
 <p>For documentation on altering the object name view <a href="http://expressjs.com/guide.html#res-partial-view-options-">res.partial()</a>.</p>
 
-<p>NOTE: partials are not recommended for large collections (150+) because the view system adds to the overhead. For example do <em>not</em> implement a simple ul list with partial collection support, simply create a partial and iterate within that single partial, as this is far more efficient than rendering 150+ templates.</p>
+<p>NOTE: be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead.</p>
 
 <h3 id="Template-Engines">Template Engines</h3>
 
@@ -863,7 +855,6 @@ for free:</p>
 
 <ul>
 <li><a href="http://jade-lang.com">Jade</a> haml.js successor</li>
-<li><a href="http://github.com/visionmedia/haml.js">Haml</a> pythonic indented templates</li>
 <li><a href="http://github.com/visionmedia/ejs">EJS</a> Embedded JavaScript</li>
 <li><a href="http://github.com/mauricemach/coffeekup">CoffeeKup</a> CoffeeScript based templating</li>
 <li><a href="https://github.com/kof/node-jqtpl">jQuery Templates</a> for node</li>
@@ -872,29 +863,29 @@ for free:</p>
 
 <h3 id="Session-Support">Session Support</h3>
 
-<p>Sessions support can be added by using Connect's <em>session</em> middleware. To do so we also need the <em>cookieDecoder</em> middleware place above it, which will parse and populate cookie data to <em>req.cookies</em>.</p>
+<p>Sessions support can be added by using Connect's <em>session</em> middleware. To do so we also need the <em>cookieParser</em> middleware place above it, which will parse and populate cookie data to <em>req.cookies</em>.</p>
 
-<pre><code>app.use(express.cookieDecoder());
-app.use(express.session());
+<pre><code>app.use(express.cookieParser());
+app.use(express.session({ secret: "keyboard cat" }));
 </code></pre>
 
 <p>By default the <em>session</em> middleware uses the memory store bundled with Connect, however many implementations exist. For example <a href="http://github.com/visionmedia/connect-redis">connect-redis</a> supplies a <a href="http://code.google.com/p/redis/">Redis</a> session store and can be used as shown below:</p>
 
 <pre><code>var RedisStore = require('connect-redis');
-app.use(express.cookieDecoder());
-app.use(express.session({ store: new RedisStore }));
+app.use(express.cookieParser());
+app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
 </code></pre>
 
 <p>Now the <em>req.session</em> and <em>req.sessionStore</em> properties will be accessible to all routes and subsequent middleware. Properties on <em>req.session</em> are automatically saved on a response, so for example if we wish to shopping cart data:</p>
 
 <pre><code>var RedisStore = require('connect-redis');
-app.use(express.bodyDecoder());
-app.use(express.cookieDecoder());
-app.use(express.session({ store: new RedisStore }));
+app.use(express.bodyParser());
+app.use(express.cookieParser());
+app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
 
 app.post('/add-to-cart', function(req, res){
   // Perhaps we posted several items with a form
-  // (use the bodyDecoder() middleware for this)
+  // (use the bodyParser() middleware for this)
   var items = req.body.items;
   req.session.items = items;
   res.redirect('back');
@@ -911,11 +902,11 @@ app.get('/add-to-cart', function(req, res){
 });
 </code></pre>
 
-<p>The <em>req.session</em> object also has methods such as <em>Session#touch()</em>, <em>Session#destroy()</em>, <em>Session#regenerate()</em> among others to maintain and manipulate sessions. For more information view the <a href="http://senchalabs.github.com/connect/session.html">Connect Session</a> documentation.</p>
+<p>The <em>req.session</em> object also has methods such as <em>Session#touch()</em>, <em>Session#destroy()</em>, <em>Session#regenerate()</em> among others to maintain and manipulate sessions. For more information view the <a href="http://senchalabs.github.com/connect/middleware-session.html">Connect Session</a> documentation.</p>
 
 <h3 id="Migration-Guide">Migration Guide</h3>
 
-<p> Pre-beta Express developers may reference the <a href="migrate.html">Migration Guide</a> to get up to speed on how to upgrade your application.</p>
+<p> Express 1.x developers may reference the <a href="migrate.html">Migration Guide</a> to get up to speed on how to upgrade your application.</p>
 
 <h3 id="req-header-key-defaultValue-">req.header(key[, defaultValue])</h3>
 
@@ -924,6 +915,17 @@ app.get('/add-to-cart', function(req, res){
 <pre><code>req.header('Host');
 req.header('host');
 req.header('Accept', '*/*');
+</code></pre>
+
+<p>The <em>Referrer</em> and <em>Referer</em> header fields are special-cased, either will work:</p>
+
+<pre><code>// sent Referrer: http://google.com
+
+req.header('Referer');
+// =&gt; "http://google.com"
+
+req.header('Referrer');
+// =&gt; "http://google.com"
 </code></pre>
 
 <h3 id="req-accepts-type-">req.accepts(type)</h3>
@@ -1010,7 +1012,7 @@ can perform any request assertion you wish.</p>
 <p>Return the value of param <em>name</em> when present or <em>default</em>.</p>
 
 <ul>
-<li>Checks route placeholders (<em>req.params</em>), ex: /user/:id</li>
+<li>Checks route params (<em>req.params</em>), ex: /user/:id</li>
 <li>Checks query string params (<em>req.query</em>), ex: ?id=12</li>
 <li>Checks urlencoded body params (<em>req.body</em>), ex: id=12</li>
 </ul>
@@ -1018,7 +1020,7 @@ can perform any request assertion you wish.</p>
 
 <p>To utilize urlencoded request bodies, <em>req.body</em>
 should be an object. This can be done by using
-the <em>express.bodyDecoder</em> middleware.</p>
+the _express.bodyParser middleware.</p>
 
 <h3 id="req-flash-type-msg-">req.flash(type[, msg])</h3>
 
@@ -1073,7 +1075,7 @@ res.header('Content-Length');
 
 <pre><code>  var filename = 'path/to/image.png';
   res.contentType(filename);
-  // res.headers['Content-Type'] is now "image/png"
+  // Content-Type is now "image/png"
 </code></pre>
 
 <h3 id="res-attachment-filename-">res.attachment([filename])</h3>
@@ -1083,25 +1085,33 @@ res.header('Content-Length');
 <pre><code>  res.attachment('path/to/my/image.png');
 </code></pre>
 
-<h3 id="res-sendfile-path-">res.sendfile(path)</h3>
+<h3 id="res-sendfile-path-options-callback-">res.sendfile(path[, options[, callback]])</h3>
 
 <p>Used by <code>res.download()</code> to transfer an arbitrary file.</p>
 
 <pre><code>res.sendfile('path/to/my.file');
 </code></pre>
 
-<p>This method accepts a callback which when given will be called on an exception, as well as when the transfer has completed. When a callback is not given, and the file has <strong>not</strong> been streamed, <em>next(err)</em> will be called on an exception.</p>
+<p>This method accepts an optional callback which is called when
+an error occurs, or when the transfer is complete. By default failures call <code>next(err)</code>, however when a callback is supplied you must do this explicitly, or act on the error.</p>
 
-<pre><code>res.sendfile(path, function(err, path){
+<pre><code>res.sendfile(path, function(err){
   if (err) {
-    // handle the error
+    next(err);
   } else {
     console.log('transferred %s', path);
   }
 });
 </code></pre>
 
-<h3 id="res-download-file-filename-">res.download(file[, filename])</h3>
+<p>Options may also be passed to the internal <em>fs.createReadStream()</em> call, for example altering the <em>bufferSize</em>:</p>
+
+<pre><code>res.sendfile(path, { bufferSize: 1024 }, function(err){
+  // handle
+});
+</code></pre>
+
+<h3 id="res-download-file-filename-callback-">res.download(file[, filename[, callback]])</h3>
 
 <p>Transfer the given <em>file</em> as an attachment with optional alternative <em>filename</em>.</p>
 
@@ -1115,11 +1125,17 @@ res.download('path/to/image.png', 'foo.png');
 res.sendfile(file);
 </code></pre>
 
+<p>An optional callback may be supplied as either the second or third argument, which is passed to <em>res.sendfile()</em>:</p>
+
+<pre><code>res.download(path, 'expenses.doc', function(err){
+  // handle
+});
+</code></pre>
+
 <h3 id="res-send-body-status-headers-status-status-">res.send(body|status[, headers|status[, status]])</h3>
 
-<p>The <code>res.send()</code> method is a high level response utility allowing you to pass
-objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status
-code based responses. The following are all valid uses:</p>
+<p>The <em>res.send()</em> method is a high level response utility allowing you to pass
+objects to respond with json, strings for html, Buffer instances, or numbers representing the status code. The following are all valid uses:</p>
 
 <pre><code> res.send(); // 204
  res.send(new Buffer('wahoo'));
@@ -1134,7 +1150,7 @@ code based responses. The following are all valid uses:</p>
 assigned through <code>res.send()</code> or previously with <code>res.header()</code> or <code>res.contentType()</code>
 it will not be set again.</p>
 
-<p>Note that this method <em>end()</em> the response, so you will want to use node's <em>res.writeHead()</em> / <em>res.write()</em> for multiple writes or streaming.</p>
+<p>Note that this method <em>end()</em>s the response, so you will want to use node's <em>res.write()</em> for multiple writes or streaming.</p>
 
 <h3 id="res-redirect-url-status-">res.redirect(url[, status])</h3>
 
@@ -1153,7 +1169,7 @@ the "home" setting and defaults to "/".</p>
 
 <h3 id="res-cookie-name-val-options-">res.cookie(name, val[, options])</h3>
 
-<p>Sets the given cookie <em>name</em> to <em>val</em>, with <em>options</em> such as "httpOnly: true", "expires", "secure" etc.</p>
+<p>Sets the given cookie <em>name</em> to <em>val</em>, with options <em>httpOnly</em>, <em>secure</em>, <em>expires</em> etc.</p>
 
 <pre><code>// "Remember me" for 15 minutes 
 res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOnly: true });
@@ -1161,10 +1177,10 @@ res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOn
 
 <p>To parse incoming <em>Cookie</em> headers, use the <em>cookieDecoder</em> middleware, which provides the <em>req.cookies</em> object:</p>
 
-<pre><code>app.use(express.cookieDecoder());
+<pre><code>app.use(express.cookieParser());
 
 app.get('/', function(req, res){
-    // use req.cookies.rememberme
+  // use req.cookies.rememberme
 });
 </code></pre>
 
