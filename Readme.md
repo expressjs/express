@@ -68,6 +68,7 @@ The following are the major contributors of Express (in no specific order).
 ## Node Compatibility
 
 Express 1.x is compatible with node 0.2.x and connect < 1.0.
+
 Express 2.x is compatible with node 0.4.x and connect 1.x
 
 ## License 
