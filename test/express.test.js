@@ -347,7 +347,8 @@ module.exports = {
     var called
       , app = express.createServer()
       , blog = express.createServer()
-      , map = express.createServer();
+      , map = express.createServer()
+      , reg = connect.createServer();
 
     map.set('home', '/map');
     
@@ -356,7 +357,10 @@ module.exports = {
       assert.equal(this, map, 'mounted() is not in context of the child app');
       assert.equal(app, parent, 'mounted() was not called with parent app');
     });
-    
+
+    reg.use(function(req, res){ res.end('hey'); });
+    app.use('/regular', reg);
+
     app.use('/blog', blog);
     app.use('/contact', map);
     blog.route.should.equal('/blog');
@@ -393,6 +397,9 @@ module.exports = {
     assert.response(blog,
       { url: '/' },
       { body: 'blog index' });
+    assert.response(app,
+      { url: '/regular' },
+      { body: 'hey' });
   },
   
   'test route middleware': function(){
