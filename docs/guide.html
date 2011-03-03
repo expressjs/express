@@ -180,7 +180,8 @@
 		<div id="wrapper">
 			<div id="container"><ul id="toc">
 <li><a href="#Installation">Installation</a></li>
-<li><a href="#Creating-An-Application">Creating An Application</a></li>
+<li><a href="#Creating-A-Server">Creating A Server</a></li>
+<li><a href="#Creating-An-HTTPS-Server">Creating An HTTPS Server</a></li>
 <li><a href="#Configuration">Configuration</a></li>
 <li><a href="#Settings">Settings</a></li>
 <li><a href="#Routing">Routing</a></li>
@@ -249,21 +250,12 @@
 </p>
 <h3 id="Installation">Installation</h3>
 
-<p>curl:</p>
-
-<pre><code>$ curl -# http://expressjs.com/install.sh | sh
-</code></pre>
-
-<p>npm:</p>
-
 <pre><code>$ npm install express
 </code></pre>
 
-<h3 id="Creating-An-Application">Creating An Application</h3>
+<h3 id="Creating-A-Server">Creating A Server</h3>
 
-<p>The <em>express.Server</em> now inherits from <em>http.Server</em>, however
-follows the same idiom by providing <em>express.createServer()</em> as shown below. This means
-that you can utilize Express server's transparently with other libraries.</p>
+<p> To create an instance of the <em>express.HTTPServer</em>, simply invoke the <em>createServer()</em> method. With our instance <em>app</em> we can then define routes based on the HTTP verbs, in this example <em>app.get()</em>.</p>
 
 <pre><code>var app = require('express').createServer();
 
@@ -274,6 +266,14 @@ app.get('/', function(req, res){
 app.listen(3000);
 </code></pre>
 
+<h3 id="Creating-An-HTTPS-Server">Creating An HTTPS Server</h3>
+
+<p> To initialize a <em>express.HTTPSServer</em> we do the same as above, however we
+ pass an options object, accepting <em>key</em>, <em>cert</em> and the others mentioned in node's <a href="http://nodejs.org/docs/v0.3.7/api/https.html#https.createServer">https documentation</a>.</p>
+
+<pre><code> var app = require('express').createServer({ key: ... });
+</code></pre>
+
 <h3 id="Configuration">Configuration</h3>
 
 <p>Express supports arbitrary environments, such as <em>production</em> and <em>development</em>. Developers
@@ -282,41 +282,44 @@ can use the <em>configure()</em> method to setup needs required by the current e
 prior to the environment specific callback.</p>
 
 <p>In the example below we only <em>dumpExceptions</em>, and respond with exception stack traces
-in <em>development</em> mode, however for both environments we utilize <em>methodOverride</em> and <em>bodyDecoder</em>.
+in <em>development</em> mode, however for both environments we utilize <em>methodOverride</em> and <em>bodyParser</em>.
 Note the use of <em>app.router</em>, which can (optionally) be used to mount the application routes,
-otherwise the first call to <em>app.{get,put,del,post}()</em> will mount the routes.</p>
+otherwise the first call to <em>app.get()</em>, <em>app.post()</em>, etc will mount the routes.</p>
 
 <pre><code>app.configure(function(){
     app.use(express.methodOverride());
-    app.use(express.bodyDecoder());
+    app.use(express.bodyParser());
     app.use(app.router);
 });
 
 app.configure('development', function(){
-    app.use(express.staticProvider(__dirname + '/public'));
+    app.use(express.static(__dirname + '/public'));
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
   var oneYear = 31557600000;
-    app.use(express.staticProvider({ root: __dirname + '/public', maxAge: oneYear }));
-    app.use(express.errorHandler());
+  app.use(express.static({ root: __dirname + '/public', maxAge: oneYear }));
+  app.use(express.errorHandler());
 });
 </code></pre>
 
 <p>For internal and arbitrary settings Express provides the <em>set(key[, val])</em>, <em>enable(key)</em>, <em>disable(key)</em> methods:</p>
 
-<pre><code>app.configure(function(){
+<pre><code> app.configure(function(){
     app.set('views', __dirname + '/views');
     app.set('views');
-    // =&gt; "... views directory ..."
+    // =&gt; "/absolute/path/to/views"
 
     app.enable('some feature');
     // same as app.set('some feature', true);
 
     app.disable('some feature');
     // same as app.set('some feature', false);
-});
+
+    app.enabled('some feature')
+    // =&gt; false
+ });
 </code></pre>
 
 <p>To alter the environment we can set the <em>NODE_ENV</em> environment variable, for example:</p>
@@ -331,7 +334,6 @@ app.configure('production', function(){
 <p>Express supports the following settings out of the box:</p>
 
 <ul>
-<li><em>env</em> Application environment set internally, use <em>app.set('env')</em> on <em>Server#listen()</em></li>
 <li><em>home</em> Application base path used for <em>res.redirect()</em> and transparently handling mounted apps.</li>
 <li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
 <li><em>view engine</em> Default view engine name for views rendered without extensions</li>
@@ -413,12 +415,12 @@ may consume:</p>
  /user/12.json
 </code></pre>
 
-<p>For example we can <strong>POST</strong> some json, and echo the json back using the <em>bodyDecoder</em> middleware which will parse json request bodies (as well as others), and place the result in <em>req.body</em>:</p>
+<p>For example we can <strong>POST</strong> some json, and echo the json back using the <em>bodyParser</em> middleware which will parse json request bodies (as well as others), and place the result in <em>req.body</em>:</p>
 
 <pre><code>var express = require('express')
   , app = express.createServer();
 
-app.use(express.bodyDecoder());
+app.use(express.bodyParser());
 
 app.post('/', function(req, res){
   res.send(req.body);
@@ -427,13 +429,13 @@ app.post('/', function(req, res){
 app.listen(3000);
 </code></pre>
 
-<p>Express 2.0.0-pre also supports named capture groups. Typically we may use a "dump" placeholder such as "/user/:id" which has no restraints, however say for example we are limiting a user id to digits, we may use <em>'/user/:id(\d+)'</em> which will <em>not</em> match unless the placeholder value contains only digits.</p>
+<p>Typically we may use a "dumb" placeholder such as "/user/:id" which has no restrictions, however say for example we are limiting a user id to digits, we may use <em>'/user/:id(\d+)'</em> which will <em>not</em> match unless the placeholder value contains only digits.</p>
 
 <h3 id="Passing-Route-Control">Passing Route Control</h3>
 
 <p>We may pass control to the next <em>matching</em> route, by calling the <em>third</em> argument,
 the <em>next()</em> function. When a match cannot be made, control is passed back to Connect,
-and middleware continue to be invoked. The same is true for several routes which have the same path defined, they will simply be executed in order until one does <em>not</em> call <em>next()</em>.</p>
+and middleware continue to be invoked in the order that they are added via <em>use()</em>. The same is true for several routes which have the same path defined, they will simply be executed in order until one does <em>not</em> call <em>next()</em> and decides to respond.</p>
 
 <pre><code>app.get('/users/:id?', function(req, res, next){
     var id = req.params.id;
@@ -449,7 +451,7 @@ app.get('/users', function(req, res){
 });
 </code></pre>
 
-<p>Express 1.0 also introduces the <em>all()</em> method, which provides a route callback matching any HTTP method. This is useful in many ways, one example being the loading of resources before executing subsequent routes as shown below:</p>
+<p>The <em>app.all()</em> method is useful for applying the same logic for all HTTP verbs in a single call. Below we use this to load a user from our fake database, and assign it to <em>req.user</em>.</p>
 
 <pre><code>var express = require('express')
   , app = express.createServer();
@@ -492,12 +494,12 @@ passed to <em>express.createServer()</em> as you would with a regular Connect se
 <pre><code>  var express = require('express');
 
 var app = express.createServer(
-    express.logger(),
-    express.bodyDecoder()
+      express.logger()
+    , express.bodyParser()
   );
 </code></pre>
 
-<p>Alternatively we can <em>use()</em> them which is useful when adding middleware within <em>configure()</em> blocks:</p>
+<p>Alternatively we can <em>use()</em> them which is useful when adding middleware within <em>configure()</em> blocks, in a progressive manor.</p>
 
 <pre><code>app.use(express.logger({ format: ':method :uri' }));
 </code></pre>

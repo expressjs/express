@@ -1,19 +1,11 @@
 
 ### Installation
 
-curl:
-
-    $ curl -# http://expressjs.com/install.sh | sh
-
-npm:
-
     $ npm install express
 
-### Creating An Application
+### Creating A Server
 
-The _express.Server_ now inherits from _http.Server_, however
-follows the same idiom by providing _express.createServer()_ as shown below. This means
-that you can utilize Express server's transparently with other libraries.
+ To create an instance of the _express.HTTPServer_, simply invoke the _createServer()_ method. With our instance _app_ we can then define routes based on the HTTP verbs, in this example _app.get()_.
 
     var app = require('express').createServer();
     
@@ -23,6 +15,13 @@ that you can utilize Express server's transparently with other libraries.
     
     app.listen(3000);
 
+### Creating An HTTPS Server
+
+ To initialize a _express.HTTPSServer_ we do the same as above, however we
+ pass an options object, accepting _key_, _cert_ and the others mentioned in node's [https documentation](http://nodejs.org/docs/v0.3.7/api/https.html#https.createServer).
+ 
+     var app = require('express').createServer({ key: ... });
+
 ### Configuration
 
 Express supports arbitrary environments, such as _production_ and _development_. Developers
@@ -31,40 +30,43 @@ _configure()_ is called without an environment name it will be run in _every_ en
 prior to the environment specific callback.
 
 In the example below we only _dumpExceptions_, and respond with exception stack traces
-in _development_ mode, however for both environments we utilize _methodOverride_ and _bodyDecoder_.
+in _development_ mode, however for both environments we utilize _methodOverride_ and _bodyParser_.
 Note the use of _app.router_, which can (optionally) be used to mount the application routes,
-otherwise the first call to _app.{get,put,del,post}()_ will mount the routes.
+otherwise the first call to _app.get()_, _app.post()_, etc will mount the routes.
 
     app.configure(function(){
   		app.use(express.methodOverride());
-  		app.use(express.bodyDecoder());
+  		app.use(express.bodyParser());
   		app.use(app.router);
   	});
 	
   	app.configure('development', function(){
-  		app.use(express.staticProvider(__dirname + '/public'));
+  		app.use(express.static(__dirname + '/public'));
   		app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   	});
 	
-  	app.configure('production', function(){
-  	  var oneYear = 31557600000;
-  		app.use(express.staticProvider({ root: __dirname + '/public', maxAge: oneYear }));
-  		app.use(express.errorHandler());
-  	});
+    app.configure('production', function(){
+      var oneYear = 31557600000;
+      app.use(express.static({ root: __dirname + '/public', maxAge: oneYear }));
+      app.use(express.errorHandler());
+    });
 
 For internal and arbitrary settings Express provides the _set(key[, val])_, _enable(key)_, _disable(key)_ methods:
 
-    app.configure(function(){
-		app.set('views', __dirname + '/views');
-		app.set('views');
-		// => "... views directory ..."
-		
-		app.enable('some feature');
-		// same as app.set('some feature', true);
-		
-		app.disable('some feature');
-		// same as app.set('some feature', false);
-	});
+     app.configure(function(){
+        app.set('views', __dirname + '/views');
+        app.set('views');
+        // => "/absolute/path/to/views"
+        
+        app.enable('some feature');
+        // same as app.set('some feature', true);
+        
+        app.disable('some feature');
+        // same as app.set('some feature', false);
+     
+        app.enabled('some feature')
+        // => false
+     });
 
 To alter the environment we can set the _NODE_ENV_ environment variable, for example:
 
@@ -76,7 +78,6 @@ This is _very_ important, as many caching mechanisms are _only enabled_ when in 
 
 Express supports the following settings out of the box:
 
-  * _env_ Application environment set internally, use _app.set('env')_ on _Server#listen()_
   * _home_ Application base path used for _res.redirect()_ and transparently handling mounted apps.
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
@@ -151,12 +152,12 @@ may consume:
 	 /user/12
 	 /user/12.json
 
-For example we can __POST__ some json, and echo the json back using the _bodyDecoder_ middleware which will parse json request bodies (as well as others), and place the result in _req.body_:
+For example we can __POST__ some json, and echo the json back using the _bodyParser_ middleware which will parse json request bodies (as well as others), and place the result in _req.body_:
 
     var express = require('express')
       , app = express.createServer();
 
-    app.use(express.bodyDecoder());
+    app.use(express.bodyParser());
 
     app.post('/', function(req, res){
       res.send(req.body);
@@ -164,13 +165,13 @@ For example we can __POST__ some json, and echo the json back using the _bodyDec
 
     app.listen(3000);
 
-Express 2.0.0-pre also supports named capture groups. Typically we may use a "dump" placeholder such as "/user/:id" which has no restraints, however say for example we are limiting a user id to digits, we may use _'/user/:id(\\d+)'_ which will _not_ match unless the placeholder value contains only digits.
+Typically we may use a "dumb" placeholder such as "/user/:id" which has no restrictions, however say for example we are limiting a user id to digits, we may use _'/user/:id(\\d+)'_ which will _not_ match unless the placeholder value contains only digits.
 
 ### Passing Route Control
 
 We may pass control to the next _matching_ route, by calling the _third_ argument,
 the _next()_ function. When a match cannot be made, control is passed back to Connect,
-and middleware continue to be invoked. The same is true for several routes which have the same path defined, they will simply be executed in order until one does _not_ call _next()_.
+and middleware continue to be invoked in the order that they are added via _use()_. The same is true for several routes which have the same path defined, they will simply be executed in order until one does _not_ call _next()_ and decides to respond.
 
 	app.get('/users/:id?', function(req, res, next){
 		var id = req.params.id;
@@ -185,7 +186,7 @@ and middleware continue to be invoked. The same is true for several routes which
 		// do something else
 	});
 
-Express 1.0 also introduces the _all()_ method, which provides a route callback matching any HTTP method. This is useful in many ways, one example being the loading of resources before executing subsequent routes as shown below:
+The _app.all()_ method is useful for applying the same logic for all HTTP verbs in a single call. Below we use this to load a user from our fake database, and assign it to _req.user_.
 
     var express = require('express')
       , app = express.createServer();
@@ -227,11 +228,11 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 	  var express = require('express');
 
     var app = express.createServer(
-	  	express.logger(),
-	  	express.bodyDecoder()
+	  	  express.logger()
+	  	, express.bodyParser()
 	  );
 
-Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks:
+Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks, in a progressive manor.
 
     app.use(express.logger({ format: ':method :uri' }));
 

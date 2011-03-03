@@ -7,22 +7,6 @@
 \fBguide\fR
 .
 .SS "Installation"
-curl:
-.
-.IP "" 4
-.
-.nf
-
-$ curl \-# http://expressjs\.com/install\.sh | sh
-.
-.fi
-.
-.IP "" 0
-.
-.P
-npm:
-.
-.IP "" 4
 .
 .nf
 
@@ -30,10 +14,8 @@ $ npm install express
 .
 .fi
 .
-.IP "" 0
-.
-.SS "Creating An Application"
-The \fIexpress\.Server\fR now inherits from \fIhttp\.Server\fR, however follows the same idiom by providing \fIexpress\.createServer()\fR as shown below\. This means that you can utilize Express server\'s transparently with other libraries\.
+.SS "Creating A Server"
+To create an instance of the \fIexpress\.HTTPServer\fR, simply invoke the \fIcreateServer()\fR method\. With our instance \fIapp\fR we can then define routes based on the HTTP verbs, in this example \fIapp\.get()\fR\.
 .
 .IP "" 4
 .
@@ -51,11 +33,24 @@ app\.listen(3000);
 .
 .IP "" 0
 .
+.SS "Creating An HTTPS Server"
+To initialize a \fIexpress\.HTTPSServer\fR we do the same as above, however we pass an options object, accepting \fIkey\fR, \fIcert\fR and the others mentioned in node\'s https documentation \fIhttp://nodejs\.org/docs/v0\.3\.7/api/https\.html#https\.createServer\fR\.
+.
+.IP "" 4
+.
+.nf
+
+ var app = require(\'express\')\.createServer({ key: \.\.\. });
+.
+.fi
+.
+.IP "" 0
+.
 .SS "Configuration"
 Express supports arbitrary environments, such as \fIproduction\fR and \fIdevelopment\fR\. Developers can use the \fIconfigure()\fR method to setup needs required by the current environment\. When \fIconfigure()\fR is called without an environment name it will be run in \fIevery\fR environment prior to the environment specific callback\.
 .
 .P
-In the example below we only \fIdumpExceptions\fR, and respond with exception stack traces in \fIdevelopment\fR mode, however for both environments we utilize \fImethodOverride\fR and \fIbodyDecoder\fR\. Note the use of \fIapp\.router\fR, which can (optionally) be used to mount the application routes, otherwise the first call to \fIapp\.{get,put,del,post}()\fR will mount the routes\.
+In the example below we only \fIdumpExceptions\fR, and respond with exception stack traces in \fIdevelopment\fR mode, however for both environments we utilize \fImethodOverride\fR and \fIbodyParser\fR\. Note the use of \fIapp\.router\fR, which can (optionally) be used to mount the application routes, otherwise the first call to \fIapp\.get()\fR, \fIapp\.post()\fR, etc will mount the routes\.
 .
 .IP "" 4
 .
@@ -63,19 +58,19 @@ In the example below we only \fIdumpExceptions\fR, and respond with exception st
 
 app\.configure(function(){
     app\.use(express\.methodOverride());
-    app\.use(express\.bodyDecoder());
+    app\.use(express\.bodyParser());
     app\.use(app\.router);
 });
 
 app\.configure(\'development\', function(){
-    app\.use(express\.staticProvider(__dirname + \'/public\'));
+    app\.use(express\.static(__dirname + \'/public\'));
     app\.use(express\.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app\.configure(\'production\', function(){
   var oneYear = 31557600000;
-    app\.use(express\.staticProvider({ root: __dirname + \'/public\', maxAge: oneYear }));
-    app\.use(express\.errorHandler());
+  app\.use(express\.static({ root: __dirname + \'/public\', maxAge: oneYear }));
+  app\.use(express\.errorHandler());
 });
 .
 .fi
@@ -89,17 +84,20 @@ For internal and arbitrary settings Express provides the \fIset(key[, val])\fR, 
 .
 .nf
 
-app\.configure(function(){
+ app\.configure(function(){
     app\.set(\'views\', __dirname + \'/views\');
     app\.set(\'views\');
-    // => "\.\.\. views directory \.\.\."
+    // => "/absolute/path/to/views"
 
     app\.enable(\'some feature\');
     // same as app\.set(\'some feature\', true);
 
     app\.disable(\'some feature\');
     // same as app\.set(\'some feature\', false);
-});
+
+    app\.enabled(\'some feature\')
+    // => false
+ });
 .
 .fi
 .
@@ -123,9 +121,6 @@ This is \fIvery\fR important, as many caching mechanisms are \fIonly enabled\fR 
 .
 .SS "Settings"
 Express supports the following settings out of the box:
-.
-.IP "\(bu" 4
-\fIenv\fR Application environment set internally, use \fIapp\.set(\'env\')\fR on \fIServer#listen()\fR
 .
 .IP "\(bu" 4
 \fIhome\fR Application base path used for \fIres\.redirect()\fR and transparently handling mounted apps\.
@@ -248,7 +243,7 @@ Below are some route examples, and the associated paths that they may consume:
 .IP "" 0
 .
 .P
-For example we can \fBPOST\fR some json, and echo the json back using the \fIbodyDecoder\fR middleware which will parse json request bodies (as well as others), and place the result in \fIreq\.body\fR:
+For example we can \fBPOST\fR some json, and echo the json back using the \fIbodyParser\fR middleware which will parse json request bodies (as well as others), and place the result in \fIreq\.body\fR:
 .
 .IP "" 4
 .
@@ -257,7 +252,7 @@ For example we can \fBPOST\fR some json, and echo the json back using the \fIbod
 var express = require(\'express\')
   , app = express\.createServer();
 
-app\.use(express\.bodyDecoder());
+app\.use(express\.bodyParser());
 
 app\.post(\'/\', function(req, res){
   res\.send(req\.body);
@@ -270,10 +265,10 @@ app\.listen(3000);
 .IP "" 0
 .
 .P
-Express 2\.0\.0\-pre also supports named capture groups\. Typically we may use a "dump" placeholder such as "/user/:id" which has no restraints, however say for example we are limiting a user id to digits, we may use \fI\'/user/:id(\ed+)\'\fR which will \fInot\fR match unless the placeholder value contains only digits\.
+Typically we may use a "dumb" placeholder such as "/user/:id" which has no restrictions, however say for example we are limiting a user id to digits, we may use \fI\'/user/:id(\ed+)\'\fR which will \fInot\fR match unless the placeholder value contains only digits\.
 .
 .SS "Passing Route Control"
-We may pass control to the next \fImatching\fR route, by calling the \fIthird\fR argument, the \fInext()\fR function\. When a match cannot be made, control is passed back to Connect, and middleware continue to be invoked\. The same is true for several routes which have the same path defined, they will simply be executed in order until one does \fInot\fR call \fInext()\fR\.
+We may pass control to the next \fImatching\fR route, by calling the \fIthird\fR argument, the \fInext()\fR function\. When a match cannot be made, control is passed back to Connect, and middleware continue to be invoked in the order that they are added via \fIuse()\fR\. The same is true for several routes which have the same path defined, they will simply be executed in order until one does \fInot\fR call \fInext()\fR and decides to respond\.
 .
 .IP "" 4
 .
@@ -297,7 +292,7 @@ app\.get(\'/users\', function(req, res){
 .IP "" 0
 .
 .P
-Express 1\.0 also introduces the \fIall()\fR method, which provides a route callback matching any HTTP method\. This is useful in many ways, one example being the loading of resources before executing subsequent routes as shown below:
+The \fIapp\.all()\fR method is useful for applying the same logic for all HTTP verbs in a single call\. Below we use this to load a user from our fake database, and assign it to \fIreq\.user\fR\.
 .
 .IP "" 4
 .
@@ -349,8 +344,8 @@ Middleware via Connect \fIhttp://github\.com/senchalabs/connect\fR can be passed
   var express = require(\'express\');
 
 var app = express\.createServer(
-    express\.logger(),
-    express\.bodyDecoder()
+      express\.logger()
+    , express\.bodyParser()
   );
 .
 .fi
@@ -358,7 +353,7 @@ var app = express\.createServer(
 .IP "" 0
 .
 .P
-Alternatively we can \fIuse()\fR them which is useful when adding middleware within \fIconfigure()\fR blocks:
+Alternatively we can \fIuse()\fR them which is useful when adding middleware within \fIconfigure()\fR blocks, in a progressive manor\.
 .
 .IP "" 4
 .
