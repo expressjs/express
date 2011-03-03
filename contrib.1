@@ -1,0 +1,82 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "CONTRIB" "" "October 2010" "" ""
+.
+.SH "NAME"
+\fBcontrib\fR
+.
+.SS "Development Dependencies"
+Express development dependencies are stored within the \fI\./support\fR directory\. To update them execute:
+.
+.IP "" 4
+.
+.nf
+
+$ git submodule update \-\-init
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Running Tests"
+Express uses the Expresso \fIhttp://github\.com/visionmedia/expresso\fR TDD framework to write and run elegant test suites extremely fast\. To run all test suites simply execute:
+.
+.IP "" 4
+.
+.nf
+
+$ make test
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To target specific suites we may specify the files via:
+.
+.IP "" 4
+.
+.nf
+
+$ make test TESTS=test/view\.test\.js
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To check test coverage run:
+.
+.IP "" 4
+.
+.nf
+
+$ make test\-cov
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Contributions"
+To accept a contribution, you should follow these guidelines:
+.
+.IP "\(bu" 4
+All tests \fImust\fR pass
+.
+.IP "\(bu" 4
+Your alterations or additions \fImust\fR include tests
+.
+.IP "\(bu" 4
+Your commit(s) should be \fIfocused\fR, do not commit once for several changes
+.
+.IP "\(bu" 4
+Do \fInot\fR alter release information such as the \fIversion\fR, or \fIHistory\.md\fR
+.
+.IP "\(bu" 4
+Indents are \fI2\fR spaces\.
+.
+.IP "" 0
+.
+.SS "Documentation"
+To contribute documentation edit the markdown files in \fI\./docs\fR, however do \fInot\fR run \fImake docs\fR, as they will be re\-built and published with each release\.

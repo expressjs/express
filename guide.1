@@ -1,0 +1,2099 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "GUIDE" "" "March 2011" "" ""
+.
+.SH "NAME"
+\fBguide\fR
+.
+.SS "Installation"
+.
+.nf
+
+$ npm install express
+.
+.fi
+.
+.SS "Creating A Server"
+To create an instance of the \fIexpress\.HTTPServer\fR, simply invoke the \fIcreateServer()\fR method\. With our instance \fIapp\fR we can then define routes based on the HTTP verbs, in this example \fIapp\.get()\fR\.
+.
+.IP "" 4
+.
+.nf
+
+var app = require(\'express\')\.createServer();
+
+app\.get(\'/\', function(req, res){
+  res\.send(\'hello world\');
+});
+
+app\.listen(3000);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Creating An HTTPS Server"
+To initialize a \fIexpress\.HTTPSServer\fR we do the same as above, however we pass an options object, accepting \fIkey\fR, \fIcert\fR and the others mentioned in node\'s https documentation \fIhttp://nodejs\.org/docs/v0\.3\.7/api/https\.html#https\.createServer\fR\.
+.
+.IP "" 4
+.
+.nf
+
+ var app = require(\'express\')\.createServer({ key: \.\.\. });
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Configuration"
+Express supports arbitrary environments, such as \fIproduction\fR and \fIdevelopment\fR\. Developers can use the \fIconfigure()\fR method to setup needs required by the current environment\. When \fIconfigure()\fR is called without an environment name it will be run in \fIevery\fR environment prior to the environment specific callback\.
+.
+.P
+In the example below we only \fIdumpExceptions\fR, and respond with exception stack traces in \fIdevelopment\fR mode, however for both environments we utilize \fImethodOverride\fR and \fIbodyParser\fR\. Note the use of \fIapp\.router\fR, which can (optionally) be used to mount the application routes, otherwise the first call to \fIapp\.get()\fR, \fIapp\.post()\fR, etc will mount the routes\.
+.
+.IP "" 4
+.
+.nf
+
+app\.configure(function(){
+    app\.use(express\.methodOverride());
+    app\.use(express\.bodyParser());
+    app\.use(app\.router);
+});
+
+app\.configure(\'development\', function(){
+    app\.use(express\.static(__dirname + \'/public\'));
+    app\.use(express\.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app\.configure(\'production\', function(){
+  var oneYear = 31557600000;
+  app\.use(express\.static({ root: __dirname + \'/public\', maxAge: oneYear }));
+  app\.use(express\.errorHandler());
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+For internal and arbitrary settings Express provides the \fIset(key[, val])\fR, \fIenable(key)\fR, \fIdisable(key)\fR methods:
+.
+.IP "" 4
+.
+.nf
+
+ app\.configure(function(){
+    app\.set(\'views\', __dirname + \'/views\');
+    app\.set(\'views\');
+    // => "/absolute/path/to/views"
+
+    app\.enable(\'some feature\');
+    // same as app\.set(\'some feature\', true);
+
+    app\.disable(\'some feature\');
+    // same as app\.set(\'some feature\', false);
+
+    app\.enabled(\'some feature\')
+    // => false
+ });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To alter the environment we can set the \fINODE_ENV\fR environment variable, for example:
+.
+.IP "" 4
+.
+.nf
+
+$ NODE_ENV=production node app\.js
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This is \fIvery\fR important, as many caching mechanisms are \fIonly enabled\fR when in production\.
+.
+.SS "Settings"
+Express supports the following settings out of the box:
+.
+.IP "\(bu" 4
+\fIhome\fR Application base path used for \fIres\.redirect()\fR and transparently handling mounted apps\.
+.
+.IP "\(bu" 4
+\fIviews\fR Root views directory defaulting to \fBCWD/views\fR
+.
+.IP "\(bu" 4
+\fIview engine\fR Default view engine name for views rendered without extensions
+.
+.IP "\(bu" 4
+\fIview options\fR An object specifying global view options
+.
+.IP "" 0
+.
+.SS "Routing"
+Express utilizes the HTTP verbs to provide a meaningful, expressive routing API\. For example we may want to render a user\'s account for the path \fI/user/12\fR, this can be done by defining the route below\. The values associated to the named placeholders are available as \fBreq\.params\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/user/:id\', function(req, res){
+    res\.send(\'user \' + req\.params\.id);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+A route is simple a string which is compiled to a \fIRegExp\fR internally\. For example when \fI/user/:id\fR is compiled, a simplified version of the regexp may look similar to:
+.
+.IP "" 4
+.
+.nf
+
+\e/user\e/([^\e/]+)\e/?
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Regular expression literals may also be passed for complex uses\. Since capture groups with literal \fIRegExp\fR\'s are anonymous we can access them directly \fBreq\.params\fR\. So our first capture group would be \fIreq\.params[0]\fR and the second would follow as \fIreq\.params[1]\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.get(/^\e/users?(?:\e/(\ed+)(?:\e\.\e\.(\ed+))?)?/, function(req, res){
+    res\.send(req\.params);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Curl requests against the previously defined route:
+.
+.IP "" 4
+.
+.nf
+
+   $ curl http://dev:3000/user
+   [null,null]
+   $ curl http://dev:3000/users
+   [null,null]
+   $ curl http://dev:3000/users/1
+   ["1",null]
+   $ curl http://dev:3000/users/1\.\.15
+   ["1","15"]
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Below are some route examples, and the associated paths that they may consume:
+.
+.IP "" 4
+.
+.nf
+
+ "/user/:id"
+ /user/12
+
+ "/users/:id?"
+ /users/5
+ /users
+
+ "/files/*"
+ /files/jquery\.js
+ /files/javascripts/jquery\.js
+
+ "/file/*\.*"
+ /files/jquery\.js
+ /files/javascripts/jquery\.js
+
+ "/user/:id/:operation?"
+ /user/1
+ /user/1/edit
+
+ "/products\.:format"
+ /products\.json
+ /products\.xml
+
+ "/products\.:format?"
+ /products\.json
+ /products\.xml
+ /products
+
+ "/user/:id\.:format?"
+ /user/12
+ /user/12\.json
+.
+.fi
+.
+.IP "" 0
+.
+.P
+For example we can \fBPOST\fR some json, and echo the json back using the \fIbodyParser\fR middleware which will parse json request bodies (as well as others), and place the result in \fIreq\.body\fR:
+.
+.IP "" 4
+.
+.nf
+
+var express = require(\'express\')
+  , app = express\.createServer();
+
+app\.use(express\.bodyParser());
+
+app\.post(\'/\', function(req, res){
+  res\.send(req\.body);
+});
+
+app\.listen(3000);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Typically we may use a "dumb" placeholder such as "/user/:id" which has no restrictions, however say for example we are limiting a user id to digits, we may use \fI\'/user/:id(\ed+)\'\fR which will \fInot\fR match unless the placeholder value contains only digits\.
+.
+.SS "Passing Route Control"
+We may pass control to the next \fImatching\fR route, by calling the \fIthird\fR argument, the \fInext()\fR function\. When a match cannot be made, control is passed back to Connect, and middleware continue to be invoked in the order that they are added via \fIuse()\fR\. The same is true for several routes which have the same path defined, they will simply be executed in order until one does \fInot\fR call \fInext()\fR and decides to respond\.
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/users/:id?\', function(req, res, next){
+    var id = req\.params\.id;
+    if (id) {
+        // do something
+    } else {
+        next();
+    }
+});
+
+app\.get(\'/users\', function(req, res){
+    // do something else
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The \fIapp\.all()\fR method is useful for applying the same logic for all HTTP verbs in a single call\. Below we use this to load a user from our fake database, and assign it to \fIreq\.user\fR\.
+.
+.IP "" 4
+.
+.nf
+
+var express = require(\'express\')
+  , app = express\.createServer();
+
+var users = [{ name: \'tj\' }];
+
+app\.all(\'/user/:id/:op?\', function(req, res, next){
+  req\.user = users[req\.params\.id];
+  if (req\.user) {
+    next();
+  } else {
+    next(new Error(\'cannot find user \' + req\.params\.id));
+  }
+});
+
+app\.get(\'/user/:id\', function(req, res){
+  res\.send(\'viewing \' + req\.user\.name);
+});
+
+app\.get(\'/user/:id/edit\', function(req, res){
+  res\.send(\'editing \' + req\.user\.name);
+});
+
+app\.put(\'/user/:id\', function(req, res){
+  res\.send(\'updating \' + req\.user\.name);
+});
+
+app\.get(\'*\', function(req, res){
+  res\.send(\'what???\', 404);
+});
+
+app\.listen(3000);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Middleware"
+Middleware via Connect \fIhttp://github\.com/senchalabs/connect\fR can be passed to \fIexpress\.createServer()\fR as you would with a regular Connect server\. For example:
+.
+.IP "" 4
+.
+.nf
+
+  var express = require(\'express\');
+
+var app = express\.createServer(
+      express\.logger()
+    , express\.bodyParser()
+  );
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Alternatively we can \fIuse()\fR them which is useful when adding middleware within \fIconfigure()\fR blocks, in a progressive manor\.
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.logger({ format: \':method :uri\' }));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Typically with connect middleware you would \fIrequire(\'connect\')\fR like so:
+.
+.IP "" 4
+.
+.nf
+
+var connect = require(\'connect\');
+app\.use(connect\.logger());
+app\.use(connect\.bodyParser());
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This is somewhat annoying, so express re\-exports these middleware properties, however they are \fIidentical\fR:
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.logger());
+app\.use(express\.bodyParser());
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Route Middleware"
+Routes may utilize route\-specific middleware by passing one or more additional callbacks (or arrays) to the method\. This feature is extremely useful for restricting access, loading data used by the route etc\.
+.
+.P
+Typically async data retrieval might look similar to below, where we take the \fI:id\fR parameter, and attempt loading a user\.
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/user/:id\', function(req, res, next){
+  loadUser(req\.params\.id, function(err, user){
+    if (err) return next(err);
+    res\.send(\'Viewing user \' + user\.name);
+  });
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To keep things DRY and to increase readability we can apply this logic within a middleware\. As you can see below, abstracting this logic into middleware allows us to reuse it, and clean up our route at the same time\.
+.
+.IP "" 4
+.
+.nf
+
+function loadUser(req, res, next) {
+  // You would fetch your user from the db
+  var user = users[req\.params\.id];
+  if (user) {
+    req\.user = user;
+    next();
+  } else {
+    next(new Error(\'Failed to load user \' + req\.params\.id));
+  }
+}
+
+app\.get(\'/user/:id\', loadUser, function(req, res){
+  res\.send(\'Viewing user \' + req\.user\.name);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Multiple route middleware can be applied, and will be executed sequentially to apply further logic such as restricting access to a user account\. In the example below only the authenticated user may edit his/her account\.
+.
+.IP "" 4
+.
+.nf
+
+function andRestrictToSelf(req, res, next) {
+  req\.authenticatedUser\.id == req\.user\.id
+    ? next()
+    : next(new Error(\'Unauthorized\'));
+}
+
+app\.get(\'/user/:id/edit\', loadUser, andRestrictToSelf, function(req, res){
+  res\.send(\'Editing user \' + req\.user\.name);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Keeping in mind that middleware are simply functions, we can define function that \fIreturns\fR the middleware in order to create a more expressive and flexible solution as shown below\.
+.
+.IP "" 4
+.
+.nf
+
+function andRestrictTo(role) {
+  return function(req, res, next) {
+    req\.authenticatedUser\.role == role
+      ? next()
+      : next(new Error(\'Unauthorized\'));
+  }
+}
+
+app\.del(\'/user/:id\', loadUser, andRestrictTo(\'admin\'), function(req, res){
+  res\.send(\'Deleted user \' + req\.user\.name);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Commonly used "stacks" of middleware can be passed as an array (\fIapplied recursively\fR), which can be mixed and matched to any degree\.
+.
+.IP "" 4
+.
+.nf
+
+var a = [middleware1, middleware2]
+  , b = [middleware3, middleware4]
+  , all = [a, b];
+
+app\.get(\'/foo\', a, function(){});
+app\.get(\'/bar\', a, function(){});
+
+app\.get(\'/\', a, middleware3, middleware4, function(){});
+app\.get(\'/\', a, b, function(){});
+app\.get(\'/\', all, function(){});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+For this example in full, view the route middleware example \fIhttp://github\.com/visionmedia/express/blob/master/examples/route\-middleware/app\.js\fR in the repository\.
+.
+.SS "HTTP Methods"
+We have seen \fIapp\.get()\fR a few times, however Express also exposes other familiar HTTP verbs in the same manor, such as \fIapp\.post()\fR, \fIapp\.del()\fR, etc\.
+.
+.P
+A common example for \fIPOST\fR usage, is when "submitting" a form\. Below we simply set our form method to "post" in our html, and control will be given to the route we have defined below it\.
+.
+.IP "" 4
+.
+.nf
+
+ <form method="post" action="/">
+     <input type="text" name="user[name]" />
+     <input type="text" name="user[email]" />
+     <input type="submit" value="Submit" />
+ </form>
+.
+.fi
+.
+.IP "" 0
+.
+.P
+By default Express does not know what to do with this request body, so we should add the \fIbodyParser\fR middleware, which will parse \fIapplication/x\-www\-form\-urlencoded\fR and \fIapplication/json\fR request bodies and place the variables in \fIreq\.body\fR\. We can do this by "using" the middleware as shown below:
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.bodyParser());
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Our route below will now have access to the \fIreq\.body\.user\fR object which will contain the \fIname\fR and \fIemail\fR properties when defined\.
+.
+.IP "" 4
+.
+.nf
+
+app\.post(\'/\', function(req, res){
+  console\.log(req\.body\.user);
+  res\.redirect(\'back\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+When using methods such as \fIPUT\fR with a form, we can utilize a hidden input named \fI_method\fR, which can be used to alter the HTTP method\. To do so we first need the \fImethodOverride\fR middleware, which should be placed below \fIbodyParser\fR so that it can utilize it\'s \fIreq\.body\fR containing the form values\.
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.bodyParser());
+app\.use(express\.methodOverride());
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The reason that these are not always defaults, is simply because these are not required for Express to be fully functional\. Depending on the needs of your application, you may not need these at all, your methods such as \fIPUT\fR and \fIDELETE\fR can still be accessed by clients which can use them directly, although \fImethodOverride\fR provides a great solution for forms\. Below shows what the usage of \fIPUT\fR might look like:
+.
+.IP "" 4
+.
+.nf
+
+<form method="post" action="/">
+  <input type="hidden" name="_method" value="put" />
+  <input type="text" name="user[name]" />
+  <input type="text" name="user[email]" />
+  <input type="submit" value="Submit" />
+</form>
+
+app\.put(\'/\', function(){
+    console\.log(req\.body\.user);
+    res\.redirect(\'back\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Error Handling"
+Express provides the \fIapp\.error()\fR method which receives exceptions thrown within a route, or passed to \fInext(err)\fR\. Below is an example which serves different pages based on our ad\-hoc \fINotFound\fR exception:
+.
+.IP "" 4
+.
+.nf
+
+function NotFound(msg){
+  this\.name = \'NotFound\';
+  Error\.call(this, msg);
+  Error\.captureStackTrace(this, arguments\.callee);
+}
+
+NotFound\.protoype\.__proto__ = Error\.prototype;
+
+app\.get(\'/404\', function(req, res){
+  throw new NotFound;
+});
+
+app\.get(\'/500\', function(req, res){
+  throw new Error(\'keyboard cat!\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+We can call \fIapp\.error()\fR several times as shown below\. Here we check for an instanceof \fINotFound\fR and show the 404 page, or we pass on to the next error handler\.
+.
+.P
+Note that these handlers can be defined anywhere, as they will be placed below the route handlers on \fIlisten()\fR\. This allows for definition within \fIconfigure()\fR blocks so we can handle exceptions in different ways based on the environment\.
+.
+.IP "" 4
+.
+.nf
+
+app\.error(function(err, req, res, next){
+    if (err instanceof NotFound) {
+        res\.render(\'404\.jade\');
+    } else {
+        next(err);
+    }
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Here we assume all errors as 500 for the simplicity of this demo, however you can choose whatever you like\. For example when node performs filesystem syscalls, you may receive an error object with the \fIerror\.code\fR of \fIENOENT\fR, meaning "no such file or directory", we can utilize this in our error handling and display a page specific to this if desired\.
+.
+.IP "" 4
+.
+.nf
+
+app\.error(function(err, req, res){
+  res\.render(\'500\.jade\', {
+     error: err
+  });
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Our apps could also utilize the Connect \fIerrorHandler\fR middleware to report on exceptions\. For example if we wish to output exceptions in "development" mode to \fIstderr\fR we can use:
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.errorHandler({ dumpExceptions: true }));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Also during development we may want fancy html pages to show exceptions that are passed or thrown, so we can set \fIshowStack\fR to true:
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.errorHandler({ showStack: true, dumpExceptions: true }));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The \fIerrorHandler\fR middleware also responds with \fIjson\fR if \fIAccept: application/json\fR is present, which is useful for developing apps that rely heavily on client\-side JavaScript\.
+.
+.SS "Route Param Pre\-conditions"
+Route param pre\-conditions can drastically improve the readability of your application, through implicit loading of data, and validation of request urls\. For example if you are constantly fetching common data for several routes, such as loading a user for \fI/user/:id\fR, we might typically do something like below:
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/user/:userId\', function(req, res, next){
+  User\.get(req\.params\.userId, function(err, user){
+    if (err) return next(err);
+    res\.send(\'user \' + user\.name);
+  });
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+With preconditions our params can be mapped to callbacks which may perform validation, coercion, or even loading data from a database\. Below we invoke \fIapp\.param()\fR with the parameter name we wish to map to some middleware, as you can see we receive the \fIid\fR argument which contains the placeholder value\. Using this we load the user and perform error handling as usual, and simple call \fInext()\fR to pass control to the next precondition or route handler\.
+.
+.IP "" 4
+.
+.nf
+
+app\.param(\'userId\', function(req, res, next, id){
+  User\.get(id, function(err, user){
+    if (err) return next(err);
+    if (!user) return next(new Error(\'failed to find user\'));
+    req\.user = user;
+    next();
+  });
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Doing so, as mentioned drastically improves our route readability, and allows us to easily share this logic throughout our application:
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/user/:userId\', function(req, res){
+  res\.send(\'user \' + req\.user\.name);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+For simple cases such as route placeholder validation and coercion we can simple pass a callback which has an arity of 1 (accepts one argument)\. Any errors thrown will be passed to \fInext(err)\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.param(\'number\', function(n){ return parseInt(n, 10); });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+We may also apply the same callback to several placeholders, for example a route GET \fI/commits/:from\-:to\fR are both numbers, so we may define them as an array:
+.
+.IP "" 4
+.
+.nf
+
+app\.param([\'from\', \'to\'], function(n){ return parseInt(n, 10); });
+.
+.fi
+.
+.IP "" 0
+.
+.SS "View Rendering"
+View filenames take the form "<name>\.<engine>", where <engine> is the name of the module that will be required\. For example the view \fIlayout\.ejs\fR will tell the view system to \fIrequire(\'ejs\')\fR, the module being loaded must export the method \fIexports\.compile(str, options)\fR, and return a \fIFunction\fR to comply with Express\. To alter this behaviour \fIapp\.register()\fR can be used to map engines to file extensions, so that for example "foo\.html" can be rendered by ejs\.
+.
+.P
+Below is an example using Jade \fIhttp://github\.com/visionmedia/jade\fR to render \fIindex\.html\fR, and since we do not use \fIlayout: false\fR the rendered contents of \fIindex\.jade\fR will be passed as the \fIbody\fR local variable in \fIlayout\.jade\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/\', function(req, res){
+    res\.render(\'index\.jade\', { title: \'My Site\' });
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The new \fIview engine\fR setting allows us to specify our default template engine, so for example when using jade we could set:
+.
+.IP "" 4
+.
+.nf
+
+app\.set(\'view engine\', \'jade\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Allowing us to render with:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'index\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+vs:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'index\.jade\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+When \fIview engine\fR is set, extensions are entirely optional, however we can still mix and match template engines:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'another\-page\.ejs\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Express also provides the \fIview options\fR setting, which is applied each time a view is rendered, so for example if you rarely use layouts you may set:
+.
+.IP "" 4
+.
+.nf
+
+app\.set(\'view options\', {
+  layout: false
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Which can then be overridden within the \fIres\.render()\fR call if need be:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'myview\.ejs\', { layout: true });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+When an alternate layout is required, we may also specify a path\. For example if we have \fIview engine\fR set to \fIjade\fR and a file named \fI\./views/mylayout\.jade\fR we can simply pass:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'page\', { layout: \'mylayout\' });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Otherwise we must specify the extension:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'page\', { layout: \'mylayout\.jade\' });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+These paths may also be absolute:
+.
+.IP "" 4
+.
+.nf
+
+res\.render(\'page\', { layout: __dirname + \'/\.\./\.\./mylayout\.jade\' });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+A good example of this is specifying custom \fIejs\fR opening and closing tags:
+.
+.IP "" 4
+.
+.nf
+
+app\.set(\'view options\', {
+    open: \'{{\',
+    close: \'}}\'
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "View Partials"
+The Express view system has built\-in support for partials and collections, which are "mini" views representing a document fragment\. For example rather than iterating in a view to display comments, we would use a partial with collection support:
+.
+.IP "" 4
+.
+.nf
+
+partial(\'comment\', { collection: comments });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+If no other options are desired, we can omit the object and simply pass our array, which is equivalent to above:
+.
+.IP "" 4
+.
+.nf
+
+partial(\'comment\', comments);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+When using the partial collection support a few "magic" variables are provided for free:
+.
+.IP "\(bu" 4
+\fIfirstInCollection\fR true if this is the first object
+.
+.IP "\(bu" 4
+\fIindexInCollection\fR index of the object in the collection
+.
+.IP "\(bu" 4
+\fIlastInCollection\fR true if this is the last object
+.
+.IP "\(bu" 4
+\fIcollectionLength\fR length of the collection
+.
+.IP "" 0
+.
+.P
+Local variables passed (or generated) take precedence, however locals passed to the parent view are available in the child view as well\. So for example if we were to render a blog post with \fIpartial(\'blog/post\', post)\fR it would generate the \fIpost\fR local, but the view calling this function had the local \fIuser\fR, it would be available to the \fIblog/post\fR view as well\.
+.
+.P
+For documentation on altering the object name view res\.partial() \fIhttp://expressjs\.com/guide\.html#res\-partial\-view\-options\-\fR\.
+.
+.P
+\fBNOTE:\fR be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views\. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead\.
+.
+.SS "View Lookup"
+View lookup is performed relative to the parent view, for example if we had a page view named \fIviews/user/list\.jade\fR, and within that view we did \fIpartial(\'edit\')\fR it would attempt to load \fIviews/user/edit\.jade\fR, whereas \fIpartial(\'\.\./messages\')\fR would load \fIviews/messages\.jade\fR\.
+.
+.P
+The view system also allows for index templates, allowing you to have a directory of the same name\. For example within a route we may have \fIres\.render(\'users\')\fR either \fIviews/users\.jade\fR, or \fIviews/users/index\.jade\fR\.
+.
+.P
+When utilizing index views as shown above, we may reference \fIviews/users/index\.jade\fR from a view in the same directory by \fIpartial(\'users\')\fR, and the view system will try \fI\.\./users/index\fR, preventing us from needing to call \fIpartial(\'index\')\fR\.
+.
+.SS "Template Engines"
+Below are a few template engines commonly used with Express:
+.
+.IP "\(bu" 4
+Jade \fIhttp://jade\-lang\.com\fR haml\.js successor
+.
+.IP "\(bu" 4
+EJS \fIhttp://github\.com/visionmedia/ejs\fR Embedded JavaScript
+.
+.IP "\(bu" 4
+CoffeeKup \fIhttp://github\.com/mauricemach/coffeekup\fR CoffeeScript based templating
+.
+.IP "\(bu" 4
+jQuery Templates \fIhttps://github\.com/kof/node\-jqtpl\fR for node
+.
+.IP "" 0
+.
+.SS "Session Support"
+Sessions support can be added by using Connect\'s \fIsession\fR middleware\. To do so we also need the \fIcookieParser\fR middleware place above it, which will parse and populate cookie data to \fIreq\.cookies\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.cookieParser());
+app\.use(express\.session({ secret: "keyboard cat" }));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+By default the \fIsession\fR middleware uses the memory store bundled with Connect, however many implementations exist\. For example connect\-redis \fIhttp://github\.com/visionmedia/connect\-redis\fR supplies a Redis \fIhttp://code\.google\.com/p/redis/\fR session store and can be used as shown below:
+.
+.IP "" 4
+.
+.nf
+
+var RedisStore = require(\'connect\-redis\');
+app\.use(express\.cookieParser());
+app\.use(express\.session({ secret: "keyboard cat", store: new RedisStore }));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Now the \fIreq\.session\fR and \fIreq\.sessionStore\fR properties will be accessible to all routes and subsequent middleware\. Properties on \fIreq\.session\fR are automatically saved on a response, so for example if we wish to shopping cart data:
+.
+.IP "" 4
+.
+.nf
+
+var RedisStore = require(\'connect\-redis\');
+app\.use(express\.bodyParser());
+app\.use(express\.cookieParser());
+app\.use(express\.session({ secret: "keyboard cat", store: new RedisStore }));
+
+app\.post(\'/add\-to\-cart\', function(req, res){
+  // Perhaps we posted several items with a form
+  // (use the bodyParser() middleware for this)
+  var items = req\.body\.items;
+  req\.session\.items = items;
+  res\.redirect(\'back\');
+});
+
+app\.get(\'/add\-to\-cart\', function(req, res){
+  // When redirected back to GET /add\-to\-cart
+  // we could check req\.session\.items && req\.session\.items\.length
+  // to print out a message
+  if (req\.session\.items && req\.session\.items\.length) {
+    req\.flash(\'info\', \'You have %s items in your cart\', req\.session\.items\.length);
+  }
+  res\.render(\'shopping\-cart\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The \fIreq\.session\fR object also has methods such as \fISession#touch()\fR, \fISession#destroy()\fR, \fISession#regenerate()\fR among others to maintain and manipulate sessions\. For more information view the Connect Session \fIhttp://senchalabs\.github\.com/connect/middleware\-session\.html\fR documentation\.
+.
+.SS "Migration Guide"
+Express 1\.x developers may reference the Migration Guide \fImigrate\.html\fR to get up to speed on how to upgrade your application to work with Express 2\.x, Connect 1\.x, and Node 0\.4\.x\.
+.
+.SS "req\.header(key[, defaultValue])"
+Get the case\-insensitive request header \fIkey\fR, with optional \fIdefaultValue\fR:
+.
+.IP "" 4
+.
+.nf
+
+req\.header(\'Host\');
+req\.header(\'host\');
+req\.header(\'Accept\', \'*/*\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The \fIReferrer\fR and \fIReferer\fR header fields are special\-cased, either will work:
+.
+.IP "" 4
+.
+.nf
+
+// sent Referrer: http://google\.com
+
+req\.header(\'Referer\');
+// => "http://google\.com"
+
+req\.header(\'Referrer\');
+// => "http://google\.com"
+.
+.fi
+.
+.IP "" 0
+.
+.SS "req\.accepts(type)"
+Check if the \fIAccept\fR header is present, and includes the given \fItype\fR\.
+.
+.P
+When the \fIAccept\fR header is not present \fItrue\fR is returned\. Otherwise the given \fItype\fR is matched by an exact match, and then subtypes\. You may pass the subtype such as "html" which is then converted internally to "text/html" using the mime lookup table\.
+.
+.IP "" 4
+.
+.nf
+
+// Accept: text/html
+req\.accepts(\'html\');
+// => true
+
+// Accept: text/*; application/json
+req\.accepts(\'html\');
+req\.accepts(\'text/html\');
+req\.accepts(\'text/plain\');
+req\.accepts(\'application/json\');
+// => true
+
+req\.accepts(\'image/png\');
+req\.accepts(\'png\');
+// => false
+.
+.fi
+.
+.IP "" 0
+.
+.SS "req\.is(type)"
+Check if the incoming request contains the \fIContent\-Type\fR header field, and it contains the give mime \fItype\fR\.
+.
+.IP "" 4
+.
+.nf
+
+   // With Content\-Type: text/html; charset=utf\-8
+   req\.is(\'html\');
+   req\.is(\'text/html\');
+   // => true
+
+   // When Content\-Type is application/json
+   req\.is(\'json\');
+   req\.is(\'application/json\');
+   // => true
+
+   req\.is(\'html\');
+   // => false
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Ad\-hoc callbacks can also be registered with Express, to perform assertions again the request, for example if we need an expressive way to check if our incoming request is an image, we can register \fI"an image"\fR callback:
+.
+.IP "" 4
+.
+.nf
+
+    app\.is(\'an image\', function(req){
+      return 0 == req\.headers[\'content\-type\']\.indexOf(\'image\');
+    });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Now within our route callbacks, we can use to to assert content types such as \fI"image/jpeg"\fR, \fI"image/png"\fR, etc\.
+.
+.IP "" 4
+.
+.nf
+
+   app\.post(\'/image/upload\', function(req, res, next){
+     if (req\.is(\'an image\')) {
+       // do something
+     } else {
+       next();
+     }
+   });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Keep in mind this method is \fInot\fR limited to checking \fIContent\-Type\fR, you can perform any request assertion you wish\.
+.
+.P
+Wildcard matches can also be made, simplifying our example above for \fI"an image"\fR, by asserting the \fIsubtype\fR only:
+.
+.IP "" 4
+.
+.nf
+
+req\.is(\'image/*\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+We may also assert the \fItype\fR as shown below, which would return true for \fI"application/json"\fR, and \fI"text/json"\fR\.
+.
+.IP "" 4
+.
+.nf
+
+req\.is(\'*/json\');
+.
+.fi
+.
+.IP "" 0
+.
+.SS "req\.param(name[, default])"
+Return the value of param \fIname\fR when present or \fIdefault\fR\.
+.
+.IP "\(bu" 4
+Checks route params (\fIreq\.params\fR), ex: /user/:id
+.
+.IP "\(bu" 4
+Checks query string params (\fIreq\.query\fR), ex: ?id=12
+.
+.IP "\(bu" 4
+Checks urlencoded body params (\fIreq\.body\fR), ex: id=12
+.
+.IP "" 0
+.
+.P
+To utilize urlencoded request bodies, \fIreq\.body\fR should be an object\. This can be done by using the _express\.bodyParser middleware\.
+.
+.SS "req\.flash(type[, msg])"
+Queue flash \fImsg\fR of the given \fItype\fR\.
+.
+.IP "" 4
+.
+.nf
+
+req\.flash(\'info\', \'email sent\');
+req\.flash(\'error\', \'email delivery failed\');
+req\.flash(\'info\', \'email re\-sent\');
+// => 2
+
+req\.flash(\'info\');
+// => [\'email sent\', \'email re\-sent\']
+
+req\.flash(\'info\');
+// => []
+
+req\.flash();
+// => { error: [\'email delivery failed\'], info: [] }
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Flash notification message may also utilize formatters, by default only the %s string formatter is available:
+.
+.IP "" 4
+.
+.nf
+
+req\.flash(\'info\', \'email delivery to _%s_ from _%s_ failed\.\', toUser, fromUser);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "req\.isXMLHttpRequest"
+Also aliased as \fIreq\.xhr\fR, this getter checks the \fIX\-Requested\-With\fR header to see if it was issued by an \fIXMLHttpRequest\fR:
+.
+.IP "" 4
+.
+.nf
+
+req\.xhr
+req\.isXMLHttpRequest
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.header(key[, val])"
+Get or set the response header \fIkey\fR\.
+.
+.IP "" 4
+.
+.nf
+
+res\.header(\'Content\-Length\');
+// => undefined
+
+res\.header(\'Content\-Length\', 123);
+// => 123
+
+res\.header(\'Content\-Length\');
+// => 123
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.contentType(type)"
+Sets the \fIContent\-Type\fR response header to the given \fItype\fR\.
+.
+.IP "" 4
+.
+.nf
+
+  var filename = \'path/to/image\.png\';
+  res\.contentType(filename);
+  // Content\-Type is now "image/png"
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.attachment([filename])"
+Sets the \fIContent\-Disposition\fR response header to "attachment", with optional \fIfilename\fR\.
+.
+.IP "" 4
+.
+.nf
+
+  res\.attachment(\'path/to/my/image\.png\');
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.sendfile(path[, options[, callback]])"
+Used by \fBres\.download()\fR to transfer an arbitrary file\.
+.
+.IP "" 4
+.
+.nf
+
+res\.sendfile(\'path/to/my\.file\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This method accepts an optional callback which is called when an error occurs, or when the transfer is complete\. By default failures call \fBnext(err)\fR, however when a callback is supplied you must do this explicitly, or act on the error\.
+.
+.IP "" 4
+.
+.nf
+
+res\.sendfile(path, function(err){
+  if (err) {
+    next(err);
+  } else {
+    console\.log(\'transferred %s\', path);
+  }
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Options may also be passed to the internal \fIfs\.createReadStream()\fR call, for example altering the \fIbufferSize\fR:
+.
+.IP "" 4
+.
+.nf
+
+res\.sendfile(path, { bufferSize: 1024 }, function(err){
+  // handle
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.download(file[, filename[, callback]])"
+Transfer the given \fIfile\fR as an attachment with optional alternative \fIfilename\fR\.
+.
+.IP "" 4
+.
+.nf
+
+res\.download(\'path/to/image\.png\');
+res\.download(\'path/to/image\.png\', \'foo\.png\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This is equivalent to:
+.
+.IP "" 4
+.
+.nf
+
+res\.attachment(file);
+res\.sendfile(file);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+An optional callback may be supplied as either the second or third argument, which is passed to \fIres\.sendfile()\fR:
+.
+.IP "" 4
+.
+.nf
+
+res\.download(path, \'expenses\.doc\', function(err){
+  // handle
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.send(body|status[, headers|status[, status]])"
+The \fIres\.send()\fR method is a high level response utility allowing you to pass objects to respond with json, strings for html, Buffer instances, or numbers representing the status code\. The following are all valid uses:
+.
+.IP "" 4
+.
+.nf
+
+ res\.send(); // 204
+ res\.send(new Buffer(\'wahoo\'));
+ res\.send({ some: \'json\' });
+ res\.send(\'<p>some html</p>\');
+ res\.send(\'Sorry, cant find that\', 404);
+ res\.send(\'text\', { \'Content\-Type\': \'text/plain\' }, 201);
+ res\.send(404);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+By default the \fIContent\-Type\fR response header is set, however if explicitly assigned through \fBres\.send()\fR or previously with \fBres\.header()\fR or \fBres\.contentType()\fR it will not be set again\.
+.
+.P
+Note that this method \fIend()\fRs the response, so you will want to use node\'s \fIres\.write()\fR for multiple writes or streaming\.
+.
+.SS "res\.redirect(url[, status])"
+Redirect to the given \fIurl\fR with a default response \fIstatus\fR of 302\.
+.
+.IP "" 4
+.
+.nf
+
+res\.redirect(\'/\', 301);
+res\.redirect(\'/account\');
+res\.redirect(\'http://google\.com\');
+res\.redirect(\'home\');
+res\.redirect(\'back\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Express supports "redirect mapping", which by default provides \fIhome\fR, and \fIback\fR\. The \fIback\fR map checks the \fIReferrer\fR and \fIReferer\fR headers, while \fIhome\fR utilizes the "home" setting and defaults to "/"\.
+.
+.SS "res\.cookie(name, val[, options])"
+Sets the given cookie \fIname\fR to \fIval\fR, with options \fIhttpOnly\fR, \fIsecure\fR, \fIexpires\fR etc\.
+.
+.IP "" 4
+.
+.nf
+
+// "Remember me" for 15 minutes
+res\.cookie(\'rememberme\', \'yes\', { expires: new Date(Date\.now() + 900000), httpOnly: true });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The \fImaxAge\fR property may be used to set \fIexpires\fR relative to \fIDate\.now()\fR in milliseconds, so our example above can now become:
+.
+.IP "" 4
+.
+.nf
+
+res\.cookie(\'rememberme\', \'yes\', { maxAge: 900000 });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To parse incoming \fICookie\fR headers, use the \fIcookieDecoder\fR middleware, which provides the \fIreq\.cookies\fR object:
+.
+.IP "" 4
+.
+.nf
+
+app\.use(express\.cookieParser());
+
+app\.get(\'/\', function(req, res){
+  // use req\.cookies\.rememberme
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.clearCookie(name)"
+Clear cookie \fIname\fR by setting "expires" far in the past\.
+.
+.IP "" 4
+.
+.nf
+
+res\.clearCookie(\'rememberme\');
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.render(view[, options[, fn]])"
+Render \fIview\fR with the given \fIoptions\fR and optional callback \fIfn\fR\. When a callback function is given a response will \fInot\fR be made automatically, however otherwise a response of \fI200\fR and \fItext/html\fR is given\.
+.
+.P
+The \fIoptions\fR passed are the local variables as well, for example if we want to expose "user" to the view, and prevent a local we do so within the same object:
+.
+.IP "" 4
+.
+.nf
+
+var user = { name: \'tj\' };
+res\.render(\'index\', { layout: false, user: user });
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.partial(view[, options])"
+Render \fIview\fR partial with the given \fIoptions\fR\. This method is always available to the view as a local variable\.
+.
+.IP "\(bu" 4
+\fIobject\fR the object named by \fIas\fR or derived from the view name
+.
+.IP "\(bu" 4
+\fIas\fR Variable name for each \fIcollection\fR or \fIobject\fR value, defaults to the view name\.
+.
+.IP "\(bu" 4
+as: \'something\' will add the \fIsomething\fR local variable
+.
+.IP "\(bu" 4
+as: this will use the collection value as the template context
+.
+.IP "\(bu" 4
+as: global will merge the collection value\'s properties with \fIlocals\fR
+.
+.IP "" 0
+
+.
+.IP "\(bu" 4
+\fIcollection\fR Array of objects, the name is derived from the view name itself\. For example \fIvideo\.html\fR will have a object \fIvideo\fR available to it\.
+.
+.IP "" 0
+.
+.P
+The following are equivalent, and the name of collection value when passed to the partial will be \fImovie\fR as derived from the name\.
+.
+.IP "" 4
+.
+.nf
+
+partial(\'theatre/movie\.jade\', { collection: movies });
+partial(\'theatre/movie\.jade\', movies);
+partial(\'movie\.jade\', { collection: movies });
+partial(\'movie\.jade\', movies);
+partial(\'movie\', movies);
+// In view: movie\.director
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To change the local from \fImovie\fR to \fIvideo\fR we can use the "as" option:
+.
+.IP "" 4
+.
+.nf
+
+partial(\'movie\', { collection: movies, as: \'video\' });
+// In view: video\.director
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Also we can make our movie the value of \fIthis\fR within our view so that instead of \fImovie\.director\fR we could use \fIthis\.director\fR\.
+.
+.IP "" 4
+.
+.nf
+
+partial(\'movie\', { collection: movies, as: this });
+// In view: this\.director
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Another alternative is to "explode" the properties of the collection item into pseudo globals (local variables) by using \fIas: global\fR, which again is syntactic sugar:
+.
+.IP "" 4
+.
+.nf
+
+partial(\'movie\', { collection: movies, as: global });
+// In view: director
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This same logic applies to a single partial object usage:
+.
+.IP "" 4
+.
+.nf
+
+partial(\'movie\', { object: movie, as: this });
+// In view: this\.director
+
+partial(\'movie\', { object: movie, as: global });
+// In view: director
+
+partial(\'movie\', { object: movie, as: \'video\' });
+// In view: video\.director
+
+partial(\'movie\', { object: movie });
+// In view: movie\.director
+.
+.fi
+.
+.IP "" 0
+.
+.P
+When a non\-collection (does \fInot\fR have \fI\.length\fR) is passed as the second argument, it is assumed to be the \fIobject\fR, after which the object\'s local variable name is derived from the view name:
+.
+.IP "" 4
+.
+.nf
+
+partial(\'movie\', movie);
+// => In view: movie\.director
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This exact API can be utilized from within a route, to respond with a fragment via Ajax or WebSockets, for example we can render a collection of users directly from a route:
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/users\', function(req, res){
+  if (req\.xhr) {
+    // respond with the each user in the collection
+    // passed to the "user" view
+    res\.partial(\'user\', users);
+  } else {
+    // respond with layout, and users page
+    // which internally does partial(\'user\', users)
+    // along with other UI
+    res\.render(\'users\', { users: users });
+  }
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.local(name[, val])"
+Get or set the given local variable \fIname\fR\. The locals built up for a response are applied to those given to the view rendering methods such as \fBres\.render()\fR\.
+.
+.IP "" 4
+.
+.nf
+
+  app\.all(\'/movie/:id\', function(req, res, next){
+    Movie\.get(req\.params\.id, function(err, movie){
+      // Assigns res\.locals\.movie = movie
+      res\.local(\'movie\', movie);
+    });
+  });
+
+  app\.get(\'/movie/:id\', function(req, res){
+    // movie is already a local, however we
+    // can pass more if we wish
+    res\.render(\'movie\', { displayReviews: true });
+  });
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.set(name[, val])"
+Apply an application level setting \fIname\fR to \fIval\fR, or get the value of \fIname\fR when \fIval\fR is not present:
+.
+.IP "" 4
+.
+.nf
+
+app\.set(\'views\', __dirname + \'/views\');
+app\.set(\'views\');
+// => \.\.\.path\.\.\.
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Alternatively you may simply access the settings via \fIapp\.settings\fR:
+.
+.IP "" 4
+.
+.nf
+
+app\.settings\.views
+// => \.\.\.path\.\.\.
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.enable(name)"
+Enable the given setting \fIname\fR:
+.
+.IP "" 4
+.
+.nf
+
+app\.enable(\'some arbitrary setting\');
+app\.set(\'some arbitrary setting\');
+// => true
+
+app\.enabled(\'some arbitrary setting\');
+// => true
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.enabled(name)"
+Check if setting \fIname\fR is enabled:
+.
+.IP "" 4
+.
+.nf
+
+app\.enabled(\'view cache\');
+// => false
+
+app\.enable(\'view cache\');
+app\.enabled(\'view cache\');
+// => true
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.disable(name)"
+Disable the given setting \fIname\fR:
+.
+.IP "" 4
+.
+.nf
+
+app\.disable(\'some setting\');
+app\.set(\'some setting\');
+// => false
+
+app\.disabled(\'some setting\');
+// => false
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.disabled(name)"
+Check if setting \fIname\fR is disabled:
+.
+.IP "" 4
+.
+.nf
+
+app\.enable(\'view cache\');
+
+app\.disabled(\'view cache\');
+// => false
+
+app\.disable(\'view cache\');
+app\.disabled(\'view cache\');
+// => true
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.configure(env|function[, function])"
+Define a callback function for the given \fIenv\fR (or all environments) with callback \fIfunction\fR:
+.
+.IP "" 4
+.
+.nf
+
+app\.configure(function(){
+    // executed for each env
+});
+
+app\.configure(\'development\', function(){
+    // executed for \'development\' only
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.redirect(name, val)"
+For use with \fIres\.redirect()\fR we can map redirects at the application level as shown below:
+.
+.IP "" 4
+.
+.nf
+
+app\.redirect(\'google\', \'http://google\.com\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Now in a route we may call:
+.
+.P
+res\.redirect(\'google\');
+.
+.P
+We may also map dynamic redirects:
+.
+.IP "" 4
+.
+.nf
+
+app\.redirect(\'comments\', function(req, res){
+  return \'/post/\' + req\.params\.id + \'/comments\';
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+So now we may do the following, and the redirect will dynamically adjust to the context of the request\. If we called this route with \fIGET /post/12\fR our redirect \fILocation\fR would be \fI/post/12/comments\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/post/:id\', function(req, res){
+  res\.redirect(\'comments\');
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+When mounted, \fIres\.redirect()\fR will respect the mount\-point\. For example if a blog app is mounted at \fI/blog\fR, the following will redirect to \fI/blog/posts\fR:
+.
+.IP "" 4
+.
+.nf
+
+res\.redirect(\'/posts\');
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.error(function)"
+Adds an error handler \fIfunction\fR which will receive the exception as the first parameter as shown below\. Note that we may set several error handlers by making several calls to this method, however the handler should call \fInext(err)\fR if it does not wish to deal with the exception:
+.
+.IP "" 4
+.
+.nf
+
+app\.error(function(err, req, res, next){
+  res\.send(err\.message, 500);
+});
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.helpers(obj)"
+Registers static view helpers\.
+.
+.P
+app\.helpers({
+.
+.IP "" 4
+.
+.nf
+
+  name: function(first, last){ return first + \', \' + last }
+, firstName: \'tj\'
+, lastName: \'holowaychuk\'
+.
+.fi
+.
+.IP "" 0
+.
+.P
+});
+.
+.P
+Our view could now utilize the \fIfirstName\fR and \fIlastName\fR variables, as well as the \fIname()\fR function exposed\.
+.
+.IP "" 4
+.
+.nf
+
+<%= name(firstName, lastName) %>
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.dynamicHelpers(obj)"
+Registers dynamic view helpers\. Dynamic view helpers are simply functions which accept \fIreq\fR, \fIres\fR, and are evaluated against the \fIServer\fR instance before a view is rendered\. The \fIreturn value\fR of this function becomes the local variable it is associated with\.
+.
+.IP "" 4
+.
+.nf
+
+app\.dynamicHelpers({
+  session: function(req, res){
+    return req\.session;
+  }
+});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+All views would now have \fIsession\fR available so that session data can be accessed via \fIsession\.name\fR etc:
+.
+.IP "" 4
+.
+.nf
+
+<%= session\.name %>
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.mounted(fn)"
+Assign a callback \fIfn\fR which is called when this \fIServer\fR is passed to \fIServer#use()\fR\.
+.
+.IP "" 4
+.
+.nf
+
+var app = express\.createServer(),
+    blog = express\.createServer();
+
+blog\.mounted(function(parent){
+  // parent is app
+  // "this" is blog
+});
+
+app\.use(blog);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.register(ext, exports)"
+Register the given template engine \fIexports\fR as \fIext\fR\. For example we may wish to map "\.html" files to jade:
+.
+.IP "" 4
+.
+.nf
+
+ app\.register(\'\.html\', require(\'jade\'));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This is also useful for libraries that may not match extensions correctly\. For example my haml\.js library is installed from npm as "hamljs" so instead of layout\.hamljs, we can register the engine as "\.haml":
+.
+.IP "" 4
+.
+.nf
+
+ app\.register(\'\.haml\', require(\'haml\-js\'));
+.
+.fi
+.
+.IP "" 0
+.
+.P
+For engines that do not comply with the Express specification, we can also wrap their api this way\. Below we map \fI\.md\fR to render markdown files, rendering the html once since it will not change on subsequent calls, and support local substitution in the form of "{name}"\.
+.
+.IP "" 4
+.
+.nf
+
+  app\.register(\'\.md\', {
+    compile: function(str, options){
+      var html = md\.toHTML(str);
+      return function(locals){
+        return html\.replace(/\e{([^}]+)\e}/g, function(_, name){
+          return locals[name];
+        });
+      };
+    }
+  });
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.listen([port[, host]])"
+Bind the app server to the given \fIport\fR, which defaults to 3000\. When \fIhost\fR is omitted all connections will be accepted via \fIINADDR_ANY\fR\.
+.
+.IP "" 4
+.
+.nf
+
+app\.listen();
+app\.listen(3000);
+app\.listen(3000, \'n\.n\.n\.n\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The \fIport\fR argument may also be a string representing the path to a unix domain socket:
+.
+.IP "" 4
+.
+.nf
+
+app\.listen(\'/tmp/express\.sock\');
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Then try it out:
+.
+.IP "" 4
+.
+.nf
+
+$ telnet /tmp/express\.sock
+GET / HTTP/1\.1
+
+HTTP/1\.1 200 OK
+Content\-Type: text/plain
+Content\-Length: 11
+
+Hello World
+.
+.fi
+.
+.IP "" 0
+
