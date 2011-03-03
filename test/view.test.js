@@ -179,7 +179,7 @@ module.exports = {
     });
 
     app.get('/ferret', function(req, res){
-      res.render('ferret', { layout: false, ferret: 'Tobi' });
+      res.render('ferret', { layout: false, ferret: { name: 'Tobi' }});
     });
 
     assert.response(app,
@@ -628,7 +628,21 @@ module.exports = {
       { url: '/' },
       { body: '<html><body><h1>TJ</h1><p>Welcome Overridden</p></body></html>' });
   },
-  
+
+  'test #partial() index': function(){
+    var app = create();
+
+    app.set('view engine', 'jade');
+
+    app.get('/ferret', function(req, res){
+      res.partial('ferret', { name: 'Tobi' });
+    });
+
+    assert.response(app,
+      { url: '/ferret' },
+      { body: '<li class="ferret">Tobi</li>' });
+  },
+
   'test #partial() object': function(){
     var app = create();
 
