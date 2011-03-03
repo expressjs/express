@@ -197,6 +197,49 @@
 </p>
 <h3 id="Express-1-x-to-2-x-Migration">Express 1.x to 2.x Migration</h3>
 
+<h3 id="HTTPS">HTTPS</h3>
+
+<p> Creating an HTTPS server is simply, simply pass the TLS options to <em>express.createServer()</em>:</p>
+
+<pre><code> var app = express.createServer({
+     key: ...
+   , cert: ...
+ });
+
+ app.listen(443);
+</code></pre>
+
+<h3 id="req-header-Referrer">req.header() Referrer</h3>
+
+<p> Previously if anyone was doing something similar to:</p>
+
+<pre><code> req.headers.referrer || req.headers.referer
+ req.header('Referrer') || req.header('Referer')
+</code></pre>
+
+<p> With the new special-case we may now simply use <em>Referrer</em> which will return either if defined:</p>
+
+<pre><code> req.header('Referrer')
+</code></pre>
+
+<h3 id="res-local-name-val-">res.local(name, val)</h3>
+
+<p> Previously all local variables had to be passed to <em>res.render()</em>, or either <em>app.helpers()</em> or <em>app.dynamicHelpers()</em>, now we may do this at the request-level progressively. The <em>res.local()</em> method accepts a <em>name</em> and <em>val</em>, however the locals passed to <em>res.render()</em> will take precedence.</p>
+
+<p> For example we may utilize this feature to create locals in middleware:</p>
+
+<pre><code> function loadUser(req, res, next) {
+   User.get(req.params.id, function(err, user){
+     res.local('user', user);
+     next();
+   });
+ }
+
+ app.get('/user/:id', loadUser, function(req, res){
+   res.render('user');
+ });
+</code></pre>
+
 </div>
 			</div>
 		</div>
