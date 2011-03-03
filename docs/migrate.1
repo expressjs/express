@@ -77,4 +77,127 @@ For example we may utilize this feature to create locals in middleware:
 .fi
 .
 .IP "" 0
+.
+.SS "req\.param(name[, defaultValue])"
+Previously only \fIname\fR was accepted, so some of you may have been doing the following:
+.
+.IP "" 4
+.
+.nf
+
+ var id = req\.param(\'id\') || req\.user\.id;
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The new \fIdefaultValue\fR argument can handle this nicely:
+.
+.IP "" 4
+.
+.nf
+
+ var id = req\.param(\'id\', req\.user\.id);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.helpers() / app\.locals()"
+\fIapp\.locals()\fR is now an alias of \fIapp\.helpers()\fR, as helpers makes more sense for functions\.
+.
+.SS "req\.accepts(type)"
+\fIreq\.accepts()\fR now accepts extensions:
+.
+.IP "" 4
+.
+.nf
+
+  // Accept: text/html
+  req\.accepts(\'html\');
+  req\.accepts(\'\.html\');
+  // => true
+
+  // Accept: text/*; application/json
+  req\.accepts(\'html\');
+  req\.accepts(\'text/*\');
+  req\.accepts(\'text/plain\');
+  req\.accepts(\'application/json\');
+  // => true
+
+  req\.accepts(\'image/png\');
+  req\.accepts(\'png\');
+  // => false
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.download() / res\.sendfile()"
+Both of these methods now utilize Connect\'s static file server behind the scenes (actually the previous Express code was ported to Connect 1\.0)\. With this change comes a change to the callback as well\. Previously the \fIpath\fR and \fIstream\fR were passed, however now only an \fIerror\fR is passed, when no error has occurred the callback will be invoked indicating that the file transfer is complete\. The callback remains optional:
+.
+.IP "" 4
+.
+.nf
+
+ res\.download(\'/path/to/file\');
+
+ res\.download(\'/path/to/file\', function(err){
+   if (err) {
+     console\.error(err);
+   } else {
+     console\.log(\'transferred\');
+   }
+ });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The \fIstream threshold\fR setting was removed\.
+.
+.SS "View Engine Compliance"
+To comply with Express previously engines needed the following signature:
+.
+.IP "" 4
+.
+.nf
+
+ engine\.render(str, options, function(err){});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Now they must export a \fIcompile()\fR function, returning a function which when called with local variables will render the template\. This allows Express to cache the compiled function in memory during production\.
+.
+.IP "" 4
+.
+.nf
+
+ var fn = engine\.compile(str, options);
+ fn(locals);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "View Partial Lookup"
+Previously partials were loaded relative to the now removed \fIview partials\fR directory setting, or by default \fIviews/partials\fR, now they are relative to the view calling them, read more on view lookup \fIguide\.html#View\-lookup\fR\.
+.
+.SS "Mime Types"
+Express and Connect now utilize the \fImime\fR module in npm, so to add more use:
+.
+.IP "" 4
+.
+.nf
+
+ require(\'mime\')\.define({ \'foo/bar\': [\'foo\', \'bar\'] });
+.
+.fi
+.
+.IP "" 0
 

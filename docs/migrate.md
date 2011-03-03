@@ -39,3 +39,75 @@
      app.get('/user/:id', loadUser, function(req, res){
        res.render('user');
      });
+
+### req.param(name[, defaultValue])
+
+ Previously only _name_ was accepted, so some of you may have been doing the following:
+ 
+     var id = req.param('id') || req.user.id;
+
+ The new _defaultValue_ argument can handle this nicely:
+ 
+     var id = req.param('id', req.user.id);
+
+### app.helpers() / app.locals()
+
+  _app.locals()_ is now an alias of _app.helpers()_, as helpers makes more sense for functions.
+
+### req.accepts(type)
+
+  _req.accepts()_ now accepts extensions:
+  
+  
+      // Accept: text/html
+      req.accepts('html');
+      req.accepts('.html');
+      // => true
+      
+      // Accept: text/*; application/json
+      req.accepts('html');
+      req.accepts('text/*');
+      req.accepts('text/plain');
+      req.accepts('application/json');
+      // => true
+      
+      req.accepts('image/png');
+      req.accepts('png');
+      // => false
+
+### res.download() / res.sendfile()
+
+ Both of these methods now utilize Connect's static file server behind the scenes (actually the previous Express code was ported to Connect 1.0). With this change comes a change to the callback as well. Previously the _path_ and _stream_ were passed, however now only an _error_ is passed, when no error has occurred the callback will be invoked indicating that the file transfer is complete. The callback remains optional:
+ 
+     res.download('/path/to/file');
+
+     res.download('/path/to/file', function(err){
+       if (err) {
+         console.error(err);
+       } else {
+         console.log('transferred');
+       }
+     });
+
+ The _stream threshold_ setting was removed.
+
+### View Engine Compliance
+
+ To comply with Express previously engines needed the following signature:
+ 
+     engine.render(str, options, function(err){});
+
+ Now they must export a _compile()_ function, returning a function which when called with local variables will render the template. This allows Express to cache the compiled function in memory during production.
+ 
+     var fn = engine.compile(str, options);
+     fn(locals);
+
+### View Partial Lookup
+
+ Previously partials were loaded relative to the now removed _view partials_ directory setting, or by default _views/partials_, now they are relative to the view calling them, read more on [view lookup](guide.html#View-Lookup).
+
+### Mime Types
+
+ Express and Connect now utilize the _mime_ module in npm, so to add more use:
+ 
+     require('mime').define({ 'foo/bar': ['foo', 'bar'] });
