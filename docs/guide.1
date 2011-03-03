@@ -978,6 +978,9 @@ View lookup is performed relative to the parent view, for example if we had a pa
 .P
 The view system also allows for index templates, allowing you to have a directory of the same name\. For example within a route we may have \fIres\.render(\'users\')\fR either \fIviews/users\.jade\fR, or \fIviews/users/index\.jade\fR\.
 .
+.P
+When utilizing index views as shown above, we may reference \fIviews/users/index\.jade\fR from a view in the same directory by \fIpartial(\'users\')\fR, and the view system will try \fI\.\./users/index\fR, preventing us from needing to call \fIpartial(\'index\')\fR\.
+.
 .SS "Template Engines"
 Below are a few template engines commonly used with Express:
 .

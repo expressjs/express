@@ -549,6 +549,8 @@ View lookup is performed relative to the parent view, for example if we had a pa
 
 The view system also allows for index templates, allowing you to have a directory of the same name. For example within a route we may have _res.render('users')_ either _views/users.jade_, or _views/users/index.jade_.
 
+When utilizing index views as shown above, we may reference _views/users/index.jade_ from a view in the same directory by _partial('users')_, and the view system will try _../users/index_, preventing us from needing to call _partial('index')_.
+
 ### Template Engines
 
 Below are a few template engines commonly used with Express:

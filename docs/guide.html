@@ -858,6 +858,8 @@ for free:</p>
 
 <p>The view system also allows for index templates, allowing you to have a directory of the same name. For example within a route we may have <em>res.render('users')</em> either <em>views/users.jade</em>, or <em>views/users/index.jade</em>.</p>
 
+<p>When utilizing index views as shown above, we may reference <em>views/users/index.jade</em> from a view in the same directory by <em>partial('users')</em>, and the view system will try <em>../users/index</em>, preventing us from needing to call <em>partial('index')</em>.</p>
+
 <h3 id="Template-Engines">Template Engines</h3>
 
 <p>Below are a few template engines commonly used with Express:</p>
