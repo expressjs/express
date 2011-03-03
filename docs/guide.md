@@ -857,14 +857,10 @@ Render _view_ with the given _options_ and optional callback _fn_.
 When a callback function is given a response will _not_ be made
 automatically, however otherwise a response of _200_ and _text/html_ is given.
 
- Most engines accept one or more of the following options,
- both [haml](http://github.com/visionmedia/haml.js) and [jade](http://github.com/visionmedia/jade) accept all:
+The _options_ passed are the local variables as well, for example if we want to expose "user" to the view, and prevent a local we do so within the same object:
 
-  - _scope_           Template evaluation context (value of _this_)
-  - _locals_          Object containing local variables
-  - _debug_           Output debugging information
-  - _status_          Response status code, defaults to 200
-  - _headers_         Response headers object
+    var user = { name: 'tj' };
+    res.render('index', { layout: false, user: user });
 
 ### res.partial(view[, options])
 
@@ -926,6 +922,21 @@ When a non-collection (does _not_ have _.length_) is passed as the second argume
     partial('movie', movie);
     // => In view: movie.director
 
+This exact API can be utilized from within a route, to respond with a fragment via Ajax or WebSockets, for example we can render a collection of users directly from a route:
+
+    app.get('/users', function(req, res){
+      if (req.xhr) {
+        // respond with the each user in the collection
+        // passed to the "user" view
+        res.partial('user', users);
+      } else {
+        // respond with layout, and users page
+        // which internally does partial('user', users)
+        // along with other UI
+        res.render('users', { users: users });
+      }
+    });
+
 ### res.local(name[, val])
 
 Get or set the given local variable _name_. The locals built up for a response are applied to those given to the view rendering methods such as `res.render()`.
@@ -968,6 +979,17 @@ Enable the given setting _name_:
     app.enabled('some arbitrary setting');
     // => true
 
+### app.enabled(name)
+
+Check if setting _name_ is enabled:
+
+    app.enabled('view cache');
+    // => false
+
+    app.enable('view cache');
+    app.enabled('view cache');
+    // => true
+
 ### app.disable(name)
 
 Disable the given setting _name_:
@@ -978,6 +1000,19 @@ Disable the given setting _name_:
     
     app.disabled('some setting');
     // => false
+
+### app.disabled(name)
+
+Check if setting _name_ is disabled:
+
+    app.enable('view cache');
+
+    app.disabled('view cache');
+    // => false
+
+    app.disable('view cache');
+    app.disabled('view cache');
+    // => true
 
 ### app.configure(env|function[, function])
 
@@ -993,7 +1028,7 @@ Define a callback function for the given _env_ (or all environments) with callba
 
 ### app.redirect(name, val)
 
-For use with `res.redirect()` we can map redirects at the application level as shown below:
+For use with _res.redirect()_ we can map redirects at the application level as shown below:
 
     app.redirect('google', 'http://google.com');
 
@@ -1004,7 +1039,7 @@ Now in a route we may call:
 We may also map dynamic redirects:
 
     app.redirect('comments', function(req, res){
-        return '/post/' + req.params.id + '/comments';
+      return '/post/' + req.params.id + '/comments';
     });
 
 So now we may do the following, and the redirect will dynamically adjust to
@@ -1012,8 +1047,12 @@ the context of the request. If we called this route with _GET /post/12_ our
 redirect _Location_ would be _/post/12/comments_.
 
     app.get('/post/:id', function(req, res){
-        res.redirect('comments');
+      res.redirect('comments');
     });
+
+When mounted, _res.redirect()_ will respect the mount-point. For example if a blog app is mounted at _/blog_, the following will redirect to _/blog/posts_:
+
+    res.redirect('/posts');
 
 ### app.error(function)
 
@@ -1022,18 +1061,18 @@ Note that we may set several error handlers by making several calls to this meth
 should call _next(err)_ if it does not wish to deal with the exception:
 
     app.error(function(err, req, res, next){
-		res.send(err.message, 500);
-	});
+      res.send(err.message, 500);
+    });
 
 ### app.helpers(obj)
 
 Registers static view helpers.
 
-    app.helpers({
-		name: function(first, last){ return first + ', ' + last },
-		firstName: 'tj',
-		lastName: 'holowaychuk'
-	});
+  app.helpers({
+      name: function(first, last){ return first + ', ' + last }
+    , firstName: 'tj'
+    , lastName: 'holowaychuk'
+  });
 
 Our view could now utilize the _firstName_ and _lastName_ variables,
 as well as the _name()_ function exposed.
@@ -1048,9 +1087,9 @@ evaluated against the _Server_ instance before a view is rendered. The _return v
 becomes the local variable it is associated with.
 
     app.dynamicHelpers({
-		session: function(req, res){
-			return req.session;
-		}
+      session: function(req, res){
+        return req.session;
+      }
     });
 
 All views would now have _session_ available so that session data can be accessed via _session.name_ etc:
@@ -1065,8 +1104,8 @@ Assign a callback _fn_ which is called when this _Server_ is passed to _Server#u
         blog = express.createServer();
     
     blog.mounted(function(parent){
-        // parent is app
-        // "this" is blog
+      // parent is app
+      // "this" is blog
     });
     
     app.use(blog);
@@ -1090,10 +1129,10 @@ For engines that do not comply with the Express
 specification, we can also wrap their api this way.
 
      app.register('.foo', {
-         render: function(str, options) {
-             // perhaps their api is
-             // return foo.toHTML(str, options);
-         }
+       render: function(str, options) {
+         // perhaps their api is
+         // return foo.toHTML(str, options);
+       }
      });
 
 ### app.listen([port[, host]])

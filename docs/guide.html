@@ -221,7 +221,9 @@
 <li><a href="#" class="toggle">+</a> <a class="section-title" href="#">Server</a><ul class="section" id="section-Server">
 <li><a href="#app-set-name-val-">set()</a></li>
 <li><a href="#app-enable-name-">enable()</a></li>
+<li><a href="#app-enabled-name-">enabled()</a></li>
 <li><a href="#app-disable-name-">disable()</a></li>
+<li><a href="#app-disabled-name-">disabled()</a></li>
 <li><a href="#app-configure-env-function-function-">configure()</a></li>
 <li><a href="#app-redirect-name-val-">redirect()</a></li>
 <li><a href="#app-error-function-">error()</a></li>
@@ -1197,17 +1199,11 @@ app.get('/', function(req, res){
 When a callback function is given a response will <em>not</em> be made
 automatically, however otherwise a response of <em>200</em> and <em>text/html</em> is given.</p>
 
-<p> Most engines accept one or more of the following options,
- both <a href="http://github.com/visionmedia/haml.js">haml</a> and <a href="http://github.com/visionmedia/jade">jade</a> accept all:</p>
+<p>The <em>options</em> passed are the local variables as well, for example if we want to expose "user" to the view, and prevent a local we do so within the same object:</p>
 
-<ul>
-<li><em>scope</em>           Template evaluation context (value of <em>this</em>)</li>
-<li><em>locals</em>          Object containing local variables</li>
-<li><em>debug</em>           Output debugging information</li>
-<li><em>status</em>          Response status code, defaults to 200</li>
-<li><em>headers</em>         Response headers object</li>
-</ul>
-
+<pre><code>var user = { name: 'tj' };
+res.render('index', { layout: false, user: user });
+</code></pre>
 
 <h3 id="res-partial-view-options-">res.partial(view[, options])</h3>
 
@@ -1281,6 +1277,22 @@ partial('movie', { object: movie });
 // =&gt; In view: movie.director
 </code></pre>
 
+<p>This exact API can be utilized from within a route, to respond with a fragment via Ajax or WebSockets, for example we can render a collection of users directly from a route:</p>
+
+<pre><code>app.get('/users', function(req, res){
+  if (req.xhr) {
+    // respond with the each user in the collection
+    // passed to the "user" view
+    res.partial('user', users);
+  } else {
+    // respond with layout, and users page
+    // which internally does partial('user', users)
+    // along with other UI
+    res.render('users', { users: users });
+  }
+});
+</code></pre>
+
 <h3 id="res-local-name-val-">res.local(name[, val])</h3>
 
 <p>Get or set the given local variable <em>name</em>. The locals built up for a response are applied to those given to the view rendering methods such as <code>res.render()</code>.</p>
@@ -1327,6 +1339,18 @@ app.enabled('some arbitrary setting');
 // =&gt; true
 </code></pre>
 
+<h3 id="app-enabled-name-">app.enabled(name)</h3>
+
+<p>Check if setting <em>name</em> is enabled:</p>
+
+<pre><code>app.enabled('view cache');
+// =&gt; false
+
+app.enable('view cache');
+app.enabled('view cache');
+// =&gt; true
+</code></pre>
+
 <h3 id="app-disable-name-">app.disable(name)</h3>
 
 <p>Disable the given setting <em>name</em>:</p>
@@ -1337,6 +1361,20 @@ app.set('some setting');
 
 app.disabled('some setting');
 // =&gt; false
+</code></pre>
+
+<h3 id="app-disabled-name-">app.disabled(name)</h3>
+
+<p>Check if setting <em>name</em> is disabled:</p>
+
+<pre><code>app.enable('view cache');
+
+app.disabled('view cache');
+// =&gt; false
+
+app.disable('view cache');
+app.disabled('view cache');
+// =&gt; true
 </code></pre>
 
 <h3 id="app-configure-env-function-function-">app.configure(env|function[, function])</h3>
@@ -1354,7 +1392,7 @@ app.configure('development', function(){
 
 <h3 id="app-redirect-name-val-">app.redirect(name, val)</h3>
 
-<p>For use with <code>res.redirect()</code> we can map redirects at the application level as shown below:</p>
+<p>For use with <em>res.redirect()</em> we can map redirects at the application level as shown below:</p>
 
 <pre><code>app.redirect('google', 'http://google.com');
 </code></pre>
@@ -1366,7 +1404,7 @@ app.configure('development', function(){
 <p>We may also map dynamic redirects:</p>
 
 <pre><code>app.redirect('comments', function(req, res){
-    return '/post/' + req.params.id + '/comments';
+  return '/post/' + req.params.id + '/comments';
 });
 </code></pre>
 
@@ -1375,8 +1413,13 @@ the context of the request. If we called this route with <em>GET /post/12</em> o
 redirect <em>Location</em> would be <em>/post/12/comments</em>.</p>
 
 <pre><code>app.get('/post/:id', function(req, res){
-    res.redirect('comments');
+  res.redirect('comments');
 });
+</code></pre>
+
+<p>When mounted, <em>res.redirect()</em> will respect the mount-point. For example if a blog app is mounted at <em>/blog</em>, the following will redirect to <em>/blog/posts</em>:</p>
+
+<pre><code>res.redirect('/posts');
 </code></pre>
 
 <h3 id="app-error-function-">app.error(function)</h3>
@@ -1386,7 +1429,7 @@ Note that we may set several error handlers by making several calls to this meth
 should call <em>next(err)</em> if it does not wish to deal with the exception:</p>
 
 <pre><code>app.error(function(err, req, res, next){
-    res.send(err.message, 500);
+  res.send(err.message, 500);
 });
 </code></pre>
 
@@ -1394,12 +1437,14 @@ should call <em>next(err)</em> if it does not wish to deal with the exception:</
 
 <p>Registers static view helpers.</p>
 
-<pre><code>app.helpers({
-    name: function(first, last){ return first + ', ' + last },
-    firstName: 'tj',
-    lastName: 'holowaychuk'
-});
+<p>  app.helpers({</p>
+
+<pre><code>  name: function(first, last){ return first + ', ' + last }
+, firstName: 'tj'
+, lastName: 'holowaychuk'
 </code></pre>
+
+<p>  });</p>
 
 <p>Our view could now utilize the <em>firstName</em> and <em>lastName</em> variables,
 as well as the <em>name()</em> function exposed.</p>
@@ -1415,9 +1460,9 @@ evaluated against the <em>Server</em> instance before a view is rendered. The <e
 becomes the local variable it is associated with.</p>
 
 <pre><code>app.dynamicHelpers({
-    session: function(req, res){
-        return req.session;
-    }
+  session: function(req, res){
+    return req.session;
+  }
 });
 </code></pre>
 
@@ -1434,8 +1479,8 @@ becomes the local variable it is associated with.</p>
     blog = express.createServer();
 
 blog.mounted(function(parent){
-    // parent is app
-    // "this" is blog
+  // parent is app
+  // "this" is blog
 });
 
 app.use(blog);
@@ -1462,10 +1507,10 @@ of layout.hamljs, we can register the engine as ".haml":</p>
 specification, we can also wrap their api this way.</p>
 
 <pre><code> app.register('.foo', {
-     render: function(str, options) {
-         // perhaps their api is
-         // return foo.toHTML(str, options);
-     }
+   render: function(str, options) {
+     // perhaps their api is
+     // return foo.toHTML(str, options);
+   }
  });
 </code></pre>
 

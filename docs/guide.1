@@ -1508,22 +1508,16 @@ res\.clearCookie(\'rememberme\');
 Render \fIview\fR with the given \fIoptions\fR and optional callback \fIfn\fR\. When a callback function is given a response will \fInot\fR be made automatically, however otherwise a response of \fI200\fR and \fItext/html\fR is given\.
 .
 .P
-Most engines accept one or more of the following options, both haml \fIhttp://github\.com/visionmedia/haml\.js\fR and jade \fIhttp://github\.com/visionmedia/jade\fR accept all:
+The \fIoptions\fR passed are the local variables as well, for example if we want to expose "user" to the view, and prevent a local we do so within the same object:
 .
-.IP "\(bu" 4
-\fIscope\fR Template evaluation context (value of \fIthis\fR)
+.IP "" 4
 .
-.IP "\(bu" 4
-\fIlocals\fR Object containing local variables
+.nf
+
+var user = { name: \'tj\' };
+res\.render(\'index\', { layout: false, user: user });
 .
-.IP "\(bu" 4
-\fIdebug\fR Output debugging information
-.
-.IP "\(bu" 4
-\fIstatus\fR Response status code, defaults to 200
-.
-.IP "\(bu" 4
-\fIheaders\fR Response headers object
+.fi
 .
 .IP "" 0
 .
@@ -1650,6 +1644,30 @@ partial(\'movie\', movie);
 .
 .IP "" 0
 .
+.P
+This exact API can be utilized from within a route, to respond with a fragment via Ajax or WebSockets, for example we can render a collection of users directly from a route:
+.
+.IP "" 4
+.
+.nf
+
+app\.get(\'/users\', function(req, res){
+  if (req\.xhr) {
+    // respond with the each user in the collection
+    // passed to the "user" view
+    res\.partial(\'user\', users);
+  } else {
+    // respond with layout, and users page
+    // which internally does partial(\'user\', users)
+    // along with other UI
+    res\.render(\'users\', { users: users });
+  }
+});
+.
+.fi
+.
+.IP "" 0
+.
 .SS "res\.local(name[, val])"
 Get or set the given local variable \fIname\fR\. The locals built up for a response are applied to those given to the view rendering methods such as \fBres\.render()\fR\.
 .
@@ -1721,6 +1739,24 @@ app\.enabled(\'some arbitrary setting\');
 .
 .IP "" 0
 .
+.SS "app\.enabled(name)"
+Check if setting \fIname\fR is enabled:
+.
+.IP "" 4
+.
+.nf
+
+app\.enabled(\'view cache\');
+// => false
+
+app\.enable(\'view cache\');
+app\.enabled(\'view cache\');
+// => true
+.
+.fi
+.
+.IP "" 0
+.
 .SS "app\.disable(name)"
 Disable the given setting \fIname\fR:
 .
@@ -1734,6 +1770,26 @@ app\.set(\'some setting\');
 
 app\.disabled(\'some setting\');
 // => false
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.disabled(name)"
+Check if setting \fIname\fR is disabled:
+.
+.IP "" 4
+.
+.nf
+
+app\.enable(\'view cache\');
+
+app\.disabled(\'view cache\');
+// => false
+
+app\.disable(\'view cache\');
+app\.disabled(\'view cache\');
+// => true
 .
 .fi
 .
@@ -1759,7 +1815,7 @@ app\.configure(\'development\', function(){
 .IP "" 0
 .
 .SS "app\.redirect(name, val)"
-For use with \fBres\.redirect()\fR we can map redirects at the application level as shown below:
+For use with \fIres\.redirect()\fR we can map redirects at the application level as shown below:
 .
 .IP "" 4
 .
@@ -1785,7 +1841,7 @@ We may also map dynamic redirects:
 .nf
 
 app\.redirect(\'comments\', function(req, res){
-    return \'/post/\' + req\.params\.id + \'/comments\';
+  return \'/post/\' + req\.params\.id + \'/comments\';
 });
 .
 .fi
@@ -1800,8 +1856,21 @@ So now we may do the following, and the redirect will dynamically adjust to the 
 .nf
 
 app\.get(\'/post/:id\', function(req, res){
-    res\.redirect(\'comments\');
+  res\.redirect(\'comments\');
 });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+When mounted, \fIres\.redirect()\fR will respect the mount\-point\. For example if a blog app is mounted at \fI/blog\fR, the following will redirect to \fI/blog/posts\fR:
+.
+.IP "" 4
+.
+.nf
+
+res\.redirect(\'/posts\');
 .
 .fi
 .
@@ -1815,7 +1884,7 @@ Adds an error handler \fIfunction\fR which will receive the exception as the fir
 .nf
 
 app\.error(function(err, req, res, next){
-    res\.send(err\.message, 500);
+  res\.send(err\.message, 500);
 });
 .
 .fi
@@ -1825,19 +1894,23 @@ app\.error(function(err, req, res, next){
 .SS "app\.helpers(obj)"
 Registers static view helpers\.
 .
+.P
+app\.helpers({
+.
 .IP "" 4
 .
 .nf
 
-app\.helpers({
-    name: function(first, last){ return first + \', \' + last },
-    firstName: \'tj\',
-    lastName: \'holowaychuk\'
-});
+  name: function(first, last){ return first + \', \' + last }
+, firstName: \'tj\'
+, lastName: \'holowaychuk\'
 .
 .fi
 .
 .IP "" 0
+.
+.P
+});
 .
 .P
 Our view could now utilize the \fIfirstName\fR and \fIlastName\fR variables, as well as the \fIname()\fR function exposed\.
@@ -1860,9 +1933,9 @@ Registers dynamic view helpers\. Dynamic view helpers are simply functions which
 .nf
 
 app\.dynamicHelpers({
-    session: function(req, res){
-        return req\.session;
-    }
+  session: function(req, res){
+    return req\.session;
+  }
 });
 .
 .fi
@@ -1893,8 +1966,8 @@ var app = express\.createServer(),
     blog = express\.createServer();
 
 blog\.mounted(function(parent){
-    // parent is app
-    // "this" is blog
+  // parent is app
+  // "this" is blog
 });
 
 app\.use(blog);
@@ -1937,10 +2010,10 @@ For engines that do not comply with the Express specification, we can also wrap 
 .nf
 
  app\.register(\'\.foo\', {
-     render: function(str, options) {
-         // perhaps their api is
-         // return foo\.toHTML(str, options);
-     }
+   render: function(str, options) {
+     // perhaps their api is
+     // return foo\.toHTML(str, options);
+   }
  });
 .
 .fi
