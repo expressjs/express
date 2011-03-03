@@ -1,27 +1,26 @@
 
 ### Installation
 
-curl:
-
-    $ curl -# http://expressjs.com/install.sh | sh
-
-npm:
-
     $ npm install express
 
-### Creating An Application
+### Creating A Server
 
-The _express.Server_ now inherits from _http.Server_, however
-follows the same idiom by providing _express.createServer()_ as shown below. This means
-that you can utilize Express server's transparently with other libraries.
+ To create an instance of the _express.HTTPServer_, simply invoke the _createServer()_ method. With our instance _app_ we can then define routes based on the HTTP verbs, in this example _app.get()_.
 
     var app = require('express').createServer();
-	
-	app.get('/', function(req, res){
-		res.send('hello world');
-	});
-	
-	app.listen(3000);
+    
+    app.get('/', function(req, res){
+      res.send('hello world');
+    });
+    
+    app.listen(3000);
+
+### Creating An HTTPS Server
+
+ To initialize a _express.HTTPSServer_ we do the same as above, however we
+ pass an options object, accepting _key_, _cert_ and the others mentioned in node's [https documentation](http://nodejs.org/docs/v0.3.7/api/https.html#https.createServer).
+ 
+     var app = require('express').createServer({ key: ... });
 
 ### Configuration
 
@@ -31,40 +30,43 @@ _configure()_ is called without an environment name it will be run in _every_ en
 prior to the environment specific callback.
 
 In the example below we only _dumpExceptions_, and respond with exception stack traces
-in _development_ mode, however for both environments we utilize _methodOverride_ and _bodyDecoder_.
+in _development_ mode, however for both environments we utilize _methodOverride_ and _bodyParser_.
 Note the use of _app.router_, which can (optionally) be used to mount the application routes,
-otherwise the first call to _app.{get,put,del,post}()_ will mount the routes.
+otherwise the first call to _app.get()_, _app.post()_, etc will mount the routes.
 
     app.configure(function(){
   		app.use(express.methodOverride());
-  		app.use(express.bodyDecoder());
+  		app.use(express.bodyParser());
   		app.use(app.router);
   	});
 	
   	app.configure('development', function(){
-  		app.use(express.staticProvider(__dirname + '/public'));
+  		app.use(express.static(__dirname + '/public'));
   		app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   	});
 	
-  	app.configure('production', function(){
-  	  var oneYear = 31557600000;
-  		app.use(express.staticProvider({ root: __dirname + '/public', maxAge: oneYear }));
-  		app.use(express.errorHandler());
-  	});
+    app.configure('production', function(){
+      var oneYear = 31557600000;
+      app.use(express.static({ root: __dirname + '/public', maxAge: oneYear }));
+      app.use(express.errorHandler());
+    });
 
 For internal and arbitrary settings Express provides the _set(key[, val])_, _enable(key)_, _disable(key)_ methods:
 
-    app.configure(function(){
-		app.set('views', __dirname + '/views');
-		app.set('views');
-		// => "... views directory ..."
-		
-		app.enable('some feature');
-		// same as app.set('some feature', true);
-		
-		app.disable('some feature');
-		// same as app.set('some feature', false);
-	});
+     app.configure(function(){
+        app.set('views', __dirname + '/views');
+        app.set('views');
+        // => "/absolute/path/to/views"
+        
+        app.enable('some feature');
+        // same as app.set('some feature', true);
+        
+        app.disable('some feature');
+        // same as app.set('some feature', false);
+     
+        app.enabled('some feature')
+        // => false
+     });
 
 To alter the environment we can set the _NODE_ENV_ environment variable, for example:
 
@@ -76,7 +78,6 @@ This is _very_ important, as many caching mechanisms are _only enabled_ when in 
 
 Express supports the following settings out of the box:
 
-  * _env_ Application environment set internally, use _app.set('env')_ on _Server#listen()_
   * _home_ Application base path used for _res.redirect()_ and transparently handling mounted apps.
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
@@ -151,12 +152,12 @@ may consume:
 	 /user/12
 	 /user/12.json
 
-For example we can __POST__ some json, and echo the json back using the _bodyDecoder_ middleware which will parse json request bodies (as well as others), and place the result in _req.body_:
+For example we can __POST__ some json, and echo the json back using the _bodyParser_ middleware which will parse json request bodies (as well as others), and place the result in _req.body_:
 
     var express = require('express')
       , app = express.createServer();
 
-    app.use(express.bodyDecoder());
+    app.use(express.bodyParser());
 
     app.post('/', function(req, res){
       res.send(req.body);
@@ -164,13 +165,13 @@ For example we can __POST__ some json, and echo the json back using the _bodyDec
 
     app.listen(3000);
 
-Express 2.0.0-pre also supports named capture groups. Typically we may use a "dump" placeholder such as "/user/:id" which has no restraints, however say for example we are limiting a user id to digits, we may use _'/user/:id(\\d+)'_ which will _not_ match unless the placeholder value contains only digits.
+Typically we may use a "dumb" placeholder such as "/user/:id" which has no restrictions, however say for example we are limiting a user id to digits, we may use _'/user/:id(\\d+)'_ which will _not_ match unless the placeholder value contains only digits.
 
 ### Passing Route Control
 
 We may pass control to the next _matching_ route, by calling the _third_ argument,
 the _next()_ function. When a match cannot be made, control is passed back to Connect,
-and middleware continue to be invoked. The same is true for several routes which have the same path defined, they will simply be executed in order until one does _not_ call _next()_.
+and middleware continue to be invoked in the order that they are added via _use()_. The same is true for several routes which have the same path defined, they will simply be executed in order until one does _not_ call _next()_ and decides to respond.
 
 	app.get('/users/:id?', function(req, res, next){
 		var id = req.params.id;
@@ -185,7 +186,7 @@ and middleware continue to be invoked. The same is true for several routes which
 		// do something else
 	});
 
-Express 1.0 also introduces the _all()_ method, which provides a route callback matching any HTTP method. This is useful in many ways, one example being the loading of resources before executing subsequent routes as shown below:
+The _app.all()_ method is useful for applying the same logic for all HTTP verbs in a single call. Below we use this to load a user from our fake database, and assign it to _req.user_.
 
     var express = require('express')
       , app = express.createServer();
@@ -227,11 +228,11 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 	  var express = require('express');
 
     var app = express.createServer(
-	  	express.logger(),
-	  	express.bodyDecoder()
+	  	  express.logger()
+	  	, express.bodyParser()
 	  );
 
-Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks:
+Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks, in a progressive manor.
 
     app.use(express.logger({ format: ':method :uri' }));
 
@@ -239,10 +240,12 @@ Typically with connect middleware you would _require('connect')_ like so:
 
     var connect = require('connect');
     app.use(connect.logger());
+    app.use(connect.bodyParser());
 
 This is somewhat annoying, so express re-exports these middleware properties, however they are _identical_:
 
     app.use(express.logger());
+    app.use(express.bodyParser());
 
 ### Route Middleware
 
@@ -251,53 +254,53 @@ Routes may utilize route-specific middleware by passing one or more additional c
 Typically async data retrieval might look similar to below, where we take the _:id_ parameter, and attempt loading a user. 
 
     app.get('/user/:id', function(req, res, next){
-        loadUser(req.params.id, function(err, user){
-            if (err) return next(err);
-            res.send('Viewing user ' + user.name);
-        });
+      loadUser(req.params.id, function(err, user){
+        if (err) return next(err);
+        res.send('Viewing user ' + user.name);
+      });
     });
 
 To keep things DRY and to increase readability we can apply this logic within a middleware. As you can see below, abstracting this logic into middleware allows us to reuse it, and clean up our route at the same time. 
 
     function loadUser(req, res, next) {
-        // You would fetch your user from the db
-        var user = users[req.params.id];
-        if (user) {
-            req.user = user;
-            next();
-        } else {
-            next(new Error('Failed to load user ' + req.params.id));
-        }
+      // You would fetch your user from the db
+      var user = users[req.params.id];
+      if (user) {
+        req.user = user;
+        next();
+      } else {
+        next(new Error('Failed to load user ' + req.params.id));
+      }
     }
    
     app.get('/user/:id', loadUser, function(req, res){
-        res.send('Viewing user ' + req.user.name);
+      res.send('Viewing user ' + req.user.name);
     });
 
 Multiple route middleware can be applied, and will be executed sequentially to apply further logic such as restricting access to a user account. In the example below only the authenticated user may edit his/her account.
 
     function andRestrictToSelf(req, res, next) {
-        req.authenticatedUser.id == req.user.id
-            ? next()
-            : next(new Error('Unauthorized'));
+      req.authenticatedUser.id == req.user.id
+        ? next()
+        : next(new Error('Unauthorized'));
     }
     
     app.get('/user/:id/edit', loadUser, andRestrictToSelf, function(req, res){
-        res.send('Editing user ' + req.user.name);
+      res.send('Editing user ' + req.user.name);
     });
 
 Keeping in mind that middleware are simply functions, we can define function that _returns_ the middleware in order to create a more expressive and flexible solution as shown below.
 
     function andRestrictTo(role) {
-        return function(req, res, next) {
-          req.authenticatedUser.role == role
-              ? next()
-              : next(new Error('Unauthorized'));
-        }
+      return function(req, res, next) {
+        req.authenticatedUser.role == role
+          ? next()
+          : next(new Error('Unauthorized'));
+      }
     }
     
     app.del('/user/:id', loadUser, andRestrictTo('admin'), function(req, res){
-        res.send('Deleted user ' + req.user.name);
+      res.send('Deleted user ' + req.user.name);
     });
 
 Commonly used "stacks" of middleware can be passed as an array (_applied recursively_), which can be mixed and matched to any degree.
@@ -327,20 +330,20 @@ We have seen _app.get()_ a few times, however Express also exposes other familia
          <input type="submit" value="Submit" />
      </form>
 
-By default Express does not know what to do with this request body, so we should add the _bodyDecoder_ middleware, which will parse _application/x-www-form-urlencoded_ request bodies and place the variables in _req.body_. We can do this by "using" the middleware as shown below:
+By default Express does not know what to do with this request body, so we should add the _bodyParser_ middleware, which will parse _application/x-www-form-urlencoded_ and _application/json_ request bodies and place the variables in _req.body_. We can do this by "using" the middleware as shown below:
 
-    app.use(express.bodyDecoder());
+    app.use(express.bodyParser());
 
 Our route below will now have access to the _req.body.user_ object which will contain the _name_ and _email_ properties when defined.
 
     app.post('/', function(req, res){
-        console.log(req.body.user);
-        res.redirect('back');
+      console.log(req.body.user);
+      res.redirect('back');
     });
 
-When using methods such as _PUT_ with a form, we can utilize a hidden input named _\_method_, which can be used to alter the HTTP method. To do so we first need the _methodOverride_ middleware, which should be placed below _bodyDecoder_ so that it can utilize it's _req.body_ containing the form values.
+When using methods such as _PUT_ with a form, we can utilize a hidden input named _\_method_, which can be used to alter the HTTP method. To do so we first need the _methodOverride_ middleware, which should be placed below _bodyParser_ so that it can utilize it's _req.body_ containing the form values.
 
-    app.use(express.bodyDecoder());
+    app.use(express.bodyParser());
     app.use(express.methodOverride());
 
 The reason that these are not always defaults, is simply because these are not required for Express to be fully functional. Depending on the needs of your application, you may not need these at all, your methods such as _PUT_ and _DELETE_ can still be accessed by clients which can use them directly, although _methodOverride_ provides a great solution for forms. Below shows what the usage of _PUT_ might look like:
@@ -363,21 +366,21 @@ Express provides the _app.error()_ method which receives exceptions thrown withi
 or passed to _next(err)_. Below is an example which serves different pages based on our
 ad-hoc _NotFound_ exception:
 
-	function NotFound(msg){
-	    this.name = 'NotFound';
-	    Error.call(this, msg);
-	    Error.captureStackTrace(this, arguments.callee);
-	}
-
-	sys.inherits(NotFound, Error);
-
-	app.get('/404', function(req, res){
-	    throw new NotFound;
-	});
-
-	app.get('/500', function(req, res){
-	    throw new Error('keyboard cat!');
-	});
+    function NotFound(msg){
+      this.name = 'NotFound';
+      Error.call(this, msg);
+      Error.captureStackTrace(this, arguments.callee);
+    }
+    
+    NotFound.protoype.__proto__ = Error.prototype;
+    
+    app.get('/404', function(req, res){
+      throw new NotFound;
+    });
+    
+    app.get('/500', function(req, res){
+      throw new Error('keyboard cat!');
+    });
 
 We can call _app.error()_ several times as shown below.
 Here we check for an instanceof _NotFound_ and show the
@@ -397,15 +400,13 @@ handle exceptions in different ways based on the environment.
 	});
 
 Here we assume all errors as 500 for the simplicity of
-this demo, however you can choose whatever you like
+this demo, however you can choose whatever you like. For example when node performs filesystem syscalls, you may receive an error object with the _error.code_ of _ENOENT_, meaning "no such file or directory", we can utilize this in our error handling and display a page specific to this if desired.
 
-	app.error(function(err, req, res){
-	    res.render('500.jade', {
-	       locals: {
-	           error: err
-	       } 
-	    });
-	});
+    app.error(function(err, req, res){
+      res.render('500.jade', {
+         error: err
+      });
+    });
 
 Our apps could also utilize the Connect _errorHandler_ middleware
 to report on exceptions. For example if we wish to output exceptions 
@@ -421,9 +422,9 @@ that are passed or thrown, so we can set _showStack_ to true:
 The _errorHandler_ middleware also responds with _json_ if _Accept: application/json_
 is present, which is useful for developing apps that rely heavily on client-side JavaScript.
 
-### Route Preconditions
+### Route Param Pre-conditions
 
-Route placeholder pre-conditions can drastically improve the readability of your application, through implicit loading of data, and validation of request urls. For example if you are constantly fetching common data for several routes, such as loading a user for _/user/:id_,we might typically do something like below:
+Route param pre-conditions can drastically improve the readability of your application, through implicit loading of data, and validation of request urls. For example if you are constantly fetching common data for several routes, such as loading a user for _/user/:id_, we might typically do something like below:
 
     app.get('/user/:userId', function(req, res, next){
       User.get(req.params.userId, function(err, user){
@@ -432,7 +433,7 @@ Route placeholder pre-conditions can drastically improve the readability of your
       });
     }); 
 
-With route preconditions our placeholders can be mapped to callbacks which may perform validation, coercion, or even loading data from a database. Below we invoke _app.param()_ with the parameter name we wish to map to some middleware, as you can see we receive the _id_ argument which contains the placeholder value. Using this we load the user and perform error handling as usual, and simple call _next()_ to pass control to the next precondition or route handler.
+With preconditions our params can be mapped to callbacks which may perform validation, coercion, or even loading data from a database. Below we invoke _app.param()_ with the parameter name we wish to map to some middleware, as you can see we receive the _id_ argument which contains the placeholder value. Using this we load the user and perform error handling as usual, and simple call _next()_ to pass control to the next precondition or route handler.
 
     app.param('userId', function(req, res, next, id){
       User.get(id, function(err, user){
@@ -459,23 +460,21 @@ We may also apply the same callback to several placeholders, for example a route
 
 ### View Rendering
 
-View filenames take the form _NAME_._ENGINE_, where _ENGINE_ is the name
+View filenames take the form "&lt;name&gt;.&lt;engine&gt;", where &lt;engine&gt; is the name
 of the module that will be required. For example the view _layout.ejs_ will
-tell the view system to _require('ejs')_, the module being loaded must export the method _exports.render(str, options)_ to comply with Express, however 
-_app.register()_ can be used to map engines to file extensions, so that for example "foo.html" can be rendered by jade.
+tell the view system to _require('ejs')_, the module being loaded must export the method _exports.compile(str, options)_, and return a _Function_ to comply with Express. To alter this behaviour
+_app.register()_ can be used to map engines to file extensions, so that for example "foo.html" can be rendered by ejs.
 
-Below is an example using [Haml.js](http://github.com/visionmedia/haml.js) to render _index.html_,
-and since we do not use _layout: false_ the rendered contents of _index.html_ will be passed as 
-the _body_ local variable in _layout.haml_.
+Below is an example using [Jade](http://github.com/visionmedia/jade) to render _index.html_,
+and since we do not use _layout: false_ the rendered contents of _index.jade_ will be passed as 
+the _body_ local variable in _layout.jade_.
 
 	app.get('/', function(req, res){
-		res.render('index.haml', {
-			locals: { title: 'My Site' }
-		});
+		res.render('index.jade', { title: 'My Site' });
 	});
 
 The new _view engine_ setting allows us to specify our default template engine,
-so for example when using [Jade](http://github.com/visionmedia/jade) we could set:
+so for example when using jade we could set:
 
     app.set('view engine', 'jade');
 
@@ -495,10 +494,10 @@ mix and match template engines:
 Express also provides the _view options_ setting, which is applied each time a view is rendered, so for example if you rarely use layouts you may set:
 
 	app.set('view options', {
-	    layout: false
+	  layout: false
 	});
 
-Which can then be overridden within the `res.render()` call if need be:
+Which can then be overridden within the _res.render()_ call if need be:
 
     res.render('myview.ejs', { layout: true });
 
@@ -523,67 +522,59 @@ A good example of this is specifying custom _ejs_ opening and closing tags:
 
 ### View Partials
 
-The Express view system has built-in support for partials and collections, which are
-sort of "mini" views representing a document fragment. For example rather than iterating
+The Express view system has built-in support for partials and collections, which are "mini" views representing a document fragment. For example rather than iterating
 in a view to display comments, we would use a partial with collection support:
-
-    partial('comment.haml', { collection: comments });
-
-To make things even less verbose we can assume the extension as _.haml_ when omitted,
-however if we wished we could use an ejs partial, within a haml view for example.
 
     partial('comment', { collection: comments });
 
-And once again even further, when rendering a collection we can simply pass
-an array, if no other options are desired:
+If no other options are desired, we can omit the object and simply pass our array, which is equivalent to above:
 
     partial('comment', comments);
 
 When using the partial collection support a few "magic" variables are provided
 for free:
 
-  * _firstInCollection_  True if this is the first object
-  * _indexInCollection_  Index of the object in the collection
-  * _lastInCollection_  True if this is the last object
-  * _collectionLength_  Length of the collection
+  * _firstInCollection_  true if this is the first object
+  * _indexInCollection_  index of the object in the collection
+  * _lastInCollection_  true if this is the last object
+  * _collectionLength_  length of the collection
 
 For documentation on altering the object name view [res.partial()](http://expressjs.com/guide.html#res-partial-view-options-).
 
-NOTE: partials are not recommended for large collections (150+) because the view system adds to the overhead. For example do _not_ implement a simple ul list with partial collection support, simply create a partial and iterate within that single partial, as this is far more efficient than rendering 150+ templates.
+NOTE: be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead.
 
 ### Template Engines
 
 Below are a few template engines commonly used with Express:
 
   * [Jade](http://jade-lang.com) haml.js successor
-  * [Haml](http://github.com/visionmedia/haml.js) pythonic indented templates
   * [EJS](http://github.com/visionmedia/ejs) Embedded JavaScript
   * [CoffeeKup](http://github.com/mauricemach/coffeekup) CoffeeScript based templating
   * [jQuery Templates](https://github.com/kof/node-jqtpl) for node
 
 ### Session Support
 
-Sessions support can be added by using Connect's _session_ middleware. To do so we also need the _cookieDecoder_ middleware place above it, which will parse and populate cookie data to _req.cookies_.
+Sessions support can be added by using Connect's _session_ middleware. To do so we also need the _cookieParser_ middleware place above it, which will parse and populate cookie data to _req.cookies_.
 
-    app.use(express.cookieDecoder());
-    app.use(express.session());
+    app.use(express.cookieParser());
+    app.use(express.session({ secret: "keyboard cat" }));
 
 By default the _session_ middleware uses the memory store bundled with Connect, however many implementations exist. For example [connect-redis](http://github.com/visionmedia/connect-redis) supplies a [Redis](http://code.google.com/p/redis/) session store and can be used as shown below:
 
     var RedisStore = require('connect-redis');
-    app.use(express.cookieDecoder());
-    app.use(express.session({ store: new RedisStore }));
+    app.use(express.cookieParser());
+    app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
 
 Now the _req.session_ and _req.sessionStore_ properties will be accessible to all routes and subsequent middleware. Properties on _req.session_ are automatically saved on a response, so for example if we wish to shopping cart data:
 
     var RedisStore = require('connect-redis');
-    app.use(express.bodyDecoder());
-    app.use(express.cookieDecoder());
-    app.use(express.session({ store: new RedisStore }));
+    app.use(express.bodyParser());
+    app.use(express.cookieParser());
+    app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
 
     app.post('/add-to-cart', function(req, res){
       // Perhaps we posted several items with a form
-      // (use the bodyDecoder() middleware for this)
+      // (use the bodyParser() middleware for this)
       var items = req.body.items;
       req.session.items = items;
       res.redirect('back');
@@ -599,11 +590,11 @@ Now the _req.session_ and _req.sessionStore_ properties will be accessible to al
       res.render('shopping-cart');
     });
 
-The _req.session_ object also has methods such as _Session#touch()_, _Session#destroy()_, _Session#regenerate()_ among others to maintain and manipulate sessions. For more information view the [Connect Session](http://senchalabs.github.com/connect/session.html) documentation.
+The _req.session_ object also has methods such as _Session#touch()_, _Session#destroy()_, _Session#regenerate()_ among others to maintain and manipulate sessions. For more information view the [Connect Session](http://senchalabs.github.com/connect/middleware-session.html) documentation.
 
 ### Migration Guide
 
- Pre-beta Express developers may reference the [Migration Guide](migrate.html) to get up to speed on how to upgrade your application.
+ Express 1.x developers may reference the [Migration Guide](migrate.html) to get up to speed on how to upgrade your application.
 
 ### req.header(key[, defaultValue])
 
@@ -612,6 +603,16 @@ Get the case-insensitive request header _key_, with optional _defaultValue_:
     req.header('Host');
     req.header('host');
     req.header('Accept', '*/*');
+
+The _Referrer_ and _Referer_ header fields are special-cased, either will work:
+
+    // sent Referrer: http://google.com
+
+    req.header('Referer');
+    // => "http://google.com"
+
+    req.header('Referrer');
+    // => "http://google.com"
 
 ### req.accepts(type)
 
@@ -690,13 +691,13 @@ We may also assert the _type_ as shown below, which would return true for _"appl
 
 Return the value of param _name_ when present or _default_.
 
-  - Checks route placeholders (_req.params_), ex: /user/:id
+  - Checks route params (_req.params_), ex: /user/:id
   - Checks query string params (_req.query_), ex: ?id=12
   - Checks urlencoded body params (_req.body_), ex: id=12
 
 To utilize urlencoded request bodies, _req.body_
 should be an object. This can be done by using
-the _express.bodyDecoder_ middleware.
+the _express.bodyParser middleware.
 
 ### req.flash(type[, msg])
 
@@ -735,9 +736,9 @@ Get or set the response header _key_.
     res.header('Content-Length');
     // => undefined
 
-	res.header('Content-Length', 123);
+    res.header('Content-Length', 123);
     // => 123
-
+    
     res.header('Content-Length');
     // => 123
 
@@ -747,7 +748,7 @@ Sets the _Content-Type_ response header to the given _type_.
 
       var filename = 'path/to/image.png';
       res.contentType(filename);
-      // res.headers['Content-Type'] is now "image/png"
+      // Content-Type is now "image/png"
 
 ### res.attachment([filename])
 
@@ -755,23 +756,30 @@ Sets the _Content-Disposition_ response header to "attachment", with optional _f
 
       res.attachment('path/to/my/image.png');
 
-### res.sendfile(path)
+### res.sendfile(path[, options[, callback]])
 
 Used by `res.download()` to transfer an arbitrary file. 
 
     res.sendfile('path/to/my.file');
 
-This method accepts a callback which when given will be called on an exception, as well as when the transfer has completed. When a callback is not given, and the file has __not__ been streamed, _next(err)_ will be called on an exception.
+This method accepts an optional callback which is called when
+an error occurs, or when the transfer is complete. By default failures call `next(err)`, however when a callback is supplied you must do this explicitly, or act on the error.
 
-    res.sendfile(path, function(err, path){
+    res.sendfile(path, function(err){
       if (err) {
-        // handle the error
+        next(err);
       } else {
         console.log('transferred %s', path);
       }
     });
 
-### res.download(file[, filename])
+Options may also be passed to the internal _fs.createReadStream()_ call, for example altering the _bufferSize_:
+
+    res.sendfile(path, { bufferSize: 1024 }, function(err){
+      // handle
+    });
+
+### res.download(file[, filename[, callback]])
 
 Transfer the given _file_ as an attachment with optional alternative _filename_.
 
@@ -783,11 +791,16 @@ This is equivalent to:
     res.attachment(file);
     res.sendfile(file);
 
+An optional callback may be supplied as either the second or third argument, which is passed to _res.sendfile()_:
+
+    res.download(path, 'expenses.doc', function(err){
+      // handle
+    });
+
 ### res.send(body|status[, headers|status[, status]])
 
-The `res.send()` method is a high level response utility allowing you to pass
-objects to respond with json, strings for html, arbitrary _Buffer_s or numbers for status
-code based responses. The following are all valid uses:
+The _res.send()_ method is a high level response utility allowing you to pass
+objects to respond with json, strings for html, Buffer instances, or numbers representing the status code. The following are all valid uses:
 
      res.send(); // 204
      res.send(new Buffer('wahoo'));
@@ -801,7 +814,7 @@ By default the _Content-Type_ response header is set, however if explicitly
 assigned through `res.send()` or previously with `res.header()` or `res.contentType()`
 it will not be set again.
 
-Note that this method _end()_ the response, so you will want to use node's _res.writeHead()_ / _res.write()_ for multiple writes or streaming.
+Note that this method _end()_s the response, so you will want to use node's _res.write()_ for multiple writes or streaming.
 
 ### res.redirect(url[, status])
 
@@ -819,17 +832,17 @@ the "home" setting and defaults to "/".
 
 ### res.cookie(name, val[, options])
 
-Sets the given cookie _name_ to _val_, with _options_ such as "httpOnly: true", "expires", "secure" etc.
+Sets the given cookie _name_ to _val_, with options _httpOnly_, _secure_, _expires_ etc.
 
     // "Remember me" for 15 minutes 
     res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOnly: true });
 
 To parse incoming _Cookie_ headers, use the _cookieDecoder_ middleware, which provides the _req.cookies_ object:
 
-    app.use(express.cookieDecoder());
+    app.use(express.cookieParser());
     
     app.get('/', function(req, res){
-        // use req.cookies.rememberme
+      // use req.cookies.rememberme
     });
 
 ### res.clearCookie(name)
@@ -844,14 +857,10 @@ Render _view_ with the given _options_ and optional callback _fn_.
 When a callback function is given a response will _not_ be made
 automatically, however otherwise a response of _200_ and _text/html_ is given.
 
- Most engines accept one or more of the following options,
- both [haml](http://github.com/visionmedia/haml.js) and [jade](http://github.com/visionmedia/jade) accept all:
+The _options_ passed are the local variables as well, for example if we want to expose "user" to the view, and prevent a local we do so within the same object:
 
-  - _scope_           Template evaluation context (value of _this_)
-  - _locals_          Object containing local variables
-  - _debug_           Output debugging information
-  - _status_          Response status code, defaults to 200
-  - _headers_         Response headers object
+    var user = { name: 'tj' };
+    res.render('index', { layout: false, user: user });
 
 ### res.partial(view[, options])
 
@@ -913,6 +922,21 @@ When a non-collection (does _not_ have _.length_) is passed as the second argume
     partial('movie', movie);
     // => In view: movie.director
 
+This exact API can be utilized from within a route, to respond with a fragment via Ajax or WebSockets, for example we can render a collection of users directly from a route:
+
+    app.get('/users', function(req, res){
+      if (req.xhr) {
+        // respond with the each user in the collection
+        // passed to the "user" view
+        res.partial('user', users);
+      } else {
+        // respond with layout, and users page
+        // which internally does partial('user', users)
+        // along with other UI
+        res.render('users', { users: users });
+      }
+    });
+
 ### res.local(name[, val])
 
 Get or set the given local variable _name_. The locals built up for a response are applied to those given to the view rendering methods such as `res.render()`.
@@ -955,6 +979,17 @@ Enable the given setting _name_:
     app.enabled('some arbitrary setting');
     // => true
 
+### app.enabled(name)
+
+Check if setting _name_ is enabled:
+
+    app.enabled('view cache');
+    // => false
+
+    app.enable('view cache');
+    app.enabled('view cache');
+    // => true
+
 ### app.disable(name)
 
 Disable the given setting _name_:
@@ -965,6 +1000,19 @@ Disable the given setting _name_:
     
     app.disabled('some setting');
     // => false
+
+### app.disabled(name)
+
+Check if setting _name_ is disabled:
+
+    app.enable('view cache');
+
+    app.disabled('view cache');
+    // => false
+
+    app.disable('view cache');
+    app.disabled('view cache');
+    // => true
 
 ### app.configure(env|function[, function])
 
@@ -980,7 +1028,7 @@ Define a callback function for the given _env_ (or all environments) with callba
 
 ### app.redirect(name, val)
 
-For use with `res.redirect()` we can map redirects at the application level as shown below:
+For use with _res.redirect()_ we can map redirects at the application level as shown below:
 
     app.redirect('google', 'http://google.com');
 
@@ -991,7 +1039,7 @@ Now in a route we may call:
 We may also map dynamic redirects:
 
     app.redirect('comments', function(req, res){
-        return '/post/' + req.params.id + '/comments';
+      return '/post/' + req.params.id + '/comments';
     });
 
 So now we may do the following, and the redirect will dynamically adjust to
@@ -999,8 +1047,12 @@ the context of the request. If we called this route with _GET /post/12_ our
 redirect _Location_ would be _/post/12/comments_.
 
     app.get('/post/:id', function(req, res){
-        res.redirect('comments');
+      res.redirect('comments');
     });
+
+When mounted, _res.redirect()_ will respect the mount-point. For example if a blog app is mounted at _/blog_, the following will redirect to _/blog/posts_:
+
+    res.redirect('/posts');
 
 ### app.error(function)
 
@@ -1009,18 +1061,18 @@ Note that we may set several error handlers by making several calls to this meth
 should call _next(err)_ if it does not wish to deal with the exception:
 
     app.error(function(err, req, res, next){
-		res.send(err.message, 500);
-	});
+      res.send(err.message, 500);
+    });
 
 ### app.helpers(obj)
 
 Registers static view helpers.
 
-    app.helpers({
-		name: function(first, last){ return first + ', ' + last },
-		firstName: 'tj',
-		lastName: 'holowaychuk'
-	});
+  app.helpers({
+      name: function(first, last){ return first + ', ' + last }
+    , firstName: 'tj'
+    , lastName: 'holowaychuk'
+  });
 
 Our view could now utilize the _firstName_ and _lastName_ variables,
 as well as the _name()_ function exposed.
@@ -1035,9 +1087,9 @@ evaluated against the _Server_ instance before a view is rendered. The _return v
 becomes the local variable it is associated with.
 
     app.dynamicHelpers({
-		session: function(req, res){
-			return req.session;
-		}
+      session: function(req, res){
+        return req.session;
+      }
     });
 
 All views would now have _session_ available so that session data can be accessed via _session.name_ etc:
@@ -1052,8 +1104,8 @@ Assign a callback _fn_ which is called when this _Server_ is passed to _Server#u
         blog = express.createServer();
     
     blog.mounted(function(parent){
-        // parent is app
-        // "this" is blog
+      // parent is app
+      // "this" is blog
     });
     
     app.use(blog);
@@ -1074,14 +1126,21 @@ of layout.hamljs, we can register the engine as ".haml":
      app.register('.haml', require('haml-js'));
 
 For engines that do not comply with the Express
-specification, we can also wrap their api this way.
+specification, we can also wrap their api this way. Below
+we map _.md_ to render markdown files, rendering the html once
+since it will not change on subsequent calls, and support local substitution
+in the form of "{name}".
 
-     app.register('.foo', {
-         render: function(str, options) {
-             // perhaps their api is
-             // return foo.toHTML(str, options);
-         }
-     });
+      app.register('.md', {
+        compile: function(str, options){
+          var html = md.toHTML(str);
+          return function(locals){
+            return html.replace(/\{([^}]+)\}/g, function(_, name){
+              return locals[name];
+            });
+          };
+        }
+      });
 
 ### app.listen([port[, host]])
 
