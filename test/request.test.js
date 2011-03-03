@@ -102,7 +102,15 @@ module.exports = {
     app.post('/user', function(req, res){
       res.send('user ' + req.param('id'));
     });
-    
+
+    app.get('/:sort', function(req, res){
+      res.send('sort ' + req.param('sort'));
+    });
+
+    assert.response(app,
+      { url: '/asc' },
+      { body: 'sort asc' });
+
     assert.response(app,
       { url: '/user/12' },
       { body: 'user 12' });
