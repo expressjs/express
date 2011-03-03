@@ -602,7 +602,7 @@ Now the _req.session_ and _req.sessionStore_ properties will be accessible to al
 
 The _req.session_ object also has methods such as _Session#touch()_, _Session#destroy()_, _Session#regenerate()_ among others to maintain and manipulate sessions. For more information view the [Connect Session](http://senchalabs.github.com/connect/middleware-session.html) documentation.
 
-### 2.x Migration Guide
+### Migration Guide
 
  Express 1.x developers may reference the [Migration Guide](migrate.html) to get up to speed on how to upgrade your application to work with Express 2.x, Connect 1.x, and Node 0.4.x.
 

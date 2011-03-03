@@ -197,21 +197,22 @@
 </p>
 <h2 id="Synopsis">Synopsis</h2>
 
-<pre><code>express [-h|--help] [-v|--version] [-c|-css ENGINE] [PATH]
+<pre><code>express [options] [PATH]
 </code></pre>
 
 <h2 id="Description">Description</h2>
 
-<p>The <code>express</code> executable generates apps at the given <strong>PATH</strong> or the
+<p>The <em>express</em> executable generates apps at the given <strong>PATH</strong> or the
 current working directory. Although Express is not bound to a specific
 application structure, this executable creates a maintainable base app.</p>
 
 <h2 id="Options">Options</h2>
 
-<pre><code>-s, --sessions        Add session support
--c, --css ENGINE      Add css ENGINE support (less|sass). Defaults to plain css
--v, --version         Output framework version
--h, --help            Display help information
+<pre><code>  -s, --sessions         Add session support
+  -t, --template ENGINE  Add template ENGINE support (jade|ejs). Defaults to jade
+  -c, --css ENGINE       Add stylesheet ENGINE support (less|sass|stylus). Defaults to plain css
+  -v, --version          Output framework version
+  -h, --help             Output help information
 </code></pre>
 
 </div>
