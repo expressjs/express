@@ -1,4 +1,37 @@
 
+2.0.0beta / 2011-03-03 
+==================
+
+  * Added HTTPS support
+  * Added `req.header()` _Referrer_ / _Referer_ special-case, either works
+  * Added mount support for `res.redirect()`, now respects the mount-point
+  * Added `union()` util, taking place of `merge(clone())` combo
+  * Added stylus support to express(1) generated app
+  * Added secret to session middleware used in examples and generated app
+  * Added `res.local(name, val)` for progressive view locals
+  * Added default param support to `req.param(name, default)`
+  * Added `app.disabled()` and `app.enabled()`
+  * Added `app.register()` support for omitting leading ".", either works
+  * Added `res.partial()`, using the same interface as `partial()` within a view. Closes #539
+  * Added `app.param()` to map route params to async/sync logic
+  * Added; aliased `app.helpers()` as `app.locals()`. Closes #481
+  * Added extname with no leading "." support to `res.contentType()`
+  * Added `cache views` setting, defaulting to enabled in "production" env
+  * Added index file partial resolution, eg: partial('user') may try _views/user/index.jade_.
+  * Added `req.accepts()` support for extensions
+  * Changed; `res.download()` and `res.sendfile()` now utilize Connect's
+    static file server `connect.static.send()`.
+  * Changed; replaced `connect.utils.mime()` with npm _mime_ module
+  * Changed; allow `req.query` to be pre-defined (via middleware or other parent
+  * Changed view partial resolution, now relative to parent view
+  * Changed view engine signature. no longer `engine.render(str, options, callback)`, now `engine.compile(str, options) -> Function`, the returned function accepts `fn(locals)`.
+  * Fixed `req.param()` bug returning Array.prototype methods. Closes #552
+  * Fixed; using `Stream#pipe()` instead of `sys.pump()`
+app)
+  * Fixed; using _qs_ module instead of _querystring_
+  * Fixed; strip unsafe chars from jsonp callbacks
+  * Removed "stream threshold" setting
+
 1.0.8 / 2011-03-01 
 ==================
 
