@@ -193,6 +193,7 @@
 <li><a href="#Route-Param-Pre-conditions">Route Param Pre-conditions</a></li>
 <li><a href="#View-Rendering">View Rendering</a></li>
 <li><a href="#View-Partials">View Partials</a></li>
+<li><a href="#View-Lookup">View Lookup</a></li>
 <li><a href="#Template-Engines">Template Engines</a></li>
 <li><a href="#Session-Support">Session Support</a></li>
 <li><a href="#Migration-Guide">Migration Guide</a></li>
@@ -849,7 +850,13 @@ for free:</p>
 
 <p>For documentation on altering the object name view <a href="http://expressjs.com/guide.html#res-partial-view-options-">res.partial()</a>.</p>
 
-<p>NOTE: be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead.</p>
+<p><strong>NOTE:</strong> be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead.</p>
+
+<h3 id="View-Lookup">View Lookup</h3>
+
+<p>View lookup is performed relative to the parent view, for example if we had a page view named <em>views/user/list.jade</em>, and within that view we did <em>partial('edit')</em> it would attempt to load <em>views/user/edit.jade</em>, whereas <em>partial('../messages')</em> would load <em>views/messages.jade</em>.</p>
+
+<p>The view system also allows for index templates, allowing you to have a directory of the same name. For example within a route we may have <em>res.render('users')</em> either <em>views/users.jade</em>, or <em>views/users/index.jade</em>.</p>
 
 <h3 id="Template-Engines">Template Engines</h3>
 

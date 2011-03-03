@@ -541,7 +541,13 @@ for free:
 
 For documentation on altering the object name view [res.partial()](http://expressjs.com/guide.html#res-partial-view-options-).
 
-NOTE: be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead.
+__NOTE:__ be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead.
+
+### View Lookup
+
+View lookup is performed relative to the parent view, for example if we had a page view named _views/user/list.jade_, and within that view we did _partial('edit')_ it would attempt to load _views/user/edit.jade_, whereas _partial('../messages')_ would load _views/messages.jade_.
+
+The view system also allows for index templates, allowing you to have a directory of the same name. For example within a route we may have _res.render('users')_ either _views/users.jade_, or _views/users/index.jade_.
 
 ### Template Engines
 

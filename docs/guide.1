@@ -970,7 +970,13 @@ When using the partial collection support a few "magic" variables are provided f
 For documentation on altering the object name view res\.partial() \fIhttp://expressjs\.com/guide\.html#res\-partial\-view\-options\-\fR\.
 .
 .P
-NOTE: be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views\. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead\.
+\fBNOTE:\fR be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views\. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead\.
+.
+.SS "View Lookup"
+View lookup is performed relative to the parent view, for example if we had a page view named \fIviews/user/list\.jade\fR, and within that view we did \fIpartial(\'edit\')\fR it would attempt to load \fIviews/user/edit\.jade\fR, whereas \fIpartial(\'\.\./messages\')\fR would load \fIviews/messages\.jade\fR\.
+.
+.P
+The view system also allows for index templates, allowing you to have a directory of the same name\. For example within a route we may have \fIres\.render(\'users\')\fR either \fIviews/users\.jade\fR, or \fIviews/users/index\.jade\fR\.
 .
 .SS "Template Engines"
 Below are a few template engines commonly used with Express:
