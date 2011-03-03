@@ -527,7 +527,7 @@ module.exports = {
       res.cookie('something', 'else');
       res.redirect('/');
     });
-    
+
     assert.response(app,
       { url: '/' },
       function(res){
