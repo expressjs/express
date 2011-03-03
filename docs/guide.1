@@ -1487,6 +1487,19 @@ res\.cookie(\'rememberme\', \'yes\', { expires: new Date(Date\.now() + 900000), 
 .IP "" 0
 .
 .P
+The \fImaxAge\fR property may be used to set \fIexpires\fR relative to \fIDate\.now()\fR in milliseconds, so our example above can now become:
+.
+.IP "" 4
+.
+.nf
+
+res\.cookie(\'rememberme\', \'yes\', { maxAge: 900000 });
+.
+.fi
+.
+.IP "" 0
+.
+.P
 To parse incoming \fICookie\fR headers, use the \fIcookieDecoder\fR middleware, which provides the \fIreq\.cookies\fR object:
 .
 .IP "" 4

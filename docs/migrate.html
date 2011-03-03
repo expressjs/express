@@ -277,6 +277,18 @@
   // =&gt; false
 </code></pre>
 
+<h3 id="res-cookie-">res.cookie()</h3>
+
+<p> Previously only directly values could be passed, so for example:</p>
+
+<pre><code>res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOnly: true });
+</code></pre>
+
+<p>However now we have the alternative <em>maxAge</em> property which may be used to set <em>expires</em> relative to <em>Date.now()</em> in milliseconds, so our example above can now become:</p>
+
+<pre><code>res.cookie('rememberme', 'yes', { maxAge: 900000 });
+</code></pre>
+
 <h3 id="res-download-res-sendfile-">res.download() / res.sendfile()</h3>
 
 <p> Both of these methods now utilize Connect's static file server behind the scenes (actually the previous Express code was ported to Connect 1.0). With this change comes a change to the callback as well. Previously the <em>path</em> and <em>stream</em> were passed, however now only an <em>error</em> is passed, when no error has occurred the callback will be invoked indicating that the file transfer is complete. The callback remains optional:</p>

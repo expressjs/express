@@ -134,6 +134,32 @@ The new \fIdefaultValue\fR argument can handle this nicely:
 .
 .IP "" 0
 .
+.SS "res\.cookie()"
+Previously only directly values could be passed, so for example:
+.
+.IP "" 4
+.
+.nf
+
+res\.cookie(\'rememberme\', \'yes\', { expires: new Date(Date\.now() + 900000), httpOnly: true });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+However now we have the alternative \fImaxAge\fR property which may be used to set \fIexpires\fR relative to \fIDate\.now()\fR in milliseconds, so our example above can now become:
+.
+.IP "" 4
+.
+.nf
+
+res\.cookie(\'rememberme\', \'yes\', { maxAge: 900000 });
+.
+.fi
+.
+.IP "" 0
+.
 .SS "res\.download() / res\.sendfile()"
 Both of these methods now utilize Connect\'s static file server behind the scenes (actually the previous Express code was ported to Connect 1\.0)\. With this change comes a change to the callback as well\. Previously the \fIpath\fR and \fIstream\fR were passed, however now only an \fIerror\fR is passed, when no error has occurred the callback will be invoked indicating that the file transfer is complete\. The callback remains optional:
 .
