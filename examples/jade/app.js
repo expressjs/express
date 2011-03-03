@@ -47,6 +47,10 @@ app.get('/users', function(req, res){
   res.partial('users/user', users);
 });
 
+app.get('/users/list', function(req, res){
+  res.partial('users/list', { object: users });
+});
+
 app.get('/user/:id', function(req, res){
   res.partial('users/user', users[req.params.id]);
 });
