@@ -39,7 +39,14 @@ docs: $(MANPAGES) $(HTMLDOCS)
 	  | sed 's/NAME/Express/g' \
 	  > $@
 
+site:
+	rm -fr /tmp/docs \
+	  && cp -fr docs /tmp/docs \
+	  && git checkout gh-pages \
+  	&& cp -fr /tmp/docs/* . \
+		&& echo "done"
+
 docclean:
 	rm -f docs/*.{1,html}
 
-.PHONY: test test-cov docs docclean
+.PHONY: site test test-cov docs docclean
