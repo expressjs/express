@@ -312,37 +312,6 @@ module.exports = {
       { body: '<cool><p>Welcome</p></cool>' });
   },
   
-  'test #render() scope': function(){
-    var app = create();
-    app.set('view engine', 'jade');
-    
-    app.get('/', function(req, res){
-      req.internal = '1';
-      req.method = function(){
-        return this.internal;
-      };
-      res.render('scope.jade', { layout: false });
-    });
-    
-    app.get('/custom', function(req, res){
-      var scope = {
-        internal: '2',
-        method: function(){
-          return this.internal;
-        }
-      };
-      res.render('scope.jade', { layout: false, scope: scope });
-    });
-    
-    assert.response(app,
-      { url: '/' },
-      { body: '<p>1</p>'});
-
-    assert.response(app,
-      { url: '/custom' },
-      { body: '<p>2</p>'});
-  },
-  
   'test #render() view helpers': function(beforeExit){
     var app = create()
       , calls = 0;
