@@ -175,9 +175,16 @@ module.exports = {
     });
 
     app.get('/absolute', function(req, res){
-        res.render(__dirname + '/fixtures/index.jade', { layout: false });
+      res.render(__dirname + '/fixtures/index.jade', { layout: false });
     });
 
+    app.get('/ferret', function(req, res){
+      res.render('ferret', { layout: false, ferret: 'Tobi' });
+    });
+
+    assert.response(app,
+      { url: '/ferret' },
+      { body: '<li class="ferret">Tobi</li>' });
     assert.response(app,
       { url: '/' },
       { body: '<p>Welcome</p>', headers: { 'Content-Type': 'text/html' }});
