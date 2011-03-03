@@ -643,6 +643,22 @@ module.exports = {
       { body: '<li class="ferret">Tobi</li>' });
   },
 
+  'test #partial() relative index': function(){
+    var app = create();
+
+    app.set('view engine', 'jade');
+
+    app.get('/ferret', function(req, res){
+      var tobi = { name: 'Tobi' }
+        , loki = { name: 'Loki' };
+      res.partial('ferret/list', { object: [tobi, loki] });
+    });
+
+    assert.response(app,
+      { url: '/ferret' },
+      { body: '<ul id="ferrets"><li class="ferret">Tobi</li><li class="ferret">Loki</li></ul>' });
+  },
+
   'test #partial() object': function(){
     var app = create();
 
