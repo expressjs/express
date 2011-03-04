@@ -20,45 +20,11 @@ var app = express.createServer(
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-// Dynamic helpers are functions which are executed
-// on each view render, unless dynamicHelpers is false.
-
-// So for example we do not need to call messages() in our
-// template, "messages" will be populated with the return
-// value of this function.
-
 app.dynamicHelpers({
-  // as an alternative to this install the 
-  // express-messages helper via npm
-  // 
-  //  $ npm install express-messages
-  //
-  messages: function(req, res){
-    // In the case of flash messages
-    // we return a function, allowing
-    // flash messages to only be flushed
-    // when called, otherwise every request
-    // will flush flash messages regardless.
-    return function(){
-      // Grab the flash messages
-      var messages = req.flash();
-      // We will render the "messages.ejs" partial
-      return res.partial('messages', {
-        // Our target object is our messages
-        object: messages,
-        // We want it to be named "types" in the partial
-        // since they are keyed like this:
-        // { info: ['foo'], error: ['bar']}
-        as: 'types',
-        // Pass a local named "hasMessages" so we can easily
-        // check if we have any messages at all
-        locals: { hasMessages: Object.keys(messages).length },
-        // We dont want dynamicHelpers in this partial, as
-        // it would cause infinite recursion
-        dynamicHelpers: false
-      });
-    }
-  }
+  // express-messages is a dynamicHelper that
+  // renders the flash messages to HTML for you
+  //    $ npm install express-messages
+  messages: require('express-messages')
 });
 
 app.dynamicHelpers({
