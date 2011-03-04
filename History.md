@@ -27,8 +27,7 @@
   * Changed view partial resolution, now relative to parent view
   * Changed view engine signature. no longer `engine.render(str, options, callback)`, now `engine.compile(str, options) -> Function`, the returned function accepts `fn(locals)`.
   * Fixed `req.param()` bug returning Array.prototype methods. Closes #552
-  * Fixed; using `Stream#pipe()` instead of `sys.pump()`
-app)
+  * Fixed; using `Stream#pipe()` instead of `sys.pump()` in `res.sendfile()`
   * Fixed; using _qs_ module instead of _querystring_
   * Fixed; strip unsafe chars from jsonp callbacks
   * Removed "stream threshold" setting
