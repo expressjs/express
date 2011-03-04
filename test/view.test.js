@@ -133,9 +133,9 @@ module.exports = {
       res.render('index', { layout: false });
     });
 
-    // app.get('/haml', function(req, res){
-    //   res.render('hello.haml', { layout: false });
-    // });
+    app.get('/haml', function(req, res){
+      res.render('hello.haml', { layout: false });
+    });
 
     app.get('/callback/layout/no-options', function(req, res){
       res.render('hello.jade', function(err, str){
@@ -151,12 +151,12 @@ module.exports = {
       });
     });
 
-    // app.get('/callback', function(req, res){
-    //   res.render('hello.haml', { layout: false }, function(err, str){
-    //     assert.ok(!err);
-    //     res.send(str.replace('Hello World', ':)'));
-    //   });
-    // });
+    app.get('/callback', function(req, res){
+      res.render('hello.haml', { layout: false }, function(err, str){
+        assert.ok(!err);
+        res.send(str.replace('Hello World', ':)'));
+      });
+    });
 
     app.get('/invalid', function(req, res){
       res.render('invalid.jade', { layout: false });
@@ -194,12 +194,12 @@ module.exports = {
     assert.response(app,
       { url: '/absolute' },
       { body: '<p>Welcome</p>' });
-    // assert.response(app,
-    //   { url: '/haml' },
-    //   { body: '\n<p>Hello World</p>' });
-    // assert.response(app,
-    //   { url: '/callback' },
-    //   { body: '\n<p>:)</p>' });
+    assert.response(app,
+      { url: '/haml' },
+      { body: '\n<p>Hello World</p>' });
+    assert.response(app,
+      { url: '/callback' },
+      { body: '\n<p>:)</p>' });
     assert.response(app,
       { url: '/callback/layout' },
       { body: '<html><body><p>:)</p></body></html>' });
