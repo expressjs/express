@@ -11,7 +11,7 @@ var express = require('../../lib/express');
 // App with session support
 
 var app = express.createServer(
-    express.cookieDecoder()
+    express.cookieParser()
   , express.session({ secret: 'keyboard cat' })
 );
 
