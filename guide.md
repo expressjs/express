@@ -557,6 +557,7 @@ When utilizing index views as shown above, we may reference _views/users/index.j
 
 Below are a few template engines commonly used with Express:
 
+  * [Haml](http://github.com/visionmedia/haml.js) haml implementation
   * [Jade](http://jade-lang.com) haml.js successor
   * [EJS](http://github.com/visionmedia/ejs) Embedded JavaScript
   * [CoffeeKup](http://github.com/mauricemach/coffeekup) CoffeeScript based templating
