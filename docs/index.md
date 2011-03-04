@@ -39,6 +39,7 @@ The following modules compliment or extend Express directly:
   * [express-resource](http://github.com/visionmedia/express-resource) provides resourceful routing
   * [express-messages](http://github.com/visionmedia/express-messages) flash message notification rendering
   * [express-configure](http://github.com/visionmedia/express-configure) async configuration support (load settings from redis etc)
+  * [express-namespace](http://github.com/visionmedia/express-namespace) namespaced routing support
 
 ## More Information
 
