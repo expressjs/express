@@ -37,6 +37,7 @@ The following are the major contributors of Express (in no specific order).
 The following modules compliment or extend Express directly:
 
   * [express-resource](http://github.com/visionmedia/express-resource) provides resourceful routing
+  * [express-configure](http://github.com/visionmedia/express-configure) async configuration support (load settings from redis etc)
 
 ## More Information
 
