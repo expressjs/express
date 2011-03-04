@@ -32,6 +32,12 @@ The following are the major contributors of Express (in no specific order).
   * Aaron Heckmann ([aheckmann](http://github.com/aheckmann))
   * Guillermo Rauch ([guille](http://github.com/guille))
 
+## Third-Party Modules
+
+The following modules compliment or extend Express directly:
+
+  * [express-resource](http://github.com/visionmedia/express-resource) provides resourceful routing
+
 ## More Information
 
   * [Google Group](http://groups.google.com/group/express-js) for discussion
