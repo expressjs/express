@@ -36,7 +36,7 @@ The following are the major contributors of Express (in no specific order).
 
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
-  * View the [Connect](http://github.com/senchalabs/connect) repo for middleware usage
+  * View the [Connect](http://senchalabs.github.com/connect) documentation
   * View the [Connect Wiki](http://wiki.github.com/senchalabs/connect/) for contrib middleware
   * View the [examples](http://github.com/visionmedia/express/tree/master/examples/)
   * View the [source](http://github.com/visionmedia/express)
