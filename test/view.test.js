@@ -589,7 +589,7 @@ module.exports = {
     app.get('/', function(req, res, next){
       res.render('greetings.jade', {
           name: 'TJ'
-        , otherName: 'Overridden'
+        , locals: { otherName: 'Overridden' }
       });
     });
 
