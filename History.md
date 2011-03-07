@@ -1,4 +1,10 @@
 
+2.0.0beta2 / 2011-03-07 
+==================
+
+  * Added res.render() `.locals` support back to aid in migration process
+  * Fixed flash example
+
 2.0.0beta / 2011-03-03 
 ==================
 
