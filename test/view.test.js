@@ -15,7 +15,6 @@ var express = require('express')
  */
 
 var create = function(){
-  process.env.NODE_ENV = 'test';
   var app = express.createServer.apply(express, arguments);
   app.set('views', __dirname + '/fixtures');
   return app;
