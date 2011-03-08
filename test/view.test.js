@@ -182,6 +182,13 @@ module.exports = {
       res.render('ferret', { layout: false, ferret: { name: 'Tobi' }});
     });
 
+    app.get('/status', function(req, res){
+      res.render('hello.jade', { status: 500 });
+    });
+
+    assert.response(app,
+      { url: '/status' },
+      { status: 500 });
     assert.response(app,
       { url: '/ferret' },
       { body: '<li class="ferret">Tobi</li>' });
