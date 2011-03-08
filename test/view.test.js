@@ -15,6 +15,7 @@ var express = require('express')
  */
 
 var create = function(){
+  process.env.NODE_ENV = 'test';
   var app = express.createServer.apply(express, arguments);
   app.set('views', __dirname + '/fixtures');
   return app;
@@ -265,7 +266,7 @@ module.exports = {
     assert.response(app,
       { url: '/nope' },
       function(res){
-        assert.ok(~res.body.indexOf('Error: E'));
+        assert.ok(~res.body.indexOf('Error: failed to locate view'));
         assert.ok(~res.body.indexOf('nope'));
       });
 
