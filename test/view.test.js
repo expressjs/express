@@ -266,7 +266,7 @@ module.exports = {
       { url: '/nope' },
       function(res){
         assert.ok(~res.body.indexOf('Error: E'));
-        assert.ok(~res.body.indexOf('nope/index.jade'));
+        assert.ok(~res.body.indexOf('nope'));
       });
 
     beforeExit(function(){
