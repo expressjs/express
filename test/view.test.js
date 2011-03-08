@@ -8,7 +8,7 @@ var express = require('express')
   , assert = require('assert')
   , should = require('should')
   , View = require('../lib/view')
-  , Partial = View.Partial
+  , partial = require('../lib/view/partial')
 
 /**
  * Create a test server with views set to ./fixtures.
@@ -93,8 +93,8 @@ module.exports = {
     view.templateEngine.should.equal(require('jade'));
   },
   
-  'test Partial.resolveObjectName()': function(){
-    var resolve = Partial.resolveObjectName;
+  'test partial.resolveObjectName()': function(){
+    var resolve = partial.resolveObjectName;
     resolve('/path/to/user.ejs').should.equal('user');
     resolve('/path/to/user-post.ejs').should.equal('userPost');
     resolve('/path/to/user   post.ejs').should.equal('userPost');
@@ -102,25 +102,6 @@ module.exports = {
     resolve('forum   thread post.ejs').should.equal('forumThreadPost');
   },
   
-  'test Partial#path for partials': function(){
-    var fixtures = __dirname + '/fixtures';
-    
-    var view = new Partial('user.jade', { root: fixtures });
-    view.path.should.equal(fixtures + '/user.jade');
-
-    var view = new Partial('user', { parentView: view, root: fixtures });
-    view.path.should.equal(fixtures + '/user.jade');
-    
-    var view = new Partial('forum/thread', { parentView: view });
-    view.path.should.equal(fixtures + '/forum/thread.jade');
-
-    var view = new Partial('forum/thread.jade', { root: fixtures });
-    view.path.should.equal(fixtures + '/forum/thread.jade');
-
-    var view = new Partial('thread', { parentView: view });
-    view.path.should.equal(fixtures + '/forum/thread.jade');
-  },
-
   'test #render()': function(){
     var app = create();
     app.set('view engine', 'jade');
