@@ -921,5 +921,18 @@ module.exports = {
     assert.response(app,
       { url: '/' },
       { headers: { 'Content-Type': 'text/html; charset=utf8' }});
+  },
+  
+  'test charset override': function(){
+    var app = create();
+    app.set('view options', { charset: 'ISO-8859-1' });
+
+    app.get('/', function(req, res){
+      res.render('hello.jade', { charset: 'utf8' });
+    });
+
+    assert.response(app,
+      { url: '/' },
+      { headers: { 'Content-Type': 'text/html; charset=utf8' }});
   }
 };
