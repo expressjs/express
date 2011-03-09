@@ -883,5 +883,18 @@ module.exports = {
     assert.response(app,
       { url: '/pets' },
       { body: html });
+  },
+  
+  'test .charset with res.render()': function(){
+    var app = create();
+
+    app.get('/', function(req, res){
+      res.charset = 'utf8';
+      res.render('hello.jade');
+    });
+
+    assert.response(app,
+      { url: '/' },
+      { headers: { 'Content-Type': 'text/html; charset=utf8' }});
   }
 };

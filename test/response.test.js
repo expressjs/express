@@ -575,19 +575,5 @@ module.exports = {
     assert.response(app,
       { url: '/' },
       { headers: { 'Content-Type': 'text/html; charset=utf8' }});
-  },
-
-  'test .charset with res.render()': function(){
-    var app = express.createServer();
-    app.set('views', __dirname + '/fixtures');
-
-    app.get('/', function(req, res){
-      res.charset = 'utf8';
-      res.render('hello.jade');
-    });
-
-    assert.response(app,
-      { url: '/' },
-      { headers: { 'Content-Type': 'text/html; charset=utf8' }});
   }
 };
