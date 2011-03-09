@@ -154,7 +154,15 @@ module.exports = {
       res.contentType('json');
       res.send('{"foo":"bar"}');
     });
-    
+
+    app.get('/literal', function(req, res){
+      res.contentType('application/json');
+      res.send('{"foo":"bar"}')
+    });
+
+    assert.response(app,
+      { url: '/literal' },
+      { headers: { 'Content-Type': 'application/json' }});    
     assert.response(app,
       { url: '/html' },
       { body: '<p>yay</p>', headers: { 'Content-Type': 'text/html' }});
