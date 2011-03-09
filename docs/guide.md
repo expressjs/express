@@ -761,6 +761,10 @@ Sets the _Content-Type_ response header to the given _type_.
       res.contentType(filename);
       // Content-Type is now "image/png"
 
+A literal _Content-Type_ works as well:
+
+      res.contentType('application/json');
+
 ### res.attachment([filename])
 
 Sets the _Content-Disposition_ response header to "attachment", with optional _filename_.
