@@ -403,7 +403,7 @@ module.exports = {
       { url: '/large.json' },
       { headers: {
           'Accept-Ranges': 'bytes'
-        , 'Cache-Control': 'public max-age=3600'
+        , 'Cache-Control': 'public, max-age=3600'
       }});
 
     beforeExit(function(){
