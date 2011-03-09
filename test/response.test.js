@@ -568,12 +568,12 @@ module.exports = {
     var app = express.createServer();
 
     app.get('/', function(req, res){
-      res.charset = 'utf8';
+      res.charset = 'ISO-8859-1';
       res.send('<p>hey</p>');
     });
 
     assert.response(app,
       { url: '/' },
-      { headers: { 'Content-Type': 'text/html; charset=utf8' }});
+      { headers: { 'Content-Type': 'text/html; charset=ISO-8859-1' }});
   }
 };

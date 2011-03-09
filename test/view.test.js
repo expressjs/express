@@ -889,30 +889,30 @@ module.exports = {
     var app = create();
 
     app.get('/', function(req, res){
-      res.charset = 'utf8';
+      res.charset = 'ISO-8859-1';
       res.render('hello.jade');
     });
 
     assert.response(app,
       { url: '/' },
-      { headers: { 'Content-Type': 'text/html; charset=utf8' }});
+      { headers: { 'Content-Type': 'text/html; charset=ISO-8859-1' }});
   },
   
   'test charset res.render() option': function(){
     var app = create();
 
     app.get('/', function(req, res){
-      res.render('hello.jade', { charset: 'utf8' });
+      res.render('hello.jade', { charset: 'ISO-8859-1' });
     });
 
     assert.response(app,
       { url: '/' },
-      { headers: { 'Content-Type': 'text/html; charset=utf8' }});
+      { headers: { 'Content-Type': 'text/html; charset=ISO-8859-1' }});
   },
   
   'test charset option': function(){
     var app = create();
-    app.set('view options', { charset: 'utf8' });
+    app.set('view options', { charset: 'ISO-8859-1' });
 
     app.get('/', function(req, res){
       res.render('hello.jade');
@@ -920,7 +920,7 @@ module.exports = {
 
     assert.response(app,
       { url: '/' },
-      { headers: { 'Content-Type': 'text/html; charset=utf8' }});
+      { headers: { 'Content-Type': 'text/html; charset=ISO-8859-1' }});
   },
   
   'test charset override': function(){
