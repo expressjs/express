@@ -175,7 +175,7 @@ module.exports = {
       { body: '<li class="ferret">Tobi</li>' });
     assert.response(app,
       { url: '/' },
-      { body: '<p>Welcome</p>', headers: { 'Content-Type': 'text/html' }});
+      { body: '<p>Welcome</p>', headers: { 'Content-Type': 'text/html; charset=utf8' }});
     assert.response(app,
       { url: '/jade' },
       { body: '<p>Welcome</p>' });
