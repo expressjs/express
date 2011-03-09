@@ -1,4 +1,22 @@
 
+2.0.0beta3 / 2011-03-09 
+==================
+
+  * Added support for `res.contentType()` literal
+    The original `res.contentType('.json')`,
+    `res.contentType('application/json')`, and `res.contentType('json')`
+    will work now.
+  * Added `res.render()` status option support back
+  * Added charset option for `res.render()`
+  * Added `.charset` support (via connect 1.0.4)
+  * Added view resolution hints when in development and a lookup fails
+  * Added layout lookup support relative to the page view.
+    For example while rendering `./views/user/index.jade` if you create
+    `./views/user/layout.jade` it will be used in favour of the root layout.
+  * Fixed `res.redirect()`. RFC states absolute url [reported by unlink]
+  * Fixed; default `res.send()` string charset to utf8
+  * Removed `Partial` constructor (not currently used)
+
 2.0.0beta2 / 2011-03-07 
 ==================
 

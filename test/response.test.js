@@ -30,7 +30,7 @@ module.exports = {
     
     app.get('/text', function(req, res){
       res.header('X-Foo', 'bar');
-      res.contentType('.txt');
+      res.contentType('txt');
       res.send('wahoo');
     });
     

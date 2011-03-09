@@ -783,6 +783,10 @@ A literal _Content-Type_ works as well:
 
       res.contentType('application/json');
 
+Or simply the extension without leading `.`:
+
+      res.contentType('json');
+
 ### res.attachment([filename])
 
 Sets the _Content-Disposition_ response header to "attachment", with optional _filename_.
