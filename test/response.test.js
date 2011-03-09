@@ -11,7 +11,7 @@ var express = require('express')
 module.exports = {
   'test #send()': function(){
     var app = express.createServer();
-
+  
     app.get('/html', function(req, res){
       res.send('<p>test</p>', { 'Content-Language': 'en' });
     });
@@ -49,7 +49,7 @@ module.exports = {
     app.get('/noargs', function(req, res, next){
       res.send();
     });
-
+  
     assert.response(app,
       { url: '/html' },
       { body: '<p>test</p>'
@@ -57,7 +57,7 @@ module.exports = {
           'Content-Language': 'en'
         , 'Content-Type': 'text/html; charset=utf8'
       }});
-
+  
     assert.response(app,
       { url: '/json' },
       { body: '{"foo":"bar"}'
@@ -66,7 +66,7 @@ module.exports = {
           'Content-Type': 'application/json'
         , 'X-Foo': 'baz'
       }});
-
+  
     assert.response(app,
       { url: '/jsonp?callback=test' },
       { body: 'test({"foo":"bar"});'
@@ -75,7 +75,7 @@ module.exports = {
           'Content-Type': 'text/javascript'
         , 'X-Foo': 'baz'
       }});
-
+  
     assert.response(app,
       { url: '/jsonp?callback=baz' },
       { body: 'baz({"foo":"bar"});'
@@ -83,7 +83,7 @@ module.exports = {
           'Content-Type': 'text/javascript'
         , 'X-Foo': 'baz'
       }});
-
+  
     assert.response(app,
       { url: '/jsonp?callback=invalid()[]' },
       { body: 'invalid({"foo":"bar"});'
@@ -92,7 +92,7 @@ module.exports = {
           'Content-Type': 'text/javascript'
         , 'X-Foo': 'baz'
       }});
-
+  
     assert.response(app,
       { url: '/json?callback=test' },
       { body: '{"foo":"bar"}'
@@ -101,7 +101,7 @@ module.exports = {
           'Content-Type': 'application/json'
         , 'X-Foo': 'baz'
       }});
-
+  
     assert.response(app,
       { url: '/text' },
       { body: 'wahoo'
@@ -109,22 +109,22 @@ module.exports = {
           'Content-Type': 'text/plain'
         , 'X-Foo': 'bar'
       }});
-
+  
     assert.response(app,
       { url: '/status' },
       { body: 'Not Found'
       , status: 404
       , headers: { 'Content-Type': 'text/plain' }});
-
+  
     assert.response(app,
       { url: '/error' },
       { body: 'Oh shit!'
       , status: 500
       , headers: {
-          'Content-Type': 'text/plain'
+          'Content-Type': 'text/plain; charset=utf8'
         , 'Content-Length': '8'
       }});
-
+  
     assert.response(app,
       { url: '/buffer' },
       { body: 'wahoo!'
@@ -132,7 +132,7 @@ module.exports = {
           'Content-Type': 'application/octet-stream'
         , 'Content-Length': '6'
       }});
-
+  
     assert.response(app,
       { url: '/noargs' },
       { status: 204 }, function(res){
