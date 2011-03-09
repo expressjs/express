@@ -753,6 +753,24 @@ Get or set the response header _key_.
     res.header('Content-Length');
     // => 123
 
+### res.charset
+
+Sets the charset for subsequent `Content-Type` header fields. For example `res.send()` and `res.render()` default to "utf8", so we may explicitly set the charset before rendering a template:
+
+    res.charset = 'ISO-8859-1';
+    res.render('users');
+
+or before responding with `res.send()`:
+
+    res.charset = 'ISO-8859-1';
+    res.send(str);
+
+or with node's `res.end()`:
+
+    res.charset = 'ISO-8859-1';
+    res.header('Content-Type', 'text/plain');
+    res.end(str);
+
 ### res.contentType(type)
 
 Sets the _Content-Type_ response header to the given _type_.
