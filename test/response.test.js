@@ -564,12 +564,26 @@ module.exports = {
       { body: '', headers: { 'Content-Length': 11 }});
   },
   
-  'test .charset': function(){
+  'test .charset with res.send()': function(){
     var app = express.createServer();
 
     app.get('/', function(req, res){
       res.charset = 'utf8';
       res.send('<p>hey</p>');
+    });
+
+    assert.response(app,
+      { url: '/' },
+      { headers: { 'Content-Type': 'text/html; charset=utf8' }});
+  },
+
+  'test .charset with res.render()': function(){
+    var app = express.createServer();
+    app.set('views', __dirname + '/fixtures');
+
+    app.get('/', function(req, res){
+      res.charset = 'utf8';
+      res.render('hello.jade');
     });
 
     assert.response(app,
