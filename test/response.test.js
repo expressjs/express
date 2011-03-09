@@ -562,5 +562,18 @@ module.exports = {
     assert.response(app,
       { url: '/', method: 'HEAD' },
       { body: '', headers: { 'Content-Length': 11 }});
+  },
+  
+  'test .charset': function(){
+    var app = express.createServer();
+
+    app.get('/', function(req, res){
+      res.charset = 'utf8';
+      res.send('<p>hey</p>');
+    });
+
+    assert.response(app,
+      { url: '/' },
+      { headers: { 'Content-Type': 'text/html; charset=utf8' }});
   }
 };
