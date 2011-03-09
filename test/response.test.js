@@ -247,58 +247,58 @@ module.exports = {
     });
 
     assert.response(app,
-      { url: '/html', headers: { Accept: 'text/html,text/plain' }},
+      { url: '/html', headers: { Accept: 'text/html,text/plain', Host: 'foo.com' }},
       { body: '<p>Moved Temporarily. Redirecting to <a href="http://google.com">http://google.com</a></p>' });
 
     assert.response(app,
-      { url: '/', headers: { Accept: 'text/plain' }},
+      { url: '/', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Permanently. Redirecting to http://google.com'
       , status: 301, headers: { Location: 'http://google.com' }});
 
     assert.response(app,
-      { url: '/back', headers: { Accept: 'text/plain' }},
-      { body: 'Moved Temporarily. Redirecting to /'
-      , status: 302, headers: { Location: '/', 'Content-Type': 'text/plain' }});
+      { url: '/back', headers: { Accept: 'text/plain', Host: 'foo.com' }},
+      { body: 'Moved Temporarily. Redirecting to http://foo.com/'
+      , status: 302, headers: { Location: 'http://foo.com/', 'Content-Type': 'text/plain' }});
 
     assert.response(app,
-      { url: '/back', headers: { Referer: '/foo', Accept: 'text/plain' }},
-      { body: 'Moved Temporarily. Redirecting to /foo'
-      , status: 302, headers: { Location: '/foo' }});
+      { url: '/back', headers: { Referer: '/foo', Accept: 'text/plain', Host: 'foo.com' }},
+      { body: 'Moved Temporarily. Redirecting to http://foo.com/foo'
+      , status: 302, headers: { Location: 'http://foo.com/foo' }});
 
     assert.response(app,
-      { url: '/back', headers: { Referrer: '/foo', Accept: 'text/plain' }},
-      { body: 'Moved Temporarily. Redirecting to /foo'
-      , status: 302, headers: { Location: '/foo' }});
+      { url: '/back', headers: { Referrer: '/foo', Accept: 'text/plain', Host: 'foo.com' }},
+      { body: 'Moved Temporarily. Redirecting to http://foo.com/foo'
+      , status: 302, headers: { Location: 'http://foo.com/foo' }});
 
     assert.response(app,
-      { url: '/home', headers: { Accept: 'text/plain' } },
-      { body: 'Moved Temporarily. Redirecting to /'
-      , status: 302, headers: { Location: '/' }});
+      { url: '/home', headers: { Accept: 'text/plain', Host: 'foo.com' } },
+      { body: 'Moved Temporarily. Redirecting to http://foo.com/'
+      , status: 302, headers: { Location: 'http://foo.com/' }});
 
     assert.response(app2,
-      { url: '/', headers: { Accept: 'text/plain' }},
+      { url: '/', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Permanently. Redirecting to http://google.com'
       , status: 301, headers: { Location: 'http://google.com' }});
 
     assert.response(app2,
-      { url: '/back', headers: { Accept: 'text/plain' }},
-      { body: 'Moved Temporarily. Redirecting to /blog'
-      , status: 302, headers: { Location: '/blog' }});
+      { url: '/back', headers: { Accept: 'text/plain', Host: 'foo.com' }},
+      { body: 'Moved Temporarily. Redirecting to http://foo.com/blog'
+      , status: 302, headers: { Location: 'http://foo.com/blog' }});
 
     assert.response(app2,
-      { url: '/home', headers: { Accept: 'text/plain' }},
-      { body: 'Moved Temporarily. Redirecting to /blog'
-      , status: 302, headers: { Location: '/blog' }});
+      { url: '/home', headers: { Accept: 'text/plain', Host: 'foo.com' }},
+      { body: 'Moved Temporarily. Redirecting to http://foo.com/blog'
+      , status: 302, headers: { Location: 'http://foo.com/blog' }});
 
     assert.response(app2,
-      { url: '/google', headers: { Accept: 'text/plain' }},
+      { url: '/google', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://google.com'
       , status: 302, headers: { Location: 'http://google.com' }});
 
     assert.response(app2,
-      { url: '/user/12', headers: { Accept: 'text/plain' }},
-      { body: 'Moved Temporarily. Redirecting to /user/12/blog'
-      , status: 302, headers: { Location: '/user/12/blog', 'X-Foo': 'bar' }});
+      { url: '/user/12', headers: { Accept: 'text/plain', Host: 'foo.com' }},
+      { body: 'Moved Temporarily. Redirecting to http://foo.com/user/12/blog'
+      , status: 302, headers: { Location: 'http://foo.com/user/12/blog', 'X-Foo': 'bar' }});
   },
 
   'test #redirect() when mounted': function(){
@@ -317,9 +317,9 @@ module.exports = {
     app.use('/blog', blog);
 
     assert.response(app,
-      { url: '/blog/posts' },
+      { url: '/blog/posts', headers: { Host: 'foo.com' }},
       { status: 302
-      , headers: { Location: '/blog/posts/all' }});
+      , headers: { Location: 'http://foo.com/blog/posts/all' }});
   },
   
   'test #sendfile()': function(){
@@ -537,7 +537,7 @@ module.exports = {
     });
 
     assert.response(app,
-      { url: '/' },
+      { url: '/', headers: { Host: 'foo.com' }},
       function(res){
         res.headers['set-cookie']
           .should.eql(['rememberme=yes; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly', 'something=else']);
