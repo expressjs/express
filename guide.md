@@ -1,4 +1,3 @@
-
 ### Installation
 
     $ npm install express
@@ -47,7 +46,7 @@ otherwise the first call to _app.get()_, _app.post()_, etc will mount the routes
 	
     app.configure('production', function(){
       var oneYear = 31557600000;
-      app.use(express.static({ root: __dirname + '/public', maxAge: oneYear }));
+      app.use(express.static(__dirname + '/public', {maxAge: oneYear }));
       app.use(express.errorHandler());
     });
 
