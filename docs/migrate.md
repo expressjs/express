@@ -141,3 +141,14 @@ However now we have the alternative _maxAge_ property which may be used to set _
  Express and Connect now utilize the _mime_ module in npm, so to add more use:
  
      require('mime').define({ 'foo/bar': ['foo', 'bar'] });
+
+### static() middleware
+
+ Previously named `staticProvider()`, the now `static()` middleware takes a single directory path, followed by options.
+ 
+     app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
+
+Previously when using options the `root` option would be used for this:
+
+     app.use(express.staticProvider({ root: __dirname + '/public', maxAge: oneYear }));
+     
