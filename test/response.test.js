@@ -55,7 +55,7 @@ module.exports = {
       { body: '<p>test</p>'
       , headers: {
           'Content-Language': 'en'
-        , 'Content-Type': 'text/html; charset=utf8'
+        , 'Content-Type': 'text/html; charset=utf-8'
       }});
   
     assert.response(app,
@@ -121,7 +121,7 @@ module.exports = {
       { body: 'Oh shit!'
       , status: 500
       , headers: {
-          'Content-Type': 'text/plain; charset=utf8'
+          'Content-Type': 'text/plain; charset=utf-8'
         , 'Content-Length': '8'
       }});
   
