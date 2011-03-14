@@ -1,4 +1,11 @@
 
+2.0.0rc / 2011-03-14 
+==================
+
+  * Fixed; expose `HTTPSServer` constructor
+  * Fixed express(1) default test charset. Closes #579 [reported by secoif]
+  * Fixed; default charset to utf-8 instead of utf8 for lame IE [reported by NickP]
+
 2.0.0beta3 / 2011-03-09 
 ==================
 
