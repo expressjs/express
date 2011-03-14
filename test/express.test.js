@@ -401,6 +401,24 @@ module.exports = {
       { url: '/regular' },
       { body: 'hey' });
   },
+
+  'test .app property after returning control to parent': function() {
+    var app = express.createServer();
+
+    // Mounted servers did not restore `req.app` and `res.app` when
+    // passing control back to parent via `out()` in `#handle()`.
+
+    app.use(express.createServer());
+
+    app.use(function(req, res, next) {
+      res.send((res.app === app) ? 'restored' : 'not-restored');
+    });
+
+    assert.response(app,
+      { url: '/' },
+      { body: 'restored' }
+    );
+  },
   
   'test route middleware': function(){
     var app = express.createServer();
