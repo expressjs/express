@@ -7,7 +7,7 @@ require.paths.unshift(__dirname + '/../../support');
  */
 
 var express = require('../../lib/express')
-  , messages = require('express-contrib/messages');
+  , messages = require('express-messages');
 
 var app = module.exports = express.createServer();
 
@@ -22,8 +22,8 @@ app.mounted(function(other){
   console.log('ive been mounted!');
 });
 
-// Flash message helper provided by express-contrib
-// $ npm install express-contrib
+// Flash message helper provided by express-messages
+// $ npm install express-messages
 
 app.dynamicHelpers({
     messages: messages
