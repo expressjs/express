@@ -29,11 +29,16 @@ app.set('views', __dirname + '/views');
 // (although you can still mix and match)
 app.set('view engine', 'jade');
 
+function User(name, email) {
+  this.name = name;
+  this.email = email;
+}
+
 // Dummy users
 var users = [
-    { name: 'tj', email: 'tj@vision-media.ca' }
-  , { name: 'ciaran', email: 'ciaranj@gmail.com' }
-  , { name: 'aaron', email: 'aaron.heckmann+github@gmail.com' }
+    new User('tj', 'tj@vision-media.ca')
+  , new User('ciaran', 'ciaranj@gmail.com')
+  , new User('aaron', 'aaron.heckmann+github@gmail.com')
 ];
 
 app.get('/', function(req, res){
@@ -48,7 +53,11 @@ app.get('/users', function(req, res){
 });
 
 app.get('/users/list', function(req, res){
-  res.partial('users/list', { object: users });
+  // use "object" to utilize the name deduced from
+  // the view filename. The examples below are equivalent
+
+  //res.partial('users/list', { object: users });
+  res.partial('users/list', { list: users });
 });
 
 app.get('/user/:id', function(req, res){

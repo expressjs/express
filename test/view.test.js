@@ -105,68 +105,68 @@ module.exports = {
   'test #render()': function(){
     var app = create();
     app.set('view engine', 'jade');
-
+  
     app.get('/', function(req, res){
       res.render('index.jade', { layout: false });
     });
-
+  
     app.get('/jade', function(req, res){
       res.render('index', { layout: false });
     });
-
+  
     app.get('/haml', function(req, res){
       res.render('hello.haml', { layout: false });
     });
-
+  
     app.get('/callback/layout/no-options', function(req, res){
       res.render('hello.jade', function(err, str){
         assert.ok(!err);
         res.send(str.replace(':(', ':)'));
       });
     });
-
+  
     app.get('/callback/layout', function(req, res){
       res.render('hello.jade', {}, function(err, str){
         assert.ok(!err);
         res.send(str.replace(':(', ':)'));
       });
     });
-
+  
     app.get('/callback', function(req, res){
       res.render('hello.haml', { layout: false }, function(err, str){
         assert.ok(!err);
         res.send(str.replace('Hello World', ':)'));
       });
     });
-
+  
     app.get('/invalid', function(req, res){
       res.render('invalid.jade', { layout: false });
     });
-
+  
     app.get('/invalid-async', function(req, res){
       process.nextTick(function(){
         res.render('invalid.jade', { layout: false });
       });
     });
-
+  
     app.get('/error', function(req, res){
       res.render('invalid.jade', { layout: false }, function(err){
         res.send(err.arguments[0]);
       });
     });
-
+  
     app.get('/absolute', function(req, res){
       res.render(__dirname + '/fixtures/index.jade', { layout: false });
     });
-
+  
     app.get('/ferret', function(req, res){
       res.render('ferret', { layout: false, ferret: { name: 'Tobi' }});
     });
-
+  
     app.get('/status', function(req, res){
       res.render('hello.jade', { status: 500 });
     });
-
+  
     assert.response(app,
       { url: '/status' },
       { status: 500 });
@@ -214,14 +214,14 @@ module.exports = {
   'test #render() layout': function(){
     var app = create();
     app.set('view engine', 'jade');
-
+  
     app.get('/', function(req, res){
       res.render('index.jade');
     });
     app.get('/jade', function(req, res){
       res.render('index');
     });
-
+  
     assert.response(app,
       { url: '/' },
       { body: '<html><body><p>Welcome</p></body></html>' });
@@ -230,7 +230,7 @@ module.exports = {
   'test #render() specific layout': function(beforeExit){
     var app = create()
       , called;
-
+  
     app.get('/', function(req, res){
       res.render('index.jade', { layout: 'cool-layout.jade' }, function(err, html){
         called = true;
@@ -249,7 +249,7 @@ module.exports = {
     app.get('/nope', function(req, res){
       res.render('index.jade', { layout: 'nope.jade' });
     });
-
+  
     assert.response(app,
       { url: '/' },
       { body: '<cool><p>Welcome</p></cool>' });
@@ -268,7 +268,7 @@ module.exports = {
         assert.ok(~res.body.indexOf('Error: failed to locate view'));
         assert.ok(~res.body.indexOf('nope'));
       });
-
+  
     beforeExit(function(){
       assert.ok(called, 'Layout callback never called'); 
     });
@@ -303,17 +303,17 @@ module.exports = {
   'test #render() view helpers': function(beforeExit){
     var app = create()
       , calls = 0;
-
+  
     app.locals({
       lastName: 'holowaychuk'
     });
-
+  
     app.helpers({ 
       greetings: function(sess, lastName){
         return 'Hello ' + sess.name + ' ' + lastName; 
       }
     });
-
+  
     var ret = app.dynamicHelpers({
       session: function(req, res){
         ++calls;
@@ -323,19 +323,19 @@ module.exports = {
         return req.session;
       }
     });
-
+  
     assert.equal(app, ret, 'Server#helpers() is not chainable');
     
     app.get('/', function(req, res){
       req.session = { name: 'tj' };
       res.render('dynamic-helpers.jade', { layout: false });
     });
-
+  
     app.get('/ejs', function(req, res){
       req.session = { name: 'tj' };
       res.render('dynamic-helpers.ejs', { layout: false });
     });
-
+  
     app.get('/precedence', function(req, res){
       req.session = { name: 'tj' };
       res.render('dynamic-helpers.jade', {
@@ -352,7 +352,7 @@ module.exports = {
     assert.response(app,
       { url: '/precedence' },
       { body: '<html><body><p>Hello tj foobar</p></body></html>' });
-
+  
     beforeExit(function(){
       assert.equal(3, calls);
     });
@@ -360,9 +360,9 @@ module.exports = {
   
   'test #partial()': function(){
     var app = create();
-
+  
     app.set('view engine', 'jade');
-
+  
     // Auto-assigned local w/ collection option
     app.get('/', function(req, res){
       res.render('items.jade', { items: ['one', 'two'] });
@@ -371,7 +371,7 @@ module.exports = {
    assert.response(app,
       { url: '/' },
       { body: '<html><body><ul><li>one</li><li>two</li></ul></body></html>' });
-
+  
     // Auto-assigned local w/ collection array    
     var movies = [
       { title: 'Nightmare Before Christmas', director: 'Tim Burton' },
@@ -380,7 +380,7 @@ module.exports = {
     app.get('/movies', function(req, res){
       res.render('movies.jade', { movies: movies });
     });
-        
+  
     var html = [
       '<html>',
       '<body>',
@@ -397,11 +397,11 @@ module.exports = {
       '</body>',
       '</html>'
     ].join('');
-
+  
     assert.response(app,
       { url: '/movies' },
       { body: html });
-
+  
     // as: str collection option
     app.get('/user', function(req, res){
       res.partial('user', {
@@ -413,7 +413,7 @@ module.exports = {
     assert.response(app,
       { url: '/user' },
       { body: '<p>tj</p>' });
-
+  
     // as: with object collection
     app.get('/user/object', function(req, res){
       res.partial('user.jade', {
@@ -425,7 +425,7 @@ module.exports = {
     assert.response(app,
       { url: '/user' },
       { body: '<p>tj</p>' });
-    
+
     // as: this collection option
     app.get('/person', function(req, res){
       res.partial('person.jade', {
@@ -438,7 +438,7 @@ module.exports = {
     assert.response(app,
       { url: '/person' },
       { body: '<p>name: tj</p>' });
-
+  
     // as: global collection option
     app.get('/videos', function(req, res){
       res.partial('video.jade', {
@@ -446,7 +446,7 @@ module.exports = {
         collection: movies
       });
     });
-
+  
     assert.response(app,
       { url: '/videos' },
       { body: '<p>Tim Burton</p><p>James Cameron</p>' });
@@ -473,7 +473,7 @@ module.exports = {
     assert.response(app,
       { url: '/movie' },
       { body: '<li><div class="title">Nightmare Before Christmas</div><div class="director">Tim Burton</div></li>' });
-        
+
     app.get('/video-global', function(req, res){
       res.partial('video.jade', {
         object: movies[0],
@@ -485,7 +485,7 @@ module.exports = {
     assert.response(app,
       { url: '/video-global' },
       { body: '<p>Tim Burton</p>' });
-
+  
     app.get('/person-this', function(req, res){
       res.partial('person.jade', {
         object: { name: 'tj' },
@@ -498,7 +498,7 @@ module.exports = {
     assert.response(app,
       { url: '/person-this' },
       { body: '<p>User: tj</p>' });
-
+  
     // No options
     app.get('/nothing', function(req, res){
       res.partial('hello.ejs');
@@ -507,29 +507,82 @@ module.exports = {
     assert.response(app,
       { url: '/nothing' },
       { body: 'Hello' });
-
+  
     // Path segments + "as"
     app.get('/role/as', function(req, res){
       res.partial('user/role.ejs', { as: 'role', collection: ['admin', 'member'] });
     });
-
+      
     assert.response(app,
       { url: '/role/as' },
       { body: '<li>Role: admin</li><li>Role: member</li>' });
-
+      
     // Deduce name from last segment
     app.get('/role', function(req, res){
       res.partial('user/role.ejs', ['admin', 'member']);
     });
-
+      
     assert.response(app,
       { url: '/role' },
       { body: '<li>Role: admin</li><li>Role: member</li>' });
+      
+    // Non-basic object support
+    function Movie(title, director){
+      this.title = title;
+      this.director = director;
+    }
+      
+    app.get('/movie/object', function(req, res){
+      res.partial('movie', new Movie('The TJ', 'tj'));
+    });
+      
+    assert.response(app,
+      { url: '/movie/object' },
+      { body: '<li><div class="title">The TJ</div><div class="director">tj</div></li>' });
+
+    // Locals
+    app.get('/stats', function(req, res){
+      res.partial('stats', {
+          hits: 12
+        , misses: 1
+      });
+    });
+
+    assert.response(app,
+      { url: '/stats' },
+      { body: '<p>Hits 12</p><p>Misses 1</p>' });
+
+    // Locals
+    app.get('/stats/locals', function(req, res){
+      res.partial('stats', {
+        locals: {
+             hits: 12
+          , misses: 1 
+        }
+      });
+    });
+
+    assert.response(app,
+      { url: '/stats/locals' },
+      { body: '<p>Hits 12</p><p>Misses 1</p>' });
+
+    // Collection + locals
+    app.get('/items', function(req, res){
+      res.partial('item-title', {
+          collection: ['foo', 'bar']
+        , title: 'test'
+        , as: 'item'
+      });
+    });
+      
+    assert.response(app,
+      { url: '/items' },
+      { body: '<li>test foo</li><li>test bar</li>' });
   },
   
   'test #partial() with several calls': function(){
     var app = create();
-
+  
     app.get('/', function(req, res, next){
       res.render('list.jade', { layout: false });
     });
@@ -541,7 +594,7 @@ module.exports = {
   
   'test #partial() with several calls using locals': function(){
     var app = create();
-
+  
     app.get('/', function(req, res, next){
       res.render('list2.jade', { layout: false });
     });
@@ -553,9 +606,9 @@ module.exports = {
   
   'test #partial() locals': function(){
     var app = create();
-
+  
     app.set('view engine', 'jade');
-
+  
     app.get('/', function(req, res, next){
       res.partial('pet-count', {
         locals: {
@@ -565,7 +618,7 @@ module.exports = {
         }
       });
     });
-
+  
     assert.response(app,
       { url: '/' },
       { body: 'We have 5 cool pets\n' });
@@ -573,59 +626,71 @@ module.exports = {
   
   'test #partial() locals precedence': function(){
     var app = create();
-
+  
     app.get('/', function(req, res, next){
       res.render('greetings.jade', {
           name: 'TJ'
         , locals: { otherName: 'Overridden' }
       });
     });
-
+  
     assert.response(app,
       { url: '/' },
       { body: '<html><body><h1>TJ</h1><p>Welcome Overridden</p></body></html>' });
   },
-
+  
   'test #partial() index': function(){
     var app = create();
-
+  
     app.set('view engine', 'jade');
 
+    function Ferret(name){ this.name = name; };
+
     app.get('/ferret', function(req, res){
-      res.partial('ferret', { name: 'Tobi' });
+      res.partial('ferret', new Ferret('Tobi'));
     });
+    
+    app.get('/ferret/basic', function(req, res){
+      res.partial('ferret', { ferret: { name: 'Tobi' }});
+    });
+
+    assert.response(app,
+      { url: '/ferret/basic' },
+      { body: '<li class="ferret">Tobi</li>' });
 
     assert.response(app,
       { url: '/ferret' },
       { body: '<li class="ferret">Tobi</li>' });
   },
-
+  
   'test #partial() relative index': function(){
     var app = create();
 
     app.set('view engine', 'jade');
 
+    function Ferret(name) { this.name = name; }
     app.get('/ferret', function(req, res){
-      var tobi = { name: 'Tobi' }
-        , loki = { name: 'Loki' };
+      var tobi = new Ferret('Tobi')
+        , loki = new Ferret('Loki');
       res.partial('ferret/list', { object: [tobi, loki] });
     });
-
+  
     assert.response(app,
       { url: '/ferret' },
       { body: '<ul id="ferrets"><li class="ferret">Tobi</li><li class="ferret">Loki</li></ul>' });
   },
-
+  
   'test #partial() object': function(){
     var app = create();
-
+  
     app.get('/', function(req, res, next){
-      res.partial('movie.jade', {
-          title: 'Foobar'
-        , director: 'Tim Burton'
-      });
+      function Movie(title, director) {
+        this.title = title;
+        this.director = director;
+      }
+      res.partial('movie.jade', new Movie('Foobar', 'Tim Burton'));
     });
-
+  
     assert.response(app,
       { url: '/' },
       { body: '<li><div class="title">Foobar</div><div class="director">Tim Burton</div></li>' });
@@ -633,13 +698,13 @@ module.exports = {
   
   'test #partial() locals with collection': function(){
     var app = create();
-
+  
     app.get('/', function(req, res, next){
       res.render('pet-land.jade', {
         pets: ['Ewald']
       });
     });
-
+  
     assert.response(app,
       { url: '/' },
       { body: '<html><body><div><li>Ewald is the coolest of Animal land</li></div></body></html>' });
@@ -647,14 +712,14 @@ module.exports = {
   
   'test #partial() inheriting initial locals': function(){
     var app = create();
-
+  
     app.get('/pets', function(req, res, next){
       res.render('pets.jade', {
           site: 'My Cool Pets'
         , pets: ['Tobi', 'Jane', 'Bandit']
       });
     });
-
+  
     var html = [
       '<html>',
       '<body>',
@@ -668,7 +733,7 @@ module.exports = {
       '</body>',
       '</html>'
     ].join('');
-
+  
     assert.response(app,
       { url: '/pets' },
       { body: html });
@@ -676,7 +741,7 @@ module.exports = {
   
   'test #partial() with array-like collection': function(){
     var app = create();
-
+  
     var movies = {
       0: { title: 'Nightmare Before Christmas', director: 'Tim Burton' },
       1: { title: 'Avatar', director: 'James Cameron' },
@@ -702,7 +767,7 @@ module.exports = {
       '</body>',
       '</html>'
     ].join('');
-
+  
     assert.response(app,
       { url: '/movies' },
       { body: html });
@@ -711,7 +776,7 @@ module.exports = {
   'test "partials" setting': function(){
     var app = create();
     app.set('partials', __dirname + '/fixtures/sub-templates');
-
+  
     app.get('/', function(req, res){
       res.render('items.jade', {
         layout: false,
@@ -808,12 +873,12 @@ module.exports = {
       , open: '<?'
       , title: 'Original'
     });
-
+  
     function setTitle(req, res, next) {
       res.local('title', 'Wahoo');
       next();
     }
-
+  
     app.get('/video', setTitle, function(req, res, next){
       res.local('close', '?>');
       res.render('video.ejs', { layout: false, title: 'keyboard cat' });
@@ -823,20 +888,20 @@ module.exports = {
       res.local('close', '?>');
       res.render('video.ejs', { layout: false });
     });
-
+  
     app.get('/video/3', function(req, res, next){
       res.local('close', '?>');
       res.render('video.ejs', { layout: false });
     });
-
+  
     assert.response(app,
       { url: '/video' },
       { body: '<h1>keyboard cat</h1>' });
-
+  
     assert.response(app,
       { url: '/video/2' },
       { body: '<h1>Wahoo</h1>' });
-
+  
     assert.response(app,
       { url: '/video/3' },
       { body: '<h1>Original</h1>' });
@@ -861,11 +926,11 @@ module.exports = {
       }
       next();
     });
-
+  
     app.get('/pets', function(req, res, next){
       res.render('pets.jade');
     });
-
+  
     var html = [
       '<html>',
       '<body>',
@@ -879,7 +944,7 @@ module.exports = {
       '</body>',
       '</html>'
     ].join('');
-
+  
     assert.response(app,
       { url: '/pets' },
       { body: html });
@@ -887,12 +952,12 @@ module.exports = {
   
   'test .charset with res.render()': function(){
     var app = create();
-
+  
     app.get('/', function(req, res){
       res.charset = 'ISO-8859-1';
       res.render('hello.jade');
     });
-
+  
     assert.response(app,
       { url: '/' },
       { headers: { 'Content-Type': 'text/html; charset=ISO-8859-1' }});
@@ -900,11 +965,11 @@ module.exports = {
   
   'test charset res.render() option': function(){
     var app = create();
-
+  
     app.get('/', function(req, res){
       res.render('hello.jade', { charset: 'ISO-8859-1' });
     });
-
+  
     assert.response(app,
       { url: '/' },
       { headers: { 'Content-Type': 'text/html; charset=ISO-8859-1' }});
@@ -913,11 +978,11 @@ module.exports = {
   'test charset option': function(){
     var app = create();
     app.set('view options', { charset: 'ISO-8859-1' });
-
+  
     app.get('/', function(req, res){
       res.render('hello.jade');
     });
-
+  
     assert.response(app,
       { url: '/' },
       { headers: { 'Content-Type': 'text/html; charset=ISO-8859-1' }});
@@ -926,11 +991,11 @@ module.exports = {
   'test charset override': function(){
     var app = create();
     app.set('view options', { charset: 'ISO-8859-1' });
-
+  
     app.get('/', function(req, res){
       res.render('hello.jade', { charset: 'utf8' });
     });
-
+  
     assert.response(app,
       { url: '/' },
       { headers: { 'Content-Type': 'text/html; charset=utf8' }});
