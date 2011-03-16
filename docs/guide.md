@@ -523,15 +523,15 @@ A good example of this is specifying custom _ejs_ opening and closing tags:
 ### View Partials
 
 The Express view system has built-in support for partials and collections, which are "mini" views representing a document fragment. For example rather than iterating
-in a view to display comments, we would use a partial with collection support:
+in a view to display comments, we could use partial collection:
 
     partial('comment', { collection: comments });
 
-If no other options are desired, we can omit the object and simply pass our array, which is equivalent to above:
+If no other options or local variables are desired, we can omit the object and simply pass our array, which is equivalent to above:
 
     partial('comment', comments);
 
-When using the partial collection support a few "magic" variables are provided
+When using the partial collection support a few "magic" locals are provided
 for free:
 
   * _firstInCollection_  true if this is the first object
@@ -938,7 +938,7 @@ of _movie.director_ we could use _this.director_.
     partial('movie', { collection: movies, as: this });
     // In view: this.director
 
-Another alternative is to "explode" the properties of the collection item into
+Another alternative is to "expand" the properties of the collection item into
 pseudo globals (local variables) by using _as: global_, which again is syntactic sugar:
 
     partial('movie', { collection: movies, as: global });
@@ -960,8 +960,20 @@ This same logic applies to a single partial object usage:
 
 When a non-collection (does _not_ have _.length_) is passed as the second argument, it is assumed to be the _object_, after which the object's local variable name is derived from the view name:
 
-    partial('movie', movie);
+    var movie = new Movie('Nightmare Before Christmas', 'Tim Burton')
+    partial('movie', movie)
     // => In view: movie.director
+
+The exception of this, is when a "plain" object, aka "{}" or "new Object" is passed, which is considered an object with local variable. For example some may expect a "movie" local with the following, however since it is a plain object "director" and "title" are simply locals:
+
+    var movie = { title: 'Nightmare Before Christmas', director: 'Tim Burton' }; 
+    partial('movie', movie)
+
+For cases like this where passing a plain object is desired, simply assign it to a key, or use the `object` key which will use the filename-derived variable name. The examples below are equivalent:
+
+     partial('movie', { locals: { movie: movie }})
+     partial('movie', { movie: movie })
+     partial('movie', { object: movie })
 
 This exact API can be utilized from within a route, to respond with a fragment via Ajax or WebSockets, for example we can render a collection of users directly from a route:
 
