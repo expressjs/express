@@ -1007,6 +1007,15 @@ Get or set the given local variable _name_. The locals built up for a response a
         res.render('movie', { displayReviews: true });
       });
 
+### res.local(obj)
+
+ Assign several locals with the given _obj_. The following are equivalent:
+ 
+     res.local('foo', bar);
+     res.local('bar', baz);
+
+     res.locals({ foo: bar, bar, baz });
+
 ### app.set(name[, val])
 
 Apply an application level setting _name_ to _val_, or
