@@ -372,7 +372,7 @@ ad-hoc _NotFound_ exception:
       Error.captureStackTrace(this, arguments.callee);
     }
     
-    NotFound.protoype.__proto__ = Error.prototype;
+    NotFound.prototype.__proto__ = Error.prototype;
     
     app.get('/404', function(req, res){
       throw new NotFound;
