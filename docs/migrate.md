@@ -121,6 +121,29 @@ However now we have the alternative _maxAge_ property which may be used to set _
      // render a single comment
      res.partial('comment', comment);
 
+### partial() locals
+
+ Both _res.partial()_ and the _partial()_ functions accept an single object consisting of both the options and the locals. Previously with Express 1.x you may pass _user_ to a partial, along with _date_ like so:
+ 
+       partial('user', { object: user, locals: { date: new Date }})
+
+or perhaps if you preferred not to use the inferred name _user_ you may used a local for this as well:
+
+       partial('user', { locals: { user: user, date: new Date }})
+
+ With recent changes to Express 2.x the object passed is now both, so the following is valid for the _object_ option and locals:
+ 
+       partial('user', { object: user, date: new Date })
+
+ Or the following which is equivalent, however the local var name is explicitly set to _user_ instead of deduced from the filename.
+ 
+       partial('user', { user: user, date: new Date })
+
+ When a "basic" object aka _{}_ or _new Object_ is passed, it is considered options, otherwise it is considered the _object_. The following are equivalent:
+ 
+      partial('user', user); 
+      partial('user', { object: user }); 
+
 ### Template Engine Compliance
 
  To comply with Express previously engines needed the following signature:
