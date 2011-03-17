@@ -15,10 +15,11 @@ var pub = __dirname + '/public';
 // Auto-compile sass to css with "compiler"
 // and then serve with connect's staticProvider
 
-var app = express.createServer(
-    express.compiler({ src: pub, enable: ['sass'] })
-  , express.static(pub)
-);
+var app = express.createServer();
+app.use(express.compiler({ src: pub, enable: ['sass'] }));
+app.use(app.router);
+app.use(express.static(pub));
+app.use(express.errorHandler({ dump: true, stack: true }));
 
 // Optional since express defaults to CWD/views
 
@@ -49,7 +50,6 @@ app.get('/users/callback', function(req, res){
   // a callback is also accepted
   res.partial('users/user', users, function(err, html){
     if (err) throw err;
-    console.log(html);
     res.send(html);
   });
 });
