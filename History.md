@@ -1,4 +1,13 @@
 
+2.0.0rc2 / 2011-03-17 
+==================
+
+  * Changed; `partial()` "locals" are now optional
+  * Fixed `SlowBuffer` support. Closes #584 [reported by tyrda01]
+  * Fixed .filename view engine option [reported by drudge]
+  * Fixed blog example
+  * Fixed `{req,res}.app` reference when mounting [Ben Weaver]
+
 2.0.0rc / 2011-03-14 
 ==================
 
