@@ -1,4 +1,11 @@
 
+2.0.0rc3 / 2011-03-17 
+==================
+
+  * Added `res.locals(obj)` to compliment `res.local(key, val)`
+  * Added `res.partial()` callback support
+  * Fixed recursive error reporting issue in `res.render()`
+
 2.0.0rc2 / 2011-03-17 
 ==================
 
