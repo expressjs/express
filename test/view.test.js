@@ -578,6 +578,28 @@ module.exports = {
     assert.response(app,
       { url: '/items' },
       { body: '<li>test foo</li><li>test bar</li>' });
+    
+    app.get('/stats/callback', function(req, res){
+      res.partial('stats', { hits: 12, misses: 1 }, function(err, html){
+        res.send('got: ' + html);
+      });
+    });
+
+    assert.response(app,
+      { url: '/stats/callback' },
+      { body: 'got: <p>Hits 12</p><p>Misses 1</p>' });
+
+    app.get('/stats/callback/2', function(req, res){
+      res.local('hits', 12);
+      res.local('misses', 1);
+      res.partial('stats', function(err, html){
+        res.send('got: ' + html);
+      });
+    });
+
+    assert.response(app,
+      { url: '/stats/callback/2' },
+      { body: 'got: <p>Hits 12</p><p>Misses 1</p>' });
   },
   
   'test #partial() with several calls': function(){

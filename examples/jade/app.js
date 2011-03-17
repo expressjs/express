@@ -45,6 +45,15 @@ app.get('/', function(req, res){
   res.render('users', { users: users });
 });
 
+app.get('/users/callback', function(req, res){
+  // a callback is also accepted
+  res.partial('users/user', users, function(err, html){
+    if (err) throw err;
+    console.log(html);
+    res.send(html);
+  });
+});
+
 app.get('/users', function(req, res){
   // we can use res.partial() as if
   // we were in a view, utilizing the same api
