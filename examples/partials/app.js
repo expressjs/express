@@ -28,13 +28,8 @@ var ninja = {
 };
 
 app.get('/', function(req, res){
-  res.render('ninjas', { ninja: ninja });
+  res.render('ninja', { ninja: ninja });
 });
-
-app.get('/li', function(req, res){
-  res.partial('li', { object: 'Testing', as: 'value' });
-});
-
 
 app.listen(3000);
 console.log('Express app started on port 3000');
