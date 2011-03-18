@@ -1,13 +1,5 @@
 
-DOCS = docs/index.md \
-	   docs/screencasts.md \
-	   docs/executable.md \
-	   docs/contrib.md \
-	   docs/guide.md \
-	   docs/migrate.md \
-	   docs/applications.md
-
-MANPAGES =$(DOCS:.md=.1)
+DOCS = $(shell find docs/*.md)
 HTMLDOCS =$(DOCS:.md=.html)
 
 test:
@@ -24,13 +16,9 @@ test:
 test-cov:
 	@TESTFLAGS=--cov $(MAKE) test
 
-docs: $(MANPAGES) $(HTMLDOCS)
+docs: $(HTMLDOCS)
 	@ echo "... generating TOC"
 	@./support/toc.js docs/guide.html
-
-%.1: %.md
-	@echo "... $< -> $@"
-	@ronn -r --pipe $< > $@
 
 %.html: %.md
 	@echo "... $< -> $@"
