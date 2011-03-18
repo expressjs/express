@@ -372,7 +372,7 @@ ad-hoc _NotFound_ exception:
       Error.captureStackTrace(this, arguments.callee);
     }
     
-    NotFound.protoype.__proto__ = Error.prototype;
+    NotFound.prototype.__proto__ = Error.prototype;
     
     app.get('/404', function(req, res){
       throw new NotFound;
@@ -1007,7 +1007,7 @@ Get or set the given local variable _name_. The locals built up for a response a
         res.render('movie', { displayReviews: true });
       });
 
-### res.local(obj)
+### res.locals(obj)
 
  Assign several locals with the given _obj_. The following are equivalent:
  

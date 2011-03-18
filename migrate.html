@@ -190,9 +190,9 @@
 					<li><a href="screencasts.html">Screencasts</a></li>
 					<li><a href="applications.html">Applications</a></li>
 				</ul>
-<h3 id="Express-1-x-to-2-x-Migration">Express 1.x to 2.x Migration</h3>
+<h3>Express 1.x to 2.x Migration</h3>
 
-<h3 id="HTTPS">HTTPS</h3>
+<h3>HTTPS</h3>
 
 <p> Creating an HTTPS server is simply, simply pass the TLS options to <em>express.createServer()</em>:</p>
 
@@ -201,20 +201,23 @@
    , cert: ...
  });
 
- app.listen(443);</code></pre>
+ app.listen(443);
+</code></pre>
 
-<h3 id="req-header-Referrer">req.header() Referrer</h3>
+<h3>req.header() Referrer</h3>
 
 <p> Previously if anyone was doing something similar to:</p>
 
 <pre><code> req.headers.referrer || req.headers.referer
- req.header('Referrer') || req.header('Referer')</code></pre>
+ req.header('Referrer') || req.header('Referer')
+</code></pre>
 
 <p> With the new special-case we may now simply use <em>Referrer</em> which will return either if defined:</p>
 
-<pre><code> req.header('Referrer')</code></pre>
+<pre><code> req.header('Referrer')
+</code></pre>
 
-<h3 id="res-local-name-val">res.local(name, val)</h3>
+<h3>res.local(name, val)</h3>
 
 <p> Previously all local variables had to be passed to <em>res.render()</em>, or either <em>app.helpers()</em> or <em>app.dynamicHelpers()</em>, now we may do this at the request-level progressively. The <em>res.local()</em> method accepts a <em>name</em> and <em>val</em>, however the locals passed to <em>res.render()</em> will take precedence.</p>
 
@@ -229,23 +232,26 @@
 
  app.get('/user/:id', loadUser, function(req, res){
    res.render('user');
- });</code></pre>
+ });
+</code></pre>
 
-<h3 id="req-param-name-defaultValue">req.param(name[, defaultValue])</h3>
+<h3>req.param(name[, defaultValue])</h3>
 
 <p> Previously only <em>name</em> was accepted, so some of you may have been doing the following:</p>
 
-<pre><code> var id = req.param('id') || req.user.id;</code></pre>
+<pre><code> var id = req.param('id') || req.user.id;
+</code></pre>
 
 <p> The new <em>defaultValue</em> argument can handle this nicely:</p>
 
-<pre><code> var id = req.param('id', req.user.id);</code></pre>
+<pre><code> var id = req.param('id', req.user.id);
+</code></pre>
 
-<h3 id="app-helpers-app-locals">app.helpers() / app.locals()</h3>
+<h3>app.helpers() / app.locals()</h3>
 
 <p>  <em>app.locals()</em> is now an alias of <em>app.helpers()</em>, as helpers makes more sense for functions.</p>
 
-<h3 id="req-accepts-type">req.accepts(type)</h3>
+<h3>req.accepts(type)</h3>
 
 <p>  <em>req.accepts()</em> now accepts extensions:</p>
 
@@ -263,21 +269,24 @@
 
   req.accepts('image/png');
   req.accepts('png');
-  // =&gt; false</code></pre>
+  // =&gt; false
+</code></pre>
 
-<h3 id="res-cookie">res.cookie()</h3>
+<h3>res.cookie()</h3>
 
 <p> Previously only directly values could be passed, so for example:</p>
 
-<pre><code>res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000) });</code></pre>
+<pre><code>res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000) });
+</code></pre>
 
 <p>However now we have the alternative <em>maxAge</em> property which may be used to set <em>expires</em> relative to <em>Date.now()</em> in milliseconds, so our example above can now become:</p>
 
-<pre><code>res.cookie('rememberme', 'yes', { maxAge: 900000 });</code></pre>
+<pre><code>res.cookie('rememberme', 'yes', { maxAge: 900000 });
+</code></pre>
 
-<h3 id="res-download-res-sendfile">res.download() / res.sendfile()</h3>
+<h3>res.download() / res.sendfile()</h3>
 
-<p> Both of these methods now utilize Connect's static file server behind the scenes (actually the previous Express code was ported to Connect 1.0). With this change comes a change to the callback as well. Previously the <em>path</em> and <em>stream</em> were passed, however now only an <em>error</em> is passed, when no error has occurred the callback will be invoked indicating that the file transfer is complete. The callback remains optional:</p>
+<p> Both of these methods now utilize Connect&rsquo;s static file server behind the scenes (actually the previous Express code was ported to Connect 1.0). With this change comes a change to the callback as well. Previously the <em>path</em> and <em>stream</em> were passed, however now only an <em>error</em> is passed, when no error has occurred the callback will be invoked indicating that the file transfer is complete. The callback remains optional:</p>
 
 <pre><code> res.download('/path/to/file');
 
@@ -287,21 +296,24 @@
    } else {
      console.log('transferred');
    }
- });</code></pre>
+ });
+</code></pre>
 
 <p> The <em>stream threshold</em> setting was removed.</p>
 
-<h3 id="res-render">res.render()</h3>
+<h3>res.render()</h3>
 
 <p> Previously locals were passed as a separate key:</p>
 
-<pre><code> res.render('user', { layout: false, locals: { user: user }});</code></pre>
+<pre><code> res.render('user', { layout: false, locals: { user: user }});
+</code></pre>
 
 <p> In Express 2.0 both the locals and the options are one in the same, meaning you cannot have a local variable named <em>layout</em> as it is reserved for express, however this cleans up the API:</p>
 
-<pre><code> res.render('user', { layout: false, user: user });</code></pre>
+<pre><code> res.render('user', { layout: false, user: user });
+</code></pre>
 
-<h3 id="res-partial">res.partial()</h3>
+<h3>res.partial()</h3>
 
 <p> Express 2.0 adds the <em>res.partial()</em> method, helpful for rendering partial fragments over WebSockets or Ajax requests etc. The API is identical to the <em>partial()</em> calls within views.</p>
 
@@ -309,62 +321,72 @@
  res.partial('comment', [comment1, comment2]); 
 
  // render a single comment
- res.partial('comment', comment);</code></pre>
+ res.partial('comment', comment);
+</code></pre>
 
-<h3 id="partial-locals">partial() locals</h3>
+<h3>partial() locals</h3>
 
 <p> Both <em>res.partial()</em> and the <em>partial()</em> functions accept an single object consisting of both the options and the locals. Previously with Express 1.x you may pass <em>user</em> to a partial, along with <em>date</em> like so:</p>
 
-<pre><code>   partial('user', { object: user, locals: { date: new Date }})</code></pre>
+<pre><code>   partial('user', { object: user, locals: { date: new Date }})
+</code></pre>
 
 <p>or perhaps if you preferred not to use the inferred name <em>user</em> you may used a local for this as well:</p>
 
-<pre><code>   partial('user', { locals: { user: user, date: new Date }})</code></pre>
+<pre><code>   partial('user', { locals: { user: user, date: new Date }})
+</code></pre>
 
 <p> With recent changes to Express 2.x the object passed is now both, so the following is valid for the <em>object</em> option and locals:</p>
 
-<pre><code>   partial('user', { object: user, date: new Date })</code></pre>
+<pre><code>   partial('user', { object: user, date: new Date })
+</code></pre>
 
 <p> Or the following which is equivalent, however the local var name is explicitly set to <em>user</em> instead of deduced from the filename.</p>
 
-<pre><code>   partial('user', { user: user, date: new Date })</code></pre>
+<pre><code>   partial('user', { user: user, date: new Date })
+</code></pre>
 
-<p> When a "basic" object aka <em>{}</em> or <em>new Object</em> is passed, it is considered options, otherwise it is considered the <em>object</em>. The following are equivalent:</p>
+<p> When a &ldquo;basic&rdquo; object aka <em>{}</em> or <em>new Object</em> is passed, it is considered options, otherwise it is considered the <em>object</em>. The following are equivalent:</p>
 
 <pre><code>  partial('user', user); 
-  partial('user', { object: user }); </code></pre>
+  partial('user', { object: user }); 
+</code></pre>
 
-<h3 id="Template-Engine-Compliance">Template Engine Compliance</h3>
+<h3>Template Engine Compliance</h3>
 
 <p> To comply with Express previously engines needed the following signature:</p>
 
-<pre><code> engine.render(str, options, function(err){});</code></pre>
+<pre><code> engine.render(str, options, function(err){});
+</code></pre>
 
 <p> Now they must export a <em>compile()</em> function, returning a function which when called with local variables will render the template. This allows Express to cache the compiled function in memory during production.</p>
 
 <pre><code> var fn = engine.compile(str, options);
- fn(locals);</code></pre>
+ fn(locals);
+</code></pre>
 
-<h3 id="View-Partial-Lookup">View Partial Lookup</h3>
+<h3>View Partial Lookup</h3>
 
 <p> Previously partials were loaded relative to the now removed <em>view partials</em> directory setting, or by default <em>views/partials</em>, now they are relative to the view calling them, read more on <a href="guide.html#View-Lookup">view lookup</a>.</p>
 
-<h3 id="Mime-Types">Mime Types</h3>
+<h3>Mime Types</h3>
 
 <p> Express and Connect now utilize the <em>mime</em> module in npm, so to add more use:</p>
 
-<pre><code> require('mime').define({ 'foo/bar': ['foo', 'bar'] });</code></pre>
+<pre><code> require('mime').define({ 'foo/bar': ['foo', 'bar'] });
+</code></pre>
 
-<h3 id="static-middleware">static() middleware</h3>
+<h3>static() middleware</h3>
 
 <p> Previously named <code>staticProvider()</code>, the now <code>static()</code> middleware takes a single directory path, followed by options.</p>
 
-<pre><code> app.use(express.static(__dirname + '/public', { maxAge: oneYear }));</code></pre>
+<pre><code> app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
+</code></pre>
 
 <p>Previously when using options the <code>root</code> option would be used for this:</p>
 
 <pre><code> app.use(express.staticProvider({ root: __dirname + '/public', maxAge: oneYear }));
- </code></pre>
+</code></pre>
 			</div>
 		</div>
 	</body>
