@@ -47,7 +47,7 @@ otherwise the first call to _app.get()_, _app.post()_, etc will mount the routes
 	
     app.configure('production', function(){
       var oneYear = 31557600000;
-      app.use(express.static({ root: __dirname + '/public', maxAge: oneYear }));
+      app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
       app.use(express.errorHandler());
     });
 
@@ -523,15 +523,15 @@ A good example of this is specifying custom _ejs_ opening and closing tags:
 ### View Partials
 
 The Express view system has built-in support for partials and collections, which are "mini" views representing a document fragment. For example rather than iterating
-in a view to display comments, we would use a partial with collection support:
+in a view to display comments, we could use partial collection:
 
     partial('comment', { collection: comments });
 
-If no other options are desired, we can omit the object and simply pass our array, which is equivalent to above:
+If no other options or local variables are desired, we can omit the object and simply pass our array, which is equivalent to above:
 
     partial('comment', comments);
 
-When using the partial collection support a few "magic" variables are provided
+When using the partial collection support a few "magic" locals are provided
 for free:
 
   * _firstInCollection_  true if this is the first object
@@ -753,6 +753,24 @@ Get or set the response header _key_.
     res.header('Content-Length');
     // => 123
 
+### res.charset
+
+Sets the charset for subsequent `Content-Type` header fields. For example `res.send()` and `res.render()` default to "utf8", so we may explicitly set the charset before rendering a template:
+
+    res.charset = 'ISO-8859-1';
+    res.render('users');
+
+or before responding with `res.send()`:
+
+    res.charset = 'ISO-8859-1';
+    res.send(str);
+
+or with node's `res.end()`:
+
+    res.charset = 'ISO-8859-1';
+    res.header('Content-Type', 'text/plain');
+    res.end(str);
+
 ### res.contentType(type)
 
 Sets the _Content-Type_ response header to the given _type_.
@@ -760,6 +778,14 @@ Sets the _Content-Type_ response header to the given _type_.
       var filename = 'path/to/image.png';
       res.contentType(filename);
       // Content-Type is now "image/png"
+
+A literal _Content-Type_ works as well:
+
+      res.contentType('application/json');
+
+Or simply the extension without leading `.`:
+
+      res.contentType('json');
 
 ### res.attachment([filename])
 
@@ -912,7 +938,7 @@ of _movie.director_ we could use _this.director_.
     partial('movie', { collection: movies, as: this });
     // In view: this.director
 
-Another alternative is to "explode" the properties of the collection item into
+Another alternative is to "expand" the properties of the collection item into
 pseudo globals (local variables) by using _as: global_, which again is syntactic sugar:
 
     partial('movie', { collection: movies, as: global });
@@ -934,8 +960,20 @@ This same logic applies to a single partial object usage:
 
 When a non-collection (does _not_ have _.length_) is passed as the second argument, it is assumed to be the _object_, after which the object's local variable name is derived from the view name:
 
-    partial('movie', movie);
+    var movie = new Movie('Nightmare Before Christmas', 'Tim Burton')
+    partial('movie', movie)
     // => In view: movie.director
+
+The exception of this, is when a "plain" object, aka "{}" or "new Object" is passed, which is considered an object with local variable. For example some may expect a "movie" local with the following, however since it is a plain object "director" and "title" are simply locals:
+
+    var movie = { title: 'Nightmare Before Christmas', director: 'Tim Burton' }; 
+    partial('movie', movie)
+
+For cases like this where passing a plain object is desired, simply assign it to a key, or use the `object` key which will use the filename-derived variable name. The examples below are equivalent:
+
+     partial('movie', { locals: { movie: movie }})
+     partial('movie', { movie: movie })
+     partial('movie', { object: movie })
 
 This exact API can be utilized from within a route, to respond with a fragment via Ajax or WebSockets, for example we can render a collection of users directly from a route:
 
@@ -968,6 +1006,15 @@ Get or set the given local variable _name_. The locals built up for a response a
         // can pass more if we wish
         res.render('movie', { displayReviews: true });
       });
+
+### res.local(obj)
+
+ Assign several locals with the given _obj_. The following are equivalent:
+ 
+     res.local('foo', bar);
+     res.local('bar', baz);
+
+     res.locals({ foo: bar, bar, baz });
 
 ### app.set(name[, val])
 
