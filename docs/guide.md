@@ -1007,7 +1007,7 @@ Get or set the given local variable _name_. The locals built up for a response a
         res.render('movie', { displayReviews: true });
       });
 
-### res.local(obj)
+### res.locals(obj)
 
  Assign several locals with the given _obj_. The following are equivalent:
  
