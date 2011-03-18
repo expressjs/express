@@ -1,7 +1,7 @@
 {
   "name": "express",
   "description": "Sinatra inspired web development framework",
-  "version": "2.0.0rc3",
+  "version": "2.0.0",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [ 
     { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }, 

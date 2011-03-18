@@ -1,4 +1,10 @@
 
+2.0.0 / 2011-03-17 
+==================
+
+  * Fixed up index view path alternative.
+  * Changed; `res.locals()` without object returns the locals
+
 2.0.0rc3 / 2011-03-17 
 ==================
 
