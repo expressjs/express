@@ -1,4 +1,17 @@
 
+n.n.n / 2011-03-18 
+==================
+
+  * connect 1.1.1
+  * refactored res.redirect()
+  * doc typo
+  * doc typo
+  * regenerated docs
+  * removed manpages from make
+  * Release 2.0.0
+  * Fixed up index view path alternative
+  * Changed; res.locals() without object returns the locals
+
 2.0.0 / 2011-03-17 
 ==================
 
