@@ -22,7 +22,7 @@ docs: $(HTMLDOCS)
 
 %.html: %.md
 	@echo "... $< -> $@"
-	@ronn -5 --pipe --fragment $< \
+	@ronn --fragment $< \
 	  | cat docs/layout/head.html - docs/layout/foot.html \
 	  | sed 's/NAME/Express/g' \
 	  > $@
