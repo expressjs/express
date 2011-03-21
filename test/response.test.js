@@ -49,7 +49,16 @@ module.exports = {
     app.get('/noargs', function(req, res, next){
       res.send();
     });
-  
+    
+    app.get('/bool', function(req, res, next){
+      res.send(true);
+    });
+
+    assert.response(app,
+      { url: '/bool' },
+      { body: 'true'
+      , headers: { 'Content-Type': 'application/json' }});
+
     assert.response(app,
       { url: '/html' },
       { body: '<p>test</p>'
