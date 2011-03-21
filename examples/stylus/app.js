@@ -18,11 +18,10 @@ var app = express.createServer();
 // define additional functions exposed to Stylus,
 // alter settings, etc
 
-function compile(str, path, fn) {
-  stylus(str)
+function compile(str, path) {
+  return stylus(str)
     .set('filename', path)
-    .set('compress', true)
-    .render(fn);
+    .set('compress', true);
 };
 
 // add the stylus middleware, which re-compiles when
