@@ -297,29 +297,29 @@ module.exports = {
   },
   
   'test #set()': function(){
-      var app = express.createServer();
-      var ret = app.set('title', 'My App').set('something', 'else');
-      ret.should.equal(app);
-      app.set('title').should.equal('My App');
-      app.set('something').should.equal('else');
+    var app = express.createServer();
+    var ret = app.set('title', 'My App').set('something', 'else');
+    ret.should.equal(app);
+    app.set('title').should.equal('My App');
+    app.set('something').should.equal('else');
   },
   
   'test #enable()': function(){
-      var app = express.createServer();
-      var ret = app.enable('some feature');
-      ret.should.equal(app);
-      app.set('some feature').should.be.true;
-      app.enabled('some feature').should.be.true;
-      app.enabled('something else').should.be.false;
+    var app = express.createServer();
+    var ret = app.enable('some feature');
+    ret.should.equal(app);
+    app.set('some feature').should.be.true;
+    app.enabled('some feature').should.be.true;
+    app.enabled('something else').should.be.false;
   },
   
   'test #disable()': function(){
-      var app = express.createServer();
-      var ret = app.disable('some feature');
-      ret.should.equal(app);
-      app.set('some feature').should.be.false;
-      app.disabled('some feature').should.be.true;
-      app.disabled('something else').should.be.true;
+    var app = express.createServer();
+    var ret = app.disable('some feature');
+    ret.should.equal(app);
+    app.set('some feature').should.be.false;
+    app.disabled('some feature').should.be.true;
+    app.disabled('something else').should.be.true;
   },
   
   'test middleware precedence': function(){
