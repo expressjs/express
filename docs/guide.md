@@ -1145,6 +1145,9 @@ Express also provides a few locals by default:
 
     - `settings`  the app's settings object
     - `filename`  the view's filename
+    - `request`   the request object
+    - `response`  the response object
+    - `app`       the application itself
 
 This method is aliased as _app.locals()_.
 
