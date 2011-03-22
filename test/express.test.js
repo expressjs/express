@@ -303,6 +303,15 @@ module.exports = {
     app.set('title').should.equal('My App');
     app.set('something').should.equal('else');
   },
+
+  'test .settings': function(){
+    var app = express.createServer();
+    app.set('title', 'My App');
+    app.settings.title.should.equal('My App');
+    app.settings.title = 'Something Else';
+    app.settings.title.should.equal('Something Else');
+    app.set('title').should.equal('Something Else');
+  },
   
   'test #enable()': function(){
     var app = express.createServer();
