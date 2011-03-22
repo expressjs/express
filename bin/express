@@ -36,14 +36,15 @@ var templateEngine = 'jade';
  */
 
 var usage = ''
-  + '\x1b[1mUsage\x1b[0m: express [options] [PATH]\n'
   + '\n'
-  + '\x1b[1mOptions\x1b[0m:\n'
-  + '  -s, --sessions         Add session support\n'
-  + '  -t, --template ENGINE  Add template ENGINE support (jade|ejs). Defaults to jade\n'
-  + '  -c, --css ENGINE       Add stylesheet ENGINE support (less|sass|stylus). Defaults to plain css\n'
-  + '  -v, --version          Output framework version\n'
-  + '  -h, --help             Output help information\n'
+  + '  \x1b[1mUsage\x1b[0m: express [options] [PATH]\n'
+  + '\n'
+  + '  \x1b[1mOptions\x1b[0m:\n'
+  + '    -s, --sessions         Add session support\n'
+  + '    -t, --template ENGINE  Add template ENGINE support (jade|ejs). Defaults to jade\n'
+  + '    -c, --css ENGINE       Add stylesheet ENGINE support (less|sass|stylus). Defaults to plain css\n'
+  + '    -v, --version          Output framework version\n'
+  + '    -h, --help             Output help information\n'
   ;
 
 /**
