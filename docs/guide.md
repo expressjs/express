@@ -1130,16 +1130,22 @@ should call _next(err)_ if it does not wish to deal with the exception:
 
 Registers static view helpers.
 
-  app.helpers({
-      name: function(first, last){ return first + ', ' + last }
-    , firstName: 'tj'
-    , lastName: 'holowaychuk'
-  });
+    app.helpers({
+        name: function(first, last){ return first + ', ' + last }
+      , firstName: 'tj'
+      , lastName: 'holowaychuk'
+    });
 
 Our view could now utilize the _firstName_ and _lastName_ variables,
 as well as the _name()_ function exposed.
 
     <%= name(firstName, lastName) %>
+
+Express also provides a few locals by default:
+
+    - `settings`  the app's settings object
+
+This method is aliased as _app.locals()_.
 
 ### app.dynamicHelpers(obj)
 
