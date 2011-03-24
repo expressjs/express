@@ -599,6 +599,26 @@ module.exports = {
     assert.response(app,
       { url: '/stats/callback/2' },
       { body: 'got: <p>Hits 12</p><p>Misses 1</p>' });
+
+    // root lookup
+
+    app.get('/root', function(req, res){
+      res.partial('nested/partial');
+    });
+
+    assert.response(app,
+      { url: '/root' },
+      { body: '<p>Hits 15</p><p>Misses 1</p>' });
+
+    // root _* lookup
+
+    app.get('/root/underscore', function(req, res){
+      res.partial('nested/partial2');
+    });
+
+    assert.response(app,
+      { url: '/root/underscore' },
+      { body: '<p>Testing</p>' });
   },
   
   'test #partial() with several calls': function(){
