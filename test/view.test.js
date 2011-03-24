@@ -608,7 +608,7 @@ module.exports = {
 
     assert.response(app,
       { url: '/root' },
-      { body: '' });
+      { body: '<p>Hits 15</p><p>Misses 1</p>' });
   },
   
   'test #partial() with several calls': function(){
