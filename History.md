@@ -1,16 +1,14 @@
 
-n.n.n / 2011-03-18 
+2.1.0 / 2011-03-24 
 ==================
 
-  * connect 1.1.1
-  * refactored res.redirect()
-  * doc typo
-  * doc typo
-  * regenerated docs
-  * removed manpages from make
-  * Release 2.0.0
-  * Fixed up index view path alternative
-  * Changed; res.locals() without object returns the locals
+  * Added `<root>/_?<name>` partial lookup support. Closes #447
+  * Added `request`, `response`, and `app` local variables
+  * Added `settings` local variable, containing the app's settings
+  * Added `req.flash()` exception if `req.session` is not available
+  * Added `res.send(bool)` support (json response)
+  * Fixed stylus example for latest version
+  * Fixed; wrap try/catch around `res.render()`
 
 2.0.0 / 2011-03-17 
 ==================
