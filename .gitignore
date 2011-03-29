@@ -6,5 +6,7 @@ lib-cov
 *.dat
 *.out
 *.pid
+*.swp
+*.swo
 benchmarks/graphs
 testing.js
