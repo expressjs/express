@@ -50,6 +50,10 @@ module.exports = {
       res.send();
     });
     
+    app.get('/undefined', function(req, res, next){
+      res.send(undefined);
+    });
+
     app.get('/bool', function(req, res, next){
       res.send(true);
     });
@@ -144,6 +148,13 @@ module.exports = {
   
     assert.response(app,
       { url: '/noargs' },
+      { status: 204 }, function(res){
+        assert.equal(undefined, res.headers['content-type']);
+        assert.equal(undefined, res.headers['content-length']);
+      });
+
+    assert.response(app,
+      { url: '/undefined' },
       { status: 204 }, function(res){
         assert.equal(undefined, res.headers['content-type']);
         assert.equal(undefined, res.headers['content-length']);
