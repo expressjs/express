@@ -878,7 +878,7 @@ The _maxAge_ property may be used to set _expires_ relative to _Date.now()_ in m
 
     res.cookie('rememberme', 'yes', { maxAge: 900000 });
 
-To parse incoming _Cookie_ headers, use the _cookieDecoder_ middleware, which provides the _req.cookies_ object:
+To parse incoming _Cookie_ headers, use the _cookieParser_ middleware, which provides the _req.cookies_ object:
 
     app.use(express.cookieParser());
     
