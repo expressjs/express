@@ -1,4 +1,11 @@
 
+2.1.1 / 2011-03-29 
+==================
+
+  * Added; expose `err.view` object when failing to locate a view
+  * Fixed `res.partial()` call `next(err)` when no callback is given [reported by aheckmann]
+  * Fixed; `res.send(undefined)` responds with 204 [aheckmann]
+
 2.1.0 / 2011-03-24 
 ==================
 
