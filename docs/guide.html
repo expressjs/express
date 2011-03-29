@@ -1222,7 +1222,7 @@ res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOn
 <pre><code>res.cookie('rememberme', 'yes', { maxAge: 900000 });
 </code></pre>
 
-<p>To parse incoming <em>Cookie</em> headers, use the <em>cookieDecoder</em> middleware, which provides the <em>req.cookies</em> object:</p>
+<p>To parse incoming <em>Cookie</em> headers, use the <em>cookieParser</em> middleware, which provides the <em>req.cookies</em> object:</p>
 
 <pre><code>app.use(express.cookieParser());
 
