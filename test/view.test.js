@@ -619,6 +619,18 @@ module.exports = {
     assert.response(app,
       { url: '/root/underscore' },
       { body: '<p>Testing</p>' });
+
+    // error in template
+
+    app.get('/error', function(req, res){
+      process.nextTick(function(){
+        res.partial('error');
+      });
+    });
+
+    assert.response(app,
+      { url: '/error' },
+      { status: 500 });
   },
   
   'test #partial() with several calls': function(){
