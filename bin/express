@@ -37,14 +37,14 @@ var templateEngine = 'jade';
 
 var usage = ''
   + '\n'
-  + '  Usage: express [options] [PATH]\n'
+  + '  Usage: express [options] [path]\n'
   + '\n'
   + '  Options:\n'
-  + '    -s, --sessions         Add session support\n'
-  + '    -t, --template ENGINE  Add template ENGINE support (jade|ejs). Defaults to jade\n'
-  + '    -c, --css ENGINE       Add stylesheet ENGINE support (less|sass|stylus). Defaults to plain css\n'
-  + '    -v, --version          Output framework version\n'
-  + '    -h, --help             Output help information\n'
+  + '    -s, --sessions           add session support\n'
+  + '    -t, --template <engine>  add template <engine> support (jade|ejs). default=jade\n'
+  + '    -c, --css <engine>       add stylesheet <engine> support (less|sass|stylus). default=plain css\n'
+  + '    -v, --version            output framework version\n'
+  + '    -h, --help               output help information\n'
   ;
 
 /**
