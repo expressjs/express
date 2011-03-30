@@ -5,7 +5,7 @@
   * Added `app.lookup.VERB()`, ex `app.lookup.put('/user/:id')`. Closes #606
   * Added `app.match.VERB()`, ex `app.match.put('/user/12')`. Closes #606
   * Added `app.VERB(path)` as alias of `app.lookup.VERB()`.
-  * Dependency `connect >= 1.1.6`
+  * Dependency `connect >= 1.2.0`
 
 2.1.1 / 2011-03-29 
 ==================
