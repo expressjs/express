@@ -1168,6 +1168,43 @@ All views would now have _session_ available so that session data can be accesse
 
     <%= session.name %>
 
+### app.lookup
+
+ The _app.lookup_ http methods returns an array of callback functions
+ associated with the given _path_.
+
+ Suppose you define the following routes:
+ 
+      app.get('/user/:id', function(){});
+      app.get('/user/:id/op?', function(){});
+      app.put('/user/:id', function(){});
+
+  We can utilize this lookup functionality to check which routes
+  have been defined, which can be extremely useful for higher level
+  frameworks built on Express.
+
+      app.lookup.get('/user/:id');
+      // => [Function]
+
+      app.lookup.get('/user/:id/op?');
+      // => [Function]
+
+      app.lookup.put('/user/:id');
+      // => [Function]
+
+      app.lookup.all('/user/:id');
+      // => [Function, Function]
+
+      app.lookup.all('/hey');
+      // => []
+
+  To alias _app.lookup.VERB()_, we can simply invoke _app.VERB()_
+  without a callback, as a shortcut, for example the following are
+  equivalent:
+  
+      app.lookup.get('/user');
+      app.get('/user');
+
 ### app.mounted(fn)
 
 Assign a callback _fn_ which is called when this _Server_ is passed to _Server#use()_.
