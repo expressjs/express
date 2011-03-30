@@ -232,6 +232,8 @@
 <li><a href="#app.error()">error()</a></li>
 <li><a href="#app.helpers()">helpers()</a></li>
 <li><a href="#app.dynamichelpers()">dynamicHelpers()</a></li>
+<li><a href="#app.lookup">lookup</a></li>
+<li><a href="#app.match">match</a></li>
 <li><a href="#app.mounted()">mounted()</a></li>
 <li><a href="#app.register()">register()</a></li>
 <li><a href="#app.listen()">listen()</a></li>
@@ -1222,7 +1224,7 @@ res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOn
 <pre><code>res.cookie('rememberme', 'yes', { maxAge: 900000 });
 </code></pre>
 
-<p>To parse incoming <em>Cookie</em> headers, use the <em>cookieDecoder</em> middleware, which provides the <em>req.cookies</em> object:</p>
+<p>To parse incoming <em>Cookie</em> headers, use the <em>cookieParser</em> middleware, which provides the <em>req.cookies</em> object:</p>
 
 <pre><code>app.use(express.cookieParser());
 
@@ -1506,20 +1508,29 @@ should call <em>next(err)</em> if it does not wish to deal with the exception:</
 
 <p>Registers static view helpers.</p>
 
-<p>  app.helpers({</p>
-
-<pre><code>  name: function(first, last){ return first + ', ' + last }
-, firstName: 'tj'
-, lastName: 'holowaychuk'
+<pre><code>app.helpers({
+    name: function(first, last){ return first + ', ' + last }
+  , firstName: 'tj'
+  , lastName: 'holowaychuk'
+});
 </code></pre>
-
-<p>  });</p>
 
 <p>Our view could now utilize the <em>firstName</em> and <em>lastName</em> variables,
 as well as the <em>name()</em> function exposed.</p>
 
 <pre><code>&lt;%= name(firstName, lastName) %&gt;
 </code></pre>
+
+<p>Express also provides a few locals by default:</p>
+
+<pre><code>- `settings`  the app's settings object
+- `filename`  the view's filename
+- `request`   the request object
+- `response`  the response object
+- `app`       the application itself
+</code></pre>
+
+<p>This method is aliased as <em>app.locals()</em>.</p>
 
 <h3 id="app.dynamichelpers()">app.dynamicHelpers(obj)</h3>
 
@@ -1538,6 +1549,110 @@ becomes the local variable it is associated with.</p>
 <p>All views would now have <em>session</em> available so that session data can be accessed via <em>session.name</em> etc:</p>
 
 <pre><code>&lt;%= session.name %&gt;
+</code></pre>
+
+<h3 id="app.lookup">app.lookup</h3>
+
+<p> The <em>app.lookup</em> http methods returns an array of callback functions
+ associated with the given <em>path</em>.</p>
+
+<p> Suppose we define the following routes:</p>
+
+<pre><code>  app.get('/user/:id', function(){});
+  app.put('/user/:id', function(){});
+  app.get('/user/:id/:op?', function(){});
+</code></pre>
+
+<p>  We can utilize this lookup functionality to check which routes
+  have been defined, which can be extremely useful for higher level
+  frameworks built on Express.</p>
+
+<pre><code>  app.lookup.get('/user/:id');
+  // =&gt; [Function]
+
+  app.lookup.get('/user/:id/:op?');
+  // =&gt; [Function]
+
+  app.lookup.put('/user/:id');
+  // =&gt; [Function]
+
+  app.lookup.all('/user/:id');
+  // =&gt; [Function, Function]
+
+  app.lookup.all('/hey');
+  // =&gt; []
+</code></pre>
+
+<p>  To alias <em>app.lookup.VERB()</em>, we can simply invoke <em>app.VERB()</em>
+  without a callback, as a shortcut, for example the following are
+  equivalent:</p>
+
+<pre><code>  app.lookup.get('/user');
+  app.get('/user');
+</code></pre>
+
+<p>  Each function returned has the following properties:</p>
+
+<pre><code>  var fn = app.get('/user/:id/:op?')[0];
+
+  fn.regexp
+  // =&gt; /^\/user\/(?:([^\/]+?))(?:\/([^\/]+?))?\/?$/i
+
+  fn.keys
+  // =&gt; ['id', 'op']
+
+  fn.path
+  // =&gt; '/user/:id/:op?'
+
+  fn.method
+  // =&gt; 'GET'
+</code></pre>
+
+<h3 id="app.match">app.match</h3>
+
+<p>  The <em>app.match</em> http methods return an array of callback functions
+  which match the given <em>url</em>, which may include a query string etc. This
+  is useful when you want reflect on which routes have the opportunity to
+  respond.</p>
+
+<p>  Suppose we define the following routes:</p>
+
+<pre><code>    app.get('/user/:id', function(){});
+    app.put('/user/:id', function(){});
+    app.get('/user/:id/:op?', function(){});
+</code></pre>
+
+<p>  Our match against <strong>GET</strong> will return two functions, since the <em>:op</em>
+  in our second route is optional.</p>
+
+<pre><code>  app.match.get('/user/1');
+  // =&gt; [Function, Function]
+</code></pre>
+
+<p>  This second call returns only the callback for <em>/user/:id/:op?</em>.</p>
+
+<pre><code>  app.match.get('/user/23/edit');
+  // =&gt; [Function]
+</code></pre>
+
+<p>  We can also use <em>all()</em> to disregard the http method:</p>
+
+<pre><code>  app.match.all('/user/20');
+  // =&gt; [Function, Function, Function]
+</code></pre>
+
+<p>  Each function matched has the following properties:</p>
+
+<pre><code>  var fn = app.match.get('/user/23/edit')[0];
+
+  fn.keys
+  // =&gt; ['id', 'op']
+
+  fn.params
+  // =&gt; { id: '23', op: 'edit' }
+
+  fn.method
+  // =&gt; 'GET'
 </code></pre>
 
 <h3 id="app.mounted()">app.mounted(fn)</h3>

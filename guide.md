@@ -878,7 +878,7 @@ The _maxAge_ property may be used to set _expires_ relative to _Date.now()_ in m
 
     res.cookie('rememberme', 'yes', { maxAge: 900000 });
 
-To parse incoming _Cookie_ headers, use the _cookieDecoder_ middleware, which provides the _req.cookies_ object:
+To parse incoming _Cookie_ headers, use the _cookieParser_ middleware, which provides the _req.cookies_ object:
 
     app.use(express.cookieParser());
     
@@ -1130,16 +1130,26 @@ should call _next(err)_ if it does not wish to deal with the exception:
 
 Registers static view helpers.
 
-  app.helpers({
-      name: function(first, last){ return first + ', ' + last }
-    , firstName: 'tj'
-    , lastName: 'holowaychuk'
-  });
+    app.helpers({
+        name: function(first, last){ return first + ', ' + last }
+      , firstName: 'tj'
+      , lastName: 'holowaychuk'
+    });
 
 Our view could now utilize the _firstName_ and _lastName_ variables,
 as well as the _name()_ function exposed.
 
     <%= name(firstName, lastName) %>
+
+Express also provides a few locals by default:
+
+    - `settings`  the app's settings object
+    - `filename`  the view's filename
+    - `request`   the request object
+    - `response`  the response object
+    - `app`       the application itself
+
+This method is aliased as _app.locals()_.
 
 ### app.dynamicHelpers(obj)
 
@@ -1157,6 +1167,101 @@ becomes the local variable it is associated with.
 All views would now have _session_ available so that session data can be accessed via _session.name_ etc:
 
     <%= session.name %>
+
+### app.lookup
+
+ The _app.lookup_ http methods returns an array of callback functions
+ associated with the given _path_.
+
+ Suppose we define the following routes:
+ 
+      app.get('/user/:id', function(){});
+      app.put('/user/:id', function(){});
+      app.get('/user/:id/:op?', function(){});
+
+  We can utilize this lookup functionality to check which routes
+  have been defined, which can be extremely useful for higher level
+  frameworks built on Express.
+
+      app.lookup.get('/user/:id');
+      // => [Function]
+
+      app.lookup.get('/user/:id/:op?');
+      // => [Function]
+
+      app.lookup.put('/user/:id');
+      // => [Function]
+
+      app.lookup.all('/user/:id');
+      // => [Function, Function]
+
+      app.lookup.all('/hey');
+      // => []
+
+  To alias _app.lookup.VERB()_, we can simply invoke _app.VERB()_
+  without a callback, as a shortcut, for example the following are
+  equivalent:
+  
+      app.lookup.get('/user');
+      app.get('/user');
+
+  Each function returned has the following properties:
+  
+      var fn = app.get('/user/:id/:op?')[0];
+
+      fn.regexp
+      // => /^\/user\/(?:([^\/]+?))(?:\/([^\/]+?))?\/?$/i
+
+      fn.keys
+      // => ['id', 'op']
+
+      fn.path
+      // => '/user/:id/:op?'
+
+      fn.method
+      // => 'GET'
+
+### app.match
+
+  The _app.match_ http methods return an array of callback functions
+  which match the given _url_, which may include a query string etc. This
+  is useful when you want reflect on which routes have the opportunity to
+  respond.
+
+  Suppose we define the following routes:
+
+        app.get('/user/:id', function(){});
+        app.put('/user/:id', function(){});
+        app.get('/user/:id/:op?', function(){});
+
+  Our match against __GET__ will return two functions, since the _:op_
+  in our second route is optional.
+
+      app.match.get('/user/1');
+      // => [Function, Function]
+
+  This second call returns only the callback for _/user/:id/:op?_.
+
+      app.match.get('/user/23/edit');
+      // => [Function]
+
+  We can also use _all()_ to disregard the http method:
+
+      app.match.all('/user/20');
+      // => [Function, Function, Function]
+
+  Each function matched has the following properties:
+  
+      var fn = app.match.get('/user/23/edit')[0];
+
+      fn.keys
+      // => ['id', 'op']
+
+      fn.params
+      // => { id: '23', op: 'edit' }
+
+      fn.method
+      // => 'GET'
 
 ### app.mounted(fn)
 
