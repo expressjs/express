@@ -561,5 +561,47 @@ module.exports = {
     assert.response(app,
       { url: '/user/12', method: 'OPTIONS' },
       { headers: { Allow: 'GET,PUT' }});
+  },
+  
+  'test app.lookup': function(){
+    var app = express.createServer();
+    app.get('/user', function(){});
+    app.get('/user/:id', function(){});
+    app.get('/user/:id/:op?', function(){});
+    app.put('/user/:id', function(){});
+    app.get('/user/:id/edit', function(){});
+
+    app.get('/user').should.have.length(1);
+    app.get('/user/:id').should.have.length(1);
+    app.get('/user/:id/:op?').should.have.length(1);
+    app.put('/user/:id').should.have.length(1);
+    app.get('/user/:id/edit').should.have.length(1);
+    app.get('/').should.have.be.empty;
+    app.all('/user/:id').should.have.length(2);
+    
+    app.lookup.get('/user').should.have.length(1);
+    app.lookup.get('/user/:id').should.have.length(1);
+    app.lookup.get('/user/:id/:op?').should.have.length(1);
+    app.lookup.put('/user/:id').should.have.length(1);
+    app.lookup.get('/user/:id/edit').should.have.length(1);
+    app.lookup.get('/').should.have.be.empty;
+    app.lookup.all('/user/:id').should.have.length(2);
+  },
+  
+  'test app.match': function(){
+    var app = express.createServer();
+    app.get('/user', function(){});
+    app.get('/user/:id', function(){});
+    app.get('/user/:id/:op?', function(){});
+    app.put('/user/:id', function(){});
+    app.get('/user/:id/edit', function(){});
+
+    app.match.get('/user').should.have.length(1);
+    app.match.get('/user/12').should.have.length(2);
+    app.match.get('/user/12/:op?').should.have.length(1);
+    app.match.put('/user/100').should.have.length(1);
+    app.match.get('/user/5/edit').should.have.length(2);
+    app.match.get('/').should.have.be.empty;
+    app.match.all('/user/123').should.have.length(3);
   }
 };
