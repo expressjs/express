@@ -1205,6 +1205,22 @@ All views would now have _session_ available so that session data can be accesse
       app.lookup.get('/user');
       app.get('/user');
 
+  Each function returned has the following properties:
+  
+      var fn = app.get('/user/:id/:op?')[0];
+
+      fn.regexp
+      // => /^\/user\/(?:([^\/]+?))(?:\/([^\/]+?))?\/?$/i
+
+      fn.keys
+      // => ['id', 'op']
+
+      fn.path
+      // => '/user/:id/:op?'
+
+      fn.method
+      // => 'GET'
+
 ### app.match
 
   The _app.match_ http methods return an array of callback functions
@@ -1233,6 +1249,19 @@ All views would now have _session_ available so that session data can be accesse
 
       app.match.all('/user/20');
       // => [Function, Function, Function]
+
+  Each function matched has the following properties:
+  
+      var fn = app.match.get('/user/23/edit')[0];
+
+      fn.keys
+      // => ['id', 'op']
+
+      fn.params
+      // => { id: '23', op: 'edit' }
+
+      fn.method
+      // => 'GET'
 
 ### app.mounted(fn)
 
