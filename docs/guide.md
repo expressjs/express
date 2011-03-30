@@ -1173,11 +1173,11 @@ All views would now have _session_ available so that session data can be accesse
  The _app.lookup_ http methods returns an array of callback functions
  associated with the given _path_.
 
- Suppose you define the following routes:
+ Suppose we define the following routes:
  
       app.get('/user/:id', function(){});
-      app.get('/user/:id/op?', function(){});
       app.put('/user/:id', function(){});
+      app.get('/user/:id/:op?', function(){});
 
   We can utilize this lookup functionality to check which routes
   have been defined, which can be extremely useful for higher level
@@ -1186,7 +1186,7 @@ All views would now have _session_ available so that session data can be accesse
       app.lookup.get('/user/:id');
       // => [Function]
 
-      app.lookup.get('/user/:id/op?');
+      app.lookup.get('/user/:id/:op?');
       // => [Function]
 
       app.lookup.put('/user/:id');
@@ -1204,6 +1204,35 @@ All views would now have _session_ available so that session data can be accesse
   
       app.lookup.get('/user');
       app.get('/user');
+
+### app.match
+
+  The _app.match_ http methods return an array of callback functions
+  which match the given _url_, which may include a query string etc. This
+  is useful when you want reflect on which routes have the opportunity to
+  respond.
+
+  Suppose we define the following routes:
+
+        app.get('/user/:id', function(){});
+        app.put('/user/:id', function(){});
+        app.get('/user/:id/:op?', function(){});
+
+  Our match against __GET__ will return two functions, since the _:op_
+  in our second route is optional.
+
+      app.match.get('/user/1');
+      // => [Function, Function]
+
+  This second call returns only the callback for _/user/:id/:op?_.
+
+      app.match.get('/user/23/edit');
+      // => [Function]
+
+  We can also use _all()_ to disregard the http method:
+
+      app.match.all('/user/20');
+      // => [Function, Function, Function]
 
 ### app.mounted(fn)
 
