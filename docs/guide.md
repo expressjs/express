@@ -165,7 +165,7 @@ For example we can __POST__ some json, and echo the json back using the _bodyPar
 
     app.listen(3000);
 
-Typically we may use a "dumb" placeholder such as "/user/:id" which has no restrictions, however say for example we are limiting a user id to digits, we may use _'/user/:id(\\d+)'_ which will _not_ match unless the placeholder value contains only digits.
+Typically we may use a "dumb" placeholder such as "/user/:id" which has no restrictions, however say for example we are limiting a user id to digits, we may use _'/user/:id(\\\\d+)'_ which will _not_ match unless the placeholder value contains only digits.
 
 ### Passing Route Control
 
