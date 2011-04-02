@@ -287,6 +287,19 @@ module.exports = {
       { body: '<cool><p>Welcome</p></cool>' });
   },
   
+  'test #render() view layout control': function(){
+    var app = create();
+    app.set('view engine', 'jade');
+    
+    app.get('/', function(req, res){
+      res.render('layout-switch');
+    });
+    
+    assert.response(app,
+      { url: '/' },
+      { body: '<div id="alternate"><h1>My Page</h1></div>' });
+  },
+  
   'test #render() "view engine" with periods in dirname': function(){
     var app = create();
     app.set('view engine', 'jade');
