@@ -1145,7 +1145,7 @@ Express also provides a few locals by default:
 
     - `settings`  the app's settings object
     - `filename`  the view's filename
-    - `app`       the application itself
+    - `layout(path)`  specify the layout from within a view
 
 This method is aliased as _app.locals()_.
 
