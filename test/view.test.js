@@ -371,6 +371,19 @@ module.exports = {
     });
   },
   
+  'test #partial() collection object': function(){
+    var app = create();
+
+    app.get('/', function(req, res){
+      var items = { 2: 'foo', bar: 'bar' };
+      res.partial('object-item.jade', { as: 'item', collection: items });
+    });
+
+    assert.response(app,
+      { url: '/' },
+      { body: '<li>2: foo</li><li>bar: bar</li>' });
+  },
+  
   'test #partial()': function(){
     var app = create();
   
