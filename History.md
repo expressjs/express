@@ -1,4 +1,18 @@
 
+2.2.1 / 2011-04-04 
+==================
+
+  * Added `layout(path)` helper to change the layout within a view. Closes #610
+  * Fixed `partial()` collection object support.
+    Previously only anything with `.length` would work.
+    When `.length` is present one must still be aware of holes,
+    however now `{ collection: {foo: 'bar'}}` is valid, exposes
+    `keyInCollection` and `keysInCollection`.
+
+  * Performance improved with better view caching
+  * Removed `request` and `response` locals
+  * Changed; errorHandler page title is now `Express` instead of `Connect`
+
 2.2.0 / 2011-03-30 
 ==================
 
