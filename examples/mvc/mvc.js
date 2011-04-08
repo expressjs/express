@@ -14,7 +14,7 @@ exports.boot = function(app){
 // App settings and middleware
 
 function bootApplication(app) {
-  app.use(express.logger({ format: ':method :url :status' }));
+  app.use(express.logger(':method :url :status'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
