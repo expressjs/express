@@ -45,6 +45,7 @@ function bootApplication(app) {
     },
 
     hasMessages: function(req){
+      if (!req.session) return false;
       return Object.keys(req.session.flash || {}).length;
     },
 
