@@ -54,6 +54,7 @@ The following are the major contributors of Express (in no specific order).
 
 ## More Information
 
+  * [express-expose](http://github.com/visionmedia/express-expose) expose objects, functions, modules and more to client-side js with ease
   * [express-configure](http://github.com/visionmedia/express-configuration) async configuration support
   * [express-messages](http://github.com/visionmedia/express-messages) flash notification rendering helper
   * [express-namespace](http://github.com/visionmedia/express-namespace) namespaced route support
