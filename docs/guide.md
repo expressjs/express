@@ -816,7 +816,7 @@ Options may also be passed to the internal _fs.createReadStream()_ call, for exa
       // handle
     });
 
-### res.download(file[, filename[, callback]])
+### res.download(file[, filename[, callback[, callback2]]])
 
 Transfer the given _file_ as an attachment with optional alternative _filename_.
 
@@ -828,10 +828,18 @@ This is equivalent to:
     res.attachment(file);
     res.sendfile(file);
 
-An optional callback may be supplied as either the second or third argument, which is passed to _res.sendfile()_:
+An optional callback may be supplied as either the second or third argument, which is passed to _res.sendfile()_. Within this callback you may still respond, as the header has not been sent.
 
     res.download(path, 'expenses.doc', function(err){
       // handle
+    });
+
+An optional second callback, _callback2_ may be given to allow you to act on connection related errors, however you should not attempt to respond.
+
+    res.download(path, function(err){
+      // error or finished
+    }, function(err){
+      // connection related error
     });
 
 ### res.send(body|status[, headers|status[, status]])
