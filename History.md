@@ -1,4 +1,10 @@
 
+2.2.2 / 2011-04-12 
+==================
+
+  * Added second callback support for `res.download()` connection errors
+  * Fixed `filename` option passing to template engine
+
 2.2.1 / 2011-04-04 
 ==================
 
