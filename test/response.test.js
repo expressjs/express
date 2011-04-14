@@ -207,12 +207,14 @@ module.exports = {
     assert.response(app,
       { url: '/javascripts/jquery.js' },
       { body: 'whatever'
-      , headers: { 'Content-Disposition': 'attachment; filename="jquery.js"' }});
+      , headers: { 'Content-Type': 'application/javascript'
+                 , 'Content-Disposition': 'attachment; filename="jquery.js"' }});
 
     assert.response(app,
       { url: '/style.css' },
       { body: 'some stylezzz'
-      , headers: { 'Content-Disposition': 'attachment' }});
+      , headers: { 'Content-Type': 'text/html; charset=utf-8'
+                 , 'Content-Disposition': 'attachment' }});
   },
   
   'test #redirect()': function(){
