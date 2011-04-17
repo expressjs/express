@@ -570,7 +570,7 @@ module.exports = {
     var app = express.createServer();
     
     app.get('/', function(req, res){
-      res.clearCookie('rememberme');
+      res.clearCookie('rememberme', { path: '/foo' });
       res.redirect('/');
     });
     
@@ -578,7 +578,7 @@ module.exports = {
       { url: '/' },
       function(res){
         res.headers['set-cookie']
-          .should.eql(['rememberme=; expires=Thu, 01 Jan 1970 00:00:00 GMT']);
+          .should.eql(['rememberme=; path=/foo; expires=Thu, 01 Jan 1970 00:00:00 GMT']);
       });
   },
   

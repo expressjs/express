@@ -894,7 +894,7 @@ To parse incoming _Cookie_ headers, use the _cookieParser_ middleware, which pro
       // use req.cookies.rememberme
     });
 
-### res.clearCookie(name)
+### res.clearCookie(name[, options])
 
 Clear cookie _name_ by setting "expires" far in the past.
 
