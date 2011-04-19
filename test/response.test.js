@@ -61,7 +61,7 @@ module.exports = {
     assert.response(app,
       { url: '/bool' },
       { body: 'true'
-      , headers: { 'Content-Type': 'application/json' }});
+      , headers: { 'Content-Type': 'application/json; charset=utf-8' }});
 
     assert.response(app,
       { url: '/html' },
@@ -76,7 +76,7 @@ module.exports = {
       { body: '{"foo":"bar"}'
       , status: 201
       , headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json; charset=utf-8'
         , 'X-Foo': 'baz'
       }});
   
@@ -85,7 +85,7 @@ module.exports = {
       { body: 'test({"foo":"bar"});'
       , status: 201
       , headers: {
-          'Content-Type': 'text/javascript'
+          'Content-Type': 'text/javascript; charset=utf-8'
         , 'X-Foo': 'baz'
       }});
   
@@ -93,7 +93,7 @@ module.exports = {
       { url: '/jsonp?callback=baz' },
       { body: 'baz({"foo":"bar"});'
       , status: 201, headers: {
-          'Content-Type': 'text/javascript'
+          'Content-Type': 'text/javascript; charset=utf-8'
         , 'X-Foo': 'baz'
       }});
   
@@ -102,7 +102,7 @@ module.exports = {
       { body: 'invalid({"foo":"bar"});'
       , status: 201
       , headers: {
-          'Content-Type': 'text/javascript'
+          'Content-Type': 'text/javascript; charset=utf-8'
         , 'X-Foo': 'baz'
       }});
   
@@ -111,7 +111,7 @@ module.exports = {
       { body: '{"foo":"bar"}'
       , status: 201
       , headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json; charset=utf-8'
         , 'X-Foo': 'baz'
       }});
   
