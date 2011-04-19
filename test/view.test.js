@@ -657,6 +657,14 @@ module.exports = {
     assert.response(app,
       { url: '/error' },
       { status: 500 });
+
+    app.get('/underscore', function(req, res, next){
+      res.partial('foobar');
+    });
+
+    assert.response(app,
+      { url: '/underscore' },
+      { body: '<p>two</p>' });
   },
   
   'test #partial() with several calls': function(){
