@@ -435,8 +435,9 @@ module.exports = {
     );
   },
   
-  'test route middleware': function(){
-    var app = express.createServer();
+  'test route middleware': function(beforeExit){
+    var app = express.createServer()
+      , calls = 0;
 
     function allow(role) {
       return function(req, res, next) {
@@ -460,6 +461,11 @@ module.exports = {
       }
     }
 
+    app.param('user', function(req, res, next, user){
+      ++calls;
+      next();
+    });
+
     app.get('/xxx', allow('member'), restrictAge(18), function(req, res){
       res.send(200);
     });
@@ -471,8 +477,12 @@ module.exports = {
     app.get('/tobi', [allow('member')], [[restrictAge(18)]], function(req, res){
       res.send(200);
     });
+    
+    app.get('/user/:user', [allow('member')], [[restrictAge(18)]], function(req, res){
+      res.send(200);
+    });
 
-    ['xxx', 'booze', 'tobi'].forEach(function(thing){
+    ['xxx', 'booze', 'tobi', 'user/tj'].forEach(function(thing){
       assert.response(app,
         { url: '/' + thing },
         { body: 'Unauthorized', status: 401 });
@@ -482,6 +492,10 @@ module.exports = {
       assert.response(app,
         { url: '/' + thing, headers: { 'X-Role': 'member', 'X-Age': 18 }},
         { body: 'OK', status: 200 });
+    });
+
+    beforeExit(function(){
+      calls.should.equal(3);
     });
   },
   
