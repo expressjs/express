@@ -13,7 +13,6 @@ Closes #638
   * Fixed partial lookup precedence. Closes #631
 Shaw]
 
-
 2.2.2 / 2011-04-12 
 ==================
 
