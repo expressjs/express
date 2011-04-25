@@ -82,6 +82,7 @@ Express supports the following settings out of the box:
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
   * _view options_ An object specifying global view options
+  * _view cache_ Enable view caching (enabled in production)
 
 ### Routing
 
