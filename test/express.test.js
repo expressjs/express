@@ -621,6 +621,15 @@ module.exports = {
     app.put('/user/:id', function(){});
     app.get('/user/:id/edit', function(){});
 
+    var route = app.match.get('/user/12')[0];
+    route.should.be.an.instanceof(Route);
+    route.callback.should.be.a('function');
+    route.path.should.equal('/user/:id');
+    route.regexp.should.be.an.instanceof(RegExp);
+    route.method.should.equal('GET');
+    route.index.should.equal(2);
+    route.keys.should.eql(['id']);
+
     app.match.get('/user').should.have.length(1);
     app.match.get('/user/12').should.have.length(2);
     app.match.get('/user/12/:op?').should.have.length(1);
