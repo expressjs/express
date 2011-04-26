@@ -587,6 +587,7 @@ module.exports = {
     app.put('/user/:id', function(){});
     app.get('/user/:id/edit', function(){});
 
+    app.get('/user')[0].should.be.an.instanceof(Route);
     app.get('/user').should.have.length(1);
     app.get('/user/:id').should.have.length(1);
     app.get('/user/:id/:op?').should.have.length(1);
