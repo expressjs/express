@@ -6,7 +6,8 @@
 var express = require('express')
   , connect = require('connect')
   , assert = require('assert')
-  , should = require('should');
+  , should = require('should')
+  , Route = express.Route;
 
 module.exports = {
   'test inheritance': function(){
@@ -17,6 +18,7 @@ module.exports = {
   'test constructor exports': function(){
     express.should.have.property('HTTPServer');
     express.should.have.property('HTTPSServer');
+    express.should.have.property('Route');
   },
   
   'test connect middleware autoloaders': function(){
