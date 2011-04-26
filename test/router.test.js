@@ -240,5 +240,6 @@ module.exports = {
     app.match.get('/user/5/edit').should.have.length(2);
     app.match.get('/').should.have.be.empty;
     app.match.all('/user/123').should.have.length(3);
+    app.match('/user/123').should.have.length(3);
   }
 };
