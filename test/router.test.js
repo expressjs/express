@@ -202,6 +202,7 @@ module.exports = {
     route.method.should.equal('GET');
     route.index.should.equal(2);
     route.keys.should.eql(['id']);
+    route.params.id.should.equal('12');
 
     app.match.get('/user').should.have.length(1);
     app.match.get('/user/12').should.have.length(2);
