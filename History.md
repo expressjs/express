@@ -1,4 +1,14 @@
 
+2.3.1 / 2011-04-26 
+==================
+
+  * Added `app.match()` as `app.match.all()`
+  * Added `app.lookup()` as `app.lookup.all()`
+  * Added `app.remove()` for `app.remove.all()`
+  * Added `app.remove.VERB()`
+  * Fixed template caching collision issue. Closes #644
+  * Moved router over from connect and started refactor
+
 2.3.0 / 2011-04-25 
 ==================
 
