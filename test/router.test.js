@@ -184,6 +184,7 @@ module.exports = {
     app.lookup.get('/user/:id/edit').should.have.length(1);
     app.lookup.get('/').should.have.be.empty;
     app.lookup.all('/user/:id').should.have.length(2);
+    app.lookup('/user/:id').should.have.length(2);
   },
 
   'test app.remove': function(){
