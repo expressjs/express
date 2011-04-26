@@ -185,6 +185,27 @@ module.exports = {
     app.lookup.get('/').should.have.be.empty;
     app.lookup.all('/user/:id').should.have.length(2);
   },
+
+  'test app.remove': function(){
+    var app = express.createServer();
+    app.get('/user', function(){});
+    app.get('/user', function(){});
+    app.put('/user', function(){});
+    app.get('/user/:id', function(){});
+    app.put('/user/:id', function(){});
+    app.del('/user/:id', function(){});
+
+    app.get('/user').should.have.length(2);
+    var removed = app.remove.get('/user');
+    removed.should.have.length(2);
+
+    var removed = app.remove.get('/user');
+    removed.should.have.length(0);
+    app.get('/user').should.have.length(0);
+
+    app.remove.all('/user/:id').should.have.length(3);
+    app.remove.all('/user/:id').should.have.length(0);
+  },
   
   'test app.match': function(){
     var app = express.createServer();
