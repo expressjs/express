@@ -592,7 +592,7 @@ module.exports = {
     app.get('/user/:id/edit').should.have.length(1);
     app.get('/').should.have.be.empty;
     app.all('/user/:id').should.have.length(2);
-    
+
     app.lookup.get('/user').should.have.length(1);
     app.lookup.get('/user/:id').should.have.length(1);
     app.lookup.get('/user/:id/:op?').should.have.length(1);
