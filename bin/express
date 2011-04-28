@@ -38,10 +38,10 @@ var cssEngine;
 var templateEngine = 'jade';
 
 /**
- * Templates relative path
+ * Templates path.
  */
 
-var templatesRelativePath = "./../lib/gen/templates/";
+var templatesPath = __dirname + "/" + "../lib/gen/templates/";
 
 /**
  * Usage documentation.
@@ -128,8 +128,8 @@ while (args.length) {
 
 function createApplicationAt(path) {
   var codeFileType = coffeescript ? "coffee" : "js";
-  var app = fs.readFileSync(__dirname + "/" + templatesRelativePath + 'app.' + codeFileType, 'utf-8');
-  var appTest = fs.readFileSync(__dirname + "/" + templatesRelativePath + 'app.test.' + codeFileType, 'utf-8');
+  var app = fs.readFileSync(templatesPath + 'app.' + codeFileType, 'utf-8');
+  var appTest = fs.readFileSync(templatesPath + 'app.test.' + codeFileType, 'utf-8');
 	
   mkdir(path, function(){
     mkdir(path + '/pids');
@@ -139,27 +139,27 @@ function createApplicationAt(path) {
     mkdir(path + '/public/stylesheets', function(){
       switch (cssEngine) {
         case 'stylus':
-   		  copy(__dirname + "/" + templatesRelativePath + 'stylesheets/style.styl', path + '/public/stylesheets/style.styl');
+   		  copyTemplate('stylesheets/style.styl', path + '/public/stylesheets/style.styl');
           break;
         case 'less':
-          copy(__dirname + "/" + templatesRelativePath + 'stylesheets/style.less', path + '/public/stylesheets/style.less');
+          copyTemplate('stylesheets/style.less', path + '/public/stylesheets/style.less');
           break;
         case 'sass':
-          copy(__dirname + "/" + templatesRelativePath + 'stylesheets/style.sass', path + '/public/stylesheets/style.sass');
+          copyTemplate('stylesheets/style.sass', path + '/public/stylesheets/style.sass');
           break;
         default:
-          copy(__dirname + "/" + templatesRelativePath + 'stylesheets/style.css', path + '/public/stylesheets/style.css');
+          copyTemplate('stylesheets/style.css', path + '/public/stylesheets/style.css');
       }
     });
     mkdir(path + '/views', function(){
       switch (templateEngine) {
         case 'ejs':
-          copy(__dirname + "/" + templatesRelativePath + 'view/layout.ejs', path + '/views/layout.ejs');
-          copy(__dirname + "/" + templatesRelativePath + 'view/index.ejs', path + '/views/index.ejs');
+          copyTemplate('view/layout.ejs', path + '/views/layout.ejs');
+          copyTemplate('view/index.ejs', path + '/views/index.ejs');
           break;
         case 'jade':
-          copy(__dirname + "/" + templatesRelativePath + 'view/layout.jade', path + '/views/layout.jade');
-          copy(__dirname + "/" + templatesRelativePath + 'view/index.jade', path + '/views/index.jade');
+          copyTemplate('view/layout.jade', path + '/views/layout.jade');
+          copyTemplate('view/index.jade', path + '/views/index.jade');
           break;
       }
     });
@@ -249,6 +249,18 @@ function write(path, str) {
 function copy(from, to) {
 	write(to, fs.readFileSync(from, 'utf-8'));
 }
+
+/**
+ * Copy the given template from templates directory to target path.
+ *
+ * @param {String} template
+ * @param {String} to
+ */
+
+function copyTemplate(template, to) {
+	copy(templatesPath + template, to);
+}
+
 
 /**
  * Prompt confirmation with the given `msg`.
