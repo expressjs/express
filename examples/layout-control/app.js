@@ -1,4 +1,3 @@
-
 // Expose modules in ./support for demo purposes
 require.paths.unshift(__dirname + '/../../support');
 
@@ -15,7 +14,7 @@ app.set('views', __dirname + '/views');
 // set default layout, usually "layout"
 app.set('view options', { layout: 'layouts/default' });
 
-// Set our default template engine to "jade"
+// Set our default template engine to "ejs"
 // which prevents the need for extensions
 // (although you can still mix and match)
 app.set('view engine', 'ejs');
