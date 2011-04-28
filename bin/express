@@ -20,6 +20,12 @@ var version = '2.3.2';
 var sessions = false;
 
 /**
+ * Generate coffee script app.
+ */
+
+var coffeescript = false;
+
+/**
  * CSS engine to utilize.
  */
 
@@ -30,6 +36,12 @@ var cssEngine;
  */
 
 var templateEngine = 'jade';
+
+/**
+ * Templates path.
+ */
+
+var templatesPath = __dirname + "/" + "../lib/gen/templates/";
 
 /**
  * Usage documentation.
@@ -43,188 +55,10 @@ var usage = ''
   + '    -s, --sessions           add session support\n'
   + '    -t, --template <engine>  add template <engine> support (jade|ejs). default=jade\n'
   + '    -c, --css <engine>       add stylesheet <engine> support (less|sass|stylus). default=plain css\n'
+  + '    --coffeescript           coffee script template\n'
   + '    -v, --version            output framework version\n'
   + '    -h, --help               output help information\n'
   ;
-
-/**
- * Jade layout template.
- */
-
-var jadeLayout = [
-    '!!!'
-  , 'html'
-  , '  head'
-  , '    title= title'
-  , '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
-  , '  body!= body'
-].join('\n');
-
-/**
- * Jade index template.
- */
-
-var jadeIndex = [
-    'h1= title'
-  , 'p Welcome to #{title}'
-].join('\n');
-
-/**
- * EJS layout template.
- */
-
-var ejsLayout = [
-    '<!DOCTYPE html>'
-  , '<html>'
-  , '  <head>'
-  , '    <title><%= title %></title>'
-  , '    <link rel=\'stylesheet\' href=\'/stylesheets/style.css\' />'
-  , '  </head>'
-  , '  <body>'
-  , '    <%- body %>'
-  , '  </body>'
-  , '</html>'
-].join('\n');
-
-/**
- * EJS index template.
- */
-
-var ejsIndex = [
-    '<h1><%= title %></h1>'
-  , '<p>Welcome to <%= title %></p>'
-  ].join('\n');
-
-/**
- * Default css template.
- */
-
-var css = [
-    'body {'
-  , '  padding: 50px;'
-  , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
-  , '}'
-  , ''
-  , 'a {'
-  , '  color: #00B7FF;'
-  , '}'
-].join('\n');
-
-/**
- * Default less template.
- */
-
-var less = [
-    'body {'
-  , '  padding: 50px;'
-  , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
-  , '}'
-  , ''
-  , 'a {'
-  , '  color: #00B7FF;'
-  , '}'
-].join('\n');
-
-/**
- * Default sass template.
- */
-
-var sass = [
-    'body'
-  , '  :padding 50px'
-  , '  :font 14px "Lucida Grande", Helvetica, Arial, sans-serif'
-  , 'a'
-  , '  :color #00B7FF'
-].join('\n');
-
-/**
- * Default stylus template.
- */
-
-var stylus = [
-    'body'
-  , '  padding 50px'
-  , '  font 14px "Lucida Grande", Helvetica, Arial, sans-serif'
-  , 'a'
-  , '  color #00B7FF'
-].join('\n');
-
-/**
- * App test template.
- */
-
-var appTest = [
-    ""
-  , "// Run $ expresso"
-  , ""
-  , "/**"
-  , " * Module dependencies."
-  , " */"
-  , ""
-  , "var app = require('../app')"
-  , "  , assert = require('assert');"
-  , "",
-  , "module.exports = {"
-  , "  'GET /': function(){"
-  , "    assert.response(app,"
-  , "      { url: '/' },"
-  , "      { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' }},"
-  , "      function(res){"
-  , "        assert.includes(res.body, '<title>Express</title>');"
-  , "      });"
-  , "  }"
-  , "};"
-].join('\n');
-
-/**
- * App template.
- */
-
-var app = [
-    ''
-  , '/**'
-  , ' * Module dependencies.'
-  , ' */'
-  , ''
-  , 'var express = require(\'express\');'
-  , ''
-  , 'var app = module.exports = express.createServer();'
-  , ''
-  , '// Configuration'
-  , ''
-  , 'app.configure(function(){'
-  , '  app.set(\'views\', __dirname + \'/views\');'
-  , '  app.set(\'view engine\', \':TEMPLATE\');'
-  , '  app.use(express.bodyParser());'
-  , '  app.use(express.methodOverride());{sess}{css}'
-  , '  app.use(app.router);'
-  , '  app.use(express.static(__dirname + \'/public\'));'
-  , '});'
-  , ''
-  , 'app.configure(\'development\', function(){'
-  , '  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); '
-  , '});'
-  , ''
-  , 'app.configure(\'production\', function(){'
-  , '  app.use(express.errorHandler()); '
-  , '});'
-  , ''
-  , '// Routes'
-  , ''
-  , 'app.get(\'/\', function(req, res){'
-  , '  res.render(\'index\', {'
-  , '    title: \'Express\''
-  , '  });'
-  , '});'
-  , ''
-  , '// Only listen on $ node app.js'
-  , ''
-  , 'if (!module.parent) {'
-  , '  app.listen(3000);'
-  , '  console.log("Express server listening on port %d", app.address().port);'
-  , '}'
-  , ''
-].join('\n');
 
 // Parse arguments
 
@@ -259,6 +93,9 @@ while (args.length) {
         ? (templateEngine = args.shift())
         : abort('--template requires an argument');
       break;
+    case '--coffeescript':
+      coffeescript = true;
+      break;
     default:
         path = arg;
   }
@@ -290,6 +127,10 @@ while (args.length) {
  */
 
 function createApplicationAt(path) {
+  var codeFileType = coffeescript ? "coffee" : "js";
+  var app = fs.readFileSync(templatesPath + 'app.' + codeFileType, 'utf-8');
+  var appTest = fs.readFileSync(templatesPath + 'app.test.' + codeFileType, 'utf-8');
+	
   mkdir(path, function(){
     mkdir(path + '/pids');
     mkdir(path + '/logs');
@@ -298,42 +139,46 @@ function createApplicationAt(path) {
     mkdir(path + '/public/stylesheets', function(){
       switch (cssEngine) {
         case 'stylus':
-          write(path + '/public/stylesheets/style.styl', stylus);
+   		  copyTemplate('stylesheets/style.styl', path + '/public/stylesheets/style.styl');
           break;
         case 'less':
-          write(path + '/public/stylesheets/style.less', less);
+          copyTemplate('stylesheets/style.less', path + '/public/stylesheets/style.less');
           break;
         case 'sass':
-          write(path + '/public/stylesheets/style.sass', sass);
+          copyTemplate('stylesheets/style.sass', path + '/public/stylesheets/style.sass');
           break;
         default:
-          write(path + '/public/stylesheets/style.css', css);
+          copyTemplate('stylesheets/style.css', path + '/public/stylesheets/style.css');
       }
     });
     mkdir(path + '/views', function(){
       switch (templateEngine) {
         case 'ejs':
-          write(path + '/views/layout.ejs', ejsLayout);
-          write(path + '/views/index.ejs', ejsIndex);
+          copyTemplate('view/layout.ejs', path + '/views/layout.ejs');
+          copyTemplate('view/index.ejs', path + '/views/index.ejs');
           break;
         case 'jade':
-          write(path + '/views/layout.jade', jadeLayout);
-          write(path + '/views/index.jade', jadeIndex);
+          copyTemplate('view/layout.jade', path + '/views/layout.jade');
+          copyTemplate('view/index.jade', path + '/views/index.jade');
           break;
       }
     });
     mkdir(path + '/test', function(){
-      write(path + '/test/app.test.js', appTest);
+      write(path + '/test/app.test.' + codeFileType, appTest);
     });
 
     // CSS Engine support
     switch (cssEngine) {
       case 'sass':
       case 'less':
-        app = app.replace('{css}', '\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
+        app = app.replace('{css}', coffeescript ? 
+          '\n	app.use express.compiler { src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }' : 
+          '\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
         break;
       case 'stylus':
-        app = app.replace('{css}', '\n  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
+        app = app.replace('{css}', coffeescript ? 
+          '\n	app.use require \'stylus\').middleware({ src: __dirname + \'/public\' })' : 
+          '\n  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
         break;
       default:
         app = app.replace('{css}', '');
@@ -341,13 +186,15 @@ function createApplicationAt(path) {
 
     // Session support
     app = app.replace('{sess}', sessions
-      ? '\n  app.use(express.cookieParser());\n  app.use(express.session({ secret: \'your secret here\' }));'
+      ? (coffeescript ? 
+        '\n	app.use express.cookieParser()\n	app.use express.session { secret: \'your secret here\' }' :
+        '\n  app.use(express.cookieParser());\n  app.use(express.session({ secret: \'your secret here\' }));')
       : '');
 
     // Template support
     app = app.replace(':TEMPLATE', templateEngine);
 
-    write(path + '/app.js', app);
+    write(path + '/app.' + codeFileType, app);
 
     // Suggestions
     process.on('exit', function(){
@@ -355,6 +202,9 @@ function createApplicationAt(path) {
         console.log('   - make sure you have installed %s: \x1b[33m$ npm install %s\x1b[0m'
           , cssEngine
           , cssEngine);
+      }
+      if (coffeescript) {
+        console.log('   - make sure you have installed coffeescript: \x1b[33m$ npm install coffeescript\x1b[0m');
       }
       console.log('   - make sure you have installed %s: \x1b[33m$ npm install %s\x1b[0m'
         , templateEngine
@@ -388,6 +238,29 @@ function write(path, str) {
   fs.writeFile(path, str);
   console.log('   \x1b[36mcreate\x1b[0m : ' + path);
 }
+
+/**
+ * Copy the file.
+ *
+ * @param {String} from
+ * @param {String} to
+ */
+
+function copy(from, to) {
+	write(to, fs.readFileSync(from, 'utf-8'));
+}
+
+/**
+ * Copy the given template from templates directory to target path.
+ *
+ * @param {String} template
+ * @param {String} to
+ */
+
+function copyTemplate(template, to) {
+	copy(templatesPath + template, to);
+}
+
 
 /**
  * Prompt confirmation with the given `msg`.
