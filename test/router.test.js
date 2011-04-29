@@ -241,5 +241,27 @@ module.exports = {
     app.match.get('/').should.have.be.empty;
     app.match.all('/user/123').should.have.length(3);
     app.match('/user/123').should.have.length(3);
+  },
+  
+  'test "case sensitive routes" setting': function(){
+    var app = express.createServer();
+
+    app.enable('case sensitive routes');
+
+    app.get('/account', function(req, res){
+      res.send('account');
+    });
+    
+    app.get('/Account', function(req, res){
+      res.send('Account');
+    });
+
+    assert.response(app,
+      { url: '/account' },
+      { body: 'account' });
+
+    assert.response(app,
+      { url: '/Account' },
+      { body: 'Account' });
   }
 };
