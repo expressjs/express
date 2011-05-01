@@ -320,6 +320,8 @@ Commonly used "stacks" of middleware can be passed as an array (_applied recursi
 
 For this example in full, view the [route middleware example](http://github.com/visionmedia/express/blob/master/examples/route-middleware/app.js) in the repository.
 
+There are times when we may want to "skip" passed remaining route middleware, but continue matching subsequent routes. To do this we invoke `next()` with the string "route" `next('route')`. If no remaining routes match the request url then Express will respond with 404 Not Found.
+
 ### HTTP Methods
 
 We have seen _app.get()_ a few times, however Express also exposes other familiar HTTP verbs in the same manor, such as _app.post()_, _app.del()_, etc.
