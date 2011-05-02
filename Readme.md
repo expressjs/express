@@ -16,6 +16,10 @@
 
     $ npm install express
 
+or to access the `express(1)` executable install globally:
+
+    $ npm install -g express
+
 ## Features
 
   * Robust routing
