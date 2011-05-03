@@ -1,4 +1,11 @@
 
+2.3.3 / 2011-05-03 
+==================
+
+  * Added "case sensitive routes" option.
+  * Changed; split methods supported per rfc [slaskis]
+  * Fixed route-specific middleware when using the same callback function several times
+
 2.3.2 / 2011-04-27 
 ==================
 
