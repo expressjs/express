@@ -435,5 +435,31 @@ module.exports = {
       { url: '/' },
       { body: 'restored' }
     );
+  },
+  
+  'test routes with same callback': function(){
+    function handle(req, res) {
+      res.send('got ' + req.string);
+    }
+
+    var app = express.createServer();
+
+    app.get('/', function(req, res, next){
+      req.string = '/';
+      next();
+    }, handle);
+
+    app.get('/another', function(req, res, next){
+      req.string = '/another';
+      next();
+    }, handle);
+
+    assert.response(app,
+      { url: '/' },
+      { body: 'got /' });
+
+    assert.response(app,
+      { url: '/another' },
+      { body: 'got /another' });
   }
 };
