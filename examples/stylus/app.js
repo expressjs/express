@@ -1,4 +1,3 @@
-
 // Expose modules in ./support for demo purposes
 require.paths.unshift(__dirname + '/../../support');
 
@@ -35,7 +34,7 @@ app.use(stylus.middleware({
 }));
 
 
-// minimal setup both reading and writting to ./public
+// minimal setup both reading and writing to ./public
 // would look like:
 //   app.use(stylus.middleware({ src: __dirname + '/public' }));
 
