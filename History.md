@@ -1,4 +1,10 @@
 
+2.3.4 / 2011-05-08 
+==================
+
+  * Added `./examples/say`
+  * Fixed `res.sendfile()` bug preventing the transfer of files with spaces
+
 2.3.3 / 2011-05-03 
 ==================
 
