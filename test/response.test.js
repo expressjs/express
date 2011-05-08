@@ -544,6 +544,10 @@ module.exports = {
         assert.equal(null, res.headers['content-disposition']);
       });
 
+    assert.response(app,
+      { url: '/some%20random%20text%20file.txt' },
+      { body: 'hello' });
+
     beforeExit(function(){
       calls.should.equal(1);
     });
