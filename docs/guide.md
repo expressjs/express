@@ -249,6 +249,33 @@ This is somewhat annoying, so express re-exports these middleware properties, ho
     app.use(express.logger());
     app.use(express.bodyParser());
 
+Middleware ordering is important, when Connect receives a request the _first_ middleware we pass to _createServer()_ or _use()_ is executed with three parameters, _request_, _response_, and a callback function usually named _next_. When _next()_ is invoked the second middleware will then have it's turn and so on. This is important to note because many middleware depend on each other, for example _methodOverride()_ checks _req.body._method_ for the HTTP method override, however _bodyParser()_ parses the request body and populates _req.body_. Another example of this is cookie parsing and session support, we must first _use()_ _cookieParser()_ followed by _session()_.
+
+Many Express applications may contain the line _app.use(app.router)_, while this may appear strange, it's simply the middleware function that contains all defined routes, and performs route lookup based on the current request url and HTTP method. Express allows you to position this middleware, though by default it will be added to the bottom. By positioning the router, we can alter middleware precedence, for example we may want to add error reporting as the _last_ middleware so that any exception passed to _next()_ will be handled by it, or perhaps we want static file serving to have low precedence, allowing our routes to intercept requests to a static file to count downloads etc. This may look a little like below
+
+    app.use(express.logger(...));
+    app.use(express.bodyParser(...));
+    app.use(express.cookieParser(...));
+    app.use(express.session(...));
+    app.use(app.router);
+    app.use(express.static(...));
+    app.use(express.errorHandler(...));
+
+First we add _logger()_ so that it may wrap node's _req.end()_ method, providing us with response-time data. Next the request's body will be parsed (if any), followed by cookie parsing and session support, meaning _req.session_ will be defined by the time we hit our routes in _app.router_. If a request such as _GET /javascripts/jquery.js_ is handled by our routes, and we do not call _next()_ then the _static()_ middleware will never see this request, however if were to define a route as shown below, we can record stats, refuse downloads, consume download credits etc.
+
+    var downloads = {};
+
+    app.use(app.router);
+    app.use(express.static(__dirname + '/public'));
+
+    app.get('/*', function(req, res, next){
+      var file = req.params[0];
+      downloads[file] = downloads[file] || 0;
+      downloads[file]++;
+      next();
+    });
+
+
 ### Route Middleware
 
 Routes may utilize route-specific middleware by passing one or more additional callbacks (or arrays) to the method. This feature is extremely useful for restricting access, loading data used by the route etc.
