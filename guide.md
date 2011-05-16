@@ -82,6 +82,8 @@ Express supports the following settings out of the box:
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
   * _view options_ An object specifying global view options
+  * _view cache_ Enable view caching (enabled in production)
+  * _case sensitive routes_ Enable case-sensitive routing
 
 ### Routing
 
@@ -165,7 +167,7 @@ For example we can __POST__ some json, and echo the json back using the _bodyPar
 
     app.listen(3000);
 
-Typically we may use a "dumb" placeholder such as "/user/:id" which has no restrictions, however say for example we are limiting a user id to digits, we may use _'/user/:id(\\d+)'_ which will _not_ match unless the placeholder value contains only digits.
+Typically we may use a "dumb" placeholder such as "/user/:id" which has no restrictions, however say for example we are limiting a user id to digits, we may use _'/user/:id([0-9]+)'_ which will _not_ match unless the placeholder value contains only digits.
 
 ### Passing Route Control
 
@@ -247,6 +249,33 @@ This is somewhat annoying, so express re-exports these middleware properties, ho
     app.use(express.logger());
     app.use(express.bodyParser());
 
+Middleware ordering is important, when Connect receives a request the _first_ middleware we pass to _createServer()_ or _use()_ is executed with three parameters, _request_, _response_, and a callback function usually named _next_. When _next()_ is invoked the second middleware will then have it's turn and so on. This is important to note because many middleware depend on each other, for example _methodOverride()_ checks _req.body._method_ for the HTTP method override, however _bodyParser()_ parses the request body and populates _req.body_. Another example of this is cookie parsing and session support, we must first _use()_ _cookieParser()_ followed by _session()_.
+
+Many Express applications may contain the line _app.use(app.router)_, while this may appear strange, it's simply the middleware function that contains all defined routes, and performs route lookup based on the current request url and HTTP method. Express allows you to position this middleware, though by default it will be added to the bottom. By positioning the router, we can alter middleware precedence, for example we may want to add error reporting as the _last_ middleware so that any exception passed to _next()_ will be handled by it, or perhaps we want static file serving to have low precedence, allowing our routes to intercept requests to a static file to count downloads etc. This may look a little like below
+
+    app.use(express.logger(...));
+    app.use(express.bodyParser(...));
+    app.use(express.cookieParser(...));
+    app.use(express.session(...));
+    app.use(app.router);
+    app.use(express.static(...));
+    app.use(express.errorHandler(...));
+
+First we add _logger()_ so that it may wrap node's _req.end()_ method, providing us with response-time data. Next the request's body will be parsed (if any), followed by cookie parsing and session support, meaning _req.session_ will be defined by the time we hit our routes in _app.router_. If a request such as _GET /javascripts/jquery.js_ is handled by our routes, and we do not call _next()_ then the _static()_ middleware will never see this request, however if were to define a route as shown below, we can record stats, refuse downloads, consume download credits etc.
+
+    var downloads = {};
+
+    app.use(app.router);
+    app.use(express.static(__dirname + '/public'));
+
+    app.get('/*', function(req, res, next){
+      var file = req.params[0];
+      downloads[file] = downloads[file] || 0;
+      downloads[file]++;
+      next();
+    });
+
+
 ### Route Middleware
 
 Routes may utilize route-specific middleware by passing one or more additional callbacks (or arrays) to the method. This feature is extremely useful for restricting access, loading data used by the route etc.
@@ -317,6 +346,8 @@ Commonly used "stacks" of middleware can be passed as an array (_applied recursi
     app.get('/', all, function(){});
 
 For this example in full, view the [route middleware example](http://github.com/visionmedia/express/blob/master/examples/route-middleware/app.js) in the repository.
+
+There are times when we may want to "skip" passed remaining route middleware, but continue matching subsequent routes. To do this we invoke `next()` with the string "route" `next('route')`. If no remaining routes match the request url then Express will respond with 404 Not Found.
 
 ### HTTP Methods
 
@@ -816,7 +847,7 @@ Options may also be passed to the internal _fs.createReadStream()_ call, for exa
       // handle
     });
 
-### res.download(file[, filename[, callback]])
+### res.download(file[, filename[, callback[, callback2]]])
 
 Transfer the given _file_ as an attachment with optional alternative _filename_.
 
@@ -828,10 +859,18 @@ This is equivalent to:
     res.attachment(file);
     res.sendfile(file);
 
-An optional callback may be supplied as either the second or third argument, which is passed to _res.sendfile()_:
+An optional callback may be supplied as either the second or third argument, which is passed to _res.sendfile()_. Within this callback you may still respond, as the header has not been sent.
 
     res.download(path, 'expenses.doc', function(err){
       // handle
+    });
+
+An optional second callback, _callback2_ may be given to allow you to act on connection related errors, however you should not attempt to respond.
+
+    res.download(path, function(err){
+      // error or finished
+    }, function(err){
+      // connection related error
     });
 
 ### res.send(body|status[, headers|status[, status]])
@@ -886,7 +925,7 @@ To parse incoming _Cookie_ headers, use the _cookieParser_ middleware, which pro
       // use req.cookies.rememberme
     });
 
-### res.clearCookie(name)
+### res.clearCookie(name[, options])
 
 Clear cookie _name_ by setting "expires" far in the past.
 
@@ -1145,9 +1184,7 @@ Express also provides a few locals by default:
 
     - `settings`  the app's settings object
     - `filename`  the view's filename
-    - `request`   the request object
-    - `response`  the response object
-    - `app`       the application itself
+    - `layout(path)`  specify the layout from within a view
 
 This method is aliased as _app.locals()_.
 
