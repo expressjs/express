@@ -340,6 +340,8 @@ app.configure('production', function(){
 <li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
 <li><em>view engine</em> Default view engine name for views rendered without extensions</li>
 <li><em>view options</em> An object specifying global view options</li>
+<li><em>view cache</em> Enable view caching (enabled in production)</li>
+<li><em>case sensitive routes</em> Enable case-sensitive routing</li>
 </ul>
 
 
@@ -355,7 +357,7 @@ are available as <code>req.params</code>.</p>
 });
 </code></pre>
 
-<p>A route is simply a string which is compiled to a <em>RegExp</em> internally. For example
+<p>A route is simple a string which is compiled to a <em>RegExp</em> internally. For example
 when <em>/user/:id</em> is compiled, a simplified version of the regexp may look similar to:</p>
 
 <pre><code>\/user\/([^\/]+)\/?
@@ -431,7 +433,7 @@ app.post('/', function(req, res){
 app.listen(3000);
 </code></pre>
 
-<p>Typically we may use a &ldquo;dumb&rdquo; placeholder such as &ldquo;/user/:id&rdquo; which has no restrictions, however say for example we are limiting a user id to digits, we may use <em>&lsquo;/user/:id(\d+)&rsquo;</em> which will <em>not</em> match unless the placeholder value contains only digits.</p>
+<p>Typically we may use a &ldquo;dumb&rdquo; placeholder such as &ldquo;/user/:id&rdquo; which has no restrictions, however say for example we are limiting a user id to digits, we may use <em>&lsquo;/user/:id([0-9]+)&rsquo;</em> which will <em>not</em> match unless the placeholder value contains only digits.</p>
 
 <h3 id="passing-route control">Passing Route Control</h3>
 
@@ -519,6 +521,34 @@ app.use(connect.bodyParser());
 app.use(express.bodyParser());
 </code></pre>
 
+<p>Middleware ordering is important, when Connect receives a request the <em>first</em> middleware we pass to <em>createServer()</em> or <em>use()</em> is executed with three parameters, <em>request</em>, <em>response</em>, and a callback function usually named <em>next</em>. When <em>next()</em> is invoked the second middleware will then have it&rsquo;s turn and so on. This is important to note because many middleware depend on each other, for example <em>methodOverride()</em> checks <em>req.body.</em>method<em> for the HTTP method override, however </em>bodyParser()<em> parses the request body and populates </em>req.body<em>. Another example of this is cookie parsing and session support, we must first </em>use()<em> </em>cookieParser()<em> followed by </em>session()_.</p>
+
+<p>Many Express applications may contain the line <em>app.use(app.router)</em>, while this may appear strange, it&rsquo;s simply the middleware function that contains all defined routes, and performs route lookup based on the current request url and HTTP method. Express allows you to position this middleware, though by default it will be added to the bottom. By positioning the router, we can alter middleware precedence, for example we may want to add error reporting as the <em>last</em> middleware so that any exception passed to <em>next()</em> will be handled by it, or perhaps we want static file serving to have low precedence, allowing our routes to intercept requests to a static file to count downloads etc. This may look a little like below</p>
+
+<pre><code>app.use(express.logger(...));
+app.use(express.bodyParser(...));
+app.use(express.cookieParser(...));
+app.use(express.session(...));
+app.use(app.router);
+app.use(express.static(...));
+app.use(express.errorHandler(...));
+</code></pre>
+
+<p>First we add <em>logger()</em> so that it may wrap node&rsquo;s <em>req.end()</em> method, providing us with response-time data. Next the request&rsquo;s body will be parsed (if any), followed by cookie parsing and session support, meaning <em>req.session</em> will be defined by the time we hit our routes in <em>app.router</em>. If a request such as <em>GET /javascripts/jquery.js</em> is handled by our routes, and we do not call <em>next()</em> then the <em>static()</em> middleware will never see this request, however if were to define a route as shown below, we can record stats, refuse downloads, consume download credits etc.</p>
+
+<pre><code>var downloads = {};
+
+app.use(app.router);
+app.use(express.static(__dirname + '/public'));
+
+app.get('/*', function(req, res, next){
+  var file = req.params[0];
+  downloads[file] = downloads[file] || 0;
+  downloads[file]++;
+  next();
+});
+</code></pre>
+
 <h3 id="route-middleware">Route Middleware</h3>
 
 <p>Routes may utilize route-specific middleware by passing one or more additional callbacks (or arrays) to the method. This feature is extremely useful for restricting access, loading data used by the route etc.</p>
@@ -594,6 +624,8 @@ app.get('/', all, function(){});
 </code></pre>
 
 <p>For this example in full, view the <a href="http://github.com/visionmedia/express/blob/master/examples/route-middleware/app.js">route middleware example</a> in the repository.</p>
+
+<p>There are times when we may want to &ldquo;skip&rdquo; passed remaining route middleware, but continue matching subsequent routes. To do this we invoke <code>next()</code> with the string &ldquo;route&rdquo; <code>next('route')</code>. If no remaining routes match the request url then Express will respond with 404 Not Found.</p>
 
 <h3 id="http-methods">HTTP Methods</h3>
 
@@ -1155,7 +1187,7 @@ an error occurs, or when the transfer is complete. By default failures call <cod
 });
 </code></pre>
 
-<h3 id="res.download()">res.download(file[, filename[, callback]])</h3>
+<h3 id="res.download()">res.download(file[, filename[, callback[, callback2]]])</h3>
 
 <p>Transfer the given <em>file</em> as an attachment with optional alternative <em>filename</em>.</p>
 
@@ -1169,10 +1201,19 @@ res.download('path/to/image.png', 'foo.png');
 res.sendfile(file);
 </code></pre>
 
-<p>An optional callback may be supplied as either the second or third argument, which is passed to <em>res.sendfile()</em>:</p>
+<p>An optional callback may be supplied as either the second or third argument, which is passed to <em>res.sendfile()</em>. Within this callback you may still respond, as the header has not been sent.</p>
 
 <pre><code>res.download(path, 'expenses.doc', function(err){
   // handle
+});
+</code></pre>
+
+<p>An optional second callback, <em>callback2</em> may be given to allow you to act on connection related errors, however you should not attempt to respond.</p>
+
+<pre><code>res.download(path, function(err){
+  // error or finished
+}, function(err){
+  // connection related error
 });
 </code></pre>
 
@@ -1233,7 +1274,7 @@ app.get('/', function(req, res){
 });
 </code></pre>
 
-<h3 id="res.clearcookie()">res.clearCookie(name)</h3>
+<h3 id="res.clearcookie()">res.clearCookie(name[, options])</h3>
 
 <p>Clear cookie <em>name</em> by setting &ldquo;expires&rdquo; far in the past.</p>
 
@@ -1525,9 +1566,7 @@ as well as the <em>name()</em> function exposed.</p>
 
 <pre><code>- `settings`  the app's settings object
 - `filename`  the view's filename
-- `request`   the request object
-- `response`  the response object
-- `app`       the application itself
+- `layout(path)`  specify the layout from within a view
 </code></pre>
 
 <p>This method is aliased as <em>app.locals()</em>.</p>
