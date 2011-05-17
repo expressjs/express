@@ -53,7 +53,7 @@ module.exports = {
       res.send(200);
     });
     
-    app.get('/user/:user', [allow('member')], [[restrictAge(18)]], function(req, res){
+    app.get('/user/:user', [allow('member'), [[restrictAge(18)]]], function(req, res){
       res.send(200);
     });
 
