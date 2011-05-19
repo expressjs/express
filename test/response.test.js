@@ -15,7 +15,7 @@ module.exports = {
     app.get('/html', function(req, res){
       res.send('<p>test</p>', { 'Content-Language': 'en' });
     });
-    
+
     app.get('/json', function(req, res){
       res.header('X-Foo', 'bar');
       res.send({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
@@ -36,6 +36,10 @@ module.exports = {
     
     app.get('/status', function(req, res){
       res.send(404);
+    });
+    
+    app.get('/status/text', function(req, res){
+      res.send('Oh noes!', 404);
     });
     
     app.get('/error', function(req, res){
@@ -122,7 +126,11 @@ module.exports = {
           'Content-Type': 'text/plain'
         , 'X-Foo': 'bar'
       }});
-  
+
+    assert.response(app,
+      { url: '/status/text' },
+      { body: 'Oh noes!', status: 404 });
+
     assert.response(app,
       { url: '/status' },
       { body: 'Not Found'
