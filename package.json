@@ -15,14 +15,14 @@
     "qs": ">= 0.0.6"
   },
   "devDependencies": {
-      "connect-form": "0.2.1" 
-    , "ejs": "0.4.2" 
-    , "expresso": "0.7.2" 
-    , "hamljs": "0.5.1" 
-    , "jade": "0.11.0" 
-    , "jade": "0.13.0" 
-    , "should": "0.2.1" 
-  }
+    "connect-form": "0.2.1",
+    "ejs": "0.4.2",
+    "expresso": "0.7.2",
+    "hamljs": "0.5.1",
+    "jade": "0.11.0",
+    "stylus": "0.13.0",
+    "should": "0.2.1"
+  },
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "repository": "git://github.com/visionmedia/express",
   "main": "index",
