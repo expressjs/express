@@ -1,10 +1,9 @@
 
 ### Development Dependencies
 
-Express development dependencies are stored within the _./support_ directory. To
-update them execute:
+First install the dev dependencies by executing the following command in the repo's directory:
 
-    $ git submodule update --init
+    $ npm install
 
 ### Running Tests
 
