@@ -23,13 +23,18 @@ app.get('/files/:file(*)', function(req, res, next){
   // express handle failures, or provide
   // a callback as shown below
   res.download(path, function(err){
+    // if an error occurs in this callback
+    // the file most likely does not exist,
+    // and it's safe to respond or next(err)
     if (err) return next(err);
-    // the response has invoked .end()
-    // so you cannnot respond here (of course)
-    // but the callback is handy for statistics etc.
+
+    // the file has been transferred, do not respond
+    // from here, though you may use this callback
+    // for stats etc.
     console.log('transferred %s', path);
   }, function(err){
-    
+    // this second optional callback is used when
+    // an error occurs during transmission
   });
 });
 
