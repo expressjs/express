@@ -10,3 +10,4 @@ lib-cov
 *.swo
 benchmarks/graphs
 testing.js
+node_modules/

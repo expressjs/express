@@ -76,6 +76,26 @@ Express 1.x is compatible with node 0.2.x and connect < 1.0.
 
 Express 2.x is compatible with node 0.4.x and connect 1.x
 
+## Viewing Examples
+
+First install the dev dependencies to install all the example / test suite deps:
+
+    $ npm install
+
+then run whichever tests you want:
+
+    $ node examples/jade/app.js
+
+## Running Tests
+
+To run the test suite first invoke the following command within the repo, installing the development dependencies:
+
+    $ npm install
+
+then run the tests:
+
+    $ make test
+
 ## License 
 
 (The MIT License)
