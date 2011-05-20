@@ -1,7 +1,4 @@
 
-// Expose modules in ./support for demo purposes
-require.paths.unshift(__dirname + '/../../support');
-
 /**
  * Module dependencies.
  */
@@ -15,7 +12,7 @@ var app = express.createServer(
   express.logger(),
 
   // Required by session() middleware
-  express.cookieDecoder(),
+  express.cookieParser(),
 
   // Populates:
   //   - req.session

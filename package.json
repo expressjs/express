@@ -23,7 +23,8 @@
     "stylus": "0.13.0",
     "should": "0.2.1",
     "express-messages": "0.0.2",
-    "node-markdown": ">= 0.0.1"
+    "node-markdown": ">= 0.0.1",
+    "connect-redis": ">= 0.0.1"
   },
   "keywords": ["framework", "sinatra", "web", "rest", "restful"],
   "repository": "git://github.com/visionmedia/express",
