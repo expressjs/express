@@ -2,14 +2,14 @@
 // Expose modules in ./support for demo purposes
 require.paths.unshift(__dirname + '/../../support');
 
-// $ npm install markdown
+// $ npm install node-markdown
 
 /**
  * Module dependencies.
  */
 
 var express = require('../../lib/express')
-  , md = require('markdown').markdown;
+  , md = require('node-markdown').Markdown;
 
 var app = express.createServer();
 
@@ -19,7 +19,7 @@ var app = express.createServer();
 
 app.register('.md', {
   compile: function(str, options){
-    var html = md.toHTML(str);
+    var html = md(str);
     return function(locals){
       return html.replace(/\{([^}]+)\}/g, function(_, name){
         return locals[name];
