@@ -1,4 +1,12 @@
 
+2.3.6 / 2011-05-20 
+==================
+
+  * Changed; using devDependencies instead of git submodules
+  * Fixed redis session example
+  * Fixed markdown example
+  * Fixed view caching, should not be enabled in development
+
 2.3.5 / 2011-05-20 
 ==================
 
