@@ -105,6 +105,7 @@ module.exports = {
   'test #render()': function(){
     var app = create();
     app.set('view engine', 'jade');
+    app.register('haml', require('hamljs'));
   
     app.get('/', function(req, res){
       res.render('index.jade', { layout: false });

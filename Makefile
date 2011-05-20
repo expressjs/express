@@ -3,13 +3,8 @@ DOCS = $(shell find docs/*.md)
 HTMLDOCS =$(DOCS:.md=.html)
 
 test:
-	@NODE_ENV=test ./support/expresso/bin/expresso \
+	@NODE_ENV=test ./node_modules/.bin/expresso \
 		-I lib \
-		-I support \
-		-I support/connect/lib \
-		-I support/haml/lib \
-		-I support/jade/lib \
-		-I support/ejs/lib \
 		$(TESTFLAGS) \
 		test/*.test.js
 
