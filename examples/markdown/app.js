@@ -1,9 +1,4 @@
 
-// Expose modules in ./support for demo purposes
-require.paths.unshift(__dirname + '/../../support');
-
-// $ npm install node-markdown
-
 /**
  * Module dependencies.
  */
