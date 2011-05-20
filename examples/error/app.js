@@ -1,7 +1,4 @@
 
-// Expose modules in ./support for demo purposes
-require.paths.unshift(__dirname + '/../../support');
-
 /**
  * Module dependencies.
  */
@@ -26,3 +23,4 @@ app.get('/next', function(req, res, next){
 app.use('/', express.errorHandler({ dump: true, stack: true }));
 
 app.listen(3000);
+console.log('app listening on port 3000');
