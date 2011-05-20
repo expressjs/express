@@ -81,6 +81,14 @@ module.exports = {
       res.send('user ' + req.params.id);
     });
 
+    app.post('/pin/save/:lat(\\d+.\\d+)/:long(\\d+.\\d+)', function(req, res){
+      res.send(req.params.lat + ' ' + req.params.long);
+    });
+
+    assert.response(app,
+      { url: '/pin/save/1.2/3.4', method: 'POST' },
+      { body: '1.2 3.4' });
+
     assert.response(app,
       { url: '/user/12' },
       { body: 'user 12' });
