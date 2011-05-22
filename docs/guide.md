@@ -1,4 +1,3 @@
-
 ### Installation
 
     $ npm install express
@@ -236,7 +235,7 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 
 Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks, in a progressive manor.
 
-    app.use(express.logger({ format: ':method :uri' }));
+    app.use(express.logger({ format: ':method :url' }));
 
 Typically with connect middleware you would _require('connect')_ like so:
 
