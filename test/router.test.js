@@ -117,9 +117,6 @@ module.exports = {
       , { name: 'bandit' }
     ];
 
-    function integer(n){ return parseInt(n, 10); };
-    app.param(['to', 'from'], integer);
-
     app.param('user', function(req, res, next, id){
       if (req.user = users[id]) {
         next();
@@ -132,13 +129,6 @@ module.exports = {
       res.send('user ' + req.user.name);
     });
 
-    app.get('/users/:from-:to', function(req, res, next){
-      var names = users.slice(req.params.from, req.params.to).map(function(user){
-        return user.name;
-      });
-      res.send('users ' + names.join(', '));
-    });
-    
     assert.response(app,
       { url: '/user/0' },
       { body: 'user tj' });
@@ -146,45 +136,6 @@ module.exports = {
     assert.response(app,
       { url: '/user/1' },
       { body: 'user tobi' });
-    
-    assert.response(app,
-      { url: '/users/0-3' },
-      { body: 'users tj, tobi, loki' });
-  },
-  
-  'test .param() ret val': function(){
-    var app = express.createServer();
-
-    app.param('uid', parseInt);
-
-    app.get('/user/:uid', function(req, res, next){
-      var id = req.params.uid;
-      res.send('loaded user ' + id + ' as typeof ' + typeof id);
-    });
-
-    app.param('name', function(name){
-      var captures;
-      if (captures = /^\w[\w\d]+/.exec(name)) {
-        return captures[0];
-      }
-    });
-
-    app.get('/user/:name', function(req, res, next){
-      var name = req.params.name;
-      res.send('loaded user ' + name);
-    });
-
-    assert.response(app,
-      { url: '/user/0' },
-      { body: 'loaded user 0 as typeof number' });
-
-    assert.response(app,
-      { url: '/user/tj' },
-      { body: 'loaded user tj' });
-
-    assert.response(app,
-      { url: '/user/t' },
-      { status: 404 });
   },
   
   'test OPTIONS': function(){
