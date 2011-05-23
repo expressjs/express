@@ -1,4 +1,13 @@
 
+2.3.7 / 2011-05-23 
+==================
+
+  * Added route `Collection`, ex: `app.get('/user/:id').remove();`
+  * Added support for `app.param(fn)` to define param logic
+  * Removed `app.param()` support for callback with return value
+  * Removed module.parent check from express(1) generated app. Closes #670
+  * Refactored router. Closes #639
+
 2.3.6 / 2011-05-20 
 ==================
 
