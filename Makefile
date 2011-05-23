@@ -1,12 +1,13 @@
 
 DOCS = $(shell find docs/*.md)
 HTMLDOCS =$(DOCS:.md=.html)
+TESTS = $(shell find test/*.test.js)
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/expresso \
 		-I lib \
 		$(TESTFLAGS) \
-		test/*.test.js
+		$(TESTS)
 
 test-cov:
 	@TESTFLAGS=--cov $(MAKE) test
