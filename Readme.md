@@ -62,6 +62,7 @@ The following are the major contributors of Express (in no specific order).
   * [express-configure](http://github.com/visionmedia/express-configuration) async configuration support
   * [express-messages](http://github.com/visionmedia/express-messages) flash notification rendering helper
   * [express-namespace](http://github.com/visionmedia/express-namespace) namespaced route support
+  * [express-params](https://github.com/visionmedia/express-params) param pre-condition functions
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
