@@ -155,7 +155,7 @@ module.exports = {
   'test .param() ret val': function(){
     var app = express.createServer();
 
-    app.param('uid', function(id){ return parseInt(id) });
+    app.param('uid', parseInt);
 
     app.get('/user/:uid', function(req, res, next){
       var id = req.params.uid;
