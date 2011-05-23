@@ -152,6 +152,41 @@ module.exports = {
       { body: 'users tj, tobi, loki' });
   },
   
+  'test .param() ret val': function(){
+    var app = express.createServer();
+
+    app.param('uid', function(id){ return parseInt(id) });
+
+    app.get('/user/:uid', function(req, res, next){
+      var id = req.params.uid;
+      res.send('loaded user ' + id + ' as typeof ' + typeof id);
+    });
+
+    app.param('name', function(name){
+      var captures;
+      if (captures = /^\w[\w\d]+/.exec(name)) {
+        return captures[0];
+      }
+    });
+
+    app.get('/user/:name', function(req, res, next){
+      var name = req.params.name;
+      res.send('loaded user ' + name);
+    });
+
+    assert.response(app,
+      { url: '/user/0' },
+      { body: 'loaded user 0 as typeof number' });
+
+    assert.response(app,
+      { url: '/user/tj' },
+      { body: 'loaded user tj' });
+
+    assert.response(app,
+      { url: '/user/t' },
+      { status: 404 });
+  },
+  
   'test OPTIONS': function(){
     var app = express.createServer();
     
