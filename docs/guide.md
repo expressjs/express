@@ -480,14 +480,6 @@ Doing so, as mentioned drastically improves our route readability, and allows us
       res.send('user ' + req.user.name);
     });
 
-For simple cases such as route placeholder validation and coercion we can simple pass a callback which has an arity of 1 (accepts one argument). Any errors thrown will be passed to _next(err)_.
-
-    app.param('number', function(n){ return parseInt(n, 10); });
-
-We may also apply the same callback to several placeholders, for example a route GET _/commits/:from-:to_ are both numbers, so we may define them as an array:
-
-    app.param(['from', 'to'], function(n){ return parseInt(n, 10); });
-
 ### View Rendering
 
 View filenames take the form "&lt;name&gt;.&lt;engine&gt;", where &lt;engine&gt; is the name
