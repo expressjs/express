@@ -668,6 +668,30 @@ module.exports = {
       { body: '<p>two</p>' });
   },
   
+  'test #partial() relative lookup with "view engine"': function(){
+    var app = create();
+    app.set('view engine', 'jade');
+
+    app.get('/', function(req, res, next){
+      res.render('forum/thread', { layout: false });
+    });
+
+    assert.response(app,
+      { url: '/' },
+      { body: '<h1>Forum Thread</h1><p>:(</p>\n<p>Hello World</p>' });
+  },
+
+  'test #partial() relative lookup without "view engine"': function(){
+    var app = create();
+    app.get('/', function(req, res, next){
+      res.render('forum/thread.jade', { layout: false });
+    });
+
+    assert.response(app,
+      { url: '/' },
+      { body: '<h1>Forum Thread</h1><p>:(</p>\n<p>Hello World</p>' });
+  },
+
   'test #partial() with several calls': function(){
     var app = create();
   
