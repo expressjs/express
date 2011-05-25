@@ -691,6 +691,17 @@ module.exports = {
       { url: '/' },
       { body: '<h1>Forum Thread</h1><p>:(</p>\n<p>Hello World</p>' });
   },
+  
+  'test #partial() relative lookup': function(){
+    var app = create();
+    app.get('/', function(req, res, next){
+      res.partial('forum/thread.jade');
+    });
+
+    assert.response(app,
+      { url: '/' },
+      { body: '<h1>Forum Thread</h1><p>:(</p>\n<p>Hello World</p>' });
+  },
 
   'test #partial() with several calls': function(){
     var app = create();
