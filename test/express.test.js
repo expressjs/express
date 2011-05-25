@@ -461,5 +461,17 @@ module.exports = {
     assert.response(app,
       { url: '/another' },
       { body: 'got /another' });
+  },
+  
+  'invalid chars': function(){
+    var app = express.createServer();
+
+    app.get('/:name', function(req, res, next){
+      res.send('invalid');
+    });
+
+    assert.response(app,
+      { url: '/%a0' },
+      { status: 500 });
   }
 };
