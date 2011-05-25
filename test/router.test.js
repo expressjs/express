@@ -74,6 +74,38 @@ module.exports = {
     });
   },
 
+  'test precedence': function(){
+    var app = express.createServer();
+
+    var hits = [];
+
+    app.all('*', function(req, res, next){
+      hits.push('all');
+      next();
+    });
+
+    app.get('/foo', function(req, res, next){
+      hits.push('GET /foo');
+      next();
+    });
+    
+    app.get('/foo', function(req, res, next){
+      hits.push('GET /foo2');
+      next();
+    });
+
+    app.put('/foo', function(req, res, next){
+      hits.push('PUT /foo');
+      next();
+    });
+
+    assert.response(app,
+      { url: '/foo' },
+      function(){
+        hits.should.eql(['all', 'GET /foo', 'GET /foo2']);
+      });
+  },
+
   'test named capture groups': function(){
     var app = express.createServer();
 
