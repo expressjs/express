@@ -676,6 +676,14 @@ module.exports = {
       res.render('forum/thread', { layout: false });
     });
 
+    app.get('/2', function(req, res, next){
+      res.render('forum/../forum/thread', { layout: false });
+    });
+
+    assert.response(app,
+      { url: '/2' },
+      { body: '<h1>Forum Thread</h1><p>:(</p>\n<p>Hello World</p>' });
+
     assert.response(app,
       { url: '/' },
       { body: '<h1>Forum Thread</h1><p>:(</p>\n<p>Hello World</p>' });
@@ -683,9 +691,18 @@ module.exports = {
 
   'test #partial() relative lookup without "view engine"': function(){
     var app = create();
+
     app.get('/', function(req, res, next){
       res.render('forum/thread.jade', { layout: false });
     });
+
+    app.get('/2', function(req, res, next){
+      res.render('forum/../forum/thread.jade', { layout: false });
+    });
+
+    assert.response(app,
+      { url: '/2' },
+      { body: '<h1>Forum Thread</h1><p>:(</p>\n<p>Hello World</p>' });
 
     assert.response(app,
       { url: '/' },
