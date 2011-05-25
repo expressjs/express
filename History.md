@@ -1,5 +1,15 @@
 
-2.3.7 / 2011-05-23 
+2.3.9 / 2011-05-25 
+==================
+
+  * Fixed bug-ish with `../' in `res.partial()` calls
+
+2.3.8 / 2011-05-24
+==================
+
+  * Fixed `app.options()`
+
+2.3.7 / 2011-05-23
 ==================
 
   * Added route `Collection`, ex: `app.get('/user/:id').remove();`
