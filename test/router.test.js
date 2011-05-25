@@ -277,5 +277,26 @@ module.exports = {
     assert.response(app,
       { url: '/Account' },
       { body: 'Account' });
+  },
+  
+  'override OPTIONS default': function(){
+    var app = express.createServer();
+
+    app.get('/', function(req, res, next){
+      
+    });
+
+    app.options('/foo', function(req, res, next){
+      res.header('Allow', 'GET')
+      res.send('whatever');
+    });
+
+    assert.response(app,
+      { url: '/', method: 'OPTIONS' },
+      { body: 'GET', headers: { Allow: 'GET' }});
+
+    assert.response(app,
+      { url: '/foo', method: 'OPTIONS' },
+      { body: 'whatever', headers: { Allow: 'GET' }});
   }
 };
