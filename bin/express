@@ -343,6 +343,21 @@ function createApplicationAt(path) {
     // Template support
     app = app.replace(':TEMPLATE', templateEngine);
 
+    // package.json
+    var json = '{\n';
+    json += '    "name": "application-name"\n';
+    json += '  , "version": "0.0.1"\n';
+    json += '  , "private": true\n';
+    if (cssEngine || templateEngine) {
+      var comma = cssEngine ? ' ,' : '';
+      json += '  , "dependencies": {\n';
+      if (cssEngine) json += '      "' + cssEngine + '": ">= 0.0.1"\n';
+      if (templateEngine) json += '   ' + comma + ' "' + templateEngine + '": ">= 0.0.1"\n';
+      json += '  }\n';
+    }
+    json += '}';
+
+    write(path + '/package.json', json);
     write(path + '/app.js', app);
   });
 }
