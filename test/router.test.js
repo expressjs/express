@@ -138,7 +138,7 @@ module.exports = {
       { body: 'Cannot GET /user/ab' });
   },
   
-  'test .param()': function(){
+  'test app.param()': function(){
     var app = express.createServer();
 
     var users = [
@@ -168,6 +168,35 @@ module.exports = {
     assert.response(app,
       { url: '/user/1' },
       { body: 'user tobi' });
+  },
+
+  'test app.param() optional execution': function(beforeExit){
+    var app = express.createServer()
+      , calls = 0;
+
+    var months = ['Jan', 'Feb', 'Mar'];
+
+    app.param('month', function(req, res, next, n){
+      req.params.month = months[n];
+      ++calls;
+      next();
+    });
+
+    app.get('/calendar/:month?', function(req, res, next){
+      res.send(req.params.month || months[0]);
+    });
+
+    assert.response(app,
+      { url: '/calendar' },
+      { body: 'Jan' });
+
+    assert.response(app,
+      { url: '/calendar/1' },
+      { body: 'Feb' });
+
+    beforeExit(function(){
+      calls.should.equal(1);
+    });
   },
   
   'test OPTIONS': function(){
