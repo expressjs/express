@@ -229,7 +229,7 @@ module.exports = {
     route.path.should.equal('/user/:id');
     route.regexp.should.be.an.instanceof(RegExp);
     route.method.should.equal('get');
-    route.keys.should.eql(['id']);
+    route.keys.should.eql([{ name: 'id', optional: false }]);
 
     app.get('/user').should.have.length(1);
     app.get('/user/:id').should.have.length(1);
@@ -291,7 +291,7 @@ module.exports = {
     route.path.should.equal('/user/:id');
     route.regexp.should.be.an.instanceof(RegExp);
     route.method.should.equal('get');
-    route.keys.should.eql(['id']);
+    route.keys.should.eql([{ name: 'id', optional: false }]);
     //route.params.id.should.equal('12');
 
     app.match.get('/user').should.have.length(1);
