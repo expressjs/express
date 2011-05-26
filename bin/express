@@ -344,18 +344,6 @@ function createApplicationAt(path) {
     app = app.replace(':TEMPLATE', templateEngine);
 
     write(path + '/app.js', app);
-
-    // Suggestions
-    process.on('exit', function(){
-      if (cssEngine) {
-        console.log('   - make sure you have installed %s: \x1b[33m$ npm install %s\x1b[0m'
-          , cssEngine
-          , cssEngine);
-      }
-      console.log('   - make sure you have installed %s: \x1b[33m$ npm install %s\x1b[0m'
-        , templateEngine
-        , templateEngine);
-    });
   });
 }
 
