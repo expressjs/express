@@ -343,19 +343,22 @@ function createApplicationAt(path) {
     // Template support
     app = app.replace(':TEMPLATE', templateEngine);
 
-    write(path + '/app.js', app);
+    // package.json
+    var json = '{\n';
+    json += '    "name": "application-name"\n';
+    json += '  , "version": "0.0.1"\n';
+    json += '  , "private": true\n';
+    if (cssEngine || templateEngine) {
+      var comma = cssEngine ? ' ,' : '';
+      json += '  , "dependencies": {\n';
+      if (cssEngine) json += '      "' + cssEngine + '": ">= 0.0.1"\n';
+      if (templateEngine) json += '   ' + comma + ' "' + templateEngine + '": ">= 0.0.1"\n';
+      json += '  }\n';
+    }
+    json += '}';
 
-    // Suggestions
-    process.on('exit', function(){
-      if (cssEngine) {
-        console.log('   - make sure you have installed %s: \x1b[33m$ npm install %s\x1b[0m'
-          , cssEngine
-          , cssEngine);
-      }
-      console.log('   - make sure you have installed %s: \x1b[33m$ npm install %s\x1b[0m'
-        , templateEngine
-        , templateEngine);
-    });
+    write(path + '/package.json', json);
+    write(path + '/app.js', app);
   });
 }
 
