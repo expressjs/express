@@ -1,4 +1,11 @@
 
+2.3.10 / 2011-05-27 
+==================
+
+  * Added `req.route`, exposing the current route
+  * Added _package.json_ generation support to `express(1)`
+  * Fixed call to `app.param()` function for optional params. Closes #682
+
 2.3.9 / 2011-05-25 
 ==================
 
