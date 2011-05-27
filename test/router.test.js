@@ -359,5 +359,27 @@ module.exports = {
     assert.response(app,
       { url: '/foo', method: 'OPTIONS' },
       { body: 'whatever', headers: { Allow: 'GET' }});
+  },
+  
+  'test req.route': function(){
+    var app = express.createServer();
+
+    var routes = [];
+
+    app.get('/:foo?', function(req, res, next){
+      routes.push(req.route.path);
+      next();
+    });
+
+    app.get('/foo', function(req, res, next){
+      routes.push(req.route.path);
+      next();
+    });
+
+    assert.response(app,
+      { url: '/foo' },
+      function(){
+        routes.should.eql(['/:foo?', '/foo']);
+      });
   }
 };
