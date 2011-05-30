@@ -30,5 +30,8 @@
   "repository": "git://github.com/visionmedia/express",
   "main": "index",
   "bin": { "express": "./bin/express" },
+  "scripts": {
+    "test": "make test"
+  },
   "engines": { "node": ">= 0.4.1 < 0.5.0" }
 }
