@@ -349,10 +349,10 @@ function createApplicationAt(path) {
     json += '  , "version": "0.0.1"\n';
     json += '  , "private": true\n';
     if (cssEngine || templateEngine) {
-      var comma = cssEngine ? ' ,' : '';
       json += '  , "dependencies": {\n';
-      if (cssEngine) json += '      "' + cssEngine + '": ">= 0.0.1"\n';
-      if (templateEngine) json += '   ' + comma + ' "' + templateEngine + '": ">= 0.0.1"\n';
+      json += '      "express": "' + version + '"\n';
+      if (cssEngine) json += '    , "' + cssEngine + '": ">= 0.0.1"\n';
+      if (templateEngine) json += '    , "' + templateEngine + '": ">= 0.0.1"\n';
       json += '  }\n';
     }
     json += '}';
