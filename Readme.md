@@ -20,7 +20,7 @@ or to access the `express(1)` executable install globally:
 
     $ npm install -g express
 
-## Getting Started
+## Quick Start
 
  The quickest way to get started with express is to utilize the executable `express(1)` to generate an application as shown below:
 
