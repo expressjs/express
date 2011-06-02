@@ -255,6 +255,31 @@
 <pre><code>$ npm install express
 </code></pre>
 
+<p>or to access the <code>express(1)</code> executable install globally:</p>
+
+<pre><code>$ npm install -g express
+</code></pre>
+
+<h2>Quick Start</h2>
+
+<p> The quickest way to get started with express is to utilize the executable <code>express(1)</code> to generate an application as shown below:</p>
+
+<p> Create the app:</p>
+
+<pre><code>$ npm install -g express
+$ express /tmp/foo &amp;&amp; cd /tmp/foo
+</code></pre>
+
+<p> Install dependencies:</p>
+
+<pre><code>$ npm install -d
+</code></pre>
+
+<p> Start the server:</p>
+
+<pre><code>$ node app.js
+</code></pre>
+
 <h3 id="creating-a server">Creating A Server</h3>
 
 <p> To create an instance of the <em>express.HTTPServer</em>, simply invoke the <em>createServer()</em> method. With our instance <em>app</em> we can then define routes based on the HTTP verbs, in this example <em>app.get()</em>.</p>
@@ -505,7 +530,7 @@ var app = express.createServer(
 
 <p>Alternatively we can <em>use()</em> them which is useful when adding middleware within <em>configure()</em> blocks, in a progressive manor.</p>
 
-<pre><code>app.use(express.logger({ format: ':method :uri' }));
+<pre><code>app.use(express.logger({ format: ':method :url' }));
 </code></pre>
 
 <p>Typically with connect middleware you would <em>require(&lsquo;connect&rsquo;)</em> like so:</p>
@@ -770,16 +795,6 @@ is present, which is useful for developing apps that rely heavily on client-side
 <pre><code>app.get('/user/:userId', function(req, res){
   res.send('user ' + req.user.name);
 });
-</code></pre>
-
-<p>For simple cases such as route placeholder validation and coercion we can simple pass a callback which has an arity of 1 (accepts one argument). Any errors thrown will be passed to <em>next(err)</em>.</p>
-
-<pre><code>app.param('number', function(n){ return parseInt(n, 10); });
-</code></pre>
-
-<p>We may also apply the same callback to several placeholders, for example a route GET <em>/commits/:from-:to</em> are both numbers, so we may define them as an array:</p>
-
-<pre><code>app.param(['from', 'to'], function(n){ return parseInt(n, 10); });
 </code></pre>
 
 <h3 id="view-rendering">View Rendering</h3>

@@ -1,7 +1,27 @@
-
 ### Installation
 
     $ npm install express
+
+or to access the `express(1)` executable install globally:
+
+    $ npm install -g express
+
+## Quick Start
+
+ The quickest way to get started with express is to utilize the executable `express(1)` to generate an application as shown below:
+
+ Create the app:
+
+    $ npm install -g express
+    $ express /tmp/foo && cd /tmp/foo
+
+ Install dependencies:
+
+    $ npm install -d
+
+ Start the server:
+
+    $ node app.js
 
 ### Creating A Server
 
@@ -236,7 +256,7 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 
 Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks, in a progressive manor.
 
-    app.use(express.logger({ format: ':method :uri' }));
+    app.use(express.logger({ format: ':method :url' }));
 
 Typically with connect middleware you would _require('connect')_ like so:
 
@@ -480,14 +500,6 @@ Doing so, as mentioned drastically improves our route readability, and allows us
     app.get('/user/:userId', function(req, res){
       res.send('user ' + req.user.name);
     });
-
-For simple cases such as route placeholder validation and coercion we can simple pass a callback which has an arity of 1 (accepts one argument). Any errors thrown will be passed to _next(err)_.
-
-    app.param('number', function(n){ return parseInt(n, 10); });
-
-We may also apply the same callback to several placeholders, for example a route GET _/commits/:from-:to_ are both numbers, so we may define them as an array:
-
-    app.param(['from', 'to'], function(n){ return parseInt(n, 10); });
 
 ### View Rendering
 
