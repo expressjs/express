@@ -11,7 +11,7 @@ var app = express.createServer(
   express.favicon(),
 
   // Custom logger format
-  express.logger({ format: '\x1b[1m:method\x1b[0m \x1b[33m:url\x1b[0m :response-time' }),
+  express.logger({ format: '\x1b[36m:method\x1b[0m \x1b[90m:url\x1b[0m :response-time' }),
 
   // Provides req.cookies
   express.cookieParser(),
@@ -36,8 +36,9 @@ app.get('/forget', function(req, res){
 });
 
 app.post('/', function(req, res){
+  var minute = 60000;
   if (req.body.remember) {
-    res.cookie('remember', '1', { path: '/', expires: new Date(Date.now() + 900000), httpOnly: true });
+    res.cookie('remember', 1, { maxAge: minute, path: '/' });
   }
   res.redirect('back');
 });
