@@ -150,33 +150,6 @@ var stylus = [
 ].join('\n');
 
 /**
- * App test template.
- */
-
-var appTest = [
-    ""
-  , "// Run $ expresso"
-  , ""
-  , "/**"
-  , " * Module dependencies."
-  , " */"
-  , ""
-  , "var app = require('../app')"
-  , "  , assert = require('assert');"
-  , "",
-  , "module.exports = {"
-  , "  'GET /': function(){"
-  , "    assert.response(app,"
-  , "      { url: '/' },"
-  , "      { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' }},"
-  , "      function(res){"
-  , "        assert.includes(res.body, '<title>Express</title>');"
-  , "      });"
-  , "  }"
-  , "};"
-].join('\n');
-
-/**
  * App template.
  */
 
@@ -318,9 +291,6 @@ function createApplicationAt(path) {
           break;
       }
     });
-    mkdir(path + '/test', function(){
-      write(path + '/test/app.test.js', appTest);
-    });
 
     // CSS Engine support
     switch (cssEngine) {
@@ -352,9 +322,6 @@ function createApplicationAt(path) {
     json += '      "express": "' + version + '"\n';
     if (cssEngine) json += '    , "' + cssEngine + '": ">= 0.0.1"\n';
     if (templateEngine) json += '    , "' + templateEngine + '": ">= 0.0.1"\n';
-    json += '  }\n';
-    json += '  , "devDependencies": {\n'
-    json += '    "expresso": "0.7.x"\n';
     json += '  }\n';
     json += '}';
 
