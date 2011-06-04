@@ -348,14 +348,16 @@ function createApplicationAt(path) {
     json += '    "name": "application-name"\n';
     json += '  , "version": "0.0.1"\n';
     json += '  , "private": true\n';
-    if (cssEngine || templateEngine) {
-      json += '  , "dependencies": {\n';
-      json += '      "express": "' + version + '"\n';
-      if (cssEngine) json += '    , "' + cssEngine + '": ">= 0.0.1"\n';
-      if (templateEngine) json += '    , "' + templateEngine + '": ">= 0.0.1"\n';
-      json += '  }\n';
-    }
+    json += '  , "dependencies": {\n';
+    json += '      "express": "' + version + '"\n';
+    if (cssEngine) json += '    , "' + cssEngine + '": ">= 0.0.1"\n';
+    if (templateEngine) json += '    , "' + templateEngine + '": ">= 0.0.1"\n';
+    json += '  }\n';
+    json += '  , "devDependencies": {\n'
+    json += '    "expresso": "0.7.x"\n';
+    json += '  }\n';
     json += '}';
+
 
     write(path + '/package.json', json);
     write(path + '/app.js', app);
