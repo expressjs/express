@@ -1,4 +1,12 @@
 
+2.3.11 / 2011-06-04 
+==================
+
+  * Added `npm test`
+  * Removed generation of dummy test file from `express(1)`
+  * Fixed; `express(1)` adds express as a dep
+  * Fixed; prune on `prepublish`
+
 2.3.10 / 2011-05-27 
 ==================
 
