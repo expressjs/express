@@ -26,6 +26,12 @@ var sessions = false;
 var cssEngine;
 
 /**
+ * Intial port to listen on
+ */
+
+var portNumber = '3000';
+
+/**
  * Template engine to utilize.
  */
 
@@ -44,6 +50,7 @@ var usage = ''
   + '    -t, --template <engine>  add template <engine> support (jade|ejs). default=jade\n'
   + '    -c, --css <engine>       add stylesheet <engine> support (less|sass|stylus). default=plain css\n'
   + '    -v, --version            output framework version\n'
+  + '    -p, --port               modify port, defaults to 3000\n'
   + '    -h, --help               output help information\n'
   ;
 
@@ -222,6 +229,12 @@ while (args.length) {
         ? (cssEngine = args.shift())
         : abort('--css requires an argument');
       break;
+    case '-p':
+    case '--port':
+      args.length
+        ? (portNumber = args.shift())
+        : abort('--port requires an argument');
+      break;
     case '-t':
     case '--template':
       args.length
@@ -304,6 +317,10 @@ function createApplicationAt(path) {
       default:
         app = app.replace('{css}', '');
     }
+    
+    // Change port number if provided/not 3000
+    (portNumber != 3000) && (app = app.replace('app.listen(3000);', 'app.listen('+portNumber+');') )
+    
 
     // Session support
     app = app.replace('{sess}', sessions
