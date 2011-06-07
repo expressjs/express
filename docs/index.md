@@ -50,3 +50,4 @@ The following modules compliment or extend Express directly:
   * View the [examples](http://github.com/visionmedia/express/tree/master/examples/)
   * View the [source](http://github.com/visionmedia/express)
   * View the [contrib guide](contrib.html)
+  * Japanese [documentation](http://hideyukisaito.com/doc/expressjs/) by [hideyukisaito](https://github.com/hideyukisaito)

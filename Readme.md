@@ -84,6 +84,7 @@ The following are the major contributors of Express (in no specific order).
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
+  * Japanese [documentation](http://hideyukisaito.com/doc/expressjs/) by [hideyukisaito](https://github.com/hideyukisaito)
   * Screencast - [Introduction](http://bit.ly/eRYu0O)
   * Screencast - [View Partials](http://bit.ly/dU13Fx)
   * Screencast - [Route Specific Middleware](http://bit.ly/hX4IaH)
