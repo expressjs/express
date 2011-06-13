@@ -123,7 +123,7 @@ However now we have the alternative _maxAge_ property which may be used to set _
 
 ### partial() locals
 
- Both _res.partial()_ and the _partial()_ functions accept an single object consisting of both the options and the locals. Previously with Express 1.x you may pass _user_ to a partial, along with _date_ like so:
+ Both _res.partial()_ and the _partial()_ functions accept a single object consisting of both the options and the locals. Previously with Express 1.x you may pass _user_ to a partial, along with _date_ like so:
  
        partial('user', { object: user, locals: { date: new Date }})
 
@@ -157,7 +157,7 @@ or perhaps if you preferred not to use the inferred name _user_ you may used a l
 
 ### View Partial Lookup
 
- Previously partials were loaded relative to the now removed _view partials_ directory setting, or by default _views/partials_, now they are relative to the view calling them, read more on [view lookup](guide.html#View-Lookup).
+ Previously partials were loaded relative to the now removed _view partials_ directory setting, or by default _views/partials_, now they are relative to the view calling them, read more on [view lookup](guide.html#view-lookup).
 
 ### Mime Types
 
@@ -174,4 +174,4 @@ or perhaps if you preferred not to use the inferred name _user_ you may used a l
 Previously when using options the `root` option would be used for this:
 
      app.use(express.staticProvider({ root: __dirname + '/public', maxAge: oneYear }));
-     
+
