@@ -303,5 +303,36 @@ module.exports = {
     assert.response(app,
       { url: '/incorrect', headers: { Referer: 'expressjs.com' }},
       { body: 'expressjs.com' });
+  },
+  
+  'test #get(field, param)': function(){
+    var app = express.createServer();
+
+    app.get('/', function(req, res, next){
+      req.get('content-disposition', 'filename')
+        .should.equal('foo bar.jpg');
+
+      req.get('Content-Disposition', 'filename')
+        .should.equal('foo bar.jpg');
+
+      req.get('x-content-foo', 'foo').should.equal('bar');
+      req.get('x-content-foo', 'bar').should.equal('foo bar baz');
+      req.get('x-content-foo', 'woot').should.equal('tobi loki jane');
+      req.get('cache-control', 'max-age').should.equal('500');
+
+      req.get('foo').should.equal('');
+      req.get('foo', 'bar').should.equal('');
+      res.end();
+    });
+
+    var fields = {
+        'Content-Disposition': 'attachment; filename="foo bar.jpg"'
+      , 'X-Content-Foo': 'foo=bar; bar=foo bar baz; woot=tobi loki jane;'
+      , 'Cache-Control': 'max-age =   500'
+    };
+
+    assert.response(app,
+      { url: '/', headers: fields },
+      { body: '' });
   }
 };
