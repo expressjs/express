@@ -753,6 +753,17 @@ To utilize urlencoded request bodies, _req.body_
 should be an object. This can be done by using
 the _express.bodyParser middleware.
 
+### req.get(field, param)
+
+ Get _field_'s _param_ value, defaulting to '' when the _param_
+ or _field_ is not present.
+
+     req.get('content-disposition', 'filename');
+     // => "something.png"
+
+     req.get('Content-Type', 'boundary');
+     // => "--foo-bar-baz"
+
 ### req.flash(type[, msg])
 
 Queue flash _msg_ of the given _type_.
