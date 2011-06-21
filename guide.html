@@ -202,6 +202,7 @@
 <li><a href="#req.accepts()">accepts()</a></li>
 <li><a href="#req.is()">is()</a></li>
 <li><a href="#req.param()">param()</a></li>
+<li><a href="#req.get()">get()</a></li>
 <li><a href="#req.flash()">flash()</a></li>
 <li><a href="#req.isxmlhttprequest">isXMLHttpRequest</a></li>
 </ul></li>
@@ -931,14 +932,14 @@ app.use(express.session({ secret: "keyboard cat" }));
 
 <p>By default the <em>session</em> middleware uses the memory store bundled with Connect, however many implementations exist. For example <a href="http://github.com/visionmedia/connect-redis">connect-redis</a> supplies a <a href="http://code.google.com/p/redis/">Redis</a> session store and can be used as shown below:</p>
 
-<pre><code>var RedisStore = require('connect-redis');
+<pre><code>var RedisStore = require('connect-redis')(express);
 app.use(express.cookieParser());
 app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
 </code></pre>
 
 <p>Now the <em>req.session</em> and <em>req.sessionStore</em> properties will be accessible to all routes and subsequent middleware. Properties on <em>req.session</em> are automatically saved on a response, so for example if we wish to shopping cart data:</p>
 
-<pre><code>var RedisStore = require('connect-redis');
+<pre><code>var RedisStore = require('connect-redis')(express);
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
@@ -1081,6 +1082,18 @@ can perform any request assertion you wish.</p>
 <p>To utilize urlencoded request bodies, <em>req.body</em>
 should be an object. This can be done by using
 the _express.bodyParser middleware.</p>
+
+<h3 id="req.get()">req.get(field, param)</h3>
+
+<p> Get <em>field</em>&rsquo;s <em>param</em> value, defaulting to &lsquo;&rsquo; when the <em>param</em>
+ or <em>field</em> is not present.</p>
+
+<pre><code> req.get('content-disposition', 'filename');
+ // =&gt; "something.png"
+
+ req.get('Content-Type', 'boundary');
+ // =&gt; "--foo-bar-baz"
+</code></pre>
 
 <h3 id="req.flash()">req.flash(type[, msg])</h3>
 

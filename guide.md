@@ -615,13 +615,13 @@ Sessions support can be added by using Connect's _session_ middleware. To do so 
 
 By default the _session_ middleware uses the memory store bundled with Connect, however many implementations exist. For example [connect-redis](http://github.com/visionmedia/connect-redis) supplies a [Redis](http://code.google.com/p/redis/) session store and can be used as shown below:
 
-    var RedisStore = require('connect-redis');
+    var RedisStore = require('connect-redis')(express);
     app.use(express.cookieParser());
     app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
 
 Now the _req.session_ and _req.sessionStore_ properties will be accessible to all routes and subsequent middleware. Properties on _req.session_ are automatically saved on a response, so for example if we wish to shopping cart data:
 
-    var RedisStore = require('connect-redis');
+    var RedisStore = require('connect-redis')(express);
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
@@ -752,6 +752,17 @@ Return the value of param _name_ when present or _default_.
 To utilize urlencoded request bodies, _req.body_
 should be an object. This can be done by using
 the _express.bodyParser middleware.
+
+### req.get(field, param)
+
+ Get _field_'s _param_ value, defaulting to '' when the _param_
+ or _field_ is not present.
+
+     req.get('content-disposition', 'filename');
+     // => "something.png"
+
+     req.get('Content-Type', 'boundary');
+     // => "--foo-bar-baz"
 
 ### req.flash(type[, msg])
 

@@ -40,13 +40,22 @@ The following modules compliment or extend Express directly:
   * [express-messages](http://github.com/visionmedia/express-messages) flash message notification rendering
   * [express-configure](http://github.com/visionmedia/express-configuration) async configuration support (load settings from redis etc)
   * [express-namespace](http://github.com/visionmedia/express-namespace) namespaced routing support
+  * [express-expose](http://github.com/visionmedia/express-expose) expose 
+  * [express-params](https://github.com/visionmedia/express-params) param 
+  * [express-mongoose](https://github.com/LearnBoost/express-mongoose) plugin 
 
 ## More Information
 
-  * [Google Group](http://groups.google.com/group/express-js) for discussion
+  * #express on freenode
+objects, functions, modules and more to client-side js with ease
+namespaced route support
+pre-condition functions
+for easy rendering of Mongoose async Query results
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
-  * View the [Connect](http://senchalabs.github.com/connect) documentation
-  * View the [Connect Wiki](http://wiki.github.com/senchalabs/connect/) for contrib middleware
-  * View the [examples](http://github.com/visionmedia/express/tree/master/examples/)
-  * View the [source](http://github.com/visionmedia/express)
-  * View the [contrib guide](contrib.html)
+  * [Google Group](http://groups.google.com/group/express-js) for discussion
+  * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
+  * [日本語ドキュメンテーション](http://hideyukisaito.com/doc/expressjs/) by [hideyukisaito](https://github.com/hideyukisaito)
+  * Screencast - [Introduction](http://bit.ly/eRYu0O)
+  * Screencast - [View Partials](http://bit.ly/dU13Fx)
+  * Screencast - [Route Specific Middleware](http://bit.ly/hX4IaH)
+  * Screencast - [Route Path Placeholder Preconditions](http://bit.ly/eNqmVs)
