@@ -202,6 +202,7 @@
 <li><a href="#req.accepts()">accepts()</a></li>
 <li><a href="#req.is()">is()</a></li>
 <li><a href="#req.param()">param()</a></li>
+<li><a href="#req.get()">get()</a></li>
 <li><a href="#req.flash()">flash()</a></li>
 <li><a href="#req.isxmlhttprequest">isXMLHttpRequest</a></li>
 </ul></li>
@@ -1081,6 +1082,18 @@ can perform any request assertion you wish.</p>
 <p>To utilize urlencoded request bodies, <em>req.body</em>
 should be an object. This can be done by using
 the _express.bodyParser middleware.</p>
+
+<h3 id="req.get()">req.get(field, param)</h3>
+
+<p> Get <em>field</em>&rsquo;s <em>param</em> value, defaulting to &lsquo;&rsquo; when the <em>param</em>
+ or <em>field</em> is not present.</p>
+
+<pre><code> req.get('content-disposition', 'filename');
+ // =&gt; "something.png"
+
+ req.get('Content-Type', 'boundary');
+ // =&gt; "--foo-bar-baz"
+</code></pre>
 
 <h3 id="req.flash()">req.flash(type[, msg])</h3>
 

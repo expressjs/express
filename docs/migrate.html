@@ -326,7 +326,7 @@
 
 <h3>partial() locals</h3>
 
-<p> Both <em>res.partial()</em> and the <em>partial()</em> functions accept an single object consisting of both the options and the locals. Previously with Express 1.x you may pass <em>user</em> to a partial, along with <em>date</em> like so:</p>
+<p> Both <em>res.partial()</em> and the <em>partial()</em> functions accept a single object consisting of both the options and the locals. Previously with Express 1.x you may pass <em>user</em> to a partial, along with <em>date</em> like so:</p>
 
 <pre><code>   partial('user', { object: user, locals: { date: new Date }})
 </code></pre>
@@ -367,7 +367,7 @@
 
 <h3>View Partial Lookup</h3>
 
-<p> Previously partials were loaded relative to the now removed <em>view partials</em> directory setting, or by default <em>views/partials</em>, now they are relative to the view calling them, read more on <a href="guide.html#View-Lookup">view lookup</a>.</p>
+<p> Previously partials were loaded relative to the now removed <em>view partials</em> directory setting, or by default <em>views/partials</em>, now they are relative to the view calling them, read more on <a href="guide.html#view-lookup">view lookup</a>.</p>
 
 <h3>Mime Types</h3>
 
