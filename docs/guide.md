@@ -615,13 +615,13 @@ Sessions support can be added by using Connect's _session_ middleware. To do so 
 
 By default the _session_ middleware uses the memory store bundled with Connect, however many implementations exist. For example [connect-redis](http://github.com/visionmedia/connect-redis) supplies a [Redis](http://code.google.com/p/redis/) session store and can be used as shown below:
 
-    var RedisStore = require('connect-redis');
+    var RedisStore = require('connect-redis')(express);
     app.use(express.cookieParser());
     app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
 
 Now the _req.session_ and _req.sessionStore_ properties will be accessible to all routes and subsequent middleware. Properties on _req.session_ are automatically saved on a response, so for example if we wish to shopping cart data:
 
-    var RedisStore = require('connect-redis');
+    var RedisStore = require('connect-redis')(express);
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
