@@ -40,17 +40,13 @@ The following modules compliment or extend Express directly:
   * [express-messages](http://github.com/visionmedia/express-messages) flash message notification rendering
   * [express-configure](http://github.com/visionmedia/express-configuration) async configuration support (load settings from redis etc)
   * [express-namespace](http://github.com/visionmedia/express-namespace) namespaced routing support
-  * [express-expose](http://github.com/visionmedia/express-expose) expose 
-  * [express-params](https://github.com/visionmedia/express-params) param 
-  * [express-mongoose](https://github.com/LearnBoost/express-mongoose) plugin 
+  * [express-expose](http://github.com/visionmedia/express-expose) expose objects, functions, modules and more to client-side js
+  * [express-params](https://github.com/visionmedia/express-params) app.param() extensions
+  * [express-mongoose](https://github.com/LearnBoost/express-mongoose) plugin for easy rendering of Mongoose async Query results 
 
 ## More Information
 
-  * #express on freenode
-objects, functions, modules and more to client-side js with ease
-namespaced route support
-pre-condition functions
-for easy rendering of Mongoose async Query results
+  * \#express on freenode
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
