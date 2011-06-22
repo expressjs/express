@@ -1,4 +1,16 @@
 
+2.3.12 / 2011-06-22 
+==================
+
+  * \#express is now on freenode! come join!
+  * Added `req.get(field, param)`
+  * Added links to Japanese documentation, thanks @hideyukisaito!
+  * Added; the `express(1)` generated app outputs the env
+  * Added `content-negotiation` example
+  * Dependency: connect >= 1.5.1 < 2.0.0
+  * Fixed view layout bug. Closes #720
+  * Fixed; ignore body on 304. Closes #701
+
 2.3.11 / 2011-06-04 
 ==================
 
