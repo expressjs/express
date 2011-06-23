@@ -35,16 +35,15 @@ var users = {
   tj: {
     name: 'tj'
     , salt: 'randomly-generated-salt'
-    , pass: md5('foobar' + 'randomly-generated-salt')
+    , pass: hash('foobar', 'randomly-generated-salt')
   }
 };
 
 // Used to generate a hash of the plain-text password + salt
 
-function md5(str) {
-  return crypto.createHash('md5').update(str).digest('hex');
+function hash(msg, key) {
+  return crypto.createHmac('sha256', key).update(msg).digest('hex');
 }
-
 // Authenticate using our plain-object database of doom!
 
 function authenticate(name, pass, fn) {
@@ -52,9 +51,9 @@ function authenticate(name, pass, fn) {
   // query the db for the given username
   if (!user) return fn(new Error('cannot find user'));
   // apply the same algorithm to the POSTed password, applying
-  // the md5 against the pass / salt, if there is a match we
+  // the hash against the pass / salt, if there is a match we
   // found the user
-  if (user.pass == md5(pass + user.salt)) return fn(null, user);
+  if (user.pass == hash(pass, user.salt)) return fn(null, user);
   // Otherwise password is invalid
   fn(new Error('invalid password'));
 }
