@@ -7,6 +7,55 @@ var express = require('../../lib/express');
 
 var app = express.createServer();
 
+// configuration
+
+// if we wanted to supply more than JSON, we could
+// use something similar to the content-negotiation
+// example.
+
+// here we validate the API key,
+// by mounting this middleware to /api/v1
+// meaning only paths prefixed with "/api/v1"
+// will cause this middleware to be invoked
+
+app.use('/api/v1', function(req, res, next){
+  var key = req.query['api-key'];
+
+  // key isnt present
+  if (!key) return next(new Error('api key required'));
+
+  // key is invalid
+  if (!~apiKeys.indexOf(key)) return next(new Error('invalid api key'));
+
+  // all good, store req.key for route access
+  req.key = key;
+  next();
+});
+
+// position our routes above the error handling middleware,
+// and below our API middleware, since we want the API validation
+// to take place BEFORE our routes
+app.use(app.router);
+
+// middleware with an arity of 4 are considered
+// error handling middleware. When you next(err)
+// it will be passed through the defined middleware
+// in order, but ONLY those with an arity of 4, ignoring
+// regular middleware.
+app.use(function(err, req, res, next){
+  // whatever you want here, feel free to populate
+  // properties on `err` to treat it differently in here,
+  // or when you next(err) set res.statusCode= etc.
+  res.send({ error: err.message }, 500);
+});
+
+// our custom JSON 404 middleware. Since it's placed last
+// it will be the last middleware called, if all others
+// invoke next() and do not respond.
+app.use(function(req, res){
+  res.send({ error: "Lame, can't find that" }, 404);
+});
+
 /**
  * Generate our unique identifier.
  */
@@ -49,29 +98,6 @@ var userRepos = {
   , jane: [repos[2]]
 };
 
-// if we wanted to supply more than JSON, we could
-// use something similar to the content-negotiation
-// example.
-
-// here we validate the API key,
-// by mounting this middleware to /api/v1
-// meaning only paths prefixed with "/api/v1"
-// will cause this middleware to be invoked
-
-app.use('/api/v1', function(req, res, next){
-  var key = req.query['api-key'];
-
-  // key isnt present
-  if (!key) return res.send('api key required', 401);
-
-  // key is invalid
-  if (!~apiKeys.indexOf(key)) return res.send('invalid api key', 401);
-
-  // all good, store req.key for route access
-  req.key = key;
-  next();
-});
-
 // we now can assume the api key is valid,
 // and simply expose the data
 
@@ -84,8 +110,11 @@ app.get('/api/v1/repos', function(req, res, next){
 });
 
 app.get('/api/v1/user/:name/repos', function(req, res, next){
-  var name = req.params.name;
-  res.send(userRepos[name]);
+  var name = req.params.name
+    , user = userRepos[name];
+  
+  if (user) res.send(user);
+  else next();
 });
 
 app.listen(3000);
