@@ -1,4 +1,11 @@
 
+2.4.0 / 2011-06-28 
+==================
+
+  * Added chainable `res.status(code)`
+  * Added `res.json()`, an explicit version of `res.send(obj)`
+  * Added simple web-service example
+
 2.3.12 / 2011-06-22 
 ==================
 
