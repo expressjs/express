@@ -48,6 +48,18 @@ module.exports = {
       { body: '{"name":"tj"}', headers: { 'Content-Type': json }});
   },
 
+  'test #status()': function(){
+    var app = express.createServer();
+
+    app.get('/error', function(req, res, next){
+      res.status(500).send('OH NO');
+    });
+
+    assert.response(app,
+      { url: '/error' },
+      { body: 'OH NO', status: 500 });
+  },
+
   'test #send()': function(){
     var app = express.createServer();
   
