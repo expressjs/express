@@ -915,6 +915,18 @@ it will not be set again.
 
 Note that this method _end()_s the response, so you will want to use node's _res.write()_ for multiple writes or streaming.
 
+### res.json(obj[, headers|status[, status]])
+
+ Send a JSON response with optional _headers_ and _status_. This method
+ is ideal for JSON-only APIs, however _res.send(obj)_ will send JSON as
+ well, though not ideal for cases when you want to send for example a string
+ as JSON, since the default for _res.send(string)_ is text/html.
+
+    res.json(null);
+    res.json({ user: 'tj' });
+    res.json('oh noes!', 500);
+    res.json('I dont have that', 404);
+
 ### res.redirect(url[, status])
 
 Redirect to the given _url_ with a default response _status_ of 302.
