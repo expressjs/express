@@ -104,6 +104,7 @@ Express supports the following settings out of the box:
   * _view options_ An object specifying global view options
   * _view cache_ Enable view caching (enabled in production)
   * _case sensitive routes_ Enable case-sensitive routing
+  * _strict routing_ When enabled trailing slashes are no longer ignored
 
 ### Routing
 

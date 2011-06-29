@@ -317,7 +317,29 @@ module.exports = {
     app.match.all('/user/12').should.have.length(0);
     app.get('/user/:id').should.have.length(0);
   },
-  
+
+  'test "strict routing" setting': function(){
+    var app = express.createServer();
+
+    app.enable('strict routing');
+
+    app.get('/:path', function(req, res, next){
+      res.send({ type: 'directory' });
+    });
+
+    app.get('/:path/', function(req, res, next){
+      res.send(['.', '..', 'foo.js', 'bar.js']);
+    });
+
+    assert.response(app,
+      { url: '/lib' },
+      { body: '{"type":"directory"}' });
+
+    assert.response(app,
+      { url: '/lib/' },
+      { body: '[".","..","foo.js","bar.js"]' });
+  },
+
   'test "case sensitive routes" setting': function(){
     var app = express.createServer();
 
