@@ -944,7 +944,8 @@ the "home" setting and defaults to "/".
 
 ### res.cookie(name, val[, options])
 
-Sets the given cookie _name_ to _val_, with options _httpOnly_, _secure_, _expires_ etc.
+Sets the given cookie _name_ to _val_, with options _httpOnly_, _secure_, _expires_ etc. The _path_ option defaults to the app's "home" setting, which
+is typically "/".
 
     // "Remember me" for 15 minutes 
     res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOnly: true });
@@ -963,7 +964,8 @@ To parse incoming _Cookie_ headers, use the _cookieParser_ middleware, which pro
 
 ### res.clearCookie(name[, options])
 
-Clear cookie _name_ by setting "expires" far in the past.
+Clear cookie _name_ by setting "expires" far in the past. Much like
+_res.cookie()_ the _path_ option also defaults to the "home" setting.
 
     res.clearCookie('rememberme');
 
