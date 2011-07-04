@@ -650,6 +650,25 @@ module.exports = {
       });
   },
 
+  'test #cookie() null path': function(){
+    var app = express.createServer();
+
+    app.set('/home', '/foo');
+
+    app.get('/', function(req, res){
+      res.cookie('rememberme', 'yes', { path: null, expires: new Date(1), httpOnly: true });
+      res.cookie('something', 'else', { path: null });
+      res.redirect('/');
+    });
+
+    assert.response(app,
+      { url: '/', headers: { Host: 'foo.com' }},
+      function(res){
+        res.headers['set-cookie']
+          .should.eql(['rememberme=yes; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly', 'something=else']);
+      });
+  },
+
   'test #clearCookie() default path': function(){
     var app = express.createServer();
 
