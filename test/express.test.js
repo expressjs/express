@@ -236,7 +236,6 @@ module.exports = {
     var server = express.createServer();
     server.set('env', 'development');
     
-    // Config blocks
     var ret = server.configure(function(){
       assert.equal(this, server, 'Test context of configure() is the server');
       calls.push('any');
@@ -297,7 +296,23 @@ module.exports = {
       { url: '/' },
       { body: 'first route last' });
   },
-  
+
+  'test #configure() multiple envs': function(){
+    var app = express.createServer();
+    app.set('env', 'prod');
+    var calls = [];
+
+    app.configure('stage', 'prod', function(){
+      calls.push('stage/prod');
+    });
+
+    app.configure('prod', function(){
+      calls.push('prod');
+    });
+
+    calls.should.eql(['stage/prod', 'prod']);
+  },
+
   'test #set()': function(){
     var app = express.createServer();
     var ret = app.set('title', 'My App').set('something', 'else');
