@@ -612,9 +612,11 @@ module.exports = {
     });
   },
   
-  'test #cookie()': function(){
+  'test #cookie() path default': function(){
     var app = express.createServer();
-    
+
+    app.set('home', '/foo');
+
     app.get('/', function(req, res){
       res.cookie('rememberme', 'yes', { expires: new Date(1), httpOnly: true });
       res.cookie('something', 'else');
@@ -625,13 +627,52 @@ module.exports = {
       { url: '/', headers: { Host: 'foo.com' }},
       function(res){
         res.headers['set-cookie']
-          .should.eql(['rememberme=yes; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly', 'something=else']);
+          .should.eql(['rememberme=yes; path=/foo; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly', 'something=else; path=/foo']);
       });
   },
-  
-  'test #clearCookie()': function(){
+
+  'test #cookie() explicit path': function(){
     var app = express.createServer();
+
+    app.set('/home', '/foo');
+
+    app.get('/', function(req, res){
+      res.cookie('rememberme', 'yes', { path: '/', expires: new Date(1), httpOnly: true });
+      res.cookie('something', 'else');
+      res.redirect('/');
+    });
+
+    assert.response(app,
+      { url: '/', headers: { Host: 'foo.com' }},
+      function(res){
+        res.headers['set-cookie']
+          .should.eql(['rememberme=yes; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly', 'something=else; path=/']);
+      });
+  },
+
+  'test #clearCookie() default path': function(){
+    var app = express.createServer();
+
+    app.set('home', '/foo');
+
+    app.get('/', function(req, res){
+      res.clearCookie('rememberme');
+      res.redirect('/');
+    });
     
+    assert.response(app,
+      { url: '/' },
+      function(res){
+        res.headers['set-cookie']
+          .should.eql(['rememberme=; path=/foo; expires=Thu, 01 Jan 1970 00:00:00 GMT']);
+      });
+  },
+
+  'test #clearCookie() explicit path': function(){
+    var app = express.createServer();
+
+    app.set('home', '/bar');
+
     app.get('/', function(req, res){
       res.clearCookie('rememberme', { path: '/foo' });
       res.redirect('/');
@@ -644,7 +685,7 @@ module.exports = {
           .should.eql(['rememberme=; path=/foo; expires=Thu, 01 Jan 1970 00:00:00 GMT']);
       });
   },
-  
+
   'test HEAD': function(){
     var app = express.createServer();
     
