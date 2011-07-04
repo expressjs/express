@@ -1,0 +1,11 @@
+<html>
+  <head>
+    <title><%- page.title %></title>
+    <% for (var i in scripts) { %>
+      <script src="<%= scripts[i] %>"></script>
+    <% } %>
+  </head>
+  <body>
+    <%- body %>
+  </body>
+</html>
