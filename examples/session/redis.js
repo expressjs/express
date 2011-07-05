@@ -5,21 +5,26 @@
 
 var express = require('../../lib/express');
 
-// $ npm install connect-redis
-var RedisStore = require('connect-redis');
+// pass the express to the connect redis module
+// allowing it to inherit from express.session.Store
+var RedisStore = require('connect-redis')(express);
 
-var app = express.createServer(
-  express.logger(),
+var app = express.createServer();
 
-  // Required by session() middleware
-  express.cookieParser(),
+app.use(express.favicon());
 
-  // Populates:
-  //   - req.session
-  //   - req.sessionStore
-  //   - req.sessionID (or req.session.id)
-  express.session({ secret: 'keyboard cat', store: new RedisStore })
-);
+// request logging
+app.use(express.logger());
+
+// required to parse the session cookie
+app.use(express.cookieParser());
+
+// Populates:
+//   - req.session
+//   - req.sessionStore
+//   - req.sessionID (or req.session.id)
+
+app.use(express.session({ secret: 'keyboard cat', store: new RedisStore }));
 
 app.get('/', function(req, res){
   var body = '';
