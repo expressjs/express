@@ -71,6 +71,12 @@ otherwise the first call to _app.get()_, _app.post()_, etc will mount the routes
       app.use(express.errorHandler());
     });
 
+For similar environments you may also pass several env strings:
+
+    app.configure('stage', 'prod', function(){
+      // config
+    });
+
 For internal and arbitrary settings Express provides the _set(key[, val])_, _enable(key)_, _disable(key)_ methods:
 
      app.configure(function(){
