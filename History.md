@@ -1,4 +1,16 @@
 
+2.4.1 / 2011-07-06 
+==================
+
+  * Added `res.json()` JSONP support. Closes #737
+  * Added _extending-templates_ example. Closes #730
+  * Added "strict routing" setting for trailing slashes
+  * Added support for multiple envs in `app.configure()` calls. Closes #735
+  * Changed: `res.send()` using `res.json()`
+  * Changed: when cookie `path === null` don't default it
+  * Changed; default cookie path to "home" setting. Closes #731
+  * Removed _pids/logs_ creation from express(1)
+
 2.4.0 / 2011-06-28 
 ==================
 
