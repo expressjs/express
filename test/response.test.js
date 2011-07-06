@@ -213,15 +213,6 @@ module.exports = {
           'Content-Type': 'text/javascript; charset=utf-8'
         , 'X-Foo': 'baz'
       }});
-  
-    assert.response(app,
-      { url: '/jsonp?callback=invalid()[]' },
-      { body: 'invalid({"foo":"bar"});'
-      , status: 201
-      , headers: {
-          'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
-      }});
   },
 
   'test #json() JSONP': function(){
@@ -247,15 +238,6 @@ module.exports = {
       { url: '/jsonp?callback=baz' },
       { body: 'baz({"foo":"bar"});'
       , status: 201, headers: {
-          'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
-      }});
-  
-    assert.response(app,
-      { url: '/jsonp?callback=invalid()[]' },
-      { body: 'invalid({"foo":"bar"});'
-      , status: 201
-      , headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
         , 'X-Foo': 'baz'
       }});
