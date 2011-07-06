@@ -51,7 +51,3 @@ The following modules compliment or extend Express directly:
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
   * [日本語ドキュメンテーション](http://hideyukisaito.com/doc/expressjs/) by [hideyukisaito](https://github.com/hideyukisaito)
-  * Screencast - [Introduction](http://bit.ly/eRYu0O)
-  * Screencast - [View Partials](http://bit.ly/dU13Fx)
-  * Screencast - [Route Specific Middleware](http://bit.ly/hX4IaH)
-  * Screencast - [Route Path Placeholder Preconditions](http://bit.ly/eNqmVs)

@@ -71,6 +71,12 @@ otherwise the first call to _app.get()_, _app.post()_, etc will mount the routes
       app.use(express.errorHandler());
     });
 
+For similar environments you may also pass several env strings:
+
+    app.configure('stage', 'prod', function(){
+      // config
+    });
+
 For internal and arbitrary settings Express provides the _set(key[, val])_, _enable(key)_, _disable(key)_ methods:
 
      app.configure(function(){
@@ -104,6 +110,8 @@ Express supports the following settings out of the box:
   * _view options_ An object specifying global view options
   * _view cache_ Enable view caching (enabled in production)
   * _case sensitive routes_ Enable case-sensitive routing
+  * _strict routing_ When enabled trailing slashes are no longer ignored
+  * _jsonp callback_ Enable _res.send()_ / _res.json()_ transparent jsonp support
 
 ### Routing
 
@@ -915,6 +923,18 @@ it will not be set again.
 
 Note that this method _end()_s the response, so you will want to use node's _res.write()_ for multiple writes or streaming.
 
+### res.json(obj[, headers|status[, status]])
+
+ Send a JSON response with optional _headers_ and _status_. This method
+ is ideal for JSON-only APIs, however _res.send(obj)_ will send JSON as
+ well, though not ideal for cases when you want to send for example a string
+ as JSON, since the default for _res.send(string)_ is text/html.
+
+    res.json(null);
+    res.json({ user: 'tj' });
+    res.json('oh noes!', 500);
+    res.json('I dont have that', 404);
+
 ### res.redirect(url[, status])
 
 Redirect to the given _url_ with a default response _status_ of 302.
@@ -931,7 +951,8 @@ the "home" setting and defaults to "/".
 
 ### res.cookie(name, val[, options])
 
-Sets the given cookie _name_ to _val_, with options _httpOnly_, _secure_, _expires_ etc.
+Sets the given cookie _name_ to _val_, with options _httpOnly_, _secure_, _expires_ etc. The _path_ option defaults to the app's "home" setting, which
+is typically "/".
 
     // "Remember me" for 15 minutes 
     res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOnly: true });
@@ -950,7 +971,8 @@ To parse incoming _Cookie_ headers, use the _cookieParser_ middleware, which pro
 
 ### res.clearCookie(name[, options])
 
-Clear cookie _name_ by setting "expires" far in the past.
+Clear cookie _name_ by setting "expires" far in the past. Much like
+_res.cookie()_ the _path_ option also defaults to the "home" setting.
 
     res.clearCookie('rememberme');
 
