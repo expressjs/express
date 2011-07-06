@@ -224,6 +224,43 @@ module.exports = {
       }});
   },
 
+  'test #json() JSONP': function(){
+    var app = express.createServer();
+
+    app.enable('jsonp callback');
+
+    app.get('/jsonp', function(req, res){
+      res.header('X-Foo', 'bar');
+      res.json({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
+    });
+
+    assert.response(app,
+      { url: '/jsonp?callback=test' },
+      { body: 'test({"foo":"bar"});'
+      , status: 201
+      , headers: {
+          'Content-Type': 'text/javascript; charset=utf-8'
+        , 'X-Foo': 'baz'
+      }});
+  
+    assert.response(app,
+      { url: '/jsonp?callback=baz' },
+      { body: 'baz({"foo":"bar"});'
+      , status: 201, headers: {
+          'Content-Type': 'text/javascript; charset=utf-8'
+        , 'X-Foo': 'baz'
+      }});
+  
+    assert.response(app,
+      { url: '/jsonp?callback=invalid()[]' },
+      { body: 'invalid({"foo":"bar"});'
+      , status: 201
+      , headers: {
+          'Content-Type': 'text/javascript; charset=utf-8'
+        , 'X-Foo': 'baz'
+      }});
+  },
+
   'test #contentType()': function(){
     var app = express.createServer();
     
