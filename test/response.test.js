@@ -72,13 +72,6 @@ module.exports = {
       res.send({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
     });
     
-    app.get('/jsonp', function(req, res){
-      app.enable('jsonp callback');
-      res.header('X-Foo', 'bar');
-      res.send({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
-      app.disable('jsonp callback');
-    });
-    
     app.get('/text', function(req, res){
       res.header('X-Foo', 'bar');
       res.contentType('txt');
@@ -136,41 +129,6 @@ module.exports = {
       }});
   
     assert.response(app,
-      { url: '/jsonp?callback=test' },
-      { body: 'test({"foo":"bar"});'
-      , status: 201
-      , headers: {
-          'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
-      }});
-  
-    assert.response(app,
-      { url: '/jsonp?callback=baz' },
-      { body: 'baz({"foo":"bar"});'
-      , status: 201, headers: {
-          'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
-      }});
-  
-    assert.response(app,
-      { url: '/jsonp?callback=invalid()[]' },
-      { body: 'invalid({"foo":"bar"});'
-      , status: 201
-      , headers: {
-          'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
-      }});
-  
-    assert.response(app,
-      { url: '/json?callback=test' },
-      { body: '{"foo":"bar"}'
-      , status: 201
-      , headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        , 'X-Foo': 'baz'
-      }});
-  
-    assert.response(app,
       { url: '/text' },
       { body: 'wahoo'
       , headers: {
@@ -218,8 +176,54 @@ module.exports = {
         assert.equal(undefined, res.headers['content-type']);
         assert.equal(undefined, res.headers['content-length']);
       });
+
+    assert.response(app,
+      { url: '/json?callback=test' },
+      { body: '{"foo":"bar"}'
+      , status: 201
+      , headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        , 'X-Foo': 'baz'
+      }});
   },
+
+  'test #send() JSONP': function(){
+    var app = express.createServer();
+
+    app.enable('jsonp callback');
+
+    app.get('/jsonp', function(req, res){
+      res.header('X-Foo', 'bar');
+      res.send({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
+    });
+
+    assert.response(app,
+      { url: '/jsonp?callback=test' },
+      { body: 'test({"foo":"bar"});'
+      , status: 201
+      , headers: {
+          'Content-Type': 'text/javascript; charset=utf-8'
+        , 'X-Foo': 'baz'
+      }});
   
+    assert.response(app,
+      { url: '/jsonp?callback=baz' },
+      { body: 'baz({"foo":"bar"});'
+      , status: 201, headers: {
+          'Content-Type': 'text/javascript; charset=utf-8'
+        , 'X-Foo': 'baz'
+      }});
+  
+    assert.response(app,
+      { url: '/jsonp?callback=invalid()[]' },
+      { body: 'invalid({"foo":"bar"});'
+      , status: 201
+      , headers: {
+          'Content-Type': 'text/javascript; charset=utf-8'
+        , 'X-Foo': 'baz'
+      }});
+  },
+
   'test #contentType()': function(){
     var app = express.createServer();
     
