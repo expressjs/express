@@ -165,7 +165,7 @@ module.exports = {
     });
   
     app.get('/status', function(req, res){
-      res.render('hello.jade', { status: 500 });
+      res.render('hello.jade', { HTTPStatus: 500 });
     });
   
     assert.response(app,
