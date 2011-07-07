@@ -1,7 +1,7 @@
 {
   "name": "express",
   "description": "Sinatra inspired web development framework",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [ 
     { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }, 
@@ -34,5 +34,5 @@
     "test": "make test",
     "prepublish" : "npm prune"
   },
-  "engines": { "node": ">= 0.4.1 < 0.5.0" }
+  "engines": { "node": ">= 0.4.1 < 0.6.0" }
 }
