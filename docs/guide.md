@@ -987,6 +987,15 @@ The _options_ passed are the local variables as well, for example if we want to 
     var user = { name: 'tj' };
     res.render('index', { layout: false, user: user });
 
+This _options_ object is also considered an "options" object. For example 
+when you pass the _status_ local, it's not only available to the view, it
+sets the response status to this number. This is also useful if a template
+engine accepts specific options, such as _debug_, or _compress_. Below
+is an example of how one might render an error page, passing the _status_ for
+display, as well as it setting _res.statusCode_.
+
+     res.render('error', { status: 500, message: 'Internal Server Error' });
+
 ### res.partial(view[, options])
 
 Render _view_ partial with the given _options_. This method is always available
