@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -12,7 +11,7 @@ app.use(express.cookieParser());
 app.use(express.session({ secret: 'keyboard cat' }));
 
 // mount the blog. the blog app is written using the "base"
-// local variable, allowing it's urls to adjust to wherever
+// local variable, allowing its urls to adjust to wherever
 // we wish to mount it.
 app.use('/blog', blog);
 
