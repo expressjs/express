@@ -25,10 +25,6 @@ module.exports = {
       res.json('oh noes!', 500);
     });
 
-    app.get('/headers', function(req, res, next){
-      res.json(undefined, { 'X-Foo': 'bar' }, 302);
-    });
-
     assert.response(app,
       { url: '/error' },
       { body: '"oh noes!"'
