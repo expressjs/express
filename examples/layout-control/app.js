@@ -10,7 +10,7 @@ var app = express.createServer();
 app.set('views', __dirname + '/views');
 
 // set default layout, usually "layout"
-app.set('view options', { layout: 'layouts/default' });
+app.local('layout', 'layouts/default');
 
 // Set our default template engine to "ejs"
 // which prevents the need for extensions
