@@ -23,8 +23,7 @@ function bootApplication(app) {
   app.use(express.static(__dirname + '/public'));
 
   // Example 500 page
-  app.error(function(err, req, res){
-    console.dir(err)
+  app.use(function(err, req, res, next){
     res.render('500');
   });
 

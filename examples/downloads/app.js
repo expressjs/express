@@ -38,7 +38,7 @@ app.get('/files/:file(*)', function(req, res, next){
   });
 });
 
-app.error(function(err, req, res, next){
+app.use(function(err, req, res, next){
   if ('ENOENT' == err.code) {
     res.send('Cant find that file, sorry!');
   } else {
