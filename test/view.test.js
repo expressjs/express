@@ -938,38 +938,6 @@ module.exports = {
       { body: '<ul><li>foo</li><li>bar</li></ul>' });
   },
   
-  'test "view options"': function(){
-    var app = create();
-    
-    app.set('view options', {
-        layout: false
-      , open: '{{'
-      , close: '}}'
-    });
-    
-    app.get('/', function(req, res, next){
-      res.render('user.ejs', {
-          name: 'tj'
-        , email: 'tj@vision-media.ca'
-      });
-    });
-    
-    app.get('/video', function(req, res, next){
-      res.render('video.ejs', {
-          open: '<?'
-        , close: '?>'
-        , title: 'keyboard cat'
-      });
-    });
-    
-    assert.response(app,
-      { url: '/' },
-      { body: '<h1>tj</h1>\n<p>tj@vision-media.ca</p>' });
-    assert.response(app,
-      { url: '/video' },
-      { body: '<h1>keyboard cat</h1>' });
-  },
-  
   'test .register()': function(){
     var app = create();
     
@@ -1031,54 +999,10 @@ module.exports = {
       { body: '<h1>keyboard cat</h1>' });
   },
   
-  'test res.local() "view options" precedence': function(){
-    var app = create();
-    
-    app.set('view options', {
-        layout: false
-      , open: '<?'
-      , title: 'Original'
-    });
-  
-    function setTitle(req, res, next) {
-      res.local('title', 'Wahoo');
-      next();
-    }
-  
-    app.get('/video', setTitle, function(req, res, next){
-      res.local('close', '?>');
-      res.render('video.ejs', { layout: false, title: 'keyboard cat' });
-    });
-    
-    app.get('/video/2', setTitle, function(req, res, next){
-      res.local('close', '?>');
-      res.render('video.ejs', { layout: false });
-    });
-  
-    app.get('/video/3', function(req, res, next){
-      res.local('close', '?>');
-      res.render('video.ejs', { layout: false });
-    });
-  
-    assert.response(app,
-      { url: '/video' },
-      { body: '<h1>keyboard cat</h1>' });
-  
-    assert.response(app,
-      { url: '/video/2' },
-      { body: '<h1>Wahoo</h1>' });
-  
-    assert.response(app,
-      { url: '/video/3' },
-      { body: '<h1>Original</h1>' });
-  },
-  
   'test res.local() partials': function(){
     var app = create();
-    
-    app.set('view options', {
-      site: 'My Cool Pets'
-    });
+
+    app.local('site', 'My Cool Pets');
     
     app.get('/pets', function(req, res, next){
       res.local('pets', ['Tobi']);
@@ -1141,16 +1065,34 @@ module.exports = {
       { headers: { 'Content-Type': 'text/html; charset=ISO-8859-1' }});
   },
   
-  'test charset option': function(){
+  'test "charset" option': function(){
     var app = create();
-    app.set('view options', { charset: 'ISO-8859-1' });
-  
-    app.get('/', function(req, res){
+
+    app.set('charset', 'ISO-8859-1');
+
+    app.get('/option', function(req, res, next){
       res.render('hello.jade');
     });
+
+    app.get('/local', function(req, res){
+      res.local('charset', 'ISO-8859-1');
+      res.render('hello.jade');
+    });
+
+    app.get('/render', function(req, res){
+      res.render('hello.jade', { charset: 'ISO-8859-1' });
+    });
+
+    assert.response(app,
+      { url: '/option' },
+      { headers: { 'Content-Type': 'text/html; charset=ISO-8859-1' }});
+
+    assert.response(app,
+      { url: '/render' },
+      { headers: { 'Content-Type': 'text/html; charset=ISO-8859-1' }});
   
     assert.response(app,
-      { url: '/' },
+      { url: '/local' },
       { headers: { 'Content-Type': 'text/html; charset=ISO-8859-1' }});
   },
   
