@@ -1159,11 +1159,11 @@ When mounted, _res.redirect()_ will respect the mount-point. For example if a bl
 
     res.redirect('/posts');
 
-### app.helpers(obj)
+### app.locals(obj)
 
-Registers static view helpers.
+Registers static view locals.
 
-    app.helpers({
+    app.locals({
         name: function(first, last){ return first + ', ' + last }
       , firstName: 'tj'
       , lastName: 'holowaychuk'
@@ -1180,16 +1180,14 @@ Express also provides a few locals by default:
     - `filename`  the view's filename
     - `layout(path)`  specify the layout from within a view
 
-This method is aliased as _app.locals()_.
+### app.dynamicLocals(obj)
 
-### app.dynamicHelpers(obj)
-
-Registers dynamic view helpers. Dynamic view helpers
+Registers dynamic view locals. Dynamic locals
 are simply functions which accept _req_, _res_, and are
-evaluated against the _Server_ instance before a view is rendered. The _return value_ of this function
+evaluated against the _Server_ instance before a view is rendered, and are unique to that specific request. The _return value_ of this function
 becomes the local variable it is associated with.
 
-    app.dynamicHelpers({
+    app.dynamicLocals({
       session: function(req, res){
         return req.session;
       }
