@@ -328,7 +328,7 @@ module.exports = {
       }
     });
   
-    var ret = app.dynamicHelpers({
+    var ret = app.dynamicLocals({
       session: function(req, res){
         ++calls;
         req.should.be.a('object');
