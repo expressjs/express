@@ -983,6 +983,23 @@ module.exports = {
       { url: '/' },
       { body: '<p>This is actually jade :)</p>' });
   },
+
+  'test app.local()': function(){
+    var app = create();
+
+    app
+      .local('open', '<?')
+      .local('close', '?>')
+      .local('title', 'Wahoo');
+
+    app.get('/video', function(req, res, next){
+      res.render('video.ejs', { layout: false });
+    });
+    
+    assert.response(app,
+      { url: '/video' },
+      { body: '<h1>Wahoo</h1>' });
+  },
   
   'test res.local()': function(){
     var app = create();
