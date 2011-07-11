@@ -1160,16 +1160,6 @@ When mounted, _res.redirect()_ will respect the mount-point. For example if a bl
 
     res.redirect('/posts');
 
-### app.error(function)
-
-Adds an error handler _function_ which will receive the exception as the first parameter as shown below.
-Note that we may set several error handlers by making several calls to this method, however the handler
-should call _next(err)_ if it does not wish to deal with the exception:
-
-    app.error(function(err, req, res, next){
-      res.send(err.message, 500);
-    });
-
 ### app.helpers(obj)
 
 Registers static view helpers.
