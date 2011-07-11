@@ -107,7 +107,6 @@ Express supports the following settings out of the box:
   * _home_ Application base path used for _res.redirect()_ and transparently handling mounted apps.
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
-  * _view options_ An object specifying global view options
   * _view cache_ Enable view caching (enabled in production)
   * _charset_ Alter the default charset of "utf-8"
   * _case sensitive routes_ Enable case-sensitive routing
@@ -494,13 +493,11 @@ mix and match template engines:
 
     res.render('another-page.ejs');
 
-Express also provides the _view options_ setting, which is applied each time a view is rendered, so for example if you rarely use layouts you may set:
+ To apply application-level locals, or view engine options may be set using _app.local()_ or _app.locals()_, for example if we don't want layouts for most of our templates we may do:
 
-	app.set('view options', {
-	  layout: false
-	});
+   app.local('layout', false);
 
-Which can then be overridden within the _res.render()_ call if need be:
+Which can then be overridden within the _res.render()_ call if desired, and is otherwise functionally equivalent to passing directly to `res.render()`:
 
     res.render('myview.ejs', { layout: true });
 
@@ -515,13 +512,6 @@ Otherwise we must specify the extension:
 These paths may also be absolute:
 
     res.render('page', { layout: __dirname + '/../../mylayout.jade' });
-
-A good example of this is specifying custom _ejs_ opening and closing tags:
-
-	app.set('view options', {
-	    open: '{{',
-	    close: '}}'
-	});
 
 ### View Partials
 
