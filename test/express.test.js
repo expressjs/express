@@ -130,66 +130,7 @@ module.exports = {
         calls.should.eql(['one', 'two']);
       });
   },
-  
-  'test #error()': function(){
-    // Passing down middleware stack
-    var app = express.createServer();
-    
-    app.get('/', function(req, res, next){
-      next(new Error('broken'));
-    });
-    
-    app.use('/', connect.errorHandler());
-    
-    assert.response(app,
-      { url: '/' },
-      { body: 'Internal Server Error' });
 
-    // Custom handler
-    var app = express.createServer();
-    
-    app.error(function(err, req, res){
-      res.send('Shit: ' + err.message, 500);
-    });
-
-    app.get('/', function(req, res, next){
-      next(new Error('broken'));
-    });
-    
-    assert.response(app,
-      { url: '/' },
-      { body: 'Shit: broken', status: 500 });
-    
-    // Multiple error()s
-    var app = express.createServer();
-    
-    app.error(function(err, req, res, next){
-      if (err.message === 'broken') {
-        next(err);
-      } else {
-        res.send(500);
-      }
-    });
-    
-    app.error(function(err, req, res, next){
-      res.send(err.message, 500);
-    });
-
-    app.get('/', function(req, res, next){
-      throw new Error('broken');
-    });
-    app.get('/foo', function(req, res, next){
-      throw new Error('oh noes');
-    });
-    
-    assert.response(app,
-      { url: '/' },
-      { body: 'broken', status: 500 });
-    assert.response(app,
-      { url: '/foo' },
-      { body: 'Internal Server Error' });
-  },
-  
   'test next()': function(){
     var app = express.createServer();
     
