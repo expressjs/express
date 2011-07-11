@@ -94,8 +94,8 @@ module.exports = {
       res.send(new Buffer('wahoo!'));
     });
     
-    app.get('/noargs', function(req, res, next){
-      res.send();
+    app.get('/204', function(req, res, next){
+      res.send(204);
     });
     
     app.get('/undefined', function(req, res, next){
@@ -164,7 +164,7 @@ module.exports = {
       }});
   
     assert.response(app,
-      { url: '/noargs' },
+      { url: '/204' },
       { status: 204 }, function(res){
         assert.equal(undefined, res.headers['content-type']);
         assert.equal(undefined, res.headers['content-length']);
@@ -172,10 +172,7 @@ module.exports = {
 
     assert.response(app,
       { url: '/undefined' },
-      { status: 204 }, function(res){
-        assert.equal(undefined, res.headers['content-type']);
-        assert.equal(undefined, res.headers['content-length']);
-      });
+      { status: 500 });
 
     assert.response(app,
       { url: '/json?callback=test' },
