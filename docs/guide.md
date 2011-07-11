@@ -109,6 +109,7 @@ Express supports the following settings out of the box:
   * _view engine_ Default view engine name for views rendered without extensions
   * _view options_ An object specifying global view options
   * _view cache_ Enable view caching (enabled in production)
+  * _charset_ Alter the default charset of "utf-8"
   * _case sensitive routes_ Enable case-sensitive routing
   * _strict routing_ When enabled trailing slashes are no longer ignored
   * _jsonp callback_ Enable _res.send()_ / _res.json()_ transparent jsonp support
