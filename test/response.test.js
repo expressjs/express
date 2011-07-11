@@ -60,12 +60,12 @@ module.exports = {
     var app = express.createServer();
   
     app.get('/html', function(req, res){
-      res.send('<p>test</p>', { 'Content-Language': 'en' });
+      res.send('<p>test</p>');
     });
 
     app.get('/json', function(req, res){
       res.header('X-Foo', 'bar');
-      res.send({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
+      res.send({ foo: 'bar' }, 201);
     });
     
     app.get('/text', function(req, res){
@@ -83,7 +83,7 @@ module.exports = {
     });
     
     app.get('/error', function(req, res){
-      res.send('Oh shit!', { 'Content-Type': 'text/plain' }, 500);
+      res.send('Oh shit!', 500);
     });
     
     app.get('/buffer', function(req, res){
@@ -111,8 +111,7 @@ module.exports = {
       { url: '/html' },
       { body: '<p>test</p>'
       , headers: {
-          'Content-Language': 'en'
-        , 'Content-Type': 'text/html; charset=utf-8'
+        'Content-Type': 'text/html; charset=utf-8'
       }});
   
     assert.response(app,
@@ -187,7 +186,7 @@ module.exports = {
 
     app.get('/jsonp', function(req, res){
       res.header('X-Foo', 'bar');
-      res.send({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
+      res.send({ foo: 'bar' }, 201);
     });
 
     assert.response(app,
@@ -196,7 +195,7 @@ module.exports = {
       , status: 201
       , headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   
     assert.response(app,
@@ -204,7 +203,7 @@ module.exports = {
       { body: 'baz({"foo":"bar"});'
       , status: 201, headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   
     assert.response(app,
@@ -213,7 +212,7 @@ module.exports = {
       , status: 201
       , headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   },
 
@@ -224,7 +223,7 @@ module.exports = {
 
     app.get('/jsonp', function(req, res){
       res.header('X-Foo', 'bar');
-      res.json({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
+      res.json({ foo: 'bar' }, 201);
     });
 
     assert.response(app,
@@ -233,7 +232,7 @@ module.exports = {
       , status: 201
       , headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   
     assert.response(app,
@@ -241,7 +240,7 @@ module.exports = {
       { body: 'baz({"foo":"bar"});'
       , status: 201, headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   
     assert.response(app,
@@ -250,7 +249,7 @@ module.exports = {
       , status: 201
       , headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   },
 
