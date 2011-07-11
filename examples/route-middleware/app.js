@@ -40,7 +40,7 @@ function andRestrictToSelf(req, res, next) {
   } else {
     // You may want to implement specific exceptions
     // such as UnauthorizedError or similar so that you
-    // can handle these in app.error() specifically
+    // can handle these can be special-cased in an error handler
     // (view ./examples/pages for this)
     next(new Error('Unauthorized'));
   }
