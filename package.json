@@ -17,7 +17,7 @@
   "devDependencies": {
     "connect-form": "0.2.1",
     "ejs": "0.4.2",
-    "expresso": "0.7.2",
+    "expresso": "0.8.1",
     "hamljs": "0.5.1",
     "jade": "0.11.0",
     "stylus": "0.13.0",
