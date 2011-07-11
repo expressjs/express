@@ -860,7 +860,6 @@ An optional second callback, _callback2_ may be given to allow you to act on con
 The _res.send()_ method is a high level response utility allowing you to pass
 objects to respond with json, strings for html, Buffer instances, or numbers representing the status code. The following are all valid uses:
 
-     res.send(); // 204
      res.send(new Buffer('wahoo'));
      res.send({ some: 'json' });
      res.send('<p>some html</p>');
