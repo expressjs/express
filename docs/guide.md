@@ -421,65 +421,16 @@ The reason that these are not always defaults, is simply because these are not r
 
 ### Error Handling
 
-Express provides the _app.error()_ method which receives exceptions thrown within a route,
-or passed to _next(err)_. Below is an example which serves different pages based on our
-ad-hoc _NotFound_ exception:
-
-    function NotFound(msg){
-      this.name = 'NotFound';
-      Error.call(this, msg);
-      Error.captureStackTrace(this, arguments.callee);
-    }
-    
-    NotFound.prototype.__proto__ = Error.prototype;
-    
-    app.get('/404', function(req, res){
-      throw new NotFound;
+ Error handling middleware are simply middleware with an arity of 4, aka
+ the signature _(err, req, res, next)_. When you _next(err)_ an error,
+ only these middleware are executed and have a chance to respond. For example:
+ 
+    app.use(app.bodyParser());
+    app.use(app.methodOverride());
+    app.use(app.router);
+    app.use(function(err, req, res, next){
+      res.send('Internal Server Error', 500);
     });
-    
-    app.get('/500', function(req, res){
-      throw new Error('keyboard cat!');
-    });
-
-We can call _app.error()_ several times as shown below.
-Here we check for an instanceof _NotFound_ and show the
-404 page, or we pass on to the next error handler.
-
-Note that these handlers can be defined anywhere, as they
-will be placed below the route handlers on _listen()_. This 
-allows for definition within _configure()_ blocks so we can
-handle exceptions in different ways based on the environment.
-
-	app.error(function(err, req, res, next){
-	    if (err instanceof NotFound) {
-	        res.render('404.jade');
-	    } else {
-	        next(err);
-	    }
-	});
-
-Here we assume all errors as 500 for the simplicity of
-this demo, however you can choose whatever you like. For example when node performs filesystem syscalls, you may receive an error object with the _error.code_ of _ENOENT_, meaning "no such file or directory", we can utilize this in our error handling and display a page specific to this if desired.
-
-    app.error(function(err, req, res){
-      res.render('500.jade', {
-         error: err
-      });
-    });
-
-Our apps could also utilize the Connect _errorHandler_ middleware
-to report on exceptions. For example if we wish to output exceptions 
-in "development" mode to _stderr_ we can use:
-
-    app.use(express.errorHandler({ dumpExceptions: true }));
-
-Also during development we may want fancy html pages to show exceptions
-that are passed or thrown, so we can set _showStack_ to true:
-
-    app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
-
-The _errorHandler_ middleware also responds with _json_ if _Accept: application/json_
-is present, which is useful for developing apps that rely heavily on client-side JavaScript.
 
 ### Route Param Pre-conditions
 
