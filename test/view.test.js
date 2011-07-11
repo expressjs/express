@@ -322,7 +322,7 @@ module.exports = {
       lastName: 'holowaychuk'
     });
   
-    app.helpers({ 
+    app.locals({ 
       greetings: function(sess, lastName){
         return 'Hello ' + sess.name + ' ' + lastName; 
       }
