@@ -1,4 +1,10 @@
 
+2.4.3 / 2011-07-14 
+==================
+
+  * Added docs for `status` option special-case. Closes #739
+  * Fixed `options.filename`, exposing the view path to template engines
+
 2.4.2. / 2011-07-06 
 ==================
 
