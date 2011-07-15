@@ -128,7 +128,7 @@ module.exports = {
       { body: 'user 1' });
   },
   
-  'test #flash()': function(){
+  'test #notify()': function(){
     var app = express.createServer(
         connect.cookieParser()
       , connect.session({ secret: 'something' })
@@ -142,30 +142,30 @@ module.exports = {
 
     app.get('/', function(req, res){
       req.notify('info').should.be.empty;
-      req.flash('error').should.be.empty;
-      req.flash().should.eql({});
-      req.session.flash.should.eql({});
+      req.notify('error').should.be.empty;
+      req.notify().should.eql({});
+      req.session.notifications.should.eql({});
 
-      req.flash('info', 'one').should.equal(1);
-      req.flash('info', 'two').should.equal(2);
-      req.flash('info').should.eql(['one', 'two']);
-      req.flash('info').should.eql([]);
+      req.notify('info', 'one').should.equal(1);
+      req.notify('info', 'two').should.equal(2);
+      req.notify('info').should.eql(['one', 'two']);
+      req.notify('info').should.eql([]);
 
-      req.flash('info', 'one').should.equal(1);
-      req.flash('info').should.eql(['one']);
+      req.notify('info', 'one').should.equal(1);
+      req.notify('info').should.eql(['one']);
 
-      req.flash('info', 'Email _sent_.');
-      req.flash('info', '<script>');
-      req.flash('info').should.eql(['Email <em>sent</em>.', '&lt;script&gt;']);
+      req.notify('info', 'Email _sent_.');
+      req.notify('info', '<script>');
+      req.notify('info').should.eql(['Email <em>sent</em>.', '&lt;script&gt;']);
       
-      req.flash('info', 'Welcome _%s_ to %s', 'TJ', 'something');
-      req.flash('info').should.eql(['Welcome <em>TJ</em> to something']);
+      req.notify('info', 'Welcome _%s_ to %s', 'TJ', 'something');
+      req.notify('info').should.eql(['Welcome <em>TJ</em> to something']);
 
-      req.flash('info', 'TJ has %d pets', 5.12323);
-      req.flash('info').should.eql(['TJ has 5 pets']);
+      req.notify('info', 'TJ has %d pets', 5.12323);
+      req.notify('info').should.eql(['TJ has 5 pets']);
 
-      req.flash('error', 'Foo %u', 'bar');
-      req.flash('error').should.eql(['Foo BAR']);
+      req.notify('error', 'Foo %u', 'bar');
+      req.notify('error').should.eql(['Foo BAR']);
 
       res.send('ok');
     });
