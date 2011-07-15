@@ -141,7 +141,7 @@ module.exports = {
     };
 
     app.get('/', function(req, res){
-      req.flash('info').should.be.empty;
+      req.notify('info').should.be.empty;
       req.flash('error').should.be.empty;
       req.flash().should.eql({});
       req.session.flash.should.eql({});
