@@ -314,64 +314,6 @@ module.exports = {
       { body: '<cool><p>Welcome</p></cool>' });
   },
   
-  'test #render() view helpers': function(beforeExit){
-    var app = create()
-      , calls = 0;
-  
-    app.locals({
-      lastName: 'holowaychuk'
-    });
-  
-    app.locals({ 
-      greetings: function(sess, lastName){
-        return 'Hello ' + sess.name + ' ' + lastName; 
-      }
-    });
-  
-    var ret = app.dynamicLocals({
-      session: function(req, res){
-        ++calls;
-        req.should.be.a('object');
-        res.should.be.a('object');
-        this.should.equal(app);
-        return req.session;
-      }
-    });
-  
-    assert.equal(app, ret, 'Server#helpers() is not chainable');
-    
-    app.get('/', function(req, res){
-      req.session = { name: 'tj' };
-      res.render('dynamic-helpers.jade', { layout: false });
-    });
-  
-    app.get('/ejs', function(req, res){
-      req.session = { name: 'tj' };
-      res.render('dynamic-helpers.ejs', { layout: false });
-    });
-  
-    app.get('/precedence', function(req, res){
-      req.session = { name: 'tj' };
-      res.render('dynamic-helpers.jade', {
-        lastName: 'foobar'
-      });
-    });
-    
-    assert.response(app,
-      { url: '/' },
-      { body: '<p>Hello tj holowaychuk</p>' });
-    assert.response(app,
-      { url: '/ejs' },
-      { body: '<p>Hello tj holowaychuk</p>' });
-    assert.response(app,
-      { url: '/precedence' },
-      { body: '<html><body><p>Hello tj foobar</p></body></html>' });
-  
-    beforeExit(function(){
-      assert.equal(3, calls);
-    });
-  },
-  
   'test #partial() collection object': function(){
     var app = create();
 
