@@ -617,7 +617,8 @@ module.exports = {
       { body: 'got: <p>Hits 12</p><p>Misses 1</p>' });
 
     app.get('/stats/callback/2', function(req, res){
-      res.locals({ hits: 12, misses: 1 });
+      res.locals.hits = 12;
+      res.locals({ misses: 1 });
       res.partial('stats', function(err, html){
         res.send('got: ' + html);
       });
@@ -969,13 +970,13 @@ module.exports = {
       { body: '<h1>Wahoo</h1>' });
   },
   
-  'test res.local()': function(){
+  'test res.locals': function(){
     var app = create();
     
     app.get('/video', function(req, res, next){
-      res.local('open', '<?');
-      res.local('close', '?>');
-      res.local('title', 'Wahoo');
+      res.locals.open = '<?';
+      res.locals.close = '?>';
+      res.locals.title = 'Wahoo';
       res.render('video.ejs', { layout: false });
     });
     
@@ -984,13 +985,13 @@ module.exports = {
       { body: '<h1>Wahoo</h1>' });
   },
   
-  'test res.local() render() precedence': function(){
+  'test res.locals render() precedence': function(){
     var app = create();
     
     app.get('/video', function(req, res, next){
-      res.local('open', '<?');
-      res.local('close', '?>');
-      res.local('title', 'Wahoo');
+      res.locals.open = '<?';
+      res.locals.close = '?>';
+      res.locals.title = 'Wahoo';
       res.render('video.ejs', { layout: false, title: 'keyboard cat' });
     });
     
@@ -999,20 +1000,19 @@ module.exports = {
       { body: '<h1>keyboard cat</h1>' });
   },
   
-  'test res.local() partials': function(){
+  'test res.locals partials': function(){
     var app = create();
 
     app.local('site', 'My Cool Pets');
     
     app.get('/pets', function(req, res, next){
-      res.local('pets', ['Tobi']);
+      res.locals.pets = ['Tobi'];
       next();
     });
     
     app.get('/pets', function(req, res, next){
-      var pets;
-      if (pets = res.local('pets')) {
-        pets.push('Jane', 'Bandit');
+      if (pets = res.locals.pets) {
+        res.locals.pets.push('Jane', 'Bandit');
       }
       next();
     });
@@ -1075,7 +1075,7 @@ module.exports = {
     });
 
     app.get('/local', function(req, res){
-      res.local('charset', 'ISO-8859-1');
+      res.locals.charse = 'ISO-8859-1';
       res.render('hello.jade');
     });
 
