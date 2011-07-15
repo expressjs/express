@@ -161,6 +161,9 @@ module.exports = {
       req.flash('info', 'Welcome _%s_ to %s', 'TJ', 'something');
       req.flash('info').should.eql(['Welcome <em>TJ</em> to something']);
 
+      req.flash('info', 'TJ has %d pets', 5.12323);
+      req.flash('info').should.eql(['TJ has 5 pets']);
+
       req.flash('error', 'Foo %u', 'bar');
       req.flash('error').should.eql(['Foo BAR']);
 
