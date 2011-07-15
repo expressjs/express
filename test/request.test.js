@@ -134,7 +134,7 @@ module.exports = {
       , connect.session({ secret: 'something' })
     );
 
-    app.flashFormatters = {
+    app.formatters = {
       u: function(val){
         return String(val).toUpperCase();
       }
