@@ -925,21 +925,52 @@ module.exports = {
       { body: '<h1>Wahoo</h1>' });
   },
   
-  'test res.locals render() precedence': function(){
+  'test app.locals / res.locals precedence': function(){
     var app = create();
-    
-    app.get('/video', function(req, res, next){
+
+    app.locals.title = 'App Level';
+
+    app.get('/render', function(req, res, next){
       res.locals.open = '<?';
       res.locals.close = '?>';
-      res.locals.title = 'Wahoo';
-      res.render('video.ejs', { layout: false, title: 'keyboard cat' });
+      res.locals.title = 'Response Level';
+      res.render('video.ejs', { layout: false, title: 'Render Level' });
     });
-    
+
+    var app2 = create();
+
+    app2.locals.title = 'App Level';
+
+    app2.get('/response', function(req, res, next){
+      res.locals.open = '<?';
+      res.locals.close = '?>';
+      res.locals.title = 'Response Level';
+      res.render('video.ejs', { layout: false });
+    });
+
+    var app3 = create();
+
+    app3.locals.title = 'App Level';
+
+    app3.get('/app', function(req, res, next){
+      res.locals.open = '<?';
+      res.locals.close = '?>';
+      res.render('video.ejs', { layout: false });
+    });
+
+    assert.response(app3,
+      { url: '/app' },
+      { body: '<h1>App Level</h1>' });
+
+    assert.response(app2,
+      { url: '/response' },
+      { body: '<h1>Response Level</h1>' });
+
     assert.response(app,
-      { url: '/video' },
-      { body: '<h1>keyboard cat</h1>' });
+      { url: '/render' },
+      { body: '<h1>Render Level</h1>' });
   },
-  
+
   'test res.locals partials': function(){
     var app = create();
 
