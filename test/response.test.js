@@ -25,10 +25,6 @@ module.exports = {
       res.json('oh noes!', 500);
     });
 
-    app.get('/headers', function(req, res, next){
-      res.json(undefined, { 'X-Foo': 'bar' }, 302);
-    });
-
     assert.response(app,
       { url: '/error' },
       { body: '"oh noes!"'
@@ -47,29 +43,29 @@ module.exports = {
       { url: '/user' },
       { body: '{"name":"tj"}', headers: { 'Content-Type': json }});
   },
-
+  
   'test #status()': function(){
     var app = express.createServer();
-
+  
     app.get('/error', function(req, res, next){
       res.status(500).send('OH NO');
     });
-
+  
     assert.response(app,
       { url: '/error' },
       { body: 'OH NO', status: 500 });
   },
-
+  
   'test #send()': function(){
     var app = express.createServer();
   
     app.get('/html', function(req, res){
-      res.send('<p>test</p>', { 'Content-Language': 'en' });
+      res.send('<p>test</p>');
     });
-
+  
     app.get('/json', function(req, res){
       res.header('X-Foo', 'bar');
-      res.send({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
+      res.send({ foo: 'bar' }, 201);
     });
     
     app.get('/text', function(req, res){
@@ -87,7 +83,8 @@ module.exports = {
     });
     
     app.get('/error', function(req, res){
-      res.send('Oh shit!', { 'Content-Type': 'text/plain' }, 500);
+      res.header('Content-Type', 'text/plain');
+      res.send('Oh shit!', 500);
     });
     
     app.get('/buffer', function(req, res){
@@ -101,33 +98,32 @@ module.exports = {
     app.get('/undefined', function(req, res, next){
       res.send(undefined);
     });
-
+  
     app.get('/bool', function(req, res, next){
       res.send(true);
     });
-
+  
     assert.response(app,
       { url: '/bool' },
       { body: 'true'
       , headers: { 'Content-Type': 'application/json; charset=utf-8' }});
-
+  
     assert.response(app,
       { url: '/html' },
       { body: '<p>test</p>'
       , headers: {
-          'Content-Language': 'en'
-        , 'Content-Type': 'text/html; charset=utf-8'
+        'Content-Type': 'text/html; charset=utf-8'
       }});
-  
+      
     assert.response(app,
       { url: '/json' },
       { body: '{"foo":"bar"}'
       , status: 201
       , headers: {
           'Content-Type': 'application/json; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
-  
+      
     assert.response(app,
       { url: '/text' },
       { body: 'wahoo'
@@ -135,26 +131,26 @@ module.exports = {
           'Content-Type': 'text/plain'
         , 'X-Foo': 'bar'
       }});
-
+      
     assert.response(app,
       { url: '/status/text' },
       { body: 'Oh noes!', status: 404 });
-
+      
     assert.response(app,
       { url: '/status' },
       { body: 'Not Found'
       , status: 404
       , headers: { 'Content-Type': 'text/plain' }});
-  
+      
     assert.response(app,
       { url: '/error' },
       { body: 'Oh shit!'
       , status: 500
       , headers: {
-          'Content-Type': 'text/plain; charset=utf-8'
+          'Content-Type': 'text/plain'
         , 'Content-Length': '8'
       }});
-  
+      
     assert.response(app,
       { url: '/buffer' },
       { body: 'wahoo!'
@@ -162,45 +158,45 @@ module.exports = {
           'Content-Type': 'application/octet-stream'
         , 'Content-Length': '6'
       }});
-  
+      
     assert.response(app,
       { url: '/204' },
       { status: 204 }, function(res){
         assert.equal(undefined, res.headers['content-type']);
         assert.equal(undefined, res.headers['content-length']);
       });
-
+      
     assert.response(app,
       { url: '/undefined' },
       { status: 500 });
-
+      
     assert.response(app,
       { url: '/json?callback=test' },
       { body: '{"foo":"bar"}'
       , status: 201
       , headers: {
           'Content-Type': 'application/json; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   },
-
+  
   'test #send() JSONP': function(){
     var app = express.createServer();
-
+  
     app.enable('jsonp callback');
-
+  
     app.get('/jsonp', function(req, res){
       res.header('X-Foo', 'bar');
-      res.send({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
+      res.send({ foo: 'bar' }, 201);
     });
-
+  
     assert.response(app,
       { url: '/jsonp?callback=test' },
       { body: 'test({"foo":"bar"});'
       , status: 201
       , headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   
     assert.response(app,
@@ -208,7 +204,7 @@ module.exports = {
       { body: 'baz({"foo":"bar"});'
       , status: 201, headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   
     assert.response(app,
@@ -217,27 +213,27 @@ module.exports = {
       , status: 201
       , headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   },
-
+  
   'test #json() JSONP': function(){
     var app = express.createServer();
-
+  
     app.enable('jsonp callback');
-
+  
     app.get('/jsonp', function(req, res){
       res.header('X-Foo', 'bar');
-      res.json({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
+      res.json({ foo: 'bar' }, 201);
     });
-
+  
     assert.response(app,
       { url: '/jsonp?callback=test' },
       { body: 'test({"foo":"bar"});'
       , status: 201
       , headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   
     assert.response(app,
@@ -245,7 +241,7 @@ module.exports = {
       { body: 'baz({"foo":"bar"});'
       , status: 201, headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   
     assert.response(app,
@@ -254,10 +250,10 @@ module.exports = {
       , status: 201
       , headers: {
           'Content-Type': 'text/javascript; charset=utf-8'
-        , 'X-Foo': 'baz'
+        , 'X-Foo': 'bar'
       }});
   },
-
+  
   'test #contentType()': function(){
     var app = express.createServer();
     
@@ -271,12 +267,12 @@ module.exports = {
       res.contentType('json');
       res.send('{"foo":"bar"}');
     });
-
+  
     app.get('/literal', function(req, res){
       res.contentType('application/json');
       res.send('{"foo":"bar"}')
     });
-
+  
     assert.response(app,
       { url: '/literal' },
       { headers: { 'Content-Type': 'application/json' }});    
@@ -295,7 +291,7 @@ module.exports = {
       res.attachment();
       res.send('some stylezzz');
     });
-
+  
     app.get('/*', function(req, res){
       res.attachment(req.params[0]);
       res.send('whatever');
@@ -306,7 +302,7 @@ module.exports = {
       { body: 'whatever'
       , headers: { 'Content-Type': 'application/javascript'
                  , 'Content-Disposition': 'attachment; filename="jquery.js"' }});
-
+  
     assert.response(app,
       { url: '/style.css' },
       { body: 'some stylezzz'
@@ -319,9 +315,9 @@ module.exports = {
       , app2 = express.createServer();
     
     app2.set('home', '/blog');
-
+  
     app2.redirect('google', 'http://google.com');
-
+  
     app2.redirect('blog', function(req, res){
       return req.params.id
         ? '/user/' + req.params.id + '/blog'
@@ -359,82 +355,82 @@ module.exports = {
     app2.get('/google', function(req, res){
       res.redirect('google');
     });
-
+  
     app2.get('/user/:id', function(req, res){
       res.header('X-Foo', 'bar');
       res.redirect('blog');
     });
-
+  
     assert.response(app,
       { url: '/html', headers: { Accept: 'text/html,text/plain', Host: 'foo.com' }},
       { body: '<p>Moved Temporarily. Redirecting to <a href="http://google.com">http://google.com</a></p>' });
-
+  
     assert.response(app,
       { url: '/', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Permanently. Redirecting to http://google.com'
       , status: 301, headers: { Location: 'http://google.com' }});
-
+  
     assert.response(app,
       { url: '/back', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://foo.com/'
       , status: 302, headers: { Location: 'http://foo.com/', 'Content-Type': 'text/plain' }});
-
+  
     assert.response(app,
       { url: '/back', headers: { Referer: '/foo', Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://foo.com/foo'
       , status: 302, headers: { Location: 'http://foo.com/foo' }});
-
+  
     assert.response(app,
       { url: '/back', headers: { Referrer: '/foo', Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://foo.com/foo'
       , status: 302, headers: { Location: 'http://foo.com/foo' }});
-
+  
     assert.response(app,
       { url: '/home', headers: { Accept: 'text/plain', Host: 'foo.com' } },
       { body: 'Moved Temporarily. Redirecting to http://foo.com/'
       , status: 302, headers: { Location: 'http://foo.com/' }});
-
+  
     assert.response(app2,
       { url: '/', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Permanently. Redirecting to http://google.com'
       , status: 301, headers: { Location: 'http://google.com' }});
-
+  
     assert.response(app2,
       { url: '/back', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://foo.com/blog'
       , status: 302, headers: { Location: 'http://foo.com/blog' }});
-
+  
     assert.response(app2,
       { url: '/home', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://foo.com/blog'
       , status: 302, headers: { Location: 'http://foo.com/blog' }});
-
+  
     assert.response(app2,
       { url: '/google', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://google.com'
       , status: 302, headers: { Location: 'http://google.com' }});
-
+  
     assert.response(app2,
       { url: '/user/12', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://foo.com/user/12/blog'
       , status: 302, headers: { Location: 'http://foo.com/user/12/blog', 'X-Foo': 'bar' }});
   },
-
+  
   'test #redirect() when mounted': function(){
     var app = express.createServer()
       , blog = express.createServer();
-
-
+  
+  
     blog.get('/posts', function(req, res){
       res.redirect('/posts/all');
     });
-
+  
     blog.get('/posts/all', function(req, res){
       res.send('all blog posts');
     });
-
+  
     app.use('/blog', blog);
-
+  
     assert.response(app,
       { url: '/blog/posts', headers: { Host: 'foo.com' }},
       { status: 302
@@ -443,7 +439,7 @@ module.exports = {
   
   'test #sendfile()': function(){
     var app = express.createServer();
-
+  
     app.get('/*', function(req, res, next){
       var file = req.params[0]
         , path = __dirname + '/fixtures/' + file;
@@ -451,29 +447,29 @@ module.exports = {
     });
     
     app.use(express.errorHandler());
-
+  
     assert.response(app,
       { url: '/../express.test.js' },
       { body: 'Forbidden', status: 403 });
-
+  
     assert.response(app,
       { url: '/user.json' },
       { body: '{"name":"tj"}'
       , status: 200, headers: { 'Content-Type': 'application/json' }});
-
+  
     assert.response(app,
       { url: '/hello.haml' },
       { body: '%p Hello World'
       , status: 200, headers: { 'Content-Type': 'application/octet-stream' }});
-
+  
     assert.response(app,
       { url: '/doesNotExist' },
       { body: 'Cannot GET /doesNotExist', status: 404 });
-
+  
     assert.response(app,
       { url: '/partials' },
       { body: 'Cannot GET /partials', status: 404 });
-
+  
     assert.response(app,
       { url: '/large.json' },
       { status: 200, headers: { 'Content-Type': 'application/json' }});
@@ -491,19 +487,19 @@ module.exports = {
         ++calls;
       });
     });
-
+  
     assert.response(app,
       { url: '/forum' },
       { body: 'got an error' });
-
+  
     assert.response(app,
       { url: '/does-not-exist' },
       { body: 'got an error' });
-
+  
     assert.response(app,
       { url: '/large.json' },
       { headers: { 'Accept-Ranges': 'bytes' }});
-
+  
     beforeExit(function(){
       calls.should.equal(1);
     });
@@ -521,23 +517,23 @@ module.exports = {
         ++calls;
       });
     });
-
+  
     assert.response(app,
       { url: '/does-not-exist' },
       { body: 'got an error' });
-
+  
     assert.response(app,
       { url: '/large.json' },
       { headers: {
           'Accept-Ranges': 'bytes'
         , 'Cache-Control': 'public, max-age=3600'
       }});
-
+  
     beforeExit(function(){
       calls.should.equal(1);
     });
   },
- 
+   
    'test #sendfile() Accept-Ranges': function(){
      var app = express.createServer();
      
@@ -605,21 +601,21 @@ module.exports = {
       var path = __dirname + '/fixtures/user.json';
       res.download(path, 'account.json');
     });
-
+  
     app.get('/callback', function(req, res, next){
       res.download(__dirname + '/fixtures/pets.json', function(err){
         ++calls;
       });
     });
-
+  
     app.get('/*', function(req, res, next){
       res.download(__dirname + '/fixtures/' + req.params[0]);
     });
-
+  
     assert.response(app,
       { url: '/callback' },
       { body: '["tobi", "loki", "jane"]' });
-
+  
     assert.response(app,
       { url: '/user.json' },
       { body: '{"name":"tj"}', status: 200, headers: {
@@ -640,11 +636,11 @@ module.exports = {
       function(res){
         assert.equal(null, res.headers['content-disposition']);
       });
-
+  
     assert.response(app,
       { url: '/some%20random%20text%20file.txt' },
       { body: 'hello' });
-
+  
     beforeExit(function(){
       calls.should.equal(1);
     });
@@ -652,15 +648,15 @@ module.exports = {
   
   'test #cookie() path default': function(){
     var app = express.createServer();
-
+  
     app.set('home', '/foo');
-
+  
     app.get('/', function(req, res){
       res.cookie('rememberme', 'yes', { expires: new Date(1), httpOnly: true });
       res.cookie('something', 'else');
       res.redirect('/');
     });
-
+  
     assert.response(app,
       { url: '/', headers: { Host: 'foo.com' }},
       function(res){
@@ -668,18 +664,18 @@ module.exports = {
           .should.eql(['rememberme=yes; path=/foo; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly', 'something=else; path=/foo']);
       });
   },
-
+  
   'test #cookie() explicit path': function(){
     var app = express.createServer();
-
+  
     app.set('/home', '/foo');
-
+  
     app.get('/', function(req, res){
       res.cookie('rememberme', 'yes', { path: '/', expires: new Date(1), httpOnly: true });
       res.cookie('something', 'else');
       res.redirect('/');
     });
-
+  
     assert.response(app,
       { url: '/', headers: { Host: 'foo.com' }},
       function(res){
@@ -687,18 +683,18 @@ module.exports = {
           .should.eql(['rememberme=yes; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly', 'something=else; path=/']);
       });
   },
-
+  
   'test #cookie() null path': function(){
     var app = express.createServer();
-
+  
     app.set('/home', '/foo');
-
+  
     app.get('/', function(req, res){
       res.cookie('rememberme', 'yes', { path: null, expires: new Date(1), httpOnly: true });
       res.cookie('something', 'else', { path: null });
       res.redirect('/');
     });
-
+  
     assert.response(app,
       { url: '/', headers: { Host: 'foo.com' }},
       function(res){
@@ -706,12 +702,12 @@ module.exports = {
           .should.eql(['rememberme=yes; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly', 'something=else']);
       });
   },
-
+  
   'test #clearCookie() default path': function(){
     var app = express.createServer();
-
+  
     app.set('home', '/foo');
-
+  
     app.get('/', function(req, res){
       res.clearCookie('rememberme');
       res.redirect('/');
@@ -724,12 +720,12 @@ module.exports = {
           .should.eql(['rememberme=; path=/foo; expires=Thu, 01 Jan 1970 00:00:00 GMT']);
       });
   },
-
+  
   'test #clearCookie() explicit path': function(){
     var app = express.createServer();
-
+  
     app.set('home', '/bar');
-
+  
     app.get('/', function(req, res){
       res.clearCookie('rememberme', { path: '/foo' });
       res.redirect('/');
@@ -742,7 +738,7 @@ module.exports = {
           .should.eql(['rememberme=; path=/foo; expires=Thu, 01 Jan 1970 00:00:00 GMT']);
       });
   },
-
+  
   'test HEAD': function(){
     var app = express.createServer();
     
@@ -757,12 +753,12 @@ module.exports = {
   
   'test .charset with res.send()': function(){
     var app = express.createServer();
-
+  
     app.get('/', function(req, res){
       res.charset = 'ISO-8859-1';
       res.send('<p>hey</p>');
     });
-
+  
     assert.response(app,
       { url: '/' },
       { headers: { 'Content-Type': 'text/html; charset=ISO-8859-1' }});
