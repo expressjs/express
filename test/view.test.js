@@ -895,13 +895,11 @@ module.exports = {
       { body: '<p>This is actually jade :)</p>' });
   },
 
-  'test app.local()': function(){
+  'test app.locals': function(){
     var app = create();
 
-    app
-      .local('open', '<?')
-      .local('close', '?>')
-      .local('title', 'Wahoo');
+    app.locals.title = 'Wahoo';
+    app.locals({ open: '<?', close: '?>' });
 
     app.get('/video', function(req, res, next){
       res.render('video.ejs', { layout: false });
@@ -945,7 +943,7 @@ module.exports = {
   'test res.locals partials': function(){
     var app = create();
 
-    app.local('site', 'My Cool Pets');
+    app.locals.site = 'My Cool Pets';
     
     app.get('/pets', function(req, res, next){
       res.locals.pets = ['Tobi'];
@@ -1017,7 +1015,7 @@ module.exports = {
     });
 
     app.get('/local', function(req, res){
-      res.locals.charse = 'ISO-8859-1';
+      res.locals.charset = 'ISO-8859-1';
       res.render('hello.jade');
     });
 
@@ -1040,7 +1038,7 @@ module.exports = {
   
   'test charset override': function(){
     var app = create();
-    app.set('view options', { charset: 'ISO-8859-1' });
+    app.locals.charset = 'ISO-8859-1';
   
     app.get('/', function(req, res){
       res.render('hello.jade', { charset: 'utf8' });
