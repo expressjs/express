@@ -124,7 +124,7 @@ are available as `req.params`.
   		res.send('user ' + req.params.id);
   	});
 
-A route is simple a string which is compiled to a _RegExp_ internally. For example
+A route is a simple string which is compiled to a _RegExp_ internally. For example
 when _/user/:id_ is compiled, a simplified version of the regexp may look similar to:
 
     \/user\/([^\/]+)\/?
