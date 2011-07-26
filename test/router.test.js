@@ -138,6 +138,18 @@ module.exports = {
       { body: 'Cannot GET /user/ab' });
   },
   
+  'test that * operates correctly': function(){
+    var app = express.createServer();
+  
+    app.get('/admin*', function(req, res){
+      res.send(200);
+    });
+  
+    assert.response(app,
+      { url: '/admin', },
+      { status: 200 });
+  },
+  
   'test app.param()': function(){
     var app = express.createServer();
   
@@ -214,7 +226,7 @@ module.exports = {
       { url: '/user/12', method: 'OPTIONS' },
       { headers: { Allow: 'GET,PUT' }});
   },
-  
+
   'test app.lookup': function(){
     var app = express.createServer();
     app.get('/user', function(){});
