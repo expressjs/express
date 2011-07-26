@@ -532,7 +532,7 @@ var app = express.createServer(
   );
 </code></pre>
 
-<p>Alternatively we can <em>use()</em> them which is useful when adding middleware within <em>configure()</em> blocks, in a progressive manor.</p>
+<p>Alternatively we can <em>use()</em> them which is useful when adding middleware within <em>configure()</em> blocks, in a progressive manner.</p>
 
 <pre><code>app.use(express.logger({ format: ':method :url' }));
 </code></pre>
@@ -658,7 +658,7 @@ app.get('/', all, function(){});
 
 <h3 id="http-methods">HTTP Methods</h3>
 
-<p>We have seen <em>app.get()</em> a few times, however Express also exposes other familiar HTTP verbs in the same manor, such as <em>app.post()</em>, <em>app.del()</em>, etc.</p>
+<p>We have seen <em>app.get()</em> a few times, however Express also exposes other familiar HTTP verbs in the same manner, such as <em>app.post()</em>, <em>app.del()</em>, etc.</p>
 
 <p> A common example for <em>POST</em> usage, is when &ldquo;submitting&rdquo; a form. Below we simply set our form method to &ldquo;post&rdquo; in our html, and control will be given to the route we have defined below it.</p>
 

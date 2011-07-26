@@ -262,7 +262,7 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 	  	, express.bodyParser()
 	  );
 
-Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks, in a progressive manor.
+Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks, in a progressive manner.
 
     app.use(express.logger({ format: ':method :url' }));
 
@@ -379,7 +379,7 @@ There are times when we may want to "skip" passed remaining route middleware, bu
 
 ### HTTP Methods
 
-We have seen _app.get()_ a few times, however Express also exposes other familiar HTTP verbs in the same manor, such as _app.post()_, _app.del()_, etc.
+We have seen _app.get()_ a few times, however Express also exposes other familiar HTTP verbs in the same manner, such as _app.post()_, _app.del()_, etc.
 
  A common example for _POST_ usage, is when "submitting" a form. Below we simply set our form method to "post" in our html, and control will be given to the route we have defined below it.
  
