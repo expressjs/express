@@ -138,7 +138,7 @@ module.exports = {
       { body: 'Cannot GET /user/ab' });
   },
   
-  'test that * operates correctly': function(){
+  'test optional * value': function(){
     var app = express.createServer();
   
     app.get('/admin*', function(req, res){
