@@ -30,6 +30,8 @@ app.dynamicHelpers({
 });
 
 // Generate a salt for the user to prevent rainbow table attacks
+// for better security take a look at the bcrypt c++ addon:
+// https://github.com/ncb000gt/node.bcrypt.js
 
 var users = {
   tj: {
