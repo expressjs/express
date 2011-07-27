@@ -142,12 +142,16 @@ module.exports = {
     var app = express.createServer();
   
     app.get('/admin*', function(req, res){
-      res.send(200);
+      res.send(req.params[0], 200);
     });
   
     assert.response(app,
       { url: '/admin', },
-      { status: 200 });
+      { body: '', status: 200 });
+
+    assert.response(app,
+      { url: '/adminify', },
+      { body: 'ify', status: 200 });
   },
   
   'test app.param()': function(){
