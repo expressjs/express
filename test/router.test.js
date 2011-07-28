@@ -138,6 +138,50 @@ module.exports = {
       { body: 'Cannot GET /user/ab' });
   },
   
+  'test named capture group after dot': function(){
+    var app = express.createServer();
+  
+    app.get('/user/:name.:format?', function(req, res){
+      res.send(req.params.name + ' - ' + (req.params.format || ''));
+    });
+    
+    assert.response(app,
+      { url: '/user/foo' },
+      { body: 'foo - ' });
+    
+    assert.response(app,
+      { url: '/user/foo.json' },
+      { body: 'foo - json' });
+    
+    assert.response(app,
+      { url: '/user/foo.bar.json' },
+      { body: 'foo.bar - json' });
+  },
+  
+  'test optional * value': function(){
+    var app = express.createServer();
+  
+    app.get('/admin*', function(req, res){
+      res.send(req.params[0]);
+    });
+
+    app.get('/file/*.*', function(req, res){
+      res.send(req.params[0] + ' - ' + req.params[1]);
+    });
+
+    assert.response(app,
+      { url: '/file/some.foo.bar' },
+      { body: 'some.foo - bar' });
+
+    assert.response(app,
+      { url: '/admin', },
+      { body: '', status: 200 });
+
+    assert.response(app,
+      { url: '/adminify', },
+      { body: 'ify', status: 200 });
+  },
+  
   'test app.param()': function(){
     var app = express.createServer();
 
