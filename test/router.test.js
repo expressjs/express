@@ -138,6 +138,26 @@ module.exports = {
       { body: 'Cannot GET /user/ab' });
   },
   
+  'test named capture group after dot': function(){
+    var app = express.createServer();
+  
+    app.get('/user/:name.:format?', function(req, res){
+      res.send(req.params.name + ' - ' + (req.params.format || ''));
+    });
+    
+    assert.response(app,
+      { url: '/user/foo' },
+      { body: 'foo - ' });
+    
+    assert.response(app,
+      { url: '/user/foo.json' },
+      { body: 'foo - json' });
+    
+    assert.response(app,
+      { url: '/user/foo.bar.json' },
+      { body: 'foo.bar - json' });
+  },
+  
   'test optional * value': function(){
     var app = express.createServer();
   
