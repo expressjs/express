@@ -144,7 +144,19 @@ module.exports = {
     app.get('/user/:name.:format?', function(req, res){
       res.send(req.params.name + ' - ' + (req.params.format || ''));
     });
-    
+
+    app.get('/commit/:from-:to.:format?', function(req, res, next){
+      res.send(req.params.from + '..' + req.params.to + ' ' + (req.params.format || ''));
+    });
+
+    assert.response(app,
+      { url: '/commit/foo-baz.bar.patch' },
+      { body: 'foo..baz.bar patch' });
+
+    assert.response(app,
+      { url: '/commit/foo-baz' },
+      { body: 'foo..baz ' });
+
     assert.response(app,
       { url: '/user/foo' },
       { body: 'foo - ' });
