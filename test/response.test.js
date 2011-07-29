@@ -95,6 +95,10 @@ module.exports = {
         res.send(204);
       });
 
+      app.get('/null', function(req, res, next){
+        res.send(null);
+      });
+
       app.get('/undefined', function(req, res, next){
         res.send(undefined);
       });
@@ -165,6 +169,10 @@ module.exports = {
           assert.equal(undefined, res.headers['content-type']);
           assert.equal(undefined, res.headers['content-length']);
         });
+
+      assert.response(app,
+        { url: '/null' },
+        { body: '' });
 
       assert.response(app,
         { url: '/undefined' },
