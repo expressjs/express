@@ -68,8 +68,8 @@ module.exports = {
     });
 
     app.get('/json', function(req, res){
-      res.header('X-Foo', 'bar');
-      res.send({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
+      res.header('X-Foo', 'bar')
+        .send({ foo: 'bar' }, { 'X-Foo': 'baz' }, 201);
     });
     
     app.get('/text', function(req, res){
