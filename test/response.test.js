@@ -22,7 +22,7 @@ module.exports = {
     });
 
     app.get('/error', function(req, res, next){
-      res.json('oh noes!', 500);
+      res.json(500, 'oh noes!');
     });
 
     assert.response(app,
@@ -65,7 +65,7 @@ module.exports = {
     
       app.get('/json', function(req, res){
         res.header('X-Foo', 'bar');
-        res.send({ foo: 'bar' }, 201);
+        res.send(201, { foo: 'bar' });
       });
       
       app.get('/text', function(req, res){
@@ -78,12 +78,12 @@ module.exports = {
       });
       
       app.get('/status/text', function(req, res){
-        res.send('Oh noes!', 404);
+        res.send(404, 'Oh noes!');
       });
       
       app.get('/error', function(req, res){
         res.header('Content-Type', 'text/plain');
-        res.send('Oh shit!', 500);
+        res.send(500, 'Oh shit!');
       });
       
       app.get('/buffer', function(req, res){
@@ -194,7 +194,7 @@ module.exports = {
     
       app.get('/jsonp', function(req, res){
         res.header('X-Foo', 'bar');
-        res.send({ foo: 'bar' }, 201);
+        res.send(201, { foo: 'bar' });
       });
     
       assert.response(app,
@@ -231,7 +231,7 @@ module.exports = {
     
       app.get('/jsonp', function(req, res){
         res.header('X-Foo', 'bar');
-        res.json({ foo: 'bar' }, 201);
+        res.json(201, { foo: 'bar' });
       });
     
       assert.response(app,

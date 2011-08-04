@@ -245,7 +245,7 @@ The _app.all()_ method is useful for applying the same logic for all HTTP verbs 
     });
 
     app.get('*', function(req, res){
-      res.send('what???', 404);
+      res.send(404, 'what???');
     });
 
     app.listen(3000); 
@@ -429,7 +429,7 @@ The reason that these are not always defaults, is simply because these are not r
     app.use(app.methodOverride());
     app.use(app.router);
     app.use(function(err, req, res, next){
-      res.send('Internal Server Error', 500);
+      res.send(500, 'Server error');
     });
 
 ### Route Param Pre-conditions
@@ -797,6 +797,21 @@ Sets the _Content-Disposition_ response header to "attachment", with optional _f
 
       res.attachment('path/to/my/image.png');
 
+### res.status(code)
+
+  Sets the `res.statusCode` property to `code` and returns for chaining:
+
+     res.status(500).send('Something bad happened');
+
+  is equivalent to:
+  
+     res.statusCode = 500;
+     res.send('Something bad happened');
+
+  and:
+
+      res.send(500, 'Something bad happened');
+
 ### res.sendfile(path[, options[, callback]])
 
 Used by `res.download()` to transfer an arbitrary file. 
@@ -846,35 +861,31 @@ An optional second callback, _callback2_ may be given to allow you to act on con
       // connection related error
     });
 
-### res.send(body|status[, headers|status[, status]])
+### res.send(body|status[, body])
 
 The _res.send()_ method is a high level response utility allowing you to pass
 objects to respond with json, strings for html, Buffer instances, or numbers representing the status code. The following are all valid uses:
 
      res.send(new Buffer('wahoo'));
      res.send({ some: 'json' });
+     res.send(201, { message: 'User created' });
      res.send('<p>some html</p>');
-     res.send('Sorry, cant find that', 404);
-     res.send('text', { 'Content-Type': 'text/plain' }, 201);
-     res.send(404);
+     res.send(404, 'Sorry, cant find that');
+     res.send(404); // "Not Found"
+     res.send(500); // "Internal Server Error"
 
-By default the _Content-Type_ response header is set, however if explicitly
-assigned through `res.send()` or previously with `res.header()` or `res.contentType()`
-it will not be set again.
+The _Content-Type_ response header is defaulted appropriately unless previously defined via `res.header()` / `res.contentType()` etc.
 
 Note that this method _end()_s the response, so you will want to use node's _res.write()_ for multiple writes or streaming.
 
-### res.json(obj[, headers|status[, status]])
+### res.json(obj|status[, obj])
 
- Send a JSON response with optional _headers_ and _status_. This method
- is ideal for JSON-only APIs, however _res.send(obj)_ will send JSON as
- well, though not ideal for cases when you want to send for example a string
- as JSON, since the default for _res.send(string)_ is text/html.
+ Send an explicit JSON response. This method is ideal for JSON-only APIs, while it is much like _res.send(obj)_, send is not ideal for cases when you want to send for example a single string as JSON, since the default for _res.send(string)_ is text/html.
 
     res.json(null);
     res.json({ user: 'tj' });
-    res.json('oh noes!', 500);
-    res.json('I dont have that', 404);
+    res.json(500, 'oh noes!');
+    res.json(404, 'I dont have that');
 
 ### res.redirect(url[, status])
 
