@@ -1,4 +1,11 @@
 
+2.4.4 / 2011-08-05 
+==================
+
+  * Fixed `res.header()` intention of a set, even when `undefined`
+  * Fixed `*`, value no longer required
+  * Fixed `res.send(204)` support. Closes #771
+
 2.4.3 / 2011-07-14 
 ==================
 
