@@ -97,7 +97,11 @@ module.exports = {
     app.get('/noargs', function(req, res, next){
       res.send();
     });
-    
+
+    app.get('/no-content', function(req, res, next){
+      res.send(204);
+    });
+
     app.get('/undefined', function(req, res, next){
       res.send(undefined);
     });
@@ -162,6 +166,13 @@ module.exports = {
           'Content-Type': 'application/octet-stream'
         , 'Content-Length': '6'
       }});
+
+    assert.response(app,
+      { url: '/no-content' },
+      { status: 204 }, function(res){
+        assert.equal(undefined, res.headers['content-type']);
+        assert.equal(undefined, res.headers['content-length']);
+      });
   
     assert.response(app,
       { url: '/noargs' },
