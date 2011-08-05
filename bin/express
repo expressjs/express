@@ -4,8 +4,7 @@
  * Module dependencies.
  */
 
-var fs = require('fs')
-  , exec = require('child_process').exec;
+var fs = require('fs');
 
 /**
  * Framework version.
@@ -143,10 +142,10 @@ var sass = [
 
 var stylus = [
     'body'
-  , '  padding: 50px'
-  , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif'
+  , '  padding 50px'
+  , '  font 14px "Lucida Grande", Helvetica, Arial, sans-serif'
   , 'a'
-  , '  color: #00B7FF'
+  , '  color #00B7FF'
 ].join('\n');
 
 /**
@@ -260,23 +259,25 @@ while (args.length) {
 
 function createApplicationAt(path) {
   mkdir(path, function(){
-    mkdir(path + '/public/javascripts');
-    mkdir(path + '/public/images');
-    mkdir(path + '/public/stylesheets', function(){
-      switch (cssEngine) {
-        case 'stylus':
-          write(path + '/public/stylesheets/style.styl', stylus);
-          break;
-        case 'less':
-          write(path + '/public/stylesheets/style.less', less);
-          break;
-        case 'sass':
-          write(path + '/public/stylesheets/style.sass', sass);
-          break;
-        default:
-          write(path + '/public/stylesheets/style.css', css);
-      }
-    });
+    mkdir(path + '/public', function() {
+		mkdir(path + '/public/javascripts');
+		mkdir(path + '/public/images');
+		mkdir(path + '/public/stylesheets', function(){
+		  switch (cssEngine) {
+			case 'stylus':
+			  write(path + '/public/stylesheets/style.styl', stylus);
+			  break;
+			case 'less':
+			  write(path + '/public/stylesheets/style.less', less);
+			  break;
+			case 'sass':
+			  write(path + '/public/stylesheets/style.sass', sass);
+			  break;
+			default:
+			  write(path + '/public/stylesheets/style.css', css);
+		  }
+		});
+	});
     mkdir(path + '/views', function(){
       switch (templateEngine) {
         case 'ejs':
@@ -397,11 +398,11 @@ function prompt(msg, fn) {
  * @param {Function} fn
  */
 
-function mkdir(path, fn) {
-  exec('mkdir -p ' + path, function(err){
-    if (err) throw err;
-    console.log('   \x1b[36mcreate\x1b[0m : ' + path);
-    fn && fn();
+ function mkdir(path, fn) {
+  fs.mkdir(path, 0755, function(err) {
+	if (err) throw err;
+	console.log('   \x1b[36mcreate\x1b[0m : ' + path);
+	fn && fn();
   });
 }
 
