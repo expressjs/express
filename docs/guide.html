@@ -180,8 +180,6 @@
 		</a>
 		<div id="wrapper">
 			<div id="container"><ul id="toc">
-
-</ul><ul id="toc">
 <li><a href="#installation">Installation</a></li>
 <li><a href="#creating-a server">Creating A Server</a></li>
 <li><a href="#creating-an https server">Creating An HTTPS Server</a></li>
@@ -217,6 +215,7 @@
 <li><a href="#res.sendfile()">sendfile()</a></li>
 <li><a href="#res.download()">download()</a></li>
 <li><a href="#res.send()">send()</a></li>
+<li><a href="#res.json()">json()</a></li>
 <li><a href="#res.redirect()">redirect()</a></li>
 <li><a href="#res.cookie()">cookie()</a></li>
 <li><a href="#res.clearcookie()">clearCookie()</a></li>
@@ -335,6 +334,13 @@ app.configure('production', function(){
 });
 </code></pre>
 
+<p>For similar environments you may also pass several env strings:</p>
+
+<pre><code>app.configure('stage', 'prod', function(){
+  // config
+});
+</code></pre>
+
 <p>For internal and arbitrary settings Express provides the <em>set(key[, val])</em>, <em>enable(key)</em>, <em>disable(key)</em> methods:</p>
 
 <pre><code> app.configure(function(){
@@ -371,6 +377,8 @@ app.configure('production', function(){
 <li><em>view options</em> An object specifying global view options</li>
 <li><em>view cache</em> Enable view caching (enabled in production)</li>
 <li><em>case sensitive routes</em> Enable case-sensitive routing</li>
+<li><em>strict routing</em> When enabled trailing slashes are no longer ignored</li>
+<li><em>jsonp callback</em> Enable <em>res.send()</em> / <em>res.json()</em> transparent jsonp support</li>
 </ul>
 
 
@@ -1268,6 +1276,19 @@ it will not be set again.</p>
 
 <p>Note that this method <em>end()</em>s the response, so you will want to use node&rsquo;s <em>res.write()</em> for multiple writes or streaming.</p>
 
+<h3 id="res.json()">res.json(obj[, headers|status[, status]])</h3>
+
+<p> Send a JSON response with optional <em>headers</em> and <em>status</em>. This method
+ is ideal for JSON-only APIs, however <em>res.send(obj)</em> will send JSON as
+ well, though not ideal for cases when you want to send for example a string
+ as JSON, since the default for <em>res.send(string)</em> is text/html.</p>
+
+<pre><code>res.json(null);
+res.json({ user: 'tj' });
+res.json('oh noes!', 500);
+res.json('I dont have that', 404);
+</code></pre>
+
 <h3 id="res.redirect()">res.redirect(url[, status])</h3>
 
 <p>Redirect to the given <em>url</em> with a default response <em>status</em> of 302.</p>
@@ -1285,7 +1306,8 @@ the &ldquo;home&rdquo; setting and defaults to &ldquo;/&rdquo;.</p>
 
 <h3 id="res.cookie()">res.cookie(name, val[, options])</h3>
 
-<p>Sets the given cookie <em>name</em> to <em>val</em>, with options <em>httpOnly</em>, <em>secure</em>, <em>expires</em> etc.</p>
+<p>Sets the given cookie <em>name</em> to <em>val</em>, with options <em>httpOnly</em>, <em>secure</em>, <em>expires</em> etc. The <em>path</em> option defaults to the app&rsquo;s &ldquo;home&rdquo; setting, which
+is typically &ldquo;/&rdquo;.</p>
 
 <pre><code>// "Remember me" for 15 minutes 
 res.cookie('rememberme', 'yes', { expires: new Date(Date.now() + 900000), httpOnly: true });
@@ -1307,7 +1329,8 @@ app.get('/', function(req, res){
 
 <h3 id="res.clearcookie()">res.clearCookie(name[, options])</h3>
 
-<p>Clear cookie <em>name</em> by setting &ldquo;expires&rdquo; far in the past.</p>
+<p>Clear cookie <em>name</em> by setting &ldquo;expires&rdquo; far in the past. Much like
+<em>res.cookie()</em> the <em>path</em> option also defaults to the &ldquo;home&rdquo; setting.</p>
 
 <pre><code>res.clearCookie('rememberme');
 </code></pre>
@@ -1322,6 +1345,16 @@ automatically, however otherwise a response of <em>200</em> and <em>text/html</e
 
 <pre><code>var user = { name: 'tj' };
 res.render('index', { layout: false, user: user });
+</code></pre>
+
+<p>This <em>options</em> object is also considered an &ldquo;options&rdquo; object. For example
+when you pass the <em>status</em> local, it&rsquo;s not only available to the view, it
+sets the response status to this number. This is also useful if a template
+engine accepts specific options, such as <em>debug</em>, or <em>compress</em>. Below
+is an example of how one might render an error page, passing the <em>status</em> for
+display, as well as it setting <em>res.statusCode</em>.</p>
+
+<pre><code> res.render('error', { status: 500, message: 'Internal Server Error' });
 </code></pre>
 
 <h3 id="res.partial()">res.partial(view[, options])</h3>
@@ -1596,7 +1629,6 @@ as well as the <em>name()</em> function exposed.</p>
 <p>Express also provides a few locals by default:</p>
 
 <pre><code>- `settings`  the app's settings object
-- `filename`  the view's filename
 - `layout(path)`  specify the layout from within a view
 </code></pre>
 
