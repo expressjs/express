@@ -104,7 +104,7 @@ Express 3.x (_master_ branch) is compatible with node 0.6.x and connect 2.x
 
 First install the dev dependencies to install all the example / test suite deps:
 
-    $ npm install
+    $ npm install -d
 
 then run whichever tests you want:
 
