@@ -37,7 +37,7 @@ app.dynamicHelpers({
 // Middleware
 
 app.configure(function(){
-  app.use(express.logger('\x1b[33m:method\x1b[0m \x1b[32m:url\x1b[0m :response-time'));
+  app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
