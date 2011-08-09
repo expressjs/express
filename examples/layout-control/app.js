@@ -21,7 +21,7 @@ app.use(function(req, res, next){
   // expose the current path as a view local
   res.locals.path = url.parse(req.url).pathname;
 
-  //
+  // assign content str for section
   res.locals.contentFor = function(section, str){
     res.locals[section] = str;
   };
@@ -35,6 +35,10 @@ app.get('/', function(req, res){
 
 app.get('/alternate', function(req, res){
   res.render('page', { layout: 'layouts/alternate' });
+});
+
+app.get('/alternate2', function(req, res){
+  res.render('page2');
 });
 
 app.get('/defined-in-view', function(req, res){
