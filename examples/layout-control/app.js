@@ -17,9 +17,15 @@ app.set('view engine', 'html');
 // set default layout, usually "layout"
 app.locals.layout = 'layouts/default';
 
-// expose the current path as a view local
 app.use(function(req, res, next){
+  // expose the current path as a view local
   res.locals.path = url.parse(req.url).pathname;
+
+  //
+  res.locals.contentFor = function(section, str){
+    res.locals[section] = str;
+  };
+  
   next();
 });
 
