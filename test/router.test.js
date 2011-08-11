@@ -74,6 +74,34 @@ module.exports = {
     });
   },
 
+  'test app.param(fn)': function(){
+    var app = express.createServer();
+    
+    app.param(function(name, fn){
+      if (fn instanceof RegExp) {
+        return function(req, res, next, val){
+          var captures;
+          if (captures = fn.exec(String(val))) {
+            req.params[name] = captures[1];
+            next();
+          } else {
+            next('route');
+          }
+        }
+      }
+    });
+
+    app.param('commit', /^(\d+)$/);
+
+    app.get('/commit/:commit', function(req, res){
+      res.send(req.params.commit);
+    });
+
+    assert.response(app,
+      { url: '/commit/12' },
+      { body: '12' });
+  },
+
   'test precedence': function(){
     var app = express.createServer();
 
