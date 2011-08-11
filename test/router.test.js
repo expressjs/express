@@ -74,6 +74,39 @@ module.exports = {
     });
   },
 
+  'test app.param() multiples': function(){
+    var app = express.createServer();
+
+    var commits = ['foo', 'bar', 'baz'];
+
+    app.param('commit', function(req, res, next, id){
+      req.commit = parseInt(id);
+      if (isNaN(req.commit)) return next('route');
+      next();
+    });
+
+    app.param('commit', function(req, res, next, id){
+      req.commit = commits[req.commit];
+      next();
+    });
+
+    app.get('/commit/:commit', function(req, res){
+      res.send(req.commit);
+    });
+
+    assert.response(app,
+      { url: '/commit/0' },
+      { body: 'foo' });
+
+    assert.response(app,
+      { url: '/commit/0x01' },
+      { body: 'bar' });
+
+    assert.response(app,
+      { url: '/commit/asdf' },
+      { status: 404 });
+  },
+
   'test app.param(fn)': function(){
     var app = express.createServer();
     
