@@ -100,6 +100,10 @@ module.exports = {
     assert.response(app,
       { url: '/commit/12' },
       { body: '12' });
+
+    assert.response(app,
+      { url: '/commit/asdf' },
+      { status: 404 });
   },
 
   'test precedence': function(){
