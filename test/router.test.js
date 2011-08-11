@@ -74,6 +74,213 @@ module.exports = {
     });
   },
 
+  'test app.param() multiple mapping functions': function(){
+    var app = express.createServer();
+
+    app.param(function(name, fn){
+      if (fn.length < 3) {
+        return function(req, res, next, val){
+          val = req.params[name] = fn(val);
+          if (false === val) {
+            next('route');
+          } else {
+            next();
+          }
+        };
+      }
+    });
+
+    app.param(function(name, range){
+      if (!~String(range).indexOf('..')) return;
+      var parts = range.split('..')
+        , from = parseInt(parts.shift())
+        , to = parseInt(parts.shift());
+
+      return function(req, res, next, val){
+        if (val < from || val > to) return next('route');
+        next();
+      }
+    });
+
+    app.param('user', Number);
+    app.param('user', '0..5');
+
+    app.get('/user/:user', function(req, res){
+      res.json(req.params.user);
+    });
+
+    assert.response(app,
+      { url: '/user/3' },
+      { body: '3' });
+
+    assert.response(app,
+      { url: '/user/6' },
+      { status: 404 });
+  },
+
+  'test app.param() name passing': function(){
+    var app = express.createServer();
+    
+    app.param(function(name, fn){
+      if (fn.length < 3) {
+        return function(req, res, next, val){
+          val = req.params[name] = fn(val);
+          if (false === val) {
+            next('route');
+          } else {
+            next();
+          }
+        };
+      }
+    });
+
+    function within(a, b) {
+      return function(req, res, next, val, name){
+        if (val < a || val > b) {
+          return next(new Error(name + ' should be within ' + a + '..' + b));
+        }
+        next();
+      }
+    }
+
+    app.param('user', Number);
+    app.param('user', within(0, 5));
+
+    app.get('/user/:user', function(req, res){
+      res.json(req.params.user);
+    });
+
+    app.use(function(err, req, res, next){
+      res.json({ error: err.message });
+    });
+
+    assert.response(app,
+      { url: '/user/0' },
+      { body: '0' });
+
+    assert.response(app,
+      { url: '/user/6' },
+      { body: '{"error":"user should be within 0..5"}' });
+  },
+
+  'test app.param() multiple callbacks and array of params': function(){
+    var app = express.createServer();
+    var users = [{ name: 'tj' }];
+    var pets = [['tobi', 'loki', 'jane', 'manny', 'luna']];
+
+    function loadUser(req, res, next, id) {
+      req.user = users[id];
+      next();
+    }
+
+    function loadUserPets(req, res, next, id) {
+      req.user.pets = pets[id];
+      next();
+    }
+
+    app.param(['user_id', 'user'], loadUser, loadUserPets);
+
+    app.get('/user/:user_id', function(req, res){
+      res.send(req.user);
+    });
+
+    app.get('/account/:user', function(req, res){
+      res.send(req.user);
+    });
+
+    assert.response(app,
+      { url: '/account/0' },
+      { body: '{"name":"tj","pets":["tobi","loki","jane","manny","luna"]}' });
+
+    assert.response(app,
+      { url: '/user/0' },
+      { body: '{"name":"tj","pets":["tobi","loki","jane","manny","luna"]}' });
+  },
+
+  'test app.param() multiple callbacks': function(){
+    var app = express.createServer();
+    var users = [{ name: 'tj' }];
+    var pets = [['tobi', 'loki', 'jane', 'manny', 'luna']];
+
+    function loadUser(req, res, next, id) {
+      req.user = users[id];
+      next();
+    }
+
+    function loadUserPets(req, res, next, id) {
+      req.user.pets = pets[id];
+      next();
+    }
+
+    app.param('user_id', loadUser, loadUserPets);
+
+    app.get('/user/:user_id', function(req, res){
+      res.send(req.user);
+    });
+
+    assert.response(app,
+      { url: '/user/0' },
+      { body: '{"name":"tj","pets":["tobi","loki","jane","manny","luna"]}' });
+  },
+
+  'test app.param() multiple calls with error': function(){
+    var app = express.createServer();
+
+    var commits = ['foo', 'bar', 'baz'];
+
+    app.param('commit', function(req, res, next, id){
+      req.commit = parseInt(id);
+      if (isNaN(req.commit)) return next('route');
+      next();
+    });
+
+    app.param('commit', function(req, res, next, id){
+      req.commit = commits[req.commit];
+      next(new Error('failed'));
+    });
+
+    app.get('/commit/:commit', function(req, res){
+      res.send(req.commit);
+    });
+
+    assert.response(app,
+      { url: '/commit/0' },
+      { status: 500 });
+  },
+
+  'test app.param() multiple calls': function(){
+    var app = express.createServer();
+
+    var commits = ['foo', 'bar', 'baz'];
+
+    app.param('commit', function(req, res, next, id){
+      req.commit = parseInt(id);
+      if (isNaN(req.commit)) return next('route');
+      next();
+    });
+
+    app.param('commit', function(req, res, next, id){
+      req.commit = commits[req.commit];
+      next();
+    });
+
+    app.get('/commit/:commit', function(req, res){
+      res.send(req.commit);
+    });
+
+    assert.response(app,
+      { url: '/commit/0' },
+      { body: 'foo' });
+
+    assert.response(app,
+      { url: '/commit/0x01' },
+      { body: 'bar' });
+
+    assert.response(app,
+      { url: '/commit/asdf' },
+      { status: 404 });
+  },
+
   'test app.param(fn)': function(){
     var app = express.createServer();
     
