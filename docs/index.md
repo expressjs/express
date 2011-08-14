@@ -51,3 +51,4 @@ The following modules compliment or extend Express directly:
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
   * [日本語ドキュメンテーション](http://hideyukisaito.com/doc/expressjs/) by [hideyukisaito](https://github.com/hideyukisaito)
+  * [Русскоязычная документация](http://express-js.ru/)
