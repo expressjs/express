@@ -598,7 +598,18 @@ module.exports = {
     app.match.all('/user/123').should.have.length(3);
     app.match('/user/123').should.have.length(3);
   },
-  
+
+  'test app.routes.all()': function(){
+    var app = express.createServer();
+    app.get('/user', function(){});
+    app.get('/user/:id', function(){});
+    app.get('/user/:id/:op?', function(){});
+    app.put('/user/:id', function(){});
+    app.get('/user/:id/edit', function(){});
+    app.routes.all()[0].should.be.an.instanceof(Route);
+    app.routes.all().length.should.equal(5);
+  },
+
   'test Collection': function(){
     var app = express.createServer();
     app.get('/user', function(){});
