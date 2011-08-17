@@ -367,15 +367,27 @@ module.exports = {
       { url: '/', method: 'POST', data: 'name=tj', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
       { body: '{"name":"tj"}' });
   },
-  
+
+  'test "basepath" setting': function(){
+    var app = express.createServer();
+
+    app.set('basepath', '/shop');
+
+    app.get('/redirect', function(req, res){
+      res.redirect('/cart');
+    });
+
+    assert.response(app,
+      { url: '/redirect', headers: { Host: 'foo.com' }},
+      { headers: { Location: 'http://foo.com/shop/cart' }});
+  },
+
   'test mounting': function(){
     var called
       , app = express.createServer()
       , blog = express.createServer()
       , map = express.createServer()
       , reg = connect.createServer();
-
-    map.set('home', '/map');
     
     map.mounted(function(parent){
       called = true;
@@ -396,9 +408,8 @@ module.exports = {
     blog.set('test').should.equal('parent setting');
     
     app.get('/', function(req, res){
-      app.set('home').should.equal('/');
-      blog.set('home').should.equal('/blog');
-      map.set('home').should.equal('/contact/map');
+      blog.set('basepath').should.equal('/blog');
+      map.set('basepath').should.equal('/contact');
       res.send('main app');
     });
 

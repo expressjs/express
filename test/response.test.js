@@ -332,13 +332,13 @@ module.exports = {
     var app = express.createServer()
       , app2 = express.createServer();
     
-    app2.set('home', '/blog');
+    app2.set('basepath', '/blog');
 
     app2.redirect('google', 'http://google.com');
 
     app2.redirect('blog', function(req, res){
       return req.params.id
-        ? '/user/' + req.params.id + '/blog'
+        ? '/user/' + req.params.id + '/posts'
         : null;
     });
       
@@ -382,56 +382,56 @@ module.exports = {
     assert.response(app,
       { url: '/html', headers: { Accept: 'text/html,text/plain', Host: 'foo.com' }},
       { body: '<p>Moved Temporarily. Redirecting to <a href="http://google.com">http://google.com</a></p>' });
-
+    
     assert.response(app,
       { url: '/', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Permanently. Redirecting to http://google.com'
       , status: 301, headers: { Location: 'http://google.com' }});
-
+    
     assert.response(app,
       { url: '/back', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://foo.com/'
       , status: 302, headers: { Location: 'http://foo.com/', 'Content-Type': 'text/plain' }});
-
+    
     assert.response(app,
       { url: '/back', headers: { Referer: '/foo', Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://foo.com/foo'
       , status: 302, headers: { Location: 'http://foo.com/foo' }});
-
+    
     assert.response(app,
       { url: '/back', headers: { Referrer: '/foo', Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://foo.com/foo'
       , status: 302, headers: { Location: 'http://foo.com/foo' }});
-
+    
     assert.response(app,
       { url: '/home', headers: { Accept: 'text/plain', Host: 'foo.com' } },
       { body: 'Moved Temporarily. Redirecting to http://foo.com/'
       , status: 302, headers: { Location: 'http://foo.com/' }});
-
+    
     assert.response(app2,
       { url: '/', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Permanently. Redirecting to http://google.com'
       , status: 301, headers: { Location: 'http://google.com' }});
-
+    
     assert.response(app2,
       { url: '/back', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://foo.com/blog'
       , status: 302, headers: { Location: 'http://foo.com/blog' }});
-
+    
     assert.response(app2,
       { url: '/home', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://foo.com/blog'
       , status: 302, headers: { Location: 'http://foo.com/blog' }});
-
+    
     assert.response(app2,
       { url: '/google', headers: { Accept: 'text/plain', Host: 'foo.com' }},
       { body: 'Moved Temporarily. Redirecting to http://google.com'
       , status: 302, headers: { Location: 'http://google.com' }});
-
+    
     assert.response(app2,
       { url: '/user/12', headers: { Accept: 'text/plain', Host: 'foo.com' }},
-      { body: 'Moved Temporarily. Redirecting to http://foo.com/user/12/blog'
-      , status: 302, headers: { Location: 'http://foo.com/user/12/blog', 'X-Foo': 'bar' }});
+      { body: 'Moved Temporarily. Redirecting to http://foo.com/blog/user/12/posts'
+      , status: 302, headers: { Location: 'http://foo.com/blog/user/12/posts', 'X-Foo': 'bar' }});
   },
 
   'test #redirect() when mounted': function(){
@@ -667,7 +667,7 @@ module.exports = {
   'test #cookie() path default': function(){
     var app = express.createServer();
 
-    app.set('home', '/foo');
+    app.set('basepath', '/foo');
 
     app.get('/', function(req, res){
       res.cookie('rememberme', 'yes', { expires: new Date(1), httpOnly: true });
@@ -686,11 +686,11 @@ module.exports = {
   'test #cookie() explicit path': function(){
     var app = express.createServer();
 
-    app.set('/home', '/foo');
+    app.set('/basepath', '/foo');
 
     app.get('/', function(req, res){
       res.cookie('rememberme', 'yes', { path: '/', expires: new Date(1), httpOnly: true });
-      res.cookie('something', 'else');
+      res.cookie('something', 'else', { path: '/' });
       res.redirect('/');
     });
 
@@ -705,7 +705,7 @@ module.exports = {
   'test #cookie() null path': function(){
     var app = express.createServer();
 
-    app.set('/home', '/foo');
+    app.set('/basepath', '/foo');
 
     app.get('/', function(req, res){
       res.cookie('rememberme', 'yes', { path: null, expires: new Date(1), httpOnly: true });
@@ -724,7 +724,7 @@ module.exports = {
   'test #clearCookie() default path': function(){
     var app = express.createServer();
 
-    app.set('home', '/foo');
+    app.set('basepath', '/foo');
 
     app.get('/', function(req, res){
       res.clearCookie('rememberme');
@@ -742,7 +742,7 @@ module.exports = {
   'test #clearCookie() explicit path': function(){
     var app = express.createServer();
 
-    app.set('home', '/bar');
+    app.set('basepath', '/bar');
 
     app.get('/', function(req, res){
       res.clearCookie('rememberme', { path: '/foo' });
