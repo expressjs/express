@@ -508,7 +508,7 @@ module.exports = {
 
     var route = app.get('/user/:id')[0]
     route.should.be.an.instanceof(Route);
-    route.callback.should.be.a('function');
+    route.callbacks.should.be.an.instanceof(Array);
     route.path.should.equal('/user/:id');
     route.regexp.should.be.an.instanceof(RegExp);
     route.method.should.equal('get');
@@ -570,7 +570,6 @@ module.exports = {
 
     var route = app.match.get('/user/12')[0];
     route.should.be.an.instanceof(Route);
-    route.callback.should.be.a('function');
     route.path.should.equal('/user/:id');
     route.regexp.should.be.an.instanceof(RegExp);
     route.method.should.equal('get');
