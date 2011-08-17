@@ -697,5 +697,62 @@ module.exports = {
       function(){
         routes.should.eql(['/:foo?', '/foo']);
       });
+  },
+  
+  'test route callback error handling': function(){
+    var app = express.createServer()
+      , calls = [];
+
+    app.get('/user/:id', function(req, res, next){
+      calls.push('one');
+      next();
+    });
+
+    app.get('/user/:id', function(req, res, next){
+      calls.push('two');
+      next(new Error('fail'));
+    });
+
+    app.get('/user/:id', function(req, res, next){
+      calls.push('three');
+      next();
+    });
+    
+    app.get('/user/*', function(err, req, res, next){
+      res.statusCode = 500;
+      res.send('error: ' + err.message);
+    });
+
+    app.get('/user/*', function(req, res, next){
+      calls.push('four');
+      next();
+    });
+
+    assert.response(app,
+      { url: '/user/12' },
+      { body: 'error: fail' }, function(){
+        calls.should.eql(['one', 'two']);
+      });
+  },
+  
+  'test route callback error recovery': function(){
+    var app = express.createServer();
+
+    app.get('/user/:id', function(req, res, next){
+      next(new Error('fail'));
+    });
+
+    app.get('/user/*', function(err, req, res, next){
+      req.error = err;
+      next();
+    });
+
+    app.get('/user/*', function(req, res, next){
+      res.send('recovered from error: ' + req.error.message);
+    });
+
+    assert.response(app,
+      { url: '/user/12' },
+      { body: 'recovered from error: fail' });
   }
 };
