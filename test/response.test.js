@@ -321,13 +321,13 @@ module.exports = {
       var app = express.createServer()
         , app2 = express.createServer();
       
-      app2.set('home', '/blog');
+      app2.set('basepath', '/blog');
     
       app2.redirect('google', 'http://google.com');
     
       app2.redirect('blog', function(req, res){
         return req.params.id
-          ? '/user/' + req.params.id + '/blog'
+          ? '/user/' + req.params.id + '/posts'
           : null;
       });
         
@@ -419,8 +419,8 @@ module.exports = {
     
       assert.response(app2,
         { url: '/user/12', headers: { Accept: 'text/plain', Host: 'foo.com' }},
-        { body: 'Moved Temporarily. Redirecting to http://foo.com/user/12/blog'
-        , status: 302, headers: { Location: 'http://foo.com/user/12/blog', 'X-Foo': 'bar' }});
+        { body: 'Moved Temporarily. Redirecting to http://foo.com/blog/user/12/posts'
+        , status: 302, headers: { Location: 'http://foo.com/blog/user/12/posts', 'X-Foo': 'bar' }});
     },
     
     'test #redirect() when mounted': function(){
@@ -656,7 +656,7 @@ module.exports = {
     'test #cookie() path default': function(){
       var app = express.createServer();
     
-      app.set('home', '/foo');
+      app.set('basepath', '/foo');
     
       app.get('/', function(req, res){
         res.cookie('rememberme', 'yes', { expires: new Date(1), httpOnly: true });
@@ -679,7 +679,7 @@ module.exports = {
     
       app.get('/', function(req, res){
         res.cookie('rememberme', 'yes', { path: '/', expires: new Date(1), httpOnly: true });
-        res.cookie('something', 'else');
+        res.cookie('something', 'else', { path: '/' });
         res.redirect('/');
       });
     
@@ -713,7 +713,7 @@ module.exports = {
     'test #clearCookie() default path': function(){
       var app = express.createServer();
     
-      app.set('home', '/foo');
+      app.set('basepath', '/foo');
     
       app.get('/', function(req, res){
         res.clearCookie('rememberme');
@@ -731,7 +731,7 @@ module.exports = {
     'test #clearCookie() explicit path': function(){
       var app = express.createServer();
     
-      app.set('home', '/bar');
+      app.set('basepath', '/bar');
     
       app.get('/', function(req, res){
         res.clearCookie('rememberme', { path: '/foo' });

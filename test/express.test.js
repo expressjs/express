@@ -296,8 +296,6 @@ module.exports = {
       , map = express.createServer()
       , reg = connect.createServer();
 
-    map.set('home', '/map');
-    
     map.mounted(function(parent){
       called = true;
       assert.equal(this, map, 'mounted() is not in context of the child app');
@@ -317,9 +315,8 @@ module.exports = {
     blog.set('test').should.equal('parent setting');
     
     app.get('/', function(req, res){
-      app.set('home').should.equal('/');
-      blog.set('home').should.equal('/blog');
-      map.set('home').should.equal('/contact/map');
+      blog.set('basepath').should.equal('/blog');
+      map.set('basepath').should.equal('/contact');
       res.send('main app');
     });
 
@@ -372,7 +369,21 @@ module.exports = {
       { body: 'restored' }
     );
   },
+
+  'test "basepath" setting': function(){
+    var app = express.createServer();
   
+    app.set('basepath', '/shop');
+  
+    app.get('/redirect', function(req, res){
+      res.redirect('/cart');
+    });
+  
+    assert.response(app,
+      { url: '/redirect', headers: { Host: 'foo.com' }},
+      { headers: { Location: 'http://foo.com/shop/cart' }});
+  },
+
   'test routes with same callback': function(){
     function handle(req, res) {
       res.send('got ' + req.string);
