@@ -395,19 +395,6 @@ module.exports = {
       { url: '/user' },
       { body: '<p>tj</p>' });
 
-    // as: this collection option
-    app.get('/person', function(req, res){
-      res.partial('person.jade', {
-        as: this,
-        collection: [{ name: 'tj' }],
-        locals: { label: 'name:' }
-      });
-    });
-    
-    assert.response(app,
-      { url: '/person' },
-      { body: '<p>name: tj</p>' });
-  
     // as: global collection option
     app.get('/videos', function(req, res){
       res.partial('video.jade', {
@@ -454,19 +441,6 @@ module.exports = {
     assert.response(app,
       { url: '/video-global' },
       { body: '<p>Tim Burton</p>' });
-  
-    app.get('/person-this', function(req, res){
-      res.partial('person.jade', {
-        object: { name: 'tj' },
-        locals: { label: 'User:' },
-        as: this
-      }); 
-    });
-    
-    // Non-collection as: this
-    assert.response(app,
-      { url: '/person-this' },
-      { body: '<p>User: tj</p>' });
   
     // No options
     app.get('/nothing', function(req, res){
