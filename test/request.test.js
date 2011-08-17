@@ -9,6 +9,18 @@ var express = require('express')
   , should = require('should');
 
 module.exports = {
+  'test #path': function(){
+    var app = express.createServer();
+
+    app.get('/search', function(req, res){
+      res.send(req.path);
+    });
+
+    assert.response(app,
+      { url: '/search?q=tobi' },
+      { body: '/search' });
+  },
+
   'test #isXMLHttpRequest': function(){
     var app = express.createServer();
 
