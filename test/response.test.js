@@ -501,7 +501,7 @@ module.exports = {
     
       assert.response(app,
         { url: '/does-not-exist' },
-        { body: 'got an error' });
+        { body: 'Cannot GET /does-not-exist' });
     
       assert.response(app,
         { url: '/large.json' },
@@ -527,7 +527,7 @@ module.exports = {
     
       assert.response(app,
         { url: '/does-not-exist' },
-        { body: 'got an error' });
+        { body: 'Cannot GET /does-not-exist' });
     
       assert.response(app,
         { url: '/large.json' },
