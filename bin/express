@@ -4,48 +4,23 @@
  * Module dependencies.
  */
 
-var fs = require('fs')
-  , exec = require('child_process').exec;
+var express = require('../')
+  , exec = require('child_process').exec
+  , program = require('commander')
+  , fs = require('fs');
 
-/**
- * Framework version.
- */
+// CLI
 
-var version = '2.4.3';
+program
+  .version(express.version)
+  .option('-s, --sessions', 'add session support')
+  .option('-t, --template <engine>', 'add template <engine> support (jade|ejs) [jade]', 'jade')
+  .option('-c, --css <engine>', 'add stylesheet <engine> support (less|sass|stylus) [plain css]')
+  .parse(process.argv);
 
-/**
- * Add session support.
- */
+// Path
 
-var sessions = false;
-
-/**
- * CSS engine to utilize.
- */
-
-var cssEngine;
-
-/**
- * Template engine to utilize.
- */
-
-var templateEngine = 'jade';
-
-/**
- * Usage documentation.
- */
-
-var usage = ''
-  + '\n'
-  + '  Usage: express [options] [path]\n'
-  + '\n'
-  + '  Options:\n'
-  + '    -s, --sessions           add session support\n'
-  + '    -t, --template <engine>  add template <engine> support (jade|ejs). default=jade\n'
-  + '    -c, --css <engine>       add stylesheet <engine> support (less|sass|stylus). default=plain css\n'
-  + '    -v, --version            output framework version\n'
-  + '    -h, --help               output help information\n'
-  ;
+var path = program.args.shift() || '.';
 
 /**
  * Jade layout template.
@@ -195,44 +170,6 @@ var app = [
   , ''
 ].join('\n');
 
-// Parse arguments
-
-var args = process.argv.slice(2)
-  , path = '.';
-
-while (args.length) {
-  var arg = args.shift();
-  switch (arg) {
-    case '-h':
-    case '--help':
-      abort(usage);
-      break;
-    case '-v':
-    case '--version':
-      abort(version);
-      break;
-    case '-s':
-    case '--session':
-    case '--sessions':
-      sessions = true;
-      break;
-    case '-c':
-    case '--css':
-      args.length
-        ? (cssEngine = args.shift())
-        : abort('--css requires an argument');
-      break;
-    case '-t':
-    case '--template':
-      args.length
-        ? (templateEngine = args.shift())
-        : abort('--template requires an argument');
-      break;
-    default:
-        path = arg;
-  }
-}
-
 // Generate application
 
 (function createApplication(path) {
@@ -240,7 +177,7 @@ while (args.length) {
     if (empty) {
       createApplicationAt(path);
     } else {
-      confirm('destination is not empty, continue? ', function(ok){
+      program.confirm('destination is not empty, continue? ', function(ok){
         if (ok) {
           process.stdin.destroy();
           createApplicationAt(path);
@@ -263,7 +200,7 @@ function createApplicationAt(path) {
     mkdir(path + '/public/javascripts');
     mkdir(path + '/public/images');
     mkdir(path + '/public/stylesheets', function(){
-      switch (cssEngine) {
+      switch (program.css) {
         case 'stylus':
           write(path + '/public/stylesheets/style.styl', stylus);
           break;
@@ -277,8 +214,9 @@ function createApplicationAt(path) {
           write(path + '/public/stylesheets/style.css', css);
       }
     });
+
     mkdir(path + '/views', function(){
-      switch (templateEngine) {
+      switch (program.template) {
         case 'ejs':
           write(path + '/views/layout.ejs', ejsLayout);
           write(path + '/views/index.ejs', ejsIndex);
@@ -291,7 +229,7 @@ function createApplicationAt(path) {
     });
 
     // CSS Engine support
-    switch (cssEngine) {
+    switch (program.css) {
       case 'sass':
       case 'less':
         app = app.replace('{css}', '\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
@@ -304,12 +242,12 @@ function createApplicationAt(path) {
     }
 
     // Session support
-    app = app.replace('{sess}', sessions
+    app = app.replace('{sess}', program.sessions
       ? '\n  app.use(express.cookieParser());\n  app.use(express.session({ secret: \'your secret here\' }));'
       : '');
 
     // Template support
-    app = app.replace(':TEMPLATE', templateEngine);
+    app = app.replace(':TEMPLATE', program.template);
 
     // package.json
     var json = '{\n';
@@ -317,9 +255,9 @@ function createApplicationAt(path) {
     json += '  , "version": "0.0.1"\n';
     json += '  , "private": true\n';
     json += '  , "dependencies": {\n';
-    json += '      "express": "' + version + '"\n';
-    if (cssEngine) json += '    , "' + cssEngine + '": ">= 0.0.1"\n';
-    if (templateEngine) json += '    , "' + templateEngine + '": ">= 0.0.1"\n';
+    json += '      "express": "' + express.version + '"\n';
+    if (program.css) json += '    , "' + program.css + '": ">= 0.0.1"\n';
+    if (program.template) json += '    , "' + program.template + '": ">= 0.0.1"\n';
     json += '  }\n';
     json += '}';
 
@@ -353,41 +291,6 @@ function emptyDirectory(path, fn) {
 function write(path, str) {
   fs.writeFile(path, str);
   console.log('   \x1b[36mcreate\x1b[0m : ' + path);
-}
-
-/**
- * Prompt confirmation with the given `msg`.
- *
- * @param {String} msg
- * @param {Function} fn
- */
-
-function confirm(msg, fn) {
-  prompt(msg, function(val){
-    fn(/^ *y(es)?/i.test(val));
-  });
-}
-
-/**
- * Prompt input with the given `msg` and callback `fn`.
- *
- * @param {String} msg
- * @param {Function} fn
- */
-
-function prompt(msg, fn) {
-  // prompt
-  if (' ' == msg[msg.length - 1]) {
-    process.stdout.write(msg);
-  } else {
-    console.log(msg);
-  }
-
-  // stdin
-  process.stdin.setEncoding('ascii');
-  process.stdin.once('data', function(data){
-    fn(data);
-  }).resume();
 }
 
 /**

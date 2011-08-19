@@ -11,6 +11,7 @@
   ],
   "dependencies": {
     "connect": ">= 1.5.2 < 2.0.0",
+    "commander": "0.0.4",
     "mime": ">= 0.0.1",
     "qs": ">= 0.3.1"
   },
