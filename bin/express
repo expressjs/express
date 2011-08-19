@@ -14,13 +14,24 @@ var express = require('../')
 program
   .version(express.version)
   .option('-s, --sessions', 'add session support')
-  .option('-t, --template <engine>', 'add template <engine> support (jade|ejs) [jade]', 'jade')
-  .option('-c, --css <engine>', 'add stylesheet <engine> support (less|sass|stylus) [plain css]')
+  .option('-e, --ejs', 'add ejs support (defaults to jade)')
+  .option('-S, --stylus', 'add stylus support')
   .parse(process.argv);
 
 // Path
 
 var path = program.args.shift() || '.';
+
+// Template engine
+
+program.template = 'jade';
+if (program.ejs) program.template = 'ejs';
+
+// Stylesheet engine
+
+program.css = program.stylus
+  ? 'stylus'
+  : null;
 
 /**
  * Jade layout template.
