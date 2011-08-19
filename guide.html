@@ -3,6 +3,19 @@
 		<title>Express - node web framework</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-25235225-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
 		<style>
 			#tagline {
 			  margin-left: 75px;
@@ -371,7 +384,7 @@ app.configure('production', function(){
 <p>Express supports the following settings out of the box:</p>
 
 <ul>
-<li><em>home</em> Application base path used for <em>res.redirect()</em> and transparently handling mounted apps.</li>
+<li><em>basepath</em> Application base path used for <em>res.redirect()</em> and transparently handling mounted apps.</li>
 <li><em>views</em> Root views directory defaulting to <strong>CWD/views</strong></li>
 <li><em>view engine</em> Default view engine name for views rendered without extensions</li>
 <li><em>view options</em> An object specifying global view options</li>
@@ -1302,11 +1315,11 @@ res.redirect('back');
 
 <p>Express supports &ldquo;redirect mapping&rdquo;, which by default provides <em>home</em>, and <em>back</em>.
 The <em>back</em> map checks the <em>Referrer</em> and <em>Referer</em> headers, while <em>home</em> utilizes
-the &ldquo;home&rdquo; setting and defaults to &ldquo;/&rdquo;.</p>
+the &ldquo;basepath&rdquo; setting and defaults to &ldquo;/&rdquo;.</p>
 
 <h3 id="res.cookie()">res.cookie(name, val[, options])</h3>
 
-<p>Sets the given cookie <em>name</em> to <em>val</em>, with options <em>httpOnly</em>, <em>secure</em>, <em>expires</em> etc. The <em>path</em> option defaults to the app&rsquo;s &ldquo;home&rdquo; setting, which
+<p>Sets the given cookie <em>name</em> to <em>val</em>, with options <em>httpOnly</em>, <em>secure</em>, <em>expires</em> etc. The <em>path</em> option defaults to the app&rsquo;s &ldquo;basepath&rdquo; setting, which
 is typically &ldquo;/&rdquo;.</p>
 
 <pre><code>// "Remember me" for 15 minutes 
@@ -1330,7 +1343,7 @@ app.get('/', function(req, res){
 <h3 id="res.clearcookie()">res.clearCookie(name[, options])</h3>
 
 <p>Clear cookie <em>name</em> by setting &ldquo;expires&rdquo; far in the past. Much like
-<em>res.cookie()</em> the <em>path</em> option also defaults to the &ldquo;home&rdquo; setting.</p>
+<em>res.cookie()</em> the <em>path</em> option also defaults to the &ldquo;basepath&rdquo; setting.</p>
 
 <pre><code>res.clearCookie('rememberme');
 </code></pre>
