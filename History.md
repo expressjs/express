@@ -1,4 +1,23 @@
 
+2.4.5 / 2011-08-19 
+==================
+
+  * Added support for routes to handle errors. Closes #809
+  * Added `app.routes.all()`. Closes #803
+  * Added "basepath" setting to work in conjunction with reverse proxies etc.   * Refactored `Route` to use a single array of callbacks
+  * Added support for multiple callbacks for `app.param()`. Closes #801
+Closes #805
+  * Changed: removed .call(self) for route callbacks
+  * Dependency: `qs >= 0.3.1`
+  * Fixed `res.redirect()` on windows due to `join()` usage. Closes #808
+
+2.4.4 / 2011-08-05 
+==================
+
+  * Fixed `res.header()` intention of a set, even when `undefined`
+  * Fixed `*`, value no longer required
+  * Fixed `res.send(204)` support. Closes #771
+
 2.4.3 / 2011-07-14 
 ==================
 
