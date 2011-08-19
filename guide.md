@@ -104,7 +104,7 @@ This is _very_ important, as many caching mechanisms are _only enabled_ when in 
 
 Express supports the following settings out of the box:
 
-  * _home_ Application base path used for _res.redirect()_ and transparently handling mounted apps.
+  * _basepath_ Application base path used for _res.redirect()_ and transparently handling mounted apps.
   * _views_ Root views directory defaulting to **CWD/views**
   * _view engine_ Default view engine name for views rendered without extensions
   * _view options_ An object specifying global view options
@@ -947,11 +947,11 @@ Redirect to the given _url_ with a default response _status_ of 302.
 
 Express supports "redirect mapping", which by default provides _home_, and _back_.
 The _back_ map checks the _Referrer_ and _Referer_ headers, while _home_ utilizes
-the "home" setting and defaults to "/".
+the "basepath" setting and defaults to "/".
 
 ### res.cookie(name, val[, options])
 
-Sets the given cookie _name_ to _val_, with options _httpOnly_, _secure_, _expires_ etc. The _path_ option defaults to the app's "home" setting, which
+Sets the given cookie _name_ to _val_, with options _httpOnly_, _secure_, _expires_ etc. The _path_ option defaults to the app's "basepath" setting, which
 is typically "/".
 
     // "Remember me" for 15 minutes 
@@ -972,7 +972,7 @@ To parse incoming _Cookie_ headers, use the _cookieParser_ middleware, which pro
 ### res.clearCookie(name[, options])
 
 Clear cookie _name_ by setting "expires" far in the past. Much like
-_res.cookie()_ the _path_ option also defaults to the "home" setting.
+_res.cookie()_ the _path_ option also defaults to the "basepath" setting.
 
     res.clearCookie('rememberme');
 
