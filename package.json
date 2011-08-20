@@ -12,7 +12,7 @@
   "dependencies": {
     "connect": ">= 1.6.2 < 2.0.0",
     "commander": "0.0.4",
-    "mime": ">= 0.0.1",
+    "mime": ">= 1.2.2",
     "qs": ">= 0.3.1"
   },
   "devDependencies": {
