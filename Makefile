@@ -29,7 +29,10 @@ site:
   	&& cp -fr /tmp/docs/* . \
 		&& echo "done"
 
+benchmark:
+	@./support/bench
+
 docclean:
 	rm -f docs/*.{1,html}
 
-.PHONY: site test test-cov docs docclean
+.PHONY: site test test-cov benchmark docs docclean
