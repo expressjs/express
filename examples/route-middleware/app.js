@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -59,7 +58,7 @@ function andRestrictTo(role) {
 // Middleware for faux authentication
 // you would of course implement something real,
 // but this illustrates how an authenticated user
-// may interacte with middleware
+// may interact with middleware
 
 app.use(function(req, res, next){
   req.authenticatedUser = users[0];
