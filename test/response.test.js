@@ -496,10 +496,6 @@ module.exports = {
       });
     
       assert.response(app,
-        { url: '/forum' },
-        { body: 'got an error' });
-    
-      assert.response(app,
         { url: '/does-not-exist' },
         { body: 'Cannot GET /does-not-exist' });
     
@@ -583,7 +579,7 @@ module.exports = {
     
       assert.response(app,
         { url: '/large.json', headers: { 'Range': 'basdytes=asdf' }},
-        { body: 'Requested Range Not Satisfiable', status: 416 });
+        { body: /Requested Range Not Satisfiable/, status: 416 });
     },
     
     'test #sendfile() Range invalid range': function(){
@@ -597,7 +593,7 @@ module.exports = {
     
       assert.response(app,
         { url: '/large.json', headers: { 'Range': 'bytes=500-10' }},
-        { body: 'Requested Range Not Satisfiable', status: 416 });
+        { body: /Requested Range Not Satisfiable/, status: 416 });
     },
     
     'test #download()': function(beforeExit){
