@@ -801,5 +801,37 @@ module.exports = {
     assert.response(app,
       { url: '/user/12' },
       { body: 'recovered from error: fail' });
+  },
+  
+  'test multiple param callbacks': function(){
+    var app = express.createServer();
+
+    app.param('user', function(req, res, next, id){
+      req.user = { id: id };
+      next();
+    });
+
+    app.param('forum_id', function(req, res, next, id){
+      req.forum = { id: id };
+      next();
+    });
+
+    app.param('thread_id', function(req, res, next, id){
+      req.thread = { id: id };
+      next();
+    });
+
+    function array(req, res, next) {
+      req.arr = [req.user.id, req.forum.id, req.thread.id];
+      next();
+    }
+
+    app.get('/:user/:forum_id/:thread_id', array, function(req, res){
+      res.send(req.arr);
+    });
+
+    assert.response(app,
+      { url: '/1/2/3' },
+      { body: '["1","2","3"]' });
   }
 };
