@@ -16,6 +16,7 @@ program
   .option('-s, --sessions', 'add session support')
   .option('-e, --ejs', 'add ejs support (defaults to jade)')
   .option('-S, --stylus', 'add stylus support')
+  .option('-c, --coffee', 'generate the app with coffee-script')
   .parse(process.argv);
 
 // Path
@@ -182,6 +183,59 @@ var app = [
   , ''
 ].join('\n');
 
+/**
+ * App template in coffee-script
+ */
+
+var coffee_app = [
+    ''
+  , '###'
+  , '  Module dependencies.'
+  , '###'
+  , ''
+  , 'coffee = require(\'coffee-script\')'
+  , 'express = require(\'express\')'
+  , ''
+  , 'app = module.exports = express.createServer()'
+  , ''
+  , '# Configuration'
+  , ''
+  , 'app.configure( () ->'
+  , '  app.set(\'views\', __dirname + \'/views\')'
+  , '  app.set(\'view engine\', \':TEMPLATE\')'
+  , '  app.use(express.logger(\'dev\'))'
+  , '  app.use(express.bodyParser())'
+  , '  app.use(express.methodOverride()){sess}{css}'
+  , '  app.use(app.router)'
+  , '  app.use(express.static(__dirname + \'/public\'))'
+  , ')'
+  , ''
+  , 'app.configure(\'development\', () ->'
+  , '  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })) '
+  , ')'
+  , ''
+  , 'app.configure(\'production\', () ->'
+  , '  app.use(express.errorHandler()) '
+  , ')'
+  , ''
+  , '# Routes'
+  , ''
+  , 'app.get(\'/\', (req, res) ->'
+  , '  res.render(\'index\', {'
+  , '    title: \'Express\''
+  , '  })'
+  , ')'
+  , ''
+  , 'app.listen(3000)'
+  , 'console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env)'
+  , ''
+].join('\n');
+
+// Check for --coffee option
+
+if (program.coffee) app = coffee_app;
+
+
 // Generate application
 
 (function createApplication(path) {
@@ -270,12 +324,13 @@ function createApplicationAt(path) {
     json += '      "express": "' + express.version + '"\n';
     if (program.css) json += '    , "' + program.css + '": ">= 0.0.1"\n';
     if (program.template) json += '    , "' + program.template + '": ">= 0.0.1"\n';
+    if (program.coffee) json += '    , "coffee-script": ">= 0.0.1"\n';
     json += '  }\n';
     json += '}';
 
-
+    var extension = program.coffee ? '.coffee' : '.js';
     write(path + '/package.json', json);
-    write(path + '/app.js', app);
+    write(path + '/app' + extension, app);
   });
 }
 
