@@ -1,4 +1,9 @@
 
+2.4.6 / 2011-08-22 
+==================
+
+  * Fixed multiple param callback regression. Closes #824 [reported by TroyGoode]
+
 2.4.5 / 2011-08-19 
 ==================
 

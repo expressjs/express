@@ -11,7 +11,7 @@ var fs = require('fs')
  * Framework version.
  */
 
-var version = '2.4.5';
+var version = '2.4.6';
 
 /**
  * Add session support.
