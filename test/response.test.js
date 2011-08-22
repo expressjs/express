@@ -507,10 +507,6 @@ module.exports = {
     });
 
     assert.response(app,
-      { url: '/forum' },
-      { body: 'got an error' });
-
-    assert.response(app,
       { url: '/does-not-exist' },
       { body: 'got an error' });
 
