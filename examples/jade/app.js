@@ -13,6 +13,7 @@ var pub = __dirname + '/public';
 // and then serve with connect's staticProvider
 
 var app = express.createServer();
+app.use(express.logger('dev'));
 app.use(express.compiler({ src: pub, enable: ['sass'] }));
 app.use(app.router);
 app.use(express.static(pub));
