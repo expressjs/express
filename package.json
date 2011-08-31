@@ -31,9 +31,6 @@
   "repository": "git://github.com/visionmedia/express",
   "main": "index",
   "bin": { "express": "./bin/express" },
-  "scripts": {
-    "test": "make test",
-    "prepublish" : "npm prune"
-  },
+  "scripts": { "prepublish" : "npm prune" },
   "engines": { "node": ">= 0.4.9 < 0.7.0" }
 }
