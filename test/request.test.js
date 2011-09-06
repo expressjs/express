@@ -167,12 +167,15 @@ module.exports = {
       req.notify('info').should.eql(['one']);
       
       req.notify('info', 'Email _sent_.');
-      req.notify('info', '<script>');
-      req.notify('info').should.eql(['Email <em>sent</em>.', '&lt;script&gt;']);
+      req.notify('info', '<em>%s</em>', 'html');
+      req.notify('info').should.eql(['Email <em>sent</em>.', '<em>html</em>']);
       
       req.notify('info', 'Welcome _%s_ to %s', 'TJ', 'something');
       req.notify('info').should.eql(['Welcome <em>TJ</em> to something']);
-      
+
+      req.notify('info', 'Test %s', '<script>');
+      req.notify('info').should.eql(['Test &lt;script&gt;']);
+
       req.notify('info', 'TJ has %d pets', 5.12323);
       req.notify('info').should.eql(['TJ has 5 pets']);
       
