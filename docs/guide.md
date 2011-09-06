@@ -734,10 +734,9 @@ Queue flash _msg_ of the given _type_.
 
 Flash notification message may also utilize formatters, by default only the %s string and %d integer formatters is available:
 
-    req.notify('info', 'email delivery to _%s_ from _%s_ failed.', toUser, fromUser);
+    req.notify('info', 'email delivery to <em>%s</em> from <em>%s</em> failed.', toUser, fromUser);
 
-Argument HTML is escaped, to prevent XSS, however HTML or the mini-markdown
-language you see in use above in the notification format are valid.
+Argument HTML is escaped, to prevent XSS, however HTML notification format is valid.
 
 ### req.isXMLHttpRequest
 
