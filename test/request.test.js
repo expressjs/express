@@ -167,11 +167,14 @@ module.exports = {
       req.flash('info').should.eql(['one']);
 
       req.flash('info', 'Email _sent_.');
-      req.flash('info', '<script>');
-      req.flash('info').should.eql(['Email <em>sent</em>.', '&lt;script&gt;']);
+      req.flash('info', '<em>%s</em>', 'html');
+      req.flash('info').should.eql(['Email <em>sent</em>.', '<em>html</em>']);
       
       req.flash('info', 'Welcome _%s_ to %s', 'TJ', 'something');
       req.flash('info').should.eql(['Welcome <em>TJ</em> to something']);
+
+      req.flash('info', 'Welcome %s', '<script>');
+      req.flash('info').should.eql(['Welcome &lt;script&gt;']);
 
       req.flash('error', 'Foo %u', 'bar');
       req.flash('error').should.eql(['Foo BAR']);
