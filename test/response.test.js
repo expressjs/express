@@ -380,6 +380,10 @@ module.exports = {
     });
 
     assert.response(app,
+      { url: '/home', method: 'HEAD' },
+      { body: '' });
+
+    assert.response(app,
       { url: '/html', headers: { Accept: 'text/html,text/plain', Host: 'foo.com' }},
       { body: '<p>Moved Temporarily. Redirecting to <a href="http://google.com">http://google.com</a></p>' });
     
