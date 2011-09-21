@@ -7,6 +7,7 @@
 var express = require('../')
   , exec = require('child_process').exec
   , program = require('commander')
+  , mkdirp = require('mkdirp')
   , fs = require('fs');
 
 // CLI
@@ -313,9 +314,9 @@ function write(path, str) {
  */
 
 function mkdir(path, fn) {
-  exec('mkdir -p ' + path, function(err){
+  mkdirp(path, 0755, function(err){
     if (err) throw err;
-    console.log('   \x1b[36mcreate\x1b[0m : ' + path);
+    console.log('   \033[36mcreate\033[0m : ' + path);
     fn && fn();
   });
 }

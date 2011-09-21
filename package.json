@@ -14,6 +14,7 @@
     "commander": "0.0.4",
     "mime": ">= 1.2.2",
     "qs": ">= 0.3.1"
+    "mkdirp": "0.0.7"
   },
   "devDependencies": {
     "connect-form": "0.2.1",
