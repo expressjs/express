@@ -5,7 +5,8 @@
  */
 
 var fs = require('fs')
-  , exec = require('child_process').exec;
+  , exec = require('child_process').exec
+  , mkdirp = require('mkdirp');
 
 /**
  * Framework version.
@@ -398,9 +399,9 @@ function prompt(msg, fn) {
  */
 
 function mkdir(path, fn) {
-  exec('mkdir -p ' + path, function(err){
+  mkdirp(path, 0755, function(err){
     if (err) throw err;
-    console.log('   \x1b[36mcreate\x1b[0m : ' + path);
+    console.log('   \033[36mcreate\033[0m : ' + path);
     fn && fn();
   });
 }
