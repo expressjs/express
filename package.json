@@ -33,5 +33,5 @@
   "main": "index",
   "bin": { "express": "./bin/express" },
   "scripts": { "prepublish" : "npm prune" },
-  "engines": { "node": ">= 0.4.9 < 0.7.0" }
+  "engines": { "node":">= 0.5.0 < 0.7.0" }
 }
