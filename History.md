@@ -1,4 +1,15 @@
 
+2.4.7 / 2011-10-05 
+==================
+
+  * Added mkdirp to express(1). Closes #795
+  * Added simple _json-config_ example
+  * Added  shorthand for the parsed request's pathname via `req.path`
+  * Changed connect dep to 1.7.x to fix npm issue...
+  * Fixed `res.redirect()` __HEAD__ support. [reported by xerox]
+  * Fixed `req.flash()`, only escape args
+  * Fixed absolute path checking on windows. Closes #829 [reported by andrewpmckenzie]
+
 2.4.6 / 2011-08-22 
 ==================
 
