@@ -9,5 +9,6 @@ lib-cov
 *.swp
 *.swo
 benchmarks/graphs
-testing.js
+testing
 node_modules/
+testing
