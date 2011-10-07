@@ -19,8 +19,11 @@ app.use(app.router);
 app.use(express.static(pub));
 app.use(express.errorHandler({ dump: true, stack: true }));
 
-// Optional since express defaults to CWD/views
+// we're using jade's template inheritance, so we dont need
+// the express layout concept
+app.set('view options', { layout: false });
 
+// Optional since express defaults to CWD/views
 app.set('views', __dirname + '/views');
 
 // Set our default template engine to "jade"
@@ -35,9 +38,9 @@ function User(name, email) {
 
 // Dummy users
 var users = [
-    new User('tj', 'tj@vision-media.ca')
-  , new User('ciaran', 'ciaranj@gmail.com')
-  , new User('aaron', 'aaron.heckmann+github@gmail.com')
+    new User('Tobi', 'tobi@learnboost.com')
+  , new User('Loki', 'loki@learnboost.com')
+  , new User('Jane', 'jane@learnboost.com')
 ];
 
 app.get('/', function(req, res){

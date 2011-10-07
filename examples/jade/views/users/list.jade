@@ -1,3 +1,4 @@
 ul#users
-  - each user in list
-    li!= partial('user', user)
+  for user in list
+    li
+      include ./user
