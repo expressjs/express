@@ -11,3 +11,4 @@ lib-cov
 benchmarks/graphs
 testing.js
 node_modules/
+testing
