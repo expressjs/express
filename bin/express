@@ -16,6 +16,7 @@ program
   .version(express.version)
   .option('-s, --sessions', 'add session support')
   .option('-e, --ejs', 'add ejs support (defaults to jade)')
+  .option('-J, --jshtml', 'add jshtml support (defaults to jade)')
   .option('-S, --stylus', 'add stylus support')
   .parse(process.argv);
 
@@ -27,6 +28,7 @@ var path = program.args.shift() || '.';
 
 program.template = 'jade';
 if (program.ejs) program.template = 'ejs';
+if (program.jshtml) program.template = 'jshtml';
 
 // Stylesheet engine
 
@@ -80,6 +82,32 @@ var ejsLayout = [
 var ejsIndex = [
     '<h1><%= title %></h1>'
   , '<p>Welcome to <%= title %></p>'
+  ].join('\n');
+
+/**
+ * JSHTML layout template.
+ */
+
+var jshtmlLayout = [
+    '<!DOCTYPE html>'
+  , '<html>'
+  , '  <head>'
+  , '    <title> @write(title) </title>'
+  , '    <link rel=\'stylesheet\' href=\'/stylesheets/style.css\' />'
+  , '  </head>'
+  , '  <body>'
+  , '    @write(body)'
+  , '  </body>'
+  , '</html>'
+].join('\n');
+
+/**
+ * JSHTML index template.
+ */
+
+var jshtmlIndex = [
+    '<h1>@write(title)</h1>'
+  , '<p>Welcome to @write(title)</p>'
   ].join('\n');
 
 /**
@@ -238,6 +266,11 @@ function createApplicationAt(path) {
           write(path + '/views/layout.jade', jadeLayout);
           write(path + '/views/index.jade', jadeIndex);
           break;
+        case 'jshtml':
+          write(path + '/views/layout.jshtml', jshtmlLayout);
+          write(path + '/views/index.jshtml', jshtmlIndex);
+          break;
+
       }
     });
 
