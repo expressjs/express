@@ -238,6 +238,7 @@ var app = [
 
 function createApplicationAt(path) {
   mkdir(path, function(){
+    mkdir(path + '/public');
     mkdir(path + '/public/javascripts');
     mkdir(path + '/public/images');
     mkdir(path + '/public/stylesheets', function(){
