@@ -1,6 +1,6 @@
 
 DOCS = $(shell find docs/*.md)
-HTMLDOCS =$(DOCS:.md=.html)
+HTMLDOCS = $(DOCS:.md=.html)
 TESTS = $(shell find test/*.test.js)
 
 test:
