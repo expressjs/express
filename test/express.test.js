@@ -272,30 +272,30 @@ module.exports = {
       { body: 'tj' });
   },
     
-    // 'test #configure() precedence': function(){
-    //   var app = express.createServer();
-    // 
-    //   app.configure(function(){
-    //     app.use(function(req, res, next){
-    //       res.write('first');
-    //       next();
-    //     });
-    //     app.use(app.router);
-    //     app.use(function(req, res, next){
-    //       res.end('last');
-    //     });
-    //   });
-    //   
-    //   app.get('/', function(req, res, next){
-    //     res.write(' route ');
-    //     next();
-    //   });
-    // 
-    //   assert.response(app,
-    //     { url: '/' },
-    //     { body: 'first route last' });
-    // },
+  'test #configure() precedence': function(){
+    var app = express.createServer();
+  
+    app.configure(function(){
+      app.use(function(req, res, next){
+        res.write('first');
+        next();
+      });
+      app.use(app.router);
+      app.use(function(req, res, next){
+        res.end('last');
+      });
+    });
     
+    app.get('/', function(req, res, next){
+      res.write(' route ');
+      next();
+    });
+  
+    assert.response(app,
+      { url: '/' },
+      { body: 'first route last' });
+  },
+  
   'test #configure() multiple envs': function(){
     var app = express.createServer();
     app.set('env', 'prod');

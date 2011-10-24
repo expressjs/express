@@ -260,6 +260,14 @@ while (args.length) {
  */
 
 function createApplicationAt(path) {
+  console.log();
+  process.on('exit', function(){
+    console.log();
+    console.log('   dont forget to install dependencies:');
+    console.log('   $ cd %s && npm install', path);
+    console.log();
+  });
+
   mkdir(path, function(){
     mkdir(path + '/public');
     mkdir(path + '/public/javascripts');
