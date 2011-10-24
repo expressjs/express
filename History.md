@@ -1,5 +1,5 @@
 
-0.5.0 / 2011-10-24 
+2.5.0 / 2011-10-24 
 ==================
 
   * Added ./routes dir for generated app by default
