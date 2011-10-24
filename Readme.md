@@ -95,7 +95,9 @@ The following are the major contributors of Express (in no specific order).
 
 Express 1.x is compatible with node 0.2.x and connect < 1.0.
 
-Express 2.x is compatible with node 0.4.x and connect 1.x
+Express 2.x is compatible with node 0.4.x or 0.6.x, and connect 1.x
+
+Express 3.x (master) will be compatible with node 0.6.x and connect 2.x
 
 ## Viewing Examples
 
