@@ -49,6 +49,20 @@ var usage = ''
   ;
 
 /**
+ * Routes index template.
+ */
+
+var index = [
+    '/*'
+  , ' * GET home page.'
+  , ' */'
+  , ''
+  , 'exports.index = function(req, res){'
+  , '  res.render(\'index\', { title: \'Express\' })'
+  , '};'
+].join('\n');
+
+/**
  * Jade layout template.
  */
 
@@ -160,7 +174,8 @@ var app = [
   , ' * Module dependencies.'
   , ' */'
   , ''
-  , 'var express = require(\'express\');'
+  , 'var express = require(\'express\')'
+  , '  , routes = require(\'./routes\')'
   , ''
   , 'var app = module.exports = express.createServer();'
   , ''
@@ -185,11 +200,7 @@ var app = [
   , ''
   , '// Routes'
   , ''
-  , 'app.get(\'/\', function(req, res){'
-  , '  res.render(\'index\', {'
-  , '    title: \'Express\''
-  , '  });'
-  , '});'
+  , 'app.get(\'/\', routes.index);'
   , ''
   , 'app.listen(3000);'
   , 'console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);'
@@ -287,6 +298,11 @@ function createApplicationAt(path) {
           write(path + '/public/stylesheets/style.css', css);
       }
     });
+
+    mkdir(path + '/routes', function(){
+      write(path + '/routes/index.js', index);
+    });
+
     mkdir(path + '/views', function(){
       switch (templateEngine) {
         case 'ejs':
