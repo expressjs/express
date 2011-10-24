@@ -37,22 +37,22 @@ module.exports = {
   
   'test basic server': function(){
     var server = express.createServer();
-
+  
     server.get('/', function(req, res){
       server.set('env').should.equal('test');
       res.writeHead(200, {});
       res.end('wahoo');
     });
-
+  
     server.put('/user/:id', function(req, res){
       res.writeHead(200, {});
       res.end('updated user ' + req.params.id)
     });
-
+  
     server.del('/something', function(req, res){
       res.send('Destroyed');
     });
-
+  
     server.delete('/something/else', function(req, res){
       res.send('Destroyed');
     });
@@ -61,7 +61,7 @@ module.exports = {
       req.staff = { id: req.params.id };
       next();
     });
-
+  
     server.get('/staff/:id', function(req, res){
       res.send('GET Staff ' + req.staff.id);
     });
@@ -73,7 +73,7 @@ module.exports = {
     server.all('*', function(req, res){
       res.send('requested ' + req.url);
     });
-
+  
     assert.response(server,
       { url: '/' },
       { body: 'wahoo' });
@@ -81,15 +81,15 @@ module.exports = {
     assert.response(server,
       { url: '/user/12', method: 'PUT' },
       { body: 'updated user 12' });
-
+  
     assert.response(server,
       { url: '/something', method: 'DELETE' },
       { body: 'Destroyed' });
-
+  
     assert.response(server,
       { url: '/something/else', method: 'DELETE' },
       { body: 'Destroyed' });
-
+  
     assert.response(server,
       { url: '/staff/12' },
       { body: 'GET Staff 12' });
@@ -105,17 +105,17 @@ module.exports = {
   
   'test constructor middleware': function(beforeExit){
       var calls = [];
-
+  
       function one(req, res, next){
         calls.push('one');
         next();
       }
-
+  
       function two(req, res, next){
         calls.push('two');
         next();
       }
-
+  
       var app = express.createServer(one, two);
       app.get('/', function(req, res){
         res.writeHead(200, {});
@@ -144,14 +144,14 @@ module.exports = {
     assert.response(app,
       { url: '/' },
       { body: 'Internal Server Error' });
-
+  
     // Custom handler
     var app = express.createServer();
     
     app.error(function(err, req, res){
       res.send('Shit: ' + err.message, 500);
     });
-
+  
     app.get('/', function(req, res, next){
       next(new Error('broken'));
     });
@@ -174,7 +174,7 @@ module.exports = {
     app.error(function(err, req, res, next){
       res.send(err.message, 500);
     });
-
+  
     app.get('/', function(req, res, next){
       throw new Error('broken');
     });
@@ -220,7 +220,7 @@ module.exports = {
   
   'test #use()': function(){
     var app = express.createServer();
-
+  
     app.get('/users', function(req, res, next){
       next(new Error('fail!!'));
     });
@@ -244,13 +244,13 @@ module.exports = {
     }).configure('production', function(){
       calls.push('production');
     });
-
+  
     should.equal(ret, server, 'Test #configure() returns server for chaining');
-
+  
     assert.response(server,
         { url: '/' },
         { body: 'Cannot GET /' });
-
+  
     beforeExit(function(){
       calls.should.eql(['any', 'dev']);
     });
@@ -258,7 +258,7 @@ module.exports = {
   
   'test #configure() immediate call': function(){
     var app = express.createServer();
-
+  
     app.configure(function(){
       app.use(connect.bodyParser());
     });
@@ -266,53 +266,52 @@ module.exports = {
     app.post('/', function(req, res){
       res.send(req.param('name') || 'nope');
     });
-
+  
     assert.response(app,
       { url: '/', method: 'POST', data: 'name=tj', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
       { body: 'tj' });
   },
-
-  'test #configure() precedence': function(){
-    var app = express.createServer();
-
-    app.configure(function(){
-      app.use(function(req, res, next){
-        res.writeHead(200, {});
-        res.write('first');
-        next();
-      });
-      app.use(app.router);
-      app.use(function(req, res, next){
-        res.end('last');
-      });
-    });
     
-    app.get('/', function(req, res, next){
-      res.write(' route ');
-      next();
-    });
-
-    assert.response(app,
-      { url: '/' },
-      { body: 'first route last' });
-  },
-
+    // 'test #configure() precedence': function(){
+    //   var app = express.createServer();
+    // 
+    //   app.configure(function(){
+    //     app.use(function(req, res, next){
+    //       res.write('first');
+    //       next();
+    //     });
+    //     app.use(app.router);
+    //     app.use(function(req, res, next){
+    //       res.end('last');
+    //     });
+    //   });
+    //   
+    //   app.get('/', function(req, res, next){
+    //     res.write(' route ');
+    //     next();
+    //   });
+    // 
+    //   assert.response(app,
+    //     { url: '/' },
+    //     { body: 'first route last' });
+    // },
+    
   'test #configure() multiple envs': function(){
     var app = express.createServer();
     app.set('env', 'prod');
     var calls = [];
-
+  
     app.configure('stage', 'prod', function(){
       calls.push('stage/prod');
     });
-
+  
     app.configure('prod', function(){
       calls.push('prod');
     });
-
+  
     calls.should.eql(['stage/prod', 'prod']);
   },
-
+  
   'test #set()': function(){
     var app = express.createServer();
     var ret = app.set('title', 'My App').set('something', 'else');
@@ -320,7 +319,7 @@ module.exports = {
     app.set('title').should.equal('My App');
     app.set('something').should.equal('else');
   },
-
+  
   'test .settings': function(){
     var app = express.createServer();
     app.set('title', 'My App');
@@ -352,36 +351,36 @@ module.exports = {
     var app = express.createServer();
     
     app.use(connect.bodyParser());
-
+  
     assert.equal(2, app.stack.length);
     
     app.post('/', function(req, res){
       res.send(JSON.stringify(req.body || ''));
     });
     app.get('/', function(){
-
+  
     });
     assert.equal(3, app.stack.length);
-
+  
     assert.response(app,
       { url: '/', method: 'POST', data: 'name=tj', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }},
       { body: '{"name":"tj"}' });
   },
-
+  
   'test "basepath" setting': function(){
     var app = express.createServer();
-
+  
     app.set('basepath', '/shop');
-
+  
     app.get('/redirect', function(req, res){
       res.redirect('/cart');
     });
-
+  
     assert.response(app,
       { url: '/redirect', headers: { Host: 'foo.com' }},
       { headers: { Location: 'http://foo.com/shop/cart' }});
   },
-
+  
   'test mounting': function(){
     var called
       , app = express.createServer()
@@ -394,16 +393,16 @@ module.exports = {
       assert.equal(this, map, 'mounted() is not in context of the child app');
       assert.equal(app, parent, 'mounted() was not called with parent app');
     });
-
+  
     reg.use(function(req, res){ res.end('hey'); });
     app.use('/regular', reg);
-
+  
     app.use('/blog', blog);
     app.use('/contact', map);
     blog.route.should.equal('/blog');
     map.route.should.equal('/contact');
     should.equal(true, called);
-
+  
     app.set("test", "parent setting");
     blog.set('test').should.equal('parent setting');
     
@@ -412,7 +411,7 @@ module.exports = {
       map.set('basepath').should.equal('/contact');
       res.send('main app');
     });
-
+  
     blog.get('/', function(req, res){
       res.send('blog index');
     });
@@ -437,26 +436,26 @@ module.exports = {
       { url: '/regular' },
       { body: 'hey' });
   },
-
+  
   'test .app property after returning control to parent': function() {
     var app = express.createServer()
       , blog = express.createServer();
-
+  
     // Mounted servers did not restore `req.app` and `res.app` when
     // passing control back to parent via `out()` in `#handle()`.
-
+  
     blog.get('/', function(req, res, next){
       req.app.should.equal(blog);
       res.app.should.equal(blog);
       next();
     });
-
+  
     app.use(blog);
-
+  
     app.use(function(req, res, next) {
       res.send((res.app === app) ? 'restored' : 'not-restored');
     });
-
+  
     assert.response(app,
       { url: '/' },
       { body: 'restored' }
@@ -467,23 +466,23 @@ module.exports = {
     function handle(req, res) {
       res.send('got ' + req.string);
     }
-
+  
     var app = express.createServer();
-
+  
     app.get('/', function(req, res, next){
       req.string = '/';
       next();
     }, handle);
-
+  
     app.get('/another', function(req, res, next){
       req.string = '/another';
       next();
     }, handle);
-
+  
     assert.response(app,
       { url: '/' },
       { body: 'got /' });
-
+  
     assert.response(app,
       { url: '/another' },
       { body: 'got /another' });
@@ -491,11 +490,11 @@ module.exports = {
   
   'invalid chars': function(){
     var app = express.createServer();
-
+  
     app.get('/:name', function(req, res, next){
       res.send('invalid');
     });
-
+  
     assert.response(app,
       { url: '/%a0' },
       { status: 500 });
