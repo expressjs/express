@@ -4,13 +4,7 @@ HTMLDOCS = $(DOCS:.md=.html)
 TESTS = $(shell find test/*.test.js)
 
 test:
-	@NODE_ENV=test ./node_modules/.bin/expresso \
-		-I lib \
-		$(TESTFLAGS) \
-		$(TESTS)
-
-test-cov:
-	@TESTFLAGS=--cov $(MAKE) test
+	@NODE_ENV=test ./node_modules/.bin/expresso $(TESTS)
 
 docs: $(HTMLDOCS)
 	@ echo "... generating TOC"
@@ -32,4 +26,4 @@ site:
 docclean:
 	rm -f docs/*.{1,html}
 
-.PHONY: site test test-cov docs docclean
+.PHONY: site test docs docclean
