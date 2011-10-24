@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var express = require('express')
+var express = require('../')
   , Stream = require('stream').Stream
   , assert = require('assert')
   , should = require('should');
