@@ -1,4 +1,13 @@
 
+0.5.0 / 2011-10-24 
+==================
+
+  * Added ./routes dir for generated app by default
+  * Added npm install reminder to express(1) app gen
+  * Added 0.5.x support
+  * Removed `make test-cov` since it wont work with node 0.5.x
+  * Fixed express(1) public dir for windows. Closes #866
+
 2.4.7 / 2011-10-05 
 ==================
 
