@@ -833,5 +833,20 @@ module.exports = {
     assert.response(app,
       { url: '/1/2/3' },
       { body: '["1","2","3"]' });
+  },
+
+  'test next(route)': function () {
+    var app = express.createServer();
+
+    app.get('/test', function (req, res, next) {
+      next('/testing');
+    });
+
+    app.get('/testing', function (req, res, next) {
+      res.send('Hello world');
+    });
+
+    assert.response(app, { url: '/test' }, { body: 'Hello world' });
   }
+
 };
