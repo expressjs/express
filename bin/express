@@ -43,7 +43,7 @@ var usage = ''
   + '  Options:\n'
   + '    -s, --sessions           add session support\n'
   + '    -t, --template <engine>  add template <engine> support (jade|ejs). default=jade\n'
-  + '    -c, --css <engine>       add stylesheet <engine> support (less|sass|stylus). default=plain css\n'
+  + '    -c, --css <engine>       add stylesheet <engine> support (less|stylus). default=plain css\n'
   + '    -v, --version            output framework version\n'
   + '    -h, --help               output help information\n'
   ;
@@ -138,18 +138,6 @@ var less = [
   , 'a {'
   , '  color: #00B7FF;'
   , '}'
-].join('\n');
-
-/**
- * Default sass template.
- */
-
-var sass = [
-    'body'
-  , '  :padding 50px'
-  , '  :font 14px "Lucida Grande", Helvetica, Arial, sans-serif'
-  , 'a'
-  , '  :color #00B7FF'
 ].join('\n');
 
 /**
@@ -291,9 +279,6 @@ function createApplicationAt(path) {
         case 'less':
           write(path + '/public/stylesheets/style.less', less);
           break;
-        case 'sass':
-          write(path + '/public/stylesheets/style.sass', sass);
-          break;
         default:
           write(path + '/public/stylesheets/style.css', css);
       }
@@ -318,7 +303,6 @@ function createApplicationAt(path) {
 
     // CSS Engine support
     switch (cssEngine) {
-      case 'sass':
       case 'less':
         app = app.replace('{css}', '\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
         break;
