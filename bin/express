@@ -53,7 +53,8 @@ var usage = ''
  */
 
 var index = [
-    '/*'
+    ''
+  , '/*'
   , ' * GET home page.'
   , ' */'
   , ''
