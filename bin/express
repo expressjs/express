@@ -15,8 +15,8 @@ var express = require('../')
 program
   .version(express.version)
   .option('-s, --sessions', 'add session support')
-  .option('-e, --ejs', 'add ejs support (defaults to jade)')
-  .option('-J, --jshtml', 'add jshtml support (defaults to jade)')
+  .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
+  .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
   .option('-S, --stylus', 'add stylus support')
   .parse(process.argv);
 
@@ -35,6 +35,21 @@ if (program.jshtml) program.template = 'jshtml';
 program.css = program.stylus
   ? 'stylus'
   : null;
+
+/**
+ * Routes index template.
+ */
+
+var index = [
+    ''
+  , '/*'
+  , ' * GET home page.'
+  , ' */'
+  , ''
+  , 'exports.index = function(req, res){'
+  , '  res.render(\'index\', { title: \'Express\' })'
+  , '};'
+].join('\n');
 
 /**
  * Jade layout template.
@@ -162,11 +177,10 @@ var app = [
   , ' * Module dependencies.'
   , ' */'
   , ''
-  , 'var express = require(\'express\');'
+  , 'var express = require(\'express\')'
+  , '  , routes = require(\'./routes\');'
   , ''
   , 'var app = module.exports = express.createServer();'
-  , ''
-  , '// Configuration'
   , ''
   , 'app.configure(function(){'
   , '  app.set(\'views\', __dirname + \'/views\');'
@@ -186,16 +200,12 @@ var app = [
   , '  app.use(express.errorHandler()); '
   , '});'
   , ''
-  , '// Routes'
-  , ''
-  , 'app.get(\'/\', function(req, res){'
-  , '  res.render(\'index\', {'
-  , '    title: \'Express\''
-  , '  });'
-  , '});'
+  , 'app.get(\'/\', routes.index);'
   , ''
   , 'app.listen(3000);'
-  , 'console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);'
+  , 'console.log("Express server listening on port %d in %s mode"'
+  , '  , app.address().port'
+  , '  , app.settings.env);'
   , ''
 ].join('\n');
 
@@ -225,6 +235,14 @@ var app = [
  */
 
 function createApplicationAt(path) {
+  console.log();
+  process.on('exit', function(){
+    console.log();
+    console.log('   dont forget to install dependencies:');
+    console.log('   $ cd %s && npm install', path);
+    console.log();
+  });
+
   mkdir(path, function(){
     mkdir(path + '/public');
     mkdir(path + '/public/javascripts');
@@ -234,12 +252,13 @@ function createApplicationAt(path) {
         case 'stylus':
           write(path + '/public/stylesheets/style.styl', stylus);
           break;
-        case 'less':
-          write(path + '/public/stylesheets/style.less', less);
-          break;
         default:
           write(path + '/public/stylesheets/style.css', css);
       }
+    });
+
+    mkdir(path + '/routes', function(){
+      write(path + '/routes/index.js', index);
     });
 
     mkdir(path + '/views', function(){
@@ -262,9 +281,6 @@ function createApplicationAt(path) {
 
     // CSS Engine support
     switch (program.css) {
-      case 'less':
-        app = app.replace('{css}', '\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
-        break;
       case 'stylus':
         app = app.replace('{css}', '\n  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
         break;
@@ -274,7 +290,7 @@ function createApplicationAt(path) {
 
     // Session support
     app = app.replace('{sess}', program.sessions
-      ? '\n  app.use(express.cookieParser());\n  app.use(express.session({ secret: \'your secret here\' }));'
+      ? '\n  app.use(express.cookieParser(\'your secret here\'));\n  app.use(express.session());'
       : '');
 
     // Template support
