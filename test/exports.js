@@ -18,4 +18,8 @@ describe('exports', function(){
     express.methods.should.contain('put');
     express.methods.should.contain('post');
   })
+  
+  it('should expose the application prototype', function(){
+    express.application.set.should.be.a('function')
+  })
 })
