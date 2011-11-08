@@ -38,4 +38,30 @@ describe('config', function(){
       app.get('tobi').should.be.false;
     })
   })
+  
+  describe('.enabled()', function(){
+    it('should default to false', function(){
+      var app = express();
+      app.enabled('foo').should.be.false;
+    })
+    
+    it('should return true when set', function(){
+      var app = express();
+      app.set('foo', 'bar');
+      app.enabled('foo').should.be.true;
+    })
+  })
+  
+  describe('.disabled()', function(){
+    it('should default to true', function(){
+      var app = express();
+      app.disabled('foo').should.be.true;
+    })
+    
+    it('should return false when set', function(){
+      var app = express();
+      app.set('foo', 'bar');
+      app.disabled('foo').should.be.false;
+    })
+  })
 })
