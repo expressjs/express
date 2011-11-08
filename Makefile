@@ -1,16 +1,14 @@
 
-DOCS = $(shell find docs/*.md)
-HTMLDOCS =$(DOCS:.md=.html)
-TESTS = $(shell find test/*.test.js)
+DOCS = docs/*.md
+HTMLDOCS = $(DOCS:.md=.html)
+TESTS = test/*.js
 
 test:
-	@NODE_ENV=test ./node_modules/.bin/expresso \
-		-I lib \
-		$(TESTFLAGS) \
+	@NODE_ENV=test ./node_modules/.bin/mocha \
+		--require should \
+		--reporter dot \
+		--growl \
 		$(TESTS)
-
-test-cov:
-	@TESTFLAGS=--cov $(MAKE) test
 
 docs: $(HTMLDOCS)
 	@ echo "... generating TOC"
@@ -35,4 +33,4 @@ benchmark:
 docclean:
 	rm -f docs/*.{1,html}
 
-.PHONY: site test test-cov benchmark docs docclean
+.PHONY: site test benchmark docs docclean
