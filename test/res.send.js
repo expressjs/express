@@ -40,7 +40,7 @@ describe('res', function(){
   })
   
   describe('.send(String)', function(){
-    it('should send html', function(done){
+    it('should send as html', function(done){
       var app = express();
 
       app.use(function(req, res){
@@ -52,6 +52,25 @@ describe('res', function(){
       .end(function(res){
         res.headers.should.have.property('content-type', 'text/html; charset=utf-8');
         res.body.should.equal('<p>hey</p>');
+        res.statusCode.should.equal(200);
+        done();
+      })
+    })
+  })
+  
+  describe('.send(Buffer)', function(){
+    it('should send as octet-stream', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send(new Buffer('hello'));
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.headers.should.have.property('content-type', 'application/octet-stream');
+        res.body.should.equal('hello');
         res.statusCode.should.equal(200);
         done();
       })
