@@ -43,8 +43,6 @@ describe('res', function(){
         var app = express()
           , admin = express();
 
-        app.set('root', '/admin')
-
         admin.use(function(req, res){
           res.redirect('/admin/login');
         });
