@@ -4,6 +4,7 @@
  */
 
 var EventEmitter = require('events').EventEmitter
+  , methods = require('../../').methods
   , http = require('http');
 
 module.exports = request;
@@ -32,13 +33,11 @@ function Request(app) {
 
 Request.prototype.__proto__ = EventEmitter.prototype;
 
-Request.prototype.get = function(path){
-  return this.request('GET', path);
-};
-
-Request.prototype.head = function(path){
-  return this.request('HEAD', path);
-};
+methods.forEach(function(method){
+  Request.prototype[method] = function(path){
+    return this.request(method, path);
+  };
+});
 
 Request.prototype.set = function(field, val){
   this.header[field] = val;
