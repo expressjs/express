@@ -56,6 +56,23 @@ describe('res', function(){
         done();
       })
     })
+    
+    it('should not override Content-Type', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.header('Content-Type', 'text/plain').send('hey');
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.headers.should.have.property('content-type', 'text/plain');
+        res.body.should.equal('hey');
+        res.statusCode.should.equal(200);
+        done();
+      })
+    })
   })
   
   describe('.send(Buffer)', function(){
@@ -71,6 +88,23 @@ describe('res', function(){
       .end(function(res){
         res.headers.should.have.property('content-type', 'application/octet-stream');
         res.body.should.equal('hello');
+        res.statusCode.should.equal(200);
+        done();
+      })
+    })
+    
+    it('should not override Content-Type', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.header('Content-Type', 'text/plain').send(new Buffer('hey'));
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.headers.should.have.property('content-type', 'text/plain');
+        res.body.should.equal('hey');
         res.statusCode.should.equal(200);
         done();
       })
