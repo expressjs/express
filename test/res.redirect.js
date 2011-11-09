@@ -56,4 +56,42 @@ describe('res', function(){
       })
     })
   })
+  
+  describe('when accepting html', function(){
+    it('should respond with html', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect('http://google.com');
+      });
+
+      request(app)
+      .get('/')
+      .set('Accept', 'text/html')
+      .end(function(res){
+        res.headers.should.have.property('location', 'http://google.com');
+        res.body.should.equal('<p>Moved Temporarily. Redirecting to <a href="http://google.com">http://google.com</a></p>');
+        done();
+      })
+    })
+  })
+  
+  describe('when accepting text', function(){
+    it('should respond with text', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect('http://google.com');
+      });
+
+      request(app)
+      .get('/')
+      .set('Accept', 'text/plain')
+      .end(function(res){
+        res.headers.should.have.property('location', 'http://google.com');
+        res.body.should.equal('Moved Temporarily. Redirecting to http://google.com');
+        done();
+      })
+    })
+  })
 })
