@@ -39,7 +39,34 @@ describe('config', function(){
           calls.push('test');
         });
 
-        calls.push('dev');
+        calls.should.eql(['dev']);
+      })
+    })
+    
+    describe('when several envs are given', function(){
+      it('should execute when matching one', function(){
+        var app = express();
+        var calls = [];
+
+        app.set('env', 'development');
+
+        app.configure('development', function(){
+          calls.push('dev');
+        });
+
+        app.configure('test', 'development', function(){
+          calls.push('dev 2');
+        });
+        
+        app.configure('development', 'test', function(){
+          calls.push('dev 3');
+        });
+        
+        app.configure('test', function(){
+          calls.push('dev 3');
+        });
+
+        calls.should.eql(['dev', 'dev 2', 'dev 3']);
       })
     })
 
