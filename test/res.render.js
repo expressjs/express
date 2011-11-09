@@ -198,8 +198,31 @@ describe('res', function(){
     })
   })
 
+  describe('.render(name, options, fn)', function(){
+    it('should pass the resulting string', function(done){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+
+      app.use(function(req, res){
+        var tobi = { name: 'tobi' };
+        res.render('user.jade', { user: tobi }, function(err, html){
+          html = html.replace('tobi', 'loki');
+          res.end(html);
+        });
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.body.should.equal('<p>loki</p>');
+        done();
+      });
+    })
+  })
+
   describe('.render(name, fn)', function(){
-    it('should not respond', function(done){
+    it('should pass the resulting string', function(done){
       var app = express();
 
       app.set('views', __dirname + '/fixtures');
