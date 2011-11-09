@@ -9,7 +9,7 @@ describe('res', function(){
 
       app.use(function(req, res){
         res.setHeader('Content-Type', 'text/x-foo');
-        res.send(res.get('Content-Type'));
+        res.end(res.get('Content-Type'));
       });
 
       request(app)
