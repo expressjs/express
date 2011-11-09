@@ -284,4 +284,24 @@ describe('res', function(){
       });
     })
   })
+  
+  describe('"charset" options', function(){
+    it('should set the .charset', function(done){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+
+      app.use(function(req, res){
+        res.render('email.jade', { charset: 'foobar' });
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.headers['content-type'].should.equal('text/html; charset=foobar');
+        res.body.should.equal('<p>This is an email</p>');
+        done();
+      });
+    })
+  })
 })
