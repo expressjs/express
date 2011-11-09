@@ -264,4 +264,24 @@ describe('res', function(){
       })
     })
   })
+  
+  describe('"status" options', function(){
+    it('should set the .statusCode', function(done){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+
+      app.use(function(req, res){
+        res.render('email.jade', { status: 202 });
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.statusCode.should.equal(202);
+        res.body.should.equal('<p>This is an email</p>');
+        done();
+      });
+    })
+  })
 })
