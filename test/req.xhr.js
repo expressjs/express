@@ -20,6 +20,22 @@ describe('req', function(){
       })
     })
     
+    it('should case-insensitive', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        req.xhr.should.be.true;
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .set('X-Requested-With', 'XMLHttpRequest')
+      .end(function(res){
+        done();
+      })
+    })
+    
     it('should return false otherwise', function(done){
       var app = express();
 
