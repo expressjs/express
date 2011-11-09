@@ -37,5 +37,26 @@ describe('res', function(){
         done();
       })
     })
+    
+    it('should chain when arity > 1', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res
+          .header('Content-Type', 'text/x-foo')
+          .header('X-Foo', 'bar')
+          .header('X-Baz', undefined)
+          .end();
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.headers.should.have.property('content-type', 'text/x-foo');
+        res.headers.should.have.property('x-foo', 'bar');
+        res.headers.should.have.property('x-baz', 'undefined');
+        done();
+      })
+    })
   })
 })
