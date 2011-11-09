@@ -40,6 +40,22 @@ describe('res', function(){
         });
       })
       
+      it('should serve relative to "root"', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.sendfile('user.html', { root: 'test/fixtures/' });
+        });
+
+        request(app)
+        .get('/')
+        .end(function(res){
+          res.body.should.equal('<p>{{user.name}}</p>');
+          res.headers.should.have.property('content-type', 'text/html; charset=UTF-8');
+          done();
+        });
+      })
+      
       it('should next(404) when not found', function(done){
         var app = express()
           , calls = 0;
