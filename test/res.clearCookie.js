@@ -14,7 +14,25 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(res){
-        var val = 'sid=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        var val = 'sid=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        res.headers['set-cookie'].should.eql([val]);
+        done();
+      })
+    })
+    
+    it('should default path to "root"', function(done){
+      var app = express();
+
+      app.set('root', '/admin');
+
+      app.use(function(req, res){
+        res.clearCookie('sid').end();
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        var val = 'sid=; path=/admin; expires=Thu, 01 Jan 1970 00:00:00 GMT';
         res.headers['set-cookie'].should.eql([val]);
         done();
       })
