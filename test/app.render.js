@@ -1,18 +1,31 @@
 
-var express = require('../')
-  , assert = require('assert');
+var express = require('../');
 
 describe('app', function(){
   describe('.render(name, fn)', function(){
-    it('should expose app.locals', function(){
+    it('should expose app.locals', function(done){
       var app = express();
 
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
       app.render('user.jade', function(err, str){
-        assert(null == err);
+        if (err) return done(err);
         str.should.equal('<p>tobi</p>');
+        done();
+      })
+    })
+    
+    it('should support index.<engine>', function(done){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+      app.set('view engine', 'jade');
+
+      app.render('blog/post', function(err, str){
+        if (err) return done(err);
+        str.should.equal('<h1>blog post</h1>');
+        done();
       })
     })
     
@@ -39,7 +52,7 @@ describe('app', function(){
         app.set('views', __dirname + '/fixtures');
 
         app.render('email.jade', function(err, str){
-          assert(null == err);
+          if (err) return done(err);
           str.should.equal('<p>This is an email</p>');
           done();
         })
@@ -54,7 +67,7 @@ describe('app', function(){
         app.set('views', __dirname + '/fixtures');
 
         app.render('email', function(err, str){
-          assert(null == err);
+          if (err) return done(err);
           str.should.equal('<p>This is an email</p>');
           done();
         })
@@ -71,25 +84,26 @@ describe('app', function(){
       var user = { name: 'tobi' };
 
       app.render('user.jade', { user: user }, function(err, str){
-        assert(null == err);
+        if (err) return done(err);
         str.should.equal('<p>tobi</p>');
         done();
       })
     })
     
-    it('should expose app.locals', function(){
+    it('should expose app.locals', function(done){
       var app = express();
 
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
       app.render('user.jade', {}, function(err, str){
-        assert(null == err);
+        if (err) return done(err);
         str.should.equal('<p>tobi</p>');
+        done();
       })
     })
     
-    it('should give precedence to app.render() locals', function(){
+    it('should give precedence to app.render() locals', function(done){
       var app = express();
 
       app.set('views', __dirname + '/fixtures');
@@ -97,8 +111,9 @@ describe('app', function(){
       var jane = { name: 'jane' };
 
       app.render('user.jade', { user: jane }, function(err, str){
-        assert(null == err);
+        if (err) return done(err);
         str.should.equal('<p>jane</p>');
+        done();
       })
     })
   })

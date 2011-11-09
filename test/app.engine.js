@@ -1,6 +1,5 @@
 
-var express = require('../')
-  , assert = require('assert');
+var express = require('../');
 
 function render(str, options, fn) {
   str = str.replace('{{user.name}}', options.user.name);
@@ -9,7 +8,7 @@ function render(str, options, fn) {
 
 describe('app', function(){
   describe('.engine(ext, fn)', function(){
-    it('should map a template engine', function(){
+    it('should map a template engine', function(done){
       var app = express();
 
       app.set('views', __dirname + '/fixtures');
@@ -17,12 +16,13 @@ describe('app', function(){
       app.locals.user = { name: 'tobi' };
 
       app.render('user.html', function(err, str){
-        assert(null == err);
+        if (err) return done(err);
         str.should.equal('<p>tobi</p>');
+        done();
       })
     })
     
-    it('should work without leading "."', function(){
+    it('should work without leading "."', function(done){
       var app = express();
 
       app.set('views', __dirname + '/fixtures');
@@ -30,12 +30,13 @@ describe('app', function(){
       app.locals.user = { name: 'tobi' };
 
       app.render('user.html', function(err, str){
-        assert(null == err);
+        if (err) return done(err);
         str.should.equal('<p>tobi</p>');
+        done();
       })
     })
     
-    it('should work "view engine" setting', function(){
+    it('should work "view engine" setting', function(done){
       var app = express();
 
       app.set('views', __dirname + '/fixtures');
@@ -44,8 +45,9 @@ describe('app', function(){
       app.locals.user = { name: 'tobi' };
 
       app.render('user', function(err, str){
-        assert(null == err);
+        if (err) return done(err);
         str.should.equal('<p>tobi</p>');
+        done();
       })
     })
   })
