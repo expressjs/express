@@ -74,5 +74,23 @@ describe('res', function(){
         done();
       })
     })
+    
+    describe('maxAge', function(){
+      it('should set relative expires', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.cookie('name', 'tobi', { maxAge: 1000 });
+          res.end();
+        });
+
+        request(app)
+        .get('/')
+        .end(function(res){
+          res.headers['set-cookie'][0].should.not.include.string('Thu, 01 Jan 1970 00:00:01 GMT');
+          done();
+        })
+      })
+    })
   })
 })
