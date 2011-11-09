@@ -19,8 +19,26 @@ describe('res', function(){
         done();
       })
     })
+    
+    describe('when relative', function(){
+      it('should construct an absolute url', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.redirect('/login');
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', 'example.com')
+        .end(function(res){
+          res.headers.should.have.property('location', 'http://example.com/login');
+          done();
+        })
+      })
+    })
   })
-  
+
   describe('.redirect(status, url)', function(){
     it('should set the response status', function(done){
       var app = express();
