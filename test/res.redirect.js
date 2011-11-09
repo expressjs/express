@@ -58,6 +58,11 @@ describe('res', function(){
         })
       })
     })
+    
+    describe('when deeply mounted', function(){
+      // TODO: refactor "root" handling
+      it('should respect the mount-point');
+    })
   })
 
   describe('.redirect(status, url)', function(){
