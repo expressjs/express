@@ -56,4 +56,23 @@ describe('res', function(){
       })
     })
   })
+  
+  describe('.cookie(name, value, options)', function(){
+    it('should set params', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.cookie('name', 'tobi', { httpOnly: true, secure: true });
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        var val = ['name=tobi; path=/; httpOnly; secure'];
+        res.headers['set-cookie'].should.eql(val);
+        done();
+      })
+    })
+  })
 })
