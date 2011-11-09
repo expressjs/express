@@ -162,4 +162,42 @@ describe('res', function(){
       })
     })
   })
+  
+  describe('when .statusCode is 204', function(){
+    it('should strip Content-* fields & body', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.status(204).send('foo');
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.headers.should.not.have.property('content-type');
+        res.headers.should.not.have.property('content-length');
+        res.body.should.equal('');
+        done();
+      })
+    })
+  })
+  
+  describe('when .statusCode is 304', function(){
+    it('should strip Content-* fields & body', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.status(304).send('foo');
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.headers.should.not.have.property('content-type');
+        res.headers.should.not.have.property('content-length');
+        res.body.should.equal('');
+        done();
+      })
+    })
+  })
 })
