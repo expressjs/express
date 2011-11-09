@@ -2,11 +2,12 @@
 DOCS = docs/*.md
 HTMLDOCS = $(DOCS:.md=.html)
 TESTS = test/*.js
+REPORTER = list
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--require should \
-		--reporter list \
+		--reporter $(REPORTER) \
 		--growl \
 		$(TESTS)
 
