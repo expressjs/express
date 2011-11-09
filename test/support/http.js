@@ -36,6 +36,10 @@ Request.prototype.get = function(path){
   return this.request('GET', path);
 };
 
+Request.prototype.head = function(path){
+  return this.request('HEAD', path);
+};
+
 Request.prototype.set = function(field, val){
   this.header[field] = val;
   return this;

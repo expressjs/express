@@ -162,7 +162,24 @@ describe('res', function(){
       })
     })
   })
-  
+
+  describe('when the request method is HEAD', function(){
+    it('should ignore the body', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send('yay');
+      });
+
+      request(app)
+      .head('/')
+      .end(function(res){
+        res.body.should.equal('');
+        done();
+      })
+    })
+  })
+
   describe('when .statusCode is 204', function(){
     it('should strip Content-* fields & body', function(done){
       var app = express();
