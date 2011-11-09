@@ -144,4 +144,22 @@ describe('res', function(){
       })
     })
   })
+  
+  describe('.send(Object)', function(){
+    it('should send as application/json', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send({ name: 'tobi' });
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
+        res.body.should.equal('{"name":"tobi"}');
+        done();
+      })
+    })
+  })
 })
