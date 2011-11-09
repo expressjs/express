@@ -37,6 +37,29 @@ describe('res', function(){
         })
       })
     })
+    
+    describe('when mounted', function(){
+      it('should respect the mount-point', function(done){
+        var app = express()
+          , admin = express();
+
+        app.set('root', '/admin')
+
+        admin.use(function(req, res){
+          res.redirect('/admin/login');
+        });
+
+        app.use('/blog', admin);
+
+        request(app)
+        .get('/blog')
+        .set('Host', 'example.com')
+        .end(function(res){
+          res.headers.should.have.property('location', 'http://example.com/blog/admin/login');
+          done();
+        })
+      })
+    })
   })
 
   describe('.redirect(status, url)', function(){
