@@ -15,7 +15,7 @@ describe('app', function(){
         str.should.equal('<p>tobi</p>');
       })
     })
-
+    
     describe('when an error occurs', function(){
       it('should invoke the callback', function(done){
         var app = express();
@@ -74,6 +74,31 @@ describe('app', function(){
         assert(null == err);
         str.should.equal('<p>tobi</p>');
         done();
+      })
+    })
+    
+    it('should expose app.locals', function(){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+      app.locals.user = { name: 'tobi' };
+
+      app.render('user.jade', {}, function(err, str){
+        assert(null == err);
+        str.should.equal('<p>tobi</p>');
+      })
+    })
+    
+    it('should give precedence to app.render() locals', function(){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+      app.locals.user = { name: 'tobi' };
+      var jane = { name: 'jane' };
+
+      app.render('user.jade', { user: jane }, function(err, str){
+        assert(null == err);
+        str.should.equal('<p>jane</p>');
       })
     })
   })
