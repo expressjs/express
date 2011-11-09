@@ -3,7 +3,7 @@ var express = require('../')
   , request = require('./support/http');
 
 describe('res', function(){
-  describe('.status()', function(){
+  describe('.status(code)', function(){
     it('should set the response .statusCode', function(done){
       var app = express();
 
@@ -14,6 +14,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(res){
+        res.body.should.equal('Created');
         res.statusCode.should.equal(201);
         done();
       })
