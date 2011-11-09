@@ -38,4 +38,23 @@ describe('res', function(){
       })
     })
   })
+  
+  describe('.send(String)', function(){
+    it('should send html', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send('<p>hey</p>');
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.headers.should.have.property('content-type', 'text/html; charset=utf-8');
+        res.body.should.equal('<p>hey</p>');
+        res.statusCode.should.equal(200);
+        done();
+      })
+    })
+  })
 })
