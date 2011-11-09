@@ -14,7 +14,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(res){
-        var val = ['name=tobi'];
+        var val = ['name=tobi; path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
@@ -32,7 +32,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(res){
-        var val = ['name=tobi', 'age=1'];
+        var val = ['name=tobi; path=/', 'age=1; path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
