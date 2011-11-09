@@ -4,9 +4,7 @@ var express = require('../')
 
 describe('res', function(){
   describe('.sendfile(path)', function(){
-    var res;
-
-    beforeEach(function(done){
+    it('should transfer the file', function(done){
       var app = express();
 
       app.use(function(req, res){
@@ -15,18 +13,11 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(s){
-        res = s;
+      .end(function(res){
+        res.body.should.equal('<p>{{user.name}}</p>');
+        res.headers.should.have.property('content-type', 'text/html; charset=UTF-8');
         done();
-      })
-    })
-
-    it('should transfer the given file', function(){
-      res.body.should.equal('<p>{{user.name}}</p>');
-    })
-    
-    it('should set the Content-Type', function(){
-      res.headers.should.have.property('content-type', 'text/html; charset=UTF-8');
+      });
     })
   })
 })
