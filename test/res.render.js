@@ -122,7 +122,63 @@ describe('res', function(){
       });
     })
     
-    it('should give precedence to res.render() locals', function(done){
+    it('should expose res.locals', function(done){
+      var app = express();
+    
+      app.set('views', __dirname + '/fixtures');
+
+      app.use(function(req, res){
+        res.locals.user = { name: 'tobi' };
+        res.render('user.jade', {});
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.body.should.equal('<p>tobi</p>');
+        done();
+      });
+    })
+    
+    it('should give precedence to res.locals over app.locals', function(done){
+      var app = express();
+    
+      app.set('views', __dirname + '/fixtures');
+      app.locals.user = { name: 'tobi' };
+
+      app.use(function(req, res){
+        res.locals.user = { name: 'jane' };
+        res.render('user.jade', {});
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.body.should.equal('<p>jane</p>');
+        done();
+      });
+    })
+
+    it('should give precedence to res.render() locals over res.locals', function(done){
+      var app = express();
+    
+      app.set('views', __dirname + '/fixtures');
+      var jane = { name: 'jane' };
+    
+      app.use(function(req, res){
+        res.locals.user = { name: 'tobi' };
+        res.render('user.jade', { user: jane });
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.body.should.equal('<p>jane</p>');
+        done();
+      });
+    })
+    
+    it('should give precedence to res.render() locals over app.locals', function(done){
       var app = express();
     
       app.set('views', __dirname + '/fixtures');
