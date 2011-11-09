@@ -197,4 +197,48 @@ describe('res', function(){
       });
     })
   })
+
+  describe('.render(name, fn)', function(){
+    it('should not respond', function(done){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+
+      app.use(function(req, res){
+        res.locals.user = { name: 'tobi' };
+        res.render('user.jade', function(err, html){
+          html = html.replace('tobi', 'loki');
+          res.end(html);
+        });
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.body.should.equal('<p>loki</p>');
+        done();
+      });
+    })
+
+    describe('when an error occurs', function(){
+      it('should pass it to the callback', function(done){
+        var app = express();
+
+        app.set('views', __dirname + '/fixtures');
+
+        app.use(function(req, res){
+          res.render('user.jade', function(err){
+            res.end(err.message);
+          });
+        });
+
+        request(app)
+        .get('/')
+        .end(function(res){
+          res.body.should.match(/is not defined/);
+          done();
+        });
+      })
+    })
+  })
 })
