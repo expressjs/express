@@ -40,5 +40,30 @@ describe('app', function(){
         done();
       })
     })
+    
+    describe('with arity < 3', function(){
+      it('should done() for you', function(done){
+        var app = express();
+
+        app.set('views', __dirname + '/fixtures');
+        app.locals.first = 'tobi';
+
+        app.locals.use(function(req, res){
+          res.locals.last = 'holowaychuk';
+          res.locals.species = 'ferret';
+        });
+
+        app.use(function(req, res){
+          res.render('pet.jade');
+        });
+
+        request(app)
+        .get('/')
+        .end(function(res){
+          res.body.should.equal('<p>tobi holowaychuk is a ferret</p>');
+          done();
+        })
+      })
+    })
   })
 })
