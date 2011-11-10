@@ -22,5 +22,29 @@ describe('app', function(){
         done();
       });
     })
+    
+    it('should not be influenced by other app protos', function(){
+      var app = express()
+        , app2 = express();
+
+      app.response.shout = function(str){
+        this.send(str.toUpperCase());
+      };
+      
+      app2.response.shout = function(str){
+        this.send(str);
+      };
+
+      app.use(function(req, res){
+        res.shout('hey');
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.body.should.equal('HEY');
+        done();
+      });
+    })
   })
 })
