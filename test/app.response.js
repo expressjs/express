@@ -23,7 +23,7 @@ describe('app', function(){
       });
     })
     
-    it('should not be influenced by other app protos', function(){
+    it('should not be influenced by other app protos', function(done){
       var app = express()
         , app2 = express();
 
