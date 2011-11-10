@@ -49,7 +49,7 @@ var index = [
   , 'exports.index = function(req, res){'
   , '  res.render(\'index\', { title: \'Express\' })'
   , '};'
-].join('\n');
+].join('\r\n');
 
 /**
  * Jade layout template.
@@ -62,7 +62,7 @@ var jadeLayout = [
   , '    title= title'
   , '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
   , '  body!= body'
-].join('\n');
+].join('\r\n');
 
 /**
  * Jade index template.
@@ -71,7 +71,7 @@ var jadeLayout = [
 var jadeIndex = [
     'h1= title'
   , 'p Welcome to #{title}'
-].join('\n');
+].join('\r\n');
 
 /**
  * EJS layout template.
@@ -88,7 +88,7 @@ var ejsLayout = [
   , '    <%- body %>'
   , '  </body>'
   , '</html>'
-].join('\n');
+].join('\r\n');
 
 /**
  * EJS index template.
@@ -97,7 +97,7 @@ var ejsLayout = [
 var ejsIndex = [
     '<h1><%= title %></h1>'
   , '<p>Welcome to <%= title %></p>'
-  ].join('\n');
+  ].join('\r\n');
 
 /**
  * JSHTML layout template.
@@ -114,7 +114,7 @@ var jshtmlLayout = [
   , '    @write(body)'
   , '  </body>'
   , '</html>'
-].join('\n');
+].join('\r\n');
 
 /**
  * JSHTML index template.
@@ -123,7 +123,7 @@ var jshtmlLayout = [
 var jshtmlIndex = [
     '<h1>@write(title)</h1>'
   , '<p>Welcome to @write(title)</p>'
-  ].join('\n');
+  ].join('\r\n');
 
 /**
  * Default css template.
@@ -138,7 +138,7 @@ var css = [
   , 'a {'
   , '  color: #00B7FF;'
   , '}'
-].join('\n');
+].join('\r\n');
 
 /**
  * Default less template.
@@ -153,7 +153,7 @@ var less = [
   , 'a {'
   , '  color: #00B7FF;'
   , '}'
-].join('\n');
+].join('\r\n');
 
 /**
  * Default stylus template.
@@ -165,7 +165,7 @@ var stylus = [
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif'
   , 'a'
   , '  color: #00B7FF'
-].join('\n');
+].join('\r\n');
 
 /**
  * App template.
@@ -207,7 +207,7 @@ var app = [
   , ''
   , 'console.log("Express server listening for connections");'
   , ''
-].join('\n');
+].join('\r\n');
 
 // Generate application
 
@@ -282,7 +282,7 @@ function createApplicationAt(path) {
     // CSS Engine support
     switch (program.css) {
       case 'stylus':
-        app = app.replace('{css}', '\n  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
+        app = app.replace('{css}', '\r\n  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
         break;
       default:
         app = app.replace('{css}', '');
