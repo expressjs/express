@@ -56,6 +56,51 @@ describe('res', function(){
         });
       })
       
+      it('should consider ../ malicious when "root" is not set', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.sendfile('test/fixtures/foo/../user.html');
+        });
+
+        request(app)
+        .get('/')
+        .end(function(res){
+          res.statusCode.should.equal(403);
+          done();
+        });
+      })
+      
+      it('should allow ../ when "root" is set', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.sendfile('foo/../user.html', { root: 'test/fixtures' });
+        });
+
+        request(app)
+        .get('/')
+        .end(function(res){
+          res.statusCode.should.equal(200);
+          done();
+        });
+      })
+      
+      it('should disallow requesting out of "root"', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.sendfile('foo/../../user.html', { root: 'test/fixtures' });
+        });
+
+        request(app)
+        .get('/')
+        .end(function(res){
+          res.statusCode.should.equal(403);
+          done();
+        });
+      })
+      
       it('should next(404) when not found', function(done){
         var app = express()
           , calls = 0;
