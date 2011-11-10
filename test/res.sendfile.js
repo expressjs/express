@@ -46,6 +46,28 @@ describe('res', function(){
         done();
       });
     })
+    
+    it('should invoke the callback on 403', function(done){
+      var app = express()
+        , calls = 0;
+
+      app.use(function(req, res){
+        res.sendfile('test/fixtures/foo/../user.html', function(err){
+          assert(!res.headerSent);
+          ++calls;
+          res.send(err.message);
+        });
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        calls.should.equal(1);
+        res.body.should.equal('Forbidden');
+        res.statusCode.should.equal(200);
+        done();
+      });
+    })
   })
 
   describe('.sendfile(path)', function(){
