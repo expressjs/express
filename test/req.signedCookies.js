@@ -41,5 +41,26 @@ describe('req', function(){
         done();
       })
     })
+
+    describe('when signature is invalid', function(){
+      it('should unsign cookies', function(done){
+        var app = express();
+
+        app.use(express.cookieParser('foo bar baz'));
+
+        app.use(function(req, res){
+          req.signedCookies.should.not.have.property('name');
+          res.end(req.cookies.name);
+        });
+
+        request(app)
+        .get('/')
+        .set('Cookie', 'name=tobi.2HDdGQqJ6jQU1S9dagasdfasdf')
+        .end(function(res){
+          res.body.should.equal('tobi.2HDdGQqJ6jQU1S9dagasdfasdf');
+          done();
+        })
+      })
+    })
   })
 })
