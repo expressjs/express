@@ -62,9 +62,9 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(res){
-        calls.should.equal(1);
         res.body.should.equal('Forbidden');
         res.statusCode.should.equal(200);
+        calls.should.equal(1);
         done();
       });
     })
