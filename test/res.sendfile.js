@@ -33,7 +33,7 @@ describe('res', function(){
         res.sendfile('test/fixtures/nope.html', function(err){
           assert(!res.headerSent);
           ++calls;
-          res.send(err.code);
+          res.send(err.message);
         });
       });
 
@@ -41,7 +41,7 @@ describe('res', function(){
       .get('/')
       .end(function(res){
         calls.should.equal(1);
-        res.body.should.equal('ENOENT');
+        res.body.should.equal('Not Found');
         res.statusCode.should.equal(200);
         done();
       });
