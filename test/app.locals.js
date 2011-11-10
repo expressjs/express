@@ -8,9 +8,10 @@ describe('app', function(){
       var app = express();
       Object.keys(app.locals).should.eql(['use', 'settings']);
       app.locals({ user: 'tobi', age: 1 });
+      app.locals({ age: 2 });
       Object.keys(app.locals).should.eql(['use', 'settings', 'user', 'age']);
       app.locals.user.should.equal('tobi');
-      app.locals.age.should.equal(1);
+      app.locals.age.should.equal(2);
     })
   })
 })
