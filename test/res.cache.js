@@ -36,39 +36,5 @@ describe('res', function(){
         })
       })
     })
-    
-    describe('maxStale option', function(){
-      it('should accept milliseconds', function(done){
-        var app = express();
-
-        app.use(function(req, res){
-          res.cache('private', { maxStale: 60 * 1000 }).end();
-        });
-
-        request(app)
-        .get('/')
-        .end(function(res){
-          res.headers['cache-control'].should.equal('private, max-stale=60');
-          done();
-        })
-      })
-    })
-    
-    describe('minFresh option', function(){
-      it('should accept milliseconds', function(done){
-        var app = express();
-
-        app.use(function(req, res){
-          res.cache('private', { minFresh: 60 * 1000 }).end();
-        });
-
-        request(app)
-        .get('/')
-        .end(function(res){
-          res.headers['cache-control'].should.equal('private, min-fresh=60');
-          done();
-        })
-      })
-    })
   })
 })
