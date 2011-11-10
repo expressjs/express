@@ -65,5 +65,28 @@ describe('app', function(){
         })
       })
     })
+
+    it('should not override res.render() locals', function(done){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+      app.locals.first = 'tobi';
+
+      app.locals.use(function(req, res){
+        res.locals.last = 'holowaychuk';
+        res.locals.species = 'ferret';
+      });
+
+      app.use(function(req, res){
+        res.render('pet.jade', { last: 'ibot' });
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.body.should.equal('<p>tobi ibot is a ferret</p>');
+        done();
+      })
+    })
   })
 })
