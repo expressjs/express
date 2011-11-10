@@ -4,6 +4,28 @@ var express = require('../')
   , assert = require('assert');
 
 describe('res', function(){
+  describe('.sendfile(path, fn)', function(){
+    it('should invoke the callback when complete', function(done){
+      var app = express()
+        , calls = 0;
+
+      app.use(function(req, res){
+        res.sendfile('test/fixtures/user.html', function(err){
+          assert(!err);
+          ++calls;
+        });
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        calls.should.equal(1);
+        res.statusCode.should.equal(200);
+        done();
+      });
+    })
+  })
+
   describe('.sendfile(path)', function(){
     describe('with an absolute path', function(){
       it('should transfer the file', function(done){
