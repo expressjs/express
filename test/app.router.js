@@ -232,6 +232,19 @@ describe('app.router', function(){
       .expect('users/0 as json', done);
     })
     
+    it('should allow naming', function(done){
+      var app = express();
+
+      app.get('/api/:resource(*)', function(req, res){
+        var resource = req.params.resource;
+        res.end(resource);
+      });
+
+      request(app)
+      .get('/api/users/0.json')
+      .expect('users/0.json', done);
+    })
+    
     it('should span multiple segments', function(done){
       var app = express();
 
