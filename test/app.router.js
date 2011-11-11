@@ -73,6 +73,36 @@ describe('app.router', function(){
       .get('/USER')
       .expect('tj', done);
     })
+    
+    describe('when "case sensitive routes" is enabled', function(){
+      it('should match identical casing', function(done){
+        var app = express();
+
+        app.enable('case sensitive routes');
+
+        app.get('/uSer', function(req, res){
+          res.end('tj');
+        });
+
+        request(app)
+        .get('/uSer')
+        .expect('tj', done);
+      })
+      
+      it('should not match otherwise', function(done){
+        var app = express();
+
+        app.enable('case sensitive routes');
+
+        app.get('/uSer', function(req, res){
+          res.end('tj');
+        });
+
+        request(app)
+        .get('/user')
+        .expect('Cannot GET /user', done);
+      })
+    })
   })
 
   describe('trailing slashes', function(){
