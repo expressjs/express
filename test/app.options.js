@@ -6,13 +6,8 @@ describe('OPTIONS', function(){
   it('should default to the routes defined', function(done){
     var app = express();
 
-    app.get('/users', function(req, res){
-      
-    });
-
-    app.put('/users', function(req, res){
-      
-    });
+    app.get('/users', function(req, res){});
+    app.put('/users', function(req, res){});
 
     request(app)
     .options('/users')
@@ -34,13 +29,8 @@ describe('app.options()', function(){
       res.send('GET');
     });
 
-    app.get('/users', function(req, res){
-      
-    });
-
-    app.put('/users', function(req, res){
-      
-    });
+    app.get('/users', function(req, res){});
+    app.put('/users', function(req, res){});
 
     request(app)
     .options('/users')
