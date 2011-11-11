@@ -205,6 +205,23 @@ describe('app.router', function(){
     })
   })
 
+  it('should allow escaped regexp', function(done){
+    var app = express();
+
+    app.get('/user/\\d+', function(req, res){
+      res.end('woot');
+    });
+
+    request(app)
+    .get('/user/10')
+    .end(function(res){
+      res.statusCode.should.equal(200);
+      request(app)
+      .get('/user/tj')
+      .expect(404, done);
+    });
+  })
+
   describe('*', function(){
     it('should denote a greedy capture group', function(done){
       var app = express();
