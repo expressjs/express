@@ -60,4 +60,21 @@ describe('app.router', function(){
       done();
     })
   })
+  
+  describe(':name', function(){
+    it('should denote a capture group', function(done){
+      var app = express();
+
+      app.get('/user/:user', function(req, res){
+        res.end(req.params.user);
+      });
+
+      request(app)
+      .get('/user/tj')
+      .end(function(res){
+        res.body.should.equal('tj');
+        done();
+      });
+    })
+  })
 })
