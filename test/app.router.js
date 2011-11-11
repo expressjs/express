@@ -117,6 +117,64 @@ describe('app.router', function(){
       .get('/user/')
       .expect('tj', done);
     })
+    
+    describe('when "strict routing" is enabled', function(){
+      it('should match trailing slashes', function(done){
+        var app = express();
+
+        app.enable('strict routing');
+
+        app.get('/user/', function(req, res){
+          res.end('tj');
+        });
+
+        request(app)
+        .get('/user/')
+        .expect('tj', done);
+      })
+      
+      it('should match no slashes', function(done){
+        var app = express();
+
+        app.enable('strict routing');
+
+        app.get('/user', function(req, res){
+          res.end('tj');
+        });
+
+        request(app)
+        .get('/user')
+        .expect('tj', done);
+      })
+      
+      it('should fail when omitting the trailing slash', function(done){
+        var app = express();
+
+        app.enable('strict routing');
+
+        app.get('/user/', function(req, res){
+          res.end('tj');
+        });
+
+        request(app)
+        .get('/user')
+        .expect('Cannot GET /user', done);
+      })
+      
+      it('should fail when adding the trailing slash', function(done){
+        var app = express();
+
+        app.enable('strict routing');
+
+        app.get('/user', function(req, res){
+          res.end('tj');
+        });
+
+        request(app)
+        .get('/user/')
+        .expect('Cannot GET /user/', done);
+      })
+    })
   })
 
   describe(':name', function(){
