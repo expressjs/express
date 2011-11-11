@@ -24,7 +24,8 @@ describe('app.head()', function(){
       , called;
 
     app.head('/tobi', function(req, res){
-      res.end();
+      called = true;
+      res.end('');
     });
 
     app.get('/tobi', function(req, res){
