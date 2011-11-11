@@ -205,6 +205,56 @@ describe('app.router', function(){
     })
   })
 
+  describe('*', function(){
+    it('should denote a greedy capture group', function(done){
+      var app = express();
+
+      app.get('/user/*', function(req, res){
+        res.end(req.params[0]);
+      });
+
+      request(app)
+      .get('/user/tj')
+      .expect('tj', done);
+    })
+    
+    it('should span multiple segments', function(done){
+      var app = express();
+
+      app.get('/file/*', function(req, res){
+        res.end(req.params[0]);
+      });
+
+      request(app)
+      .get('/file/javascripts/jquery.js')
+      .expect('javascripts/jquery.js', done);
+    })
+    
+    it('should be optional', function(done){
+      var app = express();
+
+      app.get('/file/*', function(req, res){
+        res.end(req.params[0]);
+      });
+
+      request(app)
+      .get('/file/')
+      .expect('', done);
+    })
+    
+    it('should require a preceeding /', function(done){
+      var app = express();
+
+      app.get('/file/*', function(req, res){
+        res.end(req.params[0]);
+      });
+
+      request(app)
+      .get('/file')
+      .expect(404, done);
+    })
+  })
+
   describe(':name', function(){
     it('should denote a capture group', function(done){
       var app = express();
