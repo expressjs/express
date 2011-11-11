@@ -74,11 +74,11 @@ describe('app.router', function(){
       .expect('tj', done);
     })
     
-    describe('when "case sensitive routes" is enabled', function(){
+    describe('when "case sensitive routing" is enabled', function(){
       it('should match identical casing', function(done){
         var app = express();
 
-        app.enable('case sensitive routes');
+        app.enable('case sensitive routing');
 
         app.get('/uSer', function(req, res){
           res.end('tj');
@@ -92,7 +92,7 @@ describe('app.router', function(){
       it('should not match otherwise', function(done){
         var app = express();
 
-        app.enable('case sensitive routes');
+        app.enable('case sensitive routing');
 
         app.get('/uSer', function(req, res){
           res.end('tj');
