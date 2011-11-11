@@ -15,7 +15,7 @@ describe('app.router', function(){
 
         request(app)
         [method]('/foo')
-        .expect(method, done);
+        .expect('head' == method ? '' : method, done);
       })
     });
   })
