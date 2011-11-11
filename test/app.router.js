@@ -10,7 +10,11 @@ describe('app.router', function(){
         var calls = [];
 
         app[method]('/foo', function(req, res){
-          res.end(method);
+          if ('head' == method) {
+            res.end();
+          } else {
+            res.end(method);
+          }
         });
 
         request(app)
