@@ -57,7 +57,11 @@ Request.prototype.request = function(method, path){
 
 Request.prototype.expect = function(body, fn){
   this.end(function(res){
-    res.body.should.equal(body);
+    if ('number' == typeof body) {
+      res.statusCode.should.equal(body);
+    } else {
+      res.body.should.equal(body);
+    }
     fn();
   });
 };

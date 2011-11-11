@@ -128,7 +128,7 @@ describe('app.router', function(){
 
         request(app)
         .get('/user')
-        .expect('Cannot GET /user', done);
+        .expect(404, done);
       })
     })
   })
@@ -186,7 +186,7 @@ describe('app.router', function(){
 
         request(app)
         .get('/user')
-        .expect('Cannot GET /user', done);
+        .expect(404, done);
       })
       
       it('should fail when adding the trailing slash', function(done){
@@ -200,7 +200,7 @@ describe('app.router', function(){
 
         request(app)
         .get('/user/')
-        .expect('Cannot GET /user/', done);
+        .expect(404, done);
       })
     })
   })
@@ -216,6 +216,18 @@ describe('app.router', function(){
       request(app)
       .get('/user/tj')
       .expect('tj', done);
+    })
+    
+    it('should match a single segment only', function(done){
+      var app = express();
+
+      app.get('/user/:user', function(req, res){
+        res.end(req.params.user);
+      });
+
+      request(app)
+      .get('/user/tj/edit')
+      .expect(404, done);
     })
     
     it('should allow several capture groups', function(done){
