@@ -470,4 +470,40 @@ describe('app.router', function(){
       })
     })
   })
+  
+  describe('when next(err) is called', function(){
+    it('should break out of app.router', function(done){
+      var app = express()
+        , calls = [];
+
+      app.get('/foo/:bar?', function(req, res, next){
+        calls.push('/foo/:bar?');
+        next();
+      });
+
+      app.get('/bar', function(req, res){
+        assert(0);
+      });
+
+      app.get('/foo', function(req, res, next){
+        calls.push('/foo');
+        next(new Error('fail'));
+      });
+      
+      app.get('/foo', function(req, res, next){
+        assert(0);
+      });
+
+      app.use(function(err, req, res, next){
+        res.end(err.message);
+      })
+
+      request(app)
+      .get('/foo')
+      .expect('fail', function(){
+        calls.should.eql(['/foo/:bar?', '/foo']);
+        done();
+      })
+    })
+  })
 })
