@@ -61,6 +61,34 @@ describe('app.router', function(){
     })
   })
 
+  describe('when given a regexp', function(){
+    it('should match the pathname only', function(done){
+      var app = express();
+
+      app.get(/^\/user\/[0-9]+$/, function(req, res){
+        res.end('user');
+      });
+
+      request(app)
+      .get('/user/12?foo=bar')
+      .expect('user', done);
+    })
+    
+    it('should populate req.params with the captures', function(done){
+      var app = express();
+
+      app.get(/^\/user\/([0-9]+)\/(view|edit)?$/, function(req, res){
+        var id = req.params.shift()
+          , op = req.params.shift();
+        res.end(op + 'ing user ' + id);
+      });
+
+      request(app)
+      .get('/user/10/edit')
+      .expect('editing user 10', done);
+    })
+  })
+
   describe('case sensitivity', function(){
     it('should be disabled by default', function(done){
       var app = express();
