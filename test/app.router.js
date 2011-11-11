@@ -61,6 +61,20 @@ describe('app.router', function(){
     })
   })
 
+  describe('case sensitivity', function(){
+    it('should be disabled by default', function(done){
+      var app = express();
+
+      app.get('/user', function(req, res){
+        res.end('tj');
+      });
+
+      request(app)
+      .get('/USER')
+      .expect('tj', done);
+    })
+  })
+
   describe('trailing slashes', function(){
     it('should be optional by default', function(done){
       var app = express();
