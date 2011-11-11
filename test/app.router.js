@@ -221,6 +221,21 @@ describe('app.router', function(){
       .expect(404, done);
     });
   })
+  
+  it('should allow literal "."', function(done){
+    var app = express();
+
+    app.get('/api/users/:from..:to', function(req, res){
+      var from = req.params.from
+        , to = req.params.to;
+
+      res.end('users from ' + from + ' to ' + to);
+    });
+
+    request(app)
+    .get('/api/users/1..50')
+    .expect('users from 1 to 50', done);
+  })
 
   describe('*', function(){
     it('should denote a greedy capture group', function(done){
