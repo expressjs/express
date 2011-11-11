@@ -20,6 +20,28 @@ describe('app.router', function(){
     });
   })
 
+  describe('OPTIONS', function(){
+    it('should default to the routes defined', function(done){
+      var app = express();
+
+      app.get('/users', function(req, res){
+        
+      });
+
+      app.put('/users', function(req, res){
+        
+      });
+
+      request(app)
+      .options('/users')
+      .end(function(res){
+        res.body.should.equal('GET,PUT');
+        res.headers.should.have.property('allow', 'GET,PUT');
+        done();
+      });
+    })
+  })
+
   it('should be .use()able', function(done){
     var app = express();
 
