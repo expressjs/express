@@ -1,6 +1,7 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('./support/http')
+  , assert = require('assert');
 
 describe('app.router', function(){
   describe('methods supported', function(){
@@ -434,6 +435,39 @@ describe('app.router', function(){
         .get('/foo.json')
         .expect('foo as json', done);
       });
+    })
+  })
+  
+  describe('when next() is called', function(){
+    it('should continue lookup', function(done){
+      var app = express()
+        , calls = [];
+
+      app.get('/foo/:bar?', function(req, res, next){
+        calls.push('/foo/:bar?');
+        next();
+      });
+
+      app.get('/bar', function(req, res){
+        assert(0);
+      });
+
+      app.get('/foo', function(req, res, next){
+        calls.push('/foo');
+        next();
+      });
+      
+      app.get('/foo', function(req, res, next){
+        calls.push('/foo 2');
+        res.end('done');
+      });
+
+      request(app)
+      .get('/foo')
+      .expect('done', function(){
+        calls.should.eql(['/foo/:bar?', '/foo', '/foo 2']);
+        done();
+      })
     })
   })
 })
