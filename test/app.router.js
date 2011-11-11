@@ -60,7 +60,21 @@ describe('app.router', function(){
       done();
     })
   })
-  
+
+  describe('trailing slashes', function(){
+    it('should be optional by default', function(done){
+      var app = express();
+
+      app.get('/user', function(req, res){
+        res.end('tj');
+      });
+
+      request(app)
+      .get('/user/')
+      .expect('tj', done);
+    })
+  })
+
   describe(':name', function(){
     it('should denote a capture group', function(done){
       var app = express();
