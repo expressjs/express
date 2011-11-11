@@ -379,4 +379,40 @@ describe('app.router', function(){
       .expect('editing tj', done);
     })
   })
+  
+  describe('.:name', function(){
+    it('should denote a format', function(done){
+      var app = express();
+
+      app.get('/:name.:format', function(req, res){
+        res.end(req.params.name + ' as ' + req.params.format);
+      });
+
+      request(app)
+      .get('/foo.json')
+      .expect('foo as json', function(){
+        request(app)
+        .get('/foo')
+        .expect(404, done);
+      });
+    })
+  })
+  
+  describe('.:name?', function(){
+    it('should denote an optional format', function(done){
+      var app = express();
+
+      app.get('/:name.:format?', function(req, res){
+        res.end(req.params.name + ' as ' + (req.params.format || 'html'));
+      });
+
+      request(app)
+      .get('/foo')
+      .expect('foo as html', function(){
+        request(app)
+        .get('/foo.json')
+        .expect('foo as json', done);
+      });
+    })
+  })
 })
