@@ -209,13 +209,27 @@ describe('app.router', function(){
     it('should denote a greedy capture group', function(done){
       var app = express();
 
-      app.get('/user/*', function(req, res){
+      app.get('/user/*.json', function(req, res){
         res.end(req.params[0]);
       });
 
       request(app)
-      .get('/user/tj')
+      .get('/user/tj.json')
       .expect('tj', done);
+    })
+    
+    it('should work with several', function(done){
+      var app = express();
+
+      app.get('/api/*.*', function(req, res){
+        var resource = req.params.shift()
+          , format = req.params.shift();
+        res.end(resource + ' as ' + format);
+      });
+
+      request(app)
+      .get('/api/users/0.json')
+      .expect('users/0 as json', done);
     })
     
     it('should span multiple segments', function(done){
