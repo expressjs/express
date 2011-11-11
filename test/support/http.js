@@ -55,6 +55,13 @@ Request.prototype.request = function(method, path){
   return this;
 };
 
+Request.prototype.expect = function(body, fn){
+  this.end(function(res){
+    res.body.should.equal(body);
+    fn();
+  });
+};
+
 Request.prototype.end = function(fn){
   var self = this;
 

@@ -71,10 +71,47 @@ describe('app.router', function(){
 
       request(app)
       .get('/user/tj')
-      .end(function(res){
-        res.body.should.equal('tj');
-        done();
+      .expect('tj', done);
+    })
+    
+    it('should allow several capture groups', function(done){
+      var app = express();
+
+      app.get('/user/:user/:op', function(req, res){
+        res.end(req.params.op + 'ing ' + req.params.user);
       });
+
+      request(app)
+      .get('/user/tj/edit')
+      .expect('editing tj', done);
+    })
+  })
+
+  describe(':name?', function(){
+    it('should denote an optional capture group', function(done){
+      var app = express();
+
+      app.get('/user/:user/:op?', function(req, res){
+        var op = req.params.op || 'view';
+        res.end(op + 'ing ' + req.params.user);
+      });
+
+      request(app)
+      .get('/user/tj')
+      .expect('viewing tj', done);
+    })
+    
+    it('should populate the capture group', function(done){
+      var app = express();
+
+      app.get('/user/:user/:op?', function(req, res){
+        var op = req.params.op || 'view';
+        res.end(op + 'ing ' + req.params.user);
+      });
+
+      request(app)
+      .get('/user/tj/edit')
+      .expect('editing tj', done);
     })
   })
 })
