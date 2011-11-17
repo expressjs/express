@@ -1,4 +1,10 @@
 
+2.5.1 / 2011-11-17 
+==================
+
+  * Changed: updated connect to 1.8.x
+  * Removed sass.js support from express(1)
+
 2.5.0 / 2011-10-24 
 ==================
 
