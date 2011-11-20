@@ -64,6 +64,12 @@ describe('utils.parseQuality(str)', function(){
     arr[1].value.should.equal('text/html');
     arr[2].value.should.equal('text/plain');
   })
+  
+  it('should exclude those with a quality of 0', function(){
+    var str = 'text/plain;q=.2, application/json, text/html;q=0';
+    var arr = utils.parseQuality(str);
+    arr.should.have.length(2);
+  })
 })
 
 describe('utils.parseAccept(str)', function(){
