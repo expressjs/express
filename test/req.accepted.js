@@ -16,9 +16,7 @@ describe('req', function(){
       request(app)
       .get('/')
       .set('Accept', 'text/html;q=.5, application/json')
-      .end(function(){
-        done();
-      });
+      .expect(200, done);
     })
 
     describe('when Accept is not present', function(){
@@ -32,9 +30,7 @@ describe('req', function(){
 
         request(app)
         .get('/')
-        .end(function(){
-          done();
-        });
+        .expect(200, done);
       })
     })
   })
