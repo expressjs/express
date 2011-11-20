@@ -4,7 +4,7 @@ var express = require('../')
 
 describe('req', function(){
   describe('.accepted', function(){
-    it('should return an array of accepted content-types', function(done){
+    it('should return an array of accepted media types', function(done){
       var app = express();
 
       app.use(function(req, res){
