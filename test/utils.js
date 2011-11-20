@@ -66,14 +66,14 @@ describe('utils.parseQuality(str)', function(){
   })
 })
 
-describe('utils.parseAccepts(str)', function(){
+describe('utils.parseAccept(str)', function(){
   it('should provide .type', function(){
-    var arr = utils.parseAccepts('text/html');
+    var arr = utils.parseAccept('text/html');
     arr[0].type.should.equal('text');
   })
   
   it('should provide .subtype', function(){
-    var arr = utils.parseAccepts('text/html');
+    var arr = utils.parseAccept('text/html');
     arr[0].subtype.should.equal('html');
   })
 })
