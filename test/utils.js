@@ -29,3 +29,31 @@ describe('utils.escape(html)', function(){
       .should.equal('&lt;script&gt;foo &amp; &quot;bar&quot;')
   })
 })
+
+describe('utils.parseAccepts(str)', function(){
+  it('should default quality to 1', function(){
+    utils.parseAccepts('text/html')
+      .should.eql([{ type: 'text/html', quality: 1 }]);
+  })
+  
+  it('should parse qvalues', function(){
+    utils.parseAccepts('text/html; q=0.5')
+      .should.eql([{ type: 'text/html', quality: 0.5 }]);
+
+    utils.parseAccepts('text/html; q=.2')
+      .should.eql([{ type: 'text/html', quality: 0.2 }]);
+  })
+  
+  it('should work with messed up whitespace', function(){
+    utils.parseAccepts('text/html   ;  q =   .2')
+      .should.eql([{ type: 'text/html', quality: 0.2 }]);
+  })
+  
+  it('should sort by quality', function(){
+    var str = 'text/plain;q=.2, application/json, text/html;q=0.5';
+    var arr = utils.parseAccepts(str);
+    arr[0].type.should.equal('application/json');
+    arr[1].type.should.equal('text/html');
+    arr[2].type.should.equal('text/plain');
+  })
+})
