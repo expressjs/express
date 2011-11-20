@@ -30,30 +30,30 @@ describe('utils.escape(html)', function(){
   })
 })
 
-describe('utils.parseAccepts(str)', function(){
+describe('utils.parseQuality(str)', function(){
   it('should default quality to 1', function(){
-    utils.parseAccepts('text/html')
-      .should.eql([{ type: 'text/html', quality: 1 }]);
+    utils.parseQuality('text/html')
+      .should.eql([{ value: 'text/html', quality: 1 }]);
   })
   
   it('should parse qvalues', function(){
-    utils.parseAccepts('text/html; q=0.5')
-      .should.eql([{ type: 'text/html', quality: 0.5 }]);
+    utils.parseQuality('text/html; q=0.5')
+      .should.eql([{ value: 'text/html', quality: 0.5 }]);
 
-    utils.parseAccepts('text/html; q=.2')
-      .should.eql([{ type: 'text/html', quality: 0.2 }]);
+    utils.parseQuality('text/html; q=.2')
+      .should.eql([{ value: 'text/html', quality: 0.2 }]);
   })
   
   it('should work with messed up whitespace', function(){
-    utils.parseAccepts('text/html   ;  q =   .2')
-      .should.eql([{ type: 'text/html', quality: 0.2 }]);
+    utils.parseQuality('text/html   ;  q =   .2')
+      .should.eql([{ value: 'text/html', quality: 0.2 }]);
   })
   
   it('should sort by quality', function(){
     var str = 'text/plain;q=.2, application/json, text/html;q=0.5';
-    var arr = utils.parseAccepts(str);
-    arr[0].type.should.equal('application/json');
-    arr[1].type.should.equal('text/html');
-    arr[2].type.should.equal('text/plain');
+    var arr = utils.parseQuality(str);
+    arr[0].value.should.equal('application/json');
+    arr[1].value.should.equal('text/html');
+    arr[2].value.should.equal('text/plain');
   })
 })
