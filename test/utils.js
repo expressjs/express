@@ -49,6 +49,14 @@ describe('utils.parseQuality(str)', function(){
       .should.eql([{ value: 'text/html', quality: 0.2 }]);
   })
   
+  it('should work with multiples', function(){
+    var str = 'da, en;q=.5, en-gb;q=.8';
+    var arr = utils.parseQuality(str);
+    arr[0].value.should.equal('da');
+    arr[1].value.should.equal('en-gb');
+    arr[2].value.should.equal('en');
+  })
+  
   it('should sort by quality', function(){
     var str = 'text/plain;q=.2, application/json, text/html;q=0.5';
     var arr = utils.parseQuality(str);
