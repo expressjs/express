@@ -15,6 +15,9 @@ var users = [
 function provides(type) {
   return function(req, res, next){
     if (req.accepts(type)) return next();
+    // invoking next() with "route" will
+    // skip passed all remaining middleware
+    // for this route (if any).
     next('route');
   }
 }
