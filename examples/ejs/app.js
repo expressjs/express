@@ -3,17 +3,26 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express');
+var express = require('../../')
+  , app = express();
 
-var app = express.createServer();
+// Register ejs as .html. If we did
+// not call this, we would need to
+// name our views foo.ejs instead
+// of foo.html. The __express method
+// is simply a function that engines
+// use to hook into the Express view
+// system
 
-// Register ejs as .html
-
-app.register('.html', require('ejs'));
+app.engine('.html', require('ejs').__express);
 
 // Optional since express defaults to CWD/views
 
 app.set('views', __dirname + '/views');
+
+// Without this you would need to
+// supply the extension to res.render()
+// ex: res.render('users.html').
 app.set('view engine', 'html');
 
 // Dummy users
