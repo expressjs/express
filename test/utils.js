@@ -57,3 +57,15 @@ describe('utils.parseQuality(str)', function(){
     arr[2].value.should.equal('text/plain');
   })
 })
+
+describe('utils.parseAccepts(str)', function(){
+  it('should provide .type', function(){
+    var arr = utils.parseAccepts('text/html');
+    arr[0].type.should.equal('text');
+  })
+  
+  it('should provide .subtype', function(){
+    var arr = utils.parseAccepts('text/html');
+    arr[0].subtype.should.equal('html');
+  })
+})
