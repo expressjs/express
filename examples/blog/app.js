@@ -3,29 +3,22 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express');
+var express = require('../../')
+  , app = express();
 
-var app = module.exports = express.createServer();
-
-// Config
+// config
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-// mount hook
-
-app.mounted(function(other){
-  console.log('ive been mounted!');
-});
-
-// Middleware
+// middleware
 
 app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.cookieParser());
-  app.use(express.session({ secret: 'keyboard cat' }));
+  app.use(express.cookieParser('keyboard cat'));
+  app.use(express.session());
   app.use(require('./middleware/locals'));
   app.use(messages());
   app.use(app.router);

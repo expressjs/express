@@ -3,9 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express');
-
-var app = express.createServer();
+var express = require('../../')
+  , app = express();
 
 var users = [
     { name: 'tobi' }
@@ -16,6 +15,9 @@ var users = [
 function provides(type) {
   return function(req, res, next){
     if (req.accepts(type)) return next();
+    // invoking next() with "route" will
+    // skip passed all remaining middleware
+    // for this route (if any).
     next('route');
   }
 }
@@ -37,7 +39,7 @@ app.get('/users', provides('html'), function(req, res){
 // curl http://localhost:3000/users -H "Accept: text/plain"
 
 app.get('/users', function(req, res, next){
-  res.contentType('txt');
+  res.type('txt');
   res.send(users.map(function(user){
     return user.name;
   }).join(', '));

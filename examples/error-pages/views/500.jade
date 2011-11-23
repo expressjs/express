@@ -1,2 +1,10 @@
-h1 Error: #{error.message}
-pre= error.stack
+
+// note that we extend a different
+// layout with jade for 4xx & 5xx
+// responses
+
+extends error
+
+block content
+  h1 Error: #{error.message}
+  pre= error.stack

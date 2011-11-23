@@ -3,22 +3,28 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express');
+var express = require('../../')
+  , app = express();
 
-var app = express.createServer(
-  // Place default Connect favicon above logger so it is not in
-  // the logging output
-  express.favicon(),
 
-  // Custom logger format
-  express.logger({ format: '\x1b[36m:method\x1b[0m \x1b[90m:url\x1b[0m :response-time' }),
+// add favicon() before logger() so
+// GET /favicon.ico requests are not
+// logged, because this middleware
+// reponds to /favicon.ico and does not
+// call next()
+app.use(express.favicon());
 
-  // Provides req.cookies
-  express.cookieParser(),
+// custom log format
+app.use(express.logger(':method :url'));
 
-  // Parses x-www-form-urlencoded request bodies (and json)
-  express.bodyParser()
-);
+// parses request cookies, populating
+// req.cookies and req.signedCookies
+// when the secret is passed, used 
+// for signing the cookies.
+app.use(express.cookieParser('my secret here'));
+
+// parses json, x-www-form-urlencoded, and multipart/form-data
+app.use(express.bodyParser());
 
 app.get('/', function(req, res){
   if (req.cookies.remember) {

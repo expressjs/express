@@ -3,9 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express');
-
-var app = express.createServer();
+var express = require('../../')
+  , app = express();
 
 app.get('/', function(req, res){
   res.send('<ul>'
@@ -19,30 +18,22 @@ app.get('/', function(req, res){
 app.get('/files/:file(*)', function(req, res, next){
   var file = req.params.file
     , path = __dirname + '/files/' + file;
-  // either res.download(path) and let
-  // express handle failures, or provide
-  // a callback as shown below
-  res.download(path, function(err){
-    // if an error occurs in this callback
-    // the file most likely does not exist,
-    // and it's safe to respond or next(err)
-    if (err) return next(err);
 
-    // the file has been transferred, do not respond
-    // from here, though you may use this callback
-    // for stats etc.
-    console.log('transferred %s', path);
-  }, function(err){
-    // this second optional callback is used when
-    // an error occurs during transmission
-  });
+  res.download(path);
 });
 
+// error handling middleware. Because it's
+// below our routes, you will be able to
+// "intercept" errors, otherwise Connect
+// will respond with 500 "Internal Server Error".
 app.use(function(err, req, res, next){
-  if ('ENOENT' == err.code) {
+  // log all errors
+  console.error(err.stack);
+
+  // special-case 404s
+  if (404 == err.status) {
     res.send('Cant find that file, sorry!');
   } else {
-    // Not a 404
     next(err);
   }
 });
