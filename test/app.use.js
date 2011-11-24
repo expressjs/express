@@ -63,14 +63,5 @@ describe('app', function(){
       app.use('/blog', blog);
       blog.parent.should.equal(app);
     })
-
-    // it('should set "root" to the mount-point', function(){
-    //   var blog = express()
-    //     , app = express();
-    // 
-    //   app.use('/blog', blog);
-    //   blog.get('root').should.equal('/blog');
-    // })
   })
 })
-
