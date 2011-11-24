@@ -192,6 +192,22 @@ describe('res', function(){
           done();
         });
       })
+
+      describe('with non-GET', function(){
+        it('should still serve', function(done){
+           var app = express()
+              , calls = 0;
+
+            app.use(function(req, res){
+              res.sendfile(__dirname + '/fixtures/name.txt');
+            });
+
+
+            request(app)
+            .get('/')
+            .expect('tobi', done);
+        })
+      })
     })
   })
 })
