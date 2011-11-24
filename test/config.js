@@ -21,6 +21,28 @@ describe('config', function(){
       app.set('foo', 'bar');
       app.get('foo').should.equal('bar');
     })
+
+    describe('when mounted', function(){
+      it('should default to the parent app', function(){
+        var app = express()
+          , blog = express();
+
+        app.set('title', 'Express');
+        app.use(blog);
+        blog.get('title').should.equal('Express');
+      })
+      
+      it('should given precedence to the child', function(){
+        var app = express()
+          , blog = express();
+
+        app.use(blog);
+        app.set('title', 'Express');
+        blog.set('title', 'Some Blog');
+
+        blog.get('title').should.equal('Some Blog');
+      })
+    })
   })
 
   describe('.enable()', function(){
