@@ -59,7 +59,7 @@ var jadeLayout = [
     '!!!'
   , 'html'
   , '  head'
-  , '    title= title'
+  , '    title= typeof(title) != "undefined" ? title : "Express"'
   , '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
   , '  body!= body'
 ].join('\r\n');
