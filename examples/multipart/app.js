@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -6,6 +5,8 @@
 var express = require('../../lib/express')
   , form = require('connect-form');
 
+//NOTE!!: if express.bodyParser is already being used, it will parse the body before connect-form has a chance
+//and req.form will not fire any events because it has nothing else to read from the socket.
 var app = express.createServer(
   // connect-form (http://github.com/visionmedia/connect-form)
   // middleware uses the formidable middleware to parse urlencoded
