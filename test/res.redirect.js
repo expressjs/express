@@ -20,12 +20,30 @@ describe('res', function(){
       })
     })
     
-    describe('when relative', function(){
+    describe('when relative from the host', function(){
       it('should construct an absolute url', function(done){
         var app = express();
 
         app.use(function(req, res){
           res.redirect('/login');
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', 'example.com')
+        .end(function(res){
+          res.headers.should.have.property('location', 'http://example.com/login');
+          done();
+        })
+      })
+    })
+    
+    describe('when relative from the mount-point', function(){
+      it('should construct an absolute url', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.redirect('login');
         });
 
         request(app)
