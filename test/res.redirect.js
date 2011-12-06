@@ -39,22 +39,68 @@ describe('res', function(){
     })
     
     describe('when mounted', function(){
-      it('should respect the mount-point', function(done){
-        var app = express()
-          , admin = express();
+      describe('deeply', function(){
+        it('should respect the mount-point', function(done){
+          var app = express()
+            , blog = express()
+            , admin = express();
 
-        admin.use(function(req, res){
-          res.redirect('/admin/login');
-        });
+          admin.use(function(req, res){
+            res.redirect('login');
+          });
 
-        app.use('/blog', admin);
+          app.use('/blog', blog);
+          blog.use('/admin', admin);
 
-        request(app)
-        .get('/blog')
-        .set('Host', 'example.com')
-        .end(function(res){
-          res.headers.should.have.property('location', 'http://example.com/blog/admin/login');
-          done();
+          request(app)
+          .get('/blog/admin')
+          .set('Host', 'example.com')
+          .end(function(res){
+            res.headers.should.have.property('location', 'http://example.com/blog/admin/login');
+            done();
+          })
+        })
+      })
+
+      describe('omitting leading /', function(){
+        it('should respect the mount-point', function(done){
+          var app = express()
+            , admin = express();
+
+          admin.use(function(req, res){
+            res.redirect('admin/login');
+          });
+
+          app.use('/blog', admin);
+
+          request(app)
+          .get('/blog')
+          .set('Host', 'example.com')
+          .end(function(res){
+            res.headers.should.have.property('location', 'http://example.com/blog/admin/login');
+            done();
+          })
+        })
+      })
+
+      describe('providing leading /', function(){
+        it('should ignore mount-point', function(done){
+          var app = express()
+            , admin = express();
+
+          admin.use(function(req, res){
+            res.redirect('/admin/login');
+          });
+
+          app.use('/blog', admin);
+
+          request(app)
+          .get('/blog')
+          .set('Host', 'example.com')
+          .end(function(res){
+            res.headers.should.have.property('location', 'http://example.com/admin/login');
+            done();
+          })
         })
       })
     })
