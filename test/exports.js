@@ -20,6 +20,10 @@ describe('exports', function(){
     express.methods.should.contain('post');
   })
   
+  it('should expose Router', function(){
+    express.Router.should.be.a('function');
+  })
+  
   it('should expose the application prototype', function(){
     express.application.set.should.be.a('function');
   })
