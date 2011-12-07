@@ -20,8 +20,8 @@ describe('res', function(){
       })
     })
     
-    describe('when relative from the host', function(){
-      it('should construct an absolute url', function(done){
+    describe('with leading /', function(){
+      it('should construct host-relative urls', function(done){
         var app = express();
 
         app.use(function(req, res){
@@ -38,8 +38,8 @@ describe('res', function(){
       })
     })
     
-    describe('when relative from the mount-point', function(){
-      it('should construct an absolute url', function(done){
+    describe('without leading /', function(){
+      it('should construct mount-point relative urls', function(done){
         var app = express();
 
         app.use(function(req, res){
