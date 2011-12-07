@@ -298,30 +298,6 @@ describe('res', function(){
         });
       })
       
-      describe('in the callback', function(){
-        it('should next(err)', function(done){
-          var app = express();
-
-          app.set('views', __dirname + '/fixtures');
-
-          app.use(function(req, res){
-            res.render('user.jade', function(err){
-              req.foo();
-            });
-          });
-
-          app.use(function(err, req, res, next){
-            res.end(err.message);
-          });
-
-          request(app)
-          .get('/')
-          .end(function(res){
-            res.body.should.match(/has no method 'foo'/);
-            done();
-          });
-        })
-      })
     })
   })
 })
