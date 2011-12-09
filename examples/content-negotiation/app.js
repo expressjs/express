@@ -3,8 +3,10 @@
  * Module dependencies.
  */
 
-var express = require('../../')
-  , app = express();
+var express = require('../../');
+
+// expose the app for require()ing
+var app = module.exports = express();
 
 var users = [
     { name: 'tobi' }
@@ -45,5 +47,8 @@ app.get('/users', function(req, res, next){
   }).join(', '));
 });
 
-app.listen(3000);
-console.log('Express server listening on port 3000');
+// not being require()d
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express server listening on port 3000');
+}

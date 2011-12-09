@@ -12,6 +12,9 @@ test:
 		--growl \
 		$(TESTS)
 
+test-acceptance:
+	@$(MAKE) test TESTS=test/acceptance/*.js
+
 docs: $(HTMLDOCS)
 	@ echo "... generating TOC"
 	@./support/toc.js docs/guide.html
@@ -35,4 +38,4 @@ benchmark:
 docclean:
 	rm -f docs/*.{1,html}
 
-.PHONY: site test benchmark docs docclean
+.PHONY: site test benchmark docs docclean test-acceptance
