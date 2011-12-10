@@ -119,4 +119,5 @@ app.post('/login', function(req, res){
 });
 
 app.listen(3000);
-console.log('Express started on port 3000');
+if( process.env.NODE_ENV !== 'test' )
+  console.log('Express started on port 3000');
