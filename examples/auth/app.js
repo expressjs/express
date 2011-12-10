@@ -10,7 +10,7 @@ var app = module.exports = express()
 
 app.use(express.bodyParser())
 app.use(express.cookieParser('shhhh, very secret'))
-app.use(express.session({ secret: 'keyboard cat' }))
+app.use(express.session())
 
 app.set('views', __dirname + '/views');
 
@@ -29,7 +29,6 @@ app.locals.use(function(req,res){
 // Generate a salt for the user to prevent rainbow table attacks
 // for better security take a look at the bcrypt c++ addon:
 // https://github.com/ncb000gt/node.bcrypt.js
-
 var users = {
   tj: {
     name: 'tj'
@@ -39,12 +38,11 @@ var users = {
 };
 
 // Used to generate a hash of the plain-text password + salt
-
 function hash(msg, key) {
   return crypto.createHmac('sha256', key).update(msg).digest('hex');
 }
-// Authenticate using our plain-object database of doom!
 
+// Authenticate using our plain-object database of doom!
 function authenticate(name, pass, fn) {
   var user = users[name];
   // query the db for the given username
