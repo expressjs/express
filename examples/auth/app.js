@@ -6,28 +6,25 @@
 var express = require('../../lib/express')
   , crypto = require('crypto');
 
-var app = express.createServer(
-    express.bodyParser()
-  , express.cookieParser()
-  , express.session({ secret: 'keyboard cat' })
-);
+var app = module.exports = express()
+
+app.use(express.bodyParser())
+app.use(express.cookieParser('shhhh, very secret'))
+app.use(express.session({ secret: 'keyboard cat' }))
 
 app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
 
 // Message helper, ideally we would use req.flash()
 // however this is more light-weight for an example
-
-app.dynamicHelpers({
-  message: function(req){
-    var err = req.session.error
-      , msg = req.session.success;
-    delete req.session.error;
-    delete req.session.success;
-    if (err) return '<p class="msg error">' + err + '</p>';
-    if (msg) return '<p class="msg success">' + msg + '</p>';
-  }
-});
+app.locals.use(function(req,res){
+  var err = req.session.error
+    , msg = req.session.success;
+  delete req.session.error;
+  delete req.session.success;
+  res.locals.message = '';
+  if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
+  if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
+})
 
 // Generate a salt for the user to prevent rainbow table attacks
 // for better security take a look at the bcrypt c++ addon:
@@ -70,12 +67,13 @@ function restrict(req, res, next) {
 }
 
 function accessLogger(req, res, next) {
-  console.log('/restricted accessed by %s', req.session.user.name);
+  if( process.env.NODE_ENV !== 'test' )
+    console.log('/restricted accessed by %s', req.session.user.name);
   next();
 }
 
 app.get('/', function(req, res){
-  res.redirect('/login');
+  res.redirect('login');
 });
 
 app.get('/restricted', restrict, accessLogger, function(req, res){
@@ -86,7 +84,7 @@ app.get('/logout', function(req, res){
   // destroy the user's session to log them out
   // will be re-created next request
   req.session.destroy(function(){
-    res.redirect('home');
+    res.redirect('/');
   });
 });
 
@@ -96,7 +94,7 @@ app.get('/login', function(req, res){
       + ' click to <a href="/logout">logout</a>. '
       + ' You may now access <a href="/restricted">/restricted</a>.';
   }
-  res.render('login');
+  res.render('login.ejs');
 });
 
 app.post('/login', function(req, res){
@@ -109,13 +107,13 @@ app.post('/login', function(req, res){
         // in the session store to be retrieved,
         // or in this case the entire user object
         req.session.user = user;
-        res.redirect('back');
+        res.redirect('restricted');
       });
     } else {
       req.session.error = 'Authentication failed, please check your '
         + ' username and password.'
         + ' (use "tj" and "foobar")';
-      res.redirect('back');
+      res.redirect('login');
     }
   });
 });
