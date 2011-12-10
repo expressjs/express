@@ -28,9 +28,9 @@ app.set('view engine', 'html');
 
 // Dummy users
 var users = [
-    { name: 'tj', email: 'tj@sencha.com' }
-  , { name: 'ciaran', email: 'ciaranj@gmail.com' }
-  , { name: 'aaron', email: 'aaron.heckmann+github@gmail.com' }
+    { name: 'tobi', email: 'tobi@learnboost.com' }
+  , { name: 'loki', email: 'loki@learnboost.com' }
+  , { name: 'jane', email: 'jane@learnboost.com' }
 ];
 
 app.get('/', function(req, res){
