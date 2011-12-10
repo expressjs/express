@@ -43,7 +43,7 @@ var usage = ''
   + '  Options:\n'
   + '    -s, --sessions           add session support\n'
   + '    -t, --template <engine>  add template <engine> support (jade|ejs). default=jade\n'
-  + '    -c, --css <engine>       add stylesheet <engine> support (less|stylus). default=plain css\n'
+  + '    -c, --css <engine>       add stylesheet <engine> support (stylus). default=plain css\n'
   + '    -v, --version            output framework version\n'
   + '    -h, --help               output help information\n'
   ;
@@ -116,21 +116,6 @@ var ejsIndex = [
  */
 
 var css = [
-    'body {'
-  , '  padding: 50px;'
-  , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
-  , '}'
-  , ''
-  , 'a {'
-  , '  color: #00B7FF;'
-  , '}'
-].join('\r\n');
-
-/**
- * Default less template.
- */
-
-var less = [
     'body {'
   , '  padding: 50px;'
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
@@ -277,9 +262,6 @@ function createApplicationAt(path) {
         case 'stylus':
           write(path + '/public/stylesheets/style.styl', stylus);
           break;
-        case 'less':
-          write(path + '/public/stylesheets/style.less', less);
-          break;
         default:
           write(path + '/public/stylesheets/style.css', css);
       }
@@ -304,9 +286,6 @@ function createApplicationAt(path) {
 
     // CSS Engine support
     switch (cssEngine) {
-      case 'less':
-        app = app.replace('{css}', '\r\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
-        break;
       case 'stylus':
         app = app.replace('{css}', '\r\n  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
         break;
