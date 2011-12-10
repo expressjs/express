@@ -1,10 +1,9 @@
 var app = require('../../examples/auth/app')
-  , request = require('../support/http')
-  , should = require('should');
+  , request = require('../support/http');
 
-describe('examples', function(){
-  describe('auth', function(){
-    var cookie;
+describe('auth', function(){
+  var cookie;
+  describe('GET /',function(){
     it('should redirect to /login', function(done){
       request(app)
         .get('/')
@@ -14,7 +13,9 @@ describe('examples', function(){
           done();
         })
     })
-    it('should be restricted', function(done){
+  })
+  describe('GET /restricted (w/o cookie)',function(){
+    it('should redirect to /login', function(done){
       request(app)
         .get('/restricted')
         .end(function(res){
@@ -23,7 +24,9 @@ describe('examples', function(){
           done();
         })
     })
-    it('should fail to authenticate', function(done){
+  })
+  describe('POST /login', function(){
+    it('should fail without proper credentials', function(done){
       request(app)
         .post('/login')
         .write('&username=not-tj&password=foobar')
@@ -46,13 +49,17 @@ describe('examples', function(){
           done();
         })
     })
-    it('should not be restricted with an authenticated session cookie',function(done){
+  })
+  describe('GET /restricted (w. cookie)',function(){
+    it('should respond with 200',function(done){
       request(app)
         .get('/restricted')
         .set('cookie',cookie)
         .expect(200,done)
     })
-    it('should logout',function(done){
+  })
+  describe('GET /logout',function(){
+    it('should respond with 302 and clear cookie',function(done){
       request(app)
         .get('/logout')
         .set('cookie',cookie)
@@ -62,7 +69,9 @@ describe('examples', function(){
           done();
         })
     })
-    it('should be restricted again',function(done){
+  })
+  describe('GET /restricted (w. expired cookie)',function(){
+    it('should respond with 302',function(done){
       request(app)
         .get('/restricted')
         .set('cookie',cookie)
