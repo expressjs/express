@@ -13,7 +13,9 @@ test:
 		$(TESTS)
 
 test-acceptance:
-	@$(MAKE) test TESTS=test/acceptance/*.js
+	@$(MAKE) test \
+		TESTS=test/acceptance/*.js \
+		REPORTER=spec
 
 docs: $(HTMLDOCS)
 	@ echo "... generating TOC"
