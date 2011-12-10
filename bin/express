@@ -61,7 +61,7 @@ var index = [
   , 'exports.index = function(req, res){'
   , '  res.render(\'index\', { title: \'Express\' })'
   , '};'
-].join('\n');
+].join('\r\n');
 
 /**
  * Jade layout template.
@@ -74,7 +74,7 @@ var jadeLayout = [
   , '    title= title'
   , '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
   , '  body!= body'
-].join('\n');
+].join('\r\n');
 
 /**
  * Jade index template.
@@ -83,7 +83,7 @@ var jadeLayout = [
 var jadeIndex = [
     'h1= title'
   , 'p Welcome to #{title}'
-].join('\n');
+].join('\r\n');
 
 /**
  * EJS layout template.
@@ -100,7 +100,7 @@ var ejsLayout = [
   , '    <%- body %>'
   , '  </body>'
   , '</html>'
-].join('\n');
+].join('\r\n');
 
 /**
  * EJS index template.
@@ -109,7 +109,7 @@ var ejsLayout = [
 var ejsIndex = [
     '<h1><%= title %></h1>'
   , '<p>Welcome to <%= title %></p>'
-  ].join('\n');
+  ].join('\r\n');
 
 /**
  * Default css template.
@@ -124,7 +124,7 @@ var css = [
   , 'a {'
   , '  color: #00B7FF;'
   , '}'
-].join('\n');
+].join('\r\n');
 
 /**
  * Default less template.
@@ -139,7 +139,7 @@ var less = [
   , 'a {'
   , '  color: #00B7FF;'
   , '}'
-].join('\n');
+].join('\r\n');
 
 /**
  * Default stylus template.
@@ -151,7 +151,7 @@ var stylus = [
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif'
   , 'a'
   , '  color: #00B7FF'
-].join('\n');
+].join('\r\n');
 
 /**
  * App template.
@@ -194,7 +194,7 @@ var app = [
   , 'app.listen(3000);'
   , 'console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);'
   , ''
-].join('\n');
+].join('\r\n');
 
 // Parse arguments
 
@@ -305,10 +305,10 @@ function createApplicationAt(path) {
     // CSS Engine support
     switch (cssEngine) {
       case 'less':
-        app = app.replace('{css}', '\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
+        app = app.replace('{css}', '\r\n  app.use(express.compiler({ src: __dirname + \'/public\', enable: [\'' + cssEngine + '\'] }));');
         break;
       case 'stylus':
-        app = app.replace('{css}', '\n  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
+        app = app.replace('{css}', '\r\n  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
         break;
       default:
         app = app.replace('{css}', '');
@@ -316,22 +316,22 @@ function createApplicationAt(path) {
 
     // Session support
     app = app.replace('{sess}', sessions
-      ? '\n  app.use(express.cookieParser());\n  app.use(express.session({ secret: \'your secret here\' }));'
+      ? '\r\n  app.use(express.cookieParser());\r\n  app.use(express.session({ secret: \'your secret here\' }));'
       : '');
 
     // Template support
     app = app.replace(':TEMPLATE', templateEngine);
 
     // package.json
-    var json = '{\n';
-    json += '    "name": "application-name"\n';
-    json += '  , "version": "0.0.1"\n';
-    json += '  , "private": true\n';
-    json += '  , "dependencies": {\n';
-    json += '      "express": "' + version + '"\n';
-    if (cssEngine) json += '    , "' + cssEngine + '": ">= 0.0.1"\n';
-    if (templateEngine) json += '    , "' + templateEngine + '": ">= 0.0.1"\n';
-    json += '  }\n';
+    var json = '{\r\n';
+    json += '    "name": "application-name"\r\n';
+    json += '  , "version": "0.0.1"\r\n';
+    json += '  , "private": true\r\n';
+    json += '  , "dependencies": {\r\n';
+    json += '      "express": "' + version + '"\r\n';
+    if (cssEngine) json += '    , "' + cssEngine + '": ">= 0.0.1"\r\n';
+    if (templateEngine) json += '    , "' + templateEngine + '": ">= 0.0.1"\r\n';
+    json += '  }\r\n';
     json += '}';
 
 
