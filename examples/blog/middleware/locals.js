@@ -2,13 +2,40 @@
 /**
  * Module dependencies.
  */
+var format = require('util').format
+  , messages = require('express-messages');
 
-var messages = require('express-messages');
 
 module.exports = function(req, res, next){
   // access the app without passing it into
   // this file explicitly
   var app = req.app;
+
+  // while express-messages is still 2.x and 
+  // req.flash() is a 2.x thing we roll our own 
+  // for now (ported from ye olde req.notify).
+  req.flash = function(type, msg){
+    var sess = this.session;
+    if (null == sess) throw Error('req.notify() requires sessions');
+    var msgs = sess.notifications = sess.notifications || {};
+  
+    switch (arguments.length) {
+      // flush all messages
+      case 0:
+        sess.notifications = {};
+        return msgs
+      // flush messages for a specific type
+      case 1:
+        var arr = msgs[type];
+        delete msgs[type];
+        return arr || [];
+      // set notification message
+      default:
+        var args = Array.prototype.slice.call(arguments,1);
+        msg = format.apply({},args);
+        return (msgs[type] = msgs[type] || []).push(msg);
+    }
+  };
 
   // express-messages returns a function which
   // when called will flush the session-based
@@ -17,6 +44,7 @@ module.exports = function(req, res, next){
   // otherwise any view render would remove the
   // notifications regardless of their delay.
   res.locals.messages = messages(req, res);
+
 
   // expose the app's mount-point
   // so that urls can adjust. For example
