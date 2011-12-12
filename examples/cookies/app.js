@@ -4,7 +4,7 @@
  */
 
 var express = require('../../')
-  , app = express();
+  , app = module.exports = express();
 
 
 // add favicon() before logger() so
@@ -15,7 +15,8 @@ var express = require('../../')
 app.use(express.favicon());
 
 // custom log format
-app.use(express.logger(':method :url'));
+if ('test' != process.env.NODE_ENV)
+  app.use(express.logger(':method :url'));
 
 // parses request cookies, populating
 // req.cookies and req.signedCookies
@@ -47,5 +48,7 @@ app.post('/', function(req, res){
   res.redirect('back');
 });
 
-app.listen(3000);
-console.log('Express started on port 3000');
+if (!module.parent){
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}
