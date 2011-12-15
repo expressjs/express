@@ -25,7 +25,7 @@
     "should": "*",
     "connect-redis": "*"
   },
-  "keywords": ["framework", "sinatra", "web", "rest", "restful"],
+  "keywords": ["express", "framework", "sinatra", "web", "rest", "restful"],
   "repository": "git://github.com/visionmedia/express",
   "main": "index",
   "bin": { "express": "./bin/express" },
