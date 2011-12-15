@@ -8,6 +8,11 @@ describe('config', function(){
       var app = express();
       app.set('foo', 'bar').should.equal(app);
     })
+
+    it('should return the app when undefined', function(){
+      var app = express();
+      app.set('foo', undefined).should.equal(app);
+    })
   })
 
   describe('.get()', function(){
