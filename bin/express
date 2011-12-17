@@ -61,7 +61,8 @@ var jadeLayout = [
   , '  head'
   , '    title= title'
   , '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
-  , '  body!= body'
+  , '  body'
+  , '    block content'
 ].join('\r\n');
 
 /**
@@ -69,8 +70,11 @@ var jadeLayout = [
  */
 
 var jadeIndex = [
-    'h1= title'
-  , 'p Welcome to #{title}'
+    'extends layout'
+  , ''
+  , 'block content'
+  , '  h1= title'
+  , '  p Welcome to #{title}'
 ].join('\r\n');
 
 /**
@@ -181,7 +185,7 @@ var app = [
   , '  , routes = require(\'./routes\')'
   , '  , http = require(\'http\');'
   , ''
-  , 'var app = module.exports = express();'
+  , 'var app = express();'
   , ''
   , 'app.configure(function(){'
   , '  app.set(\'views\', __dirname + \'/views\');'
