@@ -19,24 +19,6 @@ describe('res', function(){
         done();
       })
     })
-    
-    // it('should default path to "root"', function(done){
-    //   var app = express();
-    // 
-    //   app.set('root', '/admin');
-    // 
-    //   app.use(function(req, res){
-    //     res.clearCookie('sid').end();
-    //   });
-    // 
-    //   request(app)
-    //   .get('/')
-    //   .end(function(res){
-    //     var val = 'sid=; path=/admin; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-    //     res.headers['set-cookie'].should.eql([val]);
-    //     done();
-    //   })
-    // })
   })
   
   describe('.clearCookie(name, options)', function(){
