@@ -15,9 +15,9 @@ describe('exports', function(){
   
   it('should expose HTTP methods', function(){
     express.methods.should.be.an.instanceof(Array);
-    express.methods.should.contain('get');
-    express.methods.should.contain('put');
-    express.methods.should.contain('post');
+    express.methods.should.include('get');
+    express.methods.should.include('put');
+    express.methods.should.include('post');
   })
   
   it('should expose Router', function(){
