@@ -78,10 +78,10 @@ var jadeIndex = [
 ].join('\r\n');
 
 /**
- * EJS layout template.
+ * EJS index template.
  */
 
-var ejsLayout = [
+var ejsIndex = [
     '<!DOCTYPE html>'
   , '<html>'
   , '  <head>'
@@ -89,19 +89,11 @@ var ejsLayout = [
   , '    <link rel=\'stylesheet\' href=\'/stylesheets/style.css\' />'
   , '  </head>'
   , '  <body>'
-  , '    <%- body %>'
+  , '    <h1><%= title %></h1>'
+  , '    <p>Welcome to <%= title %></p>'
   , '  </body>'
   , '</html>'
 ].join('\r\n');
-
-/**
- * EJS index template.
- */
-
-var ejsIndex = [
-    '<h1><%= title %></h1>'
-  , '<p>Welcome to <%= title %></p>'
-  ].join('\r\n');
 
 /**
  * JSHTML layout template.
@@ -265,7 +257,6 @@ function createApplicationAt(path) {
     mkdir(path + '/views', function(){
       switch (program.template) {
         case 'ejs':
-          write(path + '/views/layout.ejs', ejsLayout);
           write(path + '/views/index.ejs', ejsIndex);
           break;
         case 'jade':
