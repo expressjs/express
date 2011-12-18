@@ -4,7 +4,7 @@
  */
 
 var express = require('../../')
-  , app = express();
+  , app = module.exports = express();
 
 app.get('/', function(req, res){
   res.send('<ul>'
@@ -28,15 +28,19 @@ app.get('/files/:file(*)', function(req, res, next){
 // will respond with 500 "Internal Server Error".
 app.use(function(err, req, res, next){
   // log all errors
-  console.error(err.stack);
-
+  if ('test' != process.env.NODE_ENV)
+    console.error(err.stack);
+  
   // special-case 404s
   if (404 == err.status) {
+    res.statusCode = 404;
     res.send('Cant find that file, sorry!');
   } else {
     next(err);
   }
 });
 
-app.listen(3000);
-console.log('Express started on port 3000');
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}
