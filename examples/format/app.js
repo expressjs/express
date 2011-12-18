@@ -3,9 +3,9 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express');
+var express = require('../../');
 
-var app = express.createServer();
+var app = module.exports = express();
 
 // Fake items
 
@@ -45,8 +45,7 @@ app.get('/item/:id.:format?', function(req, res, next){
           + '<items>'
           + '<item>' + item.name + '</item>'
           + '</items>';
-        res.contentType('.xml');
-        res.send(xml);
+        res.type('xml').send(xml);
         break;
       case 'html':
       default:
@@ -64,5 +63,7 @@ app.get('/item/:id.:format?', function(req, res, next){
 
 app.use(express.errorHandler({ showStack: true }));
 
-app.listen(3000);
-console.log('Express app started on port 3000');
+if (!module.parent) {
+  app.listen(3000);
+  silent || console.log('Express started on port 3000');
+}
