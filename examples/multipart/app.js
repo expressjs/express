@@ -3,18 +3,18 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express')
-  , form = require('connect-form');
+var express = require('../../')
+  , format = require('util').format;
 
-var app = express.createServer(
-  // connect-form (http://github.com/visionmedia/connect-form)
-  // middleware uses the formidable middleware to parse urlencoded
-  // and multipart form data
-  form({ keepExtensions: true })
-);
+var app = module.exports = express()
+
+// bodyParser in connect 2.x uses node-formidable to parse 
+// the multipart form data.
+app.use(express.bodyParser())
 
 app.get('/', function(req, res){
   res.send('<form method="post" enctype="multipart/form-data">'
+    + '<p>Title: <input type="text" name="title" /></p>'
     + '<p>Image: <input type="file" name="image" /></p>'
     + '<p><input type="submit" value="Upload" /></p>'
     + '</form>');
@@ -22,27 +22,17 @@ app.get('/', function(req, res){
 
 app.post('/', function(req, res, next){
 
-  // connect-form adds the req.form object
-  // we can (optionally) define onComplete, passing
-  // the exception (if any) fields parsed, and files parsed
-  req.form.complete(function(err, fields, files){
-    if (err) {
-      next(err);
-    } else {
-      console.log('\nuploaded %s to %s'
-        ,  files.image.filename
-        , files.image.path);
-      res.redirect('back');
-    }
-  });
+  // the uploaded file can be found as `req.files.image` and the
+  // title field as `req.body.title`
 
-  // We can add listeners for several form
-  // events such as "progress"
-  req.form.on('progress', function(bytesReceived, bytesExpected){
-    var percent = (bytesReceived / bytesExpected * 100) | 0;
-    process.stdout.write('Uploading: %' + percent + '\r');
-  });
+  res.send(format('\nuploaded %s (%d Kb) to %s as %s'
+    , req.files.image.name
+    , (req.files.image.size / 1024) << 0 
+    , req.files.image.path
+    , req.body.title));
 });
 
-app.listen(3000);
-console.log('Express app started on port 3000');
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}
