@@ -3,8 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express')
-  , app = express.createServer();
+var express = require('../../')
+  , app = module.exports = express();
 
 // Faux database
 
@@ -18,7 +18,14 @@ var users = [
 
 // Convert :to and :from to integers
 
-app.param(['to', 'from'], function(n){ return parseInt(n, 10); });
+app.param(['to', 'from'], function(req, res, next, num, name){ 
+  req.params[name] = num = parseInt(num, 10);
+  if( isNaN(num) ){
+    next(new Error('failed to parseInt '+num));
+  } else {
+    next();
+  }
+});
 
 // Load user by id
 
@@ -57,5 +64,7 @@ app.get('/users/:from-:to', function(req, res, next){
   res.send('users ' + names.slice(from, to).join(', '));
 });
 
-app.listen(3000);
-console.log('Express application listening on port 3000');
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}
