@@ -3,34 +3,42 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express')
+var express = require('../../')
+  , fs = require('fs')
   , md = require('node-markdown').Markdown;
 
-var app = express.createServer();
+var app = module.exports = express();
 
-// register .md so that markdown may comply
-// with the express view system by implementing
-// a .compile() method
+// register .md as an engine in express view system
 
-app.register('.md', {
-  compile: function(str, options){
-    var html = md(str);
-    return function(locals){
-      return html.replace(/\{([^}]+)\}/g, function(_, name){
-        return locals[name];
-      });
-    };
-  }
-});
+app.engine('md', function(path, options, fn){
+  fs.readFile(path, 'utf8', function(err, str){
+    if (err) return fn(err);
+    try{
+      var html = md(str);
+      html = html.replace(/\{([^}]+)\}/g, function(_, name){
+        return options[name];
+      })
+      fn(null,html)
+    } catch(e){
+      fn(e)
+    }
+  })
+})
 
 // Optional since express defaults to CWD/views
-
 app.set('views', __dirname + '/views');
 app.set('view engine', 'md');
 
 app.get('/', function(req, res){
-  res.render('index', { layout: false, title: 'Markdown Example' });
-});
+  res.render('index', { title: 'Markdown Example' });
+})
 
-app.listen(3000);
-console.log('Express app started on port 3000');
+app.get('/fail', function(req, res){
+  res.render('missing', { title: 'Markdown Example' });
+})
+
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}
