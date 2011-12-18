@@ -2,13 +2,13 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express')
+var express = require('../../')
   , blog = require('../blog/app');
 
-var app = express.createServer();
+var app = module.exports = express();
 
-app.use(express.cookieParser());
-app.use(express.session({ secret: 'keyboard cat' }));
+app.use(express.cookieParser('keyboard cat'));
+app.use(express.session());
 
 // mount the blog. the blog app is written using the "base"
 // local variable, allowing its urls to adjust to wherever
@@ -17,7 +17,9 @@ app.use('/blog', blog);
 
 app.get('/', function(req, res){
   res.send('Visit <a href="/blog">/blog</a>');
-});
+})
 
-app.listen(3000);
-console.log('Server listening on port 3000');
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}
