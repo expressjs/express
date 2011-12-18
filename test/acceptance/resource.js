@@ -50,15 +50,3 @@ describe('resource', function(){
     })
   })
 })
-// curl http://localhost:3000/users     -- responds with all users
-// curl http://localhost:3000/users/1   -- responds with user 1
-// curl http://localhost:3000/users/4   -- responds with error
-// curl http://localhost:3000/users/1..3 -- responds with several users
-// curl -X DELETE http://localhost:3000/users/1  -- deletes the user
-
-    // , '<li>GET /users</li>'
-    // , '<li>GET /users/1</li>'
-    // , '<li>GET /users/3</li>'
-    // , '<li>GET /users/1..3</li>'
-    // , '<li>GET /users/1..3.json</li>'
-    // , '<li>DELETE /users/4</li>'
