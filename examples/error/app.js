@@ -4,9 +4,10 @@
  */
 
 var express = require('../../')
-  , app = express();
+  , app = module.exports = express();
 
-app.use(express.logger('dev'));
+if ('test' != process.env.NODE_ENV)
+  app.use(express.logger('dev'));
 app.use(app.router);
 
 // the error handler is strategically
@@ -23,7 +24,8 @@ app.use(error);
 
 function error(err, req, res, next) {
   // log it
-  console.error(err.stack);
+  if ('test' != process.env.NODE_ENV)
+    console.error(err.stack);
 
   // respond with 500 "Internal Server Error".
   res.send(500);
@@ -41,5 +43,7 @@ app.get('/next', function(req, res, next){
   });
 });
 
-app.listen(3000);
-console.log('app listening on port 3000');
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}
