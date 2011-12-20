@@ -27,7 +27,7 @@ var path = program.args.shift() || '.';
 
 // end-of-line code
 
-var eol = os.platform()=='win32'? '\r\n' : '\n'
+var eol = 'win32' == os.platform() ? '\r\n' : '\n'
 
 // Template engine
 
