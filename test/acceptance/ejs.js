@@ -10,9 +10,9 @@ describe('ejs', function(){
       .end(function(res){
         res.should.have.status(200);
         res.should.have.header('Content-Type', 'text/html; charset=utf-8');
-        res.body.should.include.string('<li>tobi tobi@learnboost.com</li>');
-        res.body.should.include.string('<li>loki loki@learnboost.com</li>');
-        res.body.should.include.string('<li>jane jane@learnboost.com</li>');
+        res.body.should.include('<li>tobi tobi@learnboost.com</li>');
+        res.body.should.include('<li>loki loki@learnboost.com</li>');
+        res.body.should.include('<li>jane jane@learnboost.com</li>');
         done();
       });
     })

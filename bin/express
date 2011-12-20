@@ -8,6 +8,7 @@ var express = require('../')
   , exec = require('child_process').exec
   , program = require('commander')
   , mkdirp = require('mkdirp')
+  , os = require('os')
   , fs = require('fs');
 
 // CLI
@@ -23,6 +24,10 @@ program
 // Path
 
 var path = program.args.shift() || '.';
+
+// end-of-line code
+
+var eol = 'win32' == os.platform() ? '\r\n' : '\n'
 
 // Template engine
 
@@ -49,7 +54,7 @@ var index = [
   , 'exports.index = function(req, res){'
   , '  res.render(\'index\', { title: \'Express\' });'
   , '};'
-].join('\r\n');
+].join(eol);
 
 /**
  * Jade layout template.
@@ -61,23 +66,27 @@ var jadeLayout = [
   , '  head'
   , '    title= title'
   , '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
-  , '  body!= body'
-].join('\r\n');
+  , '  body'
+  , '    block content'
+].join(eol);
 
 /**
  * Jade index template.
  */
 
 var jadeIndex = [
-    'h1= title'
-  , 'p Welcome to #{title}'
-].join('\r\n');
+    'extends layout'
+  , ''
+  , 'block content'
+  , '  h1= title'
+  , '  p Welcome to #{title}'
+].join(eol);
 
 /**
- * EJS layout template.
+ * EJS index template.
  */
 
-var ejsLayout = [
+var ejsIndex = [
     '<!DOCTYPE html>'
   , '<html>'
   , '  <head>'
@@ -85,19 +94,11 @@ var ejsLayout = [
   , '    <link rel=\'stylesheet\' href=\'/stylesheets/style.css\' />'
   , '  </head>'
   , '  <body>'
-  , '    <%- body %>'
+  , '    <h1><%= title %></h1>'
+  , '    <p>Welcome to <%= title %></p>'
   , '  </body>'
   , '</html>'
-].join('\r\n');
-
-/**
- * EJS index template.
- */
-
-var ejsIndex = [
-    '<h1><%= title %></h1>'
-  , '<p>Welcome to <%= title %></p>'
-  ].join('\r\n');
+].join(eol);
 
 /**
  * JSHTML layout template.
@@ -114,7 +115,7 @@ var jshtmlLayout = [
   , '    @write(body)'
   , '  </body>'
   , '</html>'
-].join('\r\n');
+].join(eol);
 
 /**
  * JSHTML index template.
@@ -123,7 +124,7 @@ var jshtmlLayout = [
 var jshtmlIndex = [
     '<h1>@write(title)</h1>'
   , '<p>Welcome to @write(title)</p>'
-  ].join('\r\n');
+  ].join(eol);
 
 /**
  * Default css template.
@@ -138,7 +139,7 @@ var css = [
   , 'a {'
   , '  color: #00B7FF;'
   , '}'
-].join('\r\n');
+].join(eol);
 
 /**
  * Default less template.
@@ -153,7 +154,7 @@ var less = [
   , 'a {'
   , '  color: #00B7FF;'
   , '}'
-].join('\r\n');
+].join(eol);
 
 /**
  * Default stylus template.
@@ -165,7 +166,7 @@ var stylus = [
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif'
   , 'a'
   , '  color: #00B7FF'
-].join('\r\n');
+].join(eol);
 
 /**
  * App template.
@@ -181,7 +182,7 @@ var app = [
   , '  , routes = require(\'./routes\')'
   , '  , http = require(\'http\');'
   , ''
-  , 'var app = module.exports = express();'
+  , 'var app = express();'
   , ''
   , 'app.configure(function(){'
   , '  app.set(\'views\', __dirname + \'/views\');'
@@ -202,9 +203,9 @@ var app = [
   , ''
   , 'http.createServer(app).listen(3000);'
   , ''
-  , 'console.log("Express server listening for connections");'
+  , 'console.log("Express server listening on port 3000");'
   , ''
-].join('\r\n');
+].join(eol);
 
 // Generate application
 
@@ -261,7 +262,6 @@ function createApplicationAt(path) {
     mkdir(path + '/views', function(){
       switch (program.template) {
         case 'ejs':
-          write(path + '/views/layout.ejs', ejsLayout);
           write(path + '/views/index.ejs', ejsIndex);
           break;
         case 'jade':
@@ -279,7 +279,7 @@ function createApplicationAt(path) {
     // CSS Engine support
     switch (program.css) {
       case 'stylus':
-        app = app.replace('{css}', '\r\n  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
+        app = app.replace('{css}', eol + '  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
         break;
       default:
         app = app.replace('{css}', '');
@@ -287,22 +287,22 @@ function createApplicationAt(path) {
 
     // Session support
     app = app.replace('{sess}', program.sessions
-      ? '\n  app.use(express.cookieParser(\'your secret here\'));\n  app.use(express.session());'
+      ? eol + '  app.use(express.cookieParser(\'your secret here\'));' + eol + '  app.use(express.session());'
       : '');
 
     // Template support
     app = app.replace(':TEMPLATE', program.template);
 
     // package.json
-    var json = '{\n';
-    json += '    "name": "application-name"\n';
-    json += '  , "version": "0.0.1"\n';
-    json += '  , "private": true\n';
-    json += '  , "dependencies": {\n';
-    json += '      "express": "' + express.version + '"\n';
-    if (program.css) json += '    , "' + program.css + '": ">= 0.0.1"\n';
-    if (program.template) json += '    , "' + program.template + '": ">= 0.0.1"\n';
-    json += '  }\n';
+    var json = '{' + eol;
+    json += '    "name": "application-name"' + eol;
+    json += '  , "version": "0.0.1"' + eol;
+    json += '  , "private": true' + eol;
+    json += '  , "dependencies": {' + eol;
+    json += '      "express": "' + express.version + '"' + eol;
+    if (program.css) json += '    , "' + program.css + '": ">= 0.0.1"' + eol;
+    if (program.template) json += '    , "' + program.template + '": ">= 0.0.1"' + eol;
+    json += '  }' + eol;
     json += '}';
 
 

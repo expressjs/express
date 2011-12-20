@@ -38,24 +38,6 @@ describe('res', function(){
       })
     })
     
-    // it('should default path to "root"', function(done){
-    //   var app = express();
-    // 
-    //   app.set('root', '/admin');
-    // 
-    //   app.use(function(req, res){
-    //     res.cookie('name', 'tobi').end();
-    //   });
-    // 
-    //   request(app)
-    //   .get('/')
-    //   .end(function(res){
-    //     var val = ['name=tobi; path=/admin'];
-    //     res.headers['set-cookie'].should.eql(val);
-    //     done();
-    //   })
-    // })
-    
     it('should allow multiple calls', function(done){
       var app = express();
 
@@ -105,7 +87,7 @@ describe('res', function(){
         request(app)
         .get('/')
         .end(function(res){
-          res.headers['set-cookie'][0].should.not.include.string('Thu, 01 Jan 1970 00:00:01 GMT');
+          res.headers['set-cookie'][0].should.not.include('Thu, 01 Jan 1970 00:00:01 GMT');
           done();
         })
       })

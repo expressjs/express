@@ -3,29 +3,37 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express');
+var express = require('../../');
 
-var app = express.createServer();
+var app = module.exports = express();
 
-// configuration
+// create an error with .status. we
+// can then use the property in our
+// custom error handler (Connect repects this prop as well)
+
+function error(status, msg) {
+  var err = new Error(msg);
+  err.status = status;
+  return err;
+}
 
 // if we wanted to supply more than JSON, we could
 // use something similar to the content-negotiation
 // example.
 
 // here we validate the API key,
-// by mounting this middleware to /api/v1
-// meaning only paths prefixed with "/api/v1"
+// by mounting this middleware to /api
+// meaning only paths prefixed with "/api"
 // will cause this middleware to be invoked
 
-app.use('/api/v1', function(req, res, next){
+app.use('/api', function(req, res, next){
   var key = req.query['api-key'];
 
   // key isnt present
-  if (!key) return next(new Error('api key required'));
+  if (!key) return next(error(400, 'api key required'));
 
   // key is invalid
-  if (!~apiKeys.indexOf(key)) return next(new Error('invalid api key'));
+  if (!~apiKeys.indexOf(key)) return next(error(401, 'invalid api key'));
 
   // all good, store req.key for route access
   req.key = key;
@@ -44,9 +52,8 @@ app.use(app.router);
 // regular middleware.
 app.use(function(err, req, res, next){
   // whatever you want here, feel free to populate
-  // properties on `err` to treat it differently in here,
-  // or when you next(err) set res.statusCode= etc.
-  res.send(500, { error: err.message });
+  // properties on `err` to treat it differently in here.
+  res.send(err.status || 500, { error: err.message });
 });
 
 // our custom JSON 404 middleware. Since it's placed last
@@ -56,27 +63,12 @@ app.use(function(req, res){
   res.send(404, { error: "Lame, can't find that" });
 });
 
-/**
- * Generate our unique identifier.
- */
-
-function uid() {
-  return [
-      Math.random() * 0xffff | 0
-    , Math.random() * 0xffff | 0
-    , Math.random() * 0xffff | 0
-    , Date.now()
-  ].join('-');
-}
-
 // map of valid api keys, typically mapped to
 // account info with some sort of database like redis.
 // api keys do _not_ serve as authentication, merely to
 // track API usage or help prevent malicious behavior etc.
 
-var apiKeys = [uid(), uid(), uid()];
-
-console.log('valid keys:\n ', apiKeys.join('\n  '));
+var apiKeys = ['foo', 'bar', 'baz'];
 
 // these two objects will serve as our faux database
 
@@ -101,15 +93,15 @@ var userRepos = {
 // we now can assume the api key is valid,
 // and simply expose the data
 
-app.get('/api/v1/users', function(req, res, next){
+app.get('/api/users', function(req, res, next){
   res.send(users);
 });
 
-app.get('/api/v1/repos', function(req, res, next){
+app.get('/api/repos', function(req, res, next){
   res.send(repos);
 });
 
-app.get('/api/v1/user/:name/repos', function(req, res, next){
+app.get('/api/user/:name/repos', function(req, res, next){
   var name = req.params.name
     , user = userRepos[name];
   
@@ -117,5 +109,7 @@ app.get('/api/v1/user/:name/repos', function(req, res, next){
   else next();
 });
 
-app.listen(3000);
-console.log('Express server listening on port 3000');
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express server listening on port 3000');
+}
