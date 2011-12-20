@@ -46,7 +46,23 @@ describe('res', function(){
         done();
       });
     })
-    
+
+    it('should not override manual content-types', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.contentType('txt');
+        res.sendfile('test/fixtures/user.html');
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.should.have.header('content-type', 'text/plain');
+        done();
+      });
+    })
+
     it('should invoke the callback on 403', function(done){
       var app = express()
         , calls = 0;
