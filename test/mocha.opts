@@ -1,0 +1,3 @@
+--require should
+--slow 20
+--growl

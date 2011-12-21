@@ -1,21 +1,16 @@
 
 DOCS = docs/*.md
 HTMLDOCS = $(DOCS:.md=.html)
-TESTS = test/*.js
 REPORTER = dot
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
-		--require should \
-		--reporter $(REPORTER) \
-		--slow 20 \
-		--growl \
-		$(TESTS)
+		--reporter $(REPORTER)
 
 test-acceptance:
-	@$(MAKE) test \
-		TESTS=test/acceptance/*.js \
-		REPORTER=spec
+	@NODE_ENV=test ./node_modules/.bin/mocha \
+		--reporter spec \
+		test/acceptance/*.js
 
 docs: $(HTMLDOCS)
 	@ echo "... generating TOC"
