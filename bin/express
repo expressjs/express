@@ -5,6 +5,7 @@
  */
 
 var fs = require('fs')
+  , os = require('os')
   , exec = require('child_process').exec
   , mkdirp = require('mkdirp');
 
@@ -25,6 +26,12 @@ var sessions = false;
  */
 
 var cssEngine;
+
+/**
+ * End-of-line code.
+ */
+
+var eol = os.platform === undefined ? '\r\n' : ('win32' === os.platform() ? '\r\n' : '\n');
 
 /**
  * Template engine to utilize.
@@ -61,7 +68,7 @@ var index = [
   , 'exports.index = function(req, res){'
   , '  res.render(\'index\', { title: \'Express\' })'
   , '};'
-].join('\r\n');
+].join(eol);
 
 /**
  * Jade layout template.
@@ -74,7 +81,7 @@ var jadeLayout = [
   , '    title= title'
   , '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
   , '  body!= body'
-].join('\r\n');
+].join(eol);
 
 /**
  * Jade index template.
@@ -83,7 +90,7 @@ var jadeLayout = [
 var jadeIndex = [
     'h1= title'
   , 'p Welcome to #{title}'
-].join('\r\n');
+].join(eol);
 
 /**
  * EJS layout template.
@@ -100,7 +107,7 @@ var ejsLayout = [
   , '    <%- body %>'
   , '  </body>'
   , '</html>'
-].join('\r\n');
+].join(eol);
 
 /**
  * EJS index template.
@@ -109,7 +116,7 @@ var ejsLayout = [
 var ejsIndex = [
     '<h1><%= title %></h1>'
   , '<p>Welcome to <%= title %></p>'
-  ].join('\r\n');
+  ].join(eol);
 
 /**
  * Default css template.
@@ -124,7 +131,7 @@ var css = [
   , 'a {'
   , '  color: #00B7FF;'
   , '}'
-].join('\r\n');
+].join(eol);
 
 /**
  * Default stylus template.
@@ -136,7 +143,7 @@ var stylus = [
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif'
   , 'a'
   , '  color: #00B7FF'
-].join('\r\n');
+].join(eol);
 
 /**
  * App template.
@@ -179,7 +186,7 @@ var app = [
   , 'app.listen(3000);'
   , 'console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);'
   , ''
-].join('\r\n');
+].join(eol);
 
 // Parse arguments
 
@@ -287,7 +294,7 @@ function createApplicationAt(path) {
     // CSS Engine support
     switch (cssEngine) {
       case 'stylus':
-        app = app.replace('{css}', '\r\n  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
+        app = app.replace('{css}', eol + '  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
         break;
       default:
         app = app.replace('{css}', '');
@@ -295,22 +302,22 @@ function createApplicationAt(path) {
 
     // Session support
     app = app.replace('{sess}', sessions
-      ? '\r\n  app.use(express.cookieParser());\r\n  app.use(express.session({ secret: \'your secret here\' }));'
+      ? eol + '  app.use(express.cookieParser());' + eol + '  app.use(express.session({ secret: \'your secret here\' }));'
       : '');
 
     // Template support
     app = app.replace(':TEMPLATE', templateEngine);
 
     // package.json
-    var json = '{\r\n';
-    json += '    "name": "application-name"\r\n';
-    json += '  , "version": "0.0.1"\r\n';
-    json += '  , "private": true\r\n';
-    json += '  , "dependencies": {\r\n';
-    json += '      "express": "' + version + '"\r\n';
-    if (cssEngine) json += '    , "' + cssEngine + '": ">= 0.0.1"\r\n';
-    if (templateEngine) json += '    , "' + templateEngine + '": ">= 0.0.1"\r\n';
-    json += '  }\r\n';
+    var json = '{' + eol;
+    json += '    "name": "application-name"' + eol;
+    json += '  , "version": "0.0.1"' + eol;
+    json += '  , "private": true' + eol;
+    json += '  , "dependencies": {' + eol;
+    json += '      "express": "' + version + '"' + eol;
+    if (cssEngine) json += '    , "' + cssEngine + '": ">= 0.0.1"' + eol;
+    if (templateEngine) json += '    , "' + templateEngine + '": ">= 0.0.1"' + eol;
+    json += '  }' + eol;
     json += '}';
 
 
