@@ -25,6 +25,7 @@ describe('Router', function(){
       route.path.should.equal('/foo');
 
       var route = router.match(req, 1);
+      req._route_index.should.equal(1);
       route.path.should.equal('/foob?');
 
       var route = router.match(req, 2);
