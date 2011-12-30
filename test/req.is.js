@@ -5,7 +5,6 @@ var express = require('../')
 function req(ct) {
   var req = {
       headers: { 'content-type': ct }
-    , app: express()
     , __proto__: express.request
   };
 
