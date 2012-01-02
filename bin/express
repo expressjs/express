@@ -31,7 +31,9 @@ var cssEngine;
  * End-of-line code.
  */
 
-var eol = 'win32' == os.platform() ? '\r\n' : '\n';
+var eol = os.platform
+  ? ('win32' == os.platform() ? '\r\n' : '\n')
+  : '\n';
 
 /**
  * Template engine to utilize.
