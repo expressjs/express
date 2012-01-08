@@ -1,4 +1,9 @@
 
+2.5.5 / 2012-01-08 
+==================
+
+  * Fixed: set `filename` on cached templates [matthewleon]
+
 2.5.4 / 2012-01-02 
 ==================
 
