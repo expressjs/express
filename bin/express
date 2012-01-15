@@ -23,7 +23,7 @@ program
 
 // Path
 
-var path = program.args.shift() || '.';
+var path = program.args.shift().replace(/\/*$/, '') || '.';
 
 // end-of-line code
 
