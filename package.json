@@ -17,7 +17,6 @@
     "mkdirp": "0.0.7"
   },
   "devDependencies": {
-    "connect-form": "0.2.1",
     "ejs": "*",
     "mocha": "*",
     "jade": "*",
