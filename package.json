@@ -11,10 +11,10 @@
   ],
   "dependencies": {
     "connect": "git://github.com/senchalabs/connect.git",
-    "commander": "0.3.2",
-    "mime": ">= 1.2.2",
-    "qs": ">= 0.3.2",
-    "mkdirp": "0.0.7"
+    "commander": "0.5.1",
+    "mime": ">= 1.2.4",
+    "qs": ">= 0.4.0",
+    "mkdirp": "0.2.2"
   },
   "devDependencies": {
     "connect-form": "0.2.1",
