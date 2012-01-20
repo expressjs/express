@@ -34,9 +34,9 @@
 
 [![Widescript](images/apps/widescript.png)](http://widescript.com)
 
-[e-resistable](http://www.e-resistible.co.uk/) is an online order takeaway system providing an intuitive way to fill your belly from your computer!
+[Appetise](http://www.appetise.com/) is an online order takeaway system providing an intuitive way to fill your belly from your computer!
 
-[![Online Takeaway](images/apps/e-resistable.png)](http://www.e-resistible.co.uk)
+[![Online Takeaway](images/apps/appetise.png)](http://www.appetise.com)
 
 [Top Twitter Trends](http://toptwittertrends.com) utilizes MongoDB, Socket.IO, jQuery and many other exciting libraries to bring you trending tweets in realtime.
 
