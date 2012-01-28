@@ -353,7 +353,7 @@ app.configure('production', function(){
  });
 </code></pre>
 
-<p>To alter the environment we can set the <em>NODE_ENV</em> environment variable, for example:</p>
+<p>To alter the environment we can set the <em>NODE_ENV</em> environment variable as follows:</p>
 
 <pre><code>$ NODE_ENV=production node app.js
 </code></pre>
@@ -376,8 +376,8 @@ app.configure('production', function(){
 
 <h3 id="routing">Routing</h3>
 
-<p>Express utilizes the HTTP verbs to provide a meaningful, expressive routing API.
-For example we may want to render a user&rsquo;s account for the path <em>/user/12</em>, this
+<p>Express utilizes HTTP verbs to provide a meaningful and expressive routing API.
+For example, we may want to render a user&rsquo;s account for the path <em>/user/12</em>, this
 can be done by defining the route below. The values associated to the named placeholders
 are available as <code>req.params</code>.</p>
 
@@ -393,7 +393,7 @@ when <em>/user/:id</em> is compiled, a simplified version of the regexp may look
 </code></pre>
 
 <p>Regular expression literals may also be passed for complex uses. Since capture
-groups with literal <em>RegExp</em>&rsquo;s are anonymous we can access them directly <code>req.params</code>. So our first capture group would be <em>req.params[0]</em> and the second would follow as <em>req.params[1]</em>.</p>
+groups with literal <em>RegExp</em>s are anonymous, we can access them directly using <code>req.params</code>. So our first capture group would be <em>req.params[0]</em> and the second one would be <em>req.params[1]</em>.</p>
 
 <pre><code>app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res){
     res.send(req.params);
