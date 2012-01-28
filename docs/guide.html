@@ -484,7 +484,7 @@ app.get('/users', function(req, res){
 });
 </code></pre>
 
-<p>The <em>app.all()</em> method is useful for applying the same logic for all HTTP verbs in a single call. Below we use this to load a user from our fake database, and assign it to <em>req.user</em>.</p>
+<p>The <em>app.all()</em> method is useful for applying the same logic for all HTTP verbs in a single call. Below, we use this to load a user from our fake database <em>and</em> assign it to <em>req.user</em>.</p>
 
 <pre><code>var express = require('express')
   , app = express.createServer();
@@ -521,8 +521,8 @@ app.listen(3000);
 
 <h3 id="middleware">Middleware</h3>
 
-<p>Middleware via <a href="http://github.com/senchalabs/connect">Connect</a> can be
-passed to <em>express.createServer()</em> as you would with a regular Connect server. For example:</p>
+<p>Middleware can be
+passed to <em>express.createServer()</em> as you would with a regular <a href="http://github.com/senchalabs/connect">Connect</a> server. For example:</p>
 
 <pre><code>  var express = require('express');
 
@@ -537,7 +537,7 @@ var app = express.createServer(
 <pre><code>app.use(express.logger({ format: ':method :url' }));
 </code></pre>
 
-<p>Typically with connect middleware you would <em>require(&lsquo;connect&rsquo;)</em> like so:</p>
+<p>Typically with <a href="http://github.com/senchalabs/connect">Connect</a> middleware you would <em>require(&lsquo;connect&rsquo;)</em> like so:</p>
 
 <pre><code>var connect = require('connect');
 app.use(connect.logger());
