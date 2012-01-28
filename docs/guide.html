@@ -299,8 +299,8 @@ app.listen(3000);
 
 <h3 id="creating-an https server">Creating An HTTPS Server</h3>
 
-<p> To initialize a <em>express.HTTPSServer</em> we do the same as above, however we
- pass an options object, accepting <em>key</em>, <em>cert</em> and the others mentioned in node&rsquo;s <a href="http://nodejs.org/docs/v0.3.7/api/https.html#https.createServer">https documentation</a>.</p>
+<p> To initialize a <em>express.HTTPSServer</em> we do the same as above and in addition, we
+ pass an options object with <em>key</em>, <em>cert</em> and the other properties mentioned in node&rsquo;s <a href="http://nodejs.org/docs/v0.3.7/api/https.html#https.createServer">https documentation</a>.</p>
 
 <pre><code> var app = require('express').createServer({ key: ... });
 </code></pre>
@@ -308,7 +308,7 @@ app.listen(3000);
 <h3 id="configuration">Configuration</h3>
 
 <p>Express supports arbitrary environments, such as <em>production</em> and <em>development</em>. Developers
-can use the <em>configure()</em> method to setup needs required by the current environment. When
+can use the <em>configure()</em> method to set up a particular environment. When
 <em>configure()</em> is called without an environment name it will be run in <em>every</em> environment
 prior to the environment specific callback.</p>
 
@@ -335,7 +335,7 @@ app.configure('production', function(){
 });
 </code></pre>
 
-<p>For internal and arbitrary settings Express provides the <em>set(key[, val])</em>, <em>enable(key)</em>, <em>disable(key)</em> methods:</p>
+<p>For internal and arbitrary settings, Express provides the <em>set(key[, val])</em>, <em>enable(key)</em> and <em>disable(key)</em> methods:</p>
 
 <pre><code> app.configure(function(){
     app.set('views', __dirname + '/views');
@@ -353,7 +353,7 @@ app.configure('production', function(){
  });
 </code></pre>
 
-<p>To alter the environment we can set the <em>NODE_ENV</em> environment variable, for example:</p>
+<p>To alter the environment we can set the <em>NODE_ENV</em> environment variable as follows:</p>
 
 <pre><code>$ NODE_ENV=production node app.js
 </code></pre>
@@ -376,8 +376,8 @@ app.configure('production', function(){
 
 <h3 id="routing">Routing</h3>
 
-<p>Express utilizes the HTTP verbs to provide a meaningful, expressive routing API.
-For example we may want to render a user&rsquo;s account for the path <em>/user/12</em>, this
+<p>Express utilizes HTTP verbs to provide a meaningful and expressive routing API.
+For example, we may want to render a user&rsquo;s account for the path <em>/user/12</em>, this
 can be done by defining the route below. The values associated to the named placeholders
 are available as <code>req.params</code>.</p>
 
@@ -393,7 +393,7 @@ when <em>/user/:id</em> is compiled, a simplified version of the regexp may look
 </code></pre>
 
 <p>Regular expression literals may also be passed for complex uses. Since capture
-groups with literal <em>RegExp</em>&rsquo;s are anonymous we can access them directly <code>req.params</code>. So our first capture group would be <em>req.params[0]</em> and the second would follow as <em>req.params[1]</em>.</p>
+groups with literal <em>RegExp</em>s are anonymous, we can access them directly using <code>req.params</code>. So our first capture group would be <em>req.params[0]</em> and the second one would be <em>req.params[1]</em>.</p>
 
 <pre><code>app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res){
     res.send(req.params);
@@ -412,7 +412,7 @@ groups with literal <em>RegExp</em>&rsquo;s are anonymous we can access them dir
    ["1","15"]
 </code></pre>
 
-<p>Below are some route examples, and the associated paths that they
+<p>Below are some route examples and the associated paths they
 may consume:</p>
 
 <pre><code> "/user/:id"
@@ -448,7 +448,7 @@ may consume:</p>
  /user/12.json
 </code></pre>
 
-<p>For example we can <strong>POST</strong> some json, and echo the json back using the <em>bodyParser</em> middleware which will parse json request bodies (as well as others), and place the result in <em>req.body</em>:</p>
+<p>For example, we can <strong>POST</strong> some json and echo the json back using the <em>bodyParser</em> middleware which will parse json request bodies (as well as others) and place the result in <em>req.body</em>:</p>
 
 <pre><code>var express = require('express')
   , app = express.createServer();
@@ -462,9 +462,9 @@ app.post('/', function(req, res){
 app.listen(3000);
 </code></pre>
 
-<p>Typically we may use a &ldquo;dumb&rdquo; placeholder such as &ldquo;/user/:id&rdquo; which has no restrictions, however say for example we are limiting a user id to digits, we may use <em>&lsquo;/user/:id([0-9]+)&rsquo;</em> which will <em>not</em> match unless the placeholder value contains only digits.</p>
+<p>Typically we may use a &ldquo;dumb&rdquo; placeholder such as &ldquo;/user/:id&rdquo; which has no restrictions, however, say for example we want to limit a user&rsquo;s id to digits, we may use <em>&lsquo;/user/:id([0-9]+)&rsquo;</em> which will <em>not</em> match unless the placeholder value contains only digits.</p>
 
-<h3 id="passing-route control">Passing Route Control</h3>
+<h3 id="passing-route control">Passing Route Control</h3>	
 
 <p>We may pass control to the next <em>matching</em> route, by calling the <em>third</em> argument,
 the <em>next()</em> function. When a match cannot be made, control is passed back to Connect,
@@ -484,7 +484,7 @@ app.get('/users', function(req, res){
 });
 </code></pre>
 
-<p>The <em>app.all()</em> method is useful for applying the same logic for all HTTP verbs in a single call. Below we use this to load a user from our fake database, and assign it to <em>req.user</em>.</p>
+<p>The <em>app.all()</em> method is useful for applying the same logic for all HTTP verbs in a single call. Below, we use this to load a user from our fake database <em>and</em> assign it to <em>req.user</em>.</p>
 
 <pre><code>var express = require('express')
   , app = express.createServer();
@@ -521,8 +521,8 @@ app.listen(3000);
 
 <h3 id="middleware">Middleware</h3>
 
-<p>Middleware via <a href="http://github.com/senchalabs/connect">Connect</a> can be
-passed to <em>express.createServer()</em> as you would with a regular Connect server. For example:</p>
+<p>Middleware can be
+passed to <em>express.createServer()</em> as you would with a regular <a href="http://github.com/senchalabs/connect">Connect</a> server. For example:</p>
 
 <pre><code>  var express = require('express');
 
@@ -537,7 +537,7 @@ var app = express.createServer(
 <pre><code>app.use(express.logger({ format: ':method :url' }));
 </code></pre>
 
-<p>Typically with connect middleware you would <em>require(&lsquo;connect&rsquo;)</em> like so:</p>
+<p>Typically with <a href="http://github.com/senchalabs/connect">Connect</a> middleware you would <em>require(&lsquo;connect&rsquo;)</em> like so:</p>
 
 <pre><code>var connect = require('connect');
 app.use(connect.logger());
