@@ -412,7 +412,7 @@ groups with literal <em>RegExp</em>s are anonymous, we can access them directly 
    ["1","15"]
 </code></pre>
 
-<p>Below are some route examples, and the associated paths that they
+<p>Below are some route examples and the associated paths they
 may consume:</p>
 
 <pre><code> "/user/:id"
@@ -448,7 +448,7 @@ may consume:</p>
  /user/12.json
 </code></pre>
 
-<p>For example we can <strong>POST</strong> some json, and echo the json back using the <em>bodyParser</em> middleware which will parse json request bodies (as well as others), and place the result in <em>req.body</em>:</p>
+<p>For example, we can <strong>POST</strong> some json and echo the json back using the <em>bodyParser</em> middleware which will parse json request bodies (as well as others) and place the result in <em>req.body</em>:</p>
 
 <pre><code>var express = require('express')
   , app = express.createServer();
@@ -462,9 +462,9 @@ app.post('/', function(req, res){
 app.listen(3000);
 </code></pre>
 
-<p>Typically we may use a &ldquo;dumb&rdquo; placeholder such as &ldquo;/user/:id&rdquo; which has no restrictions, however say for example we are limiting a user id to digits, we may use <em>&lsquo;/user/:id([0-9]+)&rsquo;</em> which will <em>not</em> match unless the placeholder value contains only digits.</p>
+<p>Typically we may use a &ldquo;dumb&rdquo; placeholder such as &ldquo;/user/:id&rdquo; which has no restrictions, however, say for example we want to limit a user&rsquo;s id to digits, we may use <em>&lsquo;/user/:id([0-9]+)&rsquo;</em> which will <em>not</em> match unless the placeholder value contains only digits.</p>
 
-<h3 id="passing-route control">Passing Route Control</h3>
+<h3 id="passing-route control">Passing Route Control</h3>	
 
 <p>We may pass control to the next <em>matching</em> route, by calling the <em>third</em> argument,
 the <em>next()</em> function. When a match cannot be made, control is passed back to Connect,
