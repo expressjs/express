@@ -299,8 +299,8 @@ app.listen(3000);
 
 <h3 id="creating-an https server">Creating An HTTPS Server</h3>
 
-<p> To initialize a <em>express.HTTPSServer</em> we do the same as above, however we
- pass an options object, accepting <em>key</em>, <em>cert</em> and the others mentioned in node&rsquo;s <a href="http://nodejs.org/docs/v0.3.7/api/https.html#https.createServer">https documentation</a>.</p>
+<p> To initialize a <em>express.HTTPSServer</em> we do the same as above and in addition, we
+ pass an options object with <em>key</em>, <em>cert</em> and the other properties mentioned in node&rsquo;s <a href="http://nodejs.org/docs/v0.3.7/api/https.html#https.createServer">https documentation</a>.</p>
 
 <pre><code> var app = require('express').createServer({ key: ... });
 </code></pre>
@@ -308,7 +308,7 @@ app.listen(3000);
 <h3 id="configuration">Configuration</h3>
 
 <p>Express supports arbitrary environments, such as <em>production</em> and <em>development</em>. Developers
-can use the <em>configure()</em> method to setup needs required by the current environment. When
+can use the <em>configure()</em> method to set up a particular environment. When
 <em>configure()</em> is called without an environment name it will be run in <em>every</em> environment
 prior to the environment specific callback.</p>
 
