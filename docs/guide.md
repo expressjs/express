@@ -221,7 +221,7 @@ The _app.all()_ method is useful for applying the same logic for all HTTP verbs 
     var express = require('express')
       , app = express.createServer();
 
-    var users = [{ name: 'tj' }];
+    var users = {tj: { name: 'Travis Johnson' }};
 
     app.all('/user/:id/:op?', function(req, res, next){
       req.user = users[req.params.id];
