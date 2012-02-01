@@ -300,8 +300,8 @@ function createApplicationAt(path) {
     json += '  , "private": true' + eol;
     json += '  , "dependencies": {' + eol;
     json += '      "express": "' + express.version + '"' + eol;
-    if (program.css) json += '    , "' + program.css + '": ">= 0.0.1"' + eol;
-    if (program.template) json += '    , "' + program.template + '": ">= 0.0.1"' + eol;
+    if (program.css) json += '    , "' + program.css + '": "*"' + eol;
+    if (program.template) json += '    , "' + program.template + '": "*"' + eol;
     json += '  }' + eol;
     json += '}';
 
