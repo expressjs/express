@@ -545,8 +545,15 @@ In addition to these passed variables, the following "magic" locals are provided
 
 Local variables passed (or generated) take precedence, however locals passed to the parent view are available in the child view as well. So for example if we were to render a blog post with _partial('blog/post', post)_ it would generate the _post_ local, but the view calling this function had the local _user_, it would be available to the _blog/post_ view as well.
 
+#### Naming
 
-__NOTE:__ be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead.
+It is a common convention in many web frameworks to differentiate views from partials by prefixing the latter with an underscore. Using the comments example above, one could for example have a `post` view and a `_comment` partial.
+
+If you are to use this convention, know that the default container variable for the current parameter in the collection has its leading underscore removed. With the `_comment` partial, unless specified otherwise with the [`as`](#res.partial()) option, the key/value pairs of the current partial parameter will be namespaced in a `comment` object, **not** `_comment`.
+
+#### Performance note
+
+Be careful about when you use partial collections, as each element in the collection array has to be rendered on its own. For simple collections, you should inline the iteration instead of using partial collection support to decrease overhead.
 
 ### View Lookup
 
