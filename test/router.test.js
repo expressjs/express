@@ -821,5 +821,25 @@ module.exports = {
     assert.response(app,
       { url: '/1/2/3' },
       { body: '["1","2","3"]' });
+  },
+
+  'test app.all for multiple deletes': function(beforeExit){
+    var app = express.createServer();
+
+    var deletes = 0;
+
+    app.all('*', function(req, res, next){
+      if (req.method === 'DELETE')
+        deletes++;
+      next();
+    });
+
+    assert.response(app,
+      { url: '/', method: 'DELETE' },
+      { status: 404 });
+
+    beforeExit(function(){
+      deletes.should.eql(1);
+    });
   }
 };
