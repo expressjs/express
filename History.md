@@ -1,4 +1,9 @@
 
+2.5.7 / 2012-02-06 
+==================
+
+  * Fixed `app.all` duplicate DELETE requests [mscdex]
+
 2.5.6 / 2012-01-13 
 ==================
 
