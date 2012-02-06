@@ -515,8 +515,7 @@ These paths may also be absolute:
 
 ### View Partials
 
-The Express view system has built-in support for partials and collections, which are "mini" views representing a document fragment. For example rather than iterating
-in a view to display comments, we could use partial collection:
+The Express view system has built-in support for partials and collections, which are "mini" views representing a document fragment. For example, rather than iterating in a view to display comments, we could use the following partial call:
 
     partial('comment', { collection: comments });
 
@@ -524,8 +523,20 @@ If no other options or local variables are desired, we can omit the object and s
 
     partial('comment', comments);
 
-When using the partial collection support a few "magic" locals are provided
-for free:
+#### Variables passing
+
+Inside the partial, variables contained in the iterated objects (in the given example, comments represented as objects in the `comments` array) are contained in an object that has the name of the partial. So, in the example above, if a comment had the following structure:
+    
+    {
+    	author: "Username",
+    	content: "Some text"
+    }
+
+…you could access each value through `comment.author` and `comment.content`.
+
+If you would prefer to explicitly name the passed variables, see the full documentation for [res.partial()](#res.partial()) and its `as` option.
+
+In addition to these passed variables, the following "magic" locals are provided for free:
 
   * _firstInCollection_  true if this is the first object
   * _indexInCollection_  index of the object in the collection
@@ -534,7 +545,6 @@ for free:
 
 Local variables passed (or generated) take precedence, however locals passed to the parent view are available in the child view as well. So for example if we were to render a blog post with _partial('blog/post', post)_ it would generate the _post_ local, but the view calling this function had the local _user_, it would be available to the _blog/post_ view as well.
 
-For documentation on altering the object name view [res.partial()](http://expressjs.com/guide.html#res-partial-view-options-).
 
 __NOTE:__ be careful about when you use partial collections, as rendering an array with a length of 100 means we have to render 100 views. For simple collections you may inline the iteration instead of using partial collection support to decrease overhead.
 
