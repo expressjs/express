@@ -18,4 +18,18 @@ describe('app.all()', function(){
       .expect('GET', done);
     });
   })
+
+  it('should ', function(done){
+    var app = express()
+      , n = 0;
+
+    app.all('/*', function(req, res, next){
+      if (n++) return done(new Error('DELETE called several times'));
+      next();
+    });
+
+    request(app)
+    .delete('/tobi')
+    .expect(404, done);
+  })
 })
