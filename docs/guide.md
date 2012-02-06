@@ -525,7 +525,7 @@ If no other options or local variables are desired, we can omit the object and s
 
 #### Variables passing
 
-Inside the partial, variables contained in the iterated objects (in the given example, comments represented as objects in the `comments` array) are contained in an object that has the name of the partial. So, in the example above, if a comment had the following structure:
+Inside the partial, variables contained in the iterated objects (in the given example, comments represented as objects in the `commentsArray` array) are contained in an object that has the name of the partial. So, in the example above, if a comment had the following structure:
     
     {
     	author: "Username",
