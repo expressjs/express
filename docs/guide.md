@@ -517,11 +517,11 @@ These paths may also be absolute:
 
 The Express view system has built-in support for partials and collections, which are "mini" views representing a document fragment. For example, rather than iterating in a view to display comments, we could use the following partial call:
 
-    partial('comment', { collection: comments });
+    partial('comment', { collection: commentsArray });
 
 If no other options or local variables are desired, we can omit the object and simply pass our array, which is equivalent to above:
 
-    partial('comment', comments);
+    partial('comment', commentsArray);
 
 #### Variables passing
 
@@ -543,7 +543,7 @@ In addition to these passed variables, the following "magic" locals are provided
   * _lastInCollection_  true if this is the last object
   * _collectionLength_  length of the collection
 
-Local variables passed (or generated) take precedence, however locals passed to the parent view are available in the child view as well. So for example if we were to render a blog post with _partial('blog/post', post)_ it would generate the _post_ local, but the view calling this function had the local _user_, it would be available to the _blog/post_ view as well.
+Local variables passed (or generated) take precedence, however locals passed to the parent view are available in the child view as well. So for example if we were to render a blog post with _partial('blog/post', allPosts)_ it would generate the _post_ local, but the view calling this function had the local _user_, it would be available to the _blog/post_ view as well.
 
 #### Naming
 
