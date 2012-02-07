@@ -37,3 +37,12 @@ describe('req', function(){
     })
   })
 })
+
+describe('req', function(){
+  describe('.get(field)', function(){
+    it('should alias req.header(field)', function(){
+      express.request.get
+        .should.equal(express.request.header);
+    })
+  })
+})
