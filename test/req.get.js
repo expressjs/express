@@ -3,12 +3,12 @@ var express = require('../')
   , request = require('./support/http');
 
 describe('req', function(){
-  describe('.header(field)', function(){
+  describe('.get(field)', function(){
     it('should return the header field value', function(done){
       var app = express();
 
       app.use(function(req, res){
-        res.end(req.header('Content-Type'));
+        res.end(req.get('Content-Type'));
       });
 
       request(app)
@@ -24,7 +24,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.end(req.header('Referer'));
+        res.end(req.get('Referer'));
       });
 
       request(app)
@@ -34,15 +34,6 @@ describe('req', function(){
         res.body.should.equal('http://foobar.com');
         done();
       });
-    })
-  })
-})
-
-describe('req', function(){
-  describe('.get(field)', function(){
-    it('should alias req.header(field)', function(){
-      express.request.get
-        .should.equal(express.request.header);
     })
   })
 })
