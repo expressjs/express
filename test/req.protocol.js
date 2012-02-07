@@ -3,12 +3,12 @@ var express = require('../')
   , request = require('./support/http');
 
 describe('req', function(){
-  describe('.protocol(trustProxy)', function(){
+  describe('.protocol', function(){
     it('should return the protocol string', function(done){
       var app = express();
 
       app.use(function(req, res){
-        res.end(req.protocol());
+        res.end(req.protocol);
       });
 
       request(app)
@@ -19,12 +19,14 @@ describe('req', function(){
       })
     })
 
-    describe('when trustProxy is true', function(){
+    describe('when "trust proxy" is enabled', function(){
       it('should respect X-Forwarded-Proto', function(done){
         var app = express();
 
+        app.enable('trust proxy');
+
         app.use(function(req, res){
-          res.end(req.protocol(true));
+          res.end(req.protocol);
         });
 
         request(app)
@@ -39,8 +41,10 @@ describe('req', function(){
       it('should default to http', function(done){
         var app = express();
 
+        app.enable('trust proxy');
+
         app.use(function(req, res){
-          res.end(req.protocol(true));
+          res.end(req.protocol);
         });
 
         request(app)
@@ -52,12 +56,12 @@ describe('req', function(){
       })
     })
 
-    describe('when trustProxy is false', function(){
+    describe('when "trust proxy" is disabled', function(){
       it('should ignore X-Forwarded-Proto', function(done){
         var app = express();
 
         app.use(function(req, res){
-          res.end(req.protocol());
+          res.end(req.protocol);
         });
 
         request(app)
