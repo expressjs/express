@@ -13,7 +13,6 @@
     "connect": "git://github.com/senchalabs/connect.git",
     "commander": "0.5.1",
     "mime": "1.2.4",
-    "qs": "0.4.x",
     "mkdirp": "0.3.0"
   },
   "devDependencies": {
