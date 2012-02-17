@@ -1,4 +1,3 @@
-
 var express = require('../')
   , request = require('./support/http')
   , assert = require('assert');
@@ -110,6 +109,24 @@ describe('app.router', function(){
       .expect('editing user 10', done);
     })
   })
+  
+  describe('when given an array', function(){
+  	it('should match all paths in the array', function(done){
+			var app = express();
+			
+			app.get(['/one', '/two'], function(req, res){
+				res.end('works');
+			});
+			
+			request(app)
+			.get('/one')
+			.expect('works', function() {
+				request(app)
+				.get('/two')
+				.expect('works', done);
+			});
+		})
+	})
 
   describe('case sensitivity', function(){
     it('should be disabled by default', function(done){
