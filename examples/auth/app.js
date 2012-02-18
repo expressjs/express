@@ -64,17 +64,11 @@ function restrict(req, res, next) {
   }
 }
 
-function accessLogger(req, res, next) {
-  if( process.env.NODE_ENV !== 'test' )
-    console.log('/restricted accessed by %s', req.session.user.name);
-  next();
-}
-
 app.get('/', function(req, res){
   res.redirect('login');
 });
 
-app.get('/restricted', restrict, accessLogger, function(req, res){
+app.get('/restricted', restrict, function(req, res){
   res.send('Wahoo! restricted area');
 });
 
