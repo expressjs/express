@@ -12,6 +12,7 @@ app.use(express.bodyParser());
 app.use(express.cookieParser('shhhh, very secret'));
 app.use(express.session());
 
+app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
 // Session-persisted message middleware
@@ -86,7 +87,7 @@ app.get('/login', function(req, res){
       + ' click to <a href="/logout">logout</a>. '
       + ' You may now access <a href="/restricted">/restricted</a>.';
   }
-  res.render('login.ejs');
+  res.render('login');
 });
 
 app.post('/login', function(req, res){
