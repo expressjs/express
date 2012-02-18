@@ -73,7 +73,7 @@ describe('auth', function(){
     it('should respond with 302 and clear cookie',function(done){
       request(app)
         .get('/logout')
-        .set('cookie',cookie)
+        .set('Cookie', cookie)
         .end(function(res){
           res.statusCode.should.equal(302);
           res.headers.should.not.have.property('set-cookie')
@@ -81,12 +81,13 @@ describe('auth', function(){
         })
     })
   })
+
   describe('GET /restricted (w. expired cookie)',function(){
     it('should respond with 302',function(done){
       request(app)
         .get('/restricted')
-        .set('cookie',cookie)
-        .expect(302,done)
+        .set('Cookie', cookie)
+        .expect(302, done)
     })
   })
 })
