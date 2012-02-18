@@ -5,14 +5,11 @@ block content
     // title
     h2
       = post.title
-      a.edit(href=base + '/post/' + post.id + '/edit') Edit
-    
-    // flash messages
-    != messages()
+      a.edit(href='/post/' + post.id + '/edit') Edit
     
     // dates
     p.date.created Created at #{post.createdAt}
-    - if (post.updatedAt)
+    if post.updatedAt
       p.date.updated Updated at #{post.updatedAt}
     
     // body

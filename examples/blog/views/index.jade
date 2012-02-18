@@ -3,19 +3,17 @@ extends layout
 block content
   h1 Blog
 
-  != messages()
-
-  - if (count)
+  if count
     p Display all #{count} post(s)
     #posts
-      - each post in posts
+      each post in posts
         include post/index
-  - else
+  else
     p 
       | It looks like you have no posts!
     p
       | Click
-      a(href=base + '/post/add') here 
+      a(href='/post/add') here 
       | to create a post. Login
       | as
       em "admin" 

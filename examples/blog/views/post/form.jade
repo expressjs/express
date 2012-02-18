@@ -1,15 +1,13 @@
 extends ../layout
 
 block content
-  - if (post.title)
+  if post.title
     h1 Editing #{post.title}
-  - else
+  else
     h1 New Post
 
-  != messages()
-
-  form#post(action=base + '/post' + (post.title ? '/' + post.id : ''), method='post')
-    - if (post.title)
+  form#post(action='/post' + (post.title ? '/' + post.id : ''), method='post')
+    if post.title
       input(type='hidden', name='_method', value='put')
     p
       label(for='post[title]') Title:

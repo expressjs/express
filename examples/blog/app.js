@@ -22,7 +22,6 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser('keyboard cat'));
   app.use(express.session());
-  app.use(require('./middleware/locals'));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
