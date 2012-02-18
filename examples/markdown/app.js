@@ -5,7 +5,7 @@
 
 var express = require('../../')
   , fs = require('fs')
-  , md = require('node-markdown').Markdown;
+  , md = require('github-flavored-markdown').parse;
 
 var app = module.exports = express();
 
@@ -26,7 +26,6 @@ app.engine('md', function(path, options, fn){
   })
 })
 
-// Optional since express defaults to CWD/views
 app.set('views', __dirname + '/views');
 app.set('view engine', 'md');
 

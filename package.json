@@ -22,7 +22,8 @@
     "jade": "*",
     "stylus": "*",
     "should": "*",
-    "connect-redis": "*"
+    "connect-redis": "*",
+    "github-flavored-markdown": "*"
   },
   "keywords": ["express", "framework", "sinatra", "web", "rest", "restful", "router"],
   "repository": "git://github.com/visionmedia/express",
