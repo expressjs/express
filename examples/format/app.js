@@ -61,7 +61,7 @@ app.get('/item/:id.:format?', function(req, res, next){
 
 // Middleware
 
-app.use(express.errorHandler({ showStack: true }));
+app.use(express.errorHandler());
 
 if (!module.parent) {
   app.listen(3000);
