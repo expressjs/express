@@ -47,12 +47,12 @@ module.exports = function(app){
     
     post.validate(function(err){
       if (err) {
-        req.flash('error', err.message);
+        req.session.error = err.message;
         return res.redirect('back');
       }
 
       post.save(function(err){
-        req.flash('info', 'Successfully created post _%s_', post.title);
+        req.session.message = 'Successfully created the post.';
         res.redirect('/post/' + post.id);
       });  
     });
@@ -82,12 +82,13 @@ module.exports = function(app){
     var post = req.post;
     post.validate(function(err){
       if (err) {
-        req.flash('error', err.message);
+        req.session.error = err.message;
         return res.redirect('back');
       }
+
       post.update(req.body.post, function(err){
         if (err) return next(err);
-        req.flash('info', 'Successfully updated post');
+        req.session.message = 'Successfully updated post';
         res.redirect('back');
       });
     });

@@ -27,6 +27,15 @@ app.configure(function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
+// Locals
+
+app.locals.use(function(req, res){
+  res.locals.error = req.session.error || '';
+  res.locals.message = req.session.message || '';
+  delete req.session.error;
+  delete req.session.message;
+});
+
 // Routes
 
 require('./routes/site')(app);
