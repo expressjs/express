@@ -294,19 +294,19 @@ function createApplicationAt(path) {
     app = app.replace(':TEMPLATE', program.template);
 
     // package.json
-    var json = '{' + eol;
-    json += '    "name": "application-name"' + eol;
-    json += '  , "version": "0.0.1"' + eol;
-    json += '  , "private": true' + eol;
-    json += '  , "dependencies": {' + eol;
-    json += '      "express": "' + express.version + '"' + eol;
-    if (program.css) json += '    , "' + program.css + '": "*"' + eol;
-    if (program.template) json += '    , "' + program.template + '": "*"' + eol;
-    json += '  }' + eol;
-    json += '}';
+    var pkg = {
+        name: 'application-name'
+      , version: '0.0.1'
+      , private: true
+      , dependencies: {
+        express: express.version
+      }
+    }
 
+    if (program.css) pkg.dependencies[program.css] = '*';
+    if (program.template) pkg.dependencies[program.template] = '*';
 
-    write(path + '/package.json', json);
+    write(path + '/package.json', JSON.stringify(pkg, null, 2));
     write(path + '/app.js', app);
   });
 }
