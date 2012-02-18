@@ -27,11 +27,9 @@ app.get('/files/:file(*)', function(req, res, next){
 // "intercept" errors, otherwise Connect
 // will respond with 500 "Internal Server Error".
 app.use(function(err, req, res, next){
-  // log all errors
-  if ('test' != process.env.NODE_ENV)
-    console.error(err.stack);
-  
-  // special-case 404s
+  // special-case 404s,
+  // remember you could
+  // render a 404 template here
   if (404 == err.status) {
     res.statusCode = 404;
     res.send('Cant find that file, sorry!');
