@@ -124,7 +124,7 @@ var jshtmlLayout = [
 var jshtmlIndex = [
     '<h1>@write(title)</h1>'
   , '<p>Welcome to @write(title)</p>'
-  ].join(eol);
+].join(eol);
 
 /**
  * Default css template.
