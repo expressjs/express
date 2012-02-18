@@ -12,7 +12,7 @@ app.set('view engine', 'jade');
 
 app.use(express.favicon());
 
-silent || app.use(express.logger('dev'));
+silent || app.use(express.logger('dev'));
 
 // "app.router" positions our routes 
 // above the middleware defined below,
@@ -34,7 +34,6 @@ app.use(app.router);
 app.use(function(req, res, next){
   // respond with html page
   if (req.accepts('html')) {
-    silent || console.log('test');
     res.status(404);
     res.render('404', { url: req.url });
     return;
