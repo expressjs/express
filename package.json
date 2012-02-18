@@ -11,7 +11,7 @@
   ],
   "dependencies": {
     "connect": "git://github.com/senchalabs/connect.git",
-    "commander": "0.5.1",
+    "commander": "0.5.2",
     "mime": "1.2.4",
     "mkdirp": "0.3.0",
     "debug": "*"
