@@ -19,6 +19,7 @@ program
   .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
   .option('-S, --stylus', 'add stylus support')
+  .option('-f, --force', 'force express scaffolding to deploy to non-empty directory')
   .parse(process.argv);
 
 // Path
@@ -211,7 +212,7 @@ var app = [
 
 (function createApplication(path) {
   emptyDirectory(path, function(empty){
-    if (empty) {
+    if (empty || program.force) {
       createApplicationAt(path);
     } else {
       program.confirm('destination is not empty, continue? ', function(ok){
