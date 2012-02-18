@@ -1,7 +1,7 @@
 var app = require('../../examples/blog/app')
   , request = require('../support/http');
 
-var authorization = 'Basic '+Buffer('admin:express').toString('base64');
+var authorization = 'Basic ' + Buffer('admin:express').toString('base64');
 
 function redirects(to,fn){
   return function(res){
