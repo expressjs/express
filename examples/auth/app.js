@@ -6,16 +6,16 @@
 var express = require('../../lib/express')
   , crypto = require('crypto');
 
-var app = module.exports = express()
+var app = module.exports = express();
 
-app.use(express.bodyParser())
-app.use(express.cookieParser('shhhh, very secret'))
-app.use(express.session())
+app.use(express.bodyParser());
+app.use(express.cookieParser('shhhh, very secret'));
+app.use(express.session());
 
 app.set('views', __dirname + '/views');
 
-// Message helper, ideally we would use req.flash()
-// however this is more light-weight for an example
+// Session-persisted message middleware
+
 app.locals.use(function(req,res){
   var err = req.session.error
     , msg = req.session.success;
@@ -31,7 +31,7 @@ app.locals.use(function(req,res){
 // https://github.com/ncb000gt/node.bcrypt.js
 var users = {
   tj: {
-    name: 'tj'
+      name: 'tj'
     , salt: 'randomly-generated-salt'
     , pass: hash('foobar', 'randomly-generated-salt')
   }
@@ -105,7 +105,7 @@ app.post('/login', function(req, res){
         // in the session store to be retrieved,
         // or in this case the entire user object
         req.session.user = user;
-        res.redirect('restricted');
+        res.redirect('back');
       });
     } else {
       req.session.error = 'Authentication failed, please check your '
