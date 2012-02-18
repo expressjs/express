@@ -1,14 +1,10 @@
-
-// Expose modules in ./support for demo purposes
-require.paths.unshift(__dirname + '/../../support');
-
 /**
  * Module dependencies.
  */
 
-var express = require('../../lib/express');
+var express = require('../../');
 
-var app = express.createServer();
+var app = module.exports = express();
 
 // Here we use the bodyDecoder middleware
 // to parse urlencoded request bodies
@@ -77,5 +73,7 @@ app.put('/', function(req, res){
   res.redirect('/?name=' + req.body.name);
 });
 
-app.listen(3000);
-console.log('Express app started on port 3000');
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}
