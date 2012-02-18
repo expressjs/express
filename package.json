@@ -12,9 +12,9 @@
   "dependencies": {
     "connect": "git://github.com/senchalabs/connect.git",
     "commander": "0.5.1",
-    "mime": ">= 1.2.4",
-    "qs": ">= 0.4.0",
-    "mkdirp": "0.2.2"
+    "mime": "1.2.4",
+    "mkdirp": "0.3.0",
+    "debug": "*"
   },
   "devDependencies": {
     "ejs": "*",
