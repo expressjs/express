@@ -1,16 +1,18 @@
-.post
-  // title
-  h2
-    = post.title
-    a.edit(href=base + '/post/' + post.id + '/edit') Edit
-  
-  // flash messages
-  != messages()
-  
-  // dates
-  p.date.created Created at #{post.createdAt}
-  - if (post.updatedAt)
-    p.date.updated Updated at #{post.updatedAt}
-  
-  // body
-  pre.body= post.body
+extends ../layout
+
+block content
+  .post
+    // title
+    h2
+      = post.title
+      a.edit(href='/post/' + post.id + '/edit') Edit
+    
+    include ../messages
+    
+    // dates
+    p.date.created Created at #{post.createdAt}
+    if post.updatedAt
+      p.date.updated Updated at #{post.updatedAt}
+    
+    // body
+    pre.body= post.body

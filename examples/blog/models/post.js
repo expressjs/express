@@ -17,11 +17,11 @@ Post.prototype.save = function(fn){
 };
 
 Post.prototype.validate = function(fn){
-  if (!this.title) return fn(new Error('_title_ required'));
-  if (!this.body) return fn(new Error('_body_ required'));
+  if (!this.title) return fn(new Error('title required'));
+  if (!this.body) return fn(new Error('body required'));
   if (this.body.length < 10) {
     return fn(new Error(
-        '_body_ should be at least **10** characters long, was only _' + this.title.length + '_'));
+        'body should be at least **10** characters long, was only ' + this.title.length));
   }
   fn();
 };
