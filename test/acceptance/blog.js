@@ -30,7 +30,7 @@ describe('blog', function(){
     it('should login', function(done){
       request(app)
         .get('/post/add')
-        .set('Authorization',authorization)
+        .set('Authorization', authorization)
         .expect(/<h1>New Post<\/h1>/, done)
     })
   })
@@ -45,15 +45,15 @@ describe('blog', function(){
     it('should redirect to / with no title or body', function(done){
       request(app)
         .post('/post')
-        .set('Authorization',authorization)
+        .set('Authorization', authorization)
         .end(redirects(/\/$/, done))
     })
 
     it('should redirect to / with no body', function(done){
       request(app)
         .post('/post')
-        .set('Authorization',authorization)
-        .set('Content-Type','application/x-www-form-urlencoded')
+        .set('Authorization', authorization)
+        .set('Content-Type', 'application/x-www-form-urlencoded')
         .write('post[title]=Kittens')
         .end(redirects(/\/$/, done))
     })
@@ -61,8 +61,8 @@ describe('blog', function(){
     it('should redirect to /post/:post when successful', function(done){
       request(app)
         .post('/post')
-        .set('Authorization',authorization)
-        .set('Content-Type','application/x-www-form-urlencoded')
+        .set('Authorization', authorization)
+        .set('Content-Type', 'application/x-www-form-urlencoded')
         .write('post[title]=Kittens&post[body]=In+very+large+baskets')
         .end(redirects(/\/post\/\d+$/, done))
     })
