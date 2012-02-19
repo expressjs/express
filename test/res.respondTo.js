@@ -8,7 +8,7 @@ var app = express();
 app.use(function(req, res, next){
   res.respondTo({
     'text/plain': function(){
-      res.type('text').send('hey');
+      res.send('hey');
     },
 
     'text/html': function(){
@@ -39,6 +39,17 @@ describe('req', function(){
       .get('/')
       .set('Accept', 'text/html; q=.5, appliation/*, */*; q=.1')
       .expect('{"message":"hey"}', done);
+    })
+
+    it('should default the Content-Type', function(done){
+      request(app)
+      .get('/')
+      .set('Accept', 'text/html; q=.5, text/plain')
+      .end(function(res){
+        res.headers['content-type'].should.equal('text/plain');
+        res.body.should.equal('hey');
+        done();
+      });
     })
 
     describe('when Accept is not present', function(){
