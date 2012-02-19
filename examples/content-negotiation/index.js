@@ -1,54 +1,34 @@
 
-/**
- * Module dependencies.
- */
+var express = require('../../')
+  , app = module.exports = express();
 
-var express = require('../../');
+var users = [];
 
-// expose the app for require()ing
-var app = module.exports = express();
+users.push({ name: 'Tobi' });
+users.push({ name: 'Loki' });
+users.push({ name: 'Jane' });
 
-var users = [
-    { name: 'tobi' }
-  , { name: 'loki' }
-  , { name: 'jane' }
-];
+app.get('/', function(req, res){
+  res.respondTo({
+    'text/html': function(){
+      res.send('<ul>' + users.map(function(user){
+        return '<li>' + user.name + '</li>';
+      }).join('') + '</ul>');
+    },
 
-function provides(type) {
-  return function(req, res, next){
-    if (req.accepts(type)) return next();
-    // invoking next() with "route" will
-    // skip passed all remaining middleware
-    // for this route (if any).
-    next('route');
-  }
-}
+    'text/plain': function(){
+      res.send(users.map(function(user){
+        return ' - ' + user.name + '\n';
+      }).join(''));
+    },
 
-// curl http://localhost:3000/users -H "Accept: application/json"
-
-app.get('/users', provides('json'), function(req, res){
-  res.send(users);
+    'application/json': function(){
+      res.json(users);
+    }
+  })
 });
 
-// curl http://localhost:3000/users -H "Accept: text/html"
-
-app.get('/users', provides('html'), function(req, res){
-  res.send('<ul>' + users.map(function(user){
-    return '<li>' + user.name + '</li>';
-  }).join('\n') + '</ul>');
-});
-
-// curl http://localhost:3000/users -H "Accept: text/plain"
-
-app.get('/users', function(req, res, next){
-  res.type('txt');
-  res.send(users.map(function(user){
-    return user.name;
-  }).join(', '));
-});
-
-// not being require()d
 if (!module.parent) {
   app.listen(3000);
-  console.log('Express server listening on port 3000');
+  console.log('listening on port 3000');
 }
