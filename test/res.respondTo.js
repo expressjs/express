@@ -1,7 +1,8 @@
 
 var express = require('../')
   , request = require('./support/http')
-  , utils = require('../lib/utils');
+  , utils = require('../lib/utils')
+  , assert = require('assert');
 
 var app = express();
 
@@ -15,7 +16,10 @@ app.use(function(req, res, next){
       res.send('<p>hey</p>');
     },
   
-    'appliation/json': function(){
+    'appliation/json': function(a, b, c){
+      assert(req == a);
+      assert(res == b);
+      assert(next == c);
       res.send({ message: 'hey' });
     }
   });
