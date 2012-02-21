@@ -16,7 +16,7 @@ app.use(function(req, res, next){
       res.send('<p>hey</p>');
     },
   
-    'appliation/json': function(a, b, c){
+    'application/json': function(a, b, c){
       assert(req == a);
       assert(res == b);
       assert(next == c);
@@ -34,14 +34,14 @@ describe('req', function(){
     it('should utilize qvalues in negotiation', function(done){
       request(app)
       .get('/')
-      .set('Accept', 'text/html; q=.5, appliation/json, */*; q=.1')
+      .set('Accept', 'text/html; q=.5, application/json, */*; q=.1')
       .expect('{"message":"hey"}', done);
     })
 
     it('should allow wildcard type/subtypes', function(done){
       request(app)
       .get('/')
-      .set('Accept', 'text/html; q=.5, appliation/*, */*; q=.1')
+      .set('Accept', 'text/html; q=.5, application/*, */*; q=.1')
       .expect('{"message":"hey"}', done);
     })
 
@@ -71,7 +71,7 @@ describe('req', function(){
         .set('Accept', 'foo/bar')
         .end(function(res){
           res.should.have.status(406);
-          res.body.should.equal('Supports: text/plain, text/html, appliation/json');
+          res.body.should.equal('Supports: text/plain, text/html, application/json');
           done();
         });
       })
