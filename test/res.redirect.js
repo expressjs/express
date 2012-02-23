@@ -245,7 +245,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .set('Accept', 'text/plain')
+      .set('Accept', 'text/plain, */*')
       .end(function(res){
         res.headers.should.have.property('location', 'http://google.com');
         res.body.should.equal('Moved Temporarily. Redirecting to http://google.com');
