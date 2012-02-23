@@ -7,7 +7,7 @@ var express = require('../')
 var app = express();
 
 app.use(function(req, res, next){
-  res.respondTo({
+  res.format({
     'text/plain': function(){
       res.send('hey');
     },
@@ -30,7 +30,7 @@ app.use(function(err, req, res, next){
 })
 
 describe('req', function(){
-  describe('.respondTo(obj)', function(){
+  describe('.format(obj)', function(){
     it('should utilize qvalues in negotiation', function(done){
       request(app)
       .get('/')
