@@ -5,3 +5,4 @@ support/
 test/
 testing.js
 .DS_Store
+coverage.html
