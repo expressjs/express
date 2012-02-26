@@ -42,6 +42,44 @@ describe('app', function(){
     })
   })
 
+  describe('.param(names, fn)', function(){
+    it('should map the array', function(done){
+      var app = express();
+
+      app.param(['id', 'uid'], function(req, res, next, id){
+        id = Number(id);
+        if (isNaN(id)) return next('route');
+        req.params.id = id;
+        next();
+      });
+
+      app.get('/post/:id', function(req, res){
+        var id = req.params.id;
+        id.should.be.a('number');
+        res.send('' + id);
+      });
+
+      app.get('/user/:uid', function(req, res){
+        var id = req.params.id;
+        id.should.be.a('number');
+        res.send('' + id);
+      });
+
+      request(app)
+      .get('/user/123')
+      .end(function(res){
+        res.body.should.equal('123');
+
+        request(app)
+        .get('/post/123')
+        .end(function(res){
+          res.body.should.equal('123');
+          done();
+        })
+      })
+    })
+  })
+
   describe('.param(name, fn)', function(){
     it('should map logic for a single param', function(done){
       var app = express();
