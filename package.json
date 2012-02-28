@@ -10,7 +10,7 @@
     { "name": "Guillermo Rauch", "email": "rauchg@gmail.com" }
   ],
   "dependencies": {
-    "connect": "git://github.com/senchalabs/connect.git",
+    "connect": "2.0.0",
     "commander": "0.5.2",
     "mime": "1.2.5",
     "mkdirp": "0.3.0",
