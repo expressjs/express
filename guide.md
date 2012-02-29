@@ -262,7 +262,7 @@ passed to _express.createServer()_ as you would with a regular Connect server. F
 	  	, express.bodyParser()
 	  );
 
-Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks, in a progressive manor.
+Alternatively we can _use()_ them which is useful when adding middleware within _configure()_ blocks, in a progressive manner.
 
     app.use(express.logger({ format: ':method :url' }));
 
