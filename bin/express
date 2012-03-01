@@ -237,8 +237,11 @@ function createApplicationAt(path) {
   console.log();
   process.on('exit', function(){
     console.log();
-    console.log('   dont forget to install dependencies:');
-    console.log('   $ cd %s && npm install', path);
+    console.log('   install dependencies:');
+    console.log('     $ cd %s && npm install', path);
+    console.log();
+    console.log('   run the app:');
+    console.log('     $ node app');
     console.log();
   });
 
