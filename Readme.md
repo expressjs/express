@@ -4,7 +4,9 @@
   Insanely fast (and small) server-side JavaScript web development framework
   built on [node](http://nodejs.org) and [Connect](http://github.com/senchalabs/connect).
   
-     var app = express.createServer();
+  The [helloworld example](https://github.com/visionmedia/express/blob/master/examples/helloworld/app.js):
+
+     var app = require('express').createServer();
      
      app.get('/', function(req, res){
        res.send('Hello World');
