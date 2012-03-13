@@ -1,4 +1,6 @@
 
+More examples can be found at [github](https://github.com/visionmedia/express/tree/master/examples)
+
 ### Introduction
 
 This introduction screencast covers the basics of Express, and how to get started with your first application.
