@@ -161,3 +161,12 @@ describe('utils.accepts(type, str)', function(){
     })
   })
 })
+
+describe('utils.acceptBestMatch(types, str)', function(){
+  describe('when matching type/subtype', function(){
+    it('should return the best match', function(){
+      utils.acceptBestMatch(['text/javascript', 'application/javascript', 'text/xml', 'application/xml', 'text/html'], 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+        .should.be.eql('text/html');
+    })
+  })
+})
