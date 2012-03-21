@@ -7,7 +7,7 @@ describe('utils.isAbsolute()', function(){
     assert(utils.isAbsolute('c:\\'));
     assert(!utils.isAbsolute(':\\'));
   })
-  
+
   it('should unices', function(){
     assert(utils.isAbsolute('/foo/bar'));
     assert(!utils.isAbsolute('foo/bar'));
@@ -34,7 +34,7 @@ describe('utils.parseQuality(str)', function(){
     utils.parseQuality('text/html')
       .should.eql([{ value: 'text/html', quality: 1 }]);
   })
-  
+
   it('should parse qvalues', function(){
     utils.parseQuality('text/html; q=0.5')
       .should.eql([{ value: 'text/html', quality: 0.5 }]);
@@ -42,12 +42,12 @@ describe('utils.parseQuality(str)', function(){
     utils.parseQuality('text/html; q=.2')
       .should.eql([{ value: 'text/html', quality: 0.2 }]);
   })
-  
+
   it('should work with messed up whitespace', function(){
     utils.parseQuality('text/html   ;  q =   .2')
       .should.eql([{ value: 'text/html', quality: 0.2 }]);
   })
-  
+
   it('should work with multiples', function(){
     var str = 'da, en;q=.5, en-gb;q=.8';
     var arr = utils.parseQuality(str);
@@ -55,7 +55,7 @@ describe('utils.parseQuality(str)', function(){
     arr[1].value.should.equal('en-gb');
     arr[2].value.should.equal('en');
   })
-  
+
   it('should sort by quality', function(){
     var str = 'text/plain;q=.2, application/json, text/html;q=0.5';
     var arr = utils.parseQuality(str);
@@ -63,7 +63,7 @@ describe('utils.parseQuality(str)', function(){
     arr[1].value.should.equal('text/html');
     arr[2].value.should.equal('text/plain');
   })
-  
+
   it('should exclude those with a quality of 0', function(){
     var str = 'text/plain;q=.2, application/json, text/html;q=0';
     var arr = utils.parseQuality(str);
@@ -76,7 +76,7 @@ describe('utils.parseAccept(str)', function(){
     var arr = utils.parseAccept('text/html');
     arr[0].type.should.equal('text');
   })
-  
+
   it('should provide .subtype', function(){
     var arr = utils.parseAccept('text/html');
     arr[0].subtype.should.equal('html');
@@ -87,85 +87,85 @@ describe('utils.accepts(type, str)', function(){
   describe('when a string is not given', function(){
     it('should return true', function(){
       utils.accepts('text/html')
-        .should.be.true;
+        .should.eql('text/html');
     })
   })
-  
+
   describe('when a string is empty', function(){
     it('should return true', function(){
       utils.accepts('text/html', '')
-        .should.be.true;
+        .should.eql('text/html');
     })
   })
-  
+
   describe('when */* is given', function(){
     it('should return true', function(){
       utils.accepts('text/html', 'text/plain, */*')
-        .should.be.true;
+        .should.eql('text/html');
     })
   })
 
   describe('when accepting type/subtype', function(){
     it('should return true when present', function(){
       utils.accepts('text/html', 'text/plain, text/html')
-        .should.be.true;
+        .should.eql('text/html');
     })
-    
+
     it('should return false otherwise', function(){
       utils.accepts('text/html', 'text/plain, application/json')
         .should.be.false;
     })
   })
-  
+
   describe('when accepting */subtype', function(){
     it('should return true when present', function(){
       utils.accepts('text/html', 'text/*')
-        .should.be.true;
+        .should.eql('text/html');
     })
-    
+
     it('should return false otherwise', function(){
       utils.accepts('text/html', 'image/*')
         .should.be.false;
     })
   })
-  
+
   describe('when accepting type/*', function(){
     it('should return true when present', function(){
       utils.accepts('text/html', '*/html')
-        .should.be.true;
+        .should.eql('text/html');
     })
-    
+
     it('should return false otherwise', function(){
       utils.accepts('text/html', '*/json')
         .should.be.false;
     })
   })
-  
+
   describe('when an extension is given', function(){
     it('should return true when present', function(){
       utils.accepts('html', 'text/html, application/json')
-        .should.be.true;
+        .should.eql('text/html');
     })
-    
+
     it('should return false otherwise', function(){
       utils.accepts('html', 'text/plain, application/json')
         .should.be.false;
     })
-    
+
     it('should support *', function(){
       utils.accepts('html', 'text/*')
-        .should.be.true;
+        .should.eql('text/html');
 
       utils.accepts('html', '*/html')
-        .should.be.true;
+        .should.eql('text/html');
     })
   })
-})
 
-describe('utils.acceptBestMatch(types, str)', function(){
   describe('when matching type/subtype', function(){
     it('should return the best match', function(){
-      utils.acceptBestMatch(['text/javascript', 'application/javascript', 'text/xml', 'application/xml', 'text/html'], 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+      utils.accepts(['text/javascript', 'application/javascript', 'text/xml',
+             'application/xml', 'text/html'],
+             'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
         .should.be.eql('text/html');
     })
   })
