@@ -87,28 +87,28 @@ describe('utils.accepts(type, str)', function(){
   describe('when a string is not given', function(){
     it('should return true', function(){
       utils.accepts('text/html')
-        .should.eql('text/html');
+        .should.be.true;
     })
   })
 
   describe('when a string is empty', function(){
     it('should return true', function(){
       utils.accepts('text/html', '')
-        .should.eql('text/html');
+        .should.be.true;
     })
   })
 
   describe('when */* is given', function(){
     it('should return true', function(){
       utils.accepts('text/html', 'text/plain, */*')
-        .should.eql('text/html');
+        .should.be.true;
     })
   })
 
   describe('when accepting type/subtype', function(){
     it('should return true when present', function(){
       utils.accepts('text/html', 'text/plain, text/html')
-        .should.eql('text/html');
+        .should.be.true;
     })
 
     it('should return false otherwise', function(){
@@ -120,7 +120,7 @@ describe('utils.accepts(type, str)', function(){
   describe('when accepting */subtype', function(){
     it('should return true when present', function(){
       utils.accepts('text/html', 'text/*')
-        .should.eql('text/html');
+        .should.be.true;
     })
 
     it('should return false otherwise', function(){
@@ -132,7 +132,7 @@ describe('utils.accepts(type, str)', function(){
   describe('when accepting type/*', function(){
     it('should return true when present', function(){
       utils.accepts('text/html', '*/html')
-        .should.eql('text/html');
+        .should.be.true;
     })
 
     it('should return false otherwise', function(){
@@ -144,7 +144,7 @@ describe('utils.accepts(type, str)', function(){
   describe('when an extension is given', function(){
     it('should return true when present', function(){
       utils.accepts('html', 'text/html, application/json')
-        .should.eql('text/html');
+        .should.be.true;
     })
 
     it('should return false otherwise', function(){
@@ -154,14 +154,14 @@ describe('utils.accepts(type, str)', function(){
 
     it('should support *', function(){
       utils.accepts('html', 'text/*')
-        .should.eql('text/html');
+        .should.be.true;
 
       utils.accepts('html', '*/html')
-        .should.eql('text/html');
+        .should.be.true;
     })
   })
 
-  describe('when matching type/subtype', function(){
+  describe('when matching arrays', function(){
     it('should return the best match', function(){
       utils.accepts(['text/javascript', 'application/javascript', 'text/xml',
              'application/xml', 'text/html'],

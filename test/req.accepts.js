@@ -7,7 +7,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res, next){
-        res.end(req.accepts('json') == 'application/json' ? 'yes' : 'no');
+        res.end(req.accepts('json') === true ? 'yes' : 'no');
       });
 
       request(app)
@@ -19,7 +19,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res, next){
-        res.end(req.accepts('json') == 'application/json' ? 'yes' : 'no');
+        res.end(req.accepts('json') === true ? 'yes' : 'no');
       });
 
       request(app)
