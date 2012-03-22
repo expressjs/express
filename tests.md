@@ -1,223 +1,181 @@
-  - [app.all()](#appall)
-  - [app.del()](#appdel)
-  - [app](#app)
-    - [.engine(ext, fn)](#engineext-fn)
-  - [HEAD](#head)
-  - [app.head()](#apphead)
-  - [app](#app)
-  - [app.parent](#appparent)
-  - [app.route](#approute)
-  - [app.path()](#apppath)
-  - [in development](#in-development)
-  - [in production](#in-production)
-  - [app.listen()](#applisten)
-  - [app](#app)
-    - [.locals(obj)](#localsobj)
-    - [.locals.settings](#localssettings)
-  - [app](#app)
-    - [.locals.use(fn)](#localsusefn)
-      - [with arity < 3](#with-arity--3)
-  - [OPTIONS](#options)
-  - [app.options()](#appoptions)
-  - [app](#app)
-    - [.param(fn)](#paramfn)
-    - [.param(names, fn)](#paramnames-fn)
-    - [.param(name, fn)](#paramname-fn)
-  - [app](#app)
-    - [.render(name, fn)](#rendername-fn)
-      - [when an error occurs](#when-an-error-occurs)
-      - [when an extension is given](#when-an-extension-is-given)
-      - [when "view engine" is given](#when-view-engine-is-given)
-    - [.render(name, options, fn)](#rendername-options-fn)
-  - [app](#app)
-    - [.request](#request)
-  - [app](#app)
-    - [.response](#response)
-  - [app.router](#approuter)
-    - [methods supported](#methods-supported)
-    - [when given a regexp](#when-given-a-regexp)
-    - [when given an array](#when-given-an-array)
-    - [case sensitivity](#case-sensitivity)
-      - [when "case sensitive routing" is enabled](#when-case-sensitive-routing-is-enabled)
-    - [trailing slashes](#trailing-slashes)
-      - [when "strict routing" is enabled](#when-strict-routing-is-enabled)
-    - [*](#)
-    - [:name](#name)
-    - [:name?](#name)
-    - [.:name](#name)
-    - [.:name?](#name)
-    - [when next() is called](#when-next-is-called)
-    - [when next(err) is called](#when-nexterr-is-called)
-  - [app](#app)
-    - [.use(app)](#useapp)
-  - [config](#config)
-    - [.configure()](#configure)
-      - [when no env is given](#when-no-env-is-given)
-      - [when an env is given](#when-an-env-is-given)
-      - [when several envs are given](#when-several-envs-are-given)
-  - [config](#config)
-    - [.set()](#set)
-    - [.get()](#get)
-      - [when mounted](#when-mounted)
-    - [.enable()](#enable)
-    - [.disable()](#disable)
-    - [.enabled()](#enabled)
-    - [.disabled()](#disabled)
-  - [exports](#exports)
-  - [throw after .end()](#throw-after-end)
-  - [req](#req)
-    - [.accepted](#accepted)
-      - [when Accept is not present](#when-accept-is-not-present)
-  - [req](#req)
-    - [.acceptedCharsets](#acceptedcharsets)
-      - [when Accept-Charset is not present](#when-accept-charset-is-not-present)
-  - [req](#req)
-    - [.acceptedLanguages](#acceptedlanguages)
-      - [when Accept-Language is not present](#when-accept-language-is-not-present)
-  - [req](#req)
-    - [.accepts(type)](#acceptstype)
-  - [req](#req)
-    - [.acceptsCharset(type)](#acceptscharsettype)
-      - [when Accept-Charset is not present](#when-accept-charset-is-not-present)
-      - [when Accept-Charset is not present](#when-accept-charset-is-not-present)
-  - [req](#req)
-    - [.cookies](#cookies)
-  - [req](#req)
-    - [.fresh](#fresh)
-  - [req](#req)
-    - [.get(field)](#getfield)
-  - [req.is()](#reqis)
-    - [when content-type is not present](#when-content-type-is-not-present)
-    - [when given an extension](#when-given-an-extension)
-    - [when given a mime type](#when-given-a-mime-type)
-    - [when given */subtype](#when-given-subtype)
-      - [with a charset](#with-a-charset)
-    - [when given type/*](#when-given-type)
-      - [with a charset](#with-a-charset)
-  - [req](#req)
-    - [.param(name, default)](#paramname-default)
-    - [.param(name)](#paramname)
-  - [req](#req)
-    - [.path](#path)
-  - [req](#req)
-    - [.protocol](#protocol)
-      - [when "trust proxy" is enabled](#when-trust-proxy-is-enabled)
-      - [when "trust proxy" is disabled](#when-trust-proxy-is-disabled)
-  - [req](#req)
-    - [.query](#query)
-  - [req](#req)
-    - [.route](#route)
-  - [req](#req)
-    - [.signedCookies](#signedcookies)
-      - [when signature is invalid](#when-signature-is-invalid)
-  - [req](#req)
-    - [.stale](#stale)
-  - [req](#req)
-    - [.subdomains](#subdomains)
-      - [when present](#when-present)
-      - [otherwise](#otherwise)
-  - [req](#req)
-    - [.xhr](#xhr)
-  - [res](#res)
-    - [.attachment()](#attachment)
-    - [.attachment(filename)](#attachmentfilename)
-  - [res](#res)
-    - [.cache(type)](#cachetype)
-      - [maxAge option](#maxage-option)
-  - [res](#res)
-    - [.charset](#charset)
-  - [res](#res)
-    - [.clearCookie(name)](#clearcookiename)
-    - [.clearCookie(name, options)](#clearcookiename-options)
-  - [res](#res)
-    - [.cookie(name, object)](#cookiename-object)
-    - [.cookie(name, string)](#cookiename-string)
-    - [.cookie(name, string, options)](#cookiename-string-options)
-      - [maxAge](#maxage)
-  - [req](#req)
-    - [.format(obj)](#formatobj)
-      - [with canonicalized mime types](#with-canonicalized-mime-types)
-        - [when Accept is not present](#when-accept-is-not-present)
-        - [when no match is made](#when-no-match-is-made)
-      - [with extnames](#with-extnames)
-        - [when Accept is not present](#when-accept-is-not-present)
-        - [when no match is made](#when-no-match-is-made)
-  - [res](#res)
-    - [.get(field)](#getfield)
-  - [res](#res)
-    - [.json(object)](#jsonobject)
-      - [when given primitives](#when-given-primitives)
-      - [when given an object](#when-given-an-object)
-      - ["json replacer" setting](#json-replacer-setting)
-      - ["json spaces" setting](#json-spaces-setting)
-    - [.json(status, object)](#jsonstatus-object)
-  - [res](#res)
-    - [.locals(obj)](#localsobj)
-  - [res](#res)
-    - [.redirect(url)](#redirecturl)
-      - [with leading /](#with-leading-)
-      - [with leading ./](#with-leading-)
-      - [with leading ../](#with-leading-)
-      - [without leading /](#without-leading-)
-      - [when mounted](#when-mounted)
-        - [deeply](#deeply)
-        - [omitting leading /](#omitting-leading-)
-        - [providing leading /](#providing-leading-)
-    - [.redirect(status, url)](#redirectstatus-url)
-    - [when the request method is HEAD](#when-the-request-method-is-head)
-    - [when accepting html](#when-accepting-html)
-    - [when accepting text](#when-accepting-text)
-  - [res](#res)
-    - [.render(name)](#rendername)
-      - [when an error occurs](#when-an-error-occurs)
-      - [when "view engine" is given](#when-view-engine-is-given)
-    - [.render(name, option)](#rendername-option)
-    - [.render(name, options, fn)](#rendername-options-fn)
-    - [.render(name, fn)](#rendername-fn)
-      - [when an error occurs](#when-an-error-occurs)
-  - [res](#res)
-    - [.send(null)](#sendnull)
-    - [.send(undefined)](#sendundefined)
-    - [.send(code)](#sendcode)
-    - [.send(code, body)](#sendcode-body)
-    - [.send(String)](#sendstring)
-    - [.send(Buffer)](#sendbuffer)
-    - [.send(Object)](#sendobject)
-    - [when the request method is HEAD](#when-the-request-method-is-head)
-    - [when .statusCode is 204](#when-statuscode-is-204)
-    - [when .statusCode is 304](#when-statuscode-is-304)
-  - [res](#res)
-    - [.sendfile(path, fn)](#sendfilepath-fn)
-    - [.sendfile(path)](#sendfilepath)
-      - [with an absolute path](#with-an-absolute-path)
-      - [with a relative path](#with-a-relative-path)
-        - [with non-GET](#with-non-get)
-  - [res](#res)
-    - [.set(field, value)](#setfield-value)
-    - [.set(object)](#setobject)
-  - [res](#res)
-    - [.signedCook(name, object)](#signedcookname-object)
-    - [.signedCookie(name, string)](#signedcookiename-string)
-  - [res](#res)
-    - [.status(code)](#statuscode)
-  - [res](#res)
-    - [.type(str)](#typestr)
-  - [Router](#router)
-    - [.match(req, i)](#matchreq-i)
-    - [.middleware](#middleware)
-  - [utils.isAbsolute()](#utilsisabsolute)
-  - [utils.flatten(arr)](#utilsflattenarr)
-  - [utils.escape(html)](#utilsescapehtml)
-  - [utils.parseQuality(str)](#utilsparsequalitystr)
-  - [utils.parseAccept(str)](#utilsparseacceptstr)
-  - [utils.accepts(type, str)](#utilsacceptstype-str)
-    - [when a string is not given](#when-a-string-is-not-given)
-    - [when a string is empty](#when-a-string-is-empty)
-    - [when */* is given](#when--is-given)
-    - [when accepting type/subtype](#when-accepting-typesubtype)
-    - [when accepting */subtype](#when-accepting-subtype)
-    - [when accepting type/*](#when-accepting-type)
-    - [when an extension is given](#when-an-extension-is-given)
+# TOC
+   - [app.all()](#appall)
+   - [app.del()](#appdel)
+   - [app](#app)
+     - [.engine(ext, fn)](#engineext-fn)
+     - [.locals(obj)](#localsobj)
+     - [.locals.settings](#localssettings)
+     - [.locals.use(fn)](#localsusefn)
+       - [with arity < 3](#with-arity--3)
+     - [.param(fn)](#paramfn)
+     - [.param(names, fn)](#paramnames-fn)
+     - [.param(name, fn)](#paramname-fn)
+     - [.render(name, fn)](#rendername-fn)
+       - [when an error occurs](#when-an-error-occurs)
+       - [when an extension is given](#when-an-extension-is-given)
+       - [when "view engine" is given](#when-view-engine-is-given)
+     - [.render(name, options, fn)](#rendername-options-fn)
+     - [.request](#request)
+     - [.response](#response)
+     - [.use(app)](#useapp)
+   - [HEAD](#head)
+   - [app.head()](#apphead)
+   - [app.parent](#appparent)
+   - [app.route](#approute)
+   - [app.path()](#apppath)
+   - [in development](#in-development)
+   - [in production](#in-production)
+   - [app.listen()](#applisten)
+   - [OPTIONS](#options)
+   - [app.options()](#appoptions)
+   - [app.router](#approuter)
+     - [methods supported](#methods-supported)
+     - [when given a regexp](#when-given-a-regexp)
+     - [when given an array](#when-given-an-array)
+     - [case sensitivity](#case-sensitivity)
+       - [when "case sensitive routing" is enabled](#when-case-sensitive-routing-is-enabled)
+     - [trailing slashes](#trailing-slashes)
+       - [when "strict routing" is enabled](#when-strict-routing-is-enabled)
+     - [*](#)
+     - [:name](#name)
+     - [:name?](#name)
+     - [.:name](#name)
+     - [.:name?](#name)
+     - [when next() is called](#when-next-is-called)
+     - [when next(err) is called](#when-nexterr-is-called)
+   - [config](#config)
+     - [.configure()](#configure)
+       - [when no env is given](#when-no-env-is-given)
+       - [when an env is given](#when-an-env-is-given)
+       - [when several envs are given](#when-several-envs-are-given)
+     - [.set()](#set)
+     - [.get()](#get)
+       - [when mounted](#when-mounted)
+     - [.enable()](#enable)
+     - [.disable()](#disable)
+     - [.enabled()](#enabled)
+     - [.disabled()](#disabled)
+   - [exports](#exports)
+   - [throw after .end()](#throw-after-end)
+   - [req](#req)
+     - [.accepted](#accepted)
+       - [when Accept is not present](#when-accept-is-not-present)
+     - [.acceptedCharsets](#acceptedcharsets)
+       - [when Accept-Charset is not present](#when-accept-charset-is-not-present)
+     - [.acceptedLanguages](#acceptedlanguages)
+       - [when Accept-Language is not present](#when-accept-language-is-not-present)
+     - [.accepts(type)](#acceptstype)
+     - [.acceptsCharset(type)](#acceptscharsettype)
+       - [when Accept-Charset is not present](#when-accept-charset-is-not-present)
+     - [.cookies](#cookies)
+     - [.fresh](#fresh)
+     - [.get(field)](#getfield)
+     - [.param(name, default)](#paramname-default)
+     - [.param(name)](#paramname)
+     - [.path](#path)
+     - [.protocol](#protocol)
+       - [when "trust proxy" is enabled](#when-trust-proxy-is-enabled)
+       - [when "trust proxy" is disabled](#when-trust-proxy-is-disabled)
+     - [.query](#query)
+     - [.route](#route)
+     - [.signedCookies](#signedcookies)
+       - [when signature is invalid](#when-signature-is-invalid)
+     - [.stale](#stale)
+     - [.subdomains](#subdomains)
+       - [when present](#when-present)
+       - [otherwise](#otherwise)
+     - [.xhr](#xhr)
+     - [.format(obj)](#formatobj)
+       - [with canonicalized mime types](#with-canonicalized-mime-types)
+         - [when Accept is not present](#when-accept-is-not-present)
+         - [when no match is made](#when-no-match-is-made)
+       - [with extnames](#with-extnames)
+         - [when Accept is not present](#when-accept-is-not-present)
+         - [when no match is made](#when-no-match-is-made)
+   - [req.is()](#reqis)
+     - [when content-type is not present](#when-content-type-is-not-present)
+     - [when given an extension](#when-given-an-extension)
+     - [when given a mime type](#when-given-a-mime-type)
+     - [when given */subtype](#when-given-subtype)
+       - [with a charset](#with-a-charset)
+     - [when given type/*](#when-given-type)
+       - [with a charset](#with-a-charset)
+   - [res](#res)
+     - [.attachment()](#attachment)
+     - [.attachment(filename)](#attachmentfilename)
+     - [.cache(type)](#cachetype)
+       - [maxAge option](#maxage-option)
+     - [.charset](#charset)
+     - [.clearCookie(name)](#clearcookiename)
+     - [.clearCookie(name, options)](#clearcookiename-options)
+     - [.cookie(name, object)](#cookiename-object)
+     - [.cookie(name, string)](#cookiename-string)
+     - [.cookie(name, string, options)](#cookiename-string-options)
+       - [maxAge](#maxage)
+     - [.get(field)](#getfield)
+     - [.json(object)](#jsonobject)
+       - [when given primitives](#when-given-primitives)
+       - [when given an object](#when-given-an-object)
+       - ["json replacer" setting](#json-replacer-setting)
+       - ["json spaces" setting](#json-spaces-setting)
+     - [.json(status, object)](#jsonstatus-object)
+     - [.locals(obj)](#localsobj)
+     - [.redirect(url)](#redirecturl)
+       - [with leading /](#with-leading-)
+       - [with leading ./](#with-leading-)
+       - [with leading ../](#with-leading-)
+       - [without leading /](#without-leading-)
+       - [when mounted](#when-mounted)
+         - [deeply](#deeply)
+         - [omitting leading /](#omitting-leading-)
+         - [providing leading /](#providing-leading-)
+     - [.redirect(status, url)](#redirectstatus-url)
+     - [when the request method is HEAD](#when-the-request-method-is-head)
+     - [when accepting html](#when-accepting-html)
+     - [when accepting text](#when-accepting-text)
+     - [.render(name)](#rendername)
+       - [when an error occurs](#when-an-error-occurs)
+       - [when "view engine" is given](#when-view-engine-is-given)
+     - [.render(name, option)](#rendername-option)
+     - [.render(name, options, fn)](#rendername-options-fn)
+     - [.render(name, fn)](#rendername-fn)
+       - [when an error occurs](#when-an-error-occurs)
+     - [.send(null)](#sendnull)
+     - [.send(undefined)](#sendundefined)
+     - [.send(code)](#sendcode)
+     - [.send(code, body)](#sendcode-body)
+     - [.send(String)](#sendstring)
+     - [.send(Buffer)](#sendbuffer)
+     - [.send(Object)](#sendobject)
+     - [when .statusCode is 204](#when-statuscode-is-204)
+     - [when .statusCode is 304](#when-statuscode-is-304)
+     - [.sendfile(path, fn)](#sendfilepath-fn)
+     - [.sendfile(path)](#sendfilepath)
+       - [with an absolute path](#with-an-absolute-path)
+       - [with a relative path](#with-a-relative-path)
+         - [with non-GET](#with-non-get)
+     - [.set(field, value)](#setfield-value)
+     - [.set(object)](#setobject)
+     - [.signedCook(name, object)](#signedcookname-object)
+     - [.signedCookie(name, string)](#signedcookiename-string)
+     - [.status(code)](#statuscode)
+     - [.type(str)](#typestr)
+   - [Router](#router)
+     - [.match(req, i)](#matchreq-i)
+     - [.middleware](#middleware)
+   - [utils.isAbsolute()](#utilsisabsolute)
+   - [utils.flatten(arr)](#utilsflattenarr)
+   - [utils.escape(html)](#utilsescapehtml)
+   - [utils.parseQuality(str)](#utilsparsequalitystr)
+   - [utils.parseAccept(str)](#utilsparseacceptstr)
+   - [utils.accepts(type, str)](#utilsacceptstype-str)
+     - [when a string is not given](#when-a-string-is-not-given)
+     - [when a string is empty](#when-a-string-is-empty)
+     - [when */* is given](#when--is-given)
+     - [when accepting type/subtype](#when-accepting-typesubtype)
+     - [when accepting */subtype](#when-accepting-subtype)
+     - [when accepting type/*](#when-accepting-type)
+     - [when an extension is given](#when-an-extension-is-given)
 <a name="" />
  
 <a name="appall" />
@@ -274,7 +232,7 @@ request(app)
 
 <a name="app" />
 # app
-<a name="engineext-fn" />
+<a name="app-engineext-fn" />
 ## .engine(ext, fn)
 should map a template engine.
 
@@ -468,7 +426,7 @@ var server = app.listen(9999, function(){
 
 <a name="app" />
 # app
-<a name="localsobj" />
+<a name="app-localsobj" />
 ## .locals(obj)
 should merge locals.
 
@@ -482,7 +440,7 @@ app.locals.user.should.equal('tobi');
 app.locals.age.should.equal(2);
 ```
 
-<a name="localssettings" />
+<a name="app-localssettings" />
 ## .locals.settings
 should expose app settings.
 
@@ -496,7 +454,7 @@ obj.should.have.property('title', 'House of Manny');
 
 <a name="app" />
 # app
-<a name="localsusefn" />
+<a name="app-localsusefn" />
 ## .locals.use(fn)
 should run in parallel on res.render().
 
@@ -562,7 +520,7 @@ request(app)
 })
 ```
 
-<a name="with-arity--3" />
+<a name="app-localsusefn-with-arity--3" />
 ### with arity < 3
 should done() for you.
 
@@ -636,7 +594,7 @@ request(app)
 
 <a name="app" />
 # app
-<a name="paramfn" />
+<a name="app-paramfn" />
 ## .param(fn)
 should map app.param(name, ...) logic.
 
@@ -676,7 +634,7 @@ request(app)
 });
 ```
 
-<a name="paramnames-fn" />
+<a name="app-paramnames-fn" />
 ## .param(names, fn)
 should map the array.
 
@@ -716,7 +674,7 @@ request(app)
 })
 ```
 
-<a name="paramname-fn" />
+<a name="app-paramname-fn" />
 ## .param(name, fn)
 should map logic for a single param.
 
@@ -746,7 +704,7 @@ request(app)
 
 <a name="app" />
 # app
-<a name="rendername-fn" />
+<a name="app-rendername-fn" />
 ## .render(name, fn)
 should support absolute paths.
 
@@ -807,7 +765,7 @@ app.render('blog/post', function(err, str){
 })
 ```
 
-<a name="when-an-error-occurs" />
+<a name="app-rendername-fn-when-an-error-occurs" />
 ### when an error occurs
 should invoke the callback.
 
@@ -825,7 +783,7 @@ app.render('user.jade', function(err, str){
 })
 ```
 
-<a name="when-an-extension-is-given" />
+<a name="app-rendername-fn-when-an-extension-is-given" />
 ### when an extension is given
 should render the template.
 
@@ -841,7 +799,7 @@ app.render('email.jade', function(err, str){
 })
 ```
 
-<a name="when-view-engine-is-given" />
+<a name="app-rendername-fn-when-view-engine-is-given" />
 ### when "view engine" is given
 should render the template.
 
@@ -858,7 +816,7 @@ app.render('email', function(err, str){
 })
 ```
 
-<a name="rendername-options-fn" />
+<a name="app-rendername-options-fn" />
 ## .render(name, options, fn)
 should render the template.
 
@@ -909,7 +867,7 @@ app.render('user.jade', { user: jane }, function(err, str){
 
 <a name="app" />
 # app
-<a name="request" />
+<a name="app-request" />
 ## .request
 should extend the request prototype.
 
@@ -934,7 +892,7 @@ request(app)
 
 <a name="app" />
 # app
-<a name="response" />
+<a name="app-response" />
 ## .response
 should extend the response prototype.
 
@@ -1083,7 +1041,7 @@ request(app)
 .expect('users from 1 to 50', done);
 ```
 
-<a name="methods-supported" />
+<a name="approuter-methods-supported" />
 ## methods supported
 should include GET.
 
@@ -1522,7 +1480,7 @@ request(app)
 .expect('head' == method ? '' : method, done);
 ```
 
-<a name="when-given-a-regexp" />
+<a name="approuter-when-given-a-regexp" />
 ## when given a regexp
 should match the pathname only.
 
@@ -1554,7 +1512,7 @@ request(app)
 .expect('editing user 10', done);
 ```
 
-<a name="when-given-an-array" />
+<a name="approuter-when-given-an-array" />
 ## when given an array
 should match all paths in the array.
 
@@ -1574,7 +1532,7 @@ should match all paths in the array.
 			});
 ```
 
-<a name="case-sensitivity" />
+<a name="approuter-case-sensitivity" />
 ## case sensitivity
 should be disabled by default.
 
@@ -1590,7 +1548,7 @@ request(app)
 .expect('tj', done);
 ```
 
-<a name="when-case-sensitive-routing-is-enabled" />
+<a name="approuter-case-sensitivity-when-case-sensitive-routing-is-enabled" />
 ### when "case sensitive routing" is enabled
 should match identical casing.
 
@@ -1624,7 +1582,7 @@ request(app)
 .expect(404, done);
 ```
 
-<a name="trailing-slashes" />
+<a name="approuter-trailing-slashes" />
 ## trailing slashes
 should be optional by default.
 
@@ -1640,7 +1598,7 @@ request(app)
 .expect('tj', done);
 ```
 
-<a name="when-strict-routing-is-enabled" />
+<a name="approuter-trailing-slashes-when-strict-routing-is-enabled" />
 ### when "strict routing" is enabled
 should match trailing slashes.
 
@@ -1706,7 +1664,7 @@ request(app)
 .expect(404, done);
 ```
 
-<a name="" />
+<a name="approuter-" />
 ## *
 should denote a greedy capture group.
 
@@ -1795,7 +1753,7 @@ request(app)
 .expect(404, done);
 ```
 
-<a name="name" />
+<a name="approuter-name" />
 ## :name
 should denote a capture group.
 
@@ -1839,7 +1797,7 @@ request(app)
 .expect('editing tj', done);
 ```
 
-<a name="name" />
+<a name="approuter-name" />
 ## :name?
 should denote an optional capture group.
 
@@ -1871,7 +1829,7 @@ request(app)
 .expect('editing tj', done);
 ```
 
-<a name="name" />
+<a name="approuter-name" />
 ## .:name
 should denote a format.
 
@@ -1891,7 +1849,7 @@ request(app)
 });
 ```
 
-<a name="name" />
+<a name="approuter-name" />
 ## .:name?
 should denote an optional format.
 
@@ -1911,7 +1869,7 @@ request(app)
 });
 ```
 
-<a name="when-next-is-called" />
+<a name="approuter-when-next-is-called" />
 ## when next() is called
 should continue lookup.
 
@@ -1946,7 +1904,7 @@ request(app)
 })
 ```
 
-<a name="when-nexterr-is-called" />
+<a name="approuter-when-nexterr-is-called" />
 ## when next(err) is called
 should break out of app.router.
 
@@ -2000,7 +1958,7 @@ blog.on('mount', function(arg){
 app.use(blog);
 ```
 
-<a name="useapp" />
+<a name="app-useapp" />
 ## .use(app)
 should mount the app.
 
@@ -2058,7 +2016,7 @@ blog.parent.should.equal(app);
 
 <a name="config" />
 # config
-<a name="configure" />
+<a name="config-configure" />
 ## .configure()
 should execute in order as defined.
 
@@ -2085,7 +2043,7 @@ app.configure('test', function(){
 calls.should.eql(['all', 'test', 'all 2', 'test 2'])
 ```
 
-<a name="when-no-env-is-given" />
+<a name="config-configure-when-no-env-is-given" />
 ### when no env is given
 should always execute.
 
@@ -2108,7 +2066,7 @@ app.configure('test', function(){
 calls.should.eql(['all', 'test', 'test 2'])
 ```
 
-<a name="when-an-env-is-given" />
+<a name="config-configure-when-an-env-is-given" />
 ### when an env is given
 should only execute the matching env.
 
@@ -2129,7 +2087,7 @@ app.configure('test', function(){
 calls.should.eql(['dev']);
 ```
 
-<a name="when-several-envs-are-given" />
+<a name="config-configure-when-several-envs-are-given" />
 ### when several envs are given
 should execute when matching one.
 
@@ -2160,7 +2118,7 @@ calls.should.eql(['dev', 'dev 2', 'dev 3']);
 
 <a name="config" />
 # config
-<a name="set" />
+<a name="config-set" />
 ## .set()
 should set a value.
 
@@ -2176,7 +2134,7 @@ var app = express();
 app.set('foo', undefined).should.equal(app);
 ```
 
-<a name="get" />
+<a name="config-get" />
 ## .get()
 should return undefined when unset.
 
@@ -2193,7 +2151,7 @@ app.set('foo', 'bar');
 app.get('foo').should.equal('bar');
 ```
 
-<a name="when-mounted" />
+<a name="config-get-when-mounted" />
 ### when mounted
 should default to the parent app.
 
@@ -2219,7 +2177,7 @@ blog.set('title', 'Some Blog');
 blog.get('title').should.equal('Some Blog');
 ```
 
-<a name="enable" />
+<a name="config-enable" />
 ## .enable()
 should set the value to true.
 
@@ -2229,7 +2187,7 @@ app.enable('tobi').should.equal(app);
 app.get('tobi').should.be.true;
 ```
 
-<a name="disable" />
+<a name="config-disable" />
 ## .disable()
 should set the value to false.
 
@@ -2239,7 +2197,7 @@ app.disable('tobi').should.equal(app);
 app.get('tobi').should.be.false;
 ```
 
-<a name="enabled" />
+<a name="config-enabled" />
 ## .enabled()
 should default to false.
 
@@ -2256,7 +2214,7 @@ app.set('foo', 'bar');
 app.enabled('foo').should.be.true;
 ```
 
-<a name="disabled" />
+<a name="config-disabled" />
 ## .disabled()
 should default to true.
 
@@ -2382,7 +2340,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="accepted" />
+<a name="req-accepted" />
 ## .accepted
 should return an array of accepted media types.
 
@@ -2401,7 +2359,7 @@ request(app)
 .expect(200, done);
 ```
 
-<a name="when-accept-is-not-present" />
+<a name="req-accepted-when-accept-is-not-present" />
 ### when Accept is not present
 should default to [].
 
@@ -2420,7 +2378,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="acceptedcharsets" />
+<a name="req-acceptedcharsets" />
 ## .acceptedCharsets
 should return an array of accepted charsets.
 
@@ -2439,7 +2397,7 @@ request(app)
 .expect(200, done);
 ```
 
-<a name="when-accept-charset-is-not-present" />
+<a name="req-acceptedcharsets-when-accept-charset-is-not-present" />
 ### when Accept-Charset is not present
 should default to [].
 
@@ -2458,7 +2416,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="acceptedlanguages" />
+<a name="req-acceptedlanguages" />
 ## .acceptedLanguages
 should return an array of accepted languages.
 
@@ -2477,7 +2435,7 @@ request(app)
 .expect(200, done);
 ```
 
-<a name="when-accept-language-is-not-present" />
+<a name="req-acceptedlanguages-when-accept-language-is-not-present" />
 ### when Accept-Language is not present
 should default to [].
 
@@ -2496,7 +2454,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="acceptstype" />
+<a name="req-acceptstype" />
 ## .accepts(type)
 should return true when Accept is not present.
 
@@ -2544,9 +2502,9 @@ request(app)
 
 <a name="req" />
 # req
-<a name="acceptscharsettype" />
+<a name="req-acceptscharsettype" />
 ## .acceptsCharset(type)
-<a name="when-accept-charset-is-not-present" />
+<a name="req-acceptscharsettype-when-accept-charset-is-not-present" />
 ### when Accept-Charset is not present
 should return true.
 
@@ -2562,7 +2520,7 @@ request(app)
 .expect('yes', done);
 ```
 
-<a name="when-accept-charset-is-not-present" />
+<a name="req-acceptscharsettype-when-accept-charset-is-not-present" />
 ### when Accept-Charset is not present
 should return true when present.
 
@@ -2596,7 +2554,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="cookies" />
+<a name="req-cookies" />
 ## .cookies
 should expose cookie data.
 
@@ -2640,7 +2598,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="fresh" />
+<a name="req-fresh" />
 ## .fresh
 should return true when the resource is not modified.
 
@@ -2682,7 +2640,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="getfield" />
+<a name="req-getfield" />
 ## .get(field)
 should return the header field value.
 
@@ -2730,7 +2688,7 @@ req('application/json; charset=utf-8')
 .should.be.true;
 ```
 
-<a name="when-content-type-is-not-present" />
+<a name="reqis-when-content-type-is-not-present" />
 ## when content-type is not present
 should return false.
 
@@ -2740,7 +2698,7 @@ req('')
 .should.be.false;
 ```
 
-<a name="when-given-an-extension" />
+<a name="reqis-when-given-an-extension" />
 ## when given an extension
 should lookup the mime type.
 
@@ -2754,7 +2712,7 @@ req('text/html')
 .should.be.false;
 ```
 
-<a name="when-given-a-mime-type" />
+<a name="reqis-when-given-a-mime-type" />
 ## when given a mime type
 should match.
 
@@ -2768,7 +2726,7 @@ req('image/jpeg')
 .should.be.false;
 ```
 
-<a name="when-given-subtype" />
+<a name="reqis-when-given-subtype" />
 ## when given */subtype
 should match.
 
@@ -2782,7 +2740,7 @@ req('image/jpeg')
 .should.be.false;
 ```
 
-<a name="with-a-charset" />
+<a name="reqis-when-given-subtype-with-a-charset" />
 ### with a charset
 should match.
 
@@ -2796,7 +2754,7 @@ req('text/plain; charset=utf-8')
 .should.be.false;
 ```
 
-<a name="when-given-type" />
+<a name="reqis-when-given-type" />
 ## when given type/*
 should match.
 
@@ -2810,7 +2768,7 @@ req('text/html')
 .should.be.false;
 ```
 
-<a name="with-a-charset" />
+<a name="reqis-when-given-type-with-a-charset" />
 ### with a charset
 should match.
 
@@ -2826,7 +2784,7 @@ req('something/html; charset=utf-8')
 
 <a name="req" />
 # req
-<a name="paramname-default" />
+<a name="req-paramname-default" />
 ## .param(name, default)
 should use the default value unless defined.
 
@@ -2845,7 +2803,7 @@ request(app)
 })
 ```
 
-<a name="paramname" />
+<a name="req-paramname" />
 ## .param(name)
 should check req.query.
 
@@ -2904,7 +2862,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="path" />
+<a name="req-path" />
 ## .path
 should return the parsed pathname.
 
@@ -2925,7 +2883,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="protocol" />
+<a name="req-protocol" />
 ## .protocol
 should return the protocol string.
 
@@ -2944,7 +2902,7 @@ request(app)
 })
 ```
 
-<a name="when-trust-proxy-is-enabled" />
+<a name="req-protocol-when-trust-proxy-is-enabled" />
 ### when "trust proxy" is enabled
 should respect X-Forwarded-Proto.
 
@@ -2985,7 +2943,7 @@ request(app)
 })
 ```
 
-<a name="when-trust-proxy-is-disabled" />
+<a name="req-protocol-when-trust-proxy-is-disabled" />
 ### when "trust proxy" is disabled
 should ignore X-Forwarded-Proto.
 
@@ -3007,7 +2965,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="query" />
+<a name="req-query" />
 ## .query
 should default to {}.
 
@@ -3045,7 +3003,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="route" />
+<a name="req-route" />
 ## .route
 should be the executed Route.
 
@@ -3071,7 +3029,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="signedcookies" />
+<a name="req-signedcookies" />
 ## .signedCookies
 should unsign cookies.
 
@@ -3115,7 +3073,7 @@ request(app)
 })
 ```
 
-<a name="when-signature-is-invalid" />
+<a name="req-signedcookies-when-signature-is-invalid" />
 ### when signature is invalid
 should unsign cookies.
 
@@ -3140,7 +3098,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="stale" />
+<a name="req-stale" />
 ## .stale
 should return false when the resource is not modified.
 
@@ -3182,9 +3140,9 @@ request(app)
 
 <a name="req" />
 # req
-<a name="subdomains" />
+<a name="req-subdomains" />
 ## .subdomains
-<a name="when-present" />
+<a name="req-subdomains-when-present" />
 ### when present
 should return an array.
 
@@ -3204,7 +3162,7 @@ request(app)
 })
 ```
 
-<a name="otherwise" />
+<a name="req-subdomains-otherwise" />
 ### otherwise
 should return an empty array.
 
@@ -3226,7 +3184,7 @@ request(app)
 
 <a name="req" />
 # req
-<a name="xhr" />
+<a name="req-xhr" />
 ## .xhr
 should return true when X-Requested-With is xmlhttprequest.
 
@@ -3301,7 +3259,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="attachment" />
+<a name="res-attachment" />
 ## .attachment()
 should Content-Disposition to attachment.
 
@@ -3320,7 +3278,7 @@ request(app)
 })
 ```
 
-<a name="attachmentfilename" />
+<a name="res-attachmentfilename" />
 ## .attachment(filename)
 should add the filename param.
 
@@ -3360,7 +3318,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="cachetype" />
+<a name="res-cachetype" />
 ## .cache(type)
 should set Cache-Control.
 
@@ -3380,7 +3338,7 @@ request(app)
 })
 ```
 
-<a name="maxage-option" />
+<a name="res-cachetype-maxage-option" />
 ### maxAge option
 should accept milliseconds.
 
@@ -3401,7 +3359,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="charset" />
+<a name="res-charset" />
 ## .charset
 should add the charset param to Content-Type.
 
@@ -3442,7 +3400,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="clearcookiename" />
+<a name="res-clearcookiename" />
 ## .clearCookie(name)
 should set a cookie passed expiry.
 
@@ -3462,7 +3420,7 @@ request(app)
 })
 ```
 
-<a name="clearcookiename-options" />
+<a name="res-clearcookiename-options" />
 ## .clearCookie(name, options)
 should set the given params.
 
@@ -3484,7 +3442,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="cookiename-object" />
+<a name="res-cookiename-object" />
 ## .cookie(name, object)
 should generate a JSON cookie.
 
@@ -3504,7 +3462,7 @@ request(app)
 })
 ```
 
-<a name="cookiename-string" />
+<a name="res-cookiename-string" />
 ## .cookie(name, string)
 should set a cookie.
 
@@ -3544,7 +3502,7 @@ request(app)
 })
 ```
 
-<a name="cookiename-string-options" />
+<a name="res-cookiename-string-options" />
 ## .cookie(name, string, options)
 should set params.
 
@@ -3565,7 +3523,7 @@ request(app)
 })
 ```
 
-<a name="maxage" />
+<a name="res-cookiename-string-options-maxage" />
 ### maxAge
 should set relative expires.
 
@@ -3587,9 +3545,9 @@ request(app)
 
 <a name="req" />
 # req
-<a name="formatobj" />
+<a name="req-formatobj" />
 ## .format(obj)
-<a name="with-canonicalized-mime-types" />
+<a name="req-formatobj-with-canonicalized-mime-types" />
 ### with canonicalized mime types
 should utilize qvalues in negotiation.
 
@@ -3622,7 +3580,7 @@ request(app)
 });
 ```
 
-<a name="when-accept-is-not-present" />
+<a name="req-formatobj-with-canonicalized-mime-types-when-accept-is-not-present" />
 #### when Accept is not present
 should invoke the first callback.
 
@@ -3632,7 +3590,7 @@ request(app)
 .expect('hey', done);
 ```
 
-<a name="when-no-match-is-made" />
+<a name="req-formatobj-with-canonicalized-mime-types-when-no-match-is-made" />
 #### when no match is made
 should should respond with 406 not acceptable.
 
@@ -3647,7 +3605,7 @@ request(app)
 });
 ```
 
-<a name="with-extnames" />
+<a name="req-formatobj-with-extnames" />
 ### with extnames
 should utilize qvalues in negotiation.
 
@@ -3680,7 +3638,7 @@ request(app)
 });
 ```
 
-<a name="when-accept-is-not-present" />
+<a name="req-formatobj-with-extnames-when-accept-is-not-present" />
 #### when Accept is not present
 should invoke the first callback.
 
@@ -3690,7 +3648,7 @@ request(app)
 .expect('hey', done);
 ```
 
-<a name="when-no-match-is-made" />
+<a name="req-formatobj-with-extnames-when-no-match-is-made" />
 #### when no match is made
 should should respond with 406 not acceptable.
 
@@ -3707,7 +3665,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="getfield" />
+<a name="res-getfield" />
 ## .get(field)
 should get the response header field.
 
@@ -3729,9 +3687,9 @@ request(app)
 
 <a name="res" />
 # res
-<a name="jsonobject" />
+<a name="res-jsonobject" />
 ## .json(object)
-<a name="when-given-primitives" />
+<a name="res-jsonobject-when-given-primitives" />
 ### when given primitives
 should respond with json.
 
@@ -3751,7 +3709,7 @@ request(app)
 })
 ```
 
-<a name="when-given-an-object" />
+<a name="res-jsonobject-when-given-an-object" />
 ### when given an object
 should respond with json.
 
@@ -3771,7 +3729,7 @@ request(app)
 })
 ```
 
-<a name="json-replacer-setting" />
+<a name="res-jsonobject-json-replacer-setting" />
 ### "json replacer" setting
 should be passed to JSON.stringify().
 
@@ -3796,7 +3754,7 @@ request(app)
 });
 ```
 
-<a name="json-spaces-setting" />
+<a name="res-jsonobject-json-spaces-setting" />
 ### "json spaces" setting
 should default to 2 in development.
 
@@ -3833,7 +3791,7 @@ request(app)
 });
 ```
 
-<a name="jsonstatus-object" />
+<a name="res-jsonstatus-object" />
 ## .json(status, object)
 should respond with json and set the .statusCode.
 
@@ -3856,7 +3814,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="localsobj" />
+<a name="res-localsobj" />
 ## .locals(obj)
 should merge locals.
 
@@ -3880,7 +3838,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="redirecturl" />
+<a name="res-redirecturl" />
 ## .redirect(url)
 should respect X-Forwarded-Proto when "trust proxy" is enabled.
 
@@ -3922,7 +3880,7 @@ request(app)
 })
 ```
 
-<a name="with-leading-" />
+<a name="res-redirecturl-with-leading-" />
 ### with leading /
 should construct host-relative urls.
 
@@ -3942,7 +3900,7 @@ request(app)
 })
 ```
 
-<a name="with-leading-" />
+<a name="res-redirecturl-with-leading-" />
 ### with leading ./
 should construct path-relative urls.
 
@@ -3962,7 +3920,7 @@ request(app)
 })
 ```
 
-<a name="with-leading-" />
+<a name="res-redirecturl-with-leading-" />
 ### with leading ../
 should construct path-relative urls.
 
@@ -3982,7 +3940,7 @@ request(app)
 })
 ```
 
-<a name="without-leading-" />
+<a name="res-redirecturl-without-leading-" />
 ### without leading /
 should construct mount-point relative urls.
 
@@ -4002,9 +3960,9 @@ request(app)
 })
 ```
 
-<a name="when-mounted" />
+<a name="res-redirecturl-when-mounted" />
 ### when mounted
-<a name="deeply" />
+<a name="res-redirecturl-when-mounted-deeply" />
 #### deeply
 should respect the mount-point.
 
@@ -4029,7 +3987,7 @@ request(app)
 })
 ```
 
-<a name="omitting-leading-" />
+<a name="res-redirecturl-when-mounted-omitting-leading-" />
 #### omitting leading /
 should respect the mount-point.
 
@@ -4052,7 +4010,7 @@ request(app)
 })
 ```
 
-<a name="providing-leading-" />
+<a name="res-redirecturl-when-mounted-providing-leading-" />
 #### providing leading /
 should ignore mount-point.
 
@@ -4075,7 +4033,7 @@ request(app)
 })
 ```
 
-<a name="redirectstatus-url" />
+<a name="res-redirectstatus-url" />
 ## .redirect(status, url)
 should set the response status.
 
@@ -4095,7 +4053,7 @@ request(app)
 })
 ```
 
-<a name="when-the-request-method-is-head" />
+<a name="res-when-the-request-method-is-head" />
 ## when the request method is HEAD
 should ignore the body.
 
@@ -4115,7 +4073,7 @@ request(app)
 })
 ```
 
-<a name="when-accepting-html" />
+<a name="res-when-accepting-html" />
 ## when accepting html
 should respond with html.
 
@@ -4136,7 +4094,7 @@ request(app)
 })
 ```
 
-<a name="when-accepting-text" />
+<a name="res-when-accepting-text" />
 ## when accepting text
 should respond with text.
 
@@ -4159,7 +4117,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="rendername" />
+<a name="res-rendername" />
 ## .render(name)
 should support absolute paths.
 
@@ -4240,7 +4198,7 @@ request(app)
 });
 ```
 
-<a name="when-an-error-occurs" />
+<a name="res-rendername-when-an-error-occurs" />
 ### when an error occurs
 should next(err).
 
@@ -4265,7 +4223,7 @@ request(app)
 });
 ```
 
-<a name="when-view-engine-is-given" />
+<a name="res-rendername-when-view-engine-is-given" />
 ### when "view engine" is given
 should render the template.
 
@@ -4287,7 +4245,7 @@ request(app)
 });
 ```
 
-<a name="rendername-option" />
+<a name="res-rendername-option" />
 ## .render(name, option)
 should render the template.
 
@@ -4413,7 +4371,7 @@ request(app)
 });
 ```
 
-<a name="rendername-options-fn" />
+<a name="res-rendername-options-fn" />
 ## .render(name, options, fn)
 should pass the resulting string.
 
@@ -4438,7 +4396,7 @@ request(app)
 });
 ```
 
-<a name="rendername-fn" />
+<a name="res-rendername-fn" />
 ## .render(name, fn)
 should pass the resulting string.
 
@@ -4463,7 +4421,7 @@ request(app)
 });
 ```
 
-<a name="when-an-error-occurs" />
+<a name="res-rendername-fn-when-an-error-occurs" />
 ### when an error occurs
 should pass it to the callback.
 
@@ -4488,7 +4446,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="sendnull" />
+<a name="res-sendnull" />
 ## .send(null)
 should set body to "".
 
@@ -4507,7 +4465,7 @@ request(app)
 })
 ```
 
-<a name="sendundefined" />
+<a name="res-sendundefined" />
 ## .send(undefined)
 should set body to "".
 
@@ -4526,7 +4484,7 @@ request(app)
 })
 ```
 
-<a name="sendcode" />
+<a name="res-sendcode" />
 ## .send(code)
 should set .statusCode.
 
@@ -4546,7 +4504,7 @@ request(app)
 })
 ```
 
-<a name="sendcode-body" />
+<a name="res-sendcode-body" />
 ## .send(code, body)
 should set .statusCode and body.
 
@@ -4566,7 +4524,7 @@ request(app)
 })
 ```
 
-<a name="sendstring" />
+<a name="res-sendstring" />
 ## .send(String)
 should send as html.
 
@@ -4606,7 +4564,7 @@ request(app)
 })
 ```
 
-<a name="sendbuffer" />
+<a name="res-sendbuffer" />
 ## .send(Buffer)
 should send as octet-stream.
 
@@ -4646,7 +4604,7 @@ request(app)
 })
 ```
 
-<a name="sendobject" />
+<a name="res-sendobject" />
 ## .send(Object)
 should send as application/json.
 
@@ -4666,7 +4624,7 @@ request(app)
 })
 ```
 
-<a name="when-the-request-method-is-head" />
+<a name="res-when-the-request-method-is-head" />
 ## when the request method is HEAD
 should ignore the body.
 
@@ -4685,7 +4643,7 @@ request(app)
 })
 ```
 
-<a name="when-statuscode-is-204" />
+<a name="res-when-statuscode-is-204" />
 ## when .statusCode is 204
 should strip Content-* fields & body.
 
@@ -4706,7 +4664,7 @@ request(app)
 })
 ```
 
-<a name="when-statuscode-is-304" />
+<a name="res-when-statuscode-is-304" />
 ## when .statusCode is 304
 should strip Content-* fields & body.
 
@@ -4729,7 +4687,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="sendfilepath-fn" />
+<a name="res-sendfilepath-fn" />
 ## .sendfile(path, fn)
 should invoke the callback when complete.
 
@@ -4819,9 +4777,9 @@ request(app)
 });
 ```
 
-<a name="sendfilepath" />
+<a name="res-sendfilepath" />
 ## .sendfile(path)
-<a name="with-an-absolute-path" />
+<a name="res-sendfilepath-with-an-absolute-path" />
 ### with an absolute path
 should transfer the file.
 
@@ -4841,7 +4799,7 @@ request(app)
 });
 ```
 
-<a name="with-a-relative-path" />
+<a name="res-sendfilepath-with-a-relative-path" />
 ### with a relative path
 should transfer the file.
 
@@ -4958,7 +4916,7 @@ request(app)
 });
 ```
 
-<a name="with-non-get" />
+<a name="res-sendfilepath-with-a-relative-path-with-non-get" />
 #### with non-GET
 should still serve.
 
@@ -4978,7 +4936,7 @@ var app = express()
 
 <a name="res" />
 # res
-<a name="setfield-value" />
+<a name="res-setfield-value" />
 ## .set(field, value)
 should set the response header field.
 
@@ -4997,7 +4955,7 @@ request(app)
 })
 ```
 
-<a name="setobject" />
+<a name="res-setobject" />
 ## .set(object)
 should set multiple fields.
 
@@ -5022,7 +4980,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="signedcookname-object" />
+<a name="res-signedcookname-object" />
 ## .signedCook(name, object)
 should generate a signed JSON cookie.
 
@@ -5044,7 +5002,7 @@ request(app)
 })
 ```
 
-<a name="signedcookiename-string" />
+<a name="res-signedcookiename-string" />
 ## .signedCookie(name, string)
 should set a signed cookie.
 
@@ -5068,7 +5026,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="statuscode" />
+<a name="res-statuscode" />
 ## .status(code)
 should set the response .statusCode.
 
@@ -5090,7 +5048,7 @@ request(app)
 
 <a name="res" />
 # res
-<a name="typestr" />
+<a name="res-typestr" />
 ## .type(str)
 should set the Content-Type based on a filename.
 
@@ -5111,7 +5069,7 @@ request(app)
 
 <a name="router" />
 # Router
-<a name="matchreq-i" />
+<a name="router-matchreq-i" />
 ## .match(req, i)
 should match based on index.
 
@@ -5138,7 +5096,7 @@ var route = router.match(req);
 route.path.should.equal('/bar');
 ```
 
-<a name="middleware" />
+<a name="router-middleware" />
 ## .middleware
 should dispatch.
 
@@ -5261,7 +5219,7 @@ arr[0].subtype.should.equal('html');
 
 <a name="utilsacceptstype-str" />
 # utils.accepts(type, str)
-<a name="when-a-string-is-not-given" />
+<a name="utilsacceptstype-str-when-a-string-is-not-given" />
 ## when a string is not given
 should return true.
 
@@ -5270,7 +5228,7 @@ utils.accepts('text/html')
   .should.be.true;
 ```
 
-<a name="when-a-string-is-empty" />
+<a name="utilsacceptstype-str-when-a-string-is-empty" />
 ## when a string is empty
 should return true.
 
@@ -5279,7 +5237,7 @@ utils.accepts('text/html', '')
   .should.be.true;
 ```
 
-<a name="when--is-given" />
+<a name="utilsacceptstype-str-when--is-given" />
 ## when */* is given
 should return true.
 
@@ -5288,7 +5246,7 @@ utils.accepts('text/html', 'text/plain, */*')
   .should.be.true;
 ```
 
-<a name="when-accepting-typesubtype" />
+<a name="utilsacceptstype-str-when-accepting-typesubtype" />
 ## when accepting type/subtype
 should return true when present.
 
@@ -5304,7 +5262,7 @@ utils.accepts('text/html', 'text/plain, application/json')
   .should.be.false;
 ```
 
-<a name="when-accepting-subtype" />
+<a name="utilsacceptstype-str-when-accepting-subtype" />
 ## when accepting */subtype
 should return true when present.
 
@@ -5320,7 +5278,7 @@ utils.accepts('text/html', 'image/*')
   .should.be.false;
 ```
 
-<a name="when-accepting-type" />
+<a name="utilsacceptstype-str-when-accepting-type" />
 ## when accepting type/*
 should return true when present.
 
@@ -5336,7 +5294,7 @@ utils.accepts('text/html', '*/json')
   .should.be.false;
 ```
 
-<a name="when-an-extension-is-given" />
+<a name="utilsacceptstype-str-when-an-extension-is-given" />
 ## when an extension is given
 should return true when present.
 
