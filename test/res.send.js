@@ -95,7 +95,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.header('Content-Type', 'text/plain').send('hey');
+        res.set('Content-Type', 'text/plain').send('hey');
       });
 
       request(app)
@@ -131,7 +131,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.header('Content-Type', 'text/plain').send(new Buffer('hey'));
+        res.set('Content-Type', 'text/plain').send(new Buffer('hey'));
       });
 
       request(app)

@@ -10,11 +10,11 @@
     { "name": "Guillermo Rauch", "email": "rauchg@gmail.com" }
   ],
   "dependencies": {
-    "connect": "git://github.com/senchalabs/connect.git",
-    "commander": "0.5.1",
-    "mime": ">= 1.2.4",
-    "qs": ">= 0.4.0",
-    "mkdirp": "0.2.2"
+    "connect": "2.0.0",
+    "commander": "0.5.2",
+    "mime": "1.2.5",
+    "mkdirp": "0.3.0",
+    "debug": "*"
   },
   "devDependencies": {
     "ejs": "*",
@@ -22,7 +22,8 @@
     "jade": "*",
     "stylus": "*",
     "should": "*",
-    "connect-redis": "*"
+    "connect-redis": "*",
+    "github-flavored-markdown": "*"
   },
   "keywords": ["express", "framework", "sinatra", "web", "rest", "restful", "router"],
   "repository": "git://github.com/visionmedia/express",

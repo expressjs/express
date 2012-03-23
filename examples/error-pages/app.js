@@ -4,13 +4,15 @@
  */
 
 var express = require('../../')
-  , app = express();
+  , app = module.exports = express()
+  , silent = 'test' == process.env.NODE_ENV;
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
 app.use(express.favicon());
-app.use(express.logger('dev'));
+
+silent || app.use(express.logger('dev'));
 
 // "app.router" positions our routes 
 // above the middleware defined below,
@@ -32,7 +34,6 @@ app.use(app.router);
 app.use(function(req, res, next){
   // respond with html page
   if (req.accepts('html')) {
-    console.log('test');
     res.status(404);
     res.render('404', { url: req.url });
     return;
@@ -88,5 +89,7 @@ app.get('/500', function(req, res, next){
   next(new Error('keyboard cat!'));
 });
 
-app.listen(3000);
-console.log('Express app started on port 3000');
+if (!module.parent) {
+  app.listen(3000);
+  silent || console.log('Express started on port 3000');
+}

@@ -41,18 +41,16 @@ a.edit {
 .date {
   font-size: 11px;
 }
-#messages ul {
+p.error,
+p.message {
   padding: 10px;
   border: 1px solid;
 }
-#messages ul li {
-  list-style: none;
+p.error {
+  background: #FDEAE7;
+  color: #E4250C;
 }
-#messages ul.info {
+p.message {
   color: #2EBBE6;
   background: #F7FBFD;
-}
-#messages ul.error {
-  color: #E4250C;
-  background: #FDEAE7;
 }

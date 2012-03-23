@@ -22,6 +22,12 @@ docs: $(HTMLDOCS)
 	  | cat docs/layout/head.html - docs/layout/foot.html \
 	  > $@
 
+test-cov: lib-cov
+	@EXPRESS_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
+
+lib-cov:
+	@jscoverage lib lib-cov
+
 site:
 	rm -fr /tmp/docs \
 	  && cp -fr docs /tmp/docs \

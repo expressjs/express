@@ -6,48 +6,44 @@
 var express = require('../../lib/express')
   , crypto = require('crypto');
 
-var app = express.createServer(
-    express.bodyParser()
-  , express.cookieParser()
-  , express.session({ secret: 'keyboard cat' })
-);
+var app = module.exports = express();
 
-app.set('views', __dirname + '/views');
+app.use(express.bodyParser());
+app.use(express.cookieParser('shhhh, very secret'));
+app.use(express.session());
+
 app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
 
-// Message helper, ideally we would use req.flash()
-// however this is more light-weight for an example
+// Session-persisted message middleware
 
-app.dynamicHelpers({
-  message: function(req){
-    var err = req.session.error
-      , msg = req.session.success;
-    delete req.session.error;
-    delete req.session.success;
-    if (err) return '<p class="msg error">' + err + '</p>';
-    if (msg) return '<p class="msg success">' + msg + '</p>';
-  }
-});
+app.locals.use(function(req,res){
+  var err = req.session.error
+    , msg = req.session.success;
+  delete req.session.error;
+  delete req.session.success;
+  res.locals.message = '';
+  if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
+  if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
+})
 
 // Generate a salt for the user to prevent rainbow table attacks
 // for better security take a look at the bcrypt c++ addon:
 // https://github.com/ncb000gt/node.bcrypt.js
-
 var users = {
   tj: {
-    name: 'tj'
+      name: 'tj'
     , salt: 'randomly-generated-salt'
     , pass: hash('foobar', 'randomly-generated-salt')
   }
 };
 
 // Used to generate a hash of the plain-text password + salt
-
 function hash(msg, key) {
   return crypto.createHmac('sha256', key).update(msg).digest('hex');
 }
-// Authenticate using our plain-object database of doom!
 
+// Authenticate using our plain-object database of doom!
 function authenticate(name, pass, fn) {
   var user = users[name];
   // query the db for the given username
@@ -69,16 +65,11 @@ function restrict(req, res, next) {
   }
 }
 
-function accessLogger(req, res, next) {
-  console.log('/restricted accessed by %s', req.session.user.name);
-  next();
-}
-
 app.get('/', function(req, res){
-  res.redirect('/login');
+  res.redirect('login');
 });
 
-app.get('/restricted', restrict, accessLogger, function(req, res){
+app.get('/restricted', restrict, function(req, res){
   res.send('Wahoo! restricted area');
 });
 
@@ -86,7 +77,7 @@ app.get('/logout', function(req, res){
   // destroy the user's session to log them out
   // will be re-created next request
   req.session.destroy(function(){
-    res.redirect('home');
+    res.redirect('/');
   });
 });
 
@@ -115,10 +106,12 @@ app.post('/login', function(req, res){
       req.session.error = 'Authentication failed, please check your '
         + ' username and password.'
         + ' (use "tj" and "foobar")';
-      res.redirect('back');
+      res.redirect('login');
     }
   });
 });
 
-app.listen(3000);
-console.log('Express started on port 3000');
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}

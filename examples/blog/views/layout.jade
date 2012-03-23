@@ -2,6 +2,7 @@
 html
   head
     title Blog
-    link(rel='stylesheet', href=base + '/style.css')
+    link(rel='stylesheet', href='/style.css')
   body
-    #container!= body
+    #container
+      block content

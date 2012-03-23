@@ -4,8 +4,10 @@ var express = require('../')
 
 describe('res', function(){
   describe('.redirect(url)', function(){
-    it('should respect X-Forwarded-Proto', function(done){
+    it('should respect X-Forwarded-Proto when "trust proxy" is enabled', function(done){
       var app = express();
+
+      app.enable('trust proxy');
 
       app.use(function(req, res){
         res.redirect('/login');
@@ -243,7 +245,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .set('Accept', 'text/plain')
+      .set('Accept', 'text/plain, */*')
       .end(function(res){
         res.headers.should.have.property('location', 'http://google.com');
         res.body.should.equal('Moved Temporarily. Redirecting to http://google.com');

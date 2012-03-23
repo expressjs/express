@@ -64,15 +64,6 @@ Via Connect:
   * Logging
   * and _much_ more!
 
-## Contributors
-
-The following are the major contributors of Express (in no specific order).
-
-  * TJ Holowaychuk ([visionmedia](http://github.com/visionmedia))
-  * Ciaran Jessup ([ciaranj](http://github.com/ciaranj))
-  * Aaron Heckmann ([aheckmann](http://github.com/aheckmann))
-  * Guillermo Rauch ([guille](http://github.com/guille))
-
 ## More Information
 
   * #express on freenode
@@ -97,7 +88,7 @@ The following are the major contributors of Express (in no specific order).
 
 Express 1.x is compatible with node 0.2.x and connect < 1.0.
 
-Express 2.x is compatible with node 0.4.x and connect 1.x
+Express 2.x is compatible with node 0.4.x, node 0.6.x and connect 1.x
 
 Express 3.x (_master_ branch) is compatible with node 0.6.x and connect 2.x
 
@@ -120,6 +111,62 @@ To run the test suite first invoke the following command within the repo, instal
 then run the tests:
 
     $ make test
+
+## Contributors
+
+```
+project: express
+commits: 3410
+files  : 230
+authors: 
+ 1883	Tj Holowaychuk          55.2%
+ 1285	visionmedia             37.7%
+   72	TJ Holowaychuk          2.1%
+   54	Aaron Heckmann          1.6%
+   34	csausdev                1.0%
+   26	ciaranj                 0.8%
+    6	Guillermo Rauch         0.2%
+    3	Dav Glass               0.1%
+    3	Nick Poulden            0.1%
+    2	Jake Gordon             0.1%
+    2	Ben Weaver              0.1%
+    2	Hunter Loftis           0.1%
+    2	Benny Wong              0.1%
+    2	Dave Hoover             0.1%
+    2	Brian McKinney          0.1%
+    2	Daniel Shaw             0.1%
+    1	Masahiro Hayashi        0.0%
+    1	Matt Colyer             0.0%
+    1	Pau Ramon               0.0%
+    1	Peter Rekdal Sunde      0.0%
+    1	Raynos                  0.0%
+    1	Roman Shtylman          0.0%
+    1	Teng Siong Ong          0.0%
+    1	Viktor Kelemen          0.0%
+    1	ctide                   0.0%
+    1	ewoudj                  0.0%
+    1	isaacs                  0.0%
+    1	mgutz                   0.0%
+    1	pikeas                  0.0%
+    1	shuwatto                0.0%
+    1	Justin Lilly            0.0%
+    1	Adam Sanderson          0.0%
+    1	Andrii Kostenko         0.0%
+    1	Arpad Borsos            0.0%
+    1	Ashwin Purohit          0.0%
+    1	Darren Torpey           0.0%
+    1	Greg Ritter             0.0%
+    1	Gregory Ritter          0.0%
+    1	James Herdman           0.0%
+    1	Joe McCann              0.0%
+    1	Jonathan Dumaine        0.0%
+    1	Jonathan Palardy        0.0%
+    1	Jonathan Zacsh          0.0%
+    1	8bitDesigner            0.0%
+    1	Ken Sato                0.0%
+    1	Maciej Małecki          0.0%
+
+```
 
 ## License 
 

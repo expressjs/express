@@ -59,6 +59,8 @@ Request.prototype.expect = function(body, fn){
   this.end(function(res){
     if ('number' == typeof body) {
       res.statusCode.should.equal(body);
+    } else if (body instanceof RegExp) {
+      res.body.should.match(body);
     } else {
       res.body.should.equal(body);
     }

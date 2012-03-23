@@ -1,19 +1,22 @@
-h1 Blog
+extends layout
 
-!= messages()
+block content
+  h1 Blog
 
-- if (count)
-  p Display all #{count} post(s)
-  #posts!= partial('post', posts)
-- else
-  p 
-    | It looks like you have no posts!
-  p
-    | Click
-    a(href=base + '/post/add') here 
-    | to create a post. Login
-    | as
-    em "admin" 
-    | and
-    em "express"
-    | .
+  if count
+    p Display all #{count} post(s)
+    #posts
+      each post in posts
+        include post/index
+  else
+    p 
+      | It looks like you have no posts!
+    p
+      | Click
+      a(href='/post/add') here 
+      | to create a post. Login
+      | as
+      em "admin" 
+      | and
+      em "express"
+      | .

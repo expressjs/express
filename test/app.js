@@ -54,3 +54,19 @@ describe('app.path()', function(){
     blogAdmin.path().should.equal('/blog/admin');
   })
 })
+
+describe('in development', function(){
+  it('should disable "view cache"', function(){
+    var app = express();
+    app.enabled('view cache').should.be.false;
+  })
+})
+
+describe('in production', function(){
+  it('should enable "view cache"', function(){
+    process.env.NODE_ENV = 'production';
+    var app = express();
+    app.enabled('view cache').should.be.true;
+    process.env.NODE_ENV = 'test';
+  })
+})

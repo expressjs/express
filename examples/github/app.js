@@ -6,7 +6,7 @@
 var express = require('../../lib/express')
   , http = require('http');
 
-var app = express.createServer();
+var app = express();
 
 // Expose our views
 

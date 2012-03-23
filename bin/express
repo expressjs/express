@@ -19,6 +19,7 @@ program
   .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
   .option('-S, --stylus', 'add stylus support')
+  .option('-f, --force', 'force on non-empty directory')
   .parse(process.argv);
 
 // Path
@@ -124,7 +125,7 @@ var jshtmlLayout = [
 var jshtmlIndex = [
     '<h1>@write(title)</h1>'
   , '<p>Welcome to @write(title)</p>'
-  ].join(eol);
+].join(eol);
 
 /**
  * Default css template.
@@ -196,7 +197,7 @@ var app = [
   , '});'
   , ''
   , 'app.configure(\'development\', function(){'
-  , '  app.use(express.errorHandler()); '
+  , '  app.use(express.errorHandler());'
   , '});'
   , ''
   , 'app.get(\'/\', routes.index);'
@@ -211,7 +212,7 @@ var app = [
 
 (function createApplication(path) {
   emptyDirectory(path, function(empty){
-    if (empty) {
+    if (empty || program.force) {
       createApplicationAt(path);
     } else {
       program.confirm('destination is not empty, continue? ', function(ok){
@@ -236,8 +237,11 @@ function createApplicationAt(path) {
   console.log();
   process.on('exit', function(){
     console.log();
-    console.log('   dont forget to install dependencies:');
-    console.log('   $ cd %s && npm install', path);
+    console.log('   install dependencies:');
+    console.log('     $ cd %s && npm install', path);
+    console.log();
+    console.log('   run the app:');
+    console.log('     $ node app');
     console.log();
   });
 
@@ -294,19 +298,20 @@ function createApplicationAt(path) {
     app = app.replace(':TEMPLATE', program.template);
 
     // package.json
-    var json = '{' + eol;
-    json += '    "name": "application-name"' + eol;
-    json += '  , "version": "0.0.1"' + eol;
-    json += '  , "private": true' + eol;
-    json += '  , "dependencies": {' + eol;
-    json += '      "express": "' + express.version + '"' + eol;
-    if (program.css) json += '    , "' + program.css + '": ">= 0.0.1"' + eol;
-    if (program.template) json += '    , "' + program.template + '": ">= 0.0.1"' + eol;
-    json += '  }' + eol;
-    json += '}';
+    var pkg = {
+        name: 'application-name'
+      , version: '0.0.1'
+      , private: true
+      , scripts: { start: 'node app' }
+      , dependencies: {
+        express: express.version
+      }
+    }
 
+    if (program.css) pkg.dependencies[program.css] = '*';
+    if (program.template) pkg.dependencies[program.template] = '*';
 
-    write(path + '/package.json', json);
+    write(path + '/package.json', JSON.stringify(pkg, null, 2));
     write(path + '/app.js', app);
   });
 }
