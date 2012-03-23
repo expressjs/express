@@ -63,7 +63,7 @@ describe('req', function(){
 
       request(app)
       .get('/')
-      .expect('text/html', done);
+      .expect('html', done);
     })
 
     it('should return the first type when there is no Accept header', function(done){
