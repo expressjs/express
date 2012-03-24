@@ -97,10 +97,36 @@ describe('utils.accepts(type, str)', function(){
         .should.equal('text/html');
     })
   })
-  
+
   describe('when */* is given', function(){
     it('should return the value', function(){
       utils.accepts('text/html', 'text/plain, */*')
+        .should.equal('text/html');
+    })
+  })
+
+  describe('when an array is given', function(){
+    it('should return the best match', function(){
+      utils.accepts(['html', 'json'], 'text/plain, application/json')
+        .should.equal('json');
+
+      utils.accepts(['html', 'application/json'], 'text/plain, application/json')
+        .should.equal('application/json');
+
+      utils.accepts(['text/html', 'application/json'], 'application/json;q=.5, text/html')
+        .should.equal('text/html');
+    })
+  })
+
+  describe('when a comma-delimited list is give', function(){
+    it('should behave like an array', function(){
+      utils.accepts('html, json', 'text/plain, application/json')
+        .should.equal('json');
+
+      utils.accepts('html, application/json', 'text/plain, application/json')
+        .should.equal('application/json');
+
+      utils.accepts('text/html, application/json', 'application/json;q=.5, text/html')
         .should.equal('text/html');
     })
   })

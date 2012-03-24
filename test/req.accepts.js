@@ -43,6 +43,19 @@ describe('req', function(){
     })
   })
 
+  it('should accept a comma-delimited list of types', function(done){
+    var app = express();
+
+    app.use(function(req, res, next){
+      res.end(req.accepts('json, html'));
+    });
+
+    request(app)
+    .get('/')
+    .set('Accept', 'text/html')
+    .expect('html', done);
+  })
+
   describe('.accept(types)', function(){
     it('should return the first when Accept is not present', function(done){
       var app = express();
