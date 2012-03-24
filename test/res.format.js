@@ -26,6 +26,7 @@ app.use(function(req, res, next){
 });
 
 app.use(function(err, req, res, next){
+  if (!err.types) throw err;
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
