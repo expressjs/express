@@ -8,8 +8,6 @@ describe('req', function(){
       it('should return an array of the specified addresses', function(done){
         var app = express();
 
-        app.enable('trust proxy');
-
         app.use(function(req, res, next){
           res.send(req.ips);
         });
@@ -24,8 +22,6 @@ describe('req', function(){
     describe('when X-Forwarded-For is not present', function(){
       it('should return []', function(done){
         var app = express();
-
-        app.enable('trust proxy');
 
         app.use(function(req, res, next){
           res.send(req.ips);
