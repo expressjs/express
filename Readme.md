@@ -1,4 +1,3 @@
-
 # Express
       
   Insanely fast (and small) server-side JavaScript web development framework
@@ -74,6 +73,7 @@ Via Connect:
   * [express-namespace](http://github.com/visionmedia/express-namespace) namespaced route support
   * [express-params](https://github.com/visionmedia/express-params) param pre-condition functions
   * [express-mongoose](https://github.com/LearnBoost/express-mongoose) plugin for easy rendering of Mongoose async Query results
+  * [express-http-auth](https://github.com/mosch/express-http-auth) plugin for baisc http authorization
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
