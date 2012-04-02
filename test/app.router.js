@@ -24,6 +24,18 @@ describe('app.router', function(){
     });
   })
 
+  it('should decode params', function(done){
+    var app = express();
+
+    app.get('/:name', function(req, res, next){
+      res.send(req.params.name);
+    });
+
+    request(app)
+    .get('/foo%2Fbar')
+    .expect('foo/bar', done);
+  })
+
   it('should be .use()able', function(done){
     var app = express();
 
