@@ -16,8 +16,9 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(res){
-        var val = ['user=j%3A%7B%22name%22%3A%22tobi%22%7D.aEbp4PGZo63zMX%2FcIMSn2M9pvms; path=/'];
-        res.headers['set-cookie'].should.eql(val);
+        var val = res.headers['set-cookie'][0];
+        val = decodeURIComponent(val.split('.')[0]);
+        val.should.equal('user=j:{"name":"tobi"}');
         done();
       })
     })
@@ -36,7 +37,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(res){
-        var val = ['name=tobi.2HDdGQqJ6jQU1S9dagggYDPaxGE; path=/'];
+        var val = ['name=tobi.xJjV2iZ6EI7C8E5kzwbfA9PVLl1ZR07UTnuTgQQ4EnQ; path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
