@@ -3,7 +3,7 @@ var express = require('../')
   , request = require('./support/http');
 
 describe('res', function(){
-  describe('.signedCook(name, object)', function(){
+  describe('.signedCookie(name, object)', function(){
     it('should generate a signed JSON cookie', function(done){
       var app = express();
 
