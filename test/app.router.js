@@ -123,22 +123,22 @@ describe('app.router', function(){
   })
   
   describe('when given an array', function(){
-  	it('should match all paths in the array', function(done){
-			var app = express();
-			
-			app.get(['/one', '/two'], function(req, res){
-				res.end('works');
-			});
-			
-			request(app)
-			.get('/one')
-			.expect('works', function() {
-				request(app)
-				.get('/two')
-				.expect('works', done);
-			});
-		})
-	})
+    it('should match all paths in the array', function(done){
+      var app = express();
+      
+      app.get(['/one', '/two'], function(req, res){
+        res.end('works');
+      });
+      
+      request(app)
+      .get('/one')
+      .expect('works', function() {
+        request(app)
+        .get('/two')
+        .expect('works', done);
+      });
+    })
+  })
 
   describe('case sensitivity', function(){
     it('should be disabled by default', function(done){
