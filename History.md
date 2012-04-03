@@ -1,4 +1,10 @@
 
+2.5.9/ 2012-04-02 
+==================
+
+  * Added support for PURGE request method [pbuyle]
+  * Fixed `express(1)` generated app `app.address()` before `listening` [mmalecki]
+
 2.5.8 / 2012-02-08 
 ==================
 
