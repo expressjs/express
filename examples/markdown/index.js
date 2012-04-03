@@ -20,10 +20,10 @@ app.engine('md', function(path, options, fn){
         return options[name] || '';
       })
       fn(null, html);
-    } catch(e) {
-      fn(e)
+    } catch(err) {
+      fn(err);
     }
-  })
+  });
 })
 
 app.set('views', __dirname + '/views');
