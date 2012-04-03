@@ -19,7 +19,7 @@ app.engine('md', function(path, options, fn){
       html = html.replace(/\{([^}]+)\}/g, function(_, name){
         return options[name];
       })
-      fn(null,html)
+      fn(null, html);
     } catch(e){
       fn(e)
     }
