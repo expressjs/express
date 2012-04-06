@@ -14,19 +14,21 @@ var app = module.exports = express();
 app.engine('md', function(path, options, fn){
   fs.readFile(path, 'utf8', function(err, str){
     if (err) return fn(err);
-    try{
+    try {
       var html = md(str);
       html = html.replace(/\{([^}]+)\}/g, function(_, name){
-        return options[name];
+        return options[name] || '';
       })
-      fn(null,html)
-    } catch(e){
-      fn(e)
+      fn(null, html);
+    } catch(err) {
+      fn(err);
     }
-  })
+  });
 })
 
 app.set('views', __dirname + '/views');
+
+// make it the default so we dont need .md
 app.set('view engine', 'md');
 
 app.get('/', function(req, res){

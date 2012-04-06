@@ -25,7 +25,14 @@ describe('app', function(){
         done();
       })
     })
-    
+
+    it('should throw when the callback is missing', function(){
+      var app = express();
+      (function(){
+        app.engine('.html', null);
+      }).should.throw('callback function required');
+    })
+
     it('should work without leading "."', function(done){
       var app = express();
 

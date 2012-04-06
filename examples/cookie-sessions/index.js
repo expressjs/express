@@ -7,34 +7,16 @@ var express = require('../../');
 
 var app = module.exports = express();
 
-/**
- * Cookie session middleware using the given cookie `name`.
- * 
- * Here we simply check for a signed cookie of the same name,
- * then save the object as JSON on response, again as a signed cookie.
- */
-
-function cookieSessions(name) {
-  return function(req, res, next) {
-    req.session = req.signedCookies[name] || {};
-
-    res.on('header', function(){
-      res.signedCookie(name, req.session);
-    });
-
-    next();
-  }
-}
-
-// for this we need cookie support! this will
-// populate req.{signedCookies,cookies}()
-
+// pass a secret to cookieParser() for signed cookies
 app.use(express.cookieParser('manny is cool'));
-app.use(cookieSessions('sid'));
+
+// add req.session cookie support
+app.use(express.cookieSessions());
+
+// do something with the session
 app.use(count);
 
-// do something with our session
-
+// custom middleware
 function count(req, res) {
   req.session.count = req.session.count || 0;
   var n = req.session.count++;

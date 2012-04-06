@@ -9,20 +9,20 @@ users.push({ name: 'Loki' });
 users.push({ name: 'Jane' });
 
 app.get('/', function(req, res){
-  res.respondTo({
-    'text/html': function(){
+  res.format({
+    html: function(){
       res.send('<ul>' + users.map(function(user){
         return '<li>' + user.name + '</li>';
       }).join('') + '</ul>');
     },
 
-    'text/plain': function(){
+    text: function(){
       res.send(users.map(function(user){
         return ' - ' + user.name + '\n';
       }).join(''));
     },
 
-    'application/json': function(){
+    json: function(){
       res.json(users);
     }
   })

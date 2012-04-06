@@ -53,7 +53,18 @@ describe('app', function(){
         done();
       })
     })
-    
+
+    describe('when the file does not exist', function(){
+      it('should provide a helpful error', function(done){
+        var app = express();
+        app.set('views', __dirname + '/fixtures');
+        app.render('rawr.jade', function(err){
+          err.message.should.equal('Failed to lookup view "rawr.jade"');
+          done();
+        });
+      })
+    })
+
     describe('when an error occurs', function(){
       it('should invoke the callback', function(done){
         var app = express();

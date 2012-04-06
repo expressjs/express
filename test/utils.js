@@ -85,79 +85,101 @@ describe('utils.parseAccept(str)', function(){
 
 describe('utils.accepts(type, str)', function(){
   describe('when a string is not given', function(){
-    it('should return true', function(){
+    it('should return the value', function(){
       utils.accepts('text/html')
-        .should.be.true;
+        .should.equal('text/html');
     })
   })
   
   describe('when a string is empty', function(){
-    it('should return true', function(){
+    it('should return the value', function(){
       utils.accepts('text/html', '')
-        .should.be.true;
+        .should.equal('text/html');
     })
   })
-  
+
   describe('when */* is given', function(){
-    it('should return true', function(){
+    it('should return the value', function(){
       utils.accepts('text/html', 'text/plain, */*')
-        .should.be.true;
+        .should.equal('text/html');
+    })
+  })
+
+  describe('when an array is given', function(){
+    it('should return the best match', function(){
+      utils.accepts(['html', 'json'], 'text/plain, application/json')
+        .should.equal('json');
+
+      utils.accepts(['html', 'application/json'], 'text/plain, application/json')
+        .should.equal('application/json');
+
+      utils.accepts(['text/html', 'application/json'], 'application/json;q=.5, text/html')
+        .should.equal('text/html');
+    })
+  })
+
+  describe('when a comma-delimited list is give', function(){
+    it('should behave like an array', function(){
+      utils.accepts('html, json', 'text/plain, application/json')
+        .should.equal('json');
+
+      utils.accepts('html, application/json', 'text/plain, application/json')
+        .should.equal('application/json');
+
+      utils.accepts('text/html, application/json', 'application/json;q=.5, text/html')
+        .should.equal('text/html');
     })
   })
 
   describe('when accepting type/subtype', function(){
-    it('should return true when present', function(){
+    it('should return the value when present', function(){
       utils.accepts('text/html', 'text/plain, text/html')
-        .should.be.true;
+        .should.equal('text/html');
     })
     
-    it('should return false otherwise', function(){
-      utils.accepts('text/html', 'text/plain, application/json')
-        .should.be.false;
+    it('should return undefined otherwise', function(){
+      assert(null == utils.accepts('text/html', 'text/plain, application/json'));
     })
   })
   
   describe('when accepting */subtype', function(){
-    it('should return true when present', function(){
+    it('should return the value when present', function(){
       utils.accepts('text/html', 'text/*')
-        .should.be.true;
+        .should.equal('text/html');
     })
     
-    it('should return false otherwise', function(){
-      utils.accepts('text/html', 'image/*')
-        .should.be.false;
+    it('should return undefined otherwise', function(){
+      assert(null == utils.accepts('text/html', 'image/*'));
     })
   })
   
   describe('when accepting type/*', function(){
-    it('should return true when present', function(){
+    it('should return the value when present', function(){
       utils.accepts('text/html', '*/html')
-        .should.be.true;
+        .should.equal('text/html');
     })
     
-    it('should return false otherwise', function(){
-      utils.accepts('text/html', '*/json')
-        .should.be.false;
+    it('should return undefined otherwise', function(){
+      assert(null == utils.accepts('text/html', '*/json'));
     })
   })
   
   describe('when an extension is given', function(){
-    it('should return true when present', function(){
+    it('should return the value when present', function(){
       utils.accepts('html', 'text/html, application/json')
-        .should.be.true;
+        .should.equal('html');
     })
     
-    it('should return false otherwise', function(){
-      utils.accepts('html', 'text/plain, application/json')
-        .should.be.false;
+    it('should return undefined otherwise', function(){
+      assert(null == utils.accepts('html', 'text/plain, application/json'));
     })
     
     it('should support *', function(){
       utils.accepts('html', 'text/*')
-        .should.be.true;
+        .should.equal('html');
 
       utils.accepts('html', '*/html')
-        .should.be.true;
+        .should.equal('html');
     })
   })
 })
