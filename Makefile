@@ -1,5 +1,5 @@
 
-DOCS = docs/*.md
+DOCS = $(wildcard docs/*.md)
 HTMLDOCS = $(DOCS:.md=.html)
 REPORTER = dot
 
