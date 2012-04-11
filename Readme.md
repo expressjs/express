@@ -1,22 +1,19 @@
 
-# Express
-      
-  Insanely fast (and small) server-side JavaScript web development framework
-  built on [node](http://nodejs.org) and [Connect](http://github.com/senchalabs/connect).
-  
-     var app = express.createServer();
-     
-     app.get('/', function(req, res){
-       res.send('Hello World');
-     });
-     
-     app.listen(3000);
+![express logo](http://f.cl.ly/items/0V2S1n0K1i3y1c122g04/Screen%20Shot%202012-04-11%20at%209.59.42%20AM.png)
+
+  Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
+
+```js  
+var app = express.createServer();
+
+app.get('/', function(req, res){
+  res.send('Hello World');
+});
+
+app.listen(3000);
+```
 
 ## Installation
-
-    $ npm install express
-
-or to access the `express(1)` executable install globally:
 
     $ npm install -g express
 
@@ -31,76 +28,55 @@ or to access the `express(1)` executable install globally:
 
  Install dependencies:
 
-    $ npm install -d
+    $ npm install
 
  Start the server:
 
-    $ node app.js
+    $ node app
 
 ## Features
 
+  * Built on [Connect](http://github.com/senchalabs/connect)
   * Robust routing
-  * Redirection helpers
-  * Dynamic view helpers
+  * HTTP helpers (redirection, caching, etc)
+  * View system supporting 14+ template engines
   * Content negotiation
   * Focus on high performance
-  * View rendering and partials support
   * Environment based configuration
-  * Session based flash notifications
-  * Built on [Connect](http://github.com/senchalabs/connect)
-  * High test coverage
   * Executable for generating applications quickly
-  * Application level view options
+  * High test coverage
 
-Via Connect:
+## Philosophy
 
-  * Session support
-  * Cache API
-  * Mime helpers
-  * ETag support
-  * Persistent flash notifications
-  * Cookie support
-  * JSON-RPC
-  * Logging
-  * and _much_ more!
+  The Express philosophy is to provide small, robust tooling for HTTP servers. Making
+  it a great solution for single page applications, web sites, hybrids, or public
+  HTTP APIs.
+  
+  Built on Connect you can use _only_ what you need, and nothing more, applications
+  can be as big or as small as you like, even a single file. Express does
+  not force you to use any specific ORM or template engine. With support for over
+  14 template engines via [Consolidate.js](github.com/visionmedia/consolidate.js) you
+  can quickly craft your perfect framework.
 
 ## More Information
 
-  * #express on freenode
-  * [express-expose](http://github.com/visionmedia/express-expose) expose objects, functions, modules and more to client-side js with ease
-  * [express-resource](http://github.com/visionmedia/express-resource) resourceful routing
-  * [express-configure](http://github.com/visionmedia/express-configuration) async configuration support
-  * [express-messages](http://github.com/visionmedia/express-messages) flash notification rendering helper
-  * [express-namespace](http://github.com/visionmedia/express-namespace) namespaced route support
-  * [express-params](https://github.com/visionmedia/express-params) param pre-condition functions
-  * [express-mongoose](https://github.com/LearnBoost/express-mongoose) plugin for easy rendering of Mongoose async Query results
-  * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
+  * Join #express on freenode
   * [Google Group](http://groups.google.com/group/express-js) for discussion
+  * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
   * [日本語ドキュメンテーション](http://hideyukisaito.com/doc/expressjs/) by [hideyukisaito](https://github.com/hideyukisaito)
   * [Русскоязычная документация](http://express-js.ru/)
-  * Screencast - [Introduction](http://bit.ly/eRYu0O)
-  * Screencast - [View Partials](http://bit.ly/dU13Fx)
-  * Screencast - [Route Specific Middleware](http://bit.ly/hX4IaH)
-  * Screencast - [Route Path Placeholder Preconditions](http://bit.ly/eNqmVs)
-
-## Node Compatibility
-
-Express 1.x is compatible with node 0.2.x and connect < 1.0.
-
-Express 2.x is compatible with node 0.4.x, node 0.6.x and connect 1.x
-
-Express 3.x (_master_ branch) is compatible with node 0.6.x and connect 2.x
 
 ## Viewing Examples
 
 First install the dev dependencies to install all the example / test suite deps:
 
+    $ cd express
     $ npm install -d
 
 then run whichever tests you want:
 
-    $ node examples/jade/app.js
+    $ node examples/content-negotiation
 
 ## Running Tests
 
@@ -116,63 +92,71 @@ then run the tests:
 
 ```
 project: express
-commits: 3410
-files  : 230
+commits: 3559
+active : 468 days
+files  : 237
 authors: 
- 1883	Tj Holowaychuk          55.2%
- 1285	visionmedia             37.7%
-   72	TJ Holowaychuk          2.1%
-   54	Aaron Heckmann          1.6%
+ 1891	Tj Holowaychuk          53.1%
+ 1285	visionmedia             36.1%
+  182	TJ Holowaychuk          5.1%
+   54	Aaron Heckmann          1.5%
    34	csausdev                1.0%
-   26	ciaranj                 0.8%
+   26	ciaranj                 0.7%
+   21	Robert Sköld          0.6%
     6	Guillermo Rauch         0.2%
     3	Dav Glass               0.1%
     3	Nick Poulden            0.1%
-    2	Jake Gordon             0.1%
-    2	Ben Weaver              0.1%
-    2	Hunter Loftis           0.1%
+    2	Randy Merrill           0.1%
     2	Benny Wong              0.1%
-    2	Dave Hoover             0.1%
+    2	Hunter Loftis           0.1%
+    2	Jake Gordon             0.1%
     2	Brian McKinney          0.1%
+    2	Roman Shtylman          0.1%
+    2	Ben Weaver              0.1%
+    2	Dave Hoover             0.1%
+    2	Eivind Fjeldstad        0.1%
     2	Daniel Shaw             0.1%
-    1	Masahiro Hayashi        0.0%
     1	Matt Colyer             0.0%
     1	Pau Ramon               0.0%
+    1	Pero Pejovic            0.0%
     1	Peter Rekdal Sunde      0.0%
     1	Raynos                  0.0%
-    1	Roman Shtylman          0.0%
     1	Teng Siong Ong          0.0%
     1	Viktor Kelemen          0.0%
     1	ctide                   0.0%
-    1	ewoudj                  0.0%
+    1	8bitDesigner            0.0%
     1	isaacs                  0.0%
     1	mgutz                   0.0%
     1	pikeas                  0.0%
     1	shuwatto                0.0%
-    1	Justin Lilly            0.0%
+    1	tstrimple               0.0%
+    1	ewoudj                  0.0%
     1	Adam Sanderson          0.0%
     1	Andrii Kostenko         0.0%
+    1	Andy Hiew               0.0%
     1	Arpad Borsos            0.0%
     1	Ashwin Purohit          0.0%
+    1	Benjen                  0.0%
     1	Darren Torpey           0.0%
     1	Greg Ritter             0.0%
     1	Gregory Ritter          0.0%
     1	James Herdman           0.0%
+    1	Jim Snodgrass           0.0%
     1	Joe McCann              0.0%
     1	Jonathan Dumaine        0.0%
     1	Jonathan Palardy        0.0%
     1	Jonathan Zacsh          0.0%
-    1	8bitDesigner            0.0%
+    1	Justin Lilly            0.0%
     1	Ken Sato                0.0%
-    1	Maciej Małecki          0.0%
-
+    1	Maciej Małecki         0.0%
+    1	Masahiro Hayashi        0.0%
 ```
 
 ## License 
 
 (The MIT License)
 
-Copyright (c) 2009-2011 TJ Holowaychuk &lt;tj@vision-media.ca&gt;
+Copyright (c) 2009-2012 TJ Holowaychuk &lt;tj@vision-media.ca&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
