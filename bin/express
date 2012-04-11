@@ -316,7 +316,7 @@ function createApplicationAt(path) {
         pkg.dependencies['less-middleware'] = '*';
         break;
       default:
-        if(program.css) {
+        if (program.css) {
           pkg.dependencies[program.css] = '*';
         }
     }
