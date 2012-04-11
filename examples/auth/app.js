@@ -40,11 +40,15 @@ var users = {
 
 // Used to generate a hash of the plain-text password + salt
 function hash(msg, key) {
-  return crypto.createHmac('sha256', key).update(msg).digest('hex');
+  return crypto
+    .createHmac('sha256', key)
+    .update(msg)
+    .digest('hex');
 }
 
 // Authenticate using our plain-object database of doom!
 function authenticate(name, pass, fn) {
+  console.log('authenticating %s:%s', name, pass);
   var user = users[name];
   // query the db for the given username
   if (!user) return fn(new Error('cannot find user'));
