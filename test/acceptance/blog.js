@@ -1,4 +1,5 @@
-var app = require('../../examples/blog/app')
+
+var app = require('../../examples/blog')
   , request = require('../support/http');
 
 var authorization = 'Basic ' + Buffer('admin:express').toString('base64');
