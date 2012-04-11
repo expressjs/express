@@ -18,7 +18,7 @@ program
   .option('-s, --sessions', 'add session support')
   .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
-  .option('-S, --stylus', 'add stylus support')
+  .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus) (defaults to plain css)')
   .option('-f, --force', 'force on non-empty directory')
   .parse(process.argv);
 
@@ -35,12 +35,6 @@ var eol = 'win32' == os.platform() ? '\r\n' : '\n'
 program.template = 'jade';
 if (program.ejs) program.template = 'ejs';
 if (program.jshtml) program.template = 'jshtml';
-
-// Stylesheet engine
-
-program.css = program.stylus
-  ? 'stylus'
-  : null;
 
 /**
  * Routes index template.
@@ -189,10 +183,10 @@ var app = [
   , '  app.set(\'views\', __dirname + \'/views\');'
   , '  app.set(\'view engine\', \':TEMPLATE\');'
   , '  app.use(express.favicon());'
-  , '  app.use(express.logger(\'dev\'));'
+  , '  app.use(express.logger(\'dev\'));{css}'
   , '  app.use(express.static(__dirname + \'/public\'));'
   , '  app.use(express.bodyParser());'
-  , '  app.use(express.methodOverride());{sess}{css}'
+  , '  app.use(express.methodOverride());{sess}'
   , '  app.use(app.router);'
   , '});'
   , ''
@@ -251,6 +245,9 @@ function createApplicationAt(path) {
     mkdir(path + '/public/images');
     mkdir(path + '/public/stylesheets', function(){
       switch (program.css) {
+        case 'less':
+          write(path + '/public/stylesheets/style.less', less);
+          break;
         case 'stylus':
           write(path + '/public/stylesheets/style.styl', stylus);
           break;
@@ -282,6 +279,9 @@ function createApplicationAt(path) {
 
     // CSS Engine support
     switch (program.css) {
+      case 'less':
+        app = app.replace('{css}', eol + '  app.use(require(\'less-middleware\')({ src: __dirname + \'/public\' }));');
+        break;
       case 'stylus':
         app = app.replace('{css}', eol + '  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
         break;
@@ -308,8 +308,18 @@ function createApplicationAt(path) {
       }
     }
 
-    if (program.css) pkg.dependencies[program.css] = '*';
     if (program.template) pkg.dependencies[program.template] = '*';
+
+    // CSS Engine support
+    switch (program.css) {
+      case 'less':
+        pkg.dependencies['less-middleware'] = '*';
+        break;
+      default:
+        if(program.css) {
+          pkg.dependencies[program.css] = '*';
+        }
+    }
 
     write(path + '/package.json', JSON.stringify(pkg, null, 2));
     write(path + '/app.js', app);
