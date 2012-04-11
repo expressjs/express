@@ -16,7 +16,4 @@ test-cov: lib-cov
 lib-cov:
 	@jscoverage lib lib-cov
 
-benchmark:
-	@./support/bench
-
-.PHONY: site test benchmark test-acceptance
+.PHONY: site test test-acceptance
