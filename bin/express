@@ -315,9 +315,10 @@ function createApplicationAt(path) {
       case 'less':
         pkg.dependencies['less-middleware'] = '*';
         break;
-      case 'stylus':
-        pkg.dependencies['stylus'] = '*';
-        break;
+      default:
+        if(program.css) {
+          pkg.dependencies[program.css] = '*';
+        }
     }
 
     write(path + '/package.json', JSON.stringify(pkg, null, 2));
