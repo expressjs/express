@@ -5,6 +5,25 @@ var express = require('../')
 
 describe('res', function(){
   describe('.json(object)', function(){
+    describe('when "jsonp callback" is enabled', function(){
+      it('should respond with jsonp', function(done){
+        var app = express();
+
+        app.enable('jsonp callback');
+        app.use(function(req, res){
+          res.json({ count: 1 });
+        });
+
+        request(app)
+        .get('/?callback=something')
+        .end(function(res){
+          res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
+          res.body.should.equal('something({"count":1});');
+          done();
+        })
+      })
+    })
+
     describe('when given primitives', function(){
       it('should respond with json', function(done){
         var app = express();
