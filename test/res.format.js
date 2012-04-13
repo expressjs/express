@@ -82,6 +82,16 @@ function test(app) {
     });
   })
 
+  it('should Vary: Accept', function(done){
+    request(app)
+    .get('/')
+    .set('Accept', 'text/html; q=.5, text/plain')
+    .end(function(res){
+      res.headers.vary.should.equal('Accept');
+      done();
+    });
+  })
+
   describe('when Accept is not present', function(){
     it('should invoke the first callback', function(done){
       request(app)
