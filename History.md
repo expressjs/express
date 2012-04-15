@@ -1,4 +1,59 @@
 
+3.0.0alpha1 / 2012-04-15 
+==================
+
+  * Added `app.locals.use(callback)`
+  * Added `app.locals` object
+  * Added `app.locals(obj)`
+  * Added `res.locals` object
+  * Added `res.locals(obj)`
+  * Added `res.format()` for content-negotiation
+  * Added `app.engine()`
+  * Added `res.cookie()` JSON cookie support
+  * Added "trust proxy" setting
+  * Added `req.subdomains`
+  * Added `req.protocol`
+  * Added `req.secure`
+  * Added `req.path`
+  * Added `req.ips`
+  * Added `req.fresh`
+  * Added `req.stale`
+  * Added comma-delmited / array support for `req.accepts()`
+  * Added debug instrumentation
+  * Added `res.set(obj)`
+  * Added `res.set(field, value)`
+  * Added `res.get(field)`
+  * Added `app.get(setting)`. Closes #842
+  * Added `req.acceptsLanguage()`
+  * Added `req.acceptsCharset()`
+  * Added `req.accepted`
+  * Added `req.acceptedLanguages`
+  * Added `req.acceptedCharsets`
+  * Added "json replacer" setting
+  * Added "json spaces" setting
+  * Added X-Forwarded-Proto support to `res.redirect()`. Closes #92
+  * Added `--less` support to express(1)
+  * Added `express.response` prototype
+  * Added `express.request` prototype
+  * Added `express.application` prototype
+  * Added `app.path()`
+  * Added `app.render()`
+  * Added `res.type()` to replace `res.contentType()`
+  * Changed: `res.redirect()` to add relative support
+  * Changed: enable "jsonp callback" by default
+  * Changed: renamed "case sensitive routes" to "case sensitive routing"
+  * Rewrite of all tests with mocha
+  * Removed "root" setting
+  * Removed `res.redirect('home')` support
+  * Removed `req.notify()`
+  * Removed `app.register()`
+  * Removed `app.redirect()`
+  * Removed `app.is()`
+  * Removed `app.helpers()`
+  * Removed `app.dynamicHelpers()`
+  * Fixed `res.sendfile()` with non-GET. Closes #723
+  * Fixed express(1) public dir for windows. Closes #866
+
 2.5.9/ 2012-04-02 
 ==================
 
