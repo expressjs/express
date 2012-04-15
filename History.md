@@ -1,10 +1,83 @@
 
+2.5.9/ 2012-04-02 
+==================
+
+  * Added support for PURGE request method [pbuyle]
+  * Fixed `express(1)` generated app `app.address()` before `listening` [mmalecki]
+
+2.5.8 / 2012-02-08 
+==================
+
+  * Update mkdirp dep. Closes #991
+
+2.5.7 / 2012-02-06 
+==================
+
+  * Fixed `app.all` duplicate DELETE requests [mscdex]
+
+2.5.6 / 2012-01-13 
+==================
+
+  * Updated hamljs dev dep. Closes #953
+
+2.5.5 / 2012-01-08 
+==================
+
+  * Fixed: set `filename` on cached templates [matthewleon]
+
+2.5.4 / 2012-01-02 
+==================
+
+  * Fixed `express(1)` eol on 0.4.x. Closes #947
+
+2.5.3 / 2011-12-30 
+==================
+
+  * Fixed `req.is()` when a charset is present
+
+2.5.2 / 2011-12-10 
+==================
+
+  * Fixed: express(1) LF -> CRLF for windows
+
+2.5.1 / 2011-11-17 
+==================
+
+  * Changed: updated connect to 1.8.x
+  * Removed sass.js support from express(1)
+
+2.5.0 / 2011-10-24 
+==================
+
+  * Added ./routes dir for generated app by default
+  * Added npm install reminder to express(1) app gen
+  * Added 0.5.x support
+  * Removed `make test-cov` since it wont work with node 0.5.x
+  * Fixed express(1) public dir for windows. Closes #866
+
+2.4.7 / 2011-10-05 
+==================
+
+  * Added mkdirp to express(1). Closes #795
+  * Added simple _json-config_ example
+  * Added  shorthand for the parsed request's pathname via `req.path`
+  * Changed connect dep to 1.7.x to fix npm issue...
+  * Fixed `res.redirect()` __HEAD__ support. [reported by xerox]
+  * Fixed `req.flash()`, only escape args
+  * Fixed absolute path checking on windows. Closes #829 [reported by andrewpmckenzie]
+
+2.4.6 / 2011-08-22 
+==================
+
+  * Fixed multiple param callback regression. Closes #824 [reported by TroyGoode]
+
 2.4.5 / 2011-08-19 
 ==================
 
   * Added support for routes to handle errors. Closes #809
   * Added `app.routes.all()`. Closes #803
-  * Added "basepath" setting to work in conjunction with reverse proxies etc.   * Refactored `Route` to use a single array of callbacks
+  * Added "basepath" setting to work in conjunction with reverse proxies etc.   
+  * Refactored `Route` to use a single array of callbacks
   * Added support for multiple callbacks for `app.param()`. Closes #801
 Closes #805
   * Changed: removed .call(self) for route callbacks
