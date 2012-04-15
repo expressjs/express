@@ -3,7 +3,8 @@
 
   Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
 
-```js  
+```js
+var express = require('express');
 var app = express.createServer();
 
 app.get('/', function(req, res){
