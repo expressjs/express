@@ -4,17 +4,17 @@
  * Module dependencies.
  */
 
-var express = require('../')
-  , exec = require('child_process').exec
+var exec = require('child_process').exec
   , program = require('commander')
   , mkdirp = require('mkdirp')
+  , pkg = require('../package.json')
   , os = require('os')
   , fs = require('fs');
 
 // CLI
 
 program
-  .version(express.version)
+  .version(pkg.version)
   .option('-s, --sessions', 'add session support')
   .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
