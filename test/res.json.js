@@ -9,7 +9,7 @@ describe('res', function(){
       it('should respond with jsonp', function(done){
         var app = express();
 
-        app.enable('jsonp callback');
+        // app.enable('jsonp callback');
         app.use(function(req, res){
           res.json({ count: 1 });
         });
