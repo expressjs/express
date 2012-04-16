@@ -1,6 +1,12 @@
 
 REPORTER = dot
 
+docs: docs/application.md docs/request.md docs/response.md
+
+docs/%.md: lib/%.js
+	@mkdir -p docs
+	dox --raw < $< | ./support/docs > $@
+
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER)
@@ -16,4 +22,7 @@ test-cov: lib-cov
 lib-cov:
 	@jscoverage lib lib-cov
 
-.PHONY: site test test-acceptance
+docclean:
+	rm -fr docs
+
+.PHONY: docs docclean site test test-acceptance
