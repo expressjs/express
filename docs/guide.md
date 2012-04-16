@@ -54,7 +54,10 @@ in _development_ mode, however for both environments we utilize _methodOverride_
 Note the use of _app.router_, which can (optionally) be used to mount the application routes,
 otherwise the first call to _app.get()_, _app.post()_, etc will mount the routes.
 
-    app.configure(function(){
+	var express = require('express')
+	  , app = express.createServer();
+    
+	app.configure(function(){
   		app.use(express.methodOverride());
   		app.use(express.bodyParser());
   		app.use(app.router);
