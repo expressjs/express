@@ -785,13 +785,15 @@ Sets the _Content-Type_ response header to the given _type_.
       res.contentType(filename);
       // Content-Type is now "image/png"
 
-A literal _Content-Type_ works as well:
-
-      res.contentType('application/json');
-
 Or simply the extension without leading `.`:
 
       res.contentType('json');
+
+Note that a literal _Content-Type_ will not always work and should be avoided.
+If you want to set the header to some exotic value, use this:
+
+    res.header('Content-Type', 'teh/lolz')
+
 
 ### res.attachment([filename])
 
