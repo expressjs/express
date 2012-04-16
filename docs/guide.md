@@ -124,13 +124,13 @@ are available as `req.params`.
   		res.send('user ' + req.params.id);
   	});
 
-A route is simple a string which is compiled to a _RegExp_ internally. For example
+A route is simply a string which is compiled to a _RegExp_ internally. For example
 when _/user/:id_ is compiled, a simplified version of the regexp may look similar to:
 
     \/user\/([^\/]+)\/?
 
 Regular expression literals may also be passed for complex uses. Since capture
-groups with literal _RegExp_'s are anonymous we can access them directly `req.params`. So our first capture group would be _req.params[0]_ and the second would follow as _req.params[1]_.
+groups with literal _RegExp_'s are anonymous we can access them directly via `req.params`. So our first capture group would be _req.params[0]_ and the second would follow as _req.params[1]_.
 
     app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res){
         res.send(req.params);
@@ -277,7 +277,7 @@ This is somewhat annoying, so express re-exports these middleware properties, ho
     app.use(express.logger());
     app.use(express.bodyParser());
 
-Middleware ordering is important, when Connect receives a request the _first_ middleware we pass to _createServer()_ or _use()_ is executed with three parameters, _request_, _response_, and a callback function usually named _next_. When _next()_ is invoked the second middleware will then have it's turn and so on. This is important to note because many middleware depend on each other, for example _methodOverride()_ checks _req.body._method_ for the HTTP method override, however _bodyParser()_ parses the request body and populates _req.body_. Another example of this is cookie parsing and session support, we must first _use()_ _cookieParser()_ followed by _session()_.
+Middleware ordering is important, when Connect receives a request the _first_ middleware we pass to _createServer()_ or _use()_ is executed with three parameters, _request_, _response_, and a callback function usually named _next_. When _next()_ is invoked the second middleware will then have its turn and so on. This is important to note because many middleware depend on each other, for example _methodOverride()_ checks _req.body.\_method_ for the HTTP method override, however _bodyParser()_ parses the request body and populates _req.body_. Another example of this is cookie parsing and session support, we must first _use()_ _cookieParser()_ followed by _session()_.
 
 Many Express applications may contain the line _app.use(app.router)_, while this may appear strange, it's simply the middleware function that contains all defined routes, and performs route lookup based on the current request url and HTTP method. Express allows you to position this middleware, though by default it will be added to the bottom. By positioning the router, we can alter middleware precedence, for example we may want to add error reporting as the _last_ middleware so that any exception passed to _next()_ will be handled by it, or perhaps we want static file serving to have low precedence, allowing our routes to intercept requests to a static file to count downloads etc. This may look a little like below
 
@@ -346,7 +346,7 @@ Multiple route middleware can be applied, and will be executed sequentially to a
       res.send('Editing user ' + req.user.name);
     });
 
-Keeping in mind that middleware are simply functions, we can define function that _returns_ the middleware in order to create a more expressive and flexible solution as shown below.
+Keeping in mind that middleware are simply functions, we can define a function that _returns_ the middleware in order to create a more expressive and flexible solution as shown below.
 
     function andRestrictTo(role) {
       return function(req, res, next) {
@@ -375,13 +375,13 @@ Commonly used "stacks" of middleware can be passed as an array (_applied recursi
 
 For this example in full, view the [route middleware example](http://github.com/visionmedia/express/blob/master/examples/route-middleware/app.js) in the repository.
 
-There are times when we may want to "skip" passed remaining route middleware, but continue matching subsequent routes. To do this we invoke `next()` with the string "route" `next('route')`. If no remaining routes match the request url then Express will respond with 404 Not Found.
+There are times when we may want to "skip" past remaining route middleware, but continue matching subsequent routes. To do this we invoke `next()` with the string "route" `next('route')`. If no remaining routes match the request url then Express will respond with 404 Not Found.
 
 ### HTTP Methods
 
 We have seen _app.get()_ a few times, however Express also exposes other familiar HTTP verbs in the same manner, such as _app.post()_, _app.del()_, etc.
 
- A common example for _POST_ usage, is when "submitting" a form. Below we simply set our form method to "post" in our html, and control will be given to the route we have defined below it.
+ A common example for _POST_ usage is when "submitting" a form. Below we simply set our form method to "post" in our html, and control will be given to the route we have defined below it.
  
      <form method="post" action="/">
          <input type="text" name="user[name]" />
@@ -400,12 +400,12 @@ Our route below will now have access to the _req.body.user_ object which will co
       res.redirect('back');
     });
 
-When using methods such as _PUT_ with a form, we can utilize a hidden input named _\_method_, which can be used to alter the HTTP method. To do so we first need the _methodOverride_ middleware, which should be placed below _bodyParser_ so that it can utilize it's _req.body_ containing the form values.
+When using methods such as _PUT_ with a form, we can utilize a hidden input named _\_method_, which can be used to alter the HTTP method. To do so we first need the _methodOverride_ middleware, which should be placed below _bodyParser_ so that it can utilize its _req.body_ containing the form values.
 
     app.use(express.bodyParser());
     app.use(express.methodOverride());
 
-The reason that these are not always defaults, is simply because these are not required for Express to be fully functional. Depending on the needs of your application, you may not need these at all, your methods such as _PUT_ and _DELETE_ can still be accessed by clients which can use them directly, although _methodOverride_ provides a great solution for forms. Below shows what the usage of _PUT_ might look like:
+The reason that these are not always added by default is simply because these are not required for Express to be fully functional. Depending on the needs of your application, you may not need these at all, your methods such as _PUT_ and _DELETE_ can still be accessed by clients which can use them directly, although _methodOverride_ provides a great solution for forms. Below shows what the usage of _PUT_ might look like:
 
     <form method="post" action="/">
       <input type="hidden" name="_method" value="put" />
@@ -443,7 +443,7 @@ Route param pre-conditions can drastically improve the readability of your appli
       });
     }); 
 
-With preconditions our params can be mapped to callbacks which may perform validation, coercion, or even loading data from a database. Below we invoke _app.param()_ with the parameter name we wish to map to some middleware, as you can see we receive the _id_ argument which contains the placeholder value. Using this we load the user and perform error handling as usual, and simple call _next()_ to pass control to the next precondition or route handler.
+With preconditions our params can be mapped to callbacks which may perform validation, coercion, or even loading data from a database. Below we invoke _app.param()_ with the parameter name we wish to map to some middleware, as you can see we receive the _id_ argument which contains the placeholder value. Using this we load the user and perform error handling as usual, and simply call _next()_ to pass control to the next precondition or route handler.
 
     app.param('userId', function(req, res, next, id){
       User.get(id, function(err, user){
@@ -569,7 +569,7 @@ By default the _session_ middleware uses the memory store bundled with Connect, 
     app.use(express.cookieParser());
     app.use(express.session({ secret: "keyboard cat", store: new RedisStore }));
 
-Now the _req.session_ and _req.sessionStore_ properties will be accessible to all routes and subsequent middleware. Properties on _req.session_ are automatically saved on a response, so for example if we wish to shopping cart data:
+Now the _req.session_ and _req.sessionStore_ properties will be accessible to all routes and subsequent middleware. Properties on _req.session_ are automatically saved on a response, so for example if we wish to have shopping cart data:
 
     var RedisStore = require('connect-redis')(express);
     app.use(express.bodyParser());
@@ -608,7 +608,7 @@ Get the case-insensitive request header _key_, with optional _defaultValue_:
     req.header('host');
     req.header('Accept', '*/*');
 
-The _Referrer_ and _Referer_ header fields are special-cased, either will work:
+The _Referrer_ and _Referer_ header fields are special-cased aliases, either will work:
 
     // sent Referrer: http://google.com
 
@@ -623,7 +623,7 @@ The _Referrer_ and _Referer_ header fields are special-cased, either will work:
 Check if the _Accept_ header is present, and includes the given _type_.
 
 When the _Accept_ header is not present _true_ is returned. Otherwise
-the given _type_ is matched by an exact match, and then subtypes. You
+the given _type_ is matched by an exact match, and then using subtypes. You
 may pass the subtype such as "html" which is then converted internally
 to "text/html" using the mime lookup table.
 
@@ -661,7 +661,7 @@ header field, and it contains the give mime _type_.
        // => false
   
 Ad-hoc callbacks can also be registered with Express, to perform
-assertions again the request, for example if we need an expressive
+assertions against the request, for example if we need an expressive
 way to check if our incoming request is an image, we can register _"an image"_
 callback:
   
@@ -669,7 +669,7 @@ callback:
           return 0 == req.headers['content-type'].indexOf('image');
         });
   
-Now within our route callbacks, we can use to to assert content types
+Now within our route callbacks, we can use it to assert content types
 such as _"image/jpeg"_, _"image/png"_, etc.
   
        app.post('/image/upload', function(req, res, next){
@@ -683,11 +683,11 @@ such as _"image/jpeg"_, _"image/png"_, etc.
 Keep in mind this method is _not_ limited to checking _Content-Type_, you
 can perform any request assertion you wish.
 
-Wildcard matches can also be made, simplifying our example above for _"an image"_, by asserting the _subtype_ only:
+Wildcard matches can also be made, simplifying our example above for _"an image"_, by asserting the _type_ only:
 
     req.is('image/*');
 
-We may also assert the _type_ as shown below, which would return true for _"application/json"_, and _"text/json"_.
+We may also assert the _subtype_ as shown below, which would return true for _"application/json"_, and _"text/json"_.
 
     req.is('*/json');
 
@@ -701,7 +701,7 @@ Return the value of param _name_ when present or _default_.
 
 To utilize urlencoded request bodies, _req.body_
 should be an object. This can be done by using
-the _express.bodyParser middleware.
+the _express.bodyParser_ middleware.
 
 ### req.get(field, param)
 
@@ -1317,7 +1317,7 @@ files to jade:
 
      app.register('.html', require('jade'));
 
-This is also useful for libraries that may not
+This is also useful for library names that may not
 match extensions correctly. For example my haml.js
 library is installed from npm as "hamljs" so instead
 of layout.hamljs, we can register the engine as ".haml":
