@@ -56,8 +56,8 @@ app.listen(3000);
   Built on Connect you can use _only_ what you need, and nothing more, applications
   can be as big or as small as you like, even a single file. Express does
   not force you to use any specific ORM or template engine. With support for over
-  14 template engines via [Consolidate.js](github.com/visionmedia/consolidate.js) you
-  can quickly craft your perfect framework.
+  14 template engines via [Consolidate.js](http://github.com/visionmedia/consolidate.js)
+  you can quickly craft your perfect framework.
 
 ## More Information
 
