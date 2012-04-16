@@ -11,7 +11,7 @@
   ],
   "dependencies": {
     "connect": "2.1.2",
-    "commander": "0.5.2",
+    "commander": "0.6.0",
     "mime": "1.2.5",
     "mkdirp": "0.3.1",
     "debug": "*"
