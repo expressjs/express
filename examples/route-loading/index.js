@@ -4,8 +4,7 @@
  */
 
 var express = require('../../lib/express')
-  , redis = require('redis')
-  , app = express.createServer()
+  , app = express()
   , db = { users: [] };
 
 app.set('views', __dirname + '/views');
