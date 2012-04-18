@@ -12,7 +12,7 @@ var pub = __dirname + '/public';
 // Auto-compile sass to css with "compiler"
 // and then serve with connect's staticProvider
 
-var app = express.createServer();
+var app = module.exports = express();
 app.use(app.router);
 app.use(express.static(pub));
 app.use(express.errorHandler());

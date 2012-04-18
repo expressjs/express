@@ -4,7 +4,7 @@
  */
 
 var express = require('../../lib/express')
-  , app = express.createServer()
+  , app = module.exports = express()
   , site = require('./site')
   , post = require('./post')
   , user = require('./user');

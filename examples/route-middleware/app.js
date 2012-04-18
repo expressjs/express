@@ -4,7 +4,7 @@
 
 var express = require('../../lib/express');
 
-var app = express.createServer();
+var app = module.exports = express();
 
 // Example requests:
 //     curl http://localhost:3000/user/0

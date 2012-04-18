@@ -9,7 +9,7 @@ var express = require('../../lib/express');
 // allowing it to inherit from express.session.Store
 var RedisStore = require('connect-redis')(express);
 
-var app = express.createServer();
+var app = module.exports = express();
 
 app.use(express.favicon());
 

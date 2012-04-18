@@ -6,7 +6,7 @@
 var express = require('../../lib/express')
   , stylus = require('stylus');
 
-var app = express.createServer();
+var app = module.exports = express();
 
 // $ npm install stylus
 
