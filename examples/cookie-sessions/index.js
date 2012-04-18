@@ -7,11 +7,14 @@ var express = require('../../');
 
 var app = module.exports = express();
 
+// ignore GET /favicon.ico
+app.use(express.favicon());
+
 // pass a secret to cookieParser() for signed cookies
 app.use(express.cookieParser('manny is cool'));
 
 // add req.session cookie support
-app.use(express.cookieSessions());
+app.use(express.cookieSession());
 
 // do something with the session
 app.use(count);
