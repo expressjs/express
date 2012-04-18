@@ -60,7 +60,7 @@ app.use(function(err, req, res, next){
 // it will be the last middleware called, if all others
 // invoke next() and do not respond.
 app.use(function(req, res){
-  res.send(404, { error: "Lame, can't find that" });
+  res.send({ error: "Lame, can't find that" }, 404);
 });
 
 // map of valid api keys, typically mapped to
