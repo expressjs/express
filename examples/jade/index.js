@@ -13,10 +13,9 @@ var pub = __dirname + '/public';
 // and then serve with connect's staticProvider
 
 var app = express.createServer();
-app.use(express.compiler({ src: pub, enable: ['sass'] }));
 app.use(app.router);
 app.use(express.static(pub));
-app.use(express.errorHandler({ dump: true, stack: true }));
+app.use(express.errorHandler());
 
 // Optional since express defaults to CWD/views
 
@@ -41,33 +40,6 @@ var users = [
 
 app.get('/', function(req, res){
   res.render('users', { users: users });
-});
-
-app.get('/users/callback', function(req, res){
-  // a callback is also accepted
-  res.partial('users/user', users, function(err, html){
-    if (err) throw err;
-    res.send(html);
-  });
-});
-
-app.get('/users', function(req, res){
-  // we can use res.partial() as if
-  // we were in a view, utilizing the same api
-  // to render a fragment
-  res.partial('users/user', users);
-});
-
-app.get('/users/list', function(req, res){
-  // use "object" to utilize the name deduced from
-  // the view filename. The examples below are equivalent
-
-  //res.partial('users/list', { object: users });
-  res.partial('users/list', { list: users });
-});
-
-app.get('/user/:id', function(req, res){
-  res.partial('users/user', users[req.params.id]);
 });
 
 app.listen(3000);
