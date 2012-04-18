@@ -5,7 +5,7 @@
 
 var express = require('../../lib/express');
 
-var app = express.createServer(
+var app = module.exports = express(
   express.logger(),
 
   // Required by session() middleware

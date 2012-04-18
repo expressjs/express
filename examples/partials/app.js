@@ -5,7 +5,7 @@
 
 var express = require('../../lib/express');
 
-var app = express.createServer();
+var app = module.exports = express();
 
 // Optional since express defaults to CWD/views
 

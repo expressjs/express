@@ -33,7 +33,7 @@ function errorHandler(voice) {
   }
 }
 
-var app = express.createServer();
+var app = module.exports = express();
 
 app.get('/', function(request, response){
   if (request.is(foo)) response.end('bar');
