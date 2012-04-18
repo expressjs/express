@@ -55,12 +55,12 @@ describe('res', function(){
     })
   })
   
-  describe('.send(code, body)', function(){
+  describe('.send(body, code)', function(){
     it('should set .statusCode and body', function(done){
       var app = express();
 
       app.use(function(req, res){
-        res.send(201, 'Created :)');
+        res.send('Created :)', 201);
       });
 
       request(app)
