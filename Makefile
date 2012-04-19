@@ -1,7 +1,10 @@
 
 REPORTER = dot
 
-docs: docs/application.md docs/request.md docs/response.md
+docs: docs/express.md
+
+docs/express.md: docs/application.md docs/request.md docs/response.md
+	cat $^ > $@
 
 docs/%.md: lib/%.js
 	@mkdir -p docs
