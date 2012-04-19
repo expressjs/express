@@ -3,13 +3,12 @@
 
   Request prototype.
 
-# req.get()
+# req.get
 
   Return request header.
   
   The `Referrer` header field is special-cased,
-  both `Referrer` and `Referer` will yield are
-  interchangeable.
+  both `Referrer` and `Referer` are interchangeable.
   
   ## Examples
   
@@ -18,9 +17,11 @@
       
       req.get('content-type');
       // => "text/plain"
-        
+      
       req.get('Something');
       // => undefined
+  
+  Aliased as `req.header()`.
 
 # req.accepts()
 
