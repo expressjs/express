@@ -131,7 +131,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.set('Content-Type', 'text/plain').send('hey');
+        res.set('Content-Type', 'text/plain').send(new String('hey'));
       });
 
       request(app)
