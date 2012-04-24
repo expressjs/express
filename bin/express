@@ -10,10 +10,16 @@ var fs = require('fs')
   , mkdirp = require('mkdirp');
 
 /**
+ * Package information.
+ */
+
+var pkg = JSON.parse(fs.readFileSync(__dirname + '/../package.json'));
+
+/**
  * Framework version.
  */
 
-var version = '2.5.8';
+var version = pkg.version;
 
 /**
  * Add session support.
