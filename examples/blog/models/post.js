@@ -21,7 +21,7 @@ Post.prototype.validate = function(fn){
   if (!this.body) return fn(new Error('body required'));
   if (this.body.length < 10) {
     return fn(new Error(
-        'body should be at least 10 characters long, was only ' + this.title.length));
+        'body should be at least 10 characters long, was only ' + this.body.length));
   }
   fn();
 };
