@@ -25,7 +25,7 @@ app.get('/middleware', foo, foo, foo, foo, function(req, res){
 
 var n = 100;
 while (n--) {
-  app.get('/foo', function(req, res){
+  app.get('/foo', foo, foo, function(req, res){
     
   });
 }
