@@ -1,9 +1,5 @@
 
-/**
- * Module dependencies.
- */
-
-var express = require('../../lib/express');
+var express = require('../..');
 
 var app = express();
 
