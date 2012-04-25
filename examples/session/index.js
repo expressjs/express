@@ -5,18 +5,17 @@
 
 var express = require('../../lib/express');
 
-var app = express.createServer(
-  express.logger(),
+var app = express();
 
-  // Required by session() middleware
-  express.cookieParser(),
+app.use(express.logger('dev'));
 
-  // Populates:
-  //   - req.session
-  //   - req.sessionStore
-  //   - req.sessionID (or req.session.id)
-  express.session({ secret: 'keyboard cat' })
-);
+// Required by session() middleware
+// pass the secret for signed cookies
+// (required by session())
+app.use(express.cookieParser('keyboard cat'));
+
+// Populates req.session
+app.use(express.session());
 
 app.get('/', function(req, res){
   var body = '';
