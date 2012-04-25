@@ -540,8 +540,8 @@ describe('app.router', function(){
     it('should override view lookup', function(done){
       var app = express();
 
-      app.set('view lookup', function(path, options, fn){
-        fn(null, 'test/fixtures/' + path);
+      app.set('view lookup', function(view, fn){
+        fn(null, 'test/fixtures/' + view.path);
       });
 
       app.render('email.jade', function(err, html){
@@ -554,7 +554,7 @@ describe('app.router', function(){
     it('should delegate errors', function(done){
       var app = express();
 
-      app.set('view lookup', function(path, options, fn){
+      app.set('view lookup', function(view, fn){
         fn(new Error('something broke'));
       });
 
