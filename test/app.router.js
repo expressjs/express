@@ -535,4 +535,20 @@ describe('app.router', function(){
       })
     })
   })
+
+  describe('"view lookup" setting', function(){
+    it('should override view lookup', function(done){
+      var app = express();
+
+      app.set('view lookup', function(path, options, fn){
+        fn(null, 'test/fixtures/' + path);
+      });
+
+      app.render('email.jade', function(err, html){
+        if (err) return done(err);
+        html.should.equal('<p>This is an email</p>');
+        done();
+      });
+    })
+  })
 })
