@@ -550,5 +550,18 @@ describe('app.router', function(){
         done();
       });
     })
+
+    it('should delegate errors', function(done){
+      var app = express();
+
+      app.set('view lookup', function(path, options, fn){
+        fn(new Error('something broke'));
+      });
+
+      app.render('email.jade', function(err, html){
+        err.message.should.equal('something broke');
+        done();
+      });
+    })
   })
 })
