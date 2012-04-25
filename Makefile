@@ -28,4 +28,7 @@ lib-cov:
 docclean:
 	rm -fr docs
 
-.PHONY: docs docclean site test test-acceptance
+benchmark:
+	@./support/bench
+
+.PHONY: docs docclean test test-acceptance benchmark
