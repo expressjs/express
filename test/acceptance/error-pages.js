@@ -1,4 +1,4 @@
-var app = require('../../examples/error-pages/app')
+var app = require('../../examples/error-pages')
   , request = require('../support/http');
 
 describe('error-pages', function(){
@@ -18,6 +18,7 @@ describe('error-pages', function(){
           .expect(403,done)
       })
     })
+
     describe('GET /404', function(){
       it('should respond with 404', function(done){
         request(app)
@@ -25,6 +26,7 @@ describe('error-pages', function(){
           .expect(404,done)
       })
     })
+
     describe('GET /500', function(){
       it('should respond with 500', function(done){
         request(app)
@@ -44,6 +46,7 @@ describe('error-pages', function(){
           .expect(403,done)
       })
     })
+
     describe('GET /404', function(){
       it('should respond with 404', function(done){
         request(app)
@@ -56,6 +59,7 @@ describe('error-pages', function(){
           })
       })
     })
+
     describe('GET /500', function(){
       it('should respond with 500', function(done){
         request(app)
@@ -76,6 +80,7 @@ describe('error-pages', function(){
           .expect(403,done)
       })
     })
+
     describe('GET /404', function(){
       it('should respond with 404', function(done){
         request(app)
@@ -88,6 +93,7 @@ describe('error-pages', function(){
           })
       })
     })
+
     describe('GET /500', function(){
       it('should respond with 500', function(done){
         request(app)
@@ -97,5 +103,4 @@ describe('error-pages', function(){
       })
     })
   })
-
 })
