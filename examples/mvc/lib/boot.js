@@ -20,7 +20,10 @@ module.exports = function(parent, options){
 
     // before middleware support
     if (obj.before) {
-      path = '/' + name + '/:' + name + '_id*';
+      path = '/' + name + '/:' + name + '_id';
+      app.all(path, obj.before);
+      verbose && console.log('     ALL %s -> before', path);
+      path = '/' + name + '/:' + name + '_id/*';
       app.all(path, obj.before);
       verbose && console.log('     ALL %s -> before', path);
     }
