@@ -51,6 +51,9 @@ app.locals.use(function(req, res){
   req.session.messages = [];
 });
 
+// log
+app.use(express.logger('dev'));
+
 // serve static files
 app.use(express.static(__dirname + '/public'));
 
