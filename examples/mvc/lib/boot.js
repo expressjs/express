@@ -1,0 +1,64 @@
+
+var express = require('../../..')
+  , fs = require('fs');
+
+module.exports = function(parent){
+  console.log();
+  fs.readdirSync(__dirname + '/../controllers').forEach(function(name){
+    console.log('   %s:', name);
+    var obj = require('./../controllers/' + name)
+      , name = obj.name || name
+      , prefix = obj.prefix || ''
+      , app = express()
+      , method
+      , path;
+
+    // allow specifying the view engine
+    if (obj.engine) app.set('view engine', obj.engine);
+    app.set('views', __dirname + '/../controllers/' + name + '/views');
+
+    // generate routes based
+    // on the exported methods
+    for (var key in obj) {
+      // "reserved" exports
+      if ('name' == key || 'prefix' == key || 'engine' == key) continue;
+      // route exports
+      switch (key) {
+        case 'show':
+          method = 'get';
+          path = '/' + name + '/:' + name + '_id';
+          app[method](path, obj[key]);
+          break;
+        case 'list':
+          method = 'get';
+          path = '/' + name + 's';
+          break;
+        case 'edit':
+          method = 'get';
+          path = '/' + name + '/:' + name + '_id/edit';
+          break;
+        case 'update':
+          method = 'put';
+          path = '/' + name + '/:' + name + '_id';
+          break;
+        case 'create':
+          method = 'post';
+          path = '/' + name;
+          break;
+        case 'index':
+          method = 'get';
+          path = '/';
+          break;
+        default:
+          throw new Error('unrecognized route: ' + name + '.' + key);
+      }
+
+      path = prefix + path;
+      app[method](path, obj[key]);
+      console.log('     %s %s -> %s', method.toUpperCase(), path, key);
+    }
+
+    // mount the app
+    parent.use(app);
+  });
+};

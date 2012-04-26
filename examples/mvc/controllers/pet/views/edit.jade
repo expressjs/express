@@ -1,0 +1,7 @@
+link(rel='stylesheet', href='/style.css')
+h1= pet.name
+form(action='/pet/#{pet.id}', method='post')
+  input(type='hidden', name='_method', value='put')
+  label Name: 
+    input(type='text', name='user[name]', value=pet.name)
+  input(type='submit', value='Update')
