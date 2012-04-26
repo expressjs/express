@@ -12,6 +12,7 @@ bench() {
 
 sleep .5
 bench / "Hello World"
+bench /blog "Mounted Hello World"
 bench /json "JSON"
 bench /middleware "Middleware"
 bench /match "Router"
