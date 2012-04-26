@@ -1,4 +1,21 @@
 
+3.0.0alpha2 / 2012-04-26 
+==================
+
+
+  * Added `make benchmark` back
+  * Added `res.send()` support for `String` objects
+  * Added client-side data exposing example
+  * Added `res.header()` and `req.header()` aliases for BC
+  * Added `express.createServer()` for BC
+  * Perf: memoize parsed urls
+  * Perf: connect 2.2.0 dep
+  * Changed: make `expressInit()` middleware self-aware
+  * Fixed: use app.get() for all core settings
+  * Fixed redis session example
+  * Fixed session example. Closes #1105
+  * Fixed generated express dep. Closes #1078
+
 3.0.0alpha1 / 2012-04-15 
 ==================
 
