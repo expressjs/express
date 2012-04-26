@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-node ./support/app &
+NODE_ENV=production node ./support/app &
 pid=$!
 
 bench() {
@@ -16,5 +16,6 @@ bench /blog "Mounted Hello World"
 bench /json "JSON"
 bench /middleware "Middleware"
 bench /match "Router"
+bench /render "Render"
 
 kill -9 $pid
