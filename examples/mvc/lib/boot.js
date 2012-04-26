@@ -4,9 +4,8 @@ var express = require('../../..')
 
 module.exports = function(parent, options){
   var verbose = options.verbose;
-  verbose && console.log();
   fs.readdirSync(__dirname + '/../controllers').forEach(function(name){
-    verbose && console.log('   %s:', name);
+    verbose && console.log('\n   %s:', name);
     var obj = require('./../controllers/' + name)
       , name = obj.name || name
       , prefix = obj.prefix || ''
