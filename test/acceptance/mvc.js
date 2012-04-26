@@ -78,10 +78,14 @@ describe('mvc', function(){
       request(app)
       .put('/user/1')
       .set('Content-Type', 'application/json')
-      .write('{"user":{"name":"Tobi"}}')
+      .write('{"user":{"name":"Tobo"}}')
       .end(function(res){
-        // console.log(res.body);
-        done();
+        request(app)
+        .get('/user/1/edit')
+        .end(function(res){
+          res.body.should.include('<h1>Tobo</h1>');
+          done();
+        })
       })
     })
   })
