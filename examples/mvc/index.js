@@ -35,15 +35,11 @@ app.locals.use(function(req, res){
   // expose "hasMessages"
   res.locals.hasMessages = !! msgs.length;
 
-  /*
-
-  This is equivalent:
-
+  /* This is equivalent:
    res.locals({
      messages: msgs,
      hasMessages: !! msgs.length
    });
-
   */
 
   // empty or "flush" the messages so they
@@ -52,7 +48,7 @@ app.locals.use(function(req, res){
 });
 
 // log
-app.use(express.logger('dev'));
+if (!module.parent) app.use(express.logger('dev'));
 
 // serve static files
 app.use(express.static(__dirname + '/public'));
