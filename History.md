@@ -2,7 +2,6 @@
 3.0.0alpha2 / 2012-04-26 
 ==================
 
-
   * Added `make benchmark` back
   * Added `res.send()` support for `String` objects
   * Added client-side data exposing example
