@@ -10,7 +10,9 @@ docs/%.md: lib/%.js
 	@mkdir -p docs
 	dox --raw < $< | ./support/docs > $@
 
-test:
+test: test-unit test-acceptance
+
+test-unit:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER)
 
@@ -31,4 +33,4 @@ docclean:
 benchmark:
 	@./support/bench
 
-.PHONY: docs docclean test test-acceptance benchmark
+.PHONY: docs docclean test test-unit test-acceptance benchmark
