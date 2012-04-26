@@ -16,7 +16,7 @@ test:
 
 test-acceptance:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
-		--reporter spec \
+		--reporter $(REPORTER) \
 		test/acceptance/*.js
 
 test-cov: lib-cov

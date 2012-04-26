@@ -2,10 +2,11 @@
 var express = require('../../..')
   , fs = require('fs');
 
-module.exports = function(parent){
-  console.log();
+module.exports = function(parent, options){
+  var verbose = options.verbose;
+  verbose && console.log();
   fs.readdirSync(__dirname + '/../controllers').forEach(function(name){
-    console.log('   %s:', name);
+    verbose && console.log('   %s:', name);
     var obj = require('./../controllers/' + name)
       , name = obj.name || name
       , prefix = obj.prefix || ''
@@ -55,7 +56,7 @@ module.exports = function(parent){
 
       path = prefix + path;
       app[method](path, obj[key]);
-      console.log('     %s %s -> %s', method.toUpperCase(), path, key);
+      verbose && console.log('     %s %s -> %s', method.toUpperCase(), path, key);
     }
 
     // mount the app

@@ -1,7 +1,7 @@
 
 var express = require('../..');
 
-var app = express();
+var app = module.exports = express();
 
 // settings
 
@@ -62,7 +62,9 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 
 // load controllers
-require('./lib/boot')(app);
+require('./lib/boot')(app, { verbose: !module.parent });
 
-app.listen(3000);
-console.log('\n  listening on port 3000\n');
+if (!module.parent) {
+  app.listen(3000);
+  console.log('\n  listening on port 3000\n');
+}
