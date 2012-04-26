@@ -60,4 +60,16 @@ describe('mvc', function(){
       })
     })
   })
+
+  describe('GET /user/:id/edit', function(){
+    it('should display the edit form', function(done){
+      request(app)
+      .get('/user/1/edit')
+      .end(function(res){
+        res.body.should.include('<h1>Guillermo</h1>');
+        res.body.should.include('value="put"');
+        done();
+      })
+    })
+  })
 })
