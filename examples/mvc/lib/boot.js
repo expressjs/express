@@ -18,11 +18,18 @@ module.exports = function(parent, options){
     if (obj.engine) app.set('view engine', obj.engine);
     app.set('views', __dirname + '/../controllers/' + name + '/views');
 
+    // before middleware support
+    if (obj.before) {
+      path = '/' + name + '/:' + name + '_id*';
+      app.all(path, obj.before);
+      verbose && console.log('     ALL %s -> before', path);
+    }
+
     // generate routes based
     // on the exported methods
     for (var key in obj) {
       // "reserved" exports
-      if ('name' == key || 'prefix' == key || 'engine' == key) continue;
+      if (~['name', 'prefix', 'engine', 'before'].indexOf(key)) continue;
       // route exports
       switch (key) {
         case 'show':
