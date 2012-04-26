@@ -74,6 +74,13 @@
   
   Mounted servers inherit their parent server's settings.
 
+  Objects are merged rather than overwritten.
+
+     app.set('tv settings', { channel: 42 });
+     app.set('tv settings', { volume: 100 });
+     app.get('tv settings');
+     // => { channel: 42, volume: 100 }
+
 # app.enabled()
 
   Check if `setting` is enabled (truthy).
