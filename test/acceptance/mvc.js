@@ -72,4 +72,17 @@ describe('mvc', function(){
       })
     })
   })
+
+  describe('PUT /user/:id', function(){
+    it('should update the user', function(done){
+      request(app)
+      .put('/user/1')
+      .set('Content-Type', 'application/json')
+      .write('{"user":{"name":"Tobi"}}')
+      .end(function(res){
+        // console.log(res.body);
+        done();
+      })
+    })
+  })
 })
