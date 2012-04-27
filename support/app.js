@@ -35,6 +35,14 @@ app.get('/json', function(req, res){
   res.send({ name: 'Tobi', role: 'admin' });
 });
 
+app.get('/json/:n', function(req, res){
+  var n = ~~req.params.n;
+  var arr = [];
+  var obj = { name: 'Tobi', role: 'admin' };
+  while (n--) arr.push(obj);
+  res.send(arr);
+});
+
 function foo(req, res, next) {
   next();
 }
