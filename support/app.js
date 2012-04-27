@@ -9,18 +9,36 @@ var app = express()
   , blog = express()
   , admin = express();
 
+<<<<<<< HEAD
 blog.use('/admin', admin);
+=======
+// app.use(express.logger('dev'))
+>>>>>>> feature/send-etag
 app.use('/blog', blog);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.locals.self = true;
 
+var repo = require('../package.json');
+
 app.get('/render', function(req, res){
   res.render('hello');
 });
 
+<<<<<<< HEAD
 admin.get('/', function(req, res){
   res.send('Hello World\n');
+=======
+app.get('/json/small', function(req, res){
+  res.send(repo);
+});
+
+app.get('/json/large', function(req, res){
+  var repos = [];
+  var n = 10;
+  while (n--) repos.push(repo);
+  res.send(repos);
+>>>>>>> feature/send-etag
 });
 
 blog.get('/', function(req, res){
