@@ -14,7 +14,7 @@
     "commander": "0.5.2",
     "mime": "1.2.5",
     "mkdirp": "0.3.1",
-    "crc": "0.1.0",
+    "crc": "0.2.0",
     "debug": "*"
   },
   "devDependencies": {
