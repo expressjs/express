@@ -90,6 +90,22 @@ describe('res', function(){
         done();
       })
     })
+
+    it('should set ETag', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        var str = Array(1024 * 2).join('-');
+        res.send(str);
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.headers.should.have.property('etag', '-1498647312');
+        done();
+      })
+    })
     
     it('should not override Content-Type', function(done){
       var app = express();
@@ -162,7 +178,23 @@ describe('res', function(){
         done();
       })
     })
-    
+
+    it('should set ETag', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        var str = Array(1024 * 2).join('-');
+        res.send(new Buffer(str));
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.headers.should.have.property('etag', '-1498647312');
+        done();
+      })
+    })
+
     it('should not override Content-Type', function(done){
       var app = express();
 
