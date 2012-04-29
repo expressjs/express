@@ -285,4 +285,18 @@ describe('res', function(){
       })
     })
   })
+
+  it('should respond with 304 Not Modified when fresh', function(done){
+    var app = express();
+
+    app.use(function(req, res){
+      var str = Array(1024 * 2).join('-');
+      res.send(str);
+    });
+
+    request(app)
+    .get('/')
+    .set('If-None-Match', '-1498647312')
+    .expect(304, done);
+  })
 })
