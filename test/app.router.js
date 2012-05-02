@@ -311,8 +311,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/api/users/0.json')
-      .expect('users/0 as json', done);
+      .get('/api/users/foo.bar.json')
+      .expect('users/foo.bar as json', done);
     })
     
     it('should allow naming', function(done){
