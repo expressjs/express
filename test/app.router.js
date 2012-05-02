@@ -314,7 +314,23 @@ describe('app.router', function(){
       .get('/api/users/foo.bar.json')
       .expect('users/foo.bar as json', done);
     })
-    
+
+    it('should work cross-segment', function(done){
+      var app = express();
+
+      app.get('/api*', function(req, res){
+        res.send(req.params[0]);
+      });
+
+      request(app)
+      .get('/api')
+      .expect('', function(){
+        request(app)
+        .get('/api/hey')
+        .expect('/hey', done);
+      });
+    })
+
     it('should allow naming', function(done){
       var app = express();
 
