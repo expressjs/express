@@ -55,7 +55,7 @@ describe('res', function(){
         app.locals.first = 'tobi';
 
         app.use(function(req, res, next){
-          app.locals.use(function(req, res){
+          res.locals.use(function(req, res){
             res.locals.last = 'holowaychuk';
             res.locals.species = 'ferret';
           });
@@ -82,7 +82,7 @@ describe('res', function(){
       app.locals.first = 'tobi';
 
       app.use(function(req, res, next){
-        app.locals.use(function(req, res){
+        res.locals.use(function(req, res){
           res.locals.last = 'holowaychuk';
           res.locals.species = 'ferret';
         });
