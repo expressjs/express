@@ -103,6 +103,8 @@ app.get('/middleware-locals', count2, users2, function(req, res, next){
 });
 
 
+
+
 // let's assume we wanted to load the users
 // and count for every res.render() call, we
 // could use app.locals.use() for this. These
