@@ -35,6 +35,6 @@
     "prepublish" : "npm prune",
     "test": "make test"
   },
-  "engines": { "node":">= 0.5.0 < 0.7.0" }
+  "engines": { "node": "*" }
 }
 
