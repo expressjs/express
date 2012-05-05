@@ -1,4 +1,19 @@
 
+3.0.0alpha3 / 2012-05-04 
+==================
+
+  * Added public `app.routes`. Closes #887
+  * Added _view-locals_ example
+  * Added _mvc_ example
+  * Added `res.locals.use()`. Closes #1120
+  * Added conditional-GET support to `res.send()`
+  * Added: coerce `res.set()` values to strings
+  * Changed: moved `static()` in generated apps below router
+  * Changed: `res.send()` only set ETag when not previously set
+  * Changed connect 2.2.1 dep
+  * Changed: `make test` now runs unit / acceptance tests
+  * Fixed req/res proto inheritance
+
 3.0.0alpha2 / 2012-04-26 
 ==================
 
