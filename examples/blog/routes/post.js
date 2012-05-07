@@ -3,10 +3,11 @@
  * Module dependencies.
  */
 
-var basicAuth = require('../../../lib/express').basicAuth
+var basicAuth = require('../../..').basicAuth
   , Post = require('../models/post');
 
 module.exports = function(app){
+
   /**
    * Apply basic auth to all post related routes
    */
