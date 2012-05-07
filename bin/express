@@ -181,6 +181,7 @@ var app = [
   , 'var app = express();'
   , ''
   , 'app.configure(function(){'
+  , '  app.set(\'port\', process.env.PORT || 3000);'
   , '  app.set(\'views\', __dirname + \'/views\');'
   , '  app.set(\'view engine\', \':TEMPLATE\');'
   , '  app.use(express.favicon());'
@@ -197,9 +198,9 @@ var app = [
   , ''
   , 'app.get(\'/\', routes.index);'
   , ''
-  , 'http.createServer(app).listen(3000);'
-  , ''
-  , 'console.log("Express server listening on port 3000");'
+  , 'http.createServer(app).listen(app.get(\'port\'), function() {'
+  , '  console.log("Express server listening on port " + app.get(\'port\'));'
+  , '});'
   , ''
 ].join(eol);
 
