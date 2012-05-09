@@ -1,4 +1,11 @@
 
+3.0.0alpha4 / 2012-05-09 
+==================
+
+  * Added: allow `[]` in jsonp callback. Closes #1128
+  * Added `PORT` env var support in generated template. Closes #1118 [benatkin]
+  * Updated: connect 2.2.2
+
 3.0.0alpha3 / 2012-05-04 
 ==================
 
