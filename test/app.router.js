@@ -551,4 +551,22 @@ describe('app.router', function(){
       })
     })
   })
+
+  it('should allow rewriting of the url', function(done){
+    var app = express();
+
+    app.get('/account/edit', function(req, res, next){
+      req.user = { id: 12 }; // faux authenticated user
+      req.url = '/user/' + req.user.id + '/edit';
+      next();
+    });
+
+    app.get('/user/:id/edit', function(req, res){
+      res.send('editing user ' + req.params.id);
+    });
+
+    request(app)
+    .get('/account/edit')
+    .expect('editing user 12', done);
+  })
 })
