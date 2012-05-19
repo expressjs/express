@@ -48,7 +48,7 @@ function hash(msg, key) {
 
 // Authenticate using our plain-object database of doom!
 function authenticate(name, pass, fn) {
-  console.log('authenticating %s:%s', name, pass);
+  if (!module.parent) console.log('authenticating %s:%s', name, pass);
   var user = users[name];
   // query the db for the given username
   if (!user) return fn(new Error('cannot find user'));

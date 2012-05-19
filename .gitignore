@@ -16,3 +16,9 @@ testing
 .coverage_data
 cover_html
 test.js
+
+test/app.router.js
+
+lib/application.js
+
+lib/view.js

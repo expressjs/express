@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+NODE_ENV=production node ./support/app &
+pid=$!
+
+bench() {
+  ab -n 5000 -c 50 -k -q http://127.0.0.1:8000$1 \
+    | grep "Requests per" \
+    | cut -d ' ' -f 7 \
+    | xargs echo "$2:"
+}
+
+bench_conditional() {
+  ab -n 5000 -c 50 -H "If-None-Match: $3" -k -q http://127.0.0.1:8000$1 \
+    | grep "Requests per" \
+    | cut -d ' ' -f 7 \
+    | xargs echo "$2:"
+}
+
+sleep .5
+bench / "Hello World"
+bench /blog "Mounted Hello World"
+bench /blog/admin "Mounted 2 Hello World"
+bench /middleware "Middleware"
+bench /match "Router"
+bench /render "Render"
+bench /json "JSON tiny"
+bench /json/15 "JSON small"
+bench /json/50 "JSON medium"
+bench /json/150 "JSON large"
+
+kill -9 $pid

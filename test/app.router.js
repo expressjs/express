@@ -311,10 +311,26 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/api/users/0.json')
-      .expect('users/0 as json', done);
+      .get('/api/users/foo.bar.json')
+      .expect('users/foo.bar as json', done);
     })
-    
+
+    it('should work cross-segment', function(done){
+      var app = express();
+
+      app.get('/api*', function(req, res){
+        res.send(req.params[0]);
+      });
+
+      request(app)
+      .get('/api')
+      .expect('', function(){
+        request(app)
+        .get('/api/hey')
+        .expect('/hey', done);
+      });
+    })
+
     it('should allow naming', function(done){
       var app = express();
 
@@ -536,6 +552,7 @@ describe('app.router', function(){
     })
   })
 
+<<<<<<< HEAD
   describe('"view lookup" setting', function(){
     it('should override view lookup', function(done){
       var app = express();
@@ -563,5 +580,23 @@ describe('app.router', function(){
         done();
       });
     })
+=======
+  it('should allow rewriting of the url', function(done){
+    var app = express();
+
+    app.get('/account/edit', function(req, res, next){
+      req.user = { id: 12 }; // faux authenticated user
+      req.url = '/user/' + req.user.id + '/edit';
+      next();
+    });
+
+    app.get('/user/:id/edit', function(req, res){
+      res.send('editing user ' + req.params.id);
+    });
+
+    request(app)
+    .get('/account/edit')
+    .expect('editing user 12', done);
+>>>>>>> master
   })
 })
