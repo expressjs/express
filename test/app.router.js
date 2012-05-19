@@ -552,7 +552,6 @@ describe('app.router', function(){
     })
   })
 
-<<<<<<< HEAD
   describe('"view lookup" setting', function(){
     it('should override view lookup', function(done){
       var app = express();
@@ -580,7 +579,8 @@ describe('app.router', function(){
         done();
       });
     })
-=======
+  })
+    
   it('should allow rewriting of the url', function(done){
     var app = express();
 
@@ -597,6 +597,5 @@ describe('app.router', function(){
     request(app)
     .get('/account/edit')
     .expect('editing user 12', done);
->>>>>>> master
   })
 })
