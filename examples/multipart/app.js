@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -6,7 +5,7 @@
 var express = require('../../')
   , format = require('util').format;
 
-var app = module.exports = express()
+var app = express.createServer()
 
 // bodyParser in connect 2.x uses node-formidable to parse 
 // the multipart form data.
