@@ -57,7 +57,7 @@ var index = [
  */
 
 var jadeLayout = [
-    '!!!'
+    'doctype 5'
   , 'html'
   , '  head'
   , '    title= title'
