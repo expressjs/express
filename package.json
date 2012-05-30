@@ -3,15 +3,15 @@
   "description": "Sinatra inspired web development framework",
   "version": "3.0.0alpha4",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
-  "contributors": [ 
-    { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }, 
+  "contributors": [
+    { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" },
     { "name": "Aaron Heckmann", "email": "aaron.heckmann+github@gmail.com" },
     { "name": "Ciaran Jessup", "email": "ciaranj@gmail.com" },
     { "name": "Guillermo Rauch", "email": "rauchg@gmail.com" }
   ],
   "dependencies": {
     "connect": "2.2.2",
-    "commander": "0.5.2",
+    "commander": "0.6.0",
     "mime": "1.2.5",
     "mkdirp": "0.3.1",
     "crc": "0.2.0",
