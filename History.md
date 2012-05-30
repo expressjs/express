@@ -1,4 +1,13 @@
 
+3.0.0alpha5 / 2012-05-30 
+==================
+
+  * Added `req.ip`
+  * Added `{ signed: true }` option to `res.cookie()`
+  * Removed `res.signedCookie()`
+  * Changed: dont reverse `req.ips`
+  * Fixed "trust proxy" setting check for `req.ips`
+
 3.0.0alpha4 / 2012-05-09 
 ==================
 
