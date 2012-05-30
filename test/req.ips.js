@@ -18,7 +18,7 @@ describe('req', function(){
           request(app)
           .get('/')
           .set('X-Forwarded-For', 'client, p1, p2')
-          .expect('["p2","p1","client"]', done);
+          .expect('["client","p1","p2"]', done);
         })
       })
 
