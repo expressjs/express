@@ -5,7 +5,7 @@ var express = require('../')
 describe('req', function(){
   describe('.ips', function(){
     describe('when X-Forwarded-For is present', function(){
-      describe('when "trust proxies" is enabled', function(){
+      describe('when "trust proxy" is enabled', function(){
         it('should return an array of the specified addresses', function(done){
           var app = express();
 
@@ -22,7 +22,7 @@ describe('req', function(){
         })
       })
 
-      describe('when "trust proxies" is disabled', function(){
+      describe('when "trust proxy" is disabled', function(){
         it('should return an empty array', function(done){
           var app = express();
 
