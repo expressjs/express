@@ -1,4 +1,10 @@
 
+3.0.0beta1 / 2012-06-01 
+==================
+
+  * Added `res.format()` callback to override default 406 behaviour
+  * Fixed `res.redirect()` 406. Closes #1154
+
 3.0.0alpha5 / 2012-05-30 
 ==================
 
