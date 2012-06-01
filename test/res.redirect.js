@@ -248,7 +248,30 @@ describe('res', function(){
       .set('Accept', 'text/plain, */*')
       .end(function(res){
         res.headers.should.have.property('location', 'http://google.com');
+        res.headers.should.have.property('content-length', '51');
         res.body.should.equal('Moved Temporarily. Redirecting to http://google.com');
+        done();
+      })
+    })
+  })
+
+  describe('when accepting neither text or html', function(){
+    it('should respond with an empty body', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect('http://google.com');
+      });
+
+      request(app)
+      .get('/')
+      .set('Accept', 'foo/bar')
+      .end(function(res){
+        res.should.have.status(302);
+        res.headers.should.have.property('location', 'http://google.com');
+        res.headers.should.not.have.property('content-type');
+        res.headers.should.have.property('content-length', '0');
+        res.body.should.equal('');
         done();
       })
     })
