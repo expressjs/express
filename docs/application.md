@@ -179,3 +179,15 @@
      http.createServer(app).listen(80);
      http.createServer({ ... }, app).listen(443);
 
+# app.with()
+  Appends a prefix to the urls defined inside of it's callback.
+
+  Example
+
+     app.get('/', home);
+     
+     app.with('/admin', function () {
+
+       app.get('/', adminHome); //(ie: localhost:3000/admin)
+
+     });
