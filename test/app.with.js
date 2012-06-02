@@ -83,4 +83,24 @@ describe('app.with()', function(){
     .get('/myPrefix/newone')
     .expect('yay!', done);
   });
+
+  it('should re-establish to the right prefix', function (done){
+    var app = express();
+
+    app.with('/myPrefix', function () {
+      app.with('/my', function () {
+        app.del('/tobi', function(req, res){
+          res.end('deleted tobi!');
+        });
+      });
+      app.get('/newone', function (req, res){
+          res.end('yay!');
+      });
+    });
+
+    request(app)
+    .get('/myPrefix/newone')
+    .expect('yay!', done);
+  });
+
 });
