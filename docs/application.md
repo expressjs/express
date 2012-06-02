@@ -180,7 +180,7 @@
      http.createServer({ ... }, app).listen(443);
 
 # app.with()
-  Appends a prefix to the urls defined inside of it's callback.
+  Preppends a prefix to the urls defined inside of it's callback.
 
   Example
 
