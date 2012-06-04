@@ -77,7 +77,7 @@ app.listen(3000);
 First install the dev dependencies to install all the example / test suite deps:
 
     $ cd express
-    $ npm install -d
+    $ npm install
 
 then run whichever tests you want:
 
