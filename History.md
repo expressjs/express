@@ -1,4 +1,12 @@
 
+3.0.0beta2 / 2012-06-06 
+==================
+
+  * Added `+` support to the router
+  * Added `req.host`
+  * Changed `req.param()` to check route first
+  * Update connect dep
+
 3.0.0beta1 / 2012-06-01 
 ==================
 
