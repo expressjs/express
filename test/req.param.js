@@ -59,13 +59,13 @@ describe('req', function(){
       var app = express();
 
       app.get('/user/:name', function(req, res){
-        res.end(req.param('name'));
+        res.end(req.param('filter') + req.param('name'));
       });
 
       request(app)
       .get('/user/tj')
       .end(function(res){
-        res.body.should.equal('tj');
+        res.body.should.equal('undefinedtj');
         done();
       })
     })
