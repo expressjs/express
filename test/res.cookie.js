@@ -1,6 +1,7 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('./support/http')
+  , cookie = require('cookie');
 
 describe('res', function(){
   describe('.cookie(name, object)', function(){
@@ -14,7 +15,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(res){
-        var val = ['user=j%3A%7B%22name%22%3A%22tobi%22%7D; path=/'];
+        var val = ['user=j:{%22name%22:%22tobi%22}; Path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
@@ -32,7 +33,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(res){
-        var val = ['name=tobi; path=/'];
+        var val = ['name=tobi; Path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
@@ -50,7 +51,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(res){
-        var val = ['name=tobi; path=/', 'age=1; path=/'];
+        var val = ['name=tobi; path=/', 'age=1; Path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
@@ -69,7 +70,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(res){
-        var val = ['name=tobi; path=/; httpOnly; secure'];
+        var val = ['name=tobi; Path=/; HttpOnly; Secure'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
@@ -107,8 +108,8 @@ describe('res', function(){
         .get('/')
         .end(function(res){
           var val = res.headers['set-cookie'][0];
-          val = decodeURIComponent(val.split('.')[0]);
-          val.should.equal('user=j:{"name":"tobi"}');
+          val = cookie.parse(val.split('.')[0]);
+          val.user.should.equal('j:{"name":"tobi"}');
           done();
         })
       })
@@ -127,7 +128,7 @@ describe('res', function(){
         request(app)
         .get('/')
         .end(function(res){
-          var val = ['name=tobi.xJjV2iZ6EI7C8E5kzwbfA9PVLl1ZR07UTnuTgQQ4EnQ; path=/'];
+          var val = ['name=tobi.xJjV2iZ6EI7C8E5kzwbfA9PVLl1ZR07UTnuTgQQ4EnQ; Path=/'];
           res.headers['set-cookie'].should.eql(val);
           done();
         })
