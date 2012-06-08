@@ -12,7 +12,11 @@ describe('exports', function(){
     express.should.have.property('session');
     express.should.have.property('static');
   })
-  
+
+  it('should expose .mime', function(){
+    express.mime.should.equal(require('connect').mime);
+  })
+
   it('should expose HTTP methods', function(){
     express.methods.should.be.an.instanceof(Array);
     express.methods.should.include('get');
