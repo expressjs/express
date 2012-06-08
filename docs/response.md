@@ -73,6 +73,8 @@
   and optional callback `fn(err)`. The callback is invoked
   when the data transfer is complete, or when an error has
   ocurred. Be sure to check `res.headerSent` if you plan to respond.
+  
+  This method uses `res.sendfile()`.
 
 # res.format()
 
@@ -105,7 +107,7 @@
      });
   
   In addition to canonicalized MIME types you may
-  ## also use extnames mapped to these types
+  also use extnames mapped to these types:
   
      res.format({
        text: function(){
@@ -118,22 +120,30 @@
      
        json: function(){
          res.send({ message: 'hey' });
-         }
+       }
      });
+  
+  By default Express passes an `Error`
+  with a `.status` of 406 to `next(err)`
+  if a match is not made, however you may
+  provide an optional callback `fn` to
+  be invoked instead.
 
 # res.attachment()
 
   Set _Content-Disposition_ header to _attachment_ with optional `filename`.
 
-# res.set()
+# res.set
 
   Set header `field` to `val`, or pass
-  an object of of header fields.
+  an object of header fields.
   
   ## Examples
   
      res.set('Accept', 'application/json');
      res.set({ Accept: 'text/plain', 'X-API-Key': 'tobi' });
+  
+  Aliased as `res.header()`.
 
 # res.get()
 
@@ -143,11 +153,6 @@
 
   Clear cookie `name`.
 
-# res.signedCookie()
-
-  Set a signed cookie with the given `name` and `val`.
-  See `res.cookie()` for details.
-
 # res.cookie()
 
   Set cookie `name` to `val`, with the given `options`.
@@ -155,6 +160,7 @@
   ## Options
   
      - `maxAge`   max-age in milliseconds, converted to `expires`
+     - `signed`   sign the cookie
      - `path`     defaults to "/"
   
   ## Examples

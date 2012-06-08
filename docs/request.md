@@ -39,7 +39,7 @@
   
       // Accept: text/html
       req.accepts('html');
-        // => "html"
+      // => "html"
   
       // Accept: text/*, application/json
       req.accepts('html');
@@ -75,8 +75,8 @@
 
   Return the value of param `name` when present or `defaultValue`.
   
-   - Checks body params, ex: id=12, {"id":12}
    - Checks route placeholders, ex: _/user/:id_
+   - Checks body params, ex: id=12, {"id":12}
    - Checks query string params, ex: ?id=12
   
   To utilize request bodies, `req.body`
@@ -104,15 +104,4 @@
       
        req.is('html');
        // => false
-  
-   Now within our route callbacks, we can use to to assert content types
-   such as "image/jpeg", "image/png", etc.
-  
-       app.post('/image/upload', function(req, res, next){
-         if (req.is('image/*')) {
-           // do something
-         } else {
-           next();
-         }
-       });
 
