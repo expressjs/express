@@ -15,6 +15,7 @@
     "mkdirp": "0.3.2",
     "cookie": "0.0.3",
     "crc": "0.2.0",
+    "fresh": "0.0.1",
     "debug": "*"
   },
   "devDependencies": {
