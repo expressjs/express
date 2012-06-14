@@ -1,12 +1,7 @@
 
 var express = require('../../')
-  , app = module.exports = express();
-
-var users = [];
-
-users.push({ name: 'Tobi' });
-users.push({ name: 'Loki' });
-users.push({ name: 'Jane' });
+  , app = module.exports = express()
+  , users = require('./db');
 
 app.get('/', function(req, res){
   res.format({
@@ -27,6 +22,18 @@ app.get('/', function(req, res){
     }
   })
 });
+
+// or you could write a tiny middleware like
+// this to abstract make things a bit more declarative:
+
+function format(mod) {
+  var obj = require(mod);
+  return function(req, res){
+    res.format(obj);
+  }
+}
+
+app.get('/users', format('./users'));
 
 if (!module.parent) {
   app.listen(3000);
