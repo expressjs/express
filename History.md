@@ -1,4 +1,13 @@
 
+3.0.0beta3 / 2012-06-15 
+==================
+
+  * Added hogan `--hjs` to express(1) [nullfirm]
+  * Added another example to content-negotiation
+  * Added `fresh` dep
+  * Changed: `res.send()` always checks freshness
+  * Fixed: expose connects mime module. Cloases #1165
+
 3.0.0beta2 / 2012-06-06 
 ==================
 
