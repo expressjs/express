@@ -1,4 +1,11 @@
 
+2.5.10 / 2012-06-15 
+==================
+
+  * Remove annoying engines field from package.json
+  * Backport support for trusting X-Forwarded-Proto
+  * use version of `package.json` for `express` command
+
 2.5.9/ 2012-04-02 
 ==================
 
