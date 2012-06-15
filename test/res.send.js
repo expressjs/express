@@ -286,7 +286,7 @@ describe('res', function(){
     })
   })
 
-  it('should always check freshness', function(done){
+  it('should always check regardless of length', function(done){
     var app = express();
 
     app.use(function(req, res, next){
@@ -312,5 +312,24 @@ describe('res', function(){
     .get('/')
     .set('If-None-Match', '-1498647312')
     .expect(304, done);
+  })
+
+  it('should not perform freshness check unless 2xx or 304', function(done){
+    var app = express();
+
+    app.use(function(req, res, next){
+      res.status(500);
+      res.set('ETag', 'asdf');
+      res.send('hey');
+    });
+
+    request(app)
+    .get('/')
+    .set('If-None-Match', 'asdf')
+    .end(function(res){
+      res.should.have.status(500);
+      res.body.should.equal('hey');
+      done();
+    });
   })
 })
