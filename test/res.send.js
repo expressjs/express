@@ -286,6 +286,20 @@ describe('res', function(){
     })
   })
 
+  it('should always check freshness', function(done){
+    var app = express();
+
+    app.use(function(req, res, next){
+      res.set('ETag', 'asdf');
+      res.send('hey');
+    });
+
+    request(app)
+    .get('/')
+    .set('If-None-Match', 'asdf')
+    .expect(304, done);
+  })
+
   it('should respond with 304 Not Modified when fresh', function(done){
     var app = express();
 
