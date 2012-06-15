@@ -22,6 +22,7 @@
     "ejs": "*",
     "mocha": "*",
     "jade": "*",
+    "hjs": "*",
     "stylus": "*",
     "should": "*",
     "connect-redis": "*",

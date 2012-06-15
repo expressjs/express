@@ -19,6 +19,7 @@ program
   .option('-s, --sessions', 'add session support')
   .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
+  .option('-h, --hjs', 'add hogan.js engine support')
   .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus) (defaults to plain css)')
   .option('-f, --force', 'force on non-empty directory')
   .parse(process.argv);
@@ -36,6 +37,7 @@ var eol = 'win32' == os.platform() ? '\r\n' : '\n'
 program.template = 'jade';
 if (program.ejs) program.template = 'ejs';
 if (program.jshtml) program.template = 'jshtml';
+if (program.hjs) program.template = 'hjs';
 
 /**
  * Routes index template.
@@ -120,6 +122,23 @@ var jshtmlLayout = [
 var jshtmlIndex = [
     '<h1>@write(title)</h1>'
   , '<p>Welcome to @write(title)</p>'
+].join(eol);
+
+/**
+ * Hogan.js index template.
+ */
+var hjsIndex = [
+    '<!DOCTYPE html>'
+  , '<html>'
+  , '  <head>'
+  , '    <title>{{ title }}</title>'
+  , '    <link rel=\'stylesheet\' href=\'/stylesheets/style.css\' />'
+  , '  </head>'
+  , '  <body>'
+  , '    <h1>{{ title }}</h1>'
+  , '    <p>Welcome to {{ title }}</p>'
+  , '  </body>'
+  , '</html>'
 ].join(eol);
 
 /**
@@ -274,6 +293,9 @@ function createApplicationAt(path) {
         case 'jshtml':
           write(path + '/views/layout.jshtml', jshtmlLayout);
           write(path + '/views/index.jshtml', jshtmlIndex);
+          break;
+        case 'hjs':
+          write(path + '/views/index.hjs', hjsIndex);
           break;
 
       }
