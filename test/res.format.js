@@ -44,6 +44,15 @@ app2.use(function(err, req, res, next){
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
+var app3 = express();
+
+app3.use(function(req, res, next){
+  res.format({
+    text: function(){ res.send('hey') },
+    default: function(){ res.send('default') }
+  })
+});
+
 describe('req', function(){
   describe('.format(obj)', function(){
     describe('with canonicalized mime types', function(){
@@ -52,6 +61,15 @@ describe('req', function(){
 
     describe('with extnames', function(){
       test(app2);
+    })
+
+    describe('given .default', function(){
+      it('should be invoked instead of auto-responding', function(done){
+        request(app3)
+        .get('/')
+        .set('Accept: text/html')
+        .expect('default', done);
+      })
     })
   })
 })
