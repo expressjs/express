@@ -12,7 +12,7 @@
   "dependencies": {
     "connect": "2.3.3",
     "commander": "0.6.1",
-    "range-parser": "0.0.3",
+    "range-parser": "0.0.4",
     "mkdirp": "0.3.3",
     "cookie": "0.0.3",
     "crc": "0.2.0",
