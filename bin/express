@@ -19,7 +19,7 @@ program
   .option('-s, --sessions', 'add session support')
   .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
-  .option('-h, --hjs', 'add hogan.js engine support')
+  .option('-h, --hogan', 'add hogan.js engine support')
   .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus) (defaults to plain css)')
   .option('-f, --force', 'force on non-empty directory')
   .parse(process.argv);
@@ -37,7 +37,7 @@ var eol = 'win32' == os.platform() ? '\r\n' : '\n'
 program.template = 'jade';
 if (program.ejs) program.template = 'ejs';
 if (program.jshtml) program.template = 'jshtml';
-if (program.hjs) program.template = 'hjs';
+if (program.hogan) program.template = 'hjs';
 
 /**
  * Routes index template.
@@ -127,7 +127,7 @@ var jshtmlIndex = [
 /**
  * Hogan.js index template.
  */
-var hjsIndex = [
+var hoganIndex = [
     '<!DOCTYPE html>'
   , '<html>'
   , '  <head>'
@@ -295,7 +295,7 @@ function createApplicationAt(path) {
           write(path + '/views/index.jshtml', jshtmlIndex);
           break;
         case 'hjs':
-          write(path + '/views/index.hjs', hjsIndex);
+          write(path + '/views/index.hjs', hoganIndex);
           break;
 
       }
