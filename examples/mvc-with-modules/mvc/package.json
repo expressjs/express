@@ -1,0 +1,13 @@
+{
+  "name": "mvc",
+  "description": "mvc for expess",
+  "version": "0.0.3",
+  "homepage": "https://github.com/morozovsk/mvc",
+  "repository": "https://github.com/morozovsk/mvc",
+  "author": "morozovsk <morozovsk@gmail.com> (https://github.com/morozovsk)",
+  "keywords": ["mvc", "express", "expressjs", "connect", "framework", "zf", "zend", "php"],
+  "engines": { "node": "*" },
+  "dependencies": {
+    "express": "*"
+  }
+}
