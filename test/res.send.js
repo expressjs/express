@@ -72,7 +72,25 @@ describe('res', function(){
       })
     })
   })
-  
+
+  describe('.send(body, code)', function(){
+    it('should be supported for backwards compat', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send('Bad!', 400);
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.body.should.equal('Bad!');
+        res.statusCode.should.equal(400);
+        done();
+      })
+    })
+  })
+
   describe('.send(String)', function(){
     it('should send as html', function(done){
       var app = express();
