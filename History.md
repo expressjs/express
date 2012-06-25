@@ -1,4 +1,16 @@
 
+3.0.0beta4 / 2012-06-25 
+==================
+
+  * Added `req.auth`
+  * Added `req.range(size)`
+  * Added `res.links(obj)`
+  * Added `res.send(body, status)` support back for backwards compat
+  * Added `.default()` support to `res.format()`
+  * Added 2xx / 304 check to `req.fresh`
+  * Revert "Added + support to the router"
+  * Fixed `res.send()` freshness check, respect res.statusCode
+
 3.0.0beta3 / 2012-06-15 
 ==================
 
