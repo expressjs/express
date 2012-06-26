@@ -17,6 +17,7 @@
     "cookie": "0.0.3",
     "crc": "0.2.0",
     "fresh": "0.1.0",
+    "methods": "0.0.1",
     "debug": "*"
   },
   "devDependencies": {
