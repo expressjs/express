@@ -4,7 +4,7 @@
  */
 
 var express = require('../../lib/express')
-  , crypto = require('crypto');
+  , hash = require('./pass').hash;
 
 var app = module.exports = express();
 
@@ -27,24 +27,22 @@ app.locals.use(function(req,res){
   if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
 })
 
-// Generate a salt for the user to prevent rainbow table attacks
-// for better security take a look at the bcrypt c++ addon:
-// https://github.com/ncb000gt/node.bcrypt.js
+// dummy database
+
 var users = {
-  tj: {
-      name: 'tj'
-    , salt: 'randomly-generated-salt'
-    , pass: hash('foobar', 'randomly-generated-salt')
-  }
+  tj: { name: 'tj' }
 };
 
-// Used to generate a hash of the plain-text password + salt
-function hash(msg, key) {
-  return crypto
-    .createHmac('sha256', key)
-    .update(msg)
-    .digest('hex');
-}
+// when you create a user, generate a salt
+// and hash the password ('foobar' is the pass here)
+
+hash('foobar', function(err, salt, hash){
+  if (err) throw err;
+  // store the salt & hash in the "db"
+  users.tj.salt = salt;
+  users.tj.hash = hash;
+});
+
 
 // Authenticate using our plain-object database of doom!
 function authenticate(name, pass, fn) {
@@ -55,9 +53,11 @@ function authenticate(name, pass, fn) {
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user
-  if (user.pass == hash(pass, user.salt)) return fn(null, user);
-  // Otherwise password is invalid
-  fn(new Error('invalid password'));
+  hash(pass, user.salt, function(err, hash){
+    if (err) return fn(err);
+    if (hash == user.hash) return fn(null, user);
+    fn(new Error('invalid password'));
+  })
 }
 
 function restrict(req, res, next) {
