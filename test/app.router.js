@@ -571,4 +571,60 @@ describe('app.router', function(){
     .get('/account/edit')
     .expect('editing user 12', done);
   })
+
+  describe('uses route middlewares', function(){
+    it('should executes the callbacks in order', function(done){
+      var app = express();
+      
+      var calls = [];
+      var callbacks = [
+        function(req, res, next){ 
+          calls.push('first');
+          next();
+        },
+        function(req, res, next){ 
+          calls.push('second');
+          next();
+        }
+      ];
+      app.get('/', callbacks, function(req, res){ 
+        calls.push('third');
+        res.end();
+      });
+      
+      request(app)
+      .get('/')
+      .expect('', function(){
+        calls.should.eql(['first', 'second', 'third']);
+        done();
+      })
+    })
+
+    it('should executes the before callbacks', function(done){
+      var app = express();
+      
+      var calls = [];
+      var callbacks = {
+        before:  function(req, res, next){ 
+          calls.push('first');
+          next();
+        },
+        execute: function(req, res, next){ 
+          calls.push('second');
+          next();
+        }
+      }
+      app.get('/', callbacks, function(req, res){ 
+        calls.push('third');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('', function(){
+        calls.should.eql(['first', 'second', 'third']);
+        done();
+      })
+    })
+  })
 })
