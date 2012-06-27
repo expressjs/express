@@ -14,7 +14,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         var val = ['user=j:{%22name%22:%22tobi%22}; Path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
@@ -32,7 +32,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         var val = ['name=tobi; Path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
@@ -50,7 +50,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         var val = ['name=tobi; Path=/', 'age=1; Path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
@@ -69,7 +69,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         var val = ['name=tobi; Path=/; HttpOnly; Secure'];
         res.headers['set-cookie'].should.eql(val);
         done();
@@ -87,7 +87,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
+        .end(function(err, res){
           res.headers['set-cookie'][0].should.not.include('Thu, 01 Jan 1970 00:00:01 GMT');
           done();
         })
@@ -106,7 +106,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
+        .end(function(err, res){
           var val = res.headers['set-cookie'][0];
           val = cookie.parse(val.split('.')[0]);
           val.user.should.equal('j:{"name":"tobi"}');
@@ -127,7 +127,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
+        .end(function(err, res){
           var val = ['name=tobi.xJjV2iZ6EI7C8E5kzwbfA9PVLl1ZR07UTnuTgQQ4EnQ; Path=/'];
           res.headers['set-cookie'].should.eql(val);
           done();

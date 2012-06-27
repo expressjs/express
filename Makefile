@@ -14,11 +14,13 @@ test: test-unit test-acceptance
 
 test-unit:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
-		--reporter $(REPORTER)
+		--reporter $(REPORTER) \
+		--bail
 
 test-acceptance:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
+		--bail \
 		test/acceptance/*.js
 
 test-cov: lib-cov

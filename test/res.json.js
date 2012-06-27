@@ -15,9 +15,9 @@ describe('res', function(){
 
         request(app)
         .get('/?callback=something')
-        .end(function(res){
+        .end(function(err, res){
           res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
-          res.body.should.equal('something({"count":1});');
+          res.text.should.equal('something({"count":1});');
           done();
         })
       })
@@ -31,9 +31,9 @@ describe('res', function(){
 
         request(app)
         .get('/?callback=callbacks[123]')
-        .end(function(res){
+        .end(function(err, res){
           res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
-          res.body.should.equal('callbacks[123]({"count":1});');
+          res.text.should.equal('callbacks[123]({"count":1});');
           done();
         })
       })
@@ -49,9 +49,9 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
+        .end(function(err, res){
           res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-          res.body.should.equal('null');
+          res.text.should.equal('null');
           done();
         })
       })
@@ -67,9 +67,9 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
+        .end(function(err, res){
           res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-          res.body.should.equal('["foo","bar","baz"]');
+          res.text.should.equal('["foo","bar","baz"]');
           done();
         })
       })
@@ -85,9 +85,9 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
+        .end(function(err, res){
           res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-          res.body.should.equal('{"name":"tobi"}');
+          res.text.should.equal('{"name":"tobi"}');
           done();
         })
       })
@@ -109,8 +109,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.body.should.equal('{"name":"tobi"}');
+        .end(function(err, res){
+          res.text.should.equal('{"name":"tobi"}');
           done();
         });
       })
@@ -140,8 +140,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.body.should.equal('{\n  "name": "tobi",\n  "age": 2\n}');
+        .end(function(err, res){
+          res.text.should.equal('{\n  "name": "tobi",\n  "age": 2\n}');
           done();
         });
       })
@@ -158,10 +158,10 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.statusCode.should.equal(201);
         res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-        res.body.should.equal('{"id":1}');
+        res.text.should.equal('{"id":1}');
         done();
       })
     })

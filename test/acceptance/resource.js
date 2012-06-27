@@ -37,7 +37,7 @@ describe('resource', function(){
   describe('DELETE /users/1', function(){
     it('should respond with users 1 through 3', function(done){
       request(app)
-        .delete('/users/1')
+        .del('/users/1')
         .expect(/^destroyed/,done)
     })
   })

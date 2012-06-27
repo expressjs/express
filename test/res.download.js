@@ -14,10 +14,10 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
         res.should.have.header('Content-Disposition', 'attachment; filename="user.html"');
-        res.body.should.equal('<p>{{user.name}}</p>');
+        res.text.should.equal('<p>{{user.name}}</p>');
         done();
       });
     })
@@ -33,7 +33,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
         res.should.have.header('Content-Disposition', 'attachment; filename="document"');
         done();
@@ -52,7 +52,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
         res.should.have.header('Content-Disposition', 'attachment; filename="user.html"');
       });
@@ -70,7 +70,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
         res.should.have.header('Content-Disposition', 'attachment; filename="document"');
       });

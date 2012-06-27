@@ -13,9 +13,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         var val = 'sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
-        res.headers['set-cookie'].should.eql([val]);
+        res.header['set-cookie'].should.eql([val]);
         done();
       })
     })
@@ -31,9 +31,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         var val = 'sid=; Path=/admin; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
-        res.headers['set-cookie'].should.eql([val]);
+        res.header['set-cookie'].should.eql([val]);
         done();
       })
     })

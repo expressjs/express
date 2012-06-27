@@ -8,6 +8,7 @@ describe('app.router', function(){
   describe('methods supported', function(){
     methods.forEach(function(method){
       it('should include ' + method.toUpperCase(), function(done){
+        if (method == 'delete') method = 'del';
         var app = express();
         var calls = [];
 
@@ -267,7 +268,7 @@ describe('app.router', function(){
 
     request(app)
     .get('/user/10')
-    .end(function(res){
+    .end(function(err, res){
       res.statusCode.should.equal(200);
       request(app)
       .get('/user/tj')

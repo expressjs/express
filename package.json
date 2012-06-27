@@ -28,7 +28,8 @@
     "stylus": "*",
     "should": "*",
     "connect-redis": "*",
-    "github-flavored-markdown": "*"
+    "github-flavored-markdown": "*",
+    "supertest": "0.0.1"
   },
   "publishConfig": { "tag": "3.0" },
   "keywords": ["express", "framework", "sinatra", "web", "rest", "restful", "router"],

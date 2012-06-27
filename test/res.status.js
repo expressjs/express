@@ -13,11 +13,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('Created');
-        res.statusCode.should.equal(201);
-        done();
-      })
+      .expect('Created')
+      .expect(201, done);
     })
   })
 })

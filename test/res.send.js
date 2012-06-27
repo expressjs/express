@@ -13,10 +13,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('');
-        done();
-      })
+      .expect('', done);
     })
   })
   
@@ -30,10 +27,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('');
-        done();
-      })
+      .expect('', done);
     })
   })
 
@@ -47,11 +41,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('Created');
-        res.statusCode.should.equal(201);
-        done();
-      })
+      .expect('Created')
+      .expect(201, done);
     })
   })
   
@@ -65,11 +56,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('Created :)');
-        res.statusCode.should.equal(201);
-        done();
-      })
+      .expect('Created :)')
+      .expect(201, done);
     })
   })
 
@@ -83,11 +71,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('Bad!');
-        res.statusCode.should.equal(400);
-        done();
-      })
+      .expect('Bad!')
+      .expect(400, done);
     })
   })
 
@@ -101,9 +86,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.headers.should.have.property('content-type', 'text/html; charset=utf-8');
-        res.body.should.equal('<p>hey</p>');
+        res.text.should.equal('<p>hey</p>');
         res.statusCode.should.equal(200);
         done();
       })
@@ -119,10 +104,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.headers.should.have.property('etag', '-1498647312');
-        done();
-      })
+      .expect('ETag', '-1498647312')
+      .end(done);
     })
     
     it('should not override Content-Type', function(done){
@@ -134,12 +117,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.headers.should.have.property('content-type', 'text/plain');
-        res.body.should.equal('hey');
-        res.statusCode.should.equal(200);
-        done();
-      })
+      .expect('Content-Type', 'text/plain')
+      .expect('hey')
+      .expect(200, done);
     })
   })
   
@@ -153,9 +133,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.headers.should.have.property('content-type', 'text/html; charset=utf-8');
-        res.body.should.equal('<p>hey</p>');
+        res.text.should.equal('<p>hey</p>');
         res.statusCode.should.equal(200);
         done();
       })
@@ -170,9 +150,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.headers.should.have.property('content-type', 'text/plain');
-        res.body.should.equal('hey');
+        res.text.should.equal('hey');
         res.statusCode.should.equal(200);
         done();
       })
@@ -189,9 +169,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.headers.should.have.property('content-type', 'application/octet-stream');
-        res.body.should.equal('hello');
+        res.text.should.equal('hello');
         res.statusCode.should.equal(200);
         done();
       })
@@ -207,10 +187,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.headers.should.have.property('etag', '-1498647312');
-        done();
-      })
+      .expect('ETag', '-1498647312')
+      .end(done);
     })
 
     it('should not override Content-Type', function(done){
@@ -222,9 +200,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.headers.should.have.property('content-type', 'text/plain');
-        res.body.should.equal('hey');
+        res.text.should.equal('hey');
         res.statusCode.should.equal(200);
         done();
       })
@@ -241,9 +219,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-        res.body.should.equal('{"name":"tobi"}');
+        res.text.should.equal('{"name":"tobi"}');
         done();
       })
     })
@@ -259,10 +237,7 @@ describe('res', function(){
 
       request(app)
       .head('/')
-      .end(function(res){
-        res.body.should.equal('');
-        done();
-      })
+      .expect('', done);
     })
   })
 
@@ -276,10 +251,10 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.headers.should.not.have.property('content-type');
         res.headers.should.not.have.property('content-length');
-        res.body.should.equal('');
+        res.text.should.equal('');
         done();
       })
     })
@@ -295,10 +270,10 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.headers.should.not.have.property('content-type');
         res.headers.should.not.have.property('content-length');
-        res.body.should.equal('');
+        res.text.should.equal('');
         done();
       })
     })
@@ -344,10 +319,7 @@ describe('res', function(){
     request(app)
     .get('/')
     .set('If-None-Match', 'asdf')
-    .end(function(res){
-      res.should.have.status(500);
-      res.body.should.equal('hey');
-      done();
-    });
+    .expect('hey')
+    .expect(500, done);
   })
 })

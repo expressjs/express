@@ -34,9 +34,10 @@ describe('app', function(){
       
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
+        if (err) return done(err);
         calls.should.eql(['use', 'one', 'two']);
-        res.body.should.equal('<p>tobi holowaychuk is a ferret</p>');
+        res.text.should.equal('<p>tobi holowaychuk is a ferret</p>');
         done();
       })
     })
@@ -59,10 +60,7 @@ describe('app', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.body.should.equal('<p>tobi holowaychuk is a ferret</p>');
-          done();
-        })
+        .expect('<p>tobi holowaychuk is a ferret</p>', done);
       })
     })
 
@@ -83,10 +81,7 @@ describe('app', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<p>tobi ibot is a ferret</p>');
-        done();
-      })
+      .expect('<p>tobi ibot is a ferret</p>', done);
     })
   })
 })

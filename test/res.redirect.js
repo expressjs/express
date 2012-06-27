@@ -17,7 +17,7 @@ describe('res', function(){
       .get('/')
       .set('Host', 'example.com')
       .set('X-Forwarded-Proto', 'https')
-      .end(function(res){
+      .end(function(err, res){
         res.statusCode.should.equal(302);
         res.headers.should.have.property('location', 'https://example.com/login');
         done();
@@ -33,7 +33,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.statusCode.should.equal(302);
         res.headers.should.have.property('location', 'http://google.com');
         done();
@@ -51,7 +51,7 @@ describe('res', function(){
         request(app)
         .get('/')
         .set('Host', 'example.com')
-        .end(function(res){
+        .end(function(err, res){
           res.headers.should.have.property('location', 'http://example.com/login');
           done();
         })
@@ -69,7 +69,7 @@ describe('res', function(){
         request(app)
         .get('/post/1')
         .set('Host', 'example.com')
-        .end(function(res){
+        .end(function(err, res){
           res.headers.should.have.property('location', 'http://example.com/post/1/./edit');
           done();
         })
@@ -87,7 +87,7 @@ describe('res', function(){
         request(app)
         .get('/post/1')
         .set('Host', 'example.com')
-        .end(function(res){
+        .end(function(err, res){
           res.headers.should.have.property('location', 'http://example.com/post/1/../new');
           done();
         })
@@ -105,7 +105,7 @@ describe('res', function(){
         request(app)
         .get('/')
         .set('Host', 'example.com')
-        .end(function(res){
+        .end(function(err, res){
           res.headers.should.have.property('location', 'http://example.com/login');
           done();
         })
@@ -129,7 +129,7 @@ describe('res', function(){
           request(app)
           .get('/blog/admin')
           .set('Host', 'example.com')
-          .end(function(res){
+          .end(function(err, res){
             res.headers.should.have.property('location', 'http://example.com/blog/admin/login');
             done();
           })
@@ -150,7 +150,7 @@ describe('res', function(){
           request(app)
           .get('/blog')
           .set('Host', 'example.com')
-          .end(function(res){
+          .end(function(err, res){
             res.headers.should.have.property('location', 'http://example.com/blog/admin/login');
             done();
           })
@@ -171,7 +171,7 @@ describe('res', function(){
           request(app)
           .get('/blog')
           .set('Host', 'example.com')
-          .end(function(res){
+          .end(function(err, res){
             res.headers.should.have.property('location', 'http://example.com/admin/login');
             done();
           })
@@ -190,7 +190,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.statusCode.should.equal(303);
         res.headers.should.have.property('location', 'http://google.com');
         done();
@@ -208,9 +208,9 @@ describe('res', function(){
 
       request(app)
       .head('/')
-      .end(function(res){
+      .end(function(err, res){
         res.headers.should.have.property('location', 'http://google.com');
-        res.body.should.equal('');
+        res.text.should.equal('');
         done();
       })
     })
@@ -227,9 +227,9 @@ describe('res', function(){
       request(app)
       .get('/')
       .set('Accept', 'text/html')
-      .end(function(res){
+      .end(function(err, res){
         res.headers.should.have.property('location', 'http://google.com');
-        res.body.should.equal('<p>Moved Temporarily. Redirecting to <a href="http://google.com">http://google.com</a></p>');
+        res.text.should.equal('<p>Moved Temporarily. Redirecting to <a href="http://google.com">http://google.com</a></p>');
         done();
       })
     })
@@ -246,10 +246,10 @@ describe('res', function(){
       request(app)
       .get('/')
       .set('Accept', 'text/plain, */*')
-      .end(function(res){
+      .end(function(err, res){
         res.headers.should.have.property('location', 'http://google.com');
         res.headers.should.have.property('content-length', '51');
-        res.body.should.equal('Moved Temporarily. Redirecting to http://google.com');
+        res.text.should.equal('Moved Temporarily. Redirecting to http://google.com');
         done();
       })
     })
@@ -266,12 +266,12 @@ describe('res', function(){
       request(app)
       .get('/')
       .set('Accept', 'foo/bar')
-      .end(function(res){
+      .end(function(err, res){
         res.should.have.status(302);
         res.headers.should.have.property('location', 'http://google.com');
         res.headers.should.not.have.property('content-type');
         res.headers.should.have.property('content-length', '0');
-        res.body.should.equal('');
+        res.text.should.equal('');
         done();
       })
     })

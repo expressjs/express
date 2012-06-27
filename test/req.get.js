@@ -16,10 +16,7 @@ describe('req', function(){
       request(app)
       .post('/')
       .set('Content-Type', 'application/json')
-      .end(function(res){
-        res.body.should.equal('application/json');
-        done();
-      });
+      .expect('application/json', done);
     })
 
     it('should special-case Referer', function(done){
@@ -32,10 +29,7 @@ describe('req', function(){
       request(app)
       .post('/')
       .set('Referrer', 'http://foobar.com')
-      .end(function(res){
-        res.body.should.equal('http://foobar.com');
-        done();
-      });
+      .expect('http://foobar.com', done);
     })
   })
 })
