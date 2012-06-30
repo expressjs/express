@@ -1,6 +1,7 @@
 
 var express = require('../../lib/express')
-  , app = express();
+  , verbose = process.env.NODE_ENV != 'test'
+  , app = module.exports = express();
 
 app.map = function(a, route){
   route = route || '';
@@ -12,7 +13,7 @@ app.map = function(a, route){
         break;
       // get: function(){ ... }
       case 'function':
-        console.log('%s %s', key, route);
+        if (verbose) console.log('%s %s', key, route);
         app[key](route, a[key]);
         break;
     }
