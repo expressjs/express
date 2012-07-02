@@ -10,6 +10,8 @@ docs/%.md: lib/%.js
 	@mkdir -p docs
 	dox --raw < $< | ./support/docs > $@
 
+check: test
+
 test: test-unit test-acceptance
 
 test-unit:
