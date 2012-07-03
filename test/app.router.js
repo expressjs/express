@@ -358,6 +358,7 @@ describe('app.router', function(){
       .get('/user/122')
       .expect('122', done);
     })
+
     it('should eat everything after /', function(done){
       var app = express();
 
