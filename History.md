@@ -1,4 +1,15 @@
 
+3.0.0beta5 / 2012-07-03 
+==================
+
+  * add "make check" support
+  * add route-map example
+  * add `res.json(obj, status)` support back for BC
+  * add "methods" dep, remove internal methods module
+  * update connect dep
+  * update auth example to utilize cores pbkdf2
+  * updated tests to use "supertest"
+
 3.0.0beta4 / 2012-06-25 
 ==================
 
