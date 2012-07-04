@@ -25,13 +25,13 @@ describe('Router', function(){
       route.method.should.equal('get');
       route.path.should.equal('/foo');
 
-      var route = router.matchRe(method, url, 1);
+      var route = router.match(method, url, 1);
       route.path.should.equal('/foob?');
 
       var route = router.match(method, url, 2);
       assert(!route);
 
-      req.url = '/bar';
+      url = '/bar';
       var route = router.match(method, url);
       route.path.should.equal('/bar');
     })
