@@ -18,8 +18,7 @@ test: test-unit test-acceptance
 test-unit:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
-		$(MOCHA_OPTS) \
-		--bail
+		$(MOCHA_OPTS)
 
 test-acceptance:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
