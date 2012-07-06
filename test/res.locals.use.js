@@ -100,5 +100,38 @@ describe('res', function(){
         done();
       })
     })
+
+    it('should work when mounted', function(done){
+      var app = express();
+      var pet = express();
+
+      app.set('views', __dirname + '/fixtures');
+
+      app.locals.first = 'tobi';
+      
+      app.use(function(req, res, next){
+        res.locals.use(function(){
+          res.locals.last = 'holowaychuk';
+        });
+        next();
+      });
+
+      pet.use(function(req, res, next){
+        res.locals.use(function(){
+          res.locals.species = 'ferret';
+        });
+        next();
+      });
+      
+      app.use(function(req, res){
+        res.render('pet.jade');
+      });
+
+      app.use(pet);
+
+      request(app)
+      .get('/')
+      .expect('<p>tobi holowaychuk is a ferret</p>', done);
+    })
   })
 })

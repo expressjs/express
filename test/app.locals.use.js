@@ -83,5 +83,32 @@ describe('app', function(){
       .get('/')
       .expect('<p>tobi ibot is a ferret</p>', done);
     })
+
+    it('should work when mounted', function(done){
+      var app = express();
+      var pet = express();
+
+      app.set('views', __dirname + '/fixtures');
+
+      app.locals.first = 'tobi';
+      
+      app.locals.use(function(req, res){
+        res.locals.last = 'holowaychuk';
+      });
+
+      pet.locals.use(function(req, res){
+        res.locals.species = 'ferret';
+      });
+      
+      app.use(function(req, res){
+        res.render('pet.jade');
+      });
+
+      app.use(pet);
+
+      request(app)
+      .get('/')
+      .expect('<p>tobi holowaychuk is a ferret</p>', done);
+    })
   })
 })

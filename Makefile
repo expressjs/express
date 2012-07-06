@@ -1,4 +1,5 @@
 
+MOCHA_OPTS=
 REPORTER = dot
 
 docs: docs/express.md
@@ -17,6 +18,7 @@ test: test-unit test-acceptance
 test-unit:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
+		$(MOCHA_OPTS) \
 		--bail
 
 test-acceptance:
