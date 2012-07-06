@@ -17,8 +17,9 @@ describe('Router', function(){
       router.route('get', '/foo', function(){});
       router.route('get', '/foob?', function(){});
       router.route('get', '/bar', function(){});
-      var method = 'GET'
-        , url = '/foo?bar=baz';
+
+      var method = 'GET';
+      var url = '/foo?bar=baz';
 
       var route = router.match(method, url, 0);
       route.constructor.name.should.equal('Route');
