@@ -32,7 +32,7 @@
     "supertest": "0.0.1"
   },
   "publishConfig": { "tag": "3.0" },
-  "keywords": ["express", "framework", "sinatra", "web", "rest", "restful", "router"],
+  "keywords": ["express", "framework", "sinatra", "web", "rest", "restful", "router", "app"],
   "repository": "git://github.com/visionmedia/express",
   "main": "index",
   "bin": { "express": "./bin/express" },
