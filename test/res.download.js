@@ -76,4 +76,43 @@ describe('res', function(){
       });
     })
   })
+
+  describe('on failure', function(){
+    it('should invoke the callback', function(done){
+      var app = express()
+        , calls = 0;
+
+      app.use(function(req, res){
+        res.download('test/fixtures/foobar.html', function(err){
+          assert(404 == err.status);
+          assert('ENOENT' == err.code);
+          done();
+        });
+      });
+
+      request(app)
+      .get('/')
+      .end(function(){});
+    })
+
+    it('should remove Content-Disposition', function(done){
+      var app = express()
+        , calls = 0;
+
+      app.use(function(req, res){
+        res.download('test/fixtures/foobar.html', function(err){
+          res.end('failed');
+        });
+      });
+
+      request(app)
+      .get('/')
+      .expect('failed')
+      .end(function(err, res){
+        if (err) return done(err);
+        res.header.should.not.have.property('content-disposition');
+        done();
+      });
+    })
+  })
 })
