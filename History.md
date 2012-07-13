@@ -1,4 +1,14 @@
 
+3.0.0beta6 / 2012-07-13 
+==================
+
+  * add `err.view` property for view errors. Closes #1226
+  * add "jsonp callback name" setting
+  * add support for "/foo/:bar*" non-greedy matches
+  * change `res.sendfile()` to use `send()` module
+  * change `res.send` to use "response-send" module
+  * remove `app.locals.use` and `res.locals.use`, use regular middleware
+
 3.0.0beta5 / 2012-07-03 
 ==================
 
