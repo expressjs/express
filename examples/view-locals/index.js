@@ -88,7 +88,6 @@ function count2(req, res, next) {
 function users2(req, res, next) {
   User.all(function(err, users){
     if (err) return next(err);
-    // this would not be ideal for *this*
     res.locals.users = users.filter(ferrets);
     next();
   })
@@ -102,28 +101,6 @@ app.get('/middleware-locals', count2, users2, function(req, res, next){
   res.render('user', { title: 'Users' });
 });
 
-
-
-
-// let's assume we wanted to load the users
-// and count for every res.render() call, we
-// could use app.locals.use() for this. These
-// are callbacks which run in parallel ONLY
-// when res.render() is invoked. If no views
-// are rendered, there is no overhead.
-
-// This may be ideal if you want to load auxiliary
-// user information, but only for templates. Note
-// that (req, res) are available to you, so you may
-// access req.session.user etc.
-
-// Keep in mind these execute in *parallel*, so these
-// callbacks should not depend on each other, this
-// also makes them slightly more efficient than
-// using middleware which execute sequentially
-
-app.locals.use(count2);
-app.locals.use(users2);
 
 app.get('/locals', function(req, res){
   res.render('user', { title: 'Users' });

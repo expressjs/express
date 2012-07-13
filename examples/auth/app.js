@@ -8,16 +8,20 @@ var express = require('../../lib/express')
 
 var app = module.exports = express();
 
-app.use(express.bodyParser());
-app.use(express.cookieParser('shhhh, very secret'));
-app.use(express.session());
+// config
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
+// middleware
+
+app.use(express.bodyParser());
+app.use(express.cookieParser('shhhh, very secret'));
+app.use(express.session());
+
 // Session-persisted message middleware
 
-app.locals.use(function(req,res){
+app.use(function(req, res, next){
   var err = req.session.error
     , msg = req.session.success;
   delete req.session.error;
@@ -25,7 +29,8 @@ app.locals.use(function(req,res){
   res.locals.message = '';
   if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
   if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
-})
+  next();
+});
 
 // dummy database
 

@@ -25,8 +25,24 @@ app.response.message = function(msg){
   return this;
 };
 
+// log
+if (!module.parent) app.use(express.logger('dev'));
+
+// serve static files
+app.use(express.static(__dirname + '/public'));
+
+// session support
+app.use(express.cookieParser('some secret here'));
+app.use(express.session());
+
+// parse request bodies (req.body)
+app.use(express.bodyParser());
+
+// support _method (PUT in forms etc)
+app.use(express.methodOverride());
+
 // expose the "messages" local variable when views are rendered
-app.locals.use(function(req, res){
+app.use(function(req, res, next){
   var msgs = req.session.messages || [];
 
   // expose "messages" local variable
@@ -45,23 +61,8 @@ app.locals.use(function(req, res){
   // empty or "flush" the messages so they
   // don't build up
   req.session.messages = [];
+  next();
 });
-
-// log
-if (!module.parent) app.use(express.logger('dev'));
-
-// serve static files
-app.use(express.static(__dirname + '/public'));
-
-// session support
-app.use(express.cookieParser('some secret here'));
-app.use(express.session());
-
-// parse request bodies (req.body)
-app.use(express.bodyParser());
-
-// support _method (PUT in forms etc)
-app.use(express.methodOverride());
 
 // load controllers
 require('./lib/boot')(app, { verbose: !module.parent });

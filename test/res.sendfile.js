@@ -11,6 +11,7 @@ describe('res', function(){
       app.use(function(req, res){
         res.sendfile('test/fixtures/user.html', function(err){
           assert(!err);
+          req.socket.listeners('error').should.have.length(1); // node's original handler
           done();
         });
       });
@@ -40,8 +41,8 @@ describe('res', function(){
 
       app.use(function(req, res){
         res.sendfile('test/fixtures/nope.html', function(err){
-          assert(!res.headerSent);
           ++calls;
+          assert(!res.headerSent);
           res.send(err.message);
         });
       });
@@ -49,8 +50,8 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(err, res){
-        calls.should.equal(1);
-        res.text.should.equal('Not Found');
+        assert(1 == calls, 'called too many times');
+        res.text.should.equal("ENOENT, stat 'test/fixtures/nope.html'");
         res.statusCode.should.equal(200);
         done();
       });
@@ -86,6 +87,25 @@ describe('res', function(){
       .get('/')
       .expect('Forbidden')
       .expect(200, done);
+    })
+
+    it('should invoke the callback on socket error', function(done){
+      var app = express()
+        , calls = 0;
+
+      app.use(function(req, res){
+        res.sendfile('test/fixtures/user.html', function(err){
+          assert(!res.headerSent);
+          req.socket.listeners('error').should.have.length(1); // node's original handler
+          done();
+        });
+
+        req.socket.emit('error', new Error('broken!'));
+      });
+
+      request(app)
+      .get('/')
+      .end(function(){});
     })
   })
 
