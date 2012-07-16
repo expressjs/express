@@ -1,4 +1,9 @@
 
+3.0.0beta7 / 2012-07-16 
+==================
+
+  * update connect dep for `send()` root normalization regression
+
 3.0.0beta6 / 2012-07-13 
 ==================
 
