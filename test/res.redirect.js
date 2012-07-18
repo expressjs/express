@@ -19,6 +19,25 @@ describe('res', function(){
         done();
       })
     })
+
+    describe('with leading //', function(){
+      it('should pass through scheme-relative urls', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.redirect('//cuteoverload.com');
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', 'example.com')
+        .end(function(err, res){
+          res.headers.should.have.property('location', '//cuteoverload.com');
+          done();
+        })
+      })
+    })
+
     
     describe('with leading /', function(){
       it('should construct scheme-relative urls', function(done){
