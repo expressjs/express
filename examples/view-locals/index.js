@@ -106,5 +106,46 @@ app.get('/locals', function(req, res){
   res.render('user', { title: 'Users' });
 });
 
+// keep in mind that middleware may be placed anywhere
+// and in various combinations, so if you have locals
+// that you wish to make available to all subsequent
+// middleware/routes you can do something like this:
+
+/*
+
+app.use(function(req, res, next){
+  res.locals.user = req.user;
+  res.locals.sess = req.session;
+  next();
+});
+
+*/
+
+// or suppose you have some /admin
+// "global" local variables:
+
+/*
+
+app.use('/api', function(req, res, next){
+  res.locals.user = req.user;
+  res.locals.sess = req.session;
+  next();
+});
+
+*/
+
+// the following is effectively the same,
+// but uses a route instead:
+
+/*
+
+app.all('/api/*', function(req, res, next){
+  res.locals.user = req.user;
+  res.locals.sess = req.session;
+  next();
+});
+
+*/
+
 app.listen(3000);
 console.log('Application listening on port 3000');
