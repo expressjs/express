@@ -4,26 +4,6 @@ var express = require('../')
 
 describe('res', function(){
   describe('.redirect(url)', function(){
-    it('should respect X-Forwarded-Proto when "trust proxy" is enabled', function(done){
-      var app = express();
-
-      app.enable('trust proxy');
-
-      app.use(function(req, res){
-        res.redirect('/login');
-      });
-
-      request(app)
-      .get('/')
-      .set('Host', 'example.com')
-      .set('X-Forwarded-Proto', 'https')
-      .end(function(err, res){
-        res.statusCode.should.equal(302);
-        res.headers.should.have.property('location', 'https://example.com/login');
-        done();
-      })
-    })
-
     it('should default to a 302 redirect', function(done){
       var app = express();
 
@@ -41,7 +21,7 @@ describe('res', function(){
     })
     
     describe('with leading /', function(){
-      it('should construct host-relative urls', function(done){
+      it('should construct scheme-relative urls', function(done){
         var app = express();
 
         app.use(function(req, res){
@@ -52,7 +32,7 @@ describe('res', function(){
         .get('/')
         .set('Host', 'example.com')
         .end(function(err, res){
-          res.headers.should.have.property('location', 'http://example.com/login');
+          res.headers.should.have.property('location', '//example.com/login');
           done();
         })
       })
@@ -70,7 +50,7 @@ describe('res', function(){
         .get('/post/1')
         .set('Host', 'example.com')
         .end(function(err, res){
-          res.headers.should.have.property('location', 'http://example.com/post/1/./edit');
+          res.headers.should.have.property('location', '//example.com/post/1/./edit');
           done();
         })
       })
@@ -88,7 +68,7 @@ describe('res', function(){
         .get('/post/1')
         .set('Host', 'example.com')
         .end(function(err, res){
-          res.headers.should.have.property('location', 'http://example.com/post/1/../new');
+          res.headers.should.have.property('location', '//example.com/post/1/../new');
           done();
         })
       })
@@ -106,7 +86,7 @@ describe('res', function(){
         .get('/')
         .set('Host', 'example.com')
         .end(function(err, res){
-          res.headers.should.have.property('location', 'http://example.com/login');
+          res.headers.should.have.property('location', '//example.com/login');
           done();
         })
       })
@@ -130,7 +110,7 @@ describe('res', function(){
           .get('/blog/admin')
           .set('Host', 'example.com')
           .end(function(err, res){
-            res.headers.should.have.property('location', 'http://example.com/blog/admin/login');
+            res.headers.should.have.property('location', '//example.com/blog/admin/login');
             done();
           })
         })
@@ -151,7 +131,7 @@ describe('res', function(){
           .get('/blog')
           .set('Host', 'example.com')
           .end(function(err, res){
-            res.headers.should.have.property('location', 'http://example.com/blog/admin/login');
+            res.headers.should.have.property('location', '//example.com/blog/admin/login');
             done();
           })
         })
@@ -172,7 +152,7 @@ describe('res', function(){
           .get('/blog')
           .set('Host', 'example.com')
           .end(function(err, res){
-            res.headers.should.have.property('location', 'http://example.com/admin/login');
+            res.headers.should.have.property('location', '//example.com/admin/login');
             done();
           })
         })
