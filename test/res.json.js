@@ -9,7 +9,6 @@ describe('res', function(){
       it('should respond with jsonp', function(done){
         var app = express();
 
-        // app.enable('jsonp callback');
         app.use(function(req, res){
           res.json({ count: 1 });
         });
@@ -19,6 +18,22 @@ describe('res', function(){
         .end(function(res){
           res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
           res.body.should.equal('something({"count":1});');
+          done();
+        })
+      })
+
+      it('should allow []', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.json({ count: 1 });
+        });
+
+        request(app)
+        .get('/?callback=callbacks[123]')
+        .end(function(res){
+          res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
+          res.body.should.equal('callbacks[123]({"count":1});');
           done();
         })
       })

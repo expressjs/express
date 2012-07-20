@@ -1,4 +1,51 @@
 
+3.0.0alpha5 / 2012-05-30 
+==================
+
+  * Added `req.ip`
+  * Added `{ signed: true }` option to `res.cookie()`
+  * Removed `res.signedCookie()`
+  * Changed: dont reverse `req.ips`
+  * Fixed "trust proxy" setting check for `req.ips`
+
+3.0.0alpha4 / 2012-05-09 
+==================
+
+  * Added: allow `[]` in jsonp callback. Closes #1128
+  * Added `PORT` env var support in generated template. Closes #1118 [benatkin]
+  * Updated: connect 2.2.2
+
+3.0.0alpha3 / 2012-05-04 
+==================
+
+  * Added public `app.routes`. Closes #887
+  * Added _view-locals_ example
+  * Added _mvc_ example
+  * Added `res.locals.use()`. Closes #1120
+  * Added conditional-GET support to `res.send()`
+  * Added: coerce `res.set()` values to strings
+  * Changed: moved `static()` in generated apps below router
+  * Changed: `res.send()` only set ETag when not previously set
+  * Changed connect 2.2.1 dep
+  * Changed: `make test` now runs unit / acceptance tests
+  * Fixed req/res proto inheritance
+
+3.0.0alpha2 / 2012-04-26 
+==================
+
+  * Added `make benchmark` back
+  * Added `res.send()` support for `String` objects
+  * Added client-side data exposing example
+  * Added `res.header()` and `req.header()` aliases for BC
+  * Added `express.createServer()` for BC
+  * Perf: memoize parsed urls
+  * Perf: connect 2.2.0 dep
+  * Changed: make `expressInit()` middleware self-aware
+  * Fixed: use app.get() for all core settings
+  * Fixed redis session example
+  * Fixed session example. Closes #1105
+  * Fixed generated express dep. Closes #1078
+
 3.0.0alpha1 / 2012-04-15 
 ==================
 

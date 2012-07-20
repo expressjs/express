@@ -57,7 +57,7 @@ var index = [
  */
 
 var jadeLayout = [
-    '!!!'
+    'doctype 5'
   , 'html'
   , '  head'
   , '    title= title'
@@ -181,14 +181,15 @@ var app = [
   , 'var app = express();'
   , ''
   , 'app.configure(function(){'
+  , '  app.set(\'port\', process.env.PORT || 3000);'
   , '  app.set(\'views\', __dirname + \'/views\');'
   , '  app.set(\'view engine\', \':TEMPLATE\');'
   , '  app.use(express.favicon());'
-  , '  app.use(express.logger(\'dev\'));{css}'
-  , '  app.use(express.static(__dirname + \'/public\'));'
+  , '  app.use(express.logger(\'dev\'));'
   , '  app.use(express.bodyParser());'
   , '  app.use(express.methodOverride());{sess}'
-  , '  app.use(app.router);'
+  , '  app.use(app.router);{css}'
+  , '  app.use(express.static(__dirname + \'/public\'));'
   , '});'
   , ''
   , 'app.configure(\'development\', function(){'
@@ -197,9 +198,9 @@ var app = [
   , ''
   , 'app.get(\'/\', routes.index);'
   , ''
-  , 'http.createServer(app).listen(3000);'
-  , ''
-  , 'console.log("Express server listening on port 3000");'
+  , 'http.createServer(app).listen(app.get(\'port\'), function(){'
+  , '  console.log("Express server listening on port " + app.get(\'port\'));'
+  , '});'
   , ''
 ].join(eol);
 
@@ -284,7 +285,7 @@ function createApplicationAt(path) {
         app = app.replace('{css}', eol + '  app.use(require(\'less-middleware\')({ src: __dirname + \'/public\' }));');
         break;
       case 'stylus':
-        app = app.replace('{css}', eol + '  app.use(require(\'stylus\').middleware({ src: __dirname + \'/public\' }));');
+        app = app.replace('{css}', eol + '  app.use(require(\'stylus\').middleware(__dirname + \'/public\'));');
         break;
       default:
         app = app.replace('{css}', '');

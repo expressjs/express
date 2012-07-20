@@ -10,13 +10,15 @@ docs/%.md: lib/%.js
 	@mkdir -p docs
 	dox --raw < $< | ./support/docs > $@
 
-test:
+test: test-unit test-acceptance
+
+test-unit:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER)
 
 test-acceptance:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
-		--reporter spec \
+		--reporter $(REPORTER) \
 		test/acceptance/*.js
 
 test-cov: lib-cov
@@ -28,4 +30,7 @@ lib-cov:
 docclean:
 	rm -fr docs
 
-.PHONY: docs docclean site test test-acceptance
+benchmark:
+	@./support/bench
+
+.PHONY: docs docclean test test-unit test-acceptance benchmark

@@ -1,5 +1,6 @@
 
-var express = require('../');
+var express = require('../')
+  , request = require('./support/http');
 
 describe('app', function(){
   describe('.render(name, fn)', function(){
@@ -151,6 +152,28 @@ describe('app', function(){
         str.should.equal('<p>jane</p>');
         done();
       })
+    })
+  })
+  
+  describe('.render(name, req, options, fn)', function(){
+    it('should render the template', function(done){
+      var app = express();
+      
+      app.set('views', __dirname + '/fixtures');
+      
+      var user = { name: 'tobi' };
+
+      app.use(function(req, res){
+        app.render('user.jade', req, { user: user }, function(err, str){
+          if (err) return done(err);
+          str.should.equal('<p>tobi</p>');
+          res.end();
+        });
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, done);
     })
   })
 })

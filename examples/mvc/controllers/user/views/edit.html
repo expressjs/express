@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="/style.css" />
+<h1><%= user.name %></h1>
+<form action='/user/<%= user.id %>' method='post'>
+  <input type="hidden" name="_method" value="put" />
+  <label>Name: <input type="text" name="user[name]" value="<%= user.name %>" /></label>
+  <input type="submit" value="Update" />
+</form>
+
+<form action='/user/<%= user.id %>/pet' method='post'>
+  <label>Pet: <input type="text" name="pet[name]" placeholder="name" /></label>
+  <input type="submit" value="Add" />
+</form>

@@ -1,19 +1,20 @@
 {
   "name": "express",
   "description": "Sinatra inspired web development framework",
-  "version": "3.0.0alpha1",
+  "version": "3.0.0alpha5",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
-  "contributors": [ 
-    { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }, 
+  "contributors": [
+    { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" },
     { "name": "Aaron Heckmann", "email": "aaron.heckmann+github@gmail.com" },
     { "name": "Ciaran Jessup", "email": "ciaranj@gmail.com" },
     { "name": "Guillermo Rauch", "email": "rauchg@gmail.com" }
   ],
   "dependencies": {
-    "connect": "2.1.2",
-    "commander": "0.5.2",
+    "connect": "2.2.2",
+    "commander": "0.6.0",
     "mime": "1.2.5",
     "mkdirp": "0.3.1",
+    "crc": "0.2.0",
     "debug": "*"
   },
   "devDependencies": {
@@ -34,6 +35,6 @@
     "prepublish" : "npm prune",
     "test": "make test"
   },
-  "engines": { "node":">= 0.5.0 < 0.7.0" }
+  "engines": { "node": "*" }
 }
 

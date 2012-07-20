@@ -1,6 +1,7 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('./support/http')
+  , res = express.response;
 
 describe('res', function(){
   describe('.set(field, value)', function(){
@@ -17,6 +18,12 @@ describe('res', function(){
         res.headers.should.have.property('content-type', 'text/x-foo');
         done();
       })
+    })
+
+    it('should coerce to a string', function(){
+      res.headers = {};
+      res.set('ETag', 123);
+      res.get('ETag').should.equal('123');
     })
   })
   
@@ -38,6 +45,12 @@ describe('res', function(){
         res.headers.should.have.property('x-bar', 'baz');
         done();
       })
+    })
+
+    it('should coerce to a string', function(){
+      res.headers = {};
+      res.set({ ETag: 123 });
+      res.get('ETag').should.equal('123');
     })
   })
 })

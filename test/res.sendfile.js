@@ -24,7 +24,22 @@ describe('res', function(){
         done();
       });
     })
-    
+
+    it('should utilize the same options as express.static()', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.sendfile('test/fixtures/user.html', { maxAge: 60000 });
+      });
+
+      request(app)
+      .get('/')
+      .end(function(res){
+        res.should.have.header('Cache-Control', 'public, max-age=60');
+        done();
+      });
+    })
+
     it('should invoke the callback on 404', function(done){
       var app = express()
         , calls = 0;
