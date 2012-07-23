@@ -14,10 +14,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.headers.should.have.property('content-type', 'text/x-foo');
-        done();
-      })
+      .expect('Content-Type', 'text/x-foo')
+      .end(done);
     })
 
     it('should coerce to a string', function(){
@@ -40,11 +38,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.headers.should.have.property('x-foo', 'bar');
-        res.headers.should.have.property('x-bar', 'baz');
-        done();
-      })
+      .expect('X-Foo', 'bar')
+      .expect('X-Bar', 'baz')
+      .end(done);
     })
 
     it('should coerce to a string', function(){

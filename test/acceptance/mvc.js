@@ -7,7 +7,7 @@ describe('mvc', function(){
     it('should redirect to /users', function(done){
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.should.have.status(302);
         res.headers.location.should.include('/users');
         done();
@@ -19,11 +19,11 @@ describe('mvc', function(){
     it('should display a list of users', function(done){
       request(app)
       .get('/users')
-      .end(function(res){
-        res.body.should.include('<h1>Users</h1>');
-        res.body.should.include('>TJ<');
-        res.body.should.include('>Guillermo<');
-        res.body.should.include('>Nathan<');
+      .end(function(err, res){
+        res.text.should.include('<h1>Users</h1>');
+        res.text.should.include('>TJ<');
+        res.text.should.include('>Guillermo<');
+        res.text.should.include('>Nathan<');
         done();
       })
     })
@@ -34,8 +34,8 @@ describe('mvc', function(){
       it('should display the user', function(done){
         request(app)
         .get('/user/0')
-        .end(function(res){
-          res.body.should.include('<h1>TJ <a href="/user/0/edit">edit');
+        .end(function(err, res){
+          res.text.should.include('<h1>TJ <a href="/user/0/edit">edit');
           done();
         })
       })
@@ -43,10 +43,10 @@ describe('mvc', function(){
       it('should display the users pets', function(done){
         request(app)
         .get('/user/0')
-        .end(function(res){
-          res.body.should.include('/pet/0">Tobi');
-          res.body.should.include('/pet/1">Loki');
-          res.body.should.include('/pet/2">Jane');
+        .end(function(err, res){
+          res.text.should.include('/pet/0">Tobi');
+          res.text.should.include('/pet/1">Loki');
+          res.text.should.include('/pet/2">Jane');
           done();
         })
       })
@@ -65,9 +65,9 @@ describe('mvc', function(){
     it('should display the edit form', function(done){
       request(app)
       .get('/user/1/edit')
-      .end(function(res){
-        res.body.should.include('<h1>Guillermo</h1>');
-        res.body.should.include('value="put"');
+      .end(function(err, res){
+        res.text.should.include('<h1>Guillermo</h1>');
+        res.text.should.include('value="put"');
         done();
       })
     })
@@ -77,13 +77,12 @@ describe('mvc', function(){
     it('should update the user', function(done){
       request(app)
       .put('/user/1')
-      .set('Content-Type', 'application/json')
-      .write('{"user":{"name":"Tobo"}}')
-      .end(function(res){
+      .send({ user: { name: 'Tobo' }})
+      .end(function(err, res){
         request(app)
         .get('/user/1/edit')
-        .end(function(res){
-          res.body.should.include('<h1>Tobo</h1>');
+        .end(function(err, res){
+          res.text.should.include('<h1>Tobo</h1>');
           done();
         })
       })

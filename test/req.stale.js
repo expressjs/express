@@ -29,10 +29,7 @@ describe('req', function(){
       request(app)
       .get('/')
       .set('If-None-Match', '12345')
-      .end(function(res){
-        res.body.should.equal('true');
-        done();
-      });
+      .expect('true', done);
     })
   })
 })

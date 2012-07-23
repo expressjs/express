@@ -15,10 +15,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('text/x-foo; charset=utf-8');
-        done();
-      })
+      .expect("text/x-foo; charset=utf-8", done);
     })
     
     it('should take precedence over res.send() defaults', function(done){
@@ -31,10 +28,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.headers.should.have.property('content-type', 'text/html; charset=whoop');
-        done();
-      })
+      .expect('Content-Type', 'text/html; charset=whoop', done);
     })
   })
 })

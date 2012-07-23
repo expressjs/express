@@ -17,13 +17,6 @@ describe('exports', function(){
     express.mime.should.equal(require('connect').mime);
   })
 
-  it('should expose HTTP methods', function(){
-    express.methods.should.be.an.instanceof(Array);
-    express.methods.should.include('get');
-    express.methods.should.include('put');
-    express.methods.should.include('post');
-  })
-  
   it('should expose Router', function(){
     express.Router.should.be.a('function');
   })

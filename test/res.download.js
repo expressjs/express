@@ -14,10 +14,10 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
         res.should.have.header('Content-Disposition', 'attachment; filename="user.html"');
-        res.body.should.equal('<p>{{user.name}}</p>');
+        res.text.should.equal('<p>{{user.name}}</p>');
         done();
       });
     })
@@ -33,7 +33,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
         res.should.have.header('Content-Disposition', 'attachment; filename="document"');
         done();
@@ -52,7 +52,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
         res.should.have.header('Content-Disposition', 'attachment; filename="user.html"');
       });
@@ -70,9 +70,48 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
         res.should.have.header('Content-Disposition', 'attachment; filename="document"');
+      });
+    })
+  })
+
+  describe('on failure', function(){
+    it('should invoke the callback', function(done){
+      var app = express()
+        , calls = 0;
+
+      app.use(function(req, res){
+        res.download('test/fixtures/foobar.html', function(err){
+          assert(404 == err.status);
+          assert('ENOENT' == err.code);
+          done();
+        });
+      });
+
+      request(app)
+      .get('/')
+      .end(function(){});
+    })
+
+    it('should remove Content-Disposition', function(done){
+      var app = express()
+        , calls = 0;
+
+      app.use(function(req, res){
+        res.download('test/fixtures/foobar.html', function(err){
+          res.end('failed');
+        });
+      });
+
+      request(app)
+      .get('/')
+      .expect('failed')
+      .end(function(err, res){
+        if (err) return done(err);
+        res.header.should.not.have.property('content-disposition');
+        done();
       });
     })
   })

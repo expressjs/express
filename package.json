@@ -1,7 +1,7 @@
 {
   "name": "express",
   "description": "Sinatra inspired web development framework",
-  "version": "3.0.0beta3",
+  "version": "3.0.0beta7",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [ 
     { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }, 
@@ -10,13 +10,15 @@
     { "name": "Guillermo Rauch", "email": "rauchg@gmail.com" }
   ],
   "dependencies": {
-    "connect": "2.3.3",
+    "connect": "2.3.9",
     "commander": "0.6.1",
-    "range-parser": "0.0.3",
+    "range-parser": "0.0.4",
+    "response-send": "0.0.1",
     "mkdirp": "0.3.3",
     "cookie": "0.0.3",
-    "crc": "0.2.0",
     "fresh": "0.1.0",
+    "methods": "0.0.1",
+    "send": "0.0.3",
     "debug": "*"
   },
   "devDependencies": {
@@ -27,10 +29,21 @@
     "stylus": "*",
     "should": "*",
     "connect-redis": "*",
-    "github-flavored-markdown": "*"
+    "github-flavored-markdown": "*",
+    "supertest": "0.0.1"
   },
+  "keywords": [
+    "express",
+    "framework",
+    "sinatra",
+    "web",
+    "rest",
+    "restful",
+    "router",
+    "app",
+    "api"
+  ],
   "publishConfig": { "tag": "3.0" },
-  "keywords": ["express", "framework", "sinatra", "web", "rest", "restful", "router"],
   "repository": "git://github.com/visionmedia/express",
   "main": "index",
   "bin": { "express": "./bin/express" },

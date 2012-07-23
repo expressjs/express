@@ -15,10 +15,7 @@ describe('req', function(){
         request(app)
         .get('/')
         .set('Host', 'tobi.ferrets.example.com')
-        .end(function(res){
-          res.body.should.equal('["ferrets","tobi"]');
-          done();
-        })
+        .expect('["ferrets","tobi"]', done);
       })
     })
 
@@ -33,10 +30,7 @@ describe('req', function(){
         request(app)
         .get('/')
         .set('Host', 'example.com')
-        .end(function(res){
-          res.body.should.equal('[]');
-          done();
-        })
+        .expect('[]', done);
       })
     })
   })

@@ -29,14 +29,11 @@ describe('app', function(){
 
       request(app)
       .get('/user/tj')
-      .end(function(res){
-        res.body.should.equal('tj');
+      .end(function(err, res){
+        res.text.should.equal('tj');
         request(app)
         .get('/user/123')
-        .end(function(res){
-          res.should.have.status(404);
-          done();
-        });
+        .expect(404, done);
       });
 
     })
@@ -67,15 +64,12 @@ describe('app', function(){
 
       request(app)
       .get('/user/123')
-      .end(function(res){
-        res.body.should.equal('123');
+      .end(function(err, res){
+        res.text.should.equal('123');
 
         request(app)
         .get('/post/123')
-        .end(function(res){
-          res.body.should.equal('123');
-          done();
-        })
+        .expect('123', done);
       })
     })
   })
@@ -99,10 +93,7 @@ describe('app', function(){
 
       request(app)
       .get('/user/123')
-      .end(function(res){
-        res.body.should.equal('123');
-        done();
-      })
+      .expect('123', done);
     })
   })
 })

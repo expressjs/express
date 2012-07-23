@@ -1,4 +1,42 @@
 
+3.0.0beta7 / 2012-07-16 
+==================
+
+  * update connect dep for `send()` root normalization regression
+
+3.0.0beta6 / 2012-07-13 
+==================
+
+  * add `err.view` property for view errors. Closes #1226
+  * add "jsonp callback name" setting
+  * add support for "/foo/:bar*" non-greedy matches
+  * change `res.sendfile()` to use `send()` module
+  * change `res.send` to use "response-send" module
+  * remove `app.locals.use` and `res.locals.use`, use regular middleware
+
+3.0.0beta5 / 2012-07-03 
+==================
+
+  * add "make check" support
+  * add route-map example
+  * add `res.json(obj, status)` support back for BC
+  * add "methods" dep, remove internal methods module
+  * update connect dep
+  * update auth example to utilize cores pbkdf2
+  * updated tests to use "supertest"
+
+3.0.0beta4 / 2012-06-25 
+==================
+
+  * Added `req.auth`
+  * Added `req.range(size)`
+  * Added `res.links(obj)`
+  * Added `res.send(body, status)` support back for backwards compat
+  * Added `.default()` support to `res.format()`
+  * Added 2xx / 304 check to `req.fresh`
+  * Revert "Added + support to the router"
+  * Fixed `res.send()` freshness check, respect res.statusCode
+
 3.0.0beta3 / 2012-06-15 
 ==================
 

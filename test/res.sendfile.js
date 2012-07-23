@@ -6,23 +6,20 @@ var express = require('../')
 describe('res', function(){
   describe('.sendfile(path, fn)', function(){
     it('should invoke the callback when complete', function(done){
-      var app = express()
-        , calls = 0;
+      var app = express();
 
       app.use(function(req, res){
         res.sendfile('test/fixtures/user.html', function(err){
           assert(!err);
-          ++calls;
+          req.socket.listeners('error').should.have.length(1); // node's original handler
+          done();
         });
       });
 
       request(app)
       .get('/')
-      .end(function(res){
-        calls.should.equal(1);
-        res.statusCode.should.equal(200);
-        done();
-      });
+      .expect(200)
+      .end(function(){});
     })
 
     it('should utilize the same options as express.static()', function(done){
@@ -34,10 +31,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.should.have.header('Cache-Control', 'public, max-age=60');
-        done();
-      });
+      .expect('Cache-Control', 'public, max-age=60')
+      .end(done);
     })
 
     it('should invoke the callback on 404', function(done){
@@ -46,17 +41,17 @@ describe('res', function(){
 
       app.use(function(req, res){
         res.sendfile('test/fixtures/nope.html', function(err){
-          assert(!res.headerSent);
           ++calls;
+          assert(!res.headerSent);
           res.send(err.message);
         });
       });
 
       request(app)
       .get('/')
-      .end(function(res){
-        calls.should.equal(1);
-        res.body.should.equal('Not Found');
+      .end(function(err, res){
+        assert(1 == calls, 'called too many times');
+        res.text.should.equal("ENOENT, stat 'test/fixtures/nope.html'");
         res.statusCode.should.equal(200);
         done();
       });
@@ -72,10 +67,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.should.have.header('content-type', 'text/plain');
-        done();
-      });
+      .expect('Content-Type', 'text/plain')
+      .end(done);
     })
 
     it('should invoke the callback on 403', function(done){
@@ -92,12 +85,27 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('Forbidden');
-        res.statusCode.should.equal(200);
-        calls.should.equal(1);
-        done();
+      .expect('Forbidden')
+      .expect(200, done);
+    })
+
+    it('should invoke the callback on socket error', function(done){
+      var app = express()
+        , calls = 0;
+
+      app.use(function(req, res){
+        res.sendfile('test/fixtures/user.html', function(err){
+          assert(!res.headerSent);
+          req.socket.listeners('error').should.have.length(1); // node's original handler
+          done();
+        });
+
+        req.socket.emit('error', new Error('broken!'));
       });
+
+      request(app)
+      .get('/')
+      .end(function(){});
     })
   })
 
@@ -112,8 +120,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.body.should.equal('<p>{{user.name}}</p>');
+        .end(function(err, res){
+          res.text.should.equal('<p>{{user.name}}</p>');
           res.headers.should.have.property('content-type', 'text/html; charset=UTF-8');
           done();
         });
@@ -130,8 +138,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.body.should.equal('<p>{{user.name}}</p>');
+        .end(function(err, res){
+          res.text.should.equal('<p>{{user.name}}</p>');
           res.headers.should.have.property('content-type', 'text/html; charset=UTF-8');
           done();
         });
@@ -146,8 +154,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.body.should.equal('<p>{{user.name}}</p>');
+        .end(function(err, res){
+          res.text.should.equal('<p>{{user.name}}</p>');
           res.headers.should.have.property('content-type', 'text/html; charset=UTF-8');
           done();
         });
@@ -162,10 +170,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.statusCode.should.equal(403);
-          done();
-        });
+        .expect(403, done);
       })
       
       it('should allow ../ when "root" is set', function(done){
@@ -177,10 +182,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.statusCode.should.equal(200);
-          done();
-        });
+        .expect(200, done);
       })
       
       it('should disallow requesting out of "root"', function(done){
@@ -192,10 +194,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.statusCode.should.equal(403);
-          done();
-        });
+        .expect(403, done);
       })
       
       it('should next(404) when not found', function(done){
@@ -217,7 +216,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
+        .end(function(err, res){
           res.statusCode.should.equal(404);
           calls.should.equal(1);
           done();
@@ -226,17 +225,16 @@ describe('res', function(){
 
       describe('with non-GET', function(){
         it('should still serve', function(done){
-           var app = express()
-              , calls = 0;
+          var app = express()
+            , calls = 0;
 
-            app.use(function(req, res){
-              res.sendfile(__dirname + '/fixtures/name.txt');
-            });
+          app.use(function(req, res){
+            res.sendfile(__dirname + '/fixtures/name.txt');
+          });
 
-
-            request(app)
-            .get('/')
-            .expect('tobi', done);
+          request(app)
+          .get('/')
+          .expect('tobi', done);
         })
       })
     })

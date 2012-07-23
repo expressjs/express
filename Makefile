@@ -1,4 +1,5 @@
 
+MOCHA_OPTS=
 REPORTER = dot
 
 docs: docs/express.md
@@ -10,15 +11,19 @@ docs/%.md: lib/%.js
 	@mkdir -p docs
 	dox --raw < $< | ./support/docs > $@
 
+check: test
+
 test: test-unit test-acceptance
 
 test-unit:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
-		--reporter $(REPORTER)
+		--reporter $(REPORTER) \
+		$(MOCHA_OPTS)
 
 test-acceptance:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
+		--bail \
 		test/acceptance/*.js
 
 test-cov: lib-cov

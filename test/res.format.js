@@ -93,21 +93,15 @@ function test(app) {
     request(app)
     .get('/')
     .set('Accept', 'text/html; q=.5, text/plain')
-    .end(function(res){
-      res.headers['content-type'].should.equal('text/plain');
-      res.body.should.equal('hey');
-      done();
-    });
+    .expect('Content-Type', 'text/plain')
+    .expect('hey', done);
   })
 
   it('should Vary: Accept', function(done){
     request(app)
     .get('/')
     .set('Accept', 'text/html; q=.5, text/plain')
-    .end(function(res){
-      res.headers.vary.should.equal('Accept');
-      done();
-    });
+    .expect('Vary', 'Accept', done);
   })
 
   describe('when Accept is not present', function(){
@@ -123,11 +117,8 @@ function test(app) {
       request(app)
       .get('/')
       .set('Accept', 'foo/bar')
-      .end(function(res){
-        res.should.have.status(406);
-        res.body.should.equal('Supports: text/plain, text/html, application/json');
-        done();
-      });
+      .expect('Supports: text/plain, text/html, application/json')
+      .expect(406, done)
     })
   })
 }

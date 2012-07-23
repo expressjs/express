@@ -45,14 +45,6 @@ app.use(function(req, res, next){
   next();
 });
 
-// if you wanted to _always_ expose
-// the user you might do something like this:
-/*
-app.locals.use(function(req, res){
-  if (req.user) res.locals.expose.user = req.user;
-})
-*/
-
 app.get('/', function(req, res){
   res.redirect('/user');
 });

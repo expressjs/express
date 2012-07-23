@@ -1,11 +1,14 @@
+
 var express = require('../')
   , request = require('./support/http')
-  , assert = require('assert');
+  , assert = require('assert')
+  , methods = require('methods');
 
 describe('app.router', function(){
   describe('methods supported', function(){
-    express.methods.forEach(function(method){
+    methods.forEach(function(method){
       it('should include ' + method.toUpperCase(), function(done){
+        if (method == 'delete') method = 'del';
         var app = express();
         var calls = [];
 
@@ -256,6 +259,23 @@ describe('app.router', function(){
     })
   })
 
+  it('should allow escaped regexp', function(done){
+    var app = express();
+
+    app.get('/user/\\d+', function(req, res){
+      res.end('woot');
+    });
+
+    request(app)
+    .get('/user/10')
+    .end(function(err, res){
+      res.statusCode.should.equal(200);
+      request(app)
+      .get('/user/tj')
+      .expect(404, done);
+    });
+  })
+  
   it('should allow literal "."', function(done){
     var app = express();
 
@@ -271,30 +291,8 @@ describe('app.router', function(){
     .expect('users from 1 to 50', done);
   })
 
-  describe('+', function(){
-    it('should denote a greedy capture group', function(done){
-      var app = express();
-
-      app.get('/blog+', function(req, res){
-        res.end(req.params[0] || 'nothing');
-      });
-
-      request(app)
-      .get('/blog')
-      .expect(404, function(){
-        request(app)
-        .get('/blog/post')
-        .expect(200, function(){
-          request(app)
-          .get('/blog-admin')
-          .expect(200, done)
-        })
-      });
-    })
-  })
-
   describe('*', function(){
-    it('should denote an optional greedy capture group', function(done){
+    it('should denote a greedy capture group', function(done){
       var app = express();
 
       app.get('/user/*.json', function(req, res){
@@ -347,6 +345,30 @@ describe('app.router', function(){
       request(app)
       .get('/api/users/0.json')
       .expect('users/0.json', done);
+    })
+    
+    it('should not be greedy immediately after param', function(done){
+      var app = express();
+
+      app.get('/user/:user*', function(req, res){
+        res.end(req.params.user);
+      });
+
+      request(app)
+      .get('/user/122')
+      .expect('122', done);
+    })
+
+    it('should eat everything after /', function(done){
+      var app = express();
+
+      app.get('/user/:user*', function(req, res){
+        res.end(req.params.user);
+      });
+
+      request(app)
+      .get('/user/122/aaa')
+      .expect('122', done);
     })
     
     it('should span multiple segments', function(done){
