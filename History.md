@@ -1,4 +1,15 @@
 
+3.0.0rc1 / 2012-07-24 
+==================
+
+  * add more examples to view-locals
+  * add scheme-relative redirects (`res.redirect("//foo.com")`) support
+  * update cookie dep
+  * update connect dep
+  * update send dep
+  * fix `express(1)` -h flag, use -H for hogan. Closes #1245
+  * fix `res.sendfile()` socket error handling regression
+
 3.0.0beta7 / 2012-07-16 
 ==================
 
