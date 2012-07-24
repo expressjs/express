@@ -9,10 +9,9 @@ var express = require('../../lib/express');
 
 var pub = __dirname + '/public';
 
-// Auto-compile sass to css with "compiler"
-// and then serve with connect's staticProvider
+// setup middleware
 
-var app = express.createServer();
+var app = express();
 app.use(app.router);
 app.use(express.static(pub));
 app.use(express.errorHandler());

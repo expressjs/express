@@ -3,8 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express')
-  , app = express.createServer()
+var express = require('../..')
+  , app = express()
   , site = require('./site')
   , post = require('./post')
   , user = require('./user');
