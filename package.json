@@ -1,7 +1,7 @@
 {
   "name": "express",
   "description": "Sinatra inspired web development framework",
-  "version": "3.0.0beta7",
+  "version": "3.0.0rc1",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [ 
     { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }, 
@@ -10,7 +10,7 @@
     { "name": "Guillermo Rauch", "email": "rauchg@gmail.com" }
   ],
   "dependencies": {
-    "connect": "2.4.0",
+    "connect": "2.4.1",
     "commander": "0.6.1",
     "range-parser": "0.0.4",
     "response-send": "0.0.1",
