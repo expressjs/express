@@ -3,13 +3,13 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express');
+var express = require('../..');
 
 // Edit /etc/vhosts
 
 // First app
 
-var one = express.createServer();
+var one = express();
 
 one.use(express.logger());
 
@@ -23,7 +23,7 @@ one.get('/:sub', function(req, res){
 
 // App two
 
-var two = express.createServer();
+var two = express();
 
 two.get('/', function(req, res){
   res.send('Hello from app two!')
@@ -31,7 +31,7 @@ two.get('/', function(req, res){
 
 // Redirect app
 
-var redirect = express.createServer();
+var redirect = express();
 
 redirect.all('*', function(req, res){
   console.log(req.subdomains);
@@ -40,7 +40,7 @@ redirect.all('*', function(req, res){
 
 // Main app
 
-var app = express.createServer();
+var app = express();
 
 app.use(express.vhost('*.localhost', redirect))
 app.use(express.vhost('localhost', one));
