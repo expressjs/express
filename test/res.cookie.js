@@ -15,7 +15,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(err, res){
-        var val = ['user=j:{%22name%22:%22tobi%22}; Path=/'];
+        var val = ['user=' + encodeURIComponent('j:{"name":"tobi"}') + '; Path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
