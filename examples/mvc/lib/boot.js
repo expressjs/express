@@ -37,7 +37,6 @@ module.exports = function(parent, options){
         case 'show':
           method = 'get';
           path = '/' + name + '/:' + name + '_id';
-          app[method](path, obj[key]);
           break;
         case 'list':
           method = 'get';
