@@ -14,7 +14,7 @@ describe('app', function(){
         done();
       })
     })
-    
+
     it('should support absolute paths with "view engine"', function(done){
       var app = express();
 
@@ -40,7 +40,7 @@ describe('app', function(){
         done();
       })
     })
-    
+
     it('should support index.<engine>', function(done){
       var app = express();
 
@@ -110,7 +110,7 @@ describe('app', function(){
       })
     })
   })
-  
+
   describe('.render(name, options, fn)', function(){
     it('should render the template', function(done){
       var app = express();
@@ -125,7 +125,7 @@ describe('app', function(){
         done();
       })
     })
-    
+
     it('should expose app.locals', function(done){
       var app = express();
 
@@ -138,7 +138,7 @@ describe('app', function(){
         done();
       })
     })
-    
+
     it('should give precedence to app.render() locals', function(done){
       var app = express();
 
@@ -152,5 +152,31 @@ describe('app', function(){
         done();
       })
     })
+
+    it('should render the first view found', function(done){
+      var app = express(),
+          roots = [__dirname + '/fixtures/second', __dirname + '/fixtures/first']
+      app.set('views', roots);
+
+      app.render('common.jade', {}, function(err, str){
+        if (err) return done(err);
+        str.should.equal('<p>from second</p>');
+        done();
+      })
+    })
+
+    it('should find views in each directory', function(done){
+      var app = express(),
+          roots = [__dirname + '/fixtures/second', __dirname + '/fixtures/first']
+      app.set('views', roots);
+
+      app.render('uncommon.jade', {}, function(err, str){
+        if (err) return done(err);
+        str.should.equal('<p>from first</p>');
+        done();
+      })
+
+    })
+
   })
 })
