@@ -2,15 +2,6 @@
 MOCHA_OPTS=
 REPORTER = dot
 
-docs: docs/express.md
-
-docs/express.md: docs/application.md docs/request.md docs/response.md
-	cat $^ > $@
-
-docs/%.md: lib/%.js
-	@mkdir -p docs
-	dox --raw < $< | ./support/docs > $@
-
 check: test
 
 test: test-unit test-acceptance
@@ -32,10 +23,7 @@ test-cov: lib-cov
 lib-cov:
 	@jscoverage lib lib-cov
 
-docclean:
-	rm -fr docs
-
 benchmark:
 	@./support/bench
 
-.PHONY: docs docclean test test-unit test-acceptance benchmark
+.PHONY: test test-unit test-acceptance benchmark
