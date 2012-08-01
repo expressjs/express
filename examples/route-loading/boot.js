@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -15,7 +14,15 @@ module.exports = function(app, db){
     // the file with vm.runInNewContext()
     // instead of loading it with require(). require's
     // internals use similar, so dont be afraid of "boot time".
-    var context = { app: app, db: db };
+    var context = {
+        app: app
+      , db: db 
+      // sinde __dirname, __filename and require aren't included
+      // in the global scope, they need to be included manually
+      , __dirname: __dirname
+      , __filename: file
+      , require: require
+    };
     // we have to merge the globals for console, process etc
     for (var key in global) context[key] = global[key];
     // note that this is essentially no different than ... just using
