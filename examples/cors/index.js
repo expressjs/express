@@ -17,7 +17,7 @@ api.use(express.logger('dev'));
 api.use(express.bodyParser());
 
 /**
- * OPTIONS for all routes.
+ * CORS support.
  */
 
 api.all('*', function(req, res, next){
