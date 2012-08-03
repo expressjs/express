@@ -1,4 +1,13 @@
 
+3.0.0rc2 / 2012-08-03 
+==================
+
+  * add CORS example
+  * update connect dep
+  * deprecate `.createServer()` & remove old stale examples
+  * fix: escape `res.redirect()` link
+  * fix vhost example
+
 3.0.0rc1 / 2012-07-24 
 ==================
 
