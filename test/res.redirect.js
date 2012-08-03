@@ -232,6 +232,23 @@ describe('res', function(){
         done();
       })
     })
+
+    it('should escape the url', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect('<lame>');
+      });
+
+      request(app)
+      .get('/')
+      .set('Host', 'http://example.com')
+      .set('Accept', 'text/html')
+      .end(function(err, res){
+        res.text.should.equal('<p>Moved Temporarily. Redirecting to <a href="//http://example.com/&lt;lame&gt;">//http://example.com/&lt;lame&gt;</a></p>');
+        done();
+      })
+    })
   })
   
   describe('when accepting text', function(){
