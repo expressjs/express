@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var express = require('../../')
+var express = require('../..')
   , format = require('util').format;
 
 var app = module.exports = express()
