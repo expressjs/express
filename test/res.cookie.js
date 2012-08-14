@@ -109,7 +109,7 @@ describe('res', function(){
         .end(function(err, res){
           var val = res.headers['set-cookie'][0];
           val = cookie.parse(val.split('.')[0]);
-          val.user.should.equal('j:{"name":"tobi"}');
+          val.user.should.equal('s:j:{"name":"tobi"}');
           done();
         })
       })
@@ -128,7 +128,7 @@ describe('res', function(){
         request(app)
         .get('/')
         .end(function(err, res){
-          var val = ['name=tobi.xJjV2iZ6EI7C8E5kzwbfA9PVLl1ZR07UTnuTgQQ4EnQ; Path=/'];
+          var val = ['name=s%3Atobi.xJjV2iZ6EI7C8E5kzwbfA9PVLl1ZR07UTnuTgQQ4EnQ; Path=/'];
           res.headers['set-cookie'].should.eql(val);
           done();
         })
