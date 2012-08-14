@@ -1,6 +1,7 @@
 
 // first:
-// npm install redis online
+// $ npm install redis online
+// $ redis-server
 
 /**
  * Module dependencies.
