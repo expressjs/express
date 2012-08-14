@@ -1,4 +1,11 @@
 
+3.0.0rc3 / 2012-08-13 
+==================
+
+  * update connect dep
+  * fix signed cookies to work with `connect.cookieParser()` ("s:" prefix was missing) [tnydwrds]
+  * fix `res.render()` clobbering of "locals"
+
 3.0.0rc2 / 2012-08-03 
 ==================
 
