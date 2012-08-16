@@ -1,6 +1,7 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('./support/http')
+  , assert = require('assert');
 
 describe('exports', function(){
   it('should have .version', function(){
@@ -14,7 +15,7 @@ describe('exports', function(){
   })
 
   it('should expose .mime', function(){
-    express.mime.should.equal(require('connect').mime);
+    assert(express.mime == require('connect').mime, 'express.mime should be connect.mime');
   })
 
   it('should expose Router', function(){
