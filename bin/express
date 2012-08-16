@@ -21,12 +21,16 @@ program
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
   .option('-H, --hogan', 'add hogan.js engine support')
   .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus) (defaults to plain css)')
+  .option('-C, --coffee', 'compile to coffee-script')
   .option('-f, --force', 'force on non-empty directory')
   .parse(process.argv);
 
 // Path
 
 var path = program.args.shift() || '.';
+
+// App Type
+var appType = program.coffee ? 'coffee' : 'js'
 
 // end-of-line code
 
@@ -43,16 +47,27 @@ if (program.hogan) program.template = 'hjs';
  * Routes index template.
  */
 
-var index = [
-    ''
-  , '/*'
-  , ' * GET home page.'
-  , ' */'
-  , ''
-  , 'exports.index = function(req, res){'
-  , '  res.render(\'index\', { title: \'Express\' });'
-  , '};'
-].join(eol);
+var index = {
+  js: [
+      ''
+    , '/*'
+    , ' * GET home page.'
+    , ' */'
+    , ''
+    , 'exports.index = function(req, res){'
+    , '  res.render(\'index\', { title: \'Express\' });'
+    , '};'
+  ].join(eol),
+  coffee: [
+      ''
+    , '###'
+    , 'GET home page.'
+    , '###'
+    , ''
+    , 'exports.index = (req, res) ->'
+    , '  res.render \'index\', { title: \'Express\'}'
+  ].join(eol)
+}[appType]
 
 /**
  * Jade layout template.
@@ -187,7 +202,8 @@ var stylus = [
  * App template.
  */
 
-var app = [
+var app = {
+  js: [
     ''
   , '/**'
   , ' * Module dependencies.'
@@ -222,7 +238,41 @@ var app = [
   , '  console.log("Express server listening on port " + app.get(\'port\'));'
   , '});'
   , ''
-].join(eol);
+  ].join(eol),
+  coffee: [
+      ''
+  , '###'
+  , 'Module dependencies.'
+  , '###'
+  , ''
+  , 'express = require \'express\''
+  , 'routes = require \'./routes\''
+  , 'http = require \'http\''
+  , 'path = require \'path\''
+  , ''
+  , 'app = express()'
+  , ''
+  , 'app.configure ()->'
+  , '  app.set \'port\', process.env.PORT || 3000'
+  , '  app.set \'views\', __dirname + \'/views\''
+  , '  app.set \'view engine\', \':TEMPLATE\''
+  , '  app.use express.favicon()'
+  , '  app.use express.logger(\'dev\')'
+  , '  app.use express.bodyParser();'
+  , '  app.use express.methodOverride(){sess}'
+  , '  app.use app.router{css}'
+  , '  app.use express.static(path.join(__dirname, \'public\'))'
+  , ''
+  , 'app.configure \'development\', ()->'
+  , '  app.use express.errorHandler()'
+  , ''
+  , 'app.get \'/\', routes.index'
+  , ''
+  , 'http.createServer(app).listen app.get(\'port\'), ->'
+  , '  console.log "Express server listening on port " + app.get(\'port\')'
+  , ''
+  ].join(eol)
+}[appType];
 
 // Generate application
 
@@ -279,7 +329,7 @@ function createApplicationAt(path) {
     });
 
     mkdir(path + '/routes', function(){
-      write(path + '/routes/index.js', index);
+      write(path + '/routes/index.' + appType, index);
     });
 
     mkdir(path + '/views', function(){
@@ -347,7 +397,7 @@ function createApplicationAt(path) {
     }
 
     write(path + '/package.json', JSON.stringify(pkg, null, 2));
-    write(path + '/app.js', app);
+    write(path + '/app.' + appType, app);
   });
 }
 
