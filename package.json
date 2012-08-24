@@ -10,7 +10,7 @@
     { "name": "Guillermo Rauch", "email": "rauchg@gmail.com" }
   ],
   "dependencies": {
-    "connect": "1.x",
+    "connect": "1.9.2",
     "mime": "1.2.4",
     "qs": "0.4.x",
     "mkdirp": "0.3.0"
