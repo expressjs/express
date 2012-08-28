@@ -55,6 +55,21 @@ var index = [
 ].join(eol);
 
 /**
+ * Routes users template.
+ */
+
+var users = [
+    ''
+  , '/*'
+  , ' * GET users listing.'
+  , ' */'
+  , ''
+  , 'exports.list = function(req, res){'
+  , '  res.send("respond with a resource");'
+  , '};'
+].join(eol);
+
+/**
  * Jade layout template.
  */
 
@@ -195,6 +210,7 @@ var app = [
   , ''
   , 'var express = require(\'express\')'
   , '  , routes = require(\'./routes\')'
+  , '  , user = require(\'./routes/user\')'
   , '  , http = require(\'http\')'
   , '  , path = require(\'path\');'
   , ''
@@ -217,6 +233,7 @@ var app = [
   , '});'
   , ''
   , 'app.get(\'/\', routes.index);'
+  , 'app.get(\'/users\', user.list);'
   , ''
   , 'http.createServer(app).listen(app.get(\'port\'), function(){'
   , '  console.log("Express server listening on port " + app.get(\'port\'));'
@@ -280,6 +297,7 @@ function createApplicationAt(path) {
 
     mkdir(path + '/routes', function(){
       write(path + '/routes/index.js', index);
+      write(path + '/routes/user.js', users);
     });
 
     mkdir(path + '/views', function(){
