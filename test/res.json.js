@@ -9,6 +9,8 @@ describe('res', function(){
       it('should respond with jsonp', function(done){
         var app = express();
 
+        app.enable('jsonp callback');
+
         app.use(function(req, res){
           res.json({ count: 1 });
         });
@@ -24,8 +26,10 @@ describe('res', function(){
 
       it('should allow renaming callback', function(done){
         var app = express();
-        
+
+        app.enable('jsonp callback');
         app.set('jsonp callback name', 'clb');
+
         app.use(function(req, res){
           res.json({ count: 1 });
         });
@@ -42,6 +46,7 @@ describe('res', function(){
       it('should allow []', function(done){
         var app = express();
 
+        app.enable('jsonp callback');
         app.use(function(req, res){
           res.json({ count: 1 });
         });
