@@ -6,8 +6,20 @@ var express = require('../../')
   , app = module.exports = express()
   , silent = 'test' == process.env.NODE_ENV;
 
+// general config
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+
+// our custom "verbose errors" setting
+// which we can use in the templates
+// via settings['verbose errors']
+app.enable('verbose errors');
+
+// disable them in production
+// use $ NODE_ENV=production node examples/error-pages
+if ('production' == app.settings.env) {
+  app.disable('verbose errors');
+}
 
 app.use(express.favicon());
 
@@ -31,7 +43,6 @@ app.use(app.router);
 // $ curl http://localhost:3000/notfound -H "Accept: text/plain"
 
 app.use(function(req, res, next){
-  // apply the 404 status code to all forms of accept headers
   res.status(404);
   
   // respond with html page

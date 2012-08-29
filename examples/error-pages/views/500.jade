@@ -7,4 +7,7 @@ extends error
 
 block content
   h1 Error: #{error.message}
-  pre= error.stack
+  if settings['verbose errors']
+    pre= error.stack
+  else
+    p An error ocurred!
