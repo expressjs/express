@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -32,9 +31,11 @@ app.use(app.router);
 // $ curl http://localhost:3000/notfound -H "Accept: text/plain"
 
 app.use(function(req, res, next){
+  // apply the 404 status code to all forms of accept headers
+  res.status(404);
+  
   // respond with html page
   if (req.accepts('html')) {
-    res.status(404);
     res.render('404', { url: req.url });
     return;
   }
