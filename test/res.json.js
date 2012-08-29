@@ -59,6 +59,23 @@ describe('res', function(){
           done();
         })
       })
+
+      it('should disallow arbitrary js', function(done){
+        var app = express();
+
+        app.enable('jsonp callback');
+        app.use(function(req, res){
+          res.json({});
+        });
+
+        request(app)
+        .get('/?callback=foo;bar()')
+        .end(function(err, res){
+          res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
+          res.text.should.equal('foobar({});');
+          done();
+        })
+      })
     })
 
     describe('when given primitives', function(){
