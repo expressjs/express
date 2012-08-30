@@ -4,17 +4,71 @@ var express = require('../')
   , assert = require('assert');
 
 describe('res', function(){
-  describe('.json(object)', function(){
-    it('should not support jsonp callbacks', function(done){
+  describe('.jsonp(object)', function(){
+    it('should respond with jsonp', function(done){
       var app = express();
 
       app.use(function(req, res){
-        res.json({ foo: 'bar' });
+        res.jsonp({ count: 1 });
       });
 
       request(app)
-      .get('/?callback=foo')
-      .expect('{"foo":"bar"}', done);
+      .get('/?callback=something')
+      .end(function(err, res){
+        res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
+        res.text.should.equal('something({"count":1});');
+        done();
+      })
+    })
+
+    it('should allow renaming callback', function(done){
+      var app = express();
+
+      app.set('jsonp callback name', 'clb');
+
+      app.use(function(req, res){
+        res.jsonp({ count: 1 });
+      });
+
+      request(app)
+      .get('/?clb=something')
+      .end(function(err, res){
+        res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
+        res.text.should.equal('something({"count":1});');
+        done();
+      })
+    })      
+
+    it('should allow []', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp({ count: 1 });
+      });
+
+      request(app)
+      .get('/?callback=callbacks[123]')
+      .end(function(err, res){
+        res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
+        res.text.should.equal('callbacks[123]({"count":1});');
+        done();
+      })
+    })
+
+    it('should disallow arbitrary js', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp({});
+      });
+
+      request(app)
+      .get('/?callback=foo;bar()')
+      .end(function(err, res){
+        res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
+        res.text.should.equal('foobar({});');
+        done();
+      })
     })
 
     describe('when given primitives', function(){
@@ -22,7 +76,7 @@ describe('res', function(){
         var app = express();
 
         app.use(function(req, res){
-          res.json(null);
+          res.jsonp(null);
         });
 
         request(app)
@@ -40,7 +94,7 @@ describe('res', function(){
         var app = express();
 
         app.use(function(req, res){
-          res.json(['foo', 'bar', 'baz']);
+          res.jsonp(['foo', 'bar', 'baz']);
         });
 
         request(app)
@@ -58,7 +112,7 @@ describe('res', function(){
         var app = express();
 
         app.use(function(req, res){
-          res.json({ name: 'tobi' });
+          res.jsonp({ name: 'tobi' });
         });
 
         request(app)
@@ -82,7 +136,7 @@ describe('res', function(){
         });
 
         app.use(function(req, res){
-          res.json({ name: 'tobi', _id: 12345 });
+          res.jsonp({ name: 'tobi', _id: 12345 });
         });
 
         request(app)
@@ -113,7 +167,7 @@ describe('res', function(){
         app.set('json spaces', 2);
 
         app.use(function(req, res){
-          res.json({ name: 'tobi', age: 2 });
+          res.jsonp({ name: 'tobi', age: 2 });
         });
 
         request(app)
@@ -131,7 +185,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.json(201, { id: 1 });
+        res.jsonp(201, { id: 1 });
       });
 
       request(app)
@@ -150,7 +204,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.json({ id: 1 }, 201);
+        res.jsonp({ id: 1 }, 201);
       });
 
       request(app)

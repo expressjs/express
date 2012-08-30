@@ -322,4 +322,16 @@ describe('res', function(){
     .expect('hey')
     .expect(500, done);
   })
+
+  it('should not support jsonp callbacks', function(done){
+    var app = express();
+
+    app.use(function(req, res){
+      res.send({ foo: 'bar' });
+    });
+
+    request(app)
+    .get('/?callback=foo')
+    .expect('{"foo":"bar"}', done);
+  })
 })
