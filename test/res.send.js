@@ -104,7 +104,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('ETag', '-1498647312')
+      .expect('ETag', '"-1498647312"')
       .end(done);
     })
     
@@ -187,7 +187,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('ETag', '-1498647312')
+      .expect('ETag', '"-1498647312"')
       .end(done);
     })
 
@@ -303,7 +303,7 @@ describe('res', function(){
 
     request(app)
     .get('/')
-    .set('If-None-Match', '-1498647312')
+    .set('If-None-Match', '"-1498647312"')
     .expect(304, done);
   })
 
