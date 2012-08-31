@@ -1,4 +1,17 @@
 
+3.0.0rc4 / 2012-08-30 
+==================
+
+  * add `res.jsonp()`. Closes #1307
+  * add "verbose errors" option to error-pages example
+  * add another route example to express(1) so people are not so confused
+  * add redis online user activity tracking example
+  * update connect dep
+  * fix etag quoting. Closes #1310
+  * fix error-pages 404 status
+  * fix jsonp callback char restrictions
+  * remove old OPTIONS default response
+
 3.0.0rc3 / 2012-08-13 
 ==================
 
