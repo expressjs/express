@@ -281,7 +281,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .set('Accept', 'foo/bar')
+      .set('Accept', 'application/octet-stream')
       .end(function(err, res){
         res.should.have.status(302);
         res.headers.should.have.property('location', 'http://google.com');
