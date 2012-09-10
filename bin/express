@@ -17,6 +17,7 @@ var exec = require('child_process').exec
 program
   .version(version)
   .option('-s, --sessions', 'add session support')
+  .option('-d, --database <engine>', 'add database engine support (defaults to mongodb)')
   .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
   .option('-H, --hogan', 'add hogan.js engine support')
@@ -198,6 +199,71 @@ var stylus = [
   , '  color: #00B7FF'
 ].join(eol);
 
+var mongoDB = [
+    ''
+  , 'var mongoose = require(\'mongoose\')'
+  , '  , config = {'
+  , '      dbhost: process.env.DBHOST || \'localhost\','
+  , '      dbport: process.env.DBPORT || \'\','
+  , '      dbuser: process.env.DBUSER || \'\','
+  , '      dbpassword: process.env.DBPASSWORD || \'\','
+  , '      dbname: process.env.DBNAME || \'test\','
+  , '  }'
+  , '  , Schema = mongoose.Schema'
+  , '  , dbConnection = null'
+  , '  , db = {}'
+  , '  , models = {};'
+  , ''
+  , '/**'
+  , ' * Connect to the database'
+  , ' * @param host String The database host e.g. localhost'
+  , ' * @param database String The database name e.g. testdb'
+  , ' * @param username String [optional] The database username e.g. root'
+  , ' * @param password String [optional] The database password'
+  , ' * @param port Number [optional] The database port number e.g. 1234'
+  , ' */'
+  , 'function connectTo(host, database, username, password, port) {'
+  , '  username = username || \'\';'
+  , '  password = password || \'\';'
+  , '  port = port ? \':\' + port : \'\';'
+  , '',
+  , '  var authenticationStr; // e.g. <user>:<password>'
+  , ''
+  , '  if (username === \'\' && password === \'\') {'
+  , '    authenticationStr = \'\';'
+  , '  } else {'
+  , '    authenticationStr = username + \':\' + password + \'@\';'
+  , '  }'
+  , ''
+  , '  // e.g. mongodb://<user>:<password>@<host>:<port>/<db> or \'mongodb://localhost/testdb\''
+  , '  var dbLocation = \'mongodb://\' + authenticationStr + host + port + \'/\' + database;'
+  , ''
+  , '  if (!dbConnection) {'
+  , '    dbConnection = mongoose.createConnection(dbLocation);'
+  , '    buildDB();'
+  , '  }'
+  , ''
+  , '  return db;'
+  , '}'
+  , ''
+  , 'function buildDB() {'
+  , '  var UserSchema = new Schema({'
+  , '    username : { type: String, required: true, unique: true },'
+  , '    password : { type: String, required: true }',
+  , '  });'
+  , ''
+  , '  // register models'
+  , '  models.User = dbConnection.model(\'User\', UserSchema);'
+  , ''
+  , '  /**** Build and "export" DB object ****/'
+  , '  db.models = models;'
+  , '  db.connection = dbConnection;'
+  , '}'
+  , ''
+  , 'exports = connectTo(config.dbhost, config.dbname, config.dbuser, config.dbpassword, config.dbport);'
+  , ''
+].join(eol);
+
 /**
  * App template.
  */
@@ -212,7 +278,7 @@ var app = [
   , '  , routes = require(\'./routes\')'
   , '  , user = require(\'./routes/user\')'
   , '  , http = require(\'http\')'
-  , '  , path = require(\'path\');'
+  , '  , path = require(\'path\'):DATABASE;'
   , ''
   , 'var app = express();'
   , ''
@@ -274,6 +340,9 @@ function createApplicationAt(path) {
     console.log('     $ cd %s && npm install', path);
     console.log();
     console.log('   run the app:');
+    if (program.database) {
+      console.log('     $ mongod --dbpath=data/db');
+    }
     console.log('     $ node app');
     console.log();
   });
@@ -361,6 +430,27 @@ function createApplicationAt(path) {
       default:
         if (program.css) {
           pkg.dependencies[program.css] = '*';
+        }
+    }
+
+    // Database Engine support
+    app = app.replace(':DATABASE', program.database 
+      ? eol + '  , db = require(\'./db\')'
+      : '');
+
+    switch (program.database) {
+      case 'mongo':
+      default:
+        if (program.database) {
+          pkg.dependencies.mongoose = '*'
+
+          write(path + '/db.js', mongoDB);
+
+          // create dummy directories for development where database is on the same server as
+          // the rest of the application.
+          mkdir(path + '/data', function(){
+            mkdir(path + '/data/db');
+          });
         }
     }
 
