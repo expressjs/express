@@ -439,6 +439,7 @@ function createApplicationAt(path) {
       : '');
 
     switch (program.database) {
+      case 'mongo':
       default:
         if (program.database) {
           pkg.dependencies.mongoose = '*'
