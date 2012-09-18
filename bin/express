@@ -10,7 +10,91 @@ var exec = require('child_process').exec
   , pkg = require('../package.json')
   , version = pkg.version
   , os = require('os')
-  , fs = require('fs');
+  , fs = require('fs')
+  , Future = null
+  , Fiber = null
+  , haveFuture = false
+  , getRemote = function() {}
+  , adjustVer = function() {}
+  , sleep = function() {};
+
+try {
+  // Replace the no-op functions with working versions before cotinuing
+  Future = require('fibers/future');
+  Fiber = require('fibers');
+  haveFuture = true;
+
+  var exec = require('child_process').exec
+    , checkCurl = new Future;
+
+  // Checks to see if curl exists in the path. If not, set haveFuture to
+  // false and move on.
+  exec('which curl', checkCurl.resolver());
+  if (checkCurl.error) {
+    haveFuture = false;
+    console.warn('Curl unavailable. We cannot offer client side jQuery');
+    throw "missing curl";
+  }
+
+  /**
+   * Invokes curl to retrieve the latest versions of jQuery from
+   * remote servers. It uses fibers to wait until the process is
+   * finished before continuing. 
+   *
+   * @param url the remote url to download
+   * @param cdTo the path to change directory to before downloading
+   */ 
+  getRemote = function(url, cdTo) {
+    var exec = require('child_process').exec,
+        result = new Future();
+    cdTo = cdTo || 'public/js';
+    exec('curl -O ' + url, { cwd: cdTo }, result.resolver());
+    result.wait();
+    return !!!result.error;
+  };
+ 
+  /**
+   * This method reads in the supplied file and searches for a version
+   * string that consists of the letter 'v' followed immediately by up
+   * to 3 numbers separated by a period. If there is a match, the name
+   * of the file is altered replacing the part supplied as the second
+   * parameter with the version number (sans the letter v).
+   *
+   * @param ofFile path to file relative to the current directory
+   * @replaceWhat if the file name is jquery-latest.js and then supplying
+   *     the word 'latest' would replace that value with any version 
+   *     number found within. 
+   */  
+  adjustVer = function(ofFile, replaceWhat) {
+    var fs = require('fs'),
+        path = require('path'),
+        ver, res;
+
+    replaceWhat = replaceWhat || 'latest';
+    ofFile = path.resolve(path.join(process.cwd(), ofFile || ''));
+
+    if (fs.existsSync(ofFile)) {
+      res = fs.readFileSync(ofFile).toString();
+    }
+    else {
+      return false;
+    }
+
+    if (res) {
+      ver = /v@?(\d+\.?\d*\.?\d*)/i.exec(res);
+      ver = ver ? ver[1] : replaceWhat;
+      res = new Future();
+      fs.rename(ofFile, ofFile.replace(replaceWhat, ver), res.resolver());
+      res.wait();
+      if (!res.error) 
+        return true;
+    }
+    return false;
+  };
+}
+catch (e) { 
+  /* Cannot offer client side jquery download without a future */
+}
 
 // CLI
 
@@ -20,7 +104,16 @@ program
   .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
   .option('-H, --hogan', 'add hogan.js engine support')
+  .option('-b, --handlebars', 'add handlebars.js engine support')
   .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus) (defaults to plain css)')
+  .option('-F, --forever', 'add forever support for redundant production')
+  .option('-q, --sjquery', 'add server side jquery support')
+
+if (haveFuture) {
+  program.option('-Q, --cjquery', 'add client side jquery support')
+}
+
+program
   .option('-f, --force', 'force on non-empty directory')
   .parse(process.argv);
 
@@ -38,14 +131,14 @@ program.template = 'jade';
 if (program.ejs) program.template = 'ejs';
 if (program.jshtml) program.template = 'jshtml';
 if (program.hogan) program.template = 'hjs';
+if (program.handlebars) program.template = 'hbs';
 
 /**
  * Routes index template.
  */
 
 var index = [
-    ''
-  , '/*'
+    '/**'
   , ' * GET home page.'
   , ' */'
   , ''
@@ -59,8 +152,7 @@ var index = [
  */
 
 var users = [
-    ''
-  , '/*'
+    '/**'
   , ' * GET users listing.'
   , ' */'
   , ''
@@ -78,7 +170,7 @@ var jadeLayout = [
   , 'html'
   , '  head'
   , '    title= title'
-  , '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
+  , '    link(rel=\'stylesheet\', href=\'/css/style.css\')'
   , '  body'
   , '    block content'
 ].join(eol);
@@ -92,7 +184,8 @@ var jadeIndex = [
   , ''
   , 'block content'
   , '  h1= title'
-  , '  p Welcome to #{title}'
+  , '  p Welcome to '
+  , '    span.title #{title}'
 ].join(eol);
 
 /**
@@ -104,11 +197,11 @@ var ejsIndex = [
   , '<html>'
   , '  <head>'
   , '    <title><%= title %></title>'
-  , '    <link rel=\'stylesheet\' href=\'/stylesheets/style.css\' />'
+  , '    <link rel=\'stylesheet\' href=\'/css/style.css\' />'
   , '  </head>'
   , '  <body>'
   , '    <h1><%= title %></h1>'
-  , '    <p>Welcome to <%= title %></p>'
+  , '    <p>Welcome to <span class="title"><%= title %></span></p>'
   , '  </body>'
   , '</html>'
 ].join(eol);
@@ -122,7 +215,7 @@ var jshtmlLayout = [
   , '<html>'
   , '  <head>'
   , '    <title> @write(title) </title>'
-  , '    <link rel=\'stylesheet\' href=\'/stylesheets/style.css\' />'
+  , '    <link rel=\'stylesheet\' href=\'/css/style.css\' />'
   , '  </head>'
   , '  <body>'
   , '    @write(body)'
@@ -136,7 +229,7 @@ var jshtmlLayout = [
 
 var jshtmlIndex = [
     '<h1>@write(title)</h1>'
-  , '<p>Welcome to @write(title)</p>'
+  , '<p>Welcome to <span class="title">@write(title)</span></p>'
 ].join(eol);
 
 /**
@@ -147,13 +240,43 @@ var hoganIndex = [
   , '<html>'
   , '  <head>'
   , '    <title>{{ title }}</title>'
-  , '    <link rel=\'stylesheet\' href=\'/stylesheets/style.css\' />'
+  , '    <link rel=\'stylesheet\' href=\'/css/style.css\' />'
   , '  </head>'
   , '  <body>'
   , '    <h1>{{ title }}</h1>'
-  , '    <p>Welcome to {{ title }}</p>'
+  , '    <p>Welcome to <span class="title">{{ title }}</span></p>'
   , '  </body>'
   , '</html>'
+].join(eol);
+
+/**
+ * Handlebars layout template
+ */
+ 
+var hbsLayout = [
+    '<!DOCTYPE html>'
+  , ''
+  , '<html>'
+  , '  <head>'
+  , '    <title>{{^title}}No title{{/title}}{{{title}}}</title>'
+  , '    <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen" title="no title" charset="utf-8">'
+  , '    {{{xtraStylesheets}}}'
+  , '  </head>'
+  , ''
+  , '  <body>'
+  , '    {{{body}}}'
+  , '    {{{xtraScripts}}}'
+  , '  </body>'
+  , '</html>'
+].join(eol);
+
+/**
+ * Handlebars index template
+ */
+
+var hbsIndex = [
+    '<h1>{{title}}</h1>'
+  , '<p>Welcome to <span class="title">{{title}}</span>!</p>'
 ].join(eol);
 
 /**
@@ -166,7 +289,7 @@ var css = [
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
   , '}'
   , ''
-  , 'a {'
+  , 'body span.title {'
   , '  color: #00B7FF;'
   , '}'
 ].join(eol);
@@ -179,10 +302,10 @@ var less = [
     'body {'
   , '  padding: 50px;'
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
-  , '}'
   , ''
-  , 'a {'
-  , '  color: #00B7FF;'
+  , '  span.title {'
+  , '    color: #00B7FF;'
+  , '  }'
   , '}'
 ].join(eol);
 
@@ -194,7 +317,7 @@ var stylus = [
     'body'
   , '  padding: 50px'
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif'
-  , 'a'
+  , 'span.title'
   , '  color: #00B7FF'
 ].join(eol);
 
@@ -219,7 +342,10 @@ var app = [
   , 'app.configure(function(){'
   , '  app.set(\'port\', process.env.PORT || 3000);'
   , '  app.set(\'views\', __dirname + \'/views\');'
-  , '  app.set(\'view engine\', \':TEMPLATE\');'
+  , program.template == 'jshtml'
+    ? '  app.set(\'view engine\', \'jshtml\');'
+    : '  app.set(\'view engine\', \'html\');' + eol
+    + '  app.engine(\'html\', :ENGINE);'
   , '  app.use(express.favicon());'
   , '  app.use(express.logger(\'dev\'));'
   , '  app.use(express.bodyParser());'
@@ -280,18 +406,18 @@ function createApplicationAt(path) {
 
   mkdir(path, function(){
     mkdir(path + '/public');
-    mkdir(path + '/public/javascripts');
-    mkdir(path + '/public/images');
-    mkdir(path + '/public/stylesheets', function(){
+    mkdir(path + '/public/js');
+    mkdir(path + '/public/imgs');
+    mkdir(path + '/public/css', function(){
       switch (program.css) {
         case 'less':
-          write(path + '/public/stylesheets/style.less', less);
+          write(path + '/public/css/style.less', less);
           break;
         case 'stylus':
-          write(path + '/public/stylesheets/style.styl', stylus);
+          write(path + '/public/css/style.styl', stylus);
           break;
         default:
-          write(path + '/public/stylesheets/style.css', css);
+          write(path + '/public/css/style.css', css);
       }
     });
 
@@ -303,20 +429,23 @@ function createApplicationAt(path) {
     mkdir(path + '/views', function(){
       switch (program.template) {
         case 'ejs':
-          write(path + '/views/index.ejs', ejsIndex);
+          write(path + '/views/index.html', ejsIndex);
           break;
         case 'jade':
           write(path + '/views/layout.jade', jadeLayout);
-          write(path + '/views/index.jade', jadeIndex);
+          write(path + '/views/index.html', jadeIndex);
           break;
         case 'jshtml':
           write(path + '/views/layout.jshtml', jshtmlLayout);
           write(path + '/views/index.jshtml', jshtmlIndex);
           break;
         case 'hjs':
-          write(path + '/views/index.hjs', hoganIndex);
+          write(path + '/views/index.html', hoganIndex);
           break;
-
+        case 'hbs':
+          write(path + '/views/index.html', hbsIndex);
+          write(path + '/views/layout.html', hbsLayout);
+          break;
       }
     });
 
@@ -338,7 +467,22 @@ function createApplicationAt(path) {
       : '');
 
     // Template support
-    app = app.replace(':TEMPLATE', program.template);
+    switch (program.template) {
+      case 'ejs':
+        app = app.replace(':ENGINE', 'require(\'ejs\').renderFile');
+        break;
+      case 'jade':
+        app = app.replace(':ENGINE', 'require(\'jade\').__express');
+        break;
+      case 'jshtml':
+        break;
+      case 'hjs':
+        app = app.replace(':ENGINE', 'require(\'hjs\').__express');
+        break;
+      case 'hbs':
+        app = app.replace(':ENGINE', 'require(\'hbs\').__express');
+        break;
+    }
 
     // package.json
     var pkg = {
@@ -352,6 +496,18 @@ function createApplicationAt(path) {
     }
 
     if (program.template) pkg.dependencies[program.template] = '*';
+    if (program.sjquery) pkg.dependencies['jquery'] = '*';
+    if (program.forever) pkg.dependencies['forever'] = '*';
+    if (program.cjquery) {
+      if (haveFuture) {
+        new Fiber(function() {
+        getRemote('http://code.jquery.com/jquery-latest.js', 'public/js');
+        getRemote('http://code.jquery.com/jquery-latest.min.js', 'public/js');
+        adjustVer('public/js/jquery-latest.js');
+        adjustVer('public/js/jquery-latest.min.js');
+      }).run();
+      }
+    }
 
     // CSS Engine support
     switch (program.css) {
