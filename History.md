@@ -1,4 +1,13 @@
 
+3.0.0rc5 / 2012-09-18 
+==================
+
+  * update connect
+  * add redis search example
+  * add static-files example
+  * add "x-powered-by" setting (`app.disable('x-powered-by')`)
+  * add "application/octet-stream" redirect Accept test case. Closes #1317
+
 3.0.0rc4 / 2012-08-30 
 ==================
 
