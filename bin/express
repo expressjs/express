@@ -39,19 +39,57 @@ if (program.ejs) program.template = 'ejs';
 if (program.jshtml) program.template = 'jshtml';
 if (program.hogan) program.template = 'hjs';
 
+var index = [
+    'var fs = require(\'fs\')'
+  , '  , path = require(\'path\');'
+  , ''
+  , 'exports.init = function(app){'
+  , '  loadDir(app, __dirname);'
+  , '}'
+  , ''
+  , 'function loadDir(app, dir){'
+  , '  var files = fs.readdirSync(__dirname);'
+  , ''
+  , '  files.forEach(function(file) {'
+  , '    var filePath = path.join(dir, file);'
+  , '    var stats = fs.statSync(filePath);'
+  , ''
+  , '    if (stats.isDirectory()) {'
+  , '      loadDir(app, filePath);'
+  , '    } else {'
+  , '      loadFile(app, filePath);'
+  , '    }'
+  , '  });'
+  , '}'
+  , ''
+  , 'function loadFile(app, file){'
+  , '  if (file.match(/\\.js$/) && file !== __filename) {'
+  , '    console.log(\'Loading route from \' + file);'
+  , '    var route = require(file);'
+  , '    route.init(app);'
+  , '  }'
+  , '}'
+].join(eol);
+
 /**
  * Routes index template.
  */
 
-var index = [
+var root = [
     ''
+  , 'exports.init = function(app) {'
+  , '  app.get(\'/\','
+  , '    index'
+  , '  );'
+  , '}'
+  , ''
   , '/*'
   , ' * GET home page.'
   , ' */'
   , ''
-  , 'exports.index = function(req, res){'
+  , 'function index(req, res, next){'
   , '  res.render(\'index\', { title: \'Express\' });'
-  , '};'
+  , '}'
 ].join(eol);
 
 /**
@@ -60,13 +98,19 @@ var index = [
 
 var users = [
     ''
+  , 'exports.init = function(app) {'
+  , '  app.get(\'/user\','
+  , '    list'
+  , '  );'
+  , '}'
+  , ''
   , '/*'
   , ' * GET users listing.'
   , ' */'
   , ''
-  , 'exports.list = function(req, res){'
+  , 'function list(req, res, next){'
   , '  res.send("respond with a resource");'
-  , '};'
+  , '}'
 ].join(eol);
 
 /**
@@ -232,8 +276,7 @@ var app = [
   , '  app.use(express.errorHandler());'
   , '});'
   , ''
-  , 'app.get(\'/\', routes.index);'
-  , 'app.get(\'/users\', user.list);'
+  , 'routes.init(app);'
   , ''
   , 'http.createServer(app).listen(app.get(\'port\'), function(){'
   , '  console.log("Express server listening on port " + app.get(\'port\'));'
@@ -297,6 +340,7 @@ function createApplicationAt(path) {
 
     mkdir(path + '/routes', function(){
       write(path + '/routes/index.js', index);
+      write(path + '/routes/root.js', root);
       write(path + '/routes/user.js', users);
     });
 
