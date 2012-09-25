@@ -125,7 +125,7 @@ describe('res', function(){
       app.locals.user = { name: 'tobi' };
 
       app.use(function(req, res){
-        res.render('user.jade', {});
+        res.render('user.jade');
       });
 
       request(app)
@@ -140,7 +140,7 @@ describe('res', function(){
 
       app.use(function(req, res){
         res.locals.user = { name: 'tobi' };
-        res.render('user.jade', {});
+        res.render('user.jade');
       });
 
       request(app)
