@@ -1,4 +1,3 @@
-
 ![express logo](http://f.cl.ly/items/0V2S1n0K1i3y1c122g04/Screen%20Shot%202012-04-11%20at%209.59.42%20AM.png)
 
   Fast, unopinionated, minimalist web framework for [node](http://nodejs.org). [![Build Status](https://secure.travis-ci.org/visionmedia/express.png)](http://travis-ci.org/visionmedia/express)
@@ -74,8 +73,9 @@ app.listen(3000);
 
 ## Viewing Examples
 
-First install the dev dependencies to install all the example / test suite deps:
+Clone the Express repo, then install the dev dependencies to install all the example / test suite deps:
 
+    $ git clone git://github.com/visionmedia/express.git --depth 1
     $ cd express
     $ npm install
 
