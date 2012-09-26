@@ -123,42 +123,6 @@ describe('res', function(){
     })
   })
   
-  describe('.send(StringObj)', function(){
-    it('should send as html', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.send(new String('<p>hey</p>'));
-      });
-
-      request(app)
-      .get('/')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/html; charset=utf-8');
-        res.text.should.equal('<p>hey</p>');
-        res.statusCode.should.equal(200);
-        done();
-      })
-    })
-    
-    it('should not override Content-Type', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.set('Content-Type', 'text/plain').send(new String('hey'));
-      });
-
-      request(app)
-      .get('/')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/plain');
-        res.text.should.equal('hey');
-        res.statusCode.should.equal(200);
-        done();
-      })
-    })
-  })
-  
   describe('.send(Buffer)', function(){
     it('should send as octet-stream', function(done){
       var app = express();
