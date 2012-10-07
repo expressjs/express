@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+  h1 Posts
+  dl#posts
+    for post in posts
+      dt= post.title
+      dd= post.body
