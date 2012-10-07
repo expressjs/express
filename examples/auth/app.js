@@ -2,10 +2,10 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express')
+var express = require('../..')
   , hash = require('./pass').hash;
 
-var app = module.exports = express();
+var app = express();
 
 // config
 
@@ -78,7 +78,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/restricted', restrict, function(req, res){
-  res.send('Wahoo! restricted area');
+  res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
 });
 
 app.get('/logout', function(req, res){
