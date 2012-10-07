@@ -6,7 +6,7 @@
 var express = require('../..')
   , format = require('util').format;
 
-var app = module.exports = express()
+var app = express()
 
 // bodyParser in connect 2.x uses node-formidable to parse 
 // the multipart form data.
@@ -30,7 +30,5 @@ app.post('/', function(req, res, next){
     , req.body.title));
 });
 
-if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
-}
+app.listen(3000);
+console.log('Express started on port 3000');

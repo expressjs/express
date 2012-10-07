@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express');
+var express = require('../..');
 
 // Path to our public directory
 

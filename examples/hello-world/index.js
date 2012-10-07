@@ -1,5 +1,5 @@
 
-var express = require('../../');
+var express = require('../..');
 
 var app = express();
 

@@ -1,7 +1,7 @@
 
-var express = require('../../lib/express')
+var express = require('../..')
   , verbose = process.env.NODE_ENV != 'test'
-  , app = module.exports = express();
+  , app = express();
 
 app.map = function(a, route){
   route = route || '';
@@ -61,3 +61,4 @@ app.map({
 });
 
 app.listen(3000);
+console.log('Express app started on port 3000');

@@ -1,6 +1,6 @@
 
-var express = require('../../')
-  , app = module.exports = express()
+var express = require('../..')
+  , app = express()
   , users = require('./db');
 
 app.get('/', function(req, res){
@@ -35,7 +35,5 @@ function format(mod) {
 
 app.get('/users', format('./users'));
 
-if (!module.parent) {
-  app.listen(3000);
-  console.log('listening on port 3000');
-}
+app.listen(3000);
+console.log('listening on port 3000');
