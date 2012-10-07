@@ -3,8 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('../../')
-  , app = module.exports = express()
+var express = require('../..')
+  , app = express()
   , test = app.get('env') == 'test';
 
 if (!test) app.use(express.logger('dev'));
@@ -42,7 +42,5 @@ app.get('/next', function(req, res, next){
   });
 });
 
-if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
-}
+app.listen(3000);
+console.log('Express started on port 3000');

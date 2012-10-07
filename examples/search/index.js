@@ -1,4 +1,8 @@
 
+// first:
+// $ npm install redis
+// $ redis-server
+
 /**
  * Module dependencies.
  */

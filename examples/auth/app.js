@@ -2,22 +2,22 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express')
+var express = require('../..')
   , hash = require('./pass').hash;
 
-var app = module.exports = express();
+var app = express();
 
 // config
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
 // middleware
+app.use(express.logger('dev'));
 
 app.use(express.bodyParser());
 app.use(express.cookieParser('shhhh, very secret'));
 app.use(express.session());
-
 // Session-persisted message middleware
 
 app.use(function(req, res, next){
@@ -50,7 +50,7 @@ hash('foobar', function(err, salt, hash){
 
 // Authenticate using our plain-object database of doom!
 function authenticate(name, pass, fn) {
-  if (!module.parent) console.log('authenticating %s:%s', name, pass);
+  console.log('authenticating %s:%s', name, pass);
   var user = users[name];
   // query the db for the given username
   if (!user) return fn(new Error('cannot find user'));
@@ -78,7 +78,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/restricted', restrict, function(req, res){
-  res.send('Wahoo! restricted area');
+  res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
 });
 
 app.get('/logout', function(req, res){
@@ -117,7 +117,5 @@ app.post('/login', function(req, res){
   });
 });
 
-if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
-}
+app.listen(3000);
+console.log('Express started on port 3000');

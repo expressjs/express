@@ -2,8 +2,8 @@
  * Module dependencies.
  */
 
-var express = require('../../')
-  , app = module.exports = express()
+var express = require('../..')
+  , app = express()
   , silent = 'test' == process.env.NODE_ENV;
 
 // general config
@@ -35,7 +35,7 @@ silent || app.use(express.logger('dev'));
 app.use(app.router);
 
 // Since this is the last non-error-handling
-// middleware use()d, we assume 404, as nothing else
+// middleware use(d), we assume 404, as nothing else
 // responded.
 
 // $ curl http://localhost:3000/notfound
@@ -106,7 +106,5 @@ app.get('/500', function(req, res, next){
   next(new Error('keyboard cat!'));
 });
 
-if (!module.parent) {
-  app.listen(3000);
-  silent || console.log('Express started on port 3000');
-}
+app.listen(3000);
+silent || console.log('Express started on port 3000');

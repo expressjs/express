@@ -3,9 +3,9 @@
  * Module dependencies.
  */
 
-var express = require('../../');
+var express = require('../..');
 
-var app = module.exports = express();
+var app = express();
 
 // Ad-hoc example resource method
 
@@ -85,7 +85,5 @@ app.get('/', function(req, res){
   ].join('\n')); 
 });
 
-if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
-}
+app.listen(3000);
+console.log('Express started on port 3000');

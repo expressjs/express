@@ -3,11 +3,11 @@
  * Module dependencies.
  */
 
-var express = require('../../')
+var express = require('../..')
   , fs = require('fs')
   , md = require('github-flavored-markdown').parse;
 
-var app = module.exports = express();
+var app = express();
 
 // register .md as an engine in express view system
 
@@ -39,7 +39,5 @@ app.get('/fail', function(req, res){
   res.render('missing', { title: 'Markdown Example' });
 })
 
-if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
-}
+app.listen(3000);
+console.log('Express started on port 3000');

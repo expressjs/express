@@ -3,8 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('../../')
-  , app = module.exports = express();
+var express = require('../..')
+  , app = express();
 
 // Faux database
 
@@ -64,7 +64,5 @@ app.get('/users/:from-:to', function(req, res, next){
   res.send('users ' + names.slice(from, to).join(', '));
 });
 
-if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
-}
+app.listen(3000);
+console.log('Express started on port 3000');

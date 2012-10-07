@@ -3,9 +3,9 @@
  * Module dependencies.
  */
 
-var express = require('../../');
+var express = require('../..');
 
-var app = module.exports = express();
+var app = express();
 
 // create an error with .status. we
 // can then use the property in our
@@ -25,6 +25,8 @@ function error(status, msg) {
 // by mounting this middleware to /api
 // meaning only paths prefixed with "/api"
 // will cause this middleware to be invoked
+// example:
+// "GET /api/users?api-key=foo"
 
 app.use('/api', function(req, res, next){
   var key = req.query['api-key'];
@@ -109,7 +111,5 @@ app.get('/api/user/:name/repos', function(req, res, next){
   else next();
 });
 
-if (!module.parent) {
-  app.listen(3000);
-  console.log('Express server listening on port 3000');
-}
+app.listen(3000);
+console.log('Express server listening on port 3000');

@@ -11,7 +11,7 @@ var express = require('../..')
 
 // Config
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 app.use(express.cookieParser());
 app.use(express.methodOverride());

@@ -3,9 +3,9 @@
  * Module dependencies.
  */
 
-var express = require('../../');
+var express = require('../..');
 
-var app = module.exports = express();
+var app = express();
 
 // Register ejs as .html. If we did
 // not call this, we would need to
@@ -40,7 +40,5 @@ app.get('/', function(req, res){
   res.render('users', { users: users });
 });
 
-if (!module.parent) {
-  app.listen(3000);
-  console.log('Express app started on port 3000');
-}
+app.listen(3000);
+console.log('Express app started on port 3000');

@@ -1,7 +1,7 @@
 
 var express = require('../..');
 
-var app = module.exports = express();
+var app = express();
 
 // settings
 
@@ -26,7 +26,7 @@ app.response.message = function(msg){
 };
 
 // log
-if (!module.parent) app.use(express.logger('dev'));
+app.use(express.logger('dev'));
 
 // serve static files
 app.use(express.static(__dirname + '/public'));
@@ -87,7 +87,5 @@ app.use(function(req, res, next){
   res.status(404).render('404', { url: req.originalUrl });
 });
 
-if (!module.parent) {
-  app.listen(3000);
-  console.log('\n  listening on port 3000\n');
-}
+app.listen(3000);
+console.log('\n  listening on port 3000\n');
