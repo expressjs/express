@@ -57,8 +57,10 @@ describe('app.path()', function(){
 
 describe('in development', function(){
   it('should disable "view cache"', function(){
+    process.env.NODE_ENV = 'development';
     var app = express();
     app.enabled('view cache').should.be.false;
+    process.env.NODE_ENV = 'test';
   })
 })
 
