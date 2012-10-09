@@ -37,7 +37,19 @@ var users = [
 ];
 
 app.get('/', function(req, res){
-  res.render('users', { users: users });
+  res.render('users', {
+      users: users,
+      title: "EJS example",
+      header: "Some users"
+  });
+});
+
+app.get('/next', function(req, res){
+  res.render('emails', {
+    users: users,
+    title: "EJS example",
+    header: "Some email address"
+  });
 });
 
 if (!module.parent) {
