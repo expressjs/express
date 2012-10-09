@@ -211,10 +211,9 @@ var app = [
   , 'var express = require(\'express\')'
   , '  , routes = require(\'./routes\')'
   , '  , user = require(\'./routes/user\')'
-  , '  , http = require(\'http\')'
   , '  , path = require(\'path\');'
   , ''
-  , 'var app = express();'
+  , 'var app = module.exports = express();'
   , ''
   , 'app.configure(function(){'
   , '  app.set(\'port\', process.env.PORT || 3000);'
@@ -235,11 +234,27 @@ var app = [
   , 'app.get(\'/\', routes.index);'
   , 'app.get(\'/users\', user.list);'
   , ''
+].join(eol);
+
+/**
+ * Server template.
+ */
+
+var server = [
+  , ''
+  , '/**'
+  , ' * Http server.'
+  , ' */'
+  , ''
+  , 'var http = require(\'http\')'
+  , '  , app = require(\'./app\');'
+  , ''
   , 'http.createServer(app).listen(app.get(\'port\'), function(){'
   , '  console.log("Express server listening on port " + app.get(\'port\'));'
   , '});'
   , ''
 ].join(eol);
+
 
 // Generate application
 
@@ -274,7 +289,7 @@ function createApplicationAt(path) {
     console.log('     $ cd %s && npm install', path);
     console.log();
     console.log('   run the app:');
-    console.log('     $ node app');
+    console.log('     $ node server');
     console.log();
   });
 
@@ -345,7 +360,6 @@ function createApplicationAt(path) {
         name: 'application-name'
       , version: '0.0.1'
       , private: true
-      , scripts: { start: 'node app' }
       , dependencies: {
         express: version
       }
@@ -366,6 +380,7 @@ function createApplicationAt(path) {
 
     write(path + '/package.json', JSON.stringify(pkg, null, 2));
     write(path + '/app.js', app);
+    write(path + '/server.js', server);
   });
 }
 
