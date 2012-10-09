@@ -247,7 +247,7 @@ var app = [
  */
 
 var server = [
-  , ''
+    ''
   , '/**'
   , ' * Http server.'
   , ' */'
