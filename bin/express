@@ -35,10 +35,6 @@ var path = program.args.shift() || '.';
 
 var eol = 'win32' == os.platform() ? '\r\n' : '\n'
 
-// Module name
-var moduleName = program['module'] ? program['module']
-  : program['module'] = Path.basename(fs.realpathSync(path));
-
 // is module private
 var modulePrivate = program.public ? undefined : true;
 
@@ -349,6 +345,10 @@ function createApplicationAt(path) {
 
     // Template support
     app = app.replace(':TEMPLATE', program.template);
+
+    // Module name
+    var moduleName = program['module'] ? program['module']
+      : program['module'] = Path.basename(fs.realpathSync(path));
 
     // package.json
     var pkg = {
