@@ -43,7 +43,6 @@
     "app",
     "api"
   ],
-  "publishConfig": { "tag": "3.0" },
   "repository": "git://github.com/visionmedia/express",
   "main": "index",
   "bin": { "express": "./bin/express" },
