@@ -90,7 +90,10 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/login', function(req, res){
-  res.render('login');
+  res.render('login', {
+    title: "Authentication Example",
+    user: req.session.user ? req.session.user.name : undefined
+  });
 });
 
 app.post('/login', function(req, res){

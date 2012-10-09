@@ -1,0 +1,12 @@
+<% include header/emails.html %>
+
+<h1>Emails</h1>
+<ul id="emails">
+  <% users.forEach(function(user){ %>
+    <li><%= user.email %> by <%= user.name %></li>
+  <% }) %>
+</ul>
+
+<p><a href="/">back</a></p> 
+
+<% include footer/all.html %>
