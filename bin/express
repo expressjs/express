@@ -354,9 +354,20 @@ function createApplicationAt(path) {
     }
 
     // Session support
-    app = app.replace('{sess}', program.sessions
-      ? eol + '  app.use(express.cookieParser(\'your secret here\'));' + eol + '  app.use(express.session());'
-      : '');
+    var sessionCode = '';
+    var cookieSecret;
+    if(program.sessions) {
+      try {
+        cookieSecret = require('crypto').randomBytes(15).toString('base64');
+      } catch(err) {
+        cookieSecret = 'your secret here';
+      }
+
+      sessionCode = eol + 
+        '  app.use(express.cookieParser(\''+cookieSecret+'\'));' + eol + 
+        '  app.use(express.session());'
+    }
+    app = app.replace('{sess}', sessionCode);
 
     // Template support
     app = app.replace(':TEMPLATE', program.template);
