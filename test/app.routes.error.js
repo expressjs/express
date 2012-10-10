@@ -2,7 +2,7 @@ var express = require('../')
   , request = require('./support/http');
 
 describe('app', function(){
-  describe('.get', function(){
+  describe('.VERB()', function(){
     it('should only call an error handling routing callback when an error is propagated', function(done){
       var app = express();
 
