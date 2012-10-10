@@ -5,7 +5,7 @@
 var express = require('../..')
   , hash = require('./pass').hash;
 
-var app = express();
+var app = module.exports = express();
 
 // config
 
@@ -49,6 +49,7 @@ hash('foobar', function(err, salt, hash){
 
 
 // Authenticate using our plain-object database of doom!
+
 function authenticate(name, pass, fn) {
   if (!module.parent) console.log('authenticating %s:%s', name, pass);
   var user = users[name];
@@ -108,7 +109,7 @@ app.post('/login', function(req, res){
         req.session.user = user;
         req.session.success = 'Authenticated as ' + user.name
           + ' click to <a href="/logout">logout</a>. '
-          + ' You may now access <a href="/restricted">/restricted</a>.';        
+          + ' You may now access <a href="/restricted">/restricted</a>.';
         res.redirect('back');
       });
     } else {
