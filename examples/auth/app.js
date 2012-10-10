@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express')
+var express = require('../..')
   , hash = require('./pass').hash;
 
 var app = module.exports = express();
@@ -49,6 +49,7 @@ hash('foobar', function(err, salt, hash){
 
 
 // Authenticate using our plain-object database of doom!
+
 function authenticate(name, pass, fn) {
   if (!module.parent) console.log('authenticating %s:%s', name, pass);
   var user = users[name];
@@ -78,7 +79,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/restricted', restrict, function(req, res){
-  res.send('Wahoo! restricted area');
+  res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
 });
 
 app.get('/logout', function(req, res){
@@ -105,7 +106,7 @@ app.post('/login', function(req, res){
         req.session.user = user;
         req.session.success = 'Authenticated as ' + user.name
           + ' click to <a href="/logout">logout</a>. '
-          + ' You may now access <a href="/restricted">/restricted</a>.';        
+          + ' You may now access <a href="/restricted">/restricted</a>.';
         res.redirect('back');
       });
     } else {
