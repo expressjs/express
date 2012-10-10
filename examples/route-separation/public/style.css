@@ -11,10 +11,10 @@ a.edit {
   opacity: .3;
 }
 a.edit::before {
-  content: '[ ';
+  content: ' [';
 }
 a.edit::after {
-  content: ' ]';
+  content: ']';
 }
 dt {
   font-weight: bold;
