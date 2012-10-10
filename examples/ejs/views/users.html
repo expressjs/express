@@ -1,12 +1,10 @@
-<% include header/users.html %>
+<% include header.html %>
 
 <h1>Users</h1>
 <ul id="users">
   <% users.forEach(function(user){ %>
-    <li><%= user.name %> <%= user.email %></li>
+    <li><%= user.name %> &lt;<%= user.email %>&gt;</li>
   <% }) %>
 </ul>
 
-<p><a href="/next">next</a></p> 
-
-<% include footer/all.html %>
+<% include footer.html %>
