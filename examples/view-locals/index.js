@@ -101,11 +101,6 @@ app.get('/middleware-locals', count2, users2, function(req, res, next){
   res.render('user', { title: 'Users' });
 });
 
-
-app.get('/locals', function(req, res){
-  res.render('user', { title: 'Users' });
-});
-
 // keep in mind that middleware may be placed anywhere
 // and in various combinations, so if you have locals
 // that you wish to make available to all subsequent
