@@ -16,7 +16,7 @@ describe('res', function(){
       .get('/?callback=something')
       .end(function(err, res){
         res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
-        res.text.should.equal('something({"count":1});');
+        res.text.should.equal('something && something({"count":1});');
         done();
       })
     })
@@ -34,7 +34,7 @@ describe('res', function(){
       .get('/?clb=something')
       .end(function(err, res){
         res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
-        res.text.should.equal('something({"count":1});');
+        res.text.should.equal('something && something({"count":1});');
         done();
       })
     })      
@@ -50,7 +50,7 @@ describe('res', function(){
       .get('/?callback=callbacks[123]')
       .end(function(err, res){
         res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
-        res.text.should.equal('callbacks[123]({"count":1});');
+        res.text.should.equal('callbacks[123] && callbacks[123]({"count":1});');
         done();
       })
     })
@@ -66,7 +66,7 @@ describe('res', function(){
       .get('/?callback=foo;bar()')
       .end(function(err, res){
         res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
-        res.text.should.equal('foobar({});');
+        res.text.should.equal('foobar && foobar({});');
         done();
       })
     })
