@@ -37,7 +37,7 @@ var eol = 'win32' == os.platform() ? '\r\n' : '\n'
 program.template = 'jade';
 if (program.ejs) program.template = 'ejs';
 if (program.jshtml) program.template = 'jshtml';
-if (program.hogan) program.template = 'hjs';
+if (program.hogan) program.template = 'mmm';
 
 /**
  * Routes index template.
@@ -140,9 +140,9 @@ var jshtmlIndex = [
 ].join(eol);
 
 /**
- * Hogan.js index template.
+ * Hogan.js layout template.
  */
-var hoganIndex = [
+var hoganLayout = [
     '<!DOCTYPE html>'
   , '<html>'
   , '  <head>'
@@ -150,10 +150,18 @@ var hoganIndex = [
   , '    <link rel=\'stylesheet\' href=\'/stylesheets/style.css\' />'
   , '  </head>'
   , '  <body>'
-  , '    <h1>{{ title }}</h1>'
-  , '    <p>Welcome to {{ title }}</p>'
+  , '    {{> content }}'
   , '  </body>'
   , '</html>'
+].join(eol);
+
+/**
+ * Hogan.js index template.
+ */
+var hoganIndex = [
+    '<h1>{{ title }}</h1>'
+  , '<p>Welcome to {{ title }}</p>'
+  , ''
 ].join(eol);
 
 /**
@@ -220,6 +228,8 @@ var app = [
   , '  app.set(\'port\', process.env.PORT || 3000);'
   , '  app.set(\'views\', __dirname + \'/views\');'
   , '  app.set(\'view engine\', \':TEMPLATE\');'
+  , (program.template === 'mmm') ?
+    '  app.set(\'layout\', \'layout\');' : ''
   , '  app.use(express.favicon());'
   , '  app.use(express.logger(\'dev\'));'
   , '  app.use(express.bodyParser());'
@@ -313,8 +323,9 @@ function createApplicationAt(path) {
           write(path + '/views/layout.jshtml', jshtmlLayout);
           write(path + '/views/index.jshtml', jshtmlIndex);
           break;
-        case 'hjs':
-          write(path + '/views/index.hjs', hoganIndex);
+        case 'mmm':
+          write(path + '/views/layout.mmm', hoganLayout);
+          write(path + '/views/index.mmm', hoganIndex);
           break;
 
       }
