@@ -26,4 +26,8 @@ lib-cov:
 benchmark:
 	@./support/bench
 
-.PHONY: test test-unit test-acceptance benchmark
+clean:
+	rm -f coverage.html
+	rm -fr lib-cov
+
+.PHONY: test test-unit test-acceptance benchmark clean
