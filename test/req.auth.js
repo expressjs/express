@@ -33,6 +33,21 @@ describe('req', function(){
       })
     })
 
+    describe('when Authorization is not Basic', function(){
+      it('should return undefined', function(done){
+        var app = express();
+
+        app.get('/', function(req, res){
+          res.send(req.auth || 'none');
+        });
+
+        request(app)
+        .get('/')
+        .set('Authorization', 'Meow dG9iaTpmZXJyZXQ')
+        .expect('none', done)
+      })
+    })
+
     it('should return .username and .password', function(done){
       var app = express();
 
