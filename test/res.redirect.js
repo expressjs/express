@@ -51,7 +51,7 @@ describe('res', function(){
         .get('/')
         .set('Host', 'example.com')
         .end(function(err, res){
-          res.headers.should.have.property('location', '//example.com/login');
+          res.headers.should.have.property('location', '/login');
           done();
         })
       })
@@ -69,7 +69,7 @@ describe('res', function(){
         .get('/post/1')
         .set('Host', 'example.com')
         .end(function(err, res){
-          res.headers.should.have.property('location', '//example.com/post/1/./edit');
+          res.headers.should.have.property('location', '/post/1/./edit');
           done();
         })
       })
@@ -87,7 +87,7 @@ describe('res', function(){
         .get('/post/1')
         .set('Host', 'example.com')
         .end(function(err, res){
-          res.headers.should.have.property('location', '//example.com/post/1/../new');
+          res.headers.should.have.property('location', '/post/1/../new');
           done();
         })
       })
@@ -105,7 +105,7 @@ describe('res', function(){
         .get('/')
         .set('Host', 'example.com')
         .end(function(err, res){
-          res.headers.should.have.property('location', '//example.com/login');
+          res.headers.should.have.property('location', '/login');
           done();
         })
       })
@@ -129,7 +129,7 @@ describe('res', function(){
           .get('/blog/admin')
           .set('Host', 'example.com')
           .end(function(err, res){
-            res.headers.should.have.property('location', '//example.com/blog/admin/login');
+            res.headers.should.have.property('location', '/blog/admin/login');
             done();
           })
         })
@@ -150,7 +150,7 @@ describe('res', function(){
           .get('/blog')
           .set('Host', 'example.com')
           .end(function(err, res){
-            res.headers.should.have.property('location', '//example.com/blog/admin/login');
+            res.headers.should.have.property('location', '/blog/admin/login');
             done();
           })
         })
@@ -171,7 +171,7 @@ describe('res', function(){
           .get('/blog')
           .set('Host', 'example.com')
           .end(function(err, res){
-            res.headers.should.have.property('location', '//example.com/admin/login');
+            res.headers.should.have.property('location', '/admin/login');
             done();
           })
         })
@@ -263,7 +263,7 @@ describe('res', function(){
       .set('Host', 'http://example.com')
       .set('Accept', 'text/html')
       .end(function(err, res){
-        res.text.should.equal('<p>Moved Temporarily. Redirecting to <a href="//http://example.com/&lt;lame&gt;">//http://example.com/&lt;lame&gt;</a></p>');
+        res.text.should.equal('<p>Moved Temporarily. Redirecting to <a href="/&lt;lame&gt;">/&lt;lame&gt;</a></p>');
         done();
       })
     })
