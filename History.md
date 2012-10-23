@@ -1,4 +1,19 @@
 
+3.0.0 / 2012-10-23 
+==================
+
+  * add `make clean`
+  * add "Basic" check to req.auth
+  * add `req.auth` test coverage
+  * add cb && cb(payload) to `res.jsonp()`. Closes #1374
+  * add backwards compat for `res.redirect()` status. Closes #1336
+  * add support for `res.json()` to retain previously defined Content-Types. Closes #1349
+  * update connect
+  * change `res.redirect()` to utilize a pathname-relative Location again. Closes #1382
+  * remove non-primitive string support for `res.send()`
+  * fix view-locals example. Closes #1370
+  * fix route-separation example
+
 3.0.0rc5 / 2012-09-18 
 ==================
 
