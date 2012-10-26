@@ -107,7 +107,7 @@ authors:
    54	Aaron Heckmann          1.5%
    34	csausdev                1.0%
    26	ciaranj                 0.7%
-   21	Robert Sköld          0.6%
+   21	Robert Sköld            0.6%
     6	Guillermo Rauch         0.2%
     3	Dav Glass               0.1%
     3	Nick Poulden            0.1%
@@ -153,7 +153,7 @@ authors:
     1	Jonathan Zacsh          0.0%
     1	Justin Lilly            0.0%
     1	Ken Sato                0.0%
-    1	Maciej Małecki         0.0%
+    1	Maciej Małecki          0.0%
     1	Masahiro Hayashi        0.0%
 ```
 
