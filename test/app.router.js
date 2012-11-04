@@ -596,4 +596,9 @@ describe('app.router', function(){
     .get('/account/edit')
     .expect('editing user 12', done);
   })
+
+  it('should be chainable', function(){
+    var app = express();
+    app.get('/', function(){}).should.equal(app);
+  })
 })
