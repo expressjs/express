@@ -17,10 +17,6 @@ app.listen(3000);
 
     $ npm install -g express
 
- To install the 3.0 alpha:
- 
-    $ npm install -g express@3.0
-
 ## Quick Start
 
  The quickest way to get started with express is to utilize the executable `express(1)` to generate an application as shown below:
