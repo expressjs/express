@@ -63,5 +63,29 @@ describe('app', function(){
       app.use('/blog', blog);
       blog.parent.should.equal(app);
     })
+    
+    it('should inherit settings', function () {
+      var blog = express()
+        , app = express();
+
+      app.set('foo', 'bar');
+      app.set('views', '/some/custom/path');
+
+      // option 2 - mounted apps need to explicity inherit the views of the parent
+      // app. Less magic than option 1 but currently not documented.
+      //
+      // blog.on('mount', function(parent){
+      //   blog.set('views', parent.get('views'));
+      // });
+
+      app.use('/blog', blog);
+
+      app.get('foo').should.equal('bar');
+      blog.get('foo').should.equal('bar');
+
+      app.get( 'views').should.equal('/some/custom/path');
+      blog.get('views').should.equal('/some/custom/path');
+      
+    });
   })
 })
