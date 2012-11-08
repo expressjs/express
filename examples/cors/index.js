@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -21,6 +20,7 @@ api.use(express.bodyParser());
  */
 
 api.all('*', function(req, res, next){
+  if (!req.get('Origin')) return next();
   // use "*" here to accept any origin
   res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.set('Access-Control-Allow-Methods', 'GET, POST');
