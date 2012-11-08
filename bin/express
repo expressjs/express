@@ -22,6 +22,7 @@ program
   .option('-H, --hogan', 'add hogan.js engine support')
   .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus) (defaults to plain css)')
   .option('-f, --force', 'force on non-empty directory')
+  .option('-Y, --struct', 'Make directory structure, if not used all the server code will be in app.js')
   .parse(process.argv);
 
 // Path
@@ -42,6 +43,12 @@ if (program.hogan) program.template = 'hjs';
 /**
  * Routes index template.
  */
+var indexFn = [
+    'function(req, res){'
+  , '  res.render(\'index\', { title: \'Express\' });'
+  , '}'
+].join(eol);
+
 
 var index = [
     ''
@@ -49,14 +56,17 @@ var index = [
   , ' * GET home page.'
   , ' */'
   , ''
-  , 'exports.index = function(req, res){'
-  , '  res.render(\'index\', { title: \'Express\' });'
-  , '};'
+  , 'exports.index = ' + indexFn + ';'
 ].join(eol);
 
 /**
  * Routes users template.
  */
+var usersFn = [
+    'function(req, res){'
+  , '  res.send("respond with a resource");'
+  , '}'
+  ].join(eol);
 
 var users = [
     ''
@@ -64,9 +74,7 @@ var users = [
   , ' * GET users listing.'
   , ' */'
   , ''
-  , 'exports.list = function(req, res){'
-  , '  res.send("respond with a resource");'
-  , '};'
+  , 'exports.list = ' + usersFn + ';'
 ].join(eol);
 
 /**
@@ -232,14 +240,26 @@ var app = [
   , '  app.use(express.errorHandler());'
   , '});'
   , ''
-  , 'app.get(\'/\', routes.index);'
-  , 'app.get(\'/users\', user.list);'
+  , ''
+  , '/*'
+  , ' * GET home page.'
+  , ' */'
+  , ''
+  , 'app.get(\'/\', ' + (program.struct?'routes.index': indexFn) + ');'
+  , ''
+  , '/*'
+  , ' * GET users listing.'
+  , ' */'
+  , ''
+  , 'app.get(\'/users\', ' + (program.struct?'users.list': usersFn) + ');'
   , ''
   , 'http.createServer(app).listen(app.get(\'port\'), function(){'
   , '  console.log("Express server listening on port " + app.get(\'port\'));'
   , '});'
   , ''
 ].join(eol);
+
+
 
 // Generate application
 
@@ -295,11 +315,13 @@ function createApplicationAt(path) {
       }
     });
 
-    mkdir(path + '/routes', function(){
-      write(path + '/routes/index.js', index);
-      write(path + '/routes/user.js', users);
-    });
-
+    if(program.struct){
+      mkdir(path + '/routes', function(){
+        write(path + '/routes/index.js', index);
+        write(path + '/routes/user.js', users);
+      });
+    }
+    
     mkdir(path + '/views', function(){
       switch (program.template) {
         case 'ejs':
