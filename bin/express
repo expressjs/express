@@ -217,8 +217,8 @@ var app = [
   , ' */'
   , ''
   , 'var express = require(\'express\')'
-  , '  , routes = require(\'./routes\')'
-  , '  , user = require(\'./routes/user\')'
+  , (program.struct?'  , routes = require(\'./routes\')':'')
+  , (program.struct?'  , users = require(\'./routes/user\')':'')
   , '  , http = require(\'http\')'
   , '  , path = require(\'path\');'
   , ''
