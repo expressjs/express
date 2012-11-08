@@ -1,4 +1,10 @@
 
+3.0.2 / 2012-11-08 
+==================
+
+  * add OPTIONS to cors example. Closes #1398
+  * fix route chaining regression. Closes #1397
+
 3.0.1 / 2012-11-01 
 ==================
 
