@@ -16,3 +16,4 @@ testing
 .coverage_data
 cover_html
 test.js
+.idea
