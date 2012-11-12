@@ -178,8 +178,57 @@ describe('res', function(){
         });
       })
     })
+
+    describe('"jsonp force 200" setting', function(){
+      it('should default to false', function(){
+        var app = express();
+        app.get('jsonp force 200').should.be.false;
+      })
+
+      describe('when set to true', function(){
+        it('should set the .statusCode to 200 with callback', function(done){
+          var app = express();
+
+          app.enable('jsonp force 200');
+
+          app.use(function(req, res){
+            res.statusCode = 500;
+            res.jsonp({ error: 'message' });
+          });
+
+          request(app)
+          .get('/?callback=something')
+          .end(function(err, res){
+            app.get('jsonp force 200').should.be.true;
+            res.statusCode.should.equal(200);
+            res.text.should.equal('something && something({"error":"message"});');
+            done();
+          });
+        })
+
+        it('should not change the .statusCode without a callback', function(done){
+          var app = express();
+
+          app.enable('jsonp force 200');
+
+          app.use(function(req, res){
+            res.statusCode = 500;
+            res.jsonp({ error: 'message' });
+          });
+
+          request(app)
+          .get('/')
+          .end(function(err, res){
+            app.get('jsonp force 200').should.be.true;
+            res.statusCode.should.equal(500);
+            res.text.should.equal('{"error":"message"}');
+            done();
+          })
+        })
+      })
+    })
   })
-  
+
   describe('.json(status, object)', function(){
     it('should respond with json and set the .statusCode', function(done){
       var app = express();
