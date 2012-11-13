@@ -92,6 +92,22 @@ describe('res', function(){
           done();
         })
       })
+
+      it('should set max-age', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.cookie('name', 'tobi', { maxAge: 1000 });
+          res.end();
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.headers['set-cookie'][0].should.include('Max-Age=1');
+          done();
+        })
+      })
     })
 
     describe('signed', function(){
