@@ -1,4 +1,11 @@
 
+3.0.3 / 2012-11-13 
+==================
+
+  * update connect
+  * update cookie module
+  * fix cookie max-age
+
 3.0.2 / 2012-11-08 
 ==================
 
