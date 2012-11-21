@@ -287,6 +287,23 @@ describe('res', function(){
         done();
       })
     })
+
+    it('should encode the url', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect('http://example.com/?param=<script>alert("hax");</script>');
+      });
+
+      request(app)
+      .get('/')
+      .set('Host', 'http://example.com')
+      .set('Accept', 'text/plain, */*')
+      .end(function(err, res){
+        res.text.should.equal('Moved Temporarily. Redirecting to http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E');
+        done();
+      })
+    })
   })
 
   describe('when accepting neither text or html', function(){
