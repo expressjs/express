@@ -9,8 +9,8 @@ describe('app', function(){
         , plugin = function plugin(param0, param1, param2) {
 	        	this.should.equal(app);
 	        	param0.should.eql(params[0]);
-	        	param0.should.eql(params[1]);
-	        	param0.should.eql(params[2]);
+	        	param1.should.eql(params[1]);
+	        	param2.should.eql(params[2]);
 	        }
 	      , params = ["param0", "param1", "param2"];
 
