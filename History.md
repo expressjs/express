@@ -1,4 +1,13 @@
 
+3.0.4 / 2012-12-05 
+==================
+
+  * add 'etag' option to disable `res.send()` Etags
+  * add escaping of urls in text/plain in `res.redirect()`
+    for old browsers interpreting as html
+  * change crc32 module for a more liberal license
+  * update connect
+
 3.0.3 / 2012-11-13 
 ==================
 
