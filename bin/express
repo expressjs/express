@@ -247,7 +247,7 @@ var app = [
   , 'app.get(\'/\', routes.index);'
   , 'app.get(\'/users\', user.list);'
   , ''
-  , '{create_server}'
+  , '{protocol}.createServer(app).listen({options}app.get(\'port\'), function(){'
   , '  console.log("Express server listening on port " + app.get(\'port\'));'
   , '});'
   , ''
@@ -357,12 +357,8 @@ function createApplicationAt(path) {
     // HTTPS support
     app = app.replace(/\{protocol\}/g, program.ssl ? 'https' : 'http');
     app = app.replace('{fs}', program.ssl ? eol + '  , fs = require(\'fs\')' : '');
-    app = app.replace('{https_opts}', program.ssl 
-      ? eol + https_options + eol 
-      : '');
-    app = app.replace('{create_server}', program.ssl
-      ? 'https.createServer(options, app).listen(app.get(\'port\'), function(){'
-      : 'http.createServer(app).listen(app.get(\'port\'), function(){');
+    app = app.replace('{https_opts}', program.ssl ? eol + https_options + eol : '');
+    app = app.replace('{options}', program.ssl ? 'options, ' : '');
 
     // package.json
     var pkg = {
