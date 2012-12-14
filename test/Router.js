@@ -76,4 +76,28 @@ describe('Router', function(){
       .expect('foo', done);
     })
   })
+
+  describe('.multiple callbacks', function(){
+    it('should throw if a callback is null', function(){
+      assert.throws(function () {
+        router.route('get', '/foo', null, function(){});
+      })
+    })
+
+    it('should throw if a callback is undefined', function(){
+      assert.throws(function () {
+        router.route('get', '/foo', undefined, function(){});
+      })
+    })
+
+    it('should throw if a callback is not a function', function(){
+      assert.throws(function () {
+        router.route('get', '/foo', 'not a function', function(){});
+      })
+    })
+
+    it('should not throw if all callbacks are functions', function(){
+      router.route('get', '/foo', function(){}, function(){});
+    })
+  })
 })
