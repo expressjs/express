@@ -1,4 +1,11 @@
 
+3.0.5 / 2012-12-19 
+==================
+
+  * add throwing when a non-function is passed to a route
+  * fix: explicitly remove Transfer-Encoding header from 204 and 304 responses
+  * revert "add 'etag' option"
+
 3.0.4 / 2012-12-05 
 ==================
 
