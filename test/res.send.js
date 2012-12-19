@@ -206,11 +206,11 @@ describe('res', function(){
   })
 
   describe('when .statusCode is 204', function(){
-    it('should strip Content-* fields & body', function(done){
+    it('should strip Content-* fields, Transfer-Encoding field, and body', function(done){
       var app = express();
 
       app.use(function(req, res){
-        res.status(204).send('foo');
+        res.status(204).set('Transfer-Encoding', 'chunked').send('foo');
       });
 
       request(app)
@@ -218,6 +218,7 @@ describe('res', function(){
       .end(function(err, res){
         res.headers.should.not.have.property('content-type');
         res.headers.should.not.have.property('content-length');
+        res.headers.should.not.have.property('transfer-encoding');
         res.text.should.equal('');
         done();
       })
@@ -225,11 +226,11 @@ describe('res', function(){
   })
   
   describe('when .statusCode is 304', function(){
-    it('should strip Content-* fields & body', function(done){
+    it('should strip Content-* fields, Transfer-Encoding field, and body', function(done){
       var app = express();
 
       app.use(function(req, res){
-        res.status(304).send('foo');
+        res.status(304).set('Transfer-Encoding', 'chunked').send('foo');
       });
 
       request(app)
@@ -237,6 +238,7 @@ describe('res', function(){
       .end(function(err, res){
         res.headers.should.not.have.property('content-type');
         res.headers.should.not.have.property('content-length');
+        res.headers.should.not.have.property('transfer-encoding');
         res.text.should.equal('');
         done();
       })
