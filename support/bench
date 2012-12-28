@@ -30,4 +30,3 @@ bench /json/50 "JSON medium"
 bench /json/150 "JSON large"
 
 kill -9 $pid
-
