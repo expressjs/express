@@ -71,6 +71,22 @@ describe('res', function(){
       })
     })
 
+    it('should escape utf whitespace', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp({ str: '\u2028 \u2029 woot' });
+      });
+
+      request(app)
+      .get('/?callback=foo')
+      .end(function(err, res){
+        res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
+        res.text.should.equal('foo && foo({"str":"\\u2028 \\u2029 woot"});');
+        done();
+      });
+    });
+
     describe('when given primitives', function(){
       it('should respond with json', function(done){
         var app = express();
