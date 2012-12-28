@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="/style.css" />
+<h1><%= user.name %> <a href="/user/<%= user.id %>/edit">edit</a></h1>
+
+<% if (hasMessages) { %>
+  <ul id="messages">
+    <% messages.forEach(function(msg){ %>
+      <li><%= msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<% if (user.pets.length) { %>
+  <p>View <%= user.name %>s pets:</p>
+  <ul>
+    <% user.pets.forEach(function(pet){ %>
+      <li><a href="/pet/<%= pet.id %>"><%= pet.name %></a></li>
+    <% }) %>
+  </ul>
+<% } else { %>
+  <p>No pets!</p>
+<% } %>

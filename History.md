@@ -1,4 +1,736 @@
 
+3.0.5 / 2012-12-19 
+==================
+
+  * add throwing when a non-function is passed to a route
+  * fix: explicitly remove Transfer-Encoding header from 204 and 304 responses
+  * revert "add 'etag' option"
+
+3.0.4 / 2012-12-05 
+==================
+
+  * add 'etag' option to disable `res.send()` Etags
+  * add escaping of urls in text/plain in `res.redirect()`
+    for old browsers interpreting as html
+  * change crc32 module for a more liberal license
+  * update connect
+
+3.0.3 / 2012-11-13 
+==================
+
+  * update connect
+  * update cookie module
+  * fix cookie max-age
+
+3.0.2 / 2012-11-08 
+==================
+
+  * add OPTIONS to cors example. Closes #1398
+  * fix route chaining regression. Closes #1397
+
+3.0.1 / 2012-11-01 
+==================
+
+  * update connect
+
+3.0.0 / 2012-10-23 
+==================
+
+  * add `make clean`
+  * add "Basic" check to req.auth
+  * add `req.auth` test coverage
+  * add cb && cb(payload) to `res.jsonp()`. Closes #1374
+  * add backwards compat for `res.redirect()` status. Closes #1336
+  * add support for `res.json()` to retain previously defined Content-Types. Closes #1349
+  * update connect
+  * change `res.redirect()` to utilize a pathname-relative Location again. Closes #1382
+  * remove non-primitive string support for `res.send()`
+  * fix view-locals example. Closes #1370
+  * fix route-separation example
+
+3.0.0rc5 / 2012-09-18 
+==================
+
+  * update connect
+  * add redis search example
+  * add static-files example
+  * add "x-powered-by" setting (`app.disable('x-powered-by')`)
+  * add "application/octet-stream" redirect Accept test case. Closes #1317
+
+3.0.0rc4 / 2012-08-30 
+==================
+
+  * add `res.jsonp()`. Closes #1307
+  * add "verbose errors" option to error-pages example
+  * add another route example to express(1) so people are not so confused
+  * add redis online user activity tracking example
+  * update connect dep
+  * fix etag quoting. Closes #1310
+  * fix error-pages 404 status
+  * fix jsonp callback char restrictions
+  * remove old OPTIONS default response
+
+3.0.0rc3 / 2012-08-13 
+==================
+
+  * update connect dep
+  * fix signed cookies to work with `connect.cookieParser()` ("s:" prefix was missing) [tnydwrds]
+  * fix `res.render()` clobbering of "locals"
+
+3.0.0rc2 / 2012-08-03 
+==================
+
+  * add CORS example
+  * update connect dep
+  * deprecate `.createServer()` & remove old stale examples
+  * fix: escape `res.redirect()` link
+  * fix vhost example
+
+3.0.0rc1 / 2012-07-24 
+==================
+
+  * add more examples to view-locals
+  * add scheme-relative redirects (`res.redirect("//foo.com")`) support
+  * update cookie dep
+  * update connect dep
+  * update send dep
+  * fix `express(1)` -h flag, use -H for hogan. Closes #1245
+  * fix `res.sendfile()` socket error handling regression
+
+3.0.0beta7 / 2012-07-16 
+==================
+
+  * update connect dep for `send()` root normalization regression
+
+3.0.0beta6 / 2012-07-13 
+==================
+
+  * add `err.view` property for view errors. Closes #1226
+  * add "jsonp callback name" setting
+  * add support for "/foo/:bar*" non-greedy matches
+  * change `res.sendfile()` to use `send()` module
+  * change `res.send` to use "response-send" module
+  * remove `app.locals.use` and `res.locals.use`, use regular middleware
+
+3.0.0beta5 / 2012-07-03 
+==================
+
+  * add "make check" support
+  * add route-map example
+  * add `res.json(obj, status)` support back for BC
+  * add "methods" dep, remove internal methods module
+  * update connect dep
+  * update auth example to utilize cores pbkdf2
+  * updated tests to use "supertest"
+
+3.0.0beta4 / 2012-06-25 
+==================
+
+  * Added `req.auth`
+  * Added `req.range(size)`
+  * Added `res.links(obj)`
+  * Added `res.send(body, status)` support back for backwards compat
+  * Added `.default()` support to `res.format()`
+  * Added 2xx / 304 check to `req.fresh`
+  * Revert "Added + support to the router"
+  * Fixed `res.send()` freshness check, respect res.statusCode
+
+3.0.0beta3 / 2012-06-15 
+==================
+
+  * Added hogan `--hjs` to express(1) [nullfirm]
+  * Added another example to content-negotiation
+  * Added `fresh` dep
+  * Changed: `res.send()` always checks freshness
+  * Fixed: expose connects mime module. Cloases #1165
+
+3.0.0beta2 / 2012-06-06 
+==================
+
+  * Added `+` support to the router
+  * Added `req.host`
+  * Changed `req.param()` to check route first
+  * Update connect dep
+
+3.0.0beta1 / 2012-06-01 
+==================
+
+  * Added `res.format()` callback to override default 406 behaviour
+  * Fixed `res.redirect()` 406. Closes #1154
+
+3.0.0alpha5 / 2012-05-30 
+==================
+
+  * Added `req.ip`
+  * Added `{ signed: true }` option to `res.cookie()`
+  * Removed `res.signedCookie()`
+  * Changed: dont reverse `req.ips`
+  * Fixed "trust proxy" setting check for `req.ips`
+
+3.0.0alpha4 / 2012-05-09 
+==================
+
+  * Added: allow `[]` in jsonp callback. Closes #1128
+  * Added `PORT` env var support in generated template. Closes #1118 [benatkin]
+  * Updated: connect 2.2.2
+
+3.0.0alpha3 / 2012-05-04 
+==================
+
+  * Added public `app.routes`. Closes #887
+  * Added _view-locals_ example
+  * Added _mvc_ example
+  * Added `res.locals.use()`. Closes #1120
+  * Added conditional-GET support to `res.send()`
+  * Added: coerce `res.set()` values to strings
+  * Changed: moved `static()` in generated apps below router
+  * Changed: `res.send()` only set ETag when not previously set
+  * Changed connect 2.2.1 dep
+  * Changed: `make test` now runs unit / acceptance tests
+  * Fixed req/res proto inheritance
+
+3.0.0alpha2 / 2012-04-26 
+==================
+
+  * Added `make benchmark` back
+  * Added `res.send()` support for `String` objects
+  * Added client-side data exposing example
+  * Added `res.header()` and `req.header()` aliases for BC
+  * Added `express.createServer()` for BC
+  * Perf: memoize parsed urls
+  * Perf: connect 2.2.0 dep
+  * Changed: make `expressInit()` middleware self-aware
+  * Fixed: use app.get() for all core settings
+  * Fixed redis session example
+  * Fixed session example. Closes #1105
+  * Fixed generated express dep. Closes #1078
+
+3.0.0alpha1 / 2012-04-15 
+==================
+
+  * Added `app.locals.use(callback)`
+  * Added `app.locals` object
+  * Added `app.locals(obj)`
+  * Added `res.locals` object
+  * Added `res.locals(obj)`
+  * Added `res.format()` for content-negotiation
+  * Added `app.engine()`
+  * Added `res.cookie()` JSON cookie support
+  * Added "trust proxy" setting
+  * Added `req.subdomains`
+  * Added `req.protocol`
+  * Added `req.secure`
+  * Added `req.path`
+  * Added `req.ips`
+  * Added `req.fresh`
+  * Added `req.stale`
+  * Added comma-delmited / array support for `req.accepts()`
+  * Added debug instrumentation
+  * Added `res.set(obj)`
+  * Added `res.set(field, value)`
+  * Added `res.get(field)`
+  * Added `app.get(setting)`. Closes #842
+  * Added `req.acceptsLanguage()`
+  * Added `req.acceptsCharset()`
+  * Added `req.accepted`
+  * Added `req.acceptedLanguages`
+  * Added `req.acceptedCharsets`
+  * Added "json replacer" setting
+  * Added "json spaces" setting
+  * Added X-Forwarded-Proto support to `res.redirect()`. Closes #92
+  * Added `--less` support to express(1)
+  * Added `express.response` prototype
+  * Added `express.request` prototype
+  * Added `express.application` prototype
+  * Added `app.path()`
+  * Added `app.render()`
+  * Added `res.type()` to replace `res.contentType()`
+  * Changed: `res.redirect()` to add relative support
+  * Changed: enable "jsonp callback" by default
+  * Changed: renamed "case sensitive routes" to "case sensitive routing"
+  * Rewrite of all tests with mocha
+  * Removed "root" setting
+  * Removed `res.redirect('home')` support
+  * Removed `req.notify()`
+  * Removed `app.register()`
+  * Removed `app.redirect()`
+  * Removed `app.is()`
+  * Removed `app.helpers()`
+  * Removed `app.dynamicHelpers()`
+  * Fixed `res.sendfile()` with non-GET. Closes #723
+  * Fixed express(1) public dir for windows. Closes #866
+
+2.5.9/ 2012-04-02 
+==================
+
+  * Added support for PURGE request method [pbuyle]
+  * Fixed `express(1)` generated app `app.address()` before `listening` [mmalecki]
+
+2.5.8 / 2012-02-08 
+==================
+
+  * Update mkdirp dep. Closes #991
+
+2.5.7 / 2012-02-06 
+==================
+
+  * Fixed `app.all` duplicate DELETE requests [mscdex]
+
+2.5.6 / 2012-01-13 
+==================
+
+  * Updated hamljs dev dep. Closes #953
+
+2.5.5 / 2012-01-08 
+==================
+
+  * Fixed: set `filename` on cached templates [matthewleon]
+
+2.5.4 / 2012-01-02 
+==================
+
+  * Fixed `express(1)` eol on 0.4.x. Closes #947
+
+2.5.3 / 2011-12-30 
+==================
+
+  * Fixed `req.is()` when a charset is present
+
+2.5.2 / 2011-12-10 
+==================
+
+  * Fixed: express(1) LF -> CRLF for windows
+
+2.5.1 / 2011-11-17 
+==================
+
+  * Changed: updated connect to 1.8.x
+  * Removed sass.js support from express(1)
+
+2.5.0 / 2011-10-24 
+==================
+
+  * Added ./routes dir for generated app by default
+  * Added npm install reminder to express(1) app gen
+  * Added 0.5.x support
+  * Removed `make test-cov` since it wont work with node 0.5.x
+  * Fixed express(1) public dir for windows. Closes #866
+
+2.4.7 / 2011-10-05 
+==================
+
+  * Added mkdirp to express(1). Closes #795
+  * Added simple _json-config_ example
+  * Added  shorthand for the parsed request's pathname via `req.path`
+  * Changed connect dep to 1.7.x to fix npm issue...
+  * Fixed `res.redirect()` __HEAD__ support. [reported by xerox]
+  * Fixed `req.flash()`, only escape args
+  * Fixed absolute path checking on windows. Closes #829 [reported by andrewpmckenzie]
+
+2.4.6 / 2011-08-22 
+==================
+
+  * Fixed multiple param callback regression. Closes #824 [reported by TroyGoode]
+
+2.4.5 / 2011-08-19 
+==================
+
+  * Added support for routes to handle errors. Closes #809
+  * Added `app.routes.all()`. Closes #803
+  * Added "basepath" setting to work in conjunction with reverse proxies etc.   
+  * Refactored `Route` to use a single array of callbacks
+  * Added support for multiple callbacks for `app.param()`. Closes #801
+Closes #805
+  * Changed: removed .call(self) for route callbacks
+  * Dependency: `qs >= 0.3.1`
+  * Fixed `res.redirect()` on windows due to `join()` usage. Closes #808
+
+2.4.4 / 2011-08-05 
+==================
+
+  * Fixed `res.header()` intention of a set, even when `undefined`
+  * Fixed `*`, value no longer required
+  * Fixed `res.send(204)` support. Closes #771
+
+2.4.3 / 2011-07-14 
+==================
+
+  * Added docs for `status` option special-case. Closes #739
+  * Fixed `options.filename`, exposing the view path to template engines
+
+2.4.2. / 2011-07-06 
+==================
+
+  * Revert "removed jsonp stripping" for XSS
+
+2.4.1 / 2011-07-06 
+==================
+
+  * Added `res.json()` JSONP support. Closes #737
+  * Added _extending-templates_ example. Closes #730
+  * Added "strict routing" setting for trailing slashes
+  * Added support for multiple envs in `app.configure()` calls. Closes #735
+  * Changed: `res.send()` using `res.json()`
+  * Changed: when cookie `path === null` don't default it
+  * Changed; default cookie path to "home" setting. Closes #731
+  * Removed _pids/logs_ creation from express(1)
+
+2.4.0 / 2011-06-28 
+==================
+
+  * Added chainable `res.status(code)`
+  * Added `res.json()`, an explicit version of `res.send(obj)`
+  * Added simple web-service example
+
+2.3.12 / 2011-06-22 
+==================
+
+  * \#express is now on freenode! come join!
+  * Added `req.get(field, param)`
+  * Added links to Japanese documentation, thanks @hideyukisaito!
+  * Added; the `express(1)` generated app outputs the env
+  * Added `content-negotiation` example
+  * Dependency: connect >= 1.5.1 < 2.0.0
+  * Fixed view layout bug. Closes #720
+  * Fixed; ignore body on 304. Closes #701
+
+2.3.11 / 2011-06-04 
+==================
+
+  * Added `npm test`
+  * Removed generation of dummy test file from `express(1)`
+  * Fixed; `express(1)` adds express as a dep
+  * Fixed; prune on `prepublish`
+
+2.3.10 / 2011-05-27 
+==================
+
+  * Added `req.route`, exposing the current route
+  * Added _package.json_ generation support to `express(1)`
+  * Fixed call to `app.param()` function for optional params. Closes #682
+
+2.3.9 / 2011-05-25 
+==================
+
+  * Fixed bug-ish with `../' in `res.partial()` calls
+
+2.3.8 / 2011-05-24
+==================
+
+  * Fixed `app.options()`
+
+2.3.7 / 2011-05-23
+==================
+
+  * Added route `Collection`, ex: `app.get('/user/:id').remove();`
+  * Added support for `app.param(fn)` to define param logic
+  * Removed `app.param()` support for callback with return value
+  * Removed module.parent check from express(1) generated app. Closes #670
+  * Refactored router. Closes #639
+
+2.3.6 / 2011-05-20 
+==================
+
+  * Changed; using devDependencies instead of git submodules
+  * Fixed redis session example
+  * Fixed markdown example
+  * Fixed view caching, should not be enabled in development
+
+2.3.5 / 2011-05-20 
+==================
+
+  * Added export `.view` as alias for `.View`
+
+2.3.4 / 2011-05-08 
+==================
+
+  * Added `./examples/say`
+  * Fixed `res.sendfile()` bug preventing the transfer of files with spaces
+
+2.3.3 / 2011-05-03 
+==================
+
+  * Added "case sensitive routes" option.
+  * Changed; split methods supported per rfc [slaskis]
+  * Fixed route-specific middleware when using the same callback function several times
+
+2.3.2 / 2011-04-27 
+==================
+
+  * Fixed view hints
+
+2.3.1 / 2011-04-26 
+==================
+
+  * Added `app.match()` as `app.match.all()`
+  * Added `app.lookup()` as `app.lookup.all()`
+  * Added `app.remove()` for `app.remove.all()`
+  * Added `app.remove.VERB()`
+  * Fixed template caching collision issue. Closes #644
+  * Moved router over from connect and started refactor
+
+2.3.0 / 2011-04-25 
+==================
+
+  * Added options support to `res.clearCookie()`
+  * Added `res.helpers()` as alias of `res.locals()`
+  * Added; json defaults to UTF-8 with `res.send()`. Closes #632. [Daniel   * Dependency `connect >= 1.4.0`
+  * Changed; auto set Content-Type in res.attachement [Aaron Heckmann]
+  * Renamed "cache views" to "view cache". Closes #628
+  * Fixed caching of views when using several apps. Closes #637
+  * Fixed gotcha invoking `app.param()` callbacks once per route middleware. 
+Closes #638
+  * Fixed partial lookup precedence. Closes #631
+Shaw]
+
+2.2.2 / 2011-04-12 
+==================
+
+  * Added second callback support for `res.download()` connection errors
+  * Fixed `filename` option passing to template engine
+
+2.2.1 / 2011-04-04 
+==================
+
+  * Added `layout(path)` helper to change the layout within a view. Closes #610
+  * Fixed `partial()` collection object support.
+    Previously only anything with `.length` would work.
+    When `.length` is present one must still be aware of holes,
+    however now `{ collection: {foo: 'bar'}}` is valid, exposes
+    `keyInCollection` and `keysInCollection`.
+
+  * Performance improved with better view caching
+  * Removed `request` and `response` locals
+  * Changed; errorHandler page title is now `Express` instead of `Connect`
+
+2.2.0 / 2011-03-30 
+==================
+
+  * Added `app.lookup.VERB()`, ex `app.lookup.put('/user/:id')`. Closes #606
+  * Added `app.match.VERB()`, ex `app.match.put('/user/12')`. Closes #606
+  * Added `app.VERB(path)` as alias of `app.lookup.VERB()`.
+  * Dependency `connect >= 1.2.0`
+
+2.1.1 / 2011-03-29 
+==================
+
+  * Added; expose `err.view` object when failing to locate a view
+  * Fixed `res.partial()` call `next(err)` when no callback is given [reported by aheckmann]
+  * Fixed; `res.send(undefined)` responds with 204 [aheckmann]
+
+2.1.0 / 2011-03-24 
+==================
+
+  * Added `<root>/_?<name>` partial lookup support. Closes #447
+  * Added `request`, `response`, and `app` local variables
+  * Added `settings` local variable, containing the app's settings
+  * Added `req.flash()` exception if `req.session` is not available
+  * Added `res.send(bool)` support (json response)
+  * Fixed stylus example for latest version
+  * Fixed; wrap try/catch around `res.render()`
+
+2.0.0 / 2011-03-17 
+==================
+
+  * Fixed up index view path alternative.
+  * Changed; `res.locals()` without object returns the locals
+
+2.0.0rc3 / 2011-03-17 
+==================
+
+  * Added `res.locals(obj)` to compliment `res.local(key, val)`
+  * Added `res.partial()` callback support
+  * Fixed recursive error reporting issue in `res.render()`
+
+2.0.0rc2 / 2011-03-17 
+==================
+
+  * Changed; `partial()` "locals" are now optional
+  * Fixed `SlowBuffer` support. Closes #584 [reported by tyrda01]
+  * Fixed .filename view engine option [reported by drudge]
+  * Fixed blog example
+  * Fixed `{req,res}.app` reference when mounting [Ben Weaver]
+
+2.0.0rc / 2011-03-14 
+==================
+
+  * Fixed; expose `HTTPSServer` constructor
+  * Fixed express(1) default test charset. Closes #579 [reported by secoif]
+  * Fixed; default charset to utf-8 instead of utf8 for lame IE [reported by NickP]
+
+2.0.0beta3 / 2011-03-09 
+==================
+
+  * Added support for `res.contentType()` literal
+    The original `res.contentType('.json')`,
+    `res.contentType('application/json')`, and `res.contentType('json')`
+    will work now.
+  * Added `res.render()` status option support back
+  * Added charset option for `res.render()`
+  * Added `.charset` support (via connect 1.0.4)
+  * Added view resolution hints when in development and a lookup fails
+  * Added layout lookup support relative to the page view.
+    For example while rendering `./views/user/index.jade` if you create
+    `./views/user/layout.jade` it will be used in favour of the root layout.
+  * Fixed `res.redirect()`. RFC states absolute url [reported by unlink]
+  * Fixed; default `res.send()` string charset to utf8
+  * Removed `Partial` constructor (not currently used)
+
+2.0.0beta2 / 2011-03-07 
+==================
+
+  * Added res.render() `.locals` support back to aid in migration process
+  * Fixed flash example
+
+2.0.0beta / 2011-03-03 
+==================
+
+  * Added HTTPS support
+  * Added `res.cookie()` maxAge support
+  * Added `req.header()` _Referrer_ / _Referer_ special-case, either works
+  * Added mount support for `res.redirect()`, now respects the mount-point
+  * Added `union()` util, taking place of `merge(clone())` combo
+  * Added stylus support to express(1) generated app
+  * Added secret to session middleware used in examples and generated app
+  * Added `res.local(name, val)` for progressive view locals
+  * Added default param support to `req.param(name, default)`
+  * Added `app.disabled()` and `app.enabled()`
+  * Added `app.register()` support for omitting leading ".", either works
+  * Added `res.partial()`, using the same interface as `partial()` within a view. Closes #539
+  * Added `app.param()` to map route params to async/sync logic
+  * Added; aliased `app.helpers()` as `app.locals()`. Closes #481
+  * Added extname with no leading "." support to `res.contentType()`
+  * Added `cache views` setting, defaulting to enabled in "production" env
+  * Added index file partial resolution, eg: partial('user') may try _views/user/index.jade_.
+  * Added `req.accepts()` support for extensions
+  * Changed; `res.download()` and `res.sendfile()` now utilize Connect's
+    static file server `connect.static.send()`.
+  * Changed; replaced `connect.utils.mime()` with npm _mime_ module
+  * Changed; allow `req.query` to be pre-defined (via middleware or other parent
+  * Changed view partial resolution, now relative to parent view
+  * Changed view engine signature. no longer `engine.render(str, options, callback)`, now `engine.compile(str, options) -> Function`, the returned function accepts `fn(locals)`.
+  * Fixed `req.param()` bug returning Array.prototype methods. Closes #552
+  * Fixed; using `Stream#pipe()` instead of `sys.pump()` in `res.sendfile()`
+  * Fixed; using _qs_ module instead of _querystring_
+  * Fixed; strip unsafe chars from jsonp callbacks
+  * Removed "stream threshold" setting
+
+1.0.8 / 2011-03-01 
+==================
+
+  * Allow `req.query` to be pre-defined (via middleware or other parent app)
+  * "connect": ">= 0.5.0 < 1.0.0". Closes #547
+  * Removed the long deprecated __EXPRESS_ENV__ support
+
+1.0.7 / 2011-02-07 
+==================
+
+  * Fixed `render()` setting inheritance.
+    Mounted apps would not inherit "view engine"
+
+1.0.6 / 2011-02-07 
+==================
+
+  * Fixed `view engine` setting bug when period is in dirname
+
+1.0.5 / 2011-02-05 
+==================
+
+  * Added secret to generated app `session()` call
+
+1.0.4 / 2011-02-05 
+==================
+
+  * Added `qs` dependency to _package.json_
+  * Fixed namespaced `require()`s for latest connect support
+
+1.0.3 / 2011-01-13 
+==================
+
+  * Remove unsafe characters from JSONP callback names [Ryan Grove]
+
+1.0.2 / 2011-01-10 
+==================
+
+  * Removed nested require, using `connect.router`
+
+1.0.1 / 2010-12-29 
+==================
+
+  * Fixed for middleware stacked via `createServer()`
+    previously the `foo` middleware passed to `createServer(foo)`
+    would not have access to Express methods such as `res.send()`
+    or props like `req.query` etc.
+
+1.0.0 / 2010-11-16 
+==================
+
+  * Added; deduce partial object names from the last segment.
+    For example by default `partial('forum/post', postObject)` will
+    give you the _post_ object, providing a meaningful default.
+  * Added http status code string representation to `res.redirect()` body
+  * Added; `res.redirect()` supporting _text/plain_ and _text/html_ via __Accept__.
+  * Added `req.is()` to aid in content negotiation
+  * Added partial local inheritance [suggested by masylum]. Closes #102
+    providing access to parent template locals.
+  * Added _-s, --session[s]_ flag to express(1) to add session related middleware
+  * Added _--template_ flag to express(1) to specify the
+    template engine to use.
+  * Added _--css_ flag to express(1) to specify the 
+    stylesheet engine to use (or just plain css by default).
+  * Added `app.all()` support [thanks aheckmann]
+  * Added partial direct object support.
+    You may now `partial('user', user)` providing the "user" local,
+    vs previously `partial('user', { object: user })`.
+  * Added _route-separation_ example since many people question ways
+    to do this with CommonJS modules. Also view the _blog_ example for
+    an alternative.
+  * Performance; caching view path derived partial object names
+  * Fixed partial local inheritance precedence. [reported by Nick Poulden] Closes #454
+  * Fixed jsonp support; _text/javascript_ as per mailinglist discussion
+
+1.0.0rc4 / 2010-10-14 
+==================
+
+  * Added _NODE_ENV_ support, _EXPRESS_ENV_ is deprecated and will be removed in 1.0.0
+  * Added route-middleware support (very helpful, see the [docs](http://expressjs.com/guide.html#Route-Middleware))
+  * Added _jsonp callback_ setting to enable/disable jsonp autowrapping [Dav Glass]
+  * Added callback query check on response.send to autowrap JSON objects for simple webservice implementations [Dav Glass]
+  * Added `partial()` support for array-like collections. Closes #434
+  * Added support for swappable querystring parsers
+  * Added session usage docs. Closes #443
+  * Added dynamic helper caching. Closes #439 [suggested by maritz]
+  * Added authentication example
+  * Added basic Range support to `res.sendfile()` (and `res.download()` etc)
+  * Changed; `express(1)` generated app using 2 spaces instead of 4
+  * Default env to "development" again [aheckmann]
+  * Removed _context_ option is no more, use "scope"
+  * Fixed; exposing _./support_ libs to examples so they can run without installs
+  * Fixed mvc example
+
+1.0.0rc3 / 2010-09-20 
+==================
+
+  * Added confirmation for `express(1)` app generation. Closes #391
+  * Added extending of flash formatters via `app.flashFormatters`
+  * Added flash formatter support. Closes #411
+  * Added streaming support to `res.sendfile()` using `sys.pump()` when >= "stream threshold"
+  * Added _stream threshold_ setting for `res.sendfile()`
+  * Added `res.send()` __HEAD__ support
+  * Added `res.clearCookie()`
+  * Added `res.cookie()`
+  * Added `res.render()` headers option
+  * Added `res.redirect()` response bodies
+  * Added `res.render()` status option support. Closes #425 [thanks aheckmann]
+  * Fixed `res.sendfile()` responding with 403 on malicious path
+  * Fixed `res.download()` bug; when an error occurs remove _Content-Disposition_
+  * Fixed; mounted apps settings now inherit from parent app [aheckmann]
+  * Fixed; stripping Content-Length / Content-Type when 204
+  * Fixed `res.send()` 204. Closes #419
+  * Fixed multiple _Set-Cookie_ headers via `res.header()`. Closes #402
+  * Fixed bug messing with error handlers when `listenFD()` is called instead of `listen()`. [thanks guillermo]
+
+
 1.0.0rc2 / 2010-08-17 
 ==================
 

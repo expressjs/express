@@ -1,74 +1,33 @@
 
-PREFIX = /usr/local
-LIB_PREFIX = ~/.node_libraries
+MOCHA_OPTS=
+REPORTER = dot
 
-DOCS = docs/index.md \
-	   docs/executable.md \
-	   docs/contrib.md \
-	   docs/guide.md \
-	   docs/migrate.md
+check: test
 
-MANPAGES =$(DOCS:.md=.1)
-HTMLDOCS =$(DOCS:.md=.html)
+test: test-unit test-acceptance
 
-install: install-docs
-	@mkdir -p $(PREFIX)/bin
-	@mkdir -p $(LIB_PREFIX)
-	cp -f bin/express $(PREFIX)/bin/express
-	cp -fr lib/express $(LIB_PREFIX)/express
+test-unit:
+	@NODE_ENV=test ./node_modules/.bin/mocha \
+		--reporter $(REPORTER) \
+		$(MOCHA_OPTS)
 
-uninstall: uninstall-docs
-	rm -f $(PREFIX)/bin/express
-	rm -fr $(LIB_PREFIX)/express
+test-acceptance:
+	@NODE_ENV=test ./node_modules/.bin/mocha \
+		--reporter $(REPORTER) \
+		--bail \
+		test/acceptance/*.js
 
-install-support:
-	cd support/connect && $(MAKE) install
-	cd support/jade && $(MAKE) install
+test-cov: lib-cov
+	@EXPRESS_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
 
-uninstall-support:
-	cd support/connect && $(MAKE) uninstall
-	cd support/jade && $(MAKE) uninstall
+lib-cov:
+	@jscoverage lib lib-cov
 
-install-docs:
-	@mkdir -p $(PREFIX)/share/man/man1
-	cp -f docs/executable.1 $(PREFIX)/share/man/man1/express.1
+benchmark:
+	@./support/bench
 
-uninstall-docs:
-	rm -f $(PREFIX)/share/man/man1/express.1
+clean:
+	rm -f coverage.html
+	rm -fr lib-cov
 
-test:
-	@CONNECT_ENV=test ./support/expresso/bin/expresso \
-		-I lib \
-		-I support/connect/lib \
-		-I support/haml/lib \
-		-I support/jade/lib \
-		-I support/ejs/lib \
-		$(TESTFLAGS) \
-		test/*.test.js
-test-cov:
-	@TESTFLAGS=--cov $(MAKE) test
-
-docs: docs/api.html $(MANPAGES) $(HTMLDOCS)
-	@ echo "... generating TOC"
-	@./support/toc.js docs/guide.html
-
-docs/api.html: lib/express/*.js
-	dox --title Express \
-		--desc "High performance web framework for [node](http://nodejs.org)." \
-		$(shell find lib/express/* -type f) > $@
-
-%.1: %.md
-	@echo "... $< -> $@"
-	@ronn -r --pipe $< > $@
-
-%.html: %.md
-	@echo "... $< -> $@"
-	@ronn -5 --pipe --fragment $< \
-	  | cat docs/layout/head.html - docs/layout/foot.html \
-	  | sed 's/NAME/Express/g' \
-	  > $@
-
-docclean:
-	rm -f docs/*.{1,html}
-
-.PHONY: install uninstall install-docs install-support uninstall-support install-docs uninstall-docs test test-cov docs docclean
+.PHONY: test test-unit test-acceptance benchmark clean

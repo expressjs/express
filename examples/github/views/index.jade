@@ -1,8 +1,0 @@
-- each user in users
-  .user
-    h2= user.name
-    p.summary
-      | <a href="http://github.com/#{user.name}">#{user.name}</a> has
-      | <strong>#{user.repos.length}</strong> repositories 
-      | with a total of <strong>#{user.totalWatchers}</strong> watchers.
-    table#repos!= partial('repo', user.repos)
