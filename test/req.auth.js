@@ -48,6 +48,36 @@ describe('req', function(){
       })
     })
 
+    describe('when encoded string is malformed', function(){
+      it('should return undefined', function(done){
+        var app = express();
+
+        app.get('/', function(req, res){
+          res.send(req.auth || 'none');
+        });
+
+        request(app)
+        .get('/')
+        .set('Authorization', 'Basic Z21ldGh2aW4=')
+        .expect('none', done)
+      })
+    })
+
+    describe('when password contains a colon', function(){
+      it('should return .username and .password', function(done){
+        var app = express();
+
+        app.get('/', function(req, res){
+          res.send(req.auth || 'none');
+        });
+
+        request(app)
+        .get('/')
+        .set('Authorization', 'Basic dG9iaTpmZXJyZXQ6ZmVycmV0')
+        .expect('{"username":"tobi","password":"ferret:ferret"}', done)
+      })
+    })
+
     it('should return .username and .password', function(done){
       var app = express();
 
