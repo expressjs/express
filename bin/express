@@ -22,6 +22,7 @@ program
   .option('-H, --hogan', 'add hogan.js engine support')
   .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus) (defaults to plain css)')
   .option('-f, --force', 'force on non-empty directory')
+  .option('-S, --ssl', 'add SSL/HTTPS support')
   .parse(process.argv);
 
 // Path
@@ -199,6 +200,17 @@ var stylus = [
 ].join(eol);
 
 /**
+ * HTTPS options
+ */
+
+var https_options = [
+    'var options = {'
+  , '    key: fs.readFileSync(\'ssl/privatekey.pem\')'
+  , '  , cert: fs.readFileSync(\'ssl/certificate.pem\')'
+  , '};' 
+].join(eol);
+
+/**
  * App template.
  */
 
@@ -211,11 +223,11 @@ var app = [
   , 'var express = require(\'express\')'
   , '  , routes = require(\'./routes\')'
   , '  , user = require(\'./routes/user\')'
-  , '  , http = require(\'http\')'
-  , '  , path = require(\'path\');'
+  , '  , {protocol} = require(\'{protocol}\')'
+  , '  , path = require(\'path\'){fs};'
   , ''
   , 'var app = express();'
-  , ''
+  , '{https_opts}'
   , 'app.configure(function(){'
   , '  app.set(\'port\', process.env.PORT || 3000);'
   , '  app.set(\'views\', __dirname + \'/views\');'
@@ -235,7 +247,7 @@ var app = [
   , 'app.get(\'/\', routes.index);'
   , 'app.get(\'/users\', user.list);'
   , ''
-  , 'http.createServer(app).listen(app.get(\'port\'), function(){'
+  , '{protocol}.createServer({options}app).listen(app.get(\'port\'), function(){'
   , '  console.log("Express server listening on port " + app.get(\'port\'));'
   , '});'
   , ''
@@ -300,6 +312,8 @@ function createApplicationAt(path) {
       write(path + '/routes/user.js', users);
     });
 
+    if (program.ssl) mkdir(path + '/ssl');
+
     mkdir(path + '/views', function(){
       switch (program.template) {
         case 'ejs':
@@ -339,6 +353,12 @@ function createApplicationAt(path) {
 
     // Template support
     app = app.replace(':TEMPLATE', program.template);
+
+    // HTTPS support
+    app = app.replace(/\{protocol\}/g, program.ssl ? 'https' : 'http');
+    app = app.replace('{fs}', program.ssl ? eol + '  , fs = require(\'fs\')' : '');
+    app = app.replace('{https_opts}', program.ssl ? eol + https_options + eol : '');
+    app = app.replace('{options}', program.ssl ? 'options, ' : '');
 
     // package.json
     var pkg = {
