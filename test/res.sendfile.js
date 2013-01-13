@@ -127,7 +127,7 @@ describe('res', function(){
         });
       })
     })
-    
+
     describe('with a relative path', function(){
       it('should transfer the file', function(done){
         var app = express();
@@ -144,7 +144,7 @@ describe('res', function(){
           done();
         });
       })
-      
+
       it('should serve relative to "root"', function(done){
         var app = express();
 
@@ -160,7 +160,7 @@ describe('res', function(){
           done();
         });
       })
-      
+
       it('should consider ../ malicious when "root" is not set', function(done){
         var app = express();
 
@@ -172,7 +172,7 @@ describe('res', function(){
         .get('/')
         .expect(403, done);
       })
-      
+
       it('should allow ../ when "root" is set', function(done){
         var app = express();
 
@@ -184,7 +184,7 @@ describe('res', function(){
         .get('/')
         .expect(200, done);
       })
-      
+
       it('should disallow requesting out of "root"', function(done){
         var app = express();
 
@@ -196,7 +196,7 @@ describe('res', function(){
         .get('/')
         .expect(403, done);
       })
-      
+
       it('should next(404) when not found', function(done){
         var app = express()
           , calls = 0;
@@ -208,7 +208,7 @@ describe('res', function(){
         app.use(function(req, res){
           assert(0, 'this should not be called');
         });
-        
+
         app.use(function(err, req, res, next){
           ++calls;
           next(err);
