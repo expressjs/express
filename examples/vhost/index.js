@@ -18,7 +18,7 @@ one.get('/', function(req, res){
 });
 
 one.get('/:sub', function(req, res){
-  res.send('requsted ' + req.params.sub);
+  res.send('requested ' + req.params.sub);
 });
 
 // App two
@@ -34,8 +34,9 @@ two.get('/', function(req, res){
 var redirect = express();
 
 redirect.all('*', function(req, res){
-  console.log(req.subdomains);
-  res.redirect('http://localhost:3000/' + req.subdomains[0]);
+  var subdomains = req.host.split('.');
+  console.log(subdomains);
+  res.redirect('http://localhost:3000/' + subdomains[0]);
 });
 
 // Main app
