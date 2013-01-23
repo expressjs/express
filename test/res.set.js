@@ -24,6 +24,27 @@ describe('res', function(){
       res.get('ETag').should.equal('123');
     })
   })
+
+  describe('.set(field, values)', function(){
+    it('should set multiple response header fields', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.set('Set-Cookie', ["type=ninja", "language=javascript"]);
+        res.send(res.get('Set-Cookie'));
+      });
+
+      request(app)
+      .get('/')
+      .expect('["type=ninja","language=javascript"]', done);
+    })
+
+    it('should coerce to an array of strings', function(){
+      res.headers = {};
+      res.set('ETag', [123, 456]);
+      JSON.stringify(res.get('ETag')).should.equal('["123","456"]');
+    })
+  })
   
   describe('.set(object)', function(){
     it('should set multiple fields', function(done){
