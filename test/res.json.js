@@ -124,6 +124,45 @@ describe('res', function(){
         });
       })
     })
+
+    describe('"json prefix" setting', function(){
+      it('should be undefined by default', function(){
+        var app = express();
+        assert(undefined === app.get('json prefix'));
+      })
+
+      it('should not modify response if undefined', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.json({ name: 'tobi' });
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.text.should.match(/^\s*\{\s*\"name\"\:\s*\"tobi\"\s*\}\s*$/);
+          done();
+        })
+      })
+
+      it('should prefix json responses if set', function(done){
+        var app = express();
+
+        app.set('json prefix', ')]},\n');
+
+        app.use(function(req, res){
+          res.json({ name: 'tobi' });
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.text.should.match(/^\)\]\},\n/);
+          done();
+        })
+      })
+    })
   })
   
   describe('.json(status, object)', function(){
