@@ -364,8 +364,15 @@ function createApplicationAt(path) {
         }
     }
 
+    // git support
+    var gitignore = [
+      'node_modules/',
+      ''
+    ].join(eol);
+
     write(path + '/package.json', JSON.stringify(pkg, null, 2));
     write(path + '/app.js', app);
+    write(path + '/.gitignore', gitignore);
   });
 }
 
