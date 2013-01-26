@@ -1,4 +1,15 @@
 
+3.1.0 / 2013-01-25
+==================
+
+  * add support for leading "." in "view engine" setting
+  * add array support to `res.set()`
+  * add node 0.8.x to travis.yml
+  * add "subdomain offset" setting for tweaking `req.subdomains`
+  * add `res.location(url)` implementing `res.redirect()`-like setting of Location
+  * use app.get() for x-powered-by setting for inheritance
+  * fix colons in passwords for `req.auth`
+
 3.0.6 / 2013-01-04
 ==================
 
