@@ -21,6 +21,7 @@ program
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
   .option('-H, --hogan', 'add hogan.js engine support')
   .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus) (defaults to plain css)')
+  .option('-p, --paas [platform]', 'add <platform> support (heroku) (defaults to generic support)')
   .option('-f, --force', 'force on non-empty directory')
   .parse(process.argv);
 
@@ -38,6 +39,8 @@ program.template = 'jade';
 if (program.ejs) program.template = 'ejs';
 if (program.jshtml) program.template = 'jshtml';
 if (program.hogan) program.template = 'hjs';
+
+if (program.heroku) program.paas = 'heroku';
 
 /**
  * Routes index template.
@@ -362,6 +365,13 @@ function createApplicationAt(path) {
         if (program.css) {
           pkg.dependencies[program.css] = '*';
         }
+    }
+
+    if (program.paas == 'heroku') {
+      pkg.engines = {
+        node: '0.8.x'
+      , npm:  '1.1.x'
+      }
     }
 
     write(path + '/package.json', JSON.stringify(pkg, null, 2));
