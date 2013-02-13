@@ -26,7 +26,7 @@
     "connect": "2.7.2",
     "commander": "0.6.1",
     "range-parser": "0.0.4",
-    "mkdirp": "0.3.3",
+    "mkdirp": "~0.3.4",
     "cookie": "0.0.5",
     "buffer-crc32": "~0.2.1",
     "fresh": "0.1.0",
