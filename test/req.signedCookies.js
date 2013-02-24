@@ -9,6 +9,10 @@ describe('req', function(){
         , cookieHeader
         , val;
 
+      /* So we use the same serialization for expected results. */
+      var replacer = app.get('json replacer')
+        , spaces = app.get('json spaces');
+
       app.use(express.cookieParser('secret'));
 
       app.use(function(req, res){
@@ -19,7 +23,7 @@ describe('req', function(){
       app.response.cookie('obj', { foo: 'bar' }, { signed: true });
       cookieHeader = app.response.get('set-cookie');
 
-      val = JSON.stringify({ obj: { foo: 'bar' } });
+      val = JSON.stringify({ obj: { foo: 'bar' } }, replacer, spaces);
       request(app)
       .get('/')
       .set('Cookie', cookieHeader)
@@ -31,6 +35,10 @@ describe('req', function(){
         , cookieHeader
         , val;
 
+      /* So we use the same serialization for expected results. */
+      var replacer = app.get('json replacer')
+        , spaces = app.get('json spaces');
+
       app.use(express.cookieParser('secret'));
 
       app.use(function(req, res){
@@ -41,7 +49,7 @@ describe('req', function(){
       app.response.cookie('foo', 'bar', { signed: true });
       cookieHeader = app.response.get('set-cookie');
 
-      val = JSON.stringify({ foo: 'bar' });
+      val = JSON.stringify({ foo: 'bar' }, replacer, spaces);
       request(app)
       .get('/')
       .set('Cookie', cookieHeader)
