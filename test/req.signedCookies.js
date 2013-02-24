@@ -12,7 +12,7 @@ describe('req', function(){
       app.use(express.cookieParser('secret'));
 
       app.use(function(req, res){
-        res.send(JSON.stringify(req.signedCookies));
+        res.send(req.signedCookies);
       });
 
       app.response.req = { secret: 'secret' };
@@ -34,7 +34,7 @@ describe('req', function(){
       app.use(express.cookieParser('secret'));
 
       app.use(function(req, res){
-        res.send(JSON.stringify(req.signedCookies));
+        res.send(req.signedCookies);
       });
 
       app.response.req = { secret: 'secret' };
