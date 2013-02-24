@@ -174,31 +174,31 @@ describe('res', function(){
 
     /* The requisite test fixtures are repetitive. */
     var makeApp = function (depth, parent) {
-      var app = express()
+      var app = express();
 
       if (parent) {
-        parent.use('/depth' + depth, app)
+        parent.use('/depth' + depth, app);
       }
 
       app.get('/', function (req, res) {
-        res.redirect('./index')
-      })
+        res.redirect('./index');
+      });
 
       app.get('/index', function (req, res) {
-        res.json({depth : depth, content : 'index'})
-      })
+        res.json({depth : depth, content : 'index'});
+      });
 
-      return app
+      return app;
     }
 
-    var root = makeApp(0)
-    var depth1 = makeApp(1, root)
-    var depth2 = makeApp(2, depth1)
-    var depth3 = makeApp(3, depth2)
+    var root = makeApp(0);
+    var depth1 = makeApp(1, root);
+    var depth2 = makeApp(2, depth1);
+    var depth3 = makeApp(3, depth2);
 
     /* Special cases for alias paths. */
-    root.use('/depth2', depth2)
-    root.use('/depth3', depth3)
+    root.use('/depth2', depth2);
+    root.use('/depth3', depth3);
 
     /*
      * The resulting structure resembles the following.
@@ -217,8 +217,8 @@ describe('res', function(){
       request(root)
         .get('/')
         .end(function (err, res) {
-          res.headers.location.search(/^\/{2}/).should.equal(-1)
-          done()
+          res.headers.location.search(/^\/{2}/).should.equal(-1);
+          done();
         })
     })
 
@@ -226,20 +226,20 @@ describe('res', function(){
       request(root)
         .get('/depth1')
         .end(function(err, res) {
-          res.headers.should.have.property('location', '/depth1/./index')
-        })
+          res.headers.should.have.property('location', '/depth1/./index');
+        });
 
       request(root)
         .get('/depth1/depth2')
         .end(function(err, res) {
-          res.headers.should.have.property('location', '/depth1/depth2/./index')
+          res.headers.should.have.property('location', '/depth1/depth2/./index');
         })
 
       request(root)
         .get('/depth1/depth2/depth3')
         .end(function(err, res) {
-          res.headers.should.have.property('location', '/depth1/depth2/depth3/./index')
-          done()
+          res.headers.should.have.property('location', '/depth1/depth2/depth3/./index');
+          done();
         })
     })
 
@@ -247,14 +247,14 @@ describe('res', function(){
       request(root)
         .get('/depth2')
         .end(function (err, res) {
-          res.headers.should.have.property('location', '/depth2/./index')
+          res.headers.should.have.property('location', '/depth2/./index');
         })
 
       request(root)
         .get('/depth3')
         .end(function (err, res) {
-          res.headers.should.have.property('location', '/depth3/./index')
-          done()
+          res.headers.should.have.property('location', '/depth3/./index');
+          done();
         })
     })
 
