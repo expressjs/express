@@ -74,7 +74,7 @@ describe('res', function(){
       })
     })
   })
-  
+
   describe('when accepting html', function(){
     it('should respond with html', function(done){
       var app = express();
@@ -110,7 +110,7 @@ describe('res', function(){
       })
     })
   })
-  
+
   describe('when accepting text', function(){
     it('should respond with text', function(done){
       var app = express();
@@ -168,5 +168,95 @@ describe('res', function(){
         done();
       })
     })
+  })
+
+  describe('responses redirected to dotted relative paths', function () {
+
+    /* The requisite test fixtures are repetitive. */
+    var makeApp = function (depth, parent) {
+      var app = express()
+
+      if (parent) {
+        parent.use('/depth' + depth, app)
+      }
+
+      app.get('/', function (req, res) {
+        res.redirect('./index')
+      })
+
+      app.get('/index', function (req, res) {
+        res.json({depth : depth, content : 'index'})
+      })
+
+      return app
+    }
+
+    var root = makeApp(0)
+    var depth1 = makeApp(1, root)
+    var depth2 = makeApp(2, depth1)
+    var depth3 = makeApp(3, depth2)
+
+    /* Special cases for alias paths. */
+    root.use('/depth2', depth2)
+    root.use('/depth3', depth3)
+
+    /*
+     * The resulting structure resembles the following.
+     *
+     * /                     -> root
+     *
+     * /depth1               -> depth1
+     * /depth1/depth2        -> depth2
+     * /depth1/depth2/depth3 -> depth3
+     *
+     * /depth2               -> depth2
+     * /depth3               -> depth3
+     */
+
+    it('should not contain redundant leading slashes in the location header', function (done) {
+      request(root)
+        .get('/')
+        .end(function (err, res) {
+          res.headers.location.search(/^\/{2}/).should.equal(-1)
+          done()
+        })
+    })
+
+    it('should preserve context when redirecting nested applications at any depth', function(done){
+      request(root)
+        .get('/depth1')
+        .end(function(err, res) {
+          res.headers.should.have.property('location', '/depth1/./index')
+        })
+
+      request(root)
+        .get('/depth1/depth2')
+        .end(function(err, res) {
+          res.headers.should.have.property('location', '/depth1/depth2/./index')
+        })
+
+      request(root)
+        .get('/depth1/depth2/depth3')
+        .end(function(err, res) {
+          res.headers.should.have.property('location', '/depth1/depth2/depth3/./index')
+          done()
+        })
+    })
+
+    it('should redirect correctly for nested applications that have been remounted', function (done) {
+      request(root)
+        .get('/depth2')
+        .end(function (err, res) {
+          res.headers.should.have.property('location', '/depth2/./index')
+        })
+
+      request(root)
+        .get('/depth3')
+        .end(function (err, res) {
+          res.headers.should.have.property('location', '/depth3/./index')
+          done()
+        })
+    })
+
   })
 })
