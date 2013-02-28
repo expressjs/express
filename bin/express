@@ -345,7 +345,7 @@ function createApplicationAt(path) {
         name: 'application-name'
       , version: '0.0.1'
       , private: true
-      , scripts: { start: 'node app' }
+      , scripts: { start: 'node app.js' }
       , dependencies: {
         express: version
       }
