@@ -15,7 +15,7 @@ describe('req', function(){
       .get('/')
       .expect('yes', done);
     })
-    
+
     it('should return true when present', function(done){
       var app = express();
 
@@ -28,7 +28,7 @@ describe('req', function(){
       .set('Accept', 'application/json')
       .expect('yes', done);
     })
-    
+
     it('should return false otherwise', function(done){
       var app = express();
 
