@@ -44,7 +44,7 @@
     "connect-redis": "*",
     "github-flavored-markdown": "*",
     "supertest": "0.0.1",
-    "jscoverage": "*"
+    "visionmedia-jscoverage": "*"
   },
   "keywords": [
     "express",
