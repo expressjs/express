@@ -67,8 +67,10 @@ describe('utils.parseParams(str)', function(){
     utils.parseParams('application/json; ver=2.0')
       .should.eql([{ value: 'application/json', quality: 1, params: {ver: "2.0"}}]);
 
-    utils.parseParams('text/html; level=2')
-      .should.eql([{ value: 'text/html', quality: 1, params: {level: "2"}}]);
+    utils.parseParams('text/html; q=0.5; level=2')
+      .should.eql([{ value: 'text/html', quality: 0.5, params: {level: "2"}}]);
+    utils.parseParams('text/html;q=.2;ver=beta')
+      .should.eql([{ value: 'text/html', quality: 0.2, params: {ver: "beta"}}]);
   })
 
   it('should work with messed up whitespace', function(){
