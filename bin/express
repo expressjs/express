@@ -30,7 +30,7 @@ var path = program.args.shift() || '.';
 
 // end-of-line code
 
-var eol = 'win32' == os.platform() ? '\r\n' : '\n'
+var eol = os.EOL
 
 // Template engine
 
@@ -216,27 +216,27 @@ var app = [
   , ''
   , 'var app = express();'
   , ''
-  , 'app.configure(function(){'
-  , '  app.set(\'port\', process.env.PORT || 3000);'
-  , '  app.set(\'views\', __dirname + \'/views\');'
-  , '  app.set(\'view engine\', \':TEMPLATE\');'
-  , '  app.use(express.favicon());'
-  , '  app.use(express.logger(\'dev\'));'
-  , '  app.use(express.bodyParser());'
-  , '  app.use(express.methodOverride());{sess}'
-  , '  app.use(app.router);{css}'
-  , '  app.use(express.static(path.join(__dirname, \'public\')));'
-  , '});'
+  , '// all environments'
+  , 'app.set(\'port\', process.env.PORT || 3000);'
+  , 'app.set(\'views\', __dirname + \'/views\');'
+  , 'app.set(\'view engine\', \':TEMPLATE\');'
+  , 'app.use(express.favicon());'
+  , 'app.use(express.logger(\'dev\'));'
+  , 'app.use(express.bodyParser());'
+  , 'app.use(express.methodOverride());{sess}'
+  , 'app.use(app.router);{css}'
+  , 'app.use(express.static(path.join(__dirname, \'public\')));'
   , ''
-  , 'app.configure(\'development\', function(){'
+  , '// development only'
+  , 'if (\'development\' == app.get(\'env\')) {'
   , '  app.use(express.errorHandler());'
-  , '});'
+  , '}'
   , ''
   , 'app.get(\'/\', routes.index);'
   , 'app.get(\'/users\', user.list);'
   , ''
   , 'http.createServer(app).listen(app.get(\'port\'), function(){'
-  , '  console.log("Express server listening on port " + app.get(\'port\'));'
+  , '  console.log(\'Express server listening on port \' + app.get(\'port\'));'
   , '});'
   , ''
 ].join(eol);
@@ -345,7 +345,7 @@ function createApplicationAt(path) {
         name: 'application-name'
       , version: '0.0.1'
       , private: true
-      , scripts: { start: 'node app' }
+      , scripts: { start: 'node app.js' }
       , dependencies: {
         express: version
       }
