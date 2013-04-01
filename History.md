@@ -1,4 +1,13 @@
 
+3.1.1 / 2013-04-01 
+==================
+
+  * add X-Forwarded-Host support to `req.host`
+  * fix relative redirects  
+  * update mkdirp 
+  * update buffer-crc32
+  * remove legacy app.configure() method from app template.
+
 3.1.0 / 2013-01-25
 ==================
 
