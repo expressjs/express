@@ -21,7 +21,7 @@ test-cov: lib-cov
 	@EXPRESS_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
 
 lib-cov:
-	@jscoverage lib lib-cov
+	@./node_modules/.bin/jscoverage lib lib-cov
 
 benchmark:
 	@./support/bench
