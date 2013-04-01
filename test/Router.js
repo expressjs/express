@@ -2,7 +2,8 @@
 var express = require('../')
   , Router = express.Router
   , request = require('./support/http')
-  , assert = require('assert');
+  , assert = require('assert')
+  , should = require('should');
 
 describe('Router', function(){
   var router, app;
@@ -98,6 +99,29 @@ describe('Router', function(){
 
     it('should not throw if all callbacks are functions', function(){
       router.route('get', '/foo', function(){}, function(){});
+    })
+  })
+
+  describe('.arrays of paths', function(){
+    it('should match all paths', function(){
+      var route;
+
+      router.route('get', ['/:id/explain/:section', '/:id', '/:id/edit/:section'], function(){});
+
+      route = router.match('get', '/id_val');
+      route.params.id.should.equal('id_val');
+
+      route = router.match('get', '/id_val/edit/section_val');
+      route.params.id.should.equal('id_val');
+      route.params.section.should.equal('section_val');
+
+      route = router.match('get', '/id_val/explain/section_val');
+      route.params.id.should.equal('id_val');
+      route.params.section.should.equal('section_val');
+    })
+    it('should not match other paths', function(){
+      router.route('get', ['/:id/explain/:section', '/:id', '/:id/edit/:section'], function(){});
+      should.not.exist(router.match('get', '/id_val/strange_action/section_val'));
     })
   })
 })
