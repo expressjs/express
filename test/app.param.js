@@ -8,7 +8,7 @@ describe('app', function(){
       var app = express();
 
       app.param(function(name, regexp){
-        if (regexp instanceof RegExp) {
+        if (Object.prototype.toString.call(regexp) == '[object RegExp]') { // See #1557
           return function(req, res, next, val){
             var captures;
             if (captures = regexp.exec(String(val))) {
