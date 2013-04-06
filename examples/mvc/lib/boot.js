@@ -3,6 +3,8 @@ var express = require('../../..')
   , fs = require('fs');
 
 module.exports = function(parent, options){
+  // remove the last three characters of the file name (assumed: .js)
+  name = name.slice(0,-3);
   var verbose = options.verbose;
   fs.readdirSync(__dirname + '/../controllers').forEach(function(name){
     verbose && console.log('\n   %s:', name);
