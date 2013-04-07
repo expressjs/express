@@ -1,5 +1,5 @@
 
-var utils = require('../lib/httpStatusCode')
+var httpStatusCode = require('../lib/httpStatusCode').httpStatusCode
   , assert = require('assert');
 
 describe('Http Status Code', function(){
