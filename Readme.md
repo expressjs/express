@@ -65,7 +65,7 @@ app.listen(3000);
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
   * [日本語ドキュメンテーション](http://hideyukisaito.com/doc/expressjs/) by [hideyukisaito](https://github.com/hideyukisaito)
-  * [Русскоязычная документация](http://express-js.ru/)
+  * [Русскоязычная документация](http://jsman.ru/express/)
   * Run express examples [online](https://runnable.com/express)
 
 ## Viewing Examples
