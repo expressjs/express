@@ -49,28 +49,38 @@ describe('utils.escape(html)', function(){
   })
 })
 
-describe('utils.parseQuality(str)', function(){
+describe('utils.parseParams(str)', function(){
   it('should default quality to 1', function(){
-    utils.parseQuality('text/html')
-      .should.eql([{ value: 'text/html', quality: 1 }]);
+    utils.parseParams('text/html')
+      .should.eql([{ value: 'text/html', quality: 1, params: {}}]);
   })
   
   it('should parse qvalues', function(){
-    utils.parseQuality('text/html; q=0.5')
-      .should.eql([{ value: 'text/html', quality: 0.5 }]);
+    utils.parseParams('text/html; q=0.5')
+      .should.eql([{ value: 'text/html', quality: 0.5, params: {}}]);
 
-    utils.parseQuality('text/html; q=.2')
-      .should.eql([{ value: 'text/html', quality: 0.2 }]);
+    utils.parseParams('text/html; q=.2')
+      .should.eql([{ value: 'text/html', quality: 0.2, params: {}}]);
   })
-  
+
+  it('should parse accept parameters', function(){
+    utils.parseParams('application/json; ver=2.0')
+      .should.eql([{ value: 'application/json', quality: 1, params: {ver: "2.0"}}]);
+
+    utils.parseParams('text/html; q=0.5; level=2')
+      .should.eql([{ value: 'text/html', quality: 0.5, params: {level: "2"}}]);
+    utils.parseParams('text/html;q=.2;ver=beta')
+      .should.eql([{ value: 'text/html', quality: 0.2, params: {ver: "beta"}}]);
+  })
+
   it('should work with messed up whitespace', function(){
-    utils.parseQuality('text/html   ;  q =   .2')
-      .should.eql([{ value: 'text/html', quality: 0.2 }]);
+    utils.parseParams('text/html   ;  q =   .2')
+      .should.eql([{ value: 'text/html', quality: 0.2, params: {}}]);
   })
   
   it('should work with multiples', function(){
     var str = 'da, en;q=.5, en-gb;q=.8';
-    var arr = utils.parseQuality(str);
+    var arr = utils.parseParams(str);
     arr[0].value.should.equal('da');
     arr[1].value.should.equal('en-gb');
     arr[2].value.should.equal('en');
@@ -78,7 +88,7 @@ describe('utils.parseQuality(str)', function(){
   
   it('should sort by quality', function(){
     var str = 'text/plain;q=.2, application/json, text/html;q=0.5';
-    var arr = utils.parseQuality(str);
+    var arr = utils.parseParams(str);
     arr[0].value.should.equal('application/json');
     arr[1].value.should.equal('text/html');
     arr[2].value.should.equal('text/plain');
@@ -86,7 +96,7 @@ describe('utils.parseQuality(str)', function(){
   
   it('should exclude those with a quality of 0', function(){
     var str = 'text/plain;q=.2, application/json, text/html;q=0';
-    var arr = utils.parseQuality(str);
+    var arr = utils.parseParams(str);
     arr.should.have.length(2);
   })
 })
