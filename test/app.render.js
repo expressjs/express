@@ -119,14 +119,14 @@ describe('app', function(){
           this.path = 'path is required by application.js as a signal of success even though it is not used there.';
         }
         View.prototype.render = function(options, fn){
-          fn(null, 'abtract engine');
+          fn(null, 'abstract engine');
         };
 
         app.set('view constructor', View);
 
         app.render('something', function(err, str){
           if (err) return done(err);
-          str.should.equal('abtract engine');
+          str.should.equal('abstract engine');
           done();
         })
       })
