@@ -153,7 +153,7 @@ authors:
     1	Maciej Małecki          0.0%
     1	Masahiro Hayashi        0.0%
 ```
-
+    
 ## License
 
 (The MIT License)
