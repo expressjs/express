@@ -1,4 +1,10 @@
 
+3.1.2 / 2013-04-12 
+==================
+
+  * add support for custom Accept parameters
+  * update cookie-signature
+
 3.1.1 / 2013-04-01 
 ==================
 
