@@ -32,7 +32,7 @@
     "fresh": "0.1.0",
     "methods": "0.0.1",
     "send": "0.1.0",
-    "cookie-signature": "0.0.1",
+    "cookie-signature": "1.0.0",
     "debug": "*"
   },
   "devDependencies": {
