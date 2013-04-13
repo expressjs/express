@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var express = require('../../')
+var express = require('../..')
   , fs = require('fs')
   , md = require('github-flavored-markdown').parse;
 
