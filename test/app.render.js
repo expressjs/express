@@ -109,6 +109,28 @@ describe('app', function(){
         })
       })
     })
+
+    describe('when "view constructor" is given', function(){
+      it('should create an instance of it', function(done){
+        var app = express();
+
+        function View(name, options){
+          this.name = name;
+          this.path = 'path is required by application.js as a signal of success even though it is not used there.';
+        }
+        View.prototype.render = function(options, fn){
+          fn(null, 'abstract engine');
+        };
+
+        app.set('view constructor', View);
+
+        app.render('something', function(err, str){
+          if (err) return done(err);
+          str.should.equal('abstract engine');
+          done();
+        })
+      })
+    })
   })
   
   describe('.render(name, options, fn)', function(){
