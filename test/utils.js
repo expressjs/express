@@ -52,30 +52,30 @@ describe('utils.escape(html)', function(){
 describe('utils.parseParams(str)', function(){
   it('should default quality to 1', function(){
     utils.parseParams('text/html')
-      .should.eql([{ value: 'text/html', quality: 1, params: {}}]);
+      .should.eql([{ value: 'text/html', quality: 1, params: {}, originalIndex: 0 }]);
   })
   
   it('should parse qvalues', function(){
     utils.parseParams('text/html; q=0.5')
-      .should.eql([{ value: 'text/html', quality: 0.5, params: {}}]);
+      .should.eql([{ value: 'text/html', quality: 0.5, params: {}, originalIndex: 0 }]);
 
     utils.parseParams('text/html; q=.2')
-      .should.eql([{ value: 'text/html', quality: 0.2, params: {}}]);
+      .should.eql([{ value: 'text/html', quality: 0.2, params: {}, originalIndex: 0 }]);
   })
 
   it('should parse accept parameters', function(){
     utils.parseParams('application/json; ver=2.0')
-      .should.eql([{ value: 'application/json', quality: 1, params: {ver: "2.0"}}]);
+      .should.eql([{ value: 'application/json', quality: 1, params: {ver: "2.0"}, originalIndex: 0 }]);
 
     utils.parseParams('text/html; q=0.5; level=2')
-      .should.eql([{ value: 'text/html', quality: 0.5, params: {level: "2"}}]);
+      .should.eql([{ value: 'text/html', quality: 0.5, params: {level: "2"}, originalIndex: 0 }]);
     utils.parseParams('text/html;q=.2;ver=beta')
-      .should.eql([{ value: 'text/html', quality: 0.2, params: {ver: "beta"}}]);
+      .should.eql([{ value: 'text/html', quality: 0.2, params: {ver: "beta"}, originalIndex: 0 }]);
   })
 
   it('should work with messed up whitespace', function(){
     utils.parseParams('text/html   ;  q =   .2')
-      .should.eql([{ value: 'text/html', quality: 0.2, params: {}}]);
+      .should.eql([{ value: 'text/html', quality: 0.2, params: {}, originalIndex: 0 }]);
   })
   
   it('should work with multiples', function(){
@@ -84,6 +84,29 @@ describe('utils.parseParams(str)', function(){
     arr[0].value.should.equal('da');
     arr[1].value.should.equal('en-gb');
     arr[2].value.should.equal('en');
+  })
+
+  it('should work with long lists', function(){
+    var str = 'en, nl, fr, de, ja, it, es, pt, pt-PT, da, fi, nb, sv, ko, zh-Hans, zh-Hant, ru, pl';
+    var arr = utils.parseParams(str);
+    arr[0].value.should.equal('en');
+    arr[1].value.should.equal('nl');
+    arr[2].value.should.equal('fr');
+    arr[4].value.should.equal('de');
+    arr[5].value.should.equal('ja');
+    arr[6].value.should.equal('it');
+    arr[7].value.should.equal('es');
+    arr[8].value.should.equal('pt');
+    arr[9].value.should.equal('pt-PT');
+    arr[10].value.should.equal('da');
+    arr[11].value.should.equal('fi');
+    arr[12].value.should.equal('nb');
+    arr[13].value.should.equal('sv');
+    arr[14].value.should.equal('ko');
+    arr[15].value.should.equal('zh-Hans');
+    arr[16].value.should.equal('zh-Hant');
+    arr[17].value.should.equal('ru');
+    arr[18].value.should.equal('pl');
   })
   
   it('should sort by quality', function(){
