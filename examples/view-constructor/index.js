@@ -42,6 +42,6 @@ app.get('/Readme.md', function(req, res){
 })
 
 if (!module.parent) {
-  app.listen(4000);
+  app.listen(3000);
   console.log('Express started on port 3000');
 }
