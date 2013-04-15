@@ -39,7 +39,7 @@ describe('res', function(){
         done();
       })
     })
-
+    
     it('should allow multiple calls', function(done){
       var app = express();
 
@@ -58,7 +58,7 @@ describe('res', function(){
       })
     })
   })
-
+  
   describe('.cookie(name, string, options)', function(){
     it('should set params', function(done){
       var app = express();
@@ -76,7 +76,7 @@ describe('res', function(){
         done();
       })
     })
-
+    
     describe('maxAge', function(){
       it('should set relative expires', function(done){
         var app = express();
@@ -164,7 +164,7 @@ describe('res', function(){
         request(app)
         .get('/')
         .end(function(err, res){
-          var val = ['name=s%3Atobi.z6Nfs5haoP4UAqCcr497ZljiIbrNqn8EjjM10baIYvvG32lReGseC3v2T79fecY4G%2FLdEm9fpTihvlEMVuNjGw; Path=/'];
+          var val = ['name=s%3Atobi.xJjV2iZ6EI7C8E5kzwbfA9PVLl1ZR07UTnuTgQQ4EnQ; Path=/'];
           res.headers['set-cookie'].should.eql(val);
           done();
         })
