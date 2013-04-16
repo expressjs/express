@@ -72,8 +72,6 @@ describe('req', function(){
       it('should return the domain only', function(done){
         var app = express();
 
-        app.enable('trust proxy');
-
         app.use(function(req, res, next){
           res.send(req.host);
         });
@@ -86,8 +84,6 @@ describe('req', function(){
       it('should return the domain only even when there is no port', function(done){
         var app = express();
 
-        app.enable('trust proxy');
-
         app.use(function(req, res, next){
           res.send(req.host);
         });
@@ -99,8 +95,6 @@ describe('req', function(){
       })
       it('should return undefined when there is no Host header', function(done){
         var app = express();
-
-        app.enable('trust proxy');
 
         app.use(function(req, res, next){
           res.send(req.host);
