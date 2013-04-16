@@ -48,6 +48,20 @@ describe('req', function(){
         .expect([], done);
       })
     })
+    describe('when there is an empty Host header', function () {
+      it('should return an empty array', function (done) {
+        var app = express();
+
+        app.use(function (req, res, next) {
+          res.send(req.subdomains);
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', '')
+        .expect([], done);
+      })
+    })
 
     describe('when subdomain offset is set', function(){
       describe('when subdomain offset is zero', function(){
@@ -77,6 +91,21 @@ describe('req', function(){
             request(app)
             .get('/')
             .unset('Host')
+            .expect([], done);
+          })
+        })
+        describe('when there is an empty Host header', function () {
+          it('should return an empty array', function (done) {
+            var app = express();
+            app.set('subdomain offset', 0);
+
+            app.use(function (req, res, next) {
+              res.send(req.subdomains);
+            });
+
+            request(app)
+            .get('/')
+            .set('Host', '')
             .expect([], done);
           })
         })
