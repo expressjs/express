@@ -44,7 +44,7 @@
     "should": "*",
     "connect-redis": "*",
     "github-flavored-markdown": "*",
-    "supertest": "0.0.1"
+    "supertest": "0.6.0"
   },
   "keywords": [
     "express",
