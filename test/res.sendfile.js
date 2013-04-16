@@ -51,7 +51,8 @@ describe('res', function(){
       .get('/')
       .end(function(err, res){
         assert(1 == calls, 'called too many times');
-        res.text.should.equal("ENOENT, stat 'test/fixtures/nope.html'");
+        // On Windows, paths use a backslash, and the error message includes the absolute path.
+        res.text.should.match(/^ENOENT, stat '[A-Za-z :0-9\\]*test[\/\\]fixtures[\/\\]nope.html'$/);
         res.statusCode.should.equal(200);
         done();
       });
