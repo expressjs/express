@@ -2,6 +2,9 @@
 var express = require('../')
   , request = require('./support/http');
 
+
+//TODO: Prevent superttest@0.5.0 from adding Host: headers on its own
+
 describe('req', function(){
   describe('.host', function(){
     describe('when X-Forwarded-Host is present', function(){
@@ -21,9 +24,34 @@ describe('req', function(){
           .set('X-Forwarded-Host', 'example.com:80')
           .expect('example.com', done);
         })
+        it('should return undefined when there are no headers', function (done) {
+          var app = express();
+
+          app.enable('trust proxy');
+
+          app.use(function (req, res, next) {
+            res.send(req.host);
+          });
+
+          request(app)
+          .get('/')
+          .expect(undefined, done);
+        })
       })
 
       describe('when "trust proxy" is disabled', function(){
+        it('should return undefined when there is no Host header', function (done) {
+          var app = express();
+
+          app.use(function (req, res, next) {
+            res.send(req.host);
+          });
+
+          request(app)
+          .get('/')
+          .set('X-Forwarded-Host', 'example.com:80')
+          .expect(undefined, done);
+        })
         it('should return the actual host address', function(done){
           var app = express();
 
