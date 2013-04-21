@@ -1,7 +1,7 @@
 {
   "name": "express",
   "description": "Sinatra inspired web development framework",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [
     {
@@ -22,7 +22,7 @@
     }
   ],
   "dependencies": {
-    "connect": "2.7.3",
+    "connect": "2.7.6",
     "commander": "0.6.1",
     "range-parser": "0.0.4",
     "mkdirp": "~0.3.4",
@@ -31,7 +31,7 @@
     "fresh": "0.1.0",
     "methods": "0.0.1",
     "send": "0.1.0",
-    "cookie-signature": "0.0.1",
+    "cookie-signature": "1.0.1",
     "debug": "*"
   },
   "devDependencies": {

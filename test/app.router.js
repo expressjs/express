@@ -48,7 +48,7 @@ describe('app.router', function(){
       calls.push('before');
       next();
     });
-    
+
     app.use(app.router);
 
     app.use(function(req, res, next){
@@ -68,7 +68,7 @@ describe('app.router', function(){
       done();
     })
   })
-  
+
   it('should be auto .use()d on the first app.VERB() call', function(done){
     var app = express();
 
@@ -78,7 +78,7 @@ describe('app.router', function(){
       calls.push('before');
       next();
     });
-    
+
     app.get('/', function(req, res, next){
       calls.push('GET /')
       next();
@@ -109,7 +109,7 @@ describe('app.router', function(){
       .get('/user/12?foo=bar')
       .expect('user', done);
     })
-    
+
     it('should populate req.params with the captures', function(done){
       var app = express();
 
@@ -122,24 +122,6 @@ describe('app.router', function(){
       request(app)
       .get('/user/10/edit')
       .expect('editing user 10', done);
-    })
-  })
-  
-  describe('when given an array', function(){
-    it('should match all paths in the array', function(done){
-      var app = express();
-      
-      app.get(['/one', '/two'], function(req, res){
-        res.end('works');
-      });
-      
-      request(app)
-      .get('/one')
-      .expect('works', function() {
-        request(app)
-        .get('/two')
-        .expect('works', done);
-      });
     })
   })
 
@@ -155,7 +137,7 @@ describe('app.router', function(){
       .get('/USER')
       .expect('tj', done);
     })
-    
+
     describe('when "case sensitive routing" is enabled', function(){
       it('should match identical casing', function(done){
         var app = express();
@@ -170,7 +152,7 @@ describe('app.router', function(){
         .get('/uSer')
         .expect('tj', done);
       })
-      
+
       it('should not match otherwise', function(done){
         var app = express();
 
@@ -199,7 +181,7 @@ describe('app.router', function(){
       .get('/user/')
       .expect('tj', done);
     })
-    
+
     describe('when "strict routing" is enabled', function(){
       it('should match trailing slashes', function(done){
         var app = express();
@@ -214,7 +196,7 @@ describe('app.router', function(){
         .get('/user/')
         .expect('tj', done);
       })
-      
+
       it('should match no slashes', function(done){
         var app = express();
 
@@ -228,7 +210,7 @@ describe('app.router', function(){
         .get('/user')
         .expect('tj', done);
       })
-      
+
       it('should fail when omitting the trailing slash', function(done){
         var app = express();
 
@@ -242,7 +224,7 @@ describe('app.router', function(){
         .get('/user')
         .expect(404, done);
       })
-      
+
       it('should fail when adding the trailing slash', function(done){
         var app = express();
 
@@ -275,7 +257,7 @@ describe('app.router', function(){
       .expect(404, done);
     });
   })
-  
+
   it('should allow literal "."', function(done){
     var app = express();
 
@@ -303,7 +285,7 @@ describe('app.router', function(){
       .get('/user/tj.json')
       .expect('tj', done);
     })
-    
+
     it('should work with several', function(done){
       var app = express();
 
@@ -346,7 +328,7 @@ describe('app.router', function(){
       .get('/api/users/0.json')
       .expect('users/0.json', done);
     })
-    
+
     it('should not be greedy immediately after param', function(done){
       var app = express();
 
@@ -370,7 +352,7 @@ describe('app.router', function(){
       .get('/user/122/aaa')
       .expect('122', done);
     })
-    
+
     it('should span multiple segments', function(done){
       var app = express();
 
@@ -382,7 +364,7 @@ describe('app.router', function(){
       .get('/file/javascripts/jquery.js')
       .expect('javascripts/jquery.js', done);
     })
-    
+
     it('should be optional', function(done){
       var app = express();
 
@@ -394,7 +376,7 @@ describe('app.router', function(){
       .get('/file/')
       .expect('', done);
     })
-    
+
     it('should require a preceeding /', function(done){
       var app = express();
 
@@ -420,7 +402,7 @@ describe('app.router', function(){
       .get('/user/tj')
       .expect('tj', done);
     })
-    
+
     it('should match a single segment only', function(done){
       var app = express();
 
@@ -432,7 +414,7 @@ describe('app.router', function(){
       .get('/user/tj/edit')
       .expect(404, done);
     })
-    
+
     it('should allow several capture groups', function(done){
       var app = express();
 
@@ -459,7 +441,7 @@ describe('app.router', function(){
       .get('/user/tj')
       .expect('viewing tj', done);
     })
-    
+
     it('should populate the capture group', function(done){
       var app = express();
 
@@ -473,7 +455,7 @@ describe('app.router', function(){
       .expect('editing tj', done);
     })
   })
-  
+
   describe('.:name', function(){
     it('should denote a format', function(done){
       var app = express();
@@ -491,7 +473,7 @@ describe('app.router', function(){
       });
     })
   })
-  
+
   describe('.:name?', function(){
     it('should denote an optional format', function(done){
       var app = express();
@@ -509,7 +491,7 @@ describe('app.router', function(){
       });
     })
   })
-  
+
   describe('when next() is called', function(){
     it('should continue lookup', function(done){
       var app = express()
@@ -528,7 +510,7 @@ describe('app.router', function(){
         calls.push('/foo');
         next();
       });
-      
+
       app.get('/foo', function(req, res, next){
         calls.push('/foo 2');
         res.end('done');
@@ -542,7 +524,7 @@ describe('app.router', function(){
       })
     })
   })
-  
+
   describe('when next(err) is called', function(){
     it('should break out of app.router', function(done){
       var app = express()
@@ -561,7 +543,7 @@ describe('app.router', function(){
         calls.push('/foo');
         next(new Error('fail'));
       });
-      
+
       app.get('/foo', function(req, res, next){
         assert(0);
       });

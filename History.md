@@ -1,4 +1,28 @@
 
+3.2.0 / 2013-04-15 
+==================
+
+  * add "view" constructor setting to override view behaviour
+  * add req.acceptsEncoding(name)
+  * add req.acceptedEncodings
+  * revert cookie signature change causing session race conditions
+  * fix sorting of Accept values of the same quality  
+
+3.1.2 / 2013-04-12 
+==================
+
+  * add support for custom Accept parameters
+  * update cookie-signature
+
+3.1.1 / 2013-04-01 
+==================
+
+  * add X-Forwarded-Host support to `req.host`
+  * fix relative redirects  
+  * update mkdirp 
+  * update buffer-crc32
+  * remove legacy app.configure() method from app template.
+
 3.1.0 / 2013-01-25
 ==================
 
