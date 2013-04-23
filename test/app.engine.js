@@ -61,5 +61,20 @@ describe('app', function(){
         done();
       })
     })
+    
+    it('should work "view engine" with leading "."', function(done){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+      app.engine('.html', render);
+      app.set('view engine', '.html');
+      app.locals.user = { name: 'tobi' };
+
+      app.render('user', function(err, str){
+        if (err) return done(err);
+        str.should.equal('<p>tobi</p>');
+        done();
+      })
+    })
   })
 })

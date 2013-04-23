@@ -1,6 +1,7 @@
 
 var express = require('../')
   , request = require('./support/http')
+  , utils = require('connect').utils
   , cookie = require('cookie');
 
 describe('res', function(){
@@ -89,6 +90,41 @@ describe('res', function(){
         .get('/')
         .end(function(err, res){
           res.headers['set-cookie'][0].should.not.include('Thu, 01 Jan 1970 00:00:01 GMT');
+          done();
+        })
+      })
+
+      it('should set max-age', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.cookie('name', 'tobi', { maxAge: 1000 });
+          res.end();
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.headers['set-cookie'][0].should.include('Max-Age=1');
+          done();
+        })
+      })
+
+      it('should not mutate the options object', function(done){
+        var app = express();
+
+        var options = { maxAge: 1000 };
+        var optionsCopy = utils.merge({}, options);
+
+        app.use(function(req, res){
+          res.cookie('name', 'tobi', options)
+          res.end();
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          options.should.eql(optionsCopy);
           done();
         })
       })

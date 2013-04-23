@@ -2,8 +2,8 @@
 // Fake user database
 
 var users = [
-    { name: 'TJ', email: 'tj@vision-media.ca' }
-  , { name: 'Tobi', email: 'tobi@vision-media.ca' }
+  { name: 'TJ', email: 'tj@vision-media.ca' },
+  { name: 'Tobi', email: 'tobi@vision-media.ca' }
 ];
 
 exports.list = function(req, res){
@@ -22,15 +22,15 @@ exports.load = function(req, res, next){
 
 exports.view = function(req, res){
   res.render('users/view', {
-      title: 'Viewing user ' + req.user.name
-    , user: req.user
+    title: 'Viewing user ' + req.user.name,
+    user: req.user
   });
 };
 
 exports.edit = function(req, res){
   res.render('users/edit', {
-      title: 'Editing user ' + req.user.name
-    , user: req.user
+    title: 'Editing user ' + req.user.name,
+    user: req.user
   });
 };
 

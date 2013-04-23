@@ -1,6 +1,6 @@
 ![express logo](http://f.cl.ly/items/0V2S1n0K1i3y1c122g04/Screen%20Shot%202012-04-11%20at%209.59.42%20AM.png)
 
-  Fast, unopinionated, minimalist web framework for [node](http://nodejs.org). [![Build Status](https://secure.travis-ci.org/visionmedia/express.png)](http://travis-ci.org/visionmedia/express)
+  Fast, unopinionated, minimalist web framework for [node](http://nodejs.org). [![Build Status](https://secure.travis-ci.org/visionmedia/express.png)](http://travis-ci.org/visionmedia/express) [![Dependency Status](https://gemnasium.com/visionmedia/express.png)](https://gemnasium.com/visionmedia/express)
 
 ```js
 var express = require('express');
@@ -16,10 +16,6 @@ app.listen(3000);
 ## Installation
 
     $ npm install -g express
-
- To install the 3.0 alpha:
- 
-    $ npm install -g express@3.0
 
 ## Quick Start
 
@@ -55,7 +51,7 @@ app.listen(3000);
   The Express philosophy is to provide small, robust tooling for HTTP servers. Making
   it a great solution for single page applications, web sites, hybrids, or public
   HTTP APIs.
-  
+
   Built on Connect you can use _only_ what you need, and nothing more, applications
   can be as big or as small as you like, even a single file. Express does
   not force you to use any specific ORM or template engine. With support for over
@@ -69,7 +65,8 @@ app.listen(3000);
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
   * [日本語ドキュメンテーション](http://hideyukisaito.com/doc/expressjs/) by [hideyukisaito](https://github.com/hideyukisaito)
-  * [Русскоязычная документация](http://express-js.ru/)
+  * [Русскоязычная документация](http://jsman.ru/express/)
+  * Run express examples [online](https://runnable.com/express)
 
 ## Viewing Examples
 
@@ -100,14 +97,14 @@ project: express
 commits: 3559
 active : 468 days
 files  : 237
-authors: 
+authors:
  1891	Tj Holowaychuk          53.1%
  1285	visionmedia             36.1%
   182	TJ Holowaychuk          5.1%
    54	Aaron Heckmann          1.5%
    34	csausdev                1.0%
    26	ciaranj                 0.7%
-   21	Robert Sköld          0.6%
+   21	Robert Sköld            0.6%
     6	Guillermo Rauch         0.2%
     3	Dav Glass               0.1%
     3	Nick Poulden            0.1%
@@ -153,11 +150,11 @@ authors:
     1	Jonathan Zacsh          0.0%
     1	Justin Lilly            0.0%
     1	Ken Sato                0.0%
-    1	Maciej Małecki         0.0%
+    1	Maciej Małecki          0.0%
     1	Masahiro Hayashi        0.0%
 ```
 
-## License 
+## License
 
 (The MIT License)
 
