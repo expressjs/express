@@ -26,14 +26,15 @@
     "connect": "2.7.6",
     "commander": "0.6.1",
     "range-parser": "0.0.4",
-    "mkdirp": "~0.3.4",
+    "mkdirp": "0.3.4",
     "cookie": "0.0.5",
-    "buffer-crc32": "~0.2.1",
+    "buffer-crc32": "0.2.1",
     "fresh": "0.1.0",
     "methods": "0.0.1",
     "send": "0.1.0",
     "cookie-signature": "1.0.1",
-    "debug": "*"
+    "debug": "*",
+    "qs": "0.6.1"
   },
   "devDependencies": {
     "ejs": "*",
