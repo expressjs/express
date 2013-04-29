@@ -6,7 +6,7 @@
 var express = require('../../')
   , http = require('http')
   , GithubView = require('./github-view')
-  , md = require('github-flavored-markdown').parse;
+  , md = require('marked').parse;
 
 var app = module.exports = express();
 
