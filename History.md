@@ -1,4 +1,12 @@
 
+3.2.1 / 2013-04-29 
+==================
+
+  * add app.VERB() paths array deprecation warning
+  * update connect
+  * update qs and remove all ~ semver crap
+  * fix: accept number as value of Signed Cookie
+
 3.2.0 / 2013-04-15 
 ==================
 
