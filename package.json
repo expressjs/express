@@ -27,7 +27,7 @@
     "commander": "0.6.1",
     "range-parser": "0.0.4",
     "mkdirp": "0.3.4",
-    "cookie": "0.0.5",
+    "cookie": "0.1.0",
     "buffer-crc32": "0.2.1",
     "fresh": "0.1.0",
     "methods": "0.0.1",
