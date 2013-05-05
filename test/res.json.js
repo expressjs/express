@@ -181,4 +181,21 @@ describe('res', function(){
       done();
     })
   })
+
+  it('should contain the prefix when set', function(done){
+    var app = express();
+
+    app.set('json prefix', ')]}\',\n');
+
+    app.get('/', function(req, res){
+      res.json({ hello: 'world' });
+    });
+
+    request(app)
+    .get('/')
+    .end(function(err, res){
+      res.text.should.equal(')]}\',\n{"hello":"world"}');
+      done();
+    })
+  });
 })
