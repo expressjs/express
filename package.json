@@ -23,7 +23,7 @@
     }
   ],
   "dependencies": {
-    "connect": "2.7.8",
+    "connect": "2.7.9",
     "commander": "0.6.1",
     "range-parser": "0.0.4",
     "mkdirp": "0.3.4",
@@ -34,7 +34,7 @@
     "send": "0.1.0",
     "cookie-signature": "1.0.1",
     "debug": "*",
-    "qs": "0.6.3"
+    "qs": "0.6.4"
   },
   "devDependencies": {
     "ejs": "*",
