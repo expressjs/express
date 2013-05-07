@@ -33,8 +33,7 @@
     "methods": "0.0.1",
     "send": "0.1.0",
     "cookie-signature": "1.0.1",
-    "debug": "*",
-    "qs": "0.6.4"
+    "debug": "*"
   },
   "devDependencies": {
     "ejs": "*",
