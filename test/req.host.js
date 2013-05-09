@@ -17,5 +17,18 @@ describe('req', function(){
       .set('Host', 'example.com')
       .expect('example.com', done);
     })
+
+    it('should return undefined otherwise', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        req.headers.host = null;
+        res.end(String(req.host));
+      });
+
+      request(app)
+      .post('/')
+      .expect('undefined', done);
+    })
   })
 })
