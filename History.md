@@ -1,4 +1,10 @@
 
+3.2.4 / 2013-05-09 
+==================
+  
+  * fix `req.subdomains` when no Host is present
+  * fix `req.host` when no Host is present, return undefined
+
 3.2.3 / 2013-05-07 
 ==================
 
