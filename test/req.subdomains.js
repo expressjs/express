@@ -34,6 +34,21 @@ describe('req', function(){
       })
     })
 
+    describe('with no host', function(){
+      it('should return an empty array', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          req.headers.host = null;
+          res.send(req.subdomains);
+        });
+
+        request(app)
+        .get('/')
+        .expect('[]', done);
+      })
+    })
+
     describe('when subdomain offset is set', function(){
       describe('when subdomain offset is zero', function(){
         it('should return an array with the whole domain', function(done){
