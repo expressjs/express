@@ -323,10 +323,10 @@ function createApplicationAt(path) {
     // CSS Engine support
     switch (program.css) {
       case 'less':
-        app = app.replace('{css}', eol + '  app.use(require(\'less-middleware\')({ src: __dirname + \'/public\' }));');
+        app = app.replace('{css}', eol + 'app.use(require(\'less-middleware\')({ src: __dirname + \'/public\' }));');
         break;
       case 'stylus':
-        app = app.replace('{css}', eol + '  app.use(require(\'stylus\').middleware(__dirname + \'/public\'));');
+        app = app.replace('{css}', eol + 'app.use(require(\'stylus\').middleware(__dirname + \'/public\'));');
         break;
       default:
         app = app.replace('{css}', '');
