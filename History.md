@@ -1,4 +1,12 @@
 
+3.2.5 / 2013-05-21 
+==================
+
+ * update connect
+ * update node-cookie
+ * add: throw a meaningful error when there is no default engine
+ * change generation of ETags with res.send() to GET requests only. Closes #1619
+
 3.2.4 / 2013-05-09 
 ==================
   
