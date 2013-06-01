@@ -233,4 +233,22 @@ describe('res', function(){
       })
     })
   })
+
+  describe('.jsonp()', function(){
+    it('should respond empty', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp();
+      });
+
+      request(app)
+      .get('/?callback=something')
+      .end(function(err, res){
+        res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
+        res.text.should.equal('something && something();');
+        done();
+      })
+    })
+  })
 })
