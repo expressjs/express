@@ -28,7 +28,7 @@ describe('res', function(){
         request(app)
         .get('/')
         .end(function(err, res){
-          res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
+          res.headers.should.have.property('content-type', 'application/json');
           res.text.should.equal('null');
           done();
         })
@@ -46,13 +46,13 @@ describe('res', function(){
         request(app)
         .get('/')
         .end(function(err, res){
-          res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
+          res.headers.should.have.property('content-type', 'application/json');
           res.text.should.equal('["foo","bar","baz"]');
           done();
         })
       })
     })
-    
+
     describe('when given an object', function(){
       it('should respond with json', function(done){
         var app = express();
@@ -64,7 +64,7 @@ describe('res', function(){
         request(app)
         .get('/')
         .end(function(err, res){
-          res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
+          res.headers.should.have.property('content-type', 'application/json');
           res.text.should.equal('{"name":"tobi"}');
           done();
         })
@@ -125,7 +125,7 @@ describe('res', function(){
       })
     })
   })
-  
+
   describe('.json(status, object)', function(){
     it('should respond with json and set the .statusCode', function(done){
       var app = express();
@@ -138,7 +138,7 @@ describe('res', function(){
       .get('/')
       .end(function(err, res){
         res.statusCode.should.equal(201);
-        res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
+        res.headers.should.have.property('content-type', 'application/json');
         res.text.should.equal('{"id":1}');
         done();
       })
@@ -157,7 +157,7 @@ describe('res', function(){
       .get('/')
       .end(function(err, res){
         res.statusCode.should.equal(201);
-        res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
+        res.headers.should.have.property('content-type', 'application/json');
         res.text.should.equal('{"id":1}');
         done();
       })
