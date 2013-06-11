@@ -38,7 +38,7 @@
   "devDependencies": {
     "ejs": "*",
     "mocha": "*",
-    "jade": "*",
+    "jade": "0.30.0",
     "hjs": "*",
     "stylus": "*",
     "should": "*",
