@@ -1,4 +1,13 @@
 
+3.3.0 / 2013-06-26 
+==================
+
+ * update connect
+ * add support for multiple X-Forwarded-Proto values. Closes #1646
+ * change: remove charset from json responses. Closes #1631
+ * change: return actual booleans from req.accept* functions
+ * fix jsonp callback array throw
+
 3.2.6 / 2013-06-02 
 ==================
 
