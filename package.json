@@ -24,9 +24,9 @@
   ],
   "dependencies": {
     "connect": "2.8.1",
-    "commander": "0.6.1",
+    "commander": "1.2.0",
     "range-parser": "0.0.4",
-    "mkdirp": "0.3.4",
+    "mkdirp": "0.3.5",
     "cookie": "0.1.0",
     "buffer-crc32": "0.2.1",
     "fresh": "0.1.0",
