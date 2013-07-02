@@ -18,6 +18,21 @@ describe('res', function(){
       .expect('<p>tobi</p>', done);
     })
     
+    it('should support multiple "views"', function(done){
+      var app = express();
+
+      app.set('views', [__dirname + '/fixtures', __dirname + '/fixtures/blog']);
+      app.set('view engine', 'jade');
+
+      app.use(function(req, res){
+        res.render('post');
+      });
+
+      request(app)
+      .get('/')
+      .expect('<h1>blog post</h1>', done);
+    })
+
     it('should support absolute paths with "view engine"', function(done){
       var app = express();
   
