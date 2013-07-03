@@ -10,7 +10,21 @@ app.get('/', function(req, res){
   res.send('<ul>'
     + '<li>Download <a href="/files/amazing.txt">amazing.txt</a>.</li>'
     + '<li>Download <a href="/files/missing.txt">missing.txt</a>.</li>'
+    + '<li>Download <a href="/files/1">test_žćčđš.txt</a>.</li>'
+    + '<li>Download <a href="/files/2">amazing.txt as 你好.txt</a>.</li>'
     + '</ul>');
+});
+
+app.get('/files/1', function(req, res, next){
+  var path = __dirname + '/files/test_žćčđš.txt';
+
+  res.download(path);
+});
+
+app.get('/files/2', function(req, res, next){
+  var path = __dirname + '/files/amazing.txt';
+
+  res.download(path, '你好.txt');
 });
 
 // /files/* is accessed via req.params[0]
@@ -21,6 +35,9 @@ app.get('/files/:file(*)', function(req, res, next){
 
   res.download(path);
 });
+
+
+
 
 // error handling middleware. Because it's
 // below our routes, you will be able to

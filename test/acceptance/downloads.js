@@ -31,3 +31,28 @@ describe('downloads', function(){
     })
   })
 })
+
+  describe('GET /files/1', function(){
+    it('should have a download header', function(done){
+      request(app)
+      .get('/files/1')
+      .end(function(err, res){
+        res.status.should.equal(200);
+        res.headers.should.have.property('content-disposition', 'attachment; filename="test_žćčđš.txt"')
+        done()
+      })
+    })
+  })
+
+
+  describe('GET /files/2', function(){
+    it('should have a download header', function(done){
+      request(app)
+      .get('/files/2')
+      .end(function(err, res){
+        res.status.should.equal(200);
+        res.headers.should.have.property('content-disposition', 'attachment; filename="你好.txt"')
+        done()
+      })
+    })
+  })  
