@@ -31,7 +31,7 @@
     "buffer-crc32": "0.2.1",
     "fresh": "0.1.0",
     "methods": "0.0.1",
-    "send": "0.1.1",
+    "send": "0.1.2",
     "cookie-signature": "1.0.1",
     "debug": "*"
   },
