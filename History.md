@@ -1,4 +1,11 @@
 
+3.3.2 / 2013-07-03 
+==================
+
+ * update connect
+ * update send
+ * remove .version export
+
 3.3.1 / 2013-06-27 
 ==================
 
