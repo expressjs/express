@@ -41,6 +41,26 @@ describe('res', function(){
     })
   })
 
+
+  describe('.download(path, filename)', function(){
+    it('should provide an alternate filename привет', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.download('test/fixtures/user.html', 'привет');
+      });
+
+      request(app)
+      .get('/')
+      .end(function(err, res){
+        res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
+        res.should.have.header('Content-Disposition', 'attachment; filename="привет"');
+        done();
+      });
+    })
+  })
+
+
   describe('.download(path, fn)', function(){
     it('should invoke the callback', function(done){
       var app = express()
