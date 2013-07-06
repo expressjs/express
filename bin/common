@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# Common variables used by all shell scripts
+
+PROJECT_NAME=$(grep name package.json| awk -F '"' '{print $4}')
+VERSION_NAME=$(grep version package.json| awk -F '"' '{print $4}')
+VERSION_TAG="v$VERSION_NAME"

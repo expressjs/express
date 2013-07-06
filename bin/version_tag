@@ -1,0 +1,35 @@
+#!/bin/sh
+#
+# This script automates the process of setting the version name both in the
+# package.json file and the code repository. Just edit the package.json file
+# without committing/pushing anything and then run this script that will take
+# care of the other needed operations.
+
+. bin/common
+
+TAG_EXISTS=$(git tag|grep -E "^$VERSION_TAG$")
+if [ -n "$TAG_EXISTS" ]; then
+    echo """
+Version $VERSION_NAME (as stated in \`package.json\` file) already tagged
+in the Git repository.
+"""
+    exit
+fi
+
+echo """
+Do you want to create a tag in the Git repository for version $VERSION_NAME
+as stated in \`package.json\` file? (Y/n)
+
+Note: The version name must follow Semantic Versioning Specification
+http://semver.org/ (for example 3.3.4, 4.1.0-beta.1, 4.1.0-pre.2.0)
+""" 1>&2
+read DO_TAG
+if [ ! $DO_TAG = 'Y' ] && [ ! $DO_TAG = '' ]; then
+    exit
+fi
+
+git add package.json
+git commit -m"Releasing version $VERSION_NAME" package.json || true
+git tag -a "$VERSION_TAG" -m"$VERSION_TAG"
+git push origin master
+git push --tags origin master
