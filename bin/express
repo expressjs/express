@@ -4,8 +4,7 @@
  * Module dependencies.
  */
 
-var exec = require('child_process').exec
-  , program = require('commander')
+var program = require('commander')
   , mkdirp = require('mkdirp')
   , pkg = require('../package.json')
   , version = pkg.version
