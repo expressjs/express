@@ -2,6 +2,7 @@
 var express = require('../')
   , Router = express.Router
   , request = require('./support/http')
+  , methods = require('methods')
   , assert = require('assert');
 
 describe('Router', function(){
@@ -98,6 +99,23 @@ describe('Router', function(){
 
     it('should not throw if all callbacks are functions', function(){
       router.route('get', '/foo', function(){}, function(){});
+    })
+  })
+
+  describe('.all', function() {
+    it('should support using .all to capture all http verbs', function() {
+      var router = new Router();
+
+      router.all('/foo', function(){});
+
+      var url = '/foo?bar=baz';
+
+      methods.forEach(function testMethod(method) {
+        var route = router.match(method, url);
+        route.constructor.name.should.equal('Route');
+        route.method.should.equal(method);
+        route.path.should.equal('/foo');
+      });
     })
   })
 })
