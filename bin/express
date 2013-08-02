@@ -16,6 +16,7 @@ var exec = require('child_process').exec
 
 program
   .version(version)
+  .usage('[options] [dir]')
   .option('-s, --sessions', 'add session support')
   .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
@@ -209,7 +210,7 @@ var app = [
   , ' */'
   , ''
   , 'var express = require(\'express\');'
-  , 'var routes = require(\'./routes\')';
+  , 'var routes = require(\'./routes\');'
   , 'var user = require(\'./routes/user\');'
   , 'var http = require(\'http\');'
   , 'var path = require(\'path\');'
