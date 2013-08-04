@@ -53,7 +53,7 @@ app3.use(function(req, res, next){
   })
 });
 
-describe('req', function(){
+describe('res', function(){
   describe('.format(obj)', function(){
     describe('with canonicalized mime types', function(){
       test(app);
@@ -79,14 +79,14 @@ function test(app) {
     request(app)
     .get('/')
     .set('Accept', 'text/html; q=.5, application/json, */*; q=.1')
-    .expect('{"message":"hey"}', done);
+    .expect({"message":"hey"}, done);
   })
 
   it('should allow wildcard type/subtypes', function(done){
     request(app)
     .get('/')
     .set('Accept', 'text/html; q=.5, application/*, */*; q=.1')
-    .expect('{"message":"hey"}', done);
+    .expect({"message":"hey"}, done);
   })
 
   it('should default the Content-Type', function(done){
