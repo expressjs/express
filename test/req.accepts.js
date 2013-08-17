@@ -56,6 +56,19 @@ describe('req', function(){
     .expect('html', done);
   })
 
+  it('should accept an argument list of type names', function(done){
+    var app = express();
+
+    app.use(function(req, res, next){
+      res.end(req.accepts('json', 'html'));
+    });
+
+    request(app)
+    .get('/')
+    .set('Accept', 'application/json')
+    .expect('json', done);
+  })
+
   describe('.accept(types)', function(){
     it('should return the first when Accept is not present', function(done){
       var app = express();
