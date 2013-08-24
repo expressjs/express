@@ -1,8 +1,9 @@
-
 var express = require('../../')
   , app = module.exports = express()
   , users = require('./db');
 
+// so either you can deal with different types of formatting 
+// for expected response in index.js
 app.get('/', function(req, res){
   res.format({
     html: function(){
@@ -24,12 +25,13 @@ app.get('/', function(req, res){
 });
 
 // or you could write a tiny middleware like
-// this to abstract make things a bit more declarative:
+// this to add a layer of abstraction
+// and make things a bit more declarative:
 
-function format(mod) {
-  var obj = require(mod);
+function format(requestHandlerName) {
+  var requestHandler = require(requestHandlerName);
   return function(req, res){
-    res.format(obj);
+    res.format(requestHandler);
   }
 }
 
