@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "ejs": "*",
-    "mocha": "*",
+    "mocha": "1.9.0",
     "jade": "0.30.0",
     "hjs": "*",
     "stylus": "*",
