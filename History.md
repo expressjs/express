@@ -1,4 +1,10 @@
 
+3.3.6 / 2013-08-27 
+==================
+
+ * Revert "remove charset from json responses. Closes #1631" (causes issues in some clients)
+ * add: req.accepts take an argument list
+
 3.3.4 / 2013-07-08 
 ==================
 
