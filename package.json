@@ -23,7 +23,7 @@
     }
   ],
   "dependencies": {
-    "connect": "2.8.6",
+    "connect": "2.8.7",
     "commander": "1.2.0",
     "range-parser": "0.0.4",
     "mkdirp": "0.3.5",
