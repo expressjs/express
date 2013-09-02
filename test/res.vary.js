@@ -1,46 +1,33 @@
 
 var express = require('../')
+  , should = require('should')
   , res = express.response;
 
 describe('res', function(){
-  describe('.vary() - Accept only', function(){
-    it('should set Vary to Accept', function(){
+  describe('.vary() - undefined', function(){
+    it('should not set Vary', function(){
       res.vary();
-      res.get('Vary').should.equal('Accept');
+      should.not.exist(res.get('Vary'));
+    });
+  });
+
+  describe('.vary([]) - undefined', function(){
+    it('should not set Vary', function(){
+      res.vary([]);
+      should.not.exist(res.get('Vary'));
     });
   });
 
   describe('.vary(headers) - normal usage', function(){
-    it('should set Vary to Accept-Language, Accept-Encoding, Accept', function(){
-      res.vary(['Accept-Language', 'Accept-Encoding']);
-      res.get('Vary').should.equal('Accept-Language, Accept-Encoding, Accept');
-    });
-  });
-
-  describe('.vary(headers, false) - prevent automatic Accept creation', function(){
-    it('should set Vary to Accept-Language, Accept-Encoding', function(){
-      res.vary(['Accept-Language', 'Accept-Encoding'], false);
-      res.get('Vary').should.equal('Accept-Language, Accept-Encoding');
-    });
-  });
-
-  describe('.vary(headers, true) - enable automatic Accept creation', function(){
-    it('should set Vary to Accept-Language, Accept-Encoding, Accept', function(){
-      res.vary(['Accept-Language', 'Accept-Encoding'], true);
-      res.get('Vary').should.equal('Accept-Language, Accept-Encoding, Accept');
-    });
-  });
-
-  describe('.vary(headers) - prevent duplicate Accept', function(){
     it('should set Vary to Accept, Accept-Language, Accept-Encoding', function(){
       res.vary(['Accept', 'Accept-Language', 'Accept-Encoding']);
       res.get('Vary').should.equal('Accept, Accept-Language, Accept-Encoding');
     });
   });
 
-  describe('.vary([]) - empty headers array', function(){
+  describe('.vary(\'headers\') - single Accept header', function(){
     it('should set Vary to Accept', function(){
-      res.vary([]);
+      res.vary('Accept');
       res.get('Vary').should.equal('Accept');
     });
   });
