@@ -26,11 +26,11 @@ describe('res', function(){
         next: 'http://api.example.com/users?page=2',
         last: 'http://api.example.com/users?page=5'
       });
+
       res.links({
         prev: 'http://api.example.com/users?page=1',
       });
 
-      console.log(res.get('link'));
       res.get('link')
       .should.equal(
           '<http://api.example.com/users?page=2>; rel="next", '
