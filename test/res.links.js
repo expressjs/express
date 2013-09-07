@@ -3,6 +3,11 @@ var express = require('../')
   , res = express.response;
 
 describe('res', function(){
+
+  beforeEach(function() {
+    res.removeHeader('link');
+  });
+
   describe('.links(obj)', function(){
     it('should set Link header field', function(){
       res.links({
@@ -17,11 +22,15 @@ describe('res', function(){
     })
 
     it('should set Link header field for multiple calls', function() {
-      // just one call here, because of the call on the first test
+      res.links({
+        next: 'http://api.example.com/users?page=2',
+        last: 'http://api.example.com/users?page=5'
+      });
       res.links({
         prev: 'http://api.example.com/users?page=1',
       });
 
+      console.log(res.get('link'));
       res.get('link')
       .should.equal(
           '<http://api.example.com/users?page=2>; rel="next", '
