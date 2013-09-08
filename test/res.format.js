@@ -93,8 +93,25 @@ function test(app) {
     request(app)
     .get('/')
     .set('Accept', 'text/html; q=.5, text/plain')
-    .expect('Content-Type', 'text/plain')
+    .expect('Content-Type', 'text/plain; charset=UTF-8')
     .expect('hey', done);
+  })
+
+  it('should set the correct  charset for the Content-Type', function() {
+    request(app)
+    .get('/')
+    .set('Accept', 'text/html')
+    .expect('Content-Type', 'text/html; charset=UTF-8');
+
+    request(app)
+    .get('/')
+    .set('Accept', 'text/plain')
+    .expect('Content-Type', 'text/plain; charset=UTF-8');
+
+    request(app)
+    .get('/')
+    .set('Accept', 'application/json')
+    .expect('Content-Type', 'application/json');
   })
 
   it('should Vary: Accept', function(done){
