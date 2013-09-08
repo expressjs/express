@@ -34,7 +34,6 @@ app.listen(3000);
 
     $ node app
     
-
 ## Features
 
   * Built on [Connect](http://github.com/senchalabs/connect)
