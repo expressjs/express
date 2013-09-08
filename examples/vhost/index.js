@@ -12,7 +12,7 @@ edit /etc/hosts:
 127.0.0.1       example.com
 */
 
-// Main app
+// Main server app
 
 var main = express();
 
@@ -23,7 +23,7 @@ main.get('/', function(req, res){
 });
 
 main.get('/:sub', function(req, res){
-  res.send('requsted ' + req.params.sub);
+  res.send('requested ' + req.params.sub);
 });
 
 // Redirect app
@@ -35,12 +35,12 @@ redirect.all('*', function(req, res){
   res.redirect('http://example.com:3000/' + req.subdomains[0]);
 });
 
-// Main app
+// Vhost app
 
 var app = express();
 
-app.use(express.vhost('*.example.com', redirect))
-app.use(express.vhost('example.com', main));
+app.use(express.vhost('*.example.com', redirect)) // Serves all subdomains via Redirect app
+app.use(express.vhost('example.com', main)); // Serves top level domain via Main server app 
 
 app.listen(3000);
 console.log('Express app started on port 3000');

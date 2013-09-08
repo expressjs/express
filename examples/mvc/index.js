@@ -1,4 +1,3 @@
-
 var express = require('../..');
 
 var app = module.exports = express();
@@ -58,10 +57,10 @@ app.use(function(req, res, next){
    });
   */
 
+  next();
   // empty or "flush" the messages so they
   // don't build up
   req.session.messages = [];
-  next();
 });
 
 // load controllers

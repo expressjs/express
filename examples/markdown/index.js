@@ -5,7 +5,7 @@
 
 var express = require('../..')
   , fs = require('fs')
-  , md = require('github-flavored-markdown').parse;
+  , md = require('marked').parse;
 
 var app = module.exports = express();
 

@@ -53,7 +53,7 @@ app3.use(function(req, res, next){
   })
 });
 
-describe('req', function(){
+describe('res', function(){
   describe('.format(obj)', function(){
     describe('with canonicalized mime types', function(){
       test(app);
@@ -79,22 +79,39 @@ function test(app) {
     request(app)
     .get('/')
     .set('Accept', 'text/html; q=.5, application/json, */*; q=.1')
-    .expect('{"message":"hey"}', done);
+    .expect({"message":"hey"}, done);
   })
 
   it('should allow wildcard type/subtypes', function(done){
     request(app)
     .get('/')
     .set('Accept', 'text/html; q=.5, application/*, */*; q=.1')
-    .expect('{"message":"hey"}', done);
+    .expect({"message":"hey"}, done);
   })
 
   it('should default the Content-Type', function(done){
     request(app)
     .get('/')
     .set('Accept', 'text/html; q=.5, text/plain')
-    .expect('Content-Type', 'text/plain')
+    .expect('Content-Type', 'text/plain; charset=UTF-8')
     .expect('hey', done);
+  })
+
+  it('should set the correct  charset for the Content-Type', function() {
+    request(app)
+    .get('/')
+    .set('Accept', 'text/html')
+    .expect('Content-Type', 'text/html; charset=UTF-8');
+
+    request(app)
+    .get('/')
+    .set('Accept', 'text/plain')
+    .expect('Content-Type', 'text/plain; charset=UTF-8');
+
+    request(app)
+    .get('/')
+    .set('Accept', 'application/json')
+    .expect('Content-Type', 'application/json');
   })
 
   it('should Vary: Accept', function(done){

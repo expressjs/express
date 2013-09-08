@@ -16,6 +16,7 @@ var exec = require('child_process').exec
 
 program
   .version(version)
+  .usage('[options] [dir]')
   .option('-s, --sessions', 'add session support')
   .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
@@ -208,11 +209,11 @@ var app = [
   , ' * Module dependencies.'
   , ' */'
   , ''
-  , 'var express = require(\'express\')'
-  , '  , routes = require(\'./routes\')'
-  , '  , user = require(\'./routes/user\')'
-  , '  , http = require(\'http\')'
-  , '  , path = require(\'path\');'
+  , 'var express = require(\'express\');'
+  , 'var routes = require(\'./routes\');'
+  , 'var user = require(\'./routes/user\');'
+  , 'var http = require(\'http\');'
+  , 'var path = require(\'path\');'
   , ''
   , 'var app = express();'
   , ''
@@ -323,10 +324,10 @@ function createApplicationAt(path) {
     // CSS Engine support
     switch (program.css) {
       case 'less':
-        app = app.replace('{css}', eol + '  app.use(require(\'less-middleware\')({ src: __dirname + \'/public\' }));');
+        app = app.replace('{css}', eol + 'app.use(require(\'less-middleware\')({ src: __dirname + \'/public\' }));');
         break;
       case 'stylus':
-        app = app.replace('{css}', eol + '  app.use(require(\'stylus\').middleware(__dirname + \'/public\'));');
+        app = app.replace('{css}', eol + 'app.use(require(\'stylus\').middleware(__dirname + \'/public\'));');
         break;
       default:
         app = app.replace('{css}', '');

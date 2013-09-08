@@ -1,6 +1,6 @@
 ![express logo](http://f.cl.ly/items/0V2S1n0K1i3y1c122g04/Screen%20Shot%202012-04-11%20at%209.59.42%20AM.png)
 
-  Fast, unopinionated, minimalist web framework for [node](http://nodejs.org). [![Build Status](https://secure.travis-ci.org/visionmedia/express.png)](http://travis-ci.org/visionmedia/express) [![Dependency Status](https://gemnasium.com/visionmedia/express.png)](https://gemnasium.com/visionmedia/express)
+  Fast, unopinionated, minimalist web framework for [node](http://nodejs.org). [![Build Status](https://secure.travis-ci.org/visionmedia/express.png)](http://travis-ci.org/visionmedia/express)
 
 ```js
 var express = require('express');
@@ -69,7 +69,6 @@ app.listen(3000);
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
-  * [日本語ドキュメンテーション](http://hideyukisaito.com/doc/expressjs/) by [hideyukisaito](https://github.com/hideyukisaito)
   * [Русскоязычная документация](http://jsman.ru/express/)
 
 ## Viewing Examples

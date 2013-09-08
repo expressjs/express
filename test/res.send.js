@@ -1,6 +1,7 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('./support/http')
+  , assert = require('assert');
 
 describe('res', function(){
   describe('.send(null)', function(){
@@ -16,7 +17,7 @@ describe('res', function(){
       .expect('', done);
     })
   })
-  
+
   describe('.send(undefined)', function(){
     it('should set body to ""', function(done){
       var app = express();
@@ -45,7 +46,7 @@ describe('res', function(){
       .expect(201, done);
     })
   })
-  
+
   describe('.send(code, body)', function(){
     it('should set .statusCode and body', function(done){
       var app = express();
@@ -107,7 +108,24 @@ describe('res', function(){
       .expect('ETag', '"-1498647312"')
       .end(done);
     })
-    
+
+    it('should not set ETag for non-GET/HEAD', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        var str = Array(1024 * 2).join('-');
+        res.send(str);
+      });
+
+      request(app)
+      .post('/')
+      .end(function(err, res){
+        if (err) return done(err);
+        assert(!res.header.etag, 'has an ETag');
+        done();
+      });
+    })
+
     it('should not override Content-Type', function(done){
       var app = express();
 
@@ -122,7 +140,7 @@ describe('res', function(){
       .expect(200, done);
     })
   })
-  
+
   describe('.send(Buffer)', function(){
     it('should send as octet-stream', function(done){
       var app = express();
@@ -172,7 +190,7 @@ describe('res', function(){
       })
     })
   })
-  
+
   describe('.send(Object)', function(){
     it('should send as application/json', function(done){
       var app = express();
@@ -224,7 +242,7 @@ describe('res', function(){
       })
     })
   })
-  
+
   describe('when .statusCode is 304', function(){
     it('should strip Content-* fields, Transfer-Encoding field, and body', function(done){
       var app = express();
@@ -299,5 +317,63 @@ describe('res', function(){
     request(app)
     .get('/?callback=foo')
     .expect('{"foo":"bar"}', done);
+  })
+
+  describe('"etag" setting', function(){
+    describe('when enabled', function(){
+      it('should send ETag ', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          var str = Array(1024 * 2).join('-');
+          res.send(str);
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.headers.should.have.property('etag', '"-1498647312"');
+          done();
+        });
+      });
+    });
+
+    describe('when disabled', function(){
+      it('should send no ETag', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          var str = Array(1024 * 2).join('-');
+          res.send(str);
+        });
+
+        app.disable('etag');
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.headers.should.not.have.property('etag');
+          done();
+        });
+      });
+
+      it('should send ETag when manually set', function(done){
+        var app = express();
+
+        app.disable('etag');
+
+        app.use(function(req, res){
+          res.set('etag', 1);
+          res.send(200);
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.headers.should.have.property('etag');
+          done();
+        });
+      });
+    });
   })
 })

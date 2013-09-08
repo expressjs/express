@@ -1,4 +1,70 @@
 
+3.4.0 / 2013-09-07 
+==================
+
+ * add res.vary(). Closes #1682
+ * update connect
+
+3.3.8 / 2013-09-02 
+==================
+
+ * update connect
+
+3.3.7 / 2013-08-28 
+==================
+
+ * update connect
+
+3.3.6 / 2013-08-27 
+==================
+
+ * Revert "remove charset from json responses. Closes #1631" (causes issues in some clients)
+ * add: req.accepts take an argument list
+
+3.3.4 / 2013-07-08 
+==================
+
+ * update send and connect
+
+3.3.3 / 2013-07-04 
+==================
+
+ * update connect
+
+3.3.2 / 2013-07-03 
+==================
+
+ * update connect
+ * update send
+ * remove .version export
+
+3.3.1 / 2013-06-27 
+==================
+
+ * update connect
+
+3.3.0 / 2013-06-26 
+==================
+
+ * update connect
+ * add support for multiple X-Forwarded-Proto values. Closes #1646
+ * change: remove charset from json responses. Closes #1631
+ * change: return actual booleans from req.accept* functions
+ * fix jsonp callback array throw
+
+3.2.6 / 2013-06-02 
+==================
+
+ * update connect
+
+3.2.5 / 2013-05-21 
+==================
+
+ * update connect
+ * update node-cookie
+ * add: throw a meaningful error when there is no default engine
+ * change generation of ETags with res.send() to GET requests only. Closes #1619
+
 3.2.4 / 2013-05-09 
 ==================
   

@@ -1,7 +1,7 @@
 {
   "name": "express",
   "description": "Sinatra inspired web development framework",
-  "version": "3.2.4",
+  "version": "3.4.0",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [
     {
@@ -22,27 +22,27 @@
     }
   ],
   "dependencies": {
-    "connect": "2.7.9",
-    "commander": "0.6.1",
+    "connect": "2.9.0",
+    "commander": "1.2.0",
     "range-parser": "0.0.4",
-    "mkdirp": "0.3.4",
-    "cookie": "0.0.5",
+    "mkdirp": "0.3.5",
+    "cookie": "0.1.0",
     "buffer-crc32": "0.2.1",
-    "fresh": "0.1.0",
+    "fresh": "0.2.0",
     "methods": "0.0.1",
-    "send": "0.1.0",
+    "send": "0.1.4",
     "cookie-signature": "1.0.1",
     "debug": "*"
   },
   "devDependencies": {
     "ejs": "*",
     "mocha": "*",
-    "jade": "*",
+    "jade": "0.30.0",
     "hjs": "*",
     "stylus": "*",
     "should": "*",
     "connect-redis": "*",
-    "github-flavored-markdown": "*",
+    "marked": "*",
     "supertest": "0.6.0"
   },
   "keywords": [
