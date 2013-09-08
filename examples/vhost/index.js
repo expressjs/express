@@ -23,7 +23,7 @@ main.get('/', function(req, res){
 });
 
 main.get('/:sub', function(req, res){
-  res.send('requsted ' + req.params.sub);
+  res.send('requested ' + req.params.sub);
 });
 
 // Redirect app
