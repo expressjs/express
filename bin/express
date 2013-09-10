@@ -349,6 +349,9 @@ function createApplicationAt(path) {
       , scripts: { start: 'node app.js' }
       , dependencies: {
         express: version
+      }, engines: {
+        node: process.versions.node.replace(/\.\d+$/, '.x')
+      , npm:  '1.1.x'
       }
     }
 
