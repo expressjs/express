@@ -3,7 +3,6 @@
   "description": "Sinatra inspired web development framework",
   "version": "3.4.0",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
-
   "contributors": [
     {
       "name": "TJ Holowaychuk",
