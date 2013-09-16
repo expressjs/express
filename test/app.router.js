@@ -39,6 +39,18 @@ describe('app.router', function(){
     .expect('foo/bar', done);
   })
 
+  it('should accept params in malformed paths', function(done) {
+    var app = express();
+
+    app.get('/:name', function(req, res, next){
+      res.send(req.params.name);
+    });
+
+    request(app)
+    .get('/%foobar')
+    .expect('%foobar', done);
+  })
+
   it('should be .use()able', function(done){
     var app = express();
 
