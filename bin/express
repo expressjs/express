@@ -235,9 +235,14 @@ var app = [
   , 'app.get(\'/\', routes.index);'
   , 'app.get(\'/users\', user.list);'
   , ''
-  , 'http.createServer(app).listen(app.get(\'port\'), function(){'
+  , '// Creating an http.Server, because Express app doesn’t duplicate all the'
+  , '// http.Server methods.'
+  , 'var server = http.createServer(app).listen(app.get(\'port\'), function(){'
   , '  console.log(\'Express server listening on port \' + app.get(\'port\'));'
   , '});'
+  , ''
+  , '// Here is how to stop the server if needed'
+  , '//server.close();'
   , ''
 ].join(eol);
 
