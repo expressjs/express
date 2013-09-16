@@ -5,13 +5,10 @@ var express = require('../')
 describe('req', function(){
   describe('.signedCookies', function(){
     it('should return a signed JSON cookie', function(done){
-      var app = express()
-        , cookieHeader
-        , val;
+      var app = express();
 
-      /* So we use the same serialization for expected results. */
-      var replacer = app.get('json replacer')
-        , spaces = app.get('json spaces');
+      var replacer = app.get('json replacer');
+      var spaces = app.get('json spaces');
 
       app.use(express.cookieParser('secret'));
 
@@ -21,23 +18,21 @@ describe('req', function(){
 
       app.response.req = { secret: 'secret' };
       app.response.cookie('obj', { foo: 'bar' }, { signed: true });
-      cookieHeader = app.response.get('set-cookie');
+      var cookie = app.response.get('set-cookie').split(';')[0];
 
-      val = JSON.stringify({ obj: { foo: 'bar' } }, replacer, spaces);
+      var val = JSON.stringify({ obj: { foo: 'bar' } }, replacer, spaces);
+      
       request(app)
       .get('/')
-      .set('Cookie', cookieHeader)
+      .set('Cookie', cookie)
       .expect(val, done);
     })
 
     it('should return a signed cookie', function(done){
-      var app = express()
-        , cookieHeader
-        , val;
+      var app = express();
 
-      /* So we use the same serialization for expected results. */
-      var replacer = app.get('json replacer')
-        , spaces = app.get('json spaces');
+      var replacer = app.get('json replacer');
+      var spaces = app.get('json spaces');
 
       app.use(express.cookieParser('secret'));
 
@@ -47,12 +42,13 @@ describe('req', function(){
 
       app.response.req = { secret: 'secret' };
       app.response.cookie('foo', 'bar', { signed: true });
-      cookieHeader = app.response.get('set-cookie');
+      var cookie = app.response.get('set-cookie');
 
-      val = JSON.stringify({ foo: 'bar' }, replacer, spaces);
+      var val = JSON.stringify({ foo: 'bar' }, replacer, spaces);
+      
       request(app)
       .get('/')
-      .set('Cookie', cookieHeader)
+      .set('Cookie', cookie)
       .expect(val, done);
     })
   })
