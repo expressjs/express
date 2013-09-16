@@ -69,7 +69,7 @@ describe('req', function(){
     .expect('json', done);
   })
 
-  describe('.accept(types)', function(){
+  describe('.accepts(types)', function(){
     it('should return the first when Accept is not present', function(done){
       var app = express();
 
