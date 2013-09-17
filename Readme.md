@@ -1,4 +1,4 @@
-![express logo](http://f.cl.ly/items/0V2S1n0K1i3y1c122g04/Screen%20Shot%202012-04-11%20at%209.59.42%20AM.png)
+[![express logo](http://f.cl.ly/items/0V2S1n0K1i3y1c122g04/Screen%20Shot%202012-04-11%20at%209.59.42%20AM.png)](http://expressjs.com/)
 
   Fast, unopinionated, minimalist web framework for [node](http://nodejs.org). [![Build Status](https://secure.travis-ci.org/visionmedia/express.png)](http://travis-ci.org/visionmedia/express)
 
@@ -60,6 +60,7 @@ app.listen(3000);
 
 ## More Information
 
+  * [Website and Documentation](http://expressjs.com/) stored at [visionmedia/expressjs.com](https://github.com/visionmedia/expressjs.com)
   * Join #express on freenode
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
