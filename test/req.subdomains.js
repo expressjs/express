@@ -15,7 +15,7 @@ describe('req', function(){
         request(app)
         .get('/')
         .set('Host', 'tobi.ferrets.example.com')
-        .expect('["ferrets","tobi"]', done);
+        .expect(["ferrets","tobi"], done);
       })
     })
 
@@ -30,7 +30,7 @@ describe('req', function(){
         request(app)
         .get('/')
         .set('Host', 'example.com')
-        .expect('[]', done);
+        .expect([], done);
       })
     })
 
@@ -45,7 +45,7 @@ describe('req', function(){
 
         request(app)
         .get('/')
-        .expect('[]', done);
+        .expect([], done);
       })
     })
 
@@ -62,7 +62,7 @@ describe('req', function(){
           request(app)
           .get('/')
           .set('Host', 'tobi.ferrets.sub.example.com')
-          .expect('["com","example","sub","ferrets","tobi"]', done);
+          .expect(["com","example","sub","ferrets","tobi"], done);
         })
       })
 
@@ -78,7 +78,7 @@ describe('req', function(){
           request(app)
           .get('/')
           .set('Host', 'tobi.ferrets.sub.example.com')
-          .expect('["ferrets","tobi"]', done);
+          .expect(["ferrets","tobi"], done);
         })
       })
 
@@ -94,7 +94,7 @@ describe('req', function(){
           request(app)
           .get('/')
           .set('Host', 'sub.example.com')
-          .expect('[]', done);
+          .expect([], done);
         })
       })
     })
