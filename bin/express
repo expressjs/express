@@ -364,8 +364,12 @@ function createApplicationAt(path) {
         }
     }
 
-    write(path + '/package.json', JSON.stringify(pkg, null, 2));
-    write(path + '/app.js', app);
+    if(!fs.exists(path + '/package.json')){
+      write(path + '/package.json', JSON.stringify(pkg, null, 2));
+    }
+    if(!fs.exists(path + '/app.js')){
+      write(path + '/app.js', app);
+    }
   });
 }
 
@@ -394,6 +398,7 @@ function write(path, str) {
   fs.writeFile(path, str);
   console.log('   \x1b[36mcreate\x1b[0m : ' + path);
 }
+
 
 /**
  * Mkdir -p.
