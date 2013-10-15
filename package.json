@@ -40,7 +40,7 @@
     "jade": "0.30.0",
     "hjs": "*",
     "stylus": "*",
-    "should": "*",
+    "should": "2",
     "connect-redis": "*",
     "marked": "*",
     "supertest": "0.6.0"
