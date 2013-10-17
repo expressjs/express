@@ -81,7 +81,7 @@ Clone the Express repo, then install the dev dependencies to install all the exa
 then run whichever tests you want:
 
     $ node examples/content-negotiation
-    
+
 You can also view live examples here
 
 <a href="https://runnable.com/express" target="_blank"><img src="https://runnable.com/external/styles/assets/runnablebtn.png" style="width:67px;height:25px;"></a>
@@ -98,67 +98,7 @@ then run the tests:
 
 ## Contributors
 
-```
-project: express
-commits: 3559
-active : 468 days
-files  : 237
-authors:
- 1891	Tj Holowaychuk          53.1%
- 1285	visionmedia             36.1%
-  182	TJ Holowaychuk          5.1%
-   54	Aaron Heckmann          1.5%
-   34	csausdev                1.0%
-   26	ciaranj                 0.7%
-   21	Robert Sköld            0.6%
-    6	Guillermo Rauch         0.2%
-    3	Dav Glass               0.1%
-    3	Nick Poulden            0.1%
-    2	Randy Merrill           0.1%
-    2	Benny Wong              0.1%
-    2	Hunter Loftis           0.1%
-    2	Jake Gordon             0.1%
-    2	Brian McKinney          0.1%
-    2	Roman Shtylman          0.1%
-    2	Ben Weaver              0.1%
-    2	Dave Hoover             0.1%
-    2	Eivind Fjeldstad        0.1%
-    2	Daniel Shaw             0.1%
-    1	Matt Colyer             0.0%
-    1	Pau Ramon               0.0%
-    1	Pero Pejovic            0.0%
-    1	Peter Rekdal Sunde      0.0%
-    1	Raynos                  0.0%
-    1	Teng Siong Ong          0.0%
-    1	Viktor Kelemen          0.0%
-    1	ctide                   0.0%
-    1	8bitDesigner            0.0%
-    1	isaacs                  0.0%
-    1	mgutz                   0.0%
-    1	pikeas                  0.0%
-    1	shuwatto                0.0%
-    1	tstrimple               0.0%
-    1	ewoudj                  0.0%
-    1	Adam Sanderson          0.0%
-    1	Andrii Kostenko         0.0%
-    1	Andy Hiew               0.0%
-    1	Arpad Borsos            0.0%
-    1	Ashwin Purohit          0.0%
-    1	Benjen                  0.0%
-    1	Darren Torpey           0.0%
-    1	Greg Ritter             0.0%
-    1	Gregory Ritter          0.0%
-    1	James Herdman           0.0%
-    1	Jim Snodgrass           0.0%
-    1	Joe McCann              0.0%
-    1	Jonathan Dumaine        0.0%
-    1	Jonathan Palardy        0.0%
-    1	Jonathan Zacsh          0.0%
-    1	Justin Lilly            0.0%
-    1	Ken Sato                0.0%
-    1	Maciej Małecki          0.0%
-    1	Masahiro Hayashi        0.0%
-```
+  https://github.com/visionmedia/express/graphs/contributors
 
 ## License
 
