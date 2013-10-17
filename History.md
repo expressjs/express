@@ -1,49 +1,57 @@
+3.4.1 / 2013-10-15
+==================
+ * update connect
+ * update commander
+ * jsonp: check if callback is a function
+ * router: wrap encodeURIComponent in a try/catch #1735 (@lxe)
+ * res.format: now includes chraset @1747 (@sorribas)
+ * res.links: allow multiple calls @1746 (@sorribas)
 
-3.4.0 / 2013-09-07 
+3.4.0 / 2013-09-07
 ==================
 
  * add res.vary(). Closes #1682
  * update connect
 
-3.3.8 / 2013-09-02 
+3.3.8 / 2013-09-02
 ==================
 
  * update connect
 
-3.3.7 / 2013-08-28 
+3.3.7 / 2013-08-28
 ==================
 
  * update connect
 
-3.3.6 / 2013-08-27 
+3.3.6 / 2013-08-27
 ==================
 
  * Revert "remove charset from json responses. Closes #1631" (causes issues in some clients)
  * add: req.accepts take an argument list
 
-3.3.4 / 2013-07-08 
+3.3.4 / 2013-07-08
 ==================
 
  * update send and connect
 
-3.3.3 / 2013-07-04 
+3.3.3 / 2013-07-04
 ==================
 
  * update connect
 
-3.3.2 / 2013-07-03 
+3.3.2 / 2013-07-03
 ==================
 
  * update connect
  * update send
  * remove .version export
 
-3.3.1 / 2013-06-27 
+3.3.1 / 2013-06-27
 ==================
 
  * update connect
 
-3.3.0 / 2013-06-26 
+3.3.0 / 2013-06-26
 ==================
 
  * update connect
@@ -52,12 +60,12 @@
  * change: return actual booleans from req.accept* functions
  * fix jsonp callback array throw
 
-3.2.6 / 2013-06-02 
+3.2.6 / 2013-06-02
 ==================
 
  * update connect
 
-3.2.5 / 2013-05-21 
+3.2.5 / 2013-05-21
 ==================
 
  * update connect
@@ -65,23 +73,23 @@
  * add: throw a meaningful error when there is no default engine
  * change generation of ETags with res.send() to GET requests only. Closes #1619
 
-3.2.4 / 2013-05-09 
+3.2.4 / 2013-05-09
 ==================
-  
+
   * fix `req.subdomains` when no Host is present
   * fix `req.host` when no Host is present, return undefined
 
-3.2.3 / 2013-05-07 
+3.2.3 / 2013-05-07
 ==================
 
   * update connect / qs
 
-3.2.2 / 2013-05-03 
+3.2.2 / 2013-05-03
 ==================
 
   * update qs
 
-3.2.1 / 2013-04-29 
+3.2.1 / 2013-04-29
 ==================
 
   * add app.VERB() paths array deprecation warning
@@ -89,27 +97,27 @@
   * update qs and remove all ~ semver crap
   * fix: accept number as value of Signed Cookie
 
-3.2.0 / 2013-04-15 
+3.2.0 / 2013-04-15
 ==================
 
   * add "view" constructor setting to override view behaviour
   * add req.acceptsEncoding(name)
   * add req.acceptedEncodings
   * revert cookie signature change causing session race conditions
-  * fix sorting of Accept values of the same quality  
+  * fix sorting of Accept values of the same quality
 
-3.1.2 / 2013-04-12 
+3.1.2 / 2013-04-12
 ==================
 
   * add support for custom Accept parameters
   * update cookie-signature
 
-3.1.1 / 2013-04-01 
+3.1.1 / 2013-04-01
 ==================
 
   * add X-Forwarded-Host support to `req.host`
-  * fix relative redirects  
-  * update mkdirp 
+  * fix relative redirects
+  * update mkdirp
   * update buffer-crc32
   * remove legacy app.configure() method from app template.
 
