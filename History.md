@@ -1,3 +1,8 @@
+3.4.2 / 2013-10-18
+==================
+ * update connect
+ * downgrade commander
+
 3.4.1 / 2013-10-15
 ==================
  * update connect
