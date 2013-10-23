@@ -19,11 +19,11 @@ describe('req', function(){
     })
 
     describe('when Accept-Encoding is not present', function(){
-      it('should default to []', function(done){
+      it('should default to [\'gzip\', \'deflate\']', function(done){
         var app = express();
 
         app.use(function(req, res){
-          req.acceptedEncodings.should.have.length(0);
+          req.acceptedEncodings.should.eql(['gzip', 'deflate']);
           res.end();
         });
 

@@ -27,9 +27,6 @@ app.response.message = function(msg){
 // log
 if (!module.parent) app.use(express.logger('dev'));
 
-// serve static files
-app.use(express.static(__dirname + '/public'));
-
 // session support
 app.use(express.cookieParser('some secret here'));
 app.use(express.session());
@@ -65,6 +62,9 @@ app.use(function(req, res, next){
 
 // load controllers
 require('./lib/boot')(app, { verbose: !module.parent });
+
+// serve static files
+app.use(express.static(__dirname + '/public'));
 
 // assume "not found" in the error msgs
 // is a 404. this is somewhat silly, but
