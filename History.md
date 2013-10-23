@@ -1,10 +1,17 @@
+3.4.3 / 2013-100-23
+===================
+
+ * update connect
+
 3.4.2 / 2013-10-18
 ==================
+
  * update connect
  * downgrade commander
 
 3.4.1 / 2013-10-15
 ==================
+
  * update connect
  * update commander
  * jsonp: check if callback is a function
