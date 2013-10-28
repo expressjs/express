@@ -43,7 +43,7 @@
     "should": "2",
     "connect-redis": "*",
     "marked": "*",
-    "supertest": "0.6.0"
+    "supertest": "0.8.1 - 1"
   },
   "keywords": [
     "express",

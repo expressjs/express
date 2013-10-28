@@ -29,6 +29,7 @@ describe('req', function(){
 
         request(app)
         .get('/')
+        .set('Accept-Encoding', '')
         .expect(200, done);
       })
     })
