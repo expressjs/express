@@ -1,5 +1,13 @@
+3.4.4 / 2013-10-29
+==================
+
+ * update connect
+ * update supertest
+ * update methods
+ * express(1): replace bodyParser() with urlencoded() and json() #1795 @chirag04
+
 3.4.3 / 2013-10-23
-===================
+==================
 
  * update connect
 
