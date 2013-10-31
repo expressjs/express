@@ -51,7 +51,7 @@ describe('res', function(){
       .get('/')
       .end(function(err, res){
         assert(1 == calls, 'called too many times');
-        res.text.should.equal("ENOENT, stat 'test/fixtures/nope.html'");
+        res.text.should.startWith("ENOENT, stat");
         res.statusCode.should.equal(200);
         done();
       });
