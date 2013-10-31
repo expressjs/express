@@ -321,6 +321,21 @@ describe('res', function(){
 
   describe('"etag" setting', function(){
     describe('when enabled', function(){
+      it('should send ETag even when content-length < 1024', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.send('kajdslfkasdf');
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.headers.should.have.property('etag');
+          done();
+        });
+      })
+
       it('should send ETag ', function(done){
         var app = express();
 
