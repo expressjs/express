@@ -210,17 +210,17 @@ describe('res', function(){
       request(root)
       .get('/depth1')
       .end(function(err, res){
-        res.headers.should.have.property('location', '/depth1/./index');
+        res.headers.should.have.property('location', '/depth1/index');
 
         request(root)
         .get('/depth1/depth2')
         .end(function(err, res){
-          res.headers.should.have.property('location', '/depth1/depth2/./index');
+          res.headers.should.have.property('location', '/depth1/depth2/index');
 
           request(root)
           .get('/depth1/depth2/depth3')
           .end(function(err, res){
-            res.headers.should.have.property('location', '/depth1/depth2/depth3/./index');
+            res.headers.should.have.property('location', '/depth1/depth2/depth3/index');
             done();
           })
         })
@@ -231,11 +231,11 @@ describe('res', function(){
       request(root)
       .get('/depth2')
       .end(function(err, res){
-        res.headers.should.have.property('location', '/depth2/./index');
+        res.headers.should.have.property('location', '/depth2/index');
         request(root)
         .get('/depth3')
         .end(function(err, res){
-          res.headers.should.have.property('location', '/depth3/./index');
+          res.headers.should.have.property('location', '/depth3/index');
           done();
         })
       })

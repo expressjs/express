@@ -64,7 +64,7 @@ describe('res', function(){
         request(app)
         .get('/post/1')
         .end(function(err, res){
-          res.headers.should.have.property('location', '/post/1/./edit');
+          res.headers.should.have.property('location', '/post/1/edit');
           done();
         })
       })
@@ -81,7 +81,24 @@ describe('res', function(){
         request(app)
         .get('/post/1')
         .end(function(err, res){
-          res.headers.should.have.property('location', '/post/1/../new');
+          res.headers.should.have.property('location', '/post/new');
+          done();
+        })
+      })
+    })
+
+    describe('with leading ./ and containing ..', function(){
+      it('should construct path-relative urls', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.location('./skip/../../new').end();
+        });
+
+        request(app)
+        .get('/post/1')
+        .end(function(err, res){
+          res.headers.should.have.property('location', '/post/new');
           done();
         })
       })
