@@ -64,7 +64,7 @@ describe('res', function(){
         request(app)
         .get('/post/1')
         .end(function(err, res){
-          res.headers.should.have.property('location', '/post/1/./edit');
+          res.headers.should.have.property('location', '/post/1/edit');
           done();
         })
       })
@@ -81,7 +81,7 @@ describe('res', function(){
         request(app)
         .get('/post/1')
         .end(function(err, res){
-          res.headers.should.have.property('location', '/post/1/../new');
+          res.headers.should.have.property('location', '/post/new');
           done();
         })
       })
