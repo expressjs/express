@@ -86,6 +86,23 @@ describe('res', function(){
         })
       })
     })
+
+    describe('with leading ./ and containing ..', function(){
+      it('should construct path-relative urls', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.location('./skip/../../new').end();
+        });
+
+        request(app)
+        .get('/post/1')
+        .end(function(err, res){
+          res.headers.should.have.property('location', '/post/new');
+          done();
+        })
+      })
+    })
     
     describe('without leading /', function(){
       it('should construct mount-point relative urls', function(done){
