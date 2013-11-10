@@ -42,7 +42,7 @@
     "stylus": "~0.40.0",
     "should": "~2.0.2",
     "connect-redis": "~1.4.5",
-    "marked": "~0.2.10",
+    "marked": "0.2.10",
     "supertest": "~0.8.1"
   },
   "keywords": [
