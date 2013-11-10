@@ -7,7 +7,7 @@ describe('markdown', function(){
     it('should respond with html', function(done){
       request(app)
         .get('/')
-        .expect(/<h1>Markdown Example<\/h1>/,done)
+        .expect(/<h1[^>]*>Markdown Example<\/h1>/,done)
     })
   })
 
