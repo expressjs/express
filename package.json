@@ -35,15 +35,15 @@
     "debug": ">= 0.7.3 < 1"
   },
   "devDependencies": {
-    "ejs": ">= 0.8.4 < 1",
-    "mocha": ">= 1.13.0 < 2",
-    "jade": "0.30.0",
-    "hjs": ">= 0.0.6 < 1",
-    "stylus": ">= 0.39.1 < 1",
-    "should": ">= 2.0.2 < 3",
-    "connect-redis": ">= 1.4.5 < 2",
-    "marked": ">= 0.2.9 < 1",
-    "supertest": ">= 0.8.1 < 1"
+    "ejs": "~0.8.4",
+    "mocha": "~1.14.0",
+    "jade": "~0.30.0",
+    "hjs": "~0.0.6",
+    "stylus": "~0.40.0",
+    "should": "~2.0.2",
+    "connect-redis": "~1.4.5",
+    "marked": "~0.2.10",
+    "supertest": "~0.8.1"
   },
   "keywords": [
     "express",
