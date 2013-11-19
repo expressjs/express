@@ -28,6 +28,23 @@ describe('app', function(){
       })
     })
 
+    it('should support multiple "views"', function(done){
+      var app = express();
+
+      app.set('views', [__dirname + '/fixtures', __dirname + '/fixtures/blog']);
+      app.set('view engine', 'jade');
+
+      app.render('post', function(err, str){
+        if (err) return done(err);
+        str.should.equal('<h1>blog post</h1>');
+        done();
+      })
+
+      app.use(function(req, res){
+        res.render('post');
+      });
+    })
+
     it('should expose app.locals', function(done){
       var app = express();
 
