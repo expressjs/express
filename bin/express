@@ -202,7 +202,7 @@ var stylus = [
  * Default compass template.
  */
 var compass = [
-    '@import "compass/css3"'
+    '@import "compass/css3";'
   , ''
   , 'body {'
   , '  padding: 50px;'
@@ -381,7 +381,7 @@ function createApplicationAt(path) {
       case 'less':
         pkg.dependencies['less-middleware'] = '*';
         break;
-      case 'node-compass':
+      case 'compass':
         pkg.dependencies['node-compass'] = '*';
         break;
       default:
