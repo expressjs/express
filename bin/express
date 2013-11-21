@@ -20,8 +20,7 @@ program
   .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
   .option('-H, --hogan', 'add hogan.js engine support')
-  .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus) (defaults to plain css)')
-  .option('-p, --compass','add compass framework support (sass|compass)')
+  .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus|compass) (defaults to plain css)')
   .option('-f, --force', 'force on non-empty directory')
   .parse(process.argv);
 
@@ -226,7 +225,6 @@ var app = [
   , ' */'
   , ''
   , 'var express = require(\'express\');'
-  , 'var compass = require(\'node-compass\');'
   , 'var routes = require(\'./routes\');'
   , 'var user = require(\'./routes/user\');'
   , 'var http = require(\'http\');'
