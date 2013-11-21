@@ -20,7 +20,7 @@ program
   .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
   .option('-J, --jshtml', 'add jshtml engine support (defaults to jade)')
   .option('-H, --hogan', 'add hogan.js engine support')
-  .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus) (defaults to plain css)')
+  .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus|compass) (defaults to plain css)')
   .option('-f, --force', 'force on non-empty directory')
   .parse(process.argv);
 
@@ -199,6 +199,22 @@ var stylus = [
 ].join(eol);
 
 /**
+ * Default compass template.
+ */
+var compass = [
+    '@import "compass/css3";'
+  , ''
+  , 'body {'
+  , '  padding: 50px;'
+  , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
+  , '}'
+  , ''
+  , 'a {'
+  , '  color: #00B7FF;'
+  , '}'
+].join(eol);
+
+/**
  * App template.
  */
 
@@ -291,6 +307,9 @@ function createApplicationAt(path) {
         case 'stylus':
           write(path + '/public/stylesheets/style.styl', stylus);
           break;
+        case 'compass':
+          write(path + '/public/stylesheets/style.scss', compass);
+          break;
         default:
           write(path + '/public/stylesheets/style.css', css);
       }
@@ -329,6 +348,9 @@ function createApplicationAt(path) {
       case 'stylus':
         app = app.replace('{css}', eol + 'app.use(require(\'stylus\').middleware(path.join(__dirname, \'public\')));');
         break;
+      case 'compass':
+        app = app.replace('{css}', eol + 'app.use(require(\'node-compass\')({mode: \'expanded\'}));');
+        break;
       default:
         app = app.replace('{css}', '');
     }
@@ -358,6 +380,9 @@ function createApplicationAt(path) {
     switch (program.css) {
       case 'less':
         pkg.dependencies['less-middleware'] = '*';
+        break;
+      case 'compass':
+        pkg.dependencies['node-compass'] = '*';
         break;
       default:
         if (program.css) {

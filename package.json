@@ -43,7 +43,8 @@
     "should": "~2.0.2",
     "connect-redis": "~1.4.5",
     "marked": "0.2.10",
-    "supertest": "~0.8.1"
+    "supertest": "~0.8.1",
+    "node-compass":"0.2.3"
   },
   "keywords": [
     "express",
