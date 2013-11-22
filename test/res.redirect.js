@@ -57,6 +57,44 @@ describe('res', function(){
     })
   })
 
+  describe('.redirect(status, url, { vary: User-Agent })', function(){
+    it('should set the response status and headers', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(303, 'http://google.com', {'vary': 'User-Agent'});
+      });
+
+      request(app)
+      .get('/')
+      .end(function(err, res){
+        res.statusCode.should.equal(303);
+        res.headers.should.have.property('location', 'http://google.com');
+        res.headers.should.have.property('vary', 'User-Agent');
+        done();
+      })
+    })
+  })
+
+  describe('.redirect(url, status, { vary: User-Agent })', function(){
+    it('should set the response status and headers', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect('http://google.com', 303, {'vary': 'User-Agent'});
+      });
+
+      request(app)
+      .get('/')
+      .end(function(err, res){
+        res.statusCode.should.equal(303);
+        res.headers.should.have.property('location', 'http://google.com');
+        res.headers.should.have.property('vary', 'User-Agent');
+        done();
+      })
+    })
+  })
+
   describe('when the request method is HEAD', function(){
     it('should ignore the body', function(done){
       var app = express();
