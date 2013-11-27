@@ -1,3 +1,12 @@
+3.4.5 / 2013-11-27
+==================
+
+ * update connect
+ * res.location: remove leading ./ #1802 @kapouer
+ * res.redirect: fix `res.redirect('toString') #1829 @michaelficarra
+ * res.send: always send ETag when content-length > 0
+ * router: add Router.all() method
+
 3.4.4 / 2013-10-29
 ==================
 
