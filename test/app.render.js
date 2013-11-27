@@ -27,6 +27,35 @@ describe('app', function(){
         done();
       })
     })
+    
+    it('should support aliased path with "view engine"', function(done){
+      var app = express();
+      
+      app.set('aliases', { test_alias: __dirname + '/fixtures' });
+      app.set('view engine', 'jade');
+      app.locals.user = { name: 'tobi' };
+
+      app.render('test_alias::user', function(err, str){
+        if (err) return done(err);
+        str.should.equal('<p>tobi</p>');
+        done();
+      })
+    })
+    
+    it('should support aliased path with custom alias separator with "view engine"', function(done){
+      var app = express();
+      
+      app.set('aliases', { test_alias: __dirname + '/fixtures' });
+      app.set('view engine', 'jade');
+      app.set('alias separator', '___');
+      app.locals.user = { name: 'tobi' };
+
+      app.render('test_alias___user', function(err, str){
+        if (err) return done(err);
+        str.should.equal('<p>tobi</p>');
+        done();
+      })
+    })
 
     it('should expose app.locals', function(done){
       var app = express();
@@ -65,6 +94,38 @@ describe('app', function(){
       })
     })
 
+    describe('when the alias does not exist', function(){
+      it('should provide a helpful error', function(done){
+        var app = express();
+        app.set('views', __dirname + '/fixtures');
+        app.set('view engine', 'jade');
+        app.set('aliases', { test_alias: '' });
+        
+        try {
+          app.render('test_alias_2::blog', function(err){ })
+        } catch (ex) {
+          ex.message.should.equal('Alias "test_alias_2" for path "test_alias_2::blog.jade" does not exist');
+          done();
+        }
+      })
+    })
+    
+    describe('when the alias is not valid', function(){
+      it('should provide a helpful error', function(done){
+        var app = express();
+        app.set('views', __dirname + '/fixtures');
+        app.set('view engine', 'jade');
+        app.set('aliases', { test_alias: __dirname + '/fixtures' });
+        
+        try {
+          app.render('::blog', function(err){ })
+        } catch (ex) {
+          ex.message.should.equal('Invalid aliased path "::blog.jade"');
+          done();
+        }
+      })
+    })
+    
     describe('when an error occurs', function(){
       it('should invoke the callback', function(done){
         var app = express();
