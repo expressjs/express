@@ -29,9 +29,9 @@ app.get('/', function(req, res){
 // and make things a bit more declarative:
 
 function format(path) {
-  var requestHandler = require(path);
+  var obj = require(path);
   return function(req, res){
-    res.format(requestHandler);
+    res.format(obj);
   }
 }
 
