@@ -28,8 +28,8 @@ app.get('/', function(req, res){
 // this to add a layer of abstraction
 // and make things a bit more declarative:
 
-function format(requestHandlerName) {
-  var requestHandler = require(requestHandlerName);
+function format(path) {
+  var requestHandler = require(path);
   return function(req, res){
     res.format(requestHandler);
   }
