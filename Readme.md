@@ -50,14 +50,14 @@ app.listen(3000);
 
 ## Philosophy
 
-  The Express philosophy is to provide small, robust tooling for HTTP servers. Making
+  The Express philosophy is to provide small, robust tooling for HTTP servers, making
   it a great solution for single page applications, web sites, hybrids, or public
   HTTP APIs.
 
-  Built on Connect you can use _only_ what you need, and nothing more, applications
+  Built on Connect, you can use _only_ what you need, and nothing more. Applications
   can be as big or as small as you like, even a single file. Express does
   not force you to use any specific ORM or template engine. With support for over
-  14 template engines via [Consolidate.js](http://github.com/visionmedia/consolidate.js)
+  14 template engines via [Consolidate.js](http://github.com/visionmedia/consolidate.js),
   you can quickly craft your perfect framework.
 
 ## More Information
@@ -72,27 +72,27 @@ app.listen(3000);
 
 ## Viewing Examples
 
-Clone the Express repo, then install the dev dependencies to install all the example / test suite deps:
+Clone the Express repo, then install the dev dependencies to install all the example / test suite dependencies:
 
     $ git clone git://github.com/visionmedia/express.git --depth 1
     $ cd express
     $ npm install
 
-then run whichever tests you want:
+Then run whichever tests you want:
 
     $ node examples/content-negotiation
 
-You can also view live examples here
+You can also view live examples here:
 
 <a href="https://runnable.com/express" target="_blank"><img src="https://runnable.com/external/styles/assets/runnablebtn.png" style="width:67px;height:25px;"></a>
 
 ## Running Tests
 
-To run the test suite first invoke the following command within the repo, installing the development dependencies:
+To run the test suite, first invoke the following command within the repo, installing the development dependencies:
 
     $ npm install
 
-then run the tests:
+Then run the tests:
 
     $ make test
 
