@@ -90,7 +90,7 @@ You can also view live examples here:
 
 To run the test suite, first invoke the following command within the repo, installing the development dependencies:
 
-    $ npm install
+    $ npm install -d
 
 Then run the tests:
 
