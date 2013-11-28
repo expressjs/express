@@ -126,8 +126,8 @@ describe('app.router', function(){
       var app = express();
 
       app.get(/^\/user\/([0-9]+)\/(view|edit)?$/, function(req, res){
-        var id = req.params.shift()
-          , op = req.params.shift();
+        var id = req.params[0]
+          , op = req.params[1];
         res.end(op + 'ing user ' + id);
       });
 
@@ -302,8 +302,8 @@ describe('app.router', function(){
       var app = express();
 
       app.get('/api/*.*', function(req, res){
-        var resource = req.params.shift()
-          , format = req.params.shift();
+        var resource = req.params[0]
+          , format = req.params[1];
         res.end(resource + ' as ' + format);
       });
 
