@@ -27,28 +27,54 @@ describe('app.router', function(){
     });
   })
 
-  it('should decode params', function(done){
-    var app = express();
+  describe('decode querystring', function(){
+    it('should decode correct params', function(done){
+      var app = express();
 
-    app.get('/:name', function(req, res, next){
-      res.send(req.params.name);
-    });
+      app.get('/:name', function(req, res, next){
+        res.send(req.params.name);
+      });
 
-    request(app)
-    .get('/foo%2Fbar')
-    .expect('foo/bar', done);
-  })
+      request(app)
+      .get('/foo%2Fbar')
+      .expect('foo/bar', done);
+    })
 
-  it('should accept params in malformed paths', function(done) {
-    var app = express();
+    it('should not accept params in malformed paths', function(done) {
+      var app = express();
 
-    app.get('/:name', function(req, res, next){
-      res.send(req.params.name);
-    });
+      app.get('/:name', function(req, res, next){
+        res.send(req.params.name);
+      });
 
-    request(app)
-    .get('/%foobar')
-    .expect('%foobar', done);
+      request(app)
+      .get('/%foobar')
+      .expect(400, done);
+    })
+
+    it('should not decode spaces', function(done) {
+      var app = express();
+
+      app.get('/:name', function(req, res, next){
+        res.send(req.params.name);
+      });
+
+      request(app)
+      .get('/foo+bar')
+      .expect('foo+bar', done);
+    })
+
+    it('should work with unicode', function(done) {
+      var app = express();
+
+      app.get('/:name', function(req, res, next){
+        res.send(req.params.name);
+      });
+
+      request(app)
+      .get('/%ce%b1')
+      .expect('\u03b1', done);
+    })
   })
 
   it('should be .use()able', function(done){
