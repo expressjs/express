@@ -24,11 +24,11 @@ test-cov: lib-cov
 lib-cov:
 	@jscoverage lib lib-cov
 
-benchmark:
-	@./support/bench
+bench:
+	@$(MAKE) -C benchmarks
 
 clean:
 	rm -f coverage.html
 	rm -fr lib-cov
 
-.PHONY: test test-unit test-acceptance benchmark clean
+.PHONY: test test-unit test-acceptance bench clean
