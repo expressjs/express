@@ -59,7 +59,7 @@ describe('app', function(){
         var app = express();
         app.set('views', __dirname + '/fixtures');
         app.render('rawr.jade', function(err){
-          err.message.should.equal('Failed to lookup view "rawr.jade"');
+          err.message.should.equal('Failed to lookup view "rawr.jade" in views directory "' + __dirname + '/fixtures"');
           done();
         });
       })
