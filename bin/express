@@ -43,8 +43,8 @@ if (program.hogan) program.template = 'hjs';
  * Routes index template.
  */
 
-var index = [
-    ''
+var index =
+  [ ''
   , '/*'
   , ' * GET home page.'
   , ' */'
@@ -52,14 +52,14 @@ var index = [
   , 'exports.index = function(req, res){'
   , '  res.render(\'index\', { title: \'Express\' });'
   , '};'
-].join(eol);
+  ].join(eol);
 
 /**
  * Routes users template.
  */
 
-var users = [
-    ''
+var users =
+  [ ''
   , '/*'
   , ' * GET users listing.'
   , ' */'
@@ -67,40 +67,40 @@ var users = [
   , 'exports.list = function(req, res){'
   , '  res.send("respond with a resource");'
   , '};'
-].join(eol);
+  ].join(eol);
 
 /**
  * Jade layout template.
  */
 
-var jadeLayout = [
-    'doctype html'
+var jadeLayout =
+  [ 'doctype html'
   , 'html'
   , '  head'
   , '    title= title'
   , '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
   , '  body'
   , '    block content'
-].join(eol);
+  ].join(eol);
 
 /**
  * Jade index template.
  */
 
-var jadeIndex = [
-    'extends layout'
+var jadeIndex =
+  [ 'extends layout'
   , ''
   , 'block content'
   , '  h1= title'
   , '  p Welcome to #{title}'
-].join(eol);
+  ].join(eol);
 
 /**
  * EJS index template.
  */
 
-var ejsIndex = [
-    '<!DOCTYPE html>'
+var ejsIndex =
+  [ '<!DOCTYPE html>'
   , '<html>'
   , '  <head>'
   , '    <title><%= title %></title>'
@@ -111,14 +111,14 @@ var ejsIndex = [
   , '    <p>Welcome to <%= title %></p>'
   , '  </body>'
   , '</html>'
-].join(eol);
+  ].join(eol);
 
 /**
  * JSHTML layout template.
  */
 
-var jshtmlLayout = [
-    '<!DOCTYPE html>'
+var jshtmlLayout =
+  [ '<!DOCTYPE html>'
   , '<html>'
   , '  <head>'
   , '    <title> @write(title) </title>'
@@ -128,22 +128,22 @@ var jshtmlLayout = [
   , '    @write(body)'
   , '  </body>'
   , '</html>'
-].join(eol);
+  ].join(eol);
 
 /**
  * JSHTML index template.
  */
 
-var jshtmlIndex = [
-    '<h1>@write(title)</h1>'
+var jshtmlIndex =
+  [ '<h1>@write(title)</h1>'
   , '<p>Welcome to @write(title)</p>'
-].join(eol);
+  ].join(eol);
 
 /**
  * Hogan.js index template.
  */
-var hoganIndex = [
-    '<!DOCTYPE html>'
+var hoganIndex =
+  [ '<!DOCTYPE html>'
   , '<html>'
   , '  <head>'
   , '    <title>{{ title }}</title>'
@@ -154,14 +154,14 @@ var hoganIndex = [
   , '    <p>Welcome to {{ title }}</p>'
   , '  </body>'
   , '</html>'
-].join(eol);
+  ].join(eol);
 
 /**
  * Default css template.
  */
 
-var css = [
-    'body {'
+var css =
+  [ 'body {'
   , '  padding: 50px;'
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
   , '}'
@@ -169,14 +169,14 @@ var css = [
   , 'a {'
   , '  color: #00B7FF;'
   , '}'
-].join(eol);
+  ].join(eol);
 
 /**
  * Default less template.
  */
 
-var less = [
-    'body {'
+var less =
+  [ 'body {'
   , '  padding: 50px;'
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;'
   , '}'
@@ -184,26 +184,26 @@ var less = [
   , 'a {'
   , '  color: #00B7FF;'
   , '}'
-].join(eol);
+  ].join(eol);
 
 /**
  * Default stylus template.
  */
 
-var stylus = [
-    'body'
+var stylus =
+  [ 'body'
   , '  padding: 50px'
   , '  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif'
   , 'a'
   , '  color: #00B7FF'
-].join(eol);
+  ].join(eol);
 
 /**
  * App template.
  */
 
-var app = [
-    ''
+var app =
+  [ ''
   , '/**'
   , ' * Module dependencies.'
   , ' */'
@@ -240,7 +240,7 @@ var app = [
   , '  console.log(\'Express server listening on port \' + app.get(\'port\'));'
   , '});'
   , ''
-].join(eol);
+  ].join(eol);
 
 // Generate application
 
