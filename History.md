@@ -1,3 +1,8 @@
+4.0.0 /
+==================
+
+ * remove binary (moved to [express-generator](https://github.com/expressjs/generator))
+
 3.4.7 / 2013-12-10
 ==================
 

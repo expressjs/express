@@ -23,9 +23,7 @@
   ],
   "dependencies": {
     "connect": "2.12.0",
-    "commander": "1.3.2",
     "range-parser": "0.0.4",
-    "mkdirp": "0.3.5",
     "cookie": "0.1.0",
     "buffer-crc32": "0.2.1",
     "fresh": "0.2.0",
@@ -58,10 +56,6 @@
     "api"
   ],
   "repository": "git://github.com/visionmedia/express",
-  "main": "index",
-  "bin": {
-    "express": "./bin/express"
-  },
   "scripts": {
     "prepublish": "npm prune",
     "test": "make test"
