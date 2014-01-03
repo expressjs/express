@@ -1,17 +1,14 @@
 4.0.0 /
 ==================
 
- * remove binary (moved to [express-generator](https://github.com/expressjs/generator))
- * refactor
+ * remove:
+   - express(1) - moved to [express-generator](https://github.com/expressjs/generator)
+   - `req.accepted*` - use `req.accepts*()` instead
+ * change:
+   - `req.accepts*` -> `req.accepts*s` - i.e. `req.acceptsEncoding` -> `req.acceptsEncodings`
+ * refactor:
    - `req.accepts*` with [accepts](https://github.com/expressjs/accepts)
    - `req.is` with [type-is](https://github.com/expressjs/type-is)
- * change
-   - `req.accepts[x]` -> `req.accepts[x]s`
- * remove
-   - `req.acceptedEncodings`
-   - `req.accepted`
-   - `req.acceptedLanguages`
-   - `req.acceptedCharsets`
 
 3.4.7 / 2013-12-10
 ==================
