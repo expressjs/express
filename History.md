@@ -6,6 +6,7 @@
    - `req.accepted*` - use `req.accepts*()` instead
  * change:
    - `req.accepts*` -> `req.accepts*s` - i.e. `req.acceptsEncoding` -> `req.acceptsEncodings`
+   - `req.params` is now an object instead of an array
  * refactor:
    - `req.accepts*` with [accepts](https://github.com/expressjs/accepts)
    - `req.is` with [type-is](https://github.com/expressjs/type-is)
