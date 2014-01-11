@@ -4,9 +4,11 @@
  * remove:
    - express(1) - moved to [express-generator](https://github.com/expressjs/generator)
    - `req.accepted*` - use `req.accepts*()` instead
+   - `app.configure` - use logic in your own app code
  * change:
    - `req.accepts*` -> `req.accepts*s` - i.e. `req.acceptsEncoding` -> `req.acceptsEncodings`
    - `req.params` is now an object instead of an array
+   - `json spaces` no longer enabled by default in development
  * refactor:
    - `req.accepts*` with [accepts](https://github.com/expressjs/accepts)
    - `req.is` with [type-is](https://github.com/expressjs/type-is)

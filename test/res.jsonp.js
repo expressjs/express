@@ -181,14 +181,7 @@ describe('res', function(){
     })
 
     describe('"json spaces" setting', function(){
-      it('should default to 2 in development', function(){
-        process.env.NODE_ENV = 'development';
-        var app = express();
-        app.get('json spaces').should.equal(2);
-        process.env.NODE_ENV = 'test';
-      })
-
-      it('should be undefined otherwise', function(){
+      it('should be undefined by default', function(){
         var app = express();
         assert(undefined === app.get('json spaces'));
       })
