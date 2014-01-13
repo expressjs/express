@@ -4,63 +4,36 @@ var express = require('../')
 
 describe('req', function(){
   describe('.signedCookies', function(){
-    it('should unsign cookies', function(done){
+    it('should return a signed JSON cookie', function(done){
       var app = express();
 
-      app.use(express.cookieParser('foo bar baz'));
+      app.use(express.cookieParser('secret'));
 
       app.use(function(req, res){
-        req.cookies.should.not.have.property('name');
-        res.end(req.signedCookies.name);
+        if ('/set' == req.path) {
+          res.cookie('obj', { foo: 'bar' }, { signed: true });
+          res.end();
+        } else {
+          res.send(req.signedCookies);
+        }
       });
 
       request(app)
-      .get('/')
-      .set('Cookie', 'name=tobi.2HDdGQqJ6jQU1S9dagggYDPaxGE')
-      .end(function(res){
-        res.body.should.equal('tobi');
-        done();
-      })
-    })
-    
-    it('should parse JSON cookies', function(done){
-      var app = express();
-
-      app.use(express.cookieParser('foo bar baz'));
-
-      app.use(function(req, res){
-        req.cookies.should.not.have.property('user');
-        res.end(req.signedCookies.user.name);
-      });
-
-      request(app)
-      .get('/')
-      .set('Cookie', 'user=j%3A%7B%22name%22%3A%22tobi%22%7D.aEbp4PGZo63zMX%2FcIMSn2M9pvms')
-      .end(function(res){
-        res.body.should.equal('tobi');
-        done();
-      })
-    })
-
-    describe('when signature is invalid', function(){
-      it('should unsign cookies', function(done){
-        var app = express();
-
-        app.use(express.cookieParser('foo bar baz'));
-
-        app.use(function(req, res){
-          req.signedCookies.should.not.have.property('name');
-          res.end(req.cookies.name);
-        });
+      .get('/set')
+      .end(function(err, res){
+        if (err) return done(err);
+        var cookie = res.header['set-cookie'];
 
         request(app)
         .get('/')
-        .set('Cookie', 'name=tobi.2HDdGQqJ6jQU1S9dagasdfasdf')
-        .end(function(res){
-          res.body.should.equal('tobi.2HDdGQqJ6jQU1S9dagasdfasdf');
+        .set('Cookie', cookie)
+        .end(function(err, res){
+          if (err) return don(err);
+          res.body.should.eql({ obj: { foo: 'bar' } });
           done();
-        })
-      })
+        });
+      });
     })
   })
 })
+

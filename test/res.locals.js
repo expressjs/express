@@ -17,9 +17,28 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        done();
-      })
+      .expect(200, done);
     })
+  })
+
+  it('should work when mounted', function(done){
+    var app = express();
+    var blog = express();
+
+    app.use(blog);
+
+    blog.use(function(req, res, next){
+      res.locals.foo = 'bar';
+      next();
+    });
+
+    app.use(function(req, res){
+      res.locals.foo.should.equal('bar');
+      res.end();
+    });
+
+    request(app)
+    .get('/')
+    .expect(200, done);
   })
 })

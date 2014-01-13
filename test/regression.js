@@ -13,10 +13,7 @@ describe('throw after .end()', function(){
 
     request(app)
     .get('/')
-    .end(function(res){
-      res.should.have.status(200);
-      res.body.should.equal('yay');
-      done();
-    });
+    .expect('yay')
+    .expect(200, done);
   })
 })

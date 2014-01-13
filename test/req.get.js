@@ -1,6 +1,7 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('./support/http')
+  , assert = require('assert');
 
 describe('req', function(){
   describe('.get(field)', function(){
@@ -8,16 +9,14 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
+        assert(req.get('Something-Else') === undefined);
         res.end(req.get('Content-Type'));
       });
 
       request(app)
       .post('/')
       .set('Content-Type', 'application/json')
-      .end(function(res){
-        res.body.should.equal('application/json');
-        done();
-      });
+      .expect('application/json', done);
     })
 
     it('should special-case Referer', function(done){
@@ -30,10 +29,7 @@ describe('req', function(){
       request(app)
       .post('/')
       .set('Referrer', 'http://foobar.com')
-      .end(function(res){
-        res.body.should.equal('http://foobar.com');
-        done();
-      });
+      .expect('http://foobar.com', done);
     })
   })
 })

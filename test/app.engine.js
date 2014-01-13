@@ -25,7 +25,14 @@ describe('app', function(){
         done();
       })
     })
-    
+
+    it('should throw when the callback is missing', function(){
+      var app = express();
+      (function(){
+        app.engine('.html', null);
+      }).should.throw('callback function required');
+    })
+
     it('should work without leading "."', function(done){
       var app = express();
 
@@ -46,6 +53,21 @@ describe('app', function(){
       app.set('views', __dirname + '/fixtures');
       app.engine('html', render);
       app.set('view engine', 'html');
+      app.locals.user = { name: 'tobi' };
+
+      app.render('user', function(err, str){
+        if (err) return done(err);
+        str.should.equal('<p>tobi</p>');
+        done();
+      })
+    })
+    
+    it('should work "view engine" with leading "."', function(done){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+      app.engine('.html', render);
+      app.set('view engine', '.html');
       app.locals.user = { name: 'tobi' };
 
       app.render('user', function(err, str){

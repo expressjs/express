@@ -15,10 +15,7 @@ describe('req', function(){
       request(app)
       .get('/')
       .set('If-None-Match', '12345')
-      .end(function(res){
-        res.body.should.equal('true');
-        done();
-      });
+      .expect(304, done);
     })
 
     it('should return false when the resource is modified', function(done){
@@ -32,10 +29,7 @@ describe('req', function(){
       request(app)
       .get('/')
       .set('If-None-Match', '12345')
-      .end(function(res){
-        res.body.should.equal('false');
-        done();
-      });
+      .expect('false', done);
     })
   })
 })

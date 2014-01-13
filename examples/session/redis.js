@@ -1,30 +1,22 @@
 
-/**
- * Module dependencies.
- */
 
-var express = require('../../lib/express');
+var express = require('../..');
 
 // pass the express to the connect redis module
 // allowing it to inherit from express.session.Store
 var RedisStore = require('connect-redis')(express);
 
-var app = express.createServer();
+var app = express();
 
-app.use(express.favicon());
+app.use(express.logger('dev'));
 
-// request logging
-app.use(express.logger());
+// Required by session() middleware
+// pass the secret for signed cookies
+// (required by session())
+app.use(express.cookieParser('keyboard cat'));
 
-// required to parse the session cookie
-app.use(express.cookieParser());
-
-// Populates:
-//   - req.session
-//   - req.sessionStore
-//   - req.sessionID (or req.session.id)
-
-app.use(express.session({ secret: 'keyboard cat', store: new RedisStore }));
+// Populates req.session
+app.use(express.session({ store: new RedisStore }));
 
 app.get('/', function(req, res){
   var body = '';

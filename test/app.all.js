@@ -29,7 +29,7 @@ describe('app.all()', function(){
     });
 
     request(app)
-    .delete('/tobi')
+    .del('/tobi')
     .expect(404, done);
   })
 })

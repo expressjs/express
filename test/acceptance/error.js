@@ -1,4 +1,5 @@
-var app = require('../../examples/error/app')
+
+var app = require('../../examples/error')
   , request = require('../support/http');
 
 describe('error', function(){

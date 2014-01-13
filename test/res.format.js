@@ -26,6 +26,7 @@ app.use(function(req, res, next){
 });
 
 app.use(function(err, req, res, next){
+  if (!err.types) throw err;
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
@@ -43,7 +44,16 @@ app2.use(function(err, req, res, next){
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
-describe('req', function(){
+var app3 = express();
+
+app3.use(function(req, res, next){
+  res.format({
+    text: function(){ res.send('hey') },
+    default: function(){ res.send('default') }
+  })
+});
+
+describe('res', function(){
   describe('.format(obj)', function(){
     describe('with canonicalized mime types', function(){
       test(app);
@@ -51,6 +61,15 @@ describe('req', function(){
 
     describe('with extnames', function(){
       test(app2);
+    })
+
+    describe('given .default', function(){
+      it('should be invoked instead of auto-responding', function(done){
+        request(app3)
+        .get('/')
+        .set('Accept: text/html')
+        .expect('default', done);
+      })
     })
   })
 })
@@ -60,25 +79,46 @@ function test(app) {
     request(app)
     .get('/')
     .set('Accept', 'text/html; q=.5, application/json, */*; q=.1')
-    .expect('{"message":"hey"}', done);
+    .expect({"message":"hey"}, done);
   })
 
   it('should allow wildcard type/subtypes', function(done){
     request(app)
     .get('/')
     .set('Accept', 'text/html; q=.5, application/*, */*; q=.1')
-    .expect('{"message":"hey"}', done);
+    .expect({"message":"hey"}, done);
   })
 
   it('should default the Content-Type', function(done){
     request(app)
     .get('/')
     .set('Accept', 'text/html; q=.5, text/plain')
-    .end(function(res){
-      res.headers['content-type'].should.equal('text/plain');
-      res.body.should.equal('hey');
-      done();
-    });
+    .expect('Content-Type', 'text/plain; charset=UTF-8')
+    .expect('hey', done);
+  })
+
+  it('should set the correct  charset for the Content-Type', function() {
+    request(app)
+    .get('/')
+    .set('Accept', 'text/html')
+    .expect('Content-Type', 'text/html; charset=UTF-8');
+
+    request(app)
+    .get('/')
+    .set('Accept', 'text/plain')
+    .expect('Content-Type', 'text/plain; charset=UTF-8');
+
+    request(app)
+    .get('/')
+    .set('Accept', 'application/json')
+    .expect('Content-Type', 'application/json');
+  })
+
+  it('should Vary: Accept', function(done){
+    request(app)
+    .get('/')
+    .set('Accept', 'text/html; q=.5, text/plain')
+    .expect('Vary', 'Accept', done);
   })
 
   describe('when Accept is not present', function(){
@@ -94,11 +134,8 @@ function test(app) {
       request(app)
       .get('/')
       .set('Accept', 'foo/bar')
-      .end(function(res){
-        res.should.have.status(406);
-        res.body.should.equal('Supports: text/plain, text/html, application/json');
-        done();
-      });
+      .expect('Supports: text/plain, text/html, application/json')
+      .expect(406, done)
     })
   })
 }

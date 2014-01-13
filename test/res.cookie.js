@@ -1,6 +1,8 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('./support/http')
+  , utils = require('connect').utils
+  , cookie = require('cookie');
 
 describe('res', function(){
   describe('.cookie(name, object)', function(){
@@ -13,8 +15,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        var val = ['user=j%3A%7B%22name%22%3A%22tobi%22%7D; path=/'];
+      .end(function(err, res){
+        var val = ['user=' + encodeURIComponent('j:{"name":"tobi"}') + '; Path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
@@ -31,8 +33,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        var val = ['name=tobi; path=/'];
+      .end(function(err, res){
+        var val = ['name=tobi; Path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
@@ -49,8 +51,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        var val = ['name=tobi; path=/', 'age=1; path=/'];
+      .end(function(err, res){
+        var val = ['name=tobi; Path=/', 'age=1; Path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
@@ -68,8 +70,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        var val = ['name=tobi; path=/; httpOnly; secure'];
+      .end(function(err, res){
+        var val = ['name=tobi; Path=/; HttpOnly; Secure'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
@@ -86,8 +88,84 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
+        .end(function(err, res){
           res.headers['set-cookie'][0].should.not.include('Thu, 01 Jan 1970 00:00:01 GMT');
+          done();
+        })
+      })
+
+      it('should set max-age', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.cookie('name', 'tobi', { maxAge: 1000 });
+          res.end();
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.headers['set-cookie'][0].should.include('Max-Age=1');
+          done();
+        })
+      })
+
+      it('should not mutate the options object', function(done){
+        var app = express();
+
+        var options = { maxAge: 1000 };
+        var optionsCopy = utils.merge({}, options);
+
+        app.use(function(req, res){
+          res.cookie('name', 'tobi', options)
+          res.end();
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          options.should.eql(optionsCopy);
+          done();
+        })
+      })
+    })
+
+    describe('signed', function(){
+      it('should generate a signed JSON cookie', function(done){
+        var app = express();
+
+        app.use(express.cookieParser('foo bar baz'));
+
+        app.use(function(req, res){
+          res.cookie('user', { name: 'tobi' }, { signed: true }).end();
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          var val = res.headers['set-cookie'][0];
+          val = cookie.parse(val.split('.')[0]);
+          val.user.should.equal('s:j:{"name":"tobi"}');
+          done();
+        })
+      })
+    })
+
+    describe('.signedCookie(name, string)', function(){
+      it('should set a signed cookie', function(done){
+        var app = express();
+
+        app.use(express.cookieParser('foo bar baz'));
+
+        app.use(function(req, res){
+          res.cookie('name', 'tobi', { signed: true }).end();
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          var val = ['name=s%3Atobi.xJjV2iZ6EI7C8E5kzwbfA9PVLl1ZR07UTnuTgQQ4EnQ; Path=/'];
+          res.headers['set-cookie'].should.eql(val);
           done();
         })
       })

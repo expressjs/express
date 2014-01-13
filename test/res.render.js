@@ -15,10 +15,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<p>tobi</p>');
-        done();
-      });
+      .expect('<p>tobi</p>', done);
     })
     
     it('should support absolute paths with "view engine"', function(done){
@@ -33,10 +30,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<p>tobi</p>');
-        done();
-      });
+      .expect('<p>tobi</p>', done);
     })
 
     it('should expose app.locals', function(done){
@@ -51,10 +45,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<p>tobi</p>');
-        done();
-      });
+      .expect('<p>tobi</p>', done);
     })
   
     it('should support index.<engine>', function(done){
@@ -69,10 +60,7 @@ describe('res', function(){
       
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<h1>blog post</h1>');
-        done();
-      });
+      .expect('<h1>blog post</h1>', done);
     })
   
     describe('when an error occurs', function(){
@@ -91,10 +79,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.body.should.match(/user is not defined/);
-          done();
-        });
+        .expect(/user is not defined/, done);
       })
     })
   
@@ -111,10 +96,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.body.should.equal('<p>This is an email</p>');
-          done();
-        });
+        .expect('<p>This is an email</p>', done);
       })
     })
   })
@@ -133,10 +115,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<p>tobi</p>');
-        done();
-      });
+      .expect('<p>tobi</p>', done);
     })
   
     it('should expose app.locals', function(done){
@@ -146,15 +125,12 @@ describe('res', function(){
       app.locals.user = { name: 'tobi' };
 
       app.use(function(req, res){
-        res.render('user.jade', {});
+        res.render('user.jade');
       });
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<p>tobi</p>');
-        done();
-      });
+      .expect('<p>tobi</p>', done);
     })
     
     it('should expose res.locals', function(done){
@@ -164,15 +140,12 @@ describe('res', function(){
 
       app.use(function(req, res){
         res.locals.user = { name: 'tobi' };
-        res.render('user.jade', {});
+        res.render('user.jade');
       });
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<p>tobi</p>');
-        done();
-      });
+      .expect('<p>tobi</p>', done);
     })
     
     it('should give precedence to res.locals over app.locals', function(done){
@@ -188,10 +161,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<p>jane</p>');
-        done();
-      });
+      .expect('<p>jane</p>', done);
     })
 
     it('should give precedence to res.render() locals over res.locals', function(done){
@@ -207,10 +177,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<p>jane</p>');
-        done();
-      });
+      .expect('<p>jane</p>', done);
     })
     
     it('should give precedence to res.render() locals over app.locals', function(done){
@@ -226,10 +193,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<p>jane</p>');
-        done();
-      });
+      .expect('<p>jane</p>', done);
     })
   })
 
@@ -249,10 +213,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<p>loki</p>');
-        done();
-      });
+      .expect('<p>loki</p>', done);
     })
   })
 
@@ -272,10 +233,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<p>loki</p>');
-        done();
-      });
+      .expect('<p>loki</p>', done);
     })
 
     describe('when an error occurs', function(){
@@ -292,12 +250,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.body.should.match(/is not defined/);
-          done();
-        });
+        .expect(/is not defined/, done);
       })
-      
     })
   })
 })

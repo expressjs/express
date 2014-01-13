@@ -13,10 +13,7 @@ describe('req', function(){
 
       request(app)
       .get('/login?redirect=/post/1/comments')
-      .end(function(res){
-        res.body.should.equal('/login');
-        done();
-      })
+      .expect('/login', done);
     })
   })
 })

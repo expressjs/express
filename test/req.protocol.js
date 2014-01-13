@@ -13,10 +13,7 @@ describe('req', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('http');
-        done();
-      })
+      .expect('http', done);
     })
 
     describe('when "trust proxy" is enabled', function(){
@@ -32,10 +29,7 @@ describe('req', function(){
         request(app)
         .get('/')
         .set('X-Forwarded-Proto', 'https')
-        .end(function(res){
-          res.body.should.equal('https');
-          done();
-        })
+        .expect('https', done);
       })
 
       it('should default to http', function(done){
@@ -49,10 +43,7 @@ describe('req', function(){
 
         request(app)
         .get('/')
-        .end(function(res){
-          res.body.should.equal('http');
-          done();
-        })
+        .expect('http', done);
       })
     })
 
@@ -67,10 +58,7 @@ describe('req', function(){
         request(app)
         .get('/')
         .set('X-Forwarded-Proto', 'https')
-        .end(function(res){
-          res.body.should.equal('http');
-          done();
-        })
+        .expect('http', done);
       })
     })
   })

@@ -11,7 +11,7 @@ describe('app.del()', function(){
     });
 
     request(app)
-    .delete('/tobi')
+    .del('/tobi')
     .expect('deleted tobi!', done);
   })
 })

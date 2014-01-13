@@ -1,0 +1,8 @@
+<link rel="stylesheet" href="/style.css" />
+<h1>Users</h1>
+<p>Click a user below to view their pets.</p>
+<ul>
+  <% users.forEach(function(user){ %>
+    <li><a href="/user/<%= user.id %>"><%= user.name %></a></li>
+  <% }) %>
+</ul>

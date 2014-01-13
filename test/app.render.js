@@ -14,7 +14,7 @@ describe('app', function(){
         done();
       })
     })
-    
+
     it('should support absolute paths with "view engine"', function(done){
       var app = express();
 
@@ -40,7 +40,7 @@ describe('app', function(){
         done();
       })
     })
-    
+
     it('should support index.<engine>', function(done){
       var app = express();
 
@@ -53,7 +53,18 @@ describe('app', function(){
         done();
       })
     })
-    
+
+    describe('when the file does not exist', function(){
+      it('should provide a helpful error', function(done){
+        var app = express();
+        app.set('views', __dirname + '/fixtures');
+        app.render('rawr.jade', function(err){
+          err.message.should.equal('Failed to lookup view "rawr.jade" in views directory "' + __dirname + '/fixtures"');
+          done();
+        });
+      })
+    })
+
     describe('when an error occurs', function(){
       it('should invoke the callback', function(done){
         var app = express();
@@ -98,8 +109,31 @@ describe('app', function(){
         })
       })
     })
+
+    describe('when a "view" constructor is given', function(){
+      it('should create an instance of it', function(done){
+        var app = express();
+
+        function View(name, options){
+          this.name = name;
+          this.path = 'path is required by application.js as a signal of success even though it is not used there.';
+        }
+
+        View.prototype.render = function(options, fn){
+          fn(null, 'abstract engine');
+        };
+
+        app.set('view', View);
+
+        app.render('something', function(err, str){
+          if (err) return done(err);
+          str.should.equal('abstract engine');
+          done();
+        })
+      })
+    })
   })
-  
+
   describe('.render(name, options, fn)', function(){
     it('should render the template', function(done){
       var app = express();
@@ -114,7 +148,7 @@ describe('app', function(){
         done();
       })
     })
-    
+
     it('should expose app.locals', function(done){
       var app = express();
 
@@ -127,7 +161,7 @@ describe('app', function(){
         done();
       })
     })
-    
+
     it('should give precedence to app.render() locals', function(done){
       var app = express();
 

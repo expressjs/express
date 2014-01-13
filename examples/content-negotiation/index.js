@@ -1,32 +1,41 @@
-
 var express = require('../../')
-  , app = module.exports = express();
+  , app = module.exports = express()
+  , users = require('./db');
 
-var users = [];
-
-users.push({ name: 'Tobi' });
-users.push({ name: 'Loki' });
-users.push({ name: 'Jane' });
-
+// so either you can deal with different types of formatting 
+// for expected response in index.js
 app.get('/', function(req, res){
-  res.respondTo({
-    'text/html': function(){
+  res.format({
+    html: function(){
       res.send('<ul>' + users.map(function(user){
         return '<li>' + user.name + '</li>';
       }).join('') + '</ul>');
     },
 
-    'text/plain': function(){
+    text: function(){
       res.send(users.map(function(user){
         return ' - ' + user.name + '\n';
       }).join(''));
     },
 
-    'application/json': function(){
+    json: function(){
       res.json(users);
     }
   })
 });
+
+// or you could write a tiny middleware like
+// this to add a layer of abstraction
+// and make things a bit more declarative:
+
+function format(path) {
+  var obj = require(path);
+  return function(req, res){
+    res.format(obj);
+  }
+}
+
+app.get('/users', format('./users'));
 
 if (!module.parent) {
   app.listen(3000);

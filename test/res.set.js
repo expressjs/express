@@ -1,6 +1,7 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('./support/http')
+  , res = express.response;
 
 describe('res', function(){
   describe('.set(field, value)', function(){
@@ -13,10 +14,35 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.headers.should.have.property('content-type', 'text/x-foo');
-        done();
-      })
+      .expect('Content-Type', 'text/x-foo')
+      .end(done);
+    })
+
+    it('should coerce to a string', function(){
+      res.headers = {};
+      res.set('ETag', 123);
+      res.get('ETag').should.equal('123');
+    })
+  })
+
+  describe('.set(field, values)', function(){
+    it('should set multiple response header fields', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.set('Set-Cookie', ["type=ninja", "language=javascript"]);
+        res.send(res.get('Set-Cookie'));
+      });
+
+      request(app)
+      .get('/')
+      .expect('["type=ninja","language=javascript"]', done);
+    })
+
+    it('should coerce to an array of strings', function(){
+      res.headers = {};
+      res.set('ETag', [123, 456]);
+      JSON.stringify(res.get('ETag')).should.equal('["123","456"]');
     })
   })
   
@@ -33,11 +59,15 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.headers.should.have.property('x-foo', 'bar');
-        res.headers.should.have.property('x-bar', 'baz');
-        done();
-      })
+      .expect('X-Foo', 'bar')
+      .expect('X-Bar', 'baz')
+      .end(done);
+    })
+
+    it('should coerce to a string', function(){
+      res.headers = {};
+      res.set({ ETag: 123 });
+      res.get('ETag').should.equal('123');
     })
   })
 })

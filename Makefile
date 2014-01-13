@@ -1,26 +1,22 @@
 
-DOCS = docs/*.md
-HTMLDOCS = $(DOCS:.md=.html)
+MOCHA_OPTS= --check-leaks
 REPORTER = dot
 
-test:
+check: test
+
+test: test-unit test-acceptance
+
+test-unit:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
-		--reporter $(REPORTER)
+		--reporter $(REPORTER) \
+		--globals setImmediate,clearImmediate \
+		$(MOCHA_OPTS)
 
 test-acceptance:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
-		--reporter spec \
+		--reporter $(REPORTER) \
+		--bail \
 		test/acceptance/*.js
-
-docs: $(HTMLDOCS)
-	@ echo "... generating TOC"
-	@./support/toc.js docs/guide.html
-
-%.html: %.md
-	@echo "... $< -> $@"
-	@markdown $< \
-	  | cat docs/layout/head.html - docs/layout/foot.html \
-	  > $@
 
 test-cov: lib-cov
 	@EXPRESS_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
@@ -28,17 +24,11 @@ test-cov: lib-cov
 lib-cov:
 	@jscoverage lib lib-cov
 
-site:
-	rm -fr /tmp/docs \
-	  && cp -fr docs /tmp/docs \
-	  && git checkout gh-pages \
-  	&& cp -fr /tmp/docs/* . \
-		&& echo "done"
+bench:
+	@$(MAKE) -C benchmarks
 
-benchmark:
-	@./support/bench
+clean:
+	rm -f coverage.html
+	rm -fr lib-cov
 
-docclean:
-	rm -f docs/*.{1,html}
-
-.PHONY: site test benchmark docs docclean test-acceptance
+.PHONY: test test-unit test-acceptance bench clean

@@ -1,0 +1,8 @@
+
+extends layout
+
+block content
+  for user in users
+    .user
+      h3= user.name
+      p #{user.name} is a #{user.age} year old #{user.species}.

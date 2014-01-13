@@ -13,10 +13,7 @@ describe('req', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('tj');
-        done();
-      })
+      .expect('tj', done);
     })
   })
 
@@ -30,10 +27,7 @@ describe('req', function(){
 
       request(app)
       .get('/?name=tj')
-      .end(function(res){
-        res.body.should.equal('tj');
-        done();
-      })
+      .expect('tj', done);
     })
     
     it('should check req.body', function(done){
@@ -47,27 +41,20 @@ describe('req', function(){
 
       request(app)
       .post('/')
-      .set('Content-Type', 'application/json')
-      .write('{"name":"tj"}')
-      .end(function(res){
-        res.body.should.equal('tj');
-        done();
-      })
+      .send({ name: 'tj' })
+      .expect('tj', done);
     })
     
     it('should check req.params', function(done){
       var app = express();
 
       app.get('/user/:name', function(req, res){
-        res.end(req.param('name'));
+        res.end(req.param('filter') + req.param('name'));
       });
 
       request(app)
       .get('/user/tj')
-      .end(function(res){
-        res.body.should.equal('tj');
-        done();
-      })
+      .expect('undefinedtj', done);
     })
   })
 })

@@ -13,10 +13,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.headers.should.have.property('content-disposition', 'attachment');
-        done();
-      })
+      .expect('Content-Disposition', 'attachment', done);
     })
   })
   
@@ -31,10 +28,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.headers.should.have.property('content-disposition', 'attachment; filename="image.png"');
-        done();
-      })
+      .expect('Content-Disposition', 'attachment; filename="image.png"', done);
     })
     
     it('should set the Content-Type', function(done){
@@ -47,10 +41,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        res.headers.should.have.property('content-type', 'image/png');
-        done();
-      })
+      .expect('Content-Type', 'image/png', done);
     })
   })
 })

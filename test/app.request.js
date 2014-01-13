@@ -17,10 +17,7 @@ describe('app', function(){
 
       request(app)
       .get('/foo?name=tobi')
-      .end(function(res){
-        res.body.should.equal('name=tobi');
-        done();
-      });
+      .expect('name=tobi', done);
     })
   })
 })

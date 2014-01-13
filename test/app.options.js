@@ -12,12 +12,8 @@ describe('OPTIONS', function(){
 
     request(app)
     .options('/users')
-    .end(function(res){
-      res.body.should.equal('GET,PUT');
-      res.headers.should.have.property('content-type');
-      res.headers.should.have.property('allow', 'GET,PUT');
-      done();
-    });
+    .expect('GET,PUT')
+    .expect('Allow', 'GET,PUT', done);
   })
 })
 
@@ -35,10 +31,7 @@ describe('app.options()', function(){
 
     request(app)
     .options('/users')
-    .end(function(res){
-      res.body.should.equal('GET');
-      res.headers.should.have.property('allow', 'GET');
-      done();
-    });
+    .expect('GET')
+    .expect('Allow', 'GET', done);
   })
 })

@@ -4,8 +4,11 @@ var express = require('../')
 
 function req(ct) {
   var req = {
-      headers: { 'content-type': ct }
-    , __proto__: express.request
+    headers: {
+      'content-type': ct,
+      'transfer-encoding': 'chunked'
+    },
+    __proto__: express.request
   };
 
   return req;
@@ -15,7 +18,7 @@ describe('req.is()', function(){
   it('should ignore charset', function(){
     req('application/json; charset=utf-8')
     .is('json')
-    .should.be.true;
+    .should.equal('json');
   })
 
   describe('when content-type is not present', function(){
@@ -30,7 +33,7 @@ describe('req.is()', function(){
     it('should lookup the mime type', function(){
       req('application/json')
       .is('json')
-      .should.be.true;
+      .should.equal('json');
 
       req('text/html')
       .is('json')
@@ -42,7 +45,7 @@ describe('req.is()', function(){
     it('should match', function(){
       req('application/json')
       .is('application/json')
-      .should.be.true;
+      .should.equal('application/json');
 
       req('image/jpeg')
       .is('application/json')
@@ -54,7 +57,7 @@ describe('req.is()', function(){
     it('should match', function(){
       req('application/json')
       .is('*/json')
-      .should.be.true;
+      .should.equal('application/json');
 
       req('image/jpeg')
       .is('*/json')
@@ -65,7 +68,7 @@ describe('req.is()', function(){
       it('should match', function(){
         req('text/html; charset=utf-8')
         .is('*/html')
-        .should.be.true;
+        .should.equal('text/html');
 
         req('text/plain; charset=utf-8')
         .is('*/html')
@@ -78,7 +81,7 @@ describe('req.is()', function(){
     it('should match', function(){
       req('image/png')
       .is('image/*')
-      .should.be.true;
+      .should.equal('image/png');
 
       req('text/html')
       .is('image/*')
@@ -89,7 +92,7 @@ describe('req.is()', function(){
       it('should match', function(){
         req('text/html; charset=utf-8')
         .is('text/*')
-        .should.be.true;
+        .should.equal('text/html');
 
         req('something/html; charset=utf-8')
         .is('text/*')

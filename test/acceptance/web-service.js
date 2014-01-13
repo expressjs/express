@@ -24,9 +24,9 @@ describe('web-service', function(){
       it('should respond users json', function(done){
         request(app)
         .get('/api/users?api-key=foo')
-        .end(function(res){
+        .end(function(err, res){
           res.should.be.json;
-          res.body.should.equal('[{"name":"tobi"},{"name":"loki"},{"name":"jane"}]');
+          res.text.should.equal('[{"name":"tobi"},{"name":"loki"},{"name":"jane"}]');
           done();
         });
       })
@@ -37,10 +37,10 @@ describe('web-service', function(){
     it('should respond with 404 json', function(done){
       request(app)
       .get('/api/something?api-key=bar')
-      .end(function(res){
+      .end(function(err, res){
         res.should.have.status(404);
         res.should.be.json;
-        res.body.should.equal('{"error":"Lame, can\'t find that"}');
+        res.text.should.equal('{"error":"Lame, can\'t find that"}');
         done();
       });
     })

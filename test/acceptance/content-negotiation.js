@@ -7,20 +7,16 @@ describe('content-negotiation', function(){
     it('should default to text/html', function(done){
       request(app)
       .get('/')
-      .end(function(res){
-        res.body.should.equal('<ul><li>Tobi</li><li>Loki</li><li>Jane</li></ul>');
-        done();
-      })
+      .expect('<ul><li>Tobi</li><li>Loki</li><li>Jane</li></ul>')
+      .end(done);
     })
 
     it('should accept to text/plain', function(done){
       request(app)
       .get('/')
       .set('Accept', 'text/plain')
-      .end(function(res){
-        res.body.should.equal(' - Tobi\n - Loki\n - Jane\n');
-        done();
-      })
+      .expect(' - Tobi\n - Loki\n - Jane\n')
+      .end(done);
     })
   })
 })
