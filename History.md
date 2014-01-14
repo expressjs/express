@@ -1,3 +1,25 @@
+4.0.0 /
+==================
+
+ * remove:
+   - express(1) - moved to [express-generator](https://github.com/expressjs/generator)
+   - `req.accepted*` - use `req.accepts*()` instead
+   - `app.configure` - use logic in your own app code
+ * change:
+   - `req.accepts*` -> `req.accepts*s` - i.e. `req.acceptsEncoding` -> `req.acceptsEncodings`
+   - `req.params` is now an object instead of an array
+   - `json spaces` no longer enabled by default in development
+ * refactor:
+   - `req.accepts*` with [accepts](https://github.com/expressjs/accepts)
+   - `req.is` with [type-is](https://github.com/expressjs/type-is)
+
+3.4.8 / 2014-01-13
+==================
+
+ * prevent incorrect automatic OPTIONS responses #1868 @dpatti
+ * update binary and examples for jade 1.0 #1876 @yossi, #1877 @reqshark, #1892 @matheusazzi
+ * throw 400 in case of malformed paths @rlidwka
+
 3.4.7 / 2013-12-10
 ==================
 
