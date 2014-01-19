@@ -5,6 +5,7 @@
    - express(1) - moved to [express-generator](https://github.com/expressjs/generator)
    - `req.accepted*` - use `req.accepts*()` instead
    - `app.configure` - use logic in your own app code
+   - `express.createServer()` - it has been deprecated for a long time. Use `express()`
  * change:
    - `req.accepts*` -> `req.accepts*s` - i.e. `req.acceptsEncoding` -> `req.acceptsEncodings`
    - `req.params` is now an object instead of an array
