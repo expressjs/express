@@ -34,9 +34,9 @@ describe('app.route', function(){
     app.use('/blog', blog);
     blog.use('/admin', blogAdmin);
 
-    app.route.should.equal('/');
-    blog.route.should.equal('/blog');
-    blogAdmin.route.should.equal('/admin');
+    app.mountpath.should.equal('/');
+    blog.mountpath.should.equal('/blog');
+    blogAdmin.mountpath.should.equal('/admin');
   })
 })
 
