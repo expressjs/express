@@ -47,6 +47,21 @@ describe('res', function(){
       .get('/')
       .expect('<p>tobi</p>', done);
     })
+
+    it('should expose app.locals with `name` property', function(done){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+      app.locals.name = 'tobi';
+
+      app.use(function(req, res){
+        res.render('name.jade');
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>tobi</p>', done);
+    })
   
     it('should support index.<engine>', function(done){
       var app = express();
