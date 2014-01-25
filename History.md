@@ -6,14 +6,20 @@
    - `req.accepted*` - use `req.accepts*()` instead
    - `app.configure` - use logic in your own app code
    - `express.createServer()` - it has been deprecated for a long time. Use `express()`
+   - `app.router` - is removed
  * change:
    - `req.accepts*` -> `req.accepts*s` - i.e. `req.acceptsEncoding` -> `req.acceptsEncodings`
    - `req.params` is now an object instead of an array
    - `json spaces` no longer enabled by default in development
    - `res.locals` is no longer a function. It is a plain js object. Treat it as such.
+   - `app.route` -> `app.mountpath` when mounting an express app in another express app
  * refactor:
    - `req.accepts*` with [accepts](https://github.com/expressjs/accepts)
    - `req.is` with [type-is](https://github.com/expressjs/type-is)
+ * add:
+   - `app.router()` - returns the app Router instance
+   - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
+   - Router & Route - public API
 
 3.4.7 / 2013-12-10
 ==================
