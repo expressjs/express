@@ -41,10 +41,3 @@ describe('utils.flatten(arr)', function(){
       .should.eql(['one', 'two', 'three', 'four', 'five']);
   })
 })
-
-describe('utils.escape(html)', function(){
-  it('should escape html entities', function(){
-    utils.escape('<script>foo & "bar"')
-      .should.equal('&lt;script&gt;foo &amp; &quot;bar&quot;')
-  })
-})
