@@ -1,7 +1,7 @@
 
 var express = require('../')
   , request = require('./support/http')
-  , utils = require('connect').utils
+  , mixin = require('utils-merge')
   , cookie = require('cookie');
 
 describe('res', function(){
@@ -114,7 +114,7 @@ describe('res', function(){
         var app = express();
 
         var options = { maxAge: 1000 };
-        var optionsCopy = utils.merge({}, options);
+        var optionsCopy = mixin({}, options);
 
         app.use(function(req, res){
           res.cookie('name', 'tobi', options)

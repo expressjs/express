@@ -33,6 +33,7 @@
     "send": "0.1.4",
     "cookie-signature": "1.0.1",
     "merge-descriptors": "0.0.1",
+    "utils-merge": "1.0.0",
     "debug": ">= 0.7.3 < 1"
   },
   "devDependencies": {
