@@ -8,13 +8,6 @@ var express = require('../../')
   , test = app.get('env') == 'test';
 
 if (!test) app.use(express.logger('dev'));
-app.use(app.router);
-
-// the error handler is strategically
-// placed *below* the app.router; if it
-// were above it would not receive errors
-// from app.get() etc 
-app.use(error);
 
 // error handling middleware have an arity of 4
 // instead of the typical (req, res, next),
@@ -41,6 +34,11 @@ app.get('/next', function(req, res, next){
     next(new Error('oh no!'));
   });
 });
+
+// the error handler is placed after routes
+// if it were above it would not receive errors
+// from app.get() etc
+app.use(error);
 
 if (!module.parent) {
   app.listen(3000);
