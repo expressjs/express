@@ -32,7 +32,7 @@
     "methods": "0.1.0",
     "send": "0.2.0",
     "cookie-signature": "1.0.3",
-    "merge-descriptors": "0.0.1",
+    "merge-descriptors": "0.0.2",
     "utils-merge": "1.0.0",
     "escape-html": "1.0.1",
     "debug": ">= 0.7.3 < 1"
