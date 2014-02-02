@@ -10,7 +10,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.end(req.host);
+        res.end(String(req.port));
       });
 
       request(app)
@@ -23,7 +23,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.end(req.host);
+        res.end(String(req.port));
       });
 
       request(app)
@@ -37,7 +37,7 @@ describe('req', function(){
 
       app.use(function(req, res){
         req.headers.host = null;
-        res.end(String(req.host));
+        res.end(String(req.port));
       });
 
       request(app)
