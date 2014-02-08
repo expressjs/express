@@ -18,7 +18,7 @@ describe('auth', function(){
     it('should redirect to /login', function(done){
       request(app)
       .get('/')
-      .end(redirects(/\/login$/, done))
+      .end(redirects(/login$/, done))
     })
   })
 
@@ -26,7 +26,7 @@ describe('auth', function(){
     it('should redirect to /login', function(done){
       request(app)
       .get('/restricted')
-      .end(redirects(/\/login$/,done))
+      .end(redirects(/login$/,done))
     })
   })
 
@@ -36,7 +36,7 @@ describe('auth', function(){
       .post('/login')
       .type('urlencoded')
       .send('username=not-tj&password=foobar')
-      .end(redirects(/\/login$/, done))
+      .end(redirects(/login$/, done))
     })
   })
 })
