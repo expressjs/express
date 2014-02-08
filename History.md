@@ -3,16 +3,17 @@
 
  * remove:
    - express(1) - moved to [express-generator](https://github.com/expressjs/generator)
-   - `req.accepted*` - use `req.accepts*()` instead
-   - `app.configure` - use logic in your own app code
    - `express.createServer()` - it has been deprecated for a long time. Use `express()`
+   - `app.configure` - use logic in your own app code
    - `app.router` - is removed
+   - `req.accepted*` - use `req.accepts*()` instead
+   - `res.location` - relative URL resolution is removed
  * change:
+   - `app.route` -> `app.mountpath` when mounting an express app in another express app
+   - `json spaces` no longer enabled by default in development
    - `req.accepts*` -> `req.accepts*s` - i.e. `req.acceptsEncoding` -> `req.acceptsEncodings`
    - `req.params` is now an object instead of an array
-   - `json spaces` no longer enabled by default in development
    - `res.locals` is no longer a function. It is a plain js object. Treat it as such.
-   - `app.route` -> `app.mountpath` when mounting an express app in another express app
  * refactor:
    - `req.accepts*` with [accepts](https://github.com/expressjs/accepts)
    - `req.is` with [type-is](https://github.com/expressjs/type-is)
