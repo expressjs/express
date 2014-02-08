@@ -7,6 +7,8 @@ var express = require('../')
 describe('app.router', function(){
   describe('methods supported', function(){
     methods.forEach(function(method){
+      if (method === 'connect') return;
+
       it('should include ' + method.toUpperCase(), function(done){
         if (method == 'delete') method = 'del';
         var app = express();
