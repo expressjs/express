@@ -36,7 +36,7 @@ app.get('/', function(req, res){
 })
 
 app.get('/fail', function(req, res){
-  res.render('missing', { title: 'Markdown Example' });
+  res.render('missing', { title: 'Fail!' });
 })
 
 if (!module.parent) {
