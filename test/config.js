@@ -13,6 +13,13 @@ describe('config', function(){
       var app = express();
       app.set('foo', undefined).should.equal(app);
     })
+
+    it('should merge a hash of settings', function() {
+      var app = express();
+      app.set({foo: 'bar', baz: 'quux'});
+      app.get('foo').should.equal('bar');
+      app.get('baz').should.equal('quux');
+    })
   })
 
   describe('.get()', function(){
