@@ -7,8 +7,6 @@ var express = require('../..');
 
 var app = express();
 
-app.use(express.logger('dev'));
-
 // Required by session() middleware
 // pass the secret for signed cookies
 // (required by session())

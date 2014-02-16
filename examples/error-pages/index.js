@@ -4,6 +4,8 @@
 
 var express = require('../../')
   , app = module.exports = express()
+  , logger = require('morgan')
+  , favicon = require('static-favicon')
   , silent = 'test' == process.env.NODE_ENV;
 
 // general config
@@ -21,9 +23,9 @@ if ('production' == app.settings.env) {
   app.disable('verbose errors');
 }
 
-app.use(express.favicon());
+app.use(favicon());
 
-silent || app.use(express.logger('dev'));
+silent || app.use(logger('dev'));
 
 // Routes
 

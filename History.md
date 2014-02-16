@@ -7,6 +7,7 @@
    - `app.configure` - use logic in your own app code
    - `express.createServer()` - it has been deprecated for a long time. Use `express()`
    - `app.router` - is removed
+   - all bundled middleware except `static`
  * change:
    - `req.accepts*` -> `req.accepts*s` - i.e. `req.acceptsEncoding` -> `req.acceptsEncodings`
    - `req.params` is now an object instead of an array

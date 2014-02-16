@@ -1,4 +1,8 @@
 var express = require('../..');
+var logger = require('morgan');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
 var app = module.exports = express();
 
@@ -25,20 +29,17 @@ app.response.message = function(msg){
 };
 
 // log
-if (!module.parent) app.use(express.logger('dev'));
+if (!module.parent) app.use(logger('dev'));
 
 // serve static files
 app.use(express.static(__dirname + '/public'));
 
 // session support
-app.use(express.cookieParser('some secret here'));
-app.use(express.session());
+app.use(cookieParser('some secret here'));
+app.use(session());
 
 // parse request bodies (req.body)
-app.use(express.bodyParser());
-
-// support _method (PUT in forms etc)
-app.use(express.methodOverride());
+app.use(bodyParser());
 
 // expose the "messages" local variable when views are rendered
 app.use(function(req, res, next){

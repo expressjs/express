@@ -5,6 +5,9 @@
 
 var express = require('../..')
   , app = express()
+  , logger = require('morgan')
+  , cookieParser = require('cookie-parser')
+  , bodyParser = require('body-parser')
   , site = require('./site')
   , post = require('./post')
   , user = require('./user');
@@ -13,10 +16,9 @@ var express = require('../..')
 
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
-app.use(express.logger('dev'));
-app.use(express.cookieParser());
-app.use(express.bodyParser());
-app.use(express.methodOverride());
+app.use(logger('dev'));
+app.use(cookieParser());
+app.use(bodyParser());
 app.use(express.static(__dirname + '/public'));
 
 // General

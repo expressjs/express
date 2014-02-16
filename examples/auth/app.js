@@ -3,7 +3,10 @@
  */
 
 var express = require('../..')
-  , hash = require('./pass').hash;
+  , hash = require('./pass').hash
+  , bodyParser = require('body-parser')
+  , cookieParser = require('cookie-parser')
+  , session = require('express-session')
 
 var app = module.exports = express();
 
@@ -14,9 +17,9 @@ app.set('views', __dirname + '/views');
 
 // middleware
 
-app.use(express.bodyParser());
-app.use(express.cookieParser('shhhh, very secret'));
-app.use(express.session());
+app.use(bodyParser());
+app.use(cookieParser('shhhh, very secret'));
+app.use(session());
 
 // Session-persisted message middleware
 

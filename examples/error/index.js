@@ -4,10 +4,11 @@
  */
 
 var express = require('../../')
+  , logger = require('morgan')
   , app = module.exports = express()
   , test = app.get('env') == 'test';
 
-if (!test) app.use(express.logger('dev'));
+if (!test) app.use(logger('dev'));
 
 // error handling middleware have an arity of 4
 // instead of the typical (req, res, next),

@@ -9,7 +9,6 @@ var app = express()
   , blog = express()
   , admin = express();
 
-// app.use(express.logger('dev'))
 blog.use('/admin', admin);
 app.use('/blog', blog);
 app.set('views', __dirname + '/views');

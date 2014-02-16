@@ -3,7 +3,9 @@
  */
 
 var express = require('../..')
+  , logger = require('morgan')
   , app = express()
+  , bodyParser = require('body-parser')
   , api = express();
 
 // app middleware
@@ -12,8 +14,8 @@ app.use(express.static(__dirname + '/public'));
 
 // api middleware
 
-api.use(express.logger('dev'));
-api.use(express.bodyParser());
+api.use(logger('dev'));
+api.use(bodyParser());
 
 /**
  * CORS support.
