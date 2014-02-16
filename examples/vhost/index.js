@@ -3,6 +3,7 @@
  */
 
 var express = require('../..');
+var logger = require('morgan');
 
 /*
 edit /etc/hosts:
@@ -16,7 +17,7 @@ edit /etc/hosts:
 
 var main = express();
 
-main.use(express.logger('dev'));
+main.use(logger('dev'));
 
 main.get('/', function(req, res){
   res.send('Hello from main app!')

@@ -1,5 +1,6 @@
 
 var express = require('../..')
+  , logger = require('morgan')
   , app = express();
 
 app.set('view engine', 'jade');
@@ -23,7 +24,7 @@ User.prototype.toJSON = function(){
   }
 };
 
-app.use(express.logger('dev'));
+app.use(logger('dev'));
 
 // earlier on expose an object
 // that we can tack properties on.

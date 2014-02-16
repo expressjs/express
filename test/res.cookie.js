@@ -2,7 +2,8 @@
 var express = require('../')
   , request = require('./support/http')
   , mixin = require('utils-merge')
-  , cookie = require('cookie');
+  , cookie = require('cookie')
+  , cookieParser = require('cookie-parser')
 
 describe('res', function(){
   describe('.cookie(name, object)', function(){
@@ -134,7 +135,7 @@ describe('res', function(){
       it('should generate a signed JSON cookie', function(done){
         var app = express();
 
-        app.use(express.cookieParser('foo bar baz'));
+        app.use(cookieParser('foo bar baz'));
 
         app.use(function(req, res){
           res.cookie('user', { name: 'tobi' }, { signed: true }).end();
@@ -155,7 +156,7 @@ describe('res', function(){
       it('should set a signed cookie', function(done){
         var app = express();
 
-        app.use(express.cookieParser('foo bar baz'));
+        app.use(cookieParser('foo bar baz'));
 
         app.use(function(req, res){
           res.cookie('name', 'tobi', { signed: true }).end();

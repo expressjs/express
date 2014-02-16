@@ -1,5 +1,6 @@
 
 var express = require('../..')
+  , logger = require('morgan')
   , app = express();
 
 app.set('views', __dirname);
@@ -14,7 +15,7 @@ while (n--) {
   pets.push({ name: 'Jane', age: 6, species: 'ferret' });
 }
 
-app.use(express.logger('dev'));
+app.use(logger('dev'));
 
 app.get('/', function(req, res){
   res.render('pets', { pets: pets });

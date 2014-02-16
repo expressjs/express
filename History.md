@@ -8,6 +8,7 @@
    - `app.router` - is removed
    - `req.accepted*` - use `req.accepts*()` instead
    - `res.location` - relative URL resolution is removed
+   - all bundled middleware except `static`
  * change:
    - `app.route` -> `app.mountpath` when mounting an express app in another express app
    - `json spaces` no longer enabled by default in development
