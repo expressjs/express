@@ -47,13 +47,14 @@ describe('res', function(){
       app.use(function(req, res){
         res.cookie('name', 'tobi');
         res.cookie('age', 1);
+        res.cookie('gender', '?');
         res.end();
       });
 
       request(app)
       .get('/')
       .end(function(err, res){
-        var val = ['name=tobi; Path=/', 'age=1; Path=/'];
+        var val = ['name=tobi; Path=/', 'age=1; Path=/', 'gender=%3F; Path=/'];
         res.headers['set-cookie'].should.eql(val);
         done();
       })
