@@ -42,7 +42,7 @@ describe('res', function(){
       app.use(function(req, res){
         res.sendfile('test/fixtures/nope.html', function(err){
           ++calls;
-          assert(!res.headerSent);
+          assert(!res.headersSent);
           res.send(err.message);
         });
       });
@@ -77,7 +77,7 @@ describe('res', function(){
 
       app.use(function(req, res){
         res.sendfile('test/fixtures/foo/../user.html', function(err){
-          assert(!res.headerSent);
+          assert(!res.headersSent);
           ++calls;
           res.send(err.message);
         });
@@ -95,7 +95,7 @@ describe('res', function(){
 
       app.use(function(req, res){
         res.sendfile('test/fixtures/user.html', function(err){
-          assert(!res.headerSent);
+          assert(!res.headersSent);
           req.socket.listeners('error').should.have.length(1); // node's original handler
           done();
         });

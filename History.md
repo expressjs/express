@@ -14,6 +14,7 @@
    - `json spaces` no longer enabled by default in development
    - `res.locals` is no longer a function. It is a plain js object. Treat it as such.
    - `app.route` -> `app.mountpath` when mounting an express app in another express app
+   - `res.headerSent` -> `res.headersSent` to match node.js ServerResponse object
  * refactor:
    - `req.accepts*` with [accepts](https://github.com/expressjs/accepts)
    - `req.is` with [type-is](https://github.com/expressjs/type-is)
