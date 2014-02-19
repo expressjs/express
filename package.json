@@ -28,7 +28,7 @@
     "range-parser": "1.0.0",
     "cookie": "0.1.0",
     "buffer-crc32": "0.2.1",
-    "fresh": "0.2.1",
+    "fresh": "0.2.2",
     "methods": "0.1.0",
     "send": "0.2.0",
     "cookie-signature": "1.0.3",
