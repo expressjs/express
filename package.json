@@ -48,7 +48,7 @@
     "marked": "0.2.10",
     "supertest": "~0.8.1",
     "body-parser": "1.0.0",
-    "cookie-parser": "1.0.0",
+    "cookie-parser": "1.0.1",
     "static-favicon": "1.0.0",
     "express-session": "1.0.1",
     "morgan": "1.0.0"
