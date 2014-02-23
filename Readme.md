@@ -104,7 +104,7 @@ Then run the tests:
 
 (The MIT License)
 
-Copyright (c) 2009-2012 TJ Holowaychuk &lt;tj@vision-media.ca&gt;
+Copyright (c) 2009-2014 TJ Holowaychuk &lt;tj@vision-media.ca&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
