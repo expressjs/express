@@ -6,15 +6,6 @@ var express = require('../')
 
 describe('Route', function(){
 
-  describe('.match', function(){
-    it('should match', function(){
-      var route = new Route('/foo/bar');
-
-      assert(route.match('/foo/bar'));
-      assert(!route.match('/foo/baz'));
-    })
-  })
-
   describe('.all', function(){
     it('should add handler', function(done){
       var route = new Route('/foo');

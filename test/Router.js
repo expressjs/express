@@ -94,4 +94,39 @@ describe('Router', function(){
       done();
     })
   })
+
+  describe('.param', function() {
+    it('should call param function when routing VERBS', function(done) {
+      var router = new Router();
+
+      router.param('id', function(req, res, next, id) {
+        assert.equal(id, '123');
+        next();
+      });
+
+      router.get('/foo/:id/bar', function(req, res, next) {
+        assert.equal(req.params.id, '123');
+        next();
+      });
+
+      router.handle({ url: '/foo/123/bar', method: 'get' }, {}, done);
+    });
+
+    it('should call param function when routing middleware', function(done) {
+      var router = new Router();
+
+      router.param('id', function(req, res, next, id) {
+        assert.equal(id, '123');
+        next();
+      });
+
+      router.use('/foo/:id/bar', function(req, res, next) {
+        assert.equal(req.params.id, '123');
+        assert.equal(req.url, '/baz');
+        next();
+      });
+
+      router.handle({ url: '/foo/123/bar/baz', method: 'get' }, {}, done);
+    });
+  });
 })
