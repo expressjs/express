@@ -15,17 +15,24 @@ app.get('/', function(req, res){
 app.listen(3000);
 ```
 
+  Note that Express v4 release candidates have been released. 
+  Please try it out, but not in production, and report any issues you may find here or to the appropriate repositories.
+  Be sure to read [Migrating from 3.x to 4.x](https://github.com/visionmedia/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/visionmedia/express/wiki/New-features-in-4.x).
+
 ## Installation
 
-    $ npm install -g express
+    $ npm install express
 
 ## Quick Start
 
  The quickest way to get started with express is to utilize the executable `express(1)` to generate an application as shown below:
+ 
+ Install the executable. As of Express v4, the executable is stored in a separate repository:
+ 
+    $ npm install -g express-generator
 
  Create the app:
 
-    $ npm install -g express
     $ express /tmp/foo && cd /tmp/foo
 
  Install dependencies:
@@ -38,7 +45,6 @@ app.listen(3000);
 
 ## Features
 
-  * Built on [Connect](http://github.com/senchalabs/connect)
   * Robust routing
   * HTTP helpers (redirection, caching, etc)
   * View system supporting 14+ template engines
@@ -54,9 +60,7 @@ app.listen(3000);
   it a great solution for single page applications, web sites, hybrids, or public
   HTTP APIs.
 
-  Built on Connect, you can use _only_ what you need, and nothing more. Applications
-  can be as big or as small as you like, even a single file. Express does
-  not force you to use any specific ORM or template engine. With support for over
+  Express does not force you to use any specific ORM or template engine. With support for over
   14 template engines via [Consolidate.js](http://github.com/visionmedia/consolidate.js),
   you can quickly craft your perfect framework.
 
@@ -65,7 +69,7 @@ app.listen(3000);
   * [Website and Documentation](http://expressjs.com/) stored at [visionmedia/expressjs.com](https://github.com/visionmedia/expressjs.com)
   * Join #express on freenode
   * [Google Group](http://groups.google.com/group/express-js) for discussion
-  * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
+  * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) and [defunctzombie](https://twitter.com/defunctzombie) on twitter for updates
   * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
   * [Русскоязычная документация](http://jsman.ru/express/)
   * Run express examples [online](https://runnable.com/express)
