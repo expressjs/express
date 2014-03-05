@@ -27,9 +27,9 @@ app.listen(3000);
 
  The quickest way to get started with express is to utilize the executable `express(1)` to generate an application as shown below:
  
- Install the executable. As of Express v4, the executable is stored in a separate repository:
+ Install the executable. The executable's major version will match Express's:
  
-    $ npm install -g express-generator
+    $ npm install -g express-generator@3
 
  Create the app:
 
