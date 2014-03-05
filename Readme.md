@@ -41,7 +41,7 @@ app.listen(3000);
 
  Start the server:
 
-    $ node app
+    $ npm start
 
 ## Features
 
