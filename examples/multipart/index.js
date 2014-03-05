@@ -4,13 +4,12 @@
  */
 
 var express = require('../..')
+  , bodyParser = require('body-parser')
   , format = require('util').format;
 
 var app = module.exports = express()
 
-// bodyParser in connect 2.x uses node-formidable to parse 
-// the multipart form data.
-app.use(express.bodyParser())
+app.use(bodyParser())
 
 app.get('/', function(req, res){
   res.send('<form method="post" enctype="multipart/form-data">'
@@ -25,7 +24,7 @@ app.post('/', function(req, res, next){
   // title field as `req.body.title`
   res.send(format('\nuploaded %s (%d Kb) to %s as %s'
     , req.files.image.name
-    , req.files.image.size / 1024 | 0 
+    , req.files.image.size / 1024 | 0
     , req.files.image.path
     , req.body.title));
 });

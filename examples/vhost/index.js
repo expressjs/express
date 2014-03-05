@@ -4,6 +4,7 @@
 
 var express = require('../..');
 var logger = require('morgan');
+var vhost = require('vhost');
 
 /*
 edit /etc/hosts:
@@ -40,8 +41,8 @@ redirect.all('*', function(req, res){
 
 var app = express();
 
-app.use(express.vhost('*.example.com', redirect)) // Serves all subdomains via Redirect app
-app.use(express.vhost('example.com', main)); // Serves top level domain via Main server app 
+app.use(vhost('*.example.com', redirect)) // Serves all subdomains via Redirect app
+app.use(vhost('example.com', main)); // Serves top level domain via Main server app
 
 app.listen(3000);
 console.log('Express app started on port 3000');

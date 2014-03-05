@@ -12,9 +12,7 @@ var pub = __dirname + '/public';
 // setup middleware
 
 var app = express();
-app.use(app.router);
 app.use(express.static(pub));
-app.use(express.errorHandler());
 
 // Optional since express defaults to CWD/views
 
@@ -39,6 +37,12 @@ var users = [
 
 app.get('/', function(req, res){
   res.render('users', { users: users });
+});
+
+// change this to a better error handler in your code
+// sending stacktrace to users in production is not good
+app.use(function(err, req, res, next) {
+  res.send(err.stack);
 });
 
 app.listen(3000);
