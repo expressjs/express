@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http')
+  , request = require('supertest')
   , bodyParser = require('body-parser')
 
 describe('req', function(){
@@ -30,7 +30,7 @@ describe('req', function(){
       .get('/?name=tj')
       .expect('tj', done);
     })
-    
+
     it('should check req.body', function(done){
       var app = express();
 
@@ -45,7 +45,7 @@ describe('req', function(){
       .send({ name: 'tj' })
       .expect('tj', done);
     })
-    
+
     it('should check req.params', function(done){
       var app = express();
 

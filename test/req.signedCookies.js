@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http')
+  , request = require('supertest')
   , cookieParser = require('cookie-parser')
 
 describe('req', function(){

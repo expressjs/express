@@ -1,7 +1,7 @@
 
-var express = require('../')
-  , request = require('./support/http')
-  , assert = require('assert');
+var express = require('../');
+var request = require('supertest');
+var assert = require('assert');
 
 describe('exports', function(){
   it('should expose Router', function(){

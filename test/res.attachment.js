@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('supertest');
 
 describe('res', function(){
   describe('.attachment()', function(){
@@ -16,7 +16,7 @@ describe('res', function(){
       .expect('Content-Disposition', 'attachment', done);
     })
   })
-  
+
   describe('.attachment(filename)', function(){
     it('should add the filename param', function(done){
       var app = express();
@@ -30,7 +30,7 @@ describe('res', function(){
       .get('/')
       .expect('Content-Disposition', 'attachment; filename="image.png"', done);
     })
-    
+
     it('should set the Content-Type', function(done){
       var app = express();
 

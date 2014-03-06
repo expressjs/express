@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http')
+  , request = require('supertest')
   , mixin = require('utils-merge')
   , cookie = require('cookie')
   , cookieParser = require('cookie-parser')
@@ -40,7 +40,7 @@ describe('res', function(){
         done();
       })
     })
-    
+
     it('should allow multiple calls', function(done){
       var app = express();
 
@@ -60,7 +60,7 @@ describe('res', function(){
       })
     })
   })
-  
+
   describe('.cookie(name, string, options)', function(){
     it('should set params', function(done){
       var app = express();
@@ -78,7 +78,7 @@ describe('res', function(){
         done();
       })
     })
-    
+
     describe('maxAge', function(){
       it('should set relative expires', function(done){
         var app = express();

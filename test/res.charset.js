@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('supertest');
 
 describe('res', function(){
   describe('.charset', function(){
@@ -17,7 +17,7 @@ describe('res', function(){
       .get('/')
       .expect("text/x-foo; charset=utf-8", done);
     })
-    
+
     it('should take precedence over res.send() defaults', function(done){
       var app = express();
 

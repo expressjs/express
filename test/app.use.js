@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('supertest');
 
 describe('app', function(){
   it('should emit "mount" when mounted', function(done){
@@ -23,7 +23,7 @@ describe('app', function(){
       blog.get('/blog', function(req, res){
         res.end('blog');
       });
-      
+
       app.use(blog);
 
       request(app)

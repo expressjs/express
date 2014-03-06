@@ -1,6 +1,6 @@
 
 var app = require('../../examples/cookies/app')
-  , request = require('../support/http');
+  , request = require('supertest');
 
 describe('cookies', function(){
   describe('GET /', function(){

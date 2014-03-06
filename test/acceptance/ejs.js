@@ -1,5 +1,5 @@
 
-var request = require('../support/http')
+var request = require('supertest')
   , app = require('../../examples/ejs');
 
 describe('ejs', function(){
