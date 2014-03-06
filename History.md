@@ -13,6 +13,11 @@
    - `req.accepts*` with [accepts](https://github.com/expressjs/accepts)
    - `req.is` with [type-is](https://github.com/expressjs/type-is)
 
+3.5.0 / 2014-03-06
+==================
+
+ * bump deps
+
 3.4.8 / 2014-01-13
 ==================
 
