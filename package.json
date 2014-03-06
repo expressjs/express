@@ -35,6 +35,7 @@
     "utils-merge": "1.0.0",
     "escape-html": "1.0.1",
     "qs": "0.6.6",
+    "serve-static": "1.0.1",
     "debug": ">= 0.7.3 < 1"
   },
   "devDependencies": {
