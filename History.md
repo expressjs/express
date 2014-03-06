@@ -21,11 +21,23 @@
  * refactor:
    - `req.accepts*` with [accepts](https://github.com/expressjs/accepts)
    - `req.is` with [type-is](https://github.com/expressjs/type-is)
-   - [path-to-regexp](https://github.com/component/path-to-regexp) 
+   - [path-to-regexp](https://github.com/component/path-to-regexp)
  * add:
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.5.0 / 2014-03-06
+==================
+
+ * bump deps
+
+3.4.8 / 2014-01-13
+==================
+
+ * prevent incorrect automatic OPTIONS responses #1868 @dpatti
+ * update binary and examples for jade 1.0 #1876 @yossi, #1877 @reqshark, #1892 @matheusazzi
+ * throw 400 in case of malformed paths @rlidwka
 
 3.4.7 / 2013-12-10
 ==================
