@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('supertest');
 
 describe('req', function(){
   describe('.query', function(){
@@ -18,7 +18,7 @@ describe('req', function(){
         done();
       });
     })
-    
+
     it('should contain the parsed query-string', function(done){
       var app = express();
 

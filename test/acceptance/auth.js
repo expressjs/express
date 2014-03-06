@@ -1,5 +1,5 @@
 var app = require('../../examples/auth/app')
-  , request = require('../support/http');
+  , request = require('supertest');
 
 function redirects(to, fn){
   return function(err, res){

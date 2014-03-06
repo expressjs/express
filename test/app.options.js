@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('supertest');
 
 describe('OPTIONS', function(){
   it('should default to the routes defined', function(done){

@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('supertest');
 
 describe('app', function(){
   describe('.locals(obj)', function(){
@@ -14,7 +14,7 @@ describe('app', function(){
       app.locals.age.should.equal(2);
     })
   })
-  
+
   describe('.locals.settings', function(){
     it('should expose app settings', function(){
       var app = express();

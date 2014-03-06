@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('supertest');
 
 describe('req', function(){
   describe('.xhr', function(){
@@ -19,7 +19,7 @@ describe('req', function(){
         done();
       })
     })
-    
+
     it('should case-insensitive', function(done){
       var app = express();
 
@@ -35,7 +35,7 @@ describe('req', function(){
         done();
       })
     })
-    
+
     it('should return false otherwise', function(done){
       var app = express();
 
@@ -51,7 +51,7 @@ describe('req', function(){
         done();
       })
     })
-    
+
     it('should return false when not present', function(done){
       var app = express();
 

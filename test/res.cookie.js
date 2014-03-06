@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http')
+  , request = require('supertest')
   , utils = require('connect').utils
   , cookie = require('cookie');
 
@@ -39,7 +39,7 @@ describe('res', function(){
         done();
       })
     })
-    
+
     it('should allow multiple calls', function(done){
       var app = express();
 
@@ -58,7 +58,7 @@ describe('res', function(){
       })
     })
   })
-  
+
   describe('.cookie(name, string, options)', function(){
     it('should set params', function(done){
       var app = express();
@@ -76,7 +76,7 @@ describe('res', function(){
         done();
       })
     })
-    
+
     describe('maxAge', function(){
       it('should set relative expires', function(done){
         var app = express();

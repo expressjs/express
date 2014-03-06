@@ -1,7 +1,7 @@
 
 var express = require('../')
   , Router = express.Router
-  , request = require('./support/http')
+  , request = require('supertest')
   , methods = require('methods')
   , assert = require('assert');
 

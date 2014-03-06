@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http')
+  , request = require('supertest')
   , utils = require('../lib/utils')
   , assert = require('assert');
 
@@ -15,7 +15,7 @@ app1.use(function(req, res, next){
     'text/html': function(){
       res.send('<p>hey</p>');
     },
-  
+
     'application/json': function(a, b, c){
       assert(req == a);
       assert(res == b);

@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http')
+  , request = require('supertest')
   , res = express.response;
 
 describe('res', function(){
@@ -45,7 +45,7 @@ describe('res', function(){
       JSON.stringify(res.get('ETag')).should.equal('["123","456"]');
     })
   })
-  
+
   describe('.set(object)', function(){
     it('should set multiple fields', function(done){
       var app = express();

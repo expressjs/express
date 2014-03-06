@@ -1,6 +1,6 @@
 // 
 // var express = require('../')
-//   , request = require('./support/http');
+//   , request = require('supertest');
 // 
 // describe('middleware', function(){
 //   describe('.next()', function(){

@@ -1,7 +1,7 @@
 
 var express = require('../')
   , assert = require('assert')
-  , request = require('./support/http');
+  , request = require('supertest');
 
 describe('app.routes', function(){
   it('should be initialized', function(){
