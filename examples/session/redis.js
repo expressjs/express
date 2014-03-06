@@ -1,5 +1,4 @@
 
-
 var express = require('../..');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -7,7 +6,7 @@ var session = require('express-session');
 
 // pass the express to the connect redis module
 // allowing it to inherit from session.Store
-var RedisStore = require('connect-redis')(session);
+var RedisStore = require('connect-redis')({ session: session });
 
 var app = express();
 
