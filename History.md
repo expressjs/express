@@ -2,6 +2,8 @@
 ==================
 
  * remove:
+   - node 0.8 support
+   - connect and connect's patches except for charset handling
    - express(1) - moved to [express-generator](https://github.com/expressjs/generator)
    - `express.createServer()` - it has been deprecated for a long time. Use `express()`
    - `app.configure` - use logic in your own app code
@@ -19,6 +21,7 @@
  * refactor:
    - `req.accepts*` with [accepts](https://github.com/expressjs/accepts)
    - `req.is` with [type-is](https://github.com/expressjs/type-is)
+   - [path-to-regexp](https://github.com/component/path-to-regexp) 
  * add:
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
