@@ -16,7 +16,7 @@ function req(ct) {
 
 describe('req.is()', function(){
   it('should ignore charset', function(){
-    req('application/json; charset=utf-8')
+    req('application/json')
     .is('json')
     .should.equal('json');
   })

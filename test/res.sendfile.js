@@ -67,7 +67,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('Content-Type', 'text/plain')
+      .expect('Content-Type', 'text/plain; charset=utf-8')
       .end(done);
     })
 
