@@ -10,6 +10,7 @@
    - `app.router` - is removed
    - `req.accepted*` - use `req.accepts*()` instead
    - `res.location` - relative URL resolution is removed
+   - `res.charset` - include the charset in the content type when using `res.set()`
    - all bundled middleware except `static`
  * change:
    - `app.route` -> `app.mountpath` when mounting an express app in another express app
