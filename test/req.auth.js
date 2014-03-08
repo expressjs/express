@@ -68,7 +68,10 @@ describe('req', function(){
         var app = express();
 
         app.get('/', function(req, res){
-          res.send(req.auth || 'none');
+          res.send({
+            username: req.auth.username,
+            password: req.auth.password,
+          });
         });
 
         request(app)
@@ -82,7 +85,10 @@ describe('req', function(){
       var app = express();
 
       app.get('/', function(req, res){
-        res.send(req.auth || 'none');
+        res.send({
+          username: req.auth.username,
+          password: req.auth.password,
+        });
       });
 
       request(app)

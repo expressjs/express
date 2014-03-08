@@ -22,6 +22,7 @@
     }
   ],
   "dependencies": {
+    "basic-auth": "0.0.1",
     "accepts": "1.0.0",
     "type-is": "1.0.0",
     "range-parser": "1.0.0",
