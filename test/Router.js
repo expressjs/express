@@ -76,6 +76,42 @@ describe('Router', function(){
     })
   })
 
+  describe('.all', function() {
+    it('should return this', function() {
+      var router = new Router();
+      assert.equal(router.all('/foo', function() {}), router);
+    })
+    it('should call all the given callbacks', function(done) {
+      var router = new Router();
+      router.all('/foo', function(req, res, next) {
+        next();
+      }, function(req, res) {
+        done();
+      });
+      router.handle({ url: '/foo', method: 'GET' }, {}, function() {
+        assert(false);
+      });
+    })
+  })
+
+  describe('.VERB', function() {
+    it('should return this', function() {
+      var router = new Router();
+      assert.equal(router.get('/foo', function() {}), router);
+    })
+    it('should call all the given callbacks', function(done) {
+      var router = new Router();
+      router.get('/foo', function(req, res, next) {
+        next();
+      }, function(req, res) {
+        done();
+      });
+      router.handle({ url: '/foo', method: 'GET' }, {}, function() {
+        assert(false);
+      });
+    })
+  })
+
   describe('error', function(){
     it('should skip non error middleware', function(done){
       var router = new Router();
