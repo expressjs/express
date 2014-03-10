@@ -30,6 +30,20 @@ describe('Router', function(){
     router.handle({ url: '/foo/bar', method: 'GET' }, { done: done });
   });
 
+  it('should support dynamic routes', function(done){
+    var router = new Router();
+    var another = new Router();
+
+    another.get('/:bar', function(req, res){
+      req.params.foo.should.equal('test');
+      req.params.bar.should.equal('route');
+      res.end();
+    });
+    router.use('/:foo', another);
+
+    router.handle({ url: '/test/route', method: 'GET' }, { end: done });
+  });
+
   describe('.handle', function(){
     it('should dispatch', function(done){
       var router = new Router();
