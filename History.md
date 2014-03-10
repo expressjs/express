@@ -8,6 +8,7 @@
    - `express.createServer()` - it has been deprecated for a long time. Use `express()`
    - `app.configure` - use logic in your own app code
    - `app.router` - is removed
+   - `req.auth` - use `basic-auth` instead
    - `req.accepted*` - use `req.accepts*()` instead
    - `res.location` - relative URL resolution is removed
    - `res.charset` - include the charset in the content type when using `res.set()`
