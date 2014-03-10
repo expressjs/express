@@ -5,7 +5,6 @@ var express = require('../')
   , assert = require('assert');
 
 describe('Router', function(){
-
   it('should return a function with router methods', function() {
     var router = Router();
     assert(typeof router == 'function');
@@ -18,16 +17,16 @@ describe('Router', function(){
     assert(typeof router.use == 'function');
   });
 
-  it('should support .use of other routers', function(done) {
-    var router = Router();
-    var another = Router();
+  it('should support .use of other routers', function(done){
+    var router = new Router();
+    var another = new Router();
 
-    another.get('/bar', function(req, res) {
-      res.done();
+    another.get('/bar', function(req, res){
+      res.end();
     });
     router.use('/foo', another);
 
-    router.handle({ url: '/foo/bar', method: 'GET' }, { done: done });
+    router.handle({ url: '/foo/bar', method: 'GET' }, { end: done });
   });
 
   it('should support dynamic routes', function(done){
