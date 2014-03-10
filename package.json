@@ -19,6 +19,14 @@
     {
       "name": "Guillermo Rauch",
       "email": "rauchg@gmail.com"
+    },
+    {
+      "name": "Jonathan Ong",
+      "email": "me@jongleberry.com"
+    },
+    {
+      "name": "Roman Shtylman",
+      "email": "shtylman+www@gmail.com"
     }
   ],
   "dependencies": {
