@@ -1,3 +1,4 @@
+--compilers coffee:coffee-script/register
 --require should
 --slow 20
 --growl
