@@ -63,7 +63,8 @@
     "static-favicon": "1.0.0",
     "express-session": "1.0.1",
     "morgan": "1.0.0",
-    "vhost": "1.0.0"
+    "vhost": "1.0.0",
+    "coffee-script": "1.7.1"
   },
   "keywords": [
     "express",
