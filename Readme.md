@@ -100,6 +100,15 @@ Then run the tests:
 
     $ make test
 
+If you see the following error:
+
+    $ Uncaught Error: spawn EMFILE
+
+Try change file descriptors limit and try again:
+
+    $ ulimit -n 1024
+
+
 ## Contributors
 
   https://github.com/visionmedia/express/graphs/contributors
