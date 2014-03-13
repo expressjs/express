@@ -36,4 +36,17 @@ describe('app.route', function(){
     .post('/foo')
     .expect('post', done);
   });
+
+  it('should support dynamic routes', function(done){
+    var app = express();
+
+    app.route('/:foo')
+    .get(function(req, res) {
+      res.send(req.params.foo);
+    });
+
+    request(app)
+    .get('/test')
+    .expect('test', done);
+  });
 });

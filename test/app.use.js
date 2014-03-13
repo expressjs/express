@@ -63,5 +63,20 @@ describe('app', function(){
       app.use('/blog', blog);
       blog.parent.should.equal(app);
     })
+
+    it('should support dynamic routes', function(done){
+      var blog = express()
+        , app = express();
+
+      blog.get('/', function(req, res){
+        res.end(req.params.article);
+      });
+
+      app.use('/post/:article', blog);
+
+      request(app)
+      .get('/post/once-upon-a-time')
+      .expect('once-upon-a-time', done);
+    })
   })
 })
