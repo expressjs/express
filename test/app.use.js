@@ -69,14 +69,14 @@ describe('app', function(){
         , app = express();
 
       blog.get('/', function(req, res){
-        res.end(req.params.article);
+        res.end('success');
       });
 
       app.use('/post/:article', blog);
 
       request(app)
       .get('/post/once-upon-a-time')
-      .expect('once-upon-a-time', done);
+      .expect('success', done);
     })
   })
 })

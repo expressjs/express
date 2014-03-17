@@ -34,7 +34,6 @@ describe('Router', function(){
     var another = new Router();
 
     another.get('/:bar', function(req, res){
-      req.params.foo.should.equal('test');
       req.params.bar.should.equal('route');
       res.end();
     });
