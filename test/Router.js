@@ -111,6 +111,25 @@ describe('Router', function(){
 
       router.handle({ url: '/foo', method: 'GET' }, {}, done);
     });
+
+    it('should handle throwing inside routes with params', function(done) {
+      var router = new Router();
+
+      router.get('/foo/:id', function(req, res, next){
+        throw new Error('foo');
+      });
+
+      router.use(function(req, res, next){
+        assert(false);
+      });
+
+      router.use(function(err, req, res, next){
+        assert.equal(err.message, 'foo');
+        done();
+      });
+
+      router.handle({ url: '/foo/2', method: 'GET' }, {}, done);
+    });
   })
 
   describe('.all', function() {
