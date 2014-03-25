@@ -357,7 +357,7 @@ function createApplicationAt(path) {
     // CSS Engine support
     switch (program.css) {
       case 'less':
-        pkg.dependencies['less-middleware'] = '*';
+        pkg.dependencies['less-middleware'] = '~0.1.15';
         break;
       default:
         if (program.css) {
