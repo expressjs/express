@@ -1,10 +1,9 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('../../')
-  , app = module.exports = express();
+var express = require('../../');
+var app = module.exports = express();
 
 // Faux database
 
@@ -18,7 +17,7 @@ var users = [
 
 // Convert :to and :from to integers
 
-app.param(['to', 'from'], function(req, res, next, num, name){ 
+app.param(['to', 'from'], function(req, res, next, num, name){
   req.params[name] = num = parseInt(num, 10);
   if( isNaN(num) ){
     next(new Error('failed to parseInt '+num));
@@ -58,9 +57,9 @@ app.get('/user/:user', function(req, res, next){
  */
 
 app.get('/users/:from-:to', function(req, res, next){
-  var from = req.params.from
-    , to = req.params.to
-    , names = users.map(function(user){ return user.name; });
+  var from = req.params.from;
+  var to = req.params.to;
+  var names = users.map(function(user){ return user.name; });
   res.send('users ' + names.slice(from, to).join(', '));
 });
 

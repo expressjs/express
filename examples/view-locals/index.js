@@ -1,7 +1,10 @@
+/**
+ * Module dependencies.
+ */
 
-var express = require('../..')
-  , User = require('./user')
-  , app = express();
+var express = require('../..');
+var User = require('./user');
+var app = express();
 
 app.set('views', __dirname);
 app.set('view engine', 'jade');
@@ -69,7 +72,7 @@ app.get('/middleware', count, users, function(req, res, next){
 // this approach is much like the last
 // however we're explicitly exposing
 // the locals within each middleware
-// 
+//
 // note that this may not always work
 // well, for example here we filter
 // the users in the middleware, which

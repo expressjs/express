@@ -21,7 +21,7 @@ var main = express();
 main.use(logger('dev'));
 
 main.get('/', function(req, res){
-  res.send('Hello from main app!')
+  res.send('Hello from main app!');
 });
 
 main.get('/:sub', function(req, res){
@@ -41,7 +41,7 @@ redirect.all('*', function(req, res){
 
 var app = express();
 
-app.use(vhost('*.example.com', redirect)) // Serves all subdomains via Redirect app
+app.use(vhost('*.example.com', redirect)); // Serves all subdomains via Redirect app
 app.use(vhost('example.com', main)); // Serves top level domain via Main server app
 
 app.listen(3000);

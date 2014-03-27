@@ -1,11 +1,10 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('../..')
-  , fs = require('fs')
-  , md = require('marked').parse;
+var express = require('../..');
+var fs = require('fs');
+var md = require('marked').parse;
 
 var app = module.exports = express();
 
@@ -18,13 +17,13 @@ app.engine('md', function(path, options, fn){
       var html = md(str);
       html = html.replace(/\{([^}]+)\}/g, function(_, name){
         return options[name] || '';
-      })
+      });
       fn(null, html);
     } catch(err) {
       fn(err);
     }
   });
-})
+});
 
 app.set('views', __dirname + '/views');
 
@@ -33,11 +32,11 @@ app.set('view engine', 'md');
 
 app.get('/', function(req, res){
   res.render('index', { title: 'Markdown Example' });
-})
+});
 
 app.get('/fail', function(req, res){
   res.render('missing', { title: 'Markdown Example' });
-})
+});
 
 if (!module.parent) {
   app.listen(3000);

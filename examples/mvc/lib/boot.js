@@ -1,17 +1,20 @@
+/**
+ * Module dependencies.
+ */
 
-var express = require('../../..')
-  , fs = require('fs');
+var express = require('../../..');
+var fs = require('fs');
 
 module.exports = function(parent, options){
   var verbose = options.verbose;
   fs.readdirSync(__dirname + '/../controllers').forEach(function(name){
     verbose && console.log('\n   %s:', name);
-    var obj = require('./../controllers/' + name)
-      , name = obj.name || name
-      , prefix = obj.prefix || ''
-      , app = express()
-      , method
-      , path;
+    var obj = require('./../controllers/' + name);
+    var name = obj.name || name;
+    var prefix = obj.prefix || '';
+    var app = express();
+    var method;
+    var path;
 
     // allow specifying the view engine
     if (obj.engine) app.set('view engine', obj.engine);

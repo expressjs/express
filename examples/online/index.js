@@ -1,4 +1,3 @@
-
 // first:
 // $ npm install redis online
 // $ redis-server
@@ -7,10 +6,10 @@
  * Module dependencies.
  */
 
-var express = require('../..')
-  , online = require('online')
-  , redis = require('redis')
-  , db = redis.createClient();
+var express = require('../..');
+var online = require('online');
+var redis = require('redis');
+var db = redis.createClient();
 
 // online
 

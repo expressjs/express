@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -12,9 +11,9 @@ var app = module.exports = express();
 app.resource = function(path, obj) {
   this.get(path, obj.index);
   this.get(path + '/:a..:b.:format?', function(req, res){
-    var a = parseInt(req.params.a, 10)
-      , b = parseInt(req.params.b, 10)
-      , format = req.params.format;
+    var a = parseInt(req.params.a, 10);
+    var b = parseInt(req.params.b, 10);
+    var format = req.params.format;
     obj.range(req, res, a, b, format);
   });
   this.get(path + '/:id', obj.show);
@@ -82,7 +81,7 @@ app.get('/', function(req, res){
     , '<li>GET /users/1..3.json</li>'
     , '<li>DELETE /users/4</li>'
     , '</ul>'
-  ].join('\n')); 
+  ].join('\n'));
 });
 
 if (!module.parent) {

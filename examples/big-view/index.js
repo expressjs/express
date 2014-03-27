@@ -1,7 +1,10 @@
+/**
+ * Module dependencies.
+ */
 
-var express = require('../..')
-  , logger = require('morgan')
-  , app = express();
+var express = require('../..');
+var logger = require('morgan');
+var app = express();
 
 app.set('views', __dirname);
 app.set('view engine', 'jade');

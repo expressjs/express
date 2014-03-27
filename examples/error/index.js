@@ -1,12 +1,11 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('../../')
-  , logger = require('morgan')
-  , app = module.exports = express()
-  , test = app.get('env') == 'test';
+var express = require('../../');
+var logger = require('morgan');
+var app = module.exports = express();
+var test = app.get('env') == 'test';
 
 if (!test) app.use(logger('dev'));
 

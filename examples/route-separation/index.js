@@ -1,16 +1,15 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('../..')
-  , app = express()
-  , logger = require('morgan')
-  , cookieParser = require('cookie-parser')
-  , bodyParser = require('body-parser')
-  , site = require('./site')
-  , post = require('./post')
-  , user = require('./user');
+var express = require('../..');
+var app = express();
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var site = require('./site');
+var post = require('./post');
+var user = require('./user');
 
 // Config
 

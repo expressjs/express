@@ -1,10 +1,9 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('../../')
-  , app = module.exports = express();
+var express = require('../../');
+var app = module.exports = express();
 
 app.get('/', function(req, res){
   res.send('<ul>'
@@ -16,8 +15,8 @@ app.get('/', function(req, res){
 // /files/* is accessed via req.params[0]
 // but here we name it :file
 app.get('/files/:file(*)', function(req, res, next){
-  var file = req.params.file
-    , path = __dirname + '/files/' + file;
+  var file = req.params.file;
+  var path = __dirname + '/files/' + file;
 
   res.download(path);
 });

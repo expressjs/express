@@ -1,4 +1,3 @@
-
 // first:
 // $ npm install redis
 // $ redis-server

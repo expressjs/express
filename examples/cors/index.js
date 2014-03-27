@@ -2,11 +2,11 @@
  * Module dependencies.
  */
 
-var express = require('../..')
-  , logger = require('morgan')
-  , app = express()
-  , bodyParser = require('body-parser')
-  , api = express();
+var express = require('../..');
+var logger = require('morgan');
+var app = express();
+var bodyParser = require('body-parser');
+var api = express();
 
 // app middleware
 

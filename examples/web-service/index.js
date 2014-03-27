@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -79,8 +78,8 @@ app.get('/api/repos', function(req, res, next){
 });
 
 app.get('/api/user/:name/repos', function(req, res, next){
-  var name = req.params.name
-    , user = userRepos[name];
+  var name = req.params.name;
+  var user = userRepos[name];
 
   if (user) res.send(user);
   else next();

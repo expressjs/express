@@ -1,4 +1,3 @@
-
 // Fake posts database
 
 var posts = [
