@@ -1,4 +1,3 @@
-
 var search = document.querySelector('[type=search]');
 var code = document.querySelector('pre');
 

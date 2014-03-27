@@ -1,4 +1,3 @@
-
 module.exports = User;
 
 // faux model

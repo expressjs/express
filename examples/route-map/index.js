@@ -1,7 +1,12 @@
+/**
+ * Module dependencies.
+ */
 
-var express = require('../../lib/express')
-  , verbose = process.env.NODE_ENV != 'test'
-  , app = module.exports = express();
+var express = require('../../lib/express');
+
+var verbose = process.env.NODE_ENV != 'test';
+
+var app = module.exports = express();
 
 app.map = function(a, route){
   route = route || '';

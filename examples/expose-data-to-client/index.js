@@ -1,7 +1,7 @@
 
-var express = require('../..')
-  , logger = require('morgan')
-  , app = express();
+var express = require('../..');
+var logger = require('morgan');
+var app = express();
 
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
@@ -21,7 +21,7 @@ User.prototype.toJSON = function(){
   return {
     id: this.id,
     name: this.name
-  }
+  };
 };
 
 app.use(logger('dev'));

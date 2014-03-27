@@ -1,4 +1,6 @@
-
+/**
+ * Module dependencies.
+ */
 
 var express = require('../..');
 var logger = require('morgan');

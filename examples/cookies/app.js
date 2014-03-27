@@ -1,15 +1,13 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('../../')
-  , app = module.exports = express()
-  , favicon = require('static-favicon')
-  , logger = require('morgan')
-  , cookieParser = require('cookie-parser')
-  , bodyParser = require('body-parser')
-
+var express = require('../../');
+var app = module.exports = express();
+var favicon = require('static-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
 // add favicon() before logger() so
 // GET /favicon.ico requests are not

@@ -2,11 +2,11 @@
  * Module dependencies.
  */
 
-var express = require('../../')
-  , app = module.exports = express()
-  , logger = require('morgan')
-  , favicon = require('static-favicon')
-  , silent = 'test' == process.env.NODE_ENV;
+var express = require('../../');
+var app = module.exports = express();
+var logger = require('morgan');
+var favicon = require('static-favicon');
+var silent = 'test' == process.env.NODE_ENV;
 
 // general config
 app.set('views', __dirname + '/views');

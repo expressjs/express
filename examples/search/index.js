@@ -1,4 +1,3 @@
-
 // first:
 // $ npm install redis
 // $ redis-server
@@ -7,9 +6,10 @@
  * Module dependencies.
  */
 
-var express = require('../..')
-  , redis = require('redis')
-  , db = redis.createClient();
+var express = require('../..');
+var redis = require('redis');
+
+var db = redis.createClient();
 
 // npm install redis
 

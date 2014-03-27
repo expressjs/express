@@ -1,8 +1,8 @@
-var express = require('../../')
-  , app = module.exports = express()
-  , users = require('./db');
+var express = require('../../');
+var app = module.exports = express();
+var users = require('./db');
 
-// so either you can deal with different types of formatting 
+// so either you can deal with different types of formatting
 // for expected response in index.js
 app.get('/', function(req, res){
   res.format({
@@ -21,7 +21,7 @@ app.get('/', function(req, res){
     json: function(){
       res.json(users);
     }
-  })
+  });
 });
 
 // or you could write a tiny middleware like
@@ -32,7 +32,7 @@ function format(path) {
   var obj = require(path);
   return function(req, res){
     res.format(obj);
-  }
+  };
 }
 
 app.get('/users', format('./users'));
