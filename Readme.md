@@ -2,7 +2,7 @@
 
   Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
 
-  [![Build Status](https://secure.travis-ci.org/visionmedia/express.png)](http://travis-ci.org/visionmedia/express) [![Gittip](http://img.shields.io/gittip/visionmedia.png)](https://www.gittip.com/visionmedia/)
+  [![Build Status](https://secure.travis-ci.org/visionmedia/express.svg)](https://travis-ci.org/visionmedia/express) [![Gittip](https://img.shields.io/gittip/visionmedia.svg)](https://www.gittip.com/visionmedia/)
 
 ```js
 var express = require('express');
