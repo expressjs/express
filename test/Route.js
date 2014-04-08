@@ -140,5 +140,32 @@ describe('Route', function(){
 
       route.dispatch({ method: 'get' }, {});
     })
+
+    it('should handle throw', function(done) {
+      var route = new Route('');
+
+      var order = '';
+      route.all(function(req, res, next){
+        throw new Error('foobar');
+      });
+
+      route.all(function(req, res, next){
+        order += '0';
+        next();
+      });
+
+      route.all(function(err, req, res, next){
+        order += 'a';
+        next(err);
+      });
+
+      route.all(function(err, req, res, next){
+        assert.equal(err.message, 'foobar');
+        assert.equal(order, 'a');
+        done();
+      });
+
+      route.dispatch({ method: 'get' }, {});
+    });
   })
 })
