@@ -1,4 +1,4 @@
-[![express logo](http://f.cl.ly/items/0V2S1n0K1i3y1c122g04/Screen%20Shot%202012-04-11%20at%209.59.42%20AM.png)](http://expressjs.com/)
+[![express logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](http://expressjs.com/)
 
   Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
 
@@ -15,9 +15,7 @@ app.get('/', function(req, res){
 app.listen(3000);
 ```
 
-  Note that Express v4 release candidates have been released. 
-  Please try it out, but not in production, and report any issues you may find here or to the appropriate repositories.
-  Be sure to read [Migrating from 3.x to 4.x](https://github.com/visionmedia/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/visionmedia/express/wiki/New-features-in-4.x).
+**PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/visionmedia/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/visionmedia/express/wiki/New-features-in-4.x).
 
 ## Installation
 
