@@ -48,7 +48,6 @@ app.listen(3000);
   * View system supporting 14+ template engines
   * Content negotiation
   * Focus on high performance
-  * Environment based configuration
   * Executable for generating applications quickly
   * High test coverage
 
