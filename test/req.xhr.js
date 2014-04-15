@@ -15,8 +15,9 @@ describe('req', function(){
       request(app)
       .get('/')
       .set('X-Requested-With', 'xmlhttprequest')
-      .end(function(res){
-        done();
+      .expect(200)
+      .end(function(err, res){
+        done(err);
       })
     })
 
@@ -31,8 +32,9 @@ describe('req', function(){
       request(app)
       .get('/')
       .set('X-Requested-With', 'XMLHttpRequest')
-      .end(function(res){
-        done();
+      .expect(200)
+      .end(function(err, res){
+        done(err);
       })
     })
 
@@ -47,8 +49,9 @@ describe('req', function(){
       request(app)
       .get('/')
       .set('X-Requested-With', 'blahblah')
-      .end(function(res){
-        done();
+      .expect(200)
+      .end(function(err, res){
+        done(err);
       })
     })
 
@@ -62,8 +65,9 @@ describe('req', function(){
 
       request(app)
       .get('/')
-      .end(function(res){
-        done();
+      .expect(200)
+      .end(function(err, res){
+        done(err);
       })
     })
   })
