@@ -98,8 +98,10 @@ Then run the tests:
     $ make test
 
 ## Contributors
-
-  https://github.com/visionmedia/express/graphs/contributors
+  
+  Author: [TJ Holowaychuk](http://github.com/visionmedia)  
+  Lead Maintainer: [Roman Shtylman](https://github.com/defunctzombie)  
+  Contributors: https://github.com/visionmedia/express/graphs/contributors  
 
 ## License
 
