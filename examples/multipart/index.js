@@ -53,10 +53,19 @@ app.post('/', function(req, res, next){
         // Do anything you want with your file...
 
         // /!\ Your file will remain in tempDir if you not delete it manually
-        fs.unlink(req.files.image[0].path, function(e) {
-            if (e)
-              console.log('error: '+e);
-        });
+        var field, file;
+        for (var name in req.files) {
+            field = req.files[name];
+            for (var i=0; i<field.length; i++) {
+                file = field[i];
+                fs.unlink(file.path, function(e) {
+                    if (e)
+                      console.log('error: '+e);
+                    else
+                      console.log(file.path+' removed')
+                });
+            }
+        }
     } else {
         res.send(format('\nform posted with value <strong>%s</strong>'
             , req.body.title));
