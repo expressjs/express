@@ -6,6 +6,7 @@ var express = require('../..');
 var bodyParser = require('body-parser');
 var multiparty = require('multiparty');
 var format = require('util').format;
+var fs = require('fs');
 
 var app = module.exports = express();
 
@@ -23,7 +24,6 @@ app.use(function(req, res, next){
     else next();
 
 });
-
 
 app.get('/', function(req, res){
     res.send('<form method="post" enctype="multipart/form-data">'
@@ -49,6 +49,14 @@ app.post('/', function(req, res, next){
             , req.files.image[0].fieldName
             , req.files.image[0].path
             , req.body.title));
+
+        // Do anything you want with your file...
+
+        // /!\ Your file will remain in tempDir if you not delete it manually
+        fs.unlink(req.files.image[0].path, function(e) {
+            if (e)
+              console.log('error: '+e);
+        });
     } else {
         res.send(format('\nform posted with value <strong>%s</strong>'
             , req.body.title));
