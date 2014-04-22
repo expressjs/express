@@ -66,6 +66,7 @@ app.post('/', function(req, res, next){
                 });
             }
         }
+        // as Node crashs often you should also implement a cleaning FS logic with something like https://github.com/visionmedia/reap
     } else {
         res.send(format('\nform posted with value <strong>%s</strong>'
             , req.body.title));
