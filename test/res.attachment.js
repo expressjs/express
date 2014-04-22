@@ -44,4 +44,35 @@ describe('res', function(){
       .expect('Content-Type', 'image/png', done);
     })
   })
+
+  describe('.attachment(utf8filename)', function(){
+    it('should add the filename and filename* params', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.attachment('/locales/日本語.txt');
+        res.send('japanese');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Disposition', 'attachment;' +
+          ' filename=%E6%97%A5%E6%9C%AC%E8%AA%9E.txt;' +
+          ' filename*=UTF-8\'\'%E6%97%A5%E6%9C%AC%E8%AA%9E.txt',
+        done);
+    })
+
+    it('should set the Content-Type', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.attachment('/locales/日本語.txt');
+        res.send('japanese');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/plain; charset=utf-8', done);
+    })
+  })
 })
