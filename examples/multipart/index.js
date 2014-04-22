@@ -19,10 +19,30 @@ app.use(function(req, res, next){
             req.body = fields;
             next();
         });
-
     }
     else next();
+});
+// Auto-cleanup tmpFiles middleware, if not, all the uploaded files will remains in tmpDir after requests
+// As Node crash often you should also implement a cleaning FS logic with something like https://github.com/visionmedia/reap
+app.use(function(req, res, next) {
+    res.on('finish', function() {
+        if (!req.files)
+            return;
 
+        Object.keys(req.files).forEach(function(file) {
+            var path;
+            for (var i=0; i<req.files[file].length; i++) {
+                path = req.files[file][i].path;
+                fs.unlink(path, function(e) {
+                    if (e)
+                        console.log('error: '+e);
+                    else
+                        console.log(path+' removed')
+                });
+            }
+        });
+    });
+    next();
 });
 
 app.get('/', function(req, res){
@@ -52,21 +72,6 @@ app.post('/', function(req, res, next){
 
         // Do anything you want with your file...
 
-        // /!\ Your file will remain in tempDir if you not delete it manually
-        var field, file;
-        for (var name in req.files) {
-            field = req.files[name];
-            for (var i=0; i<field.length; i++) {
-                file = field[i];
-                fs.unlink(file.path, function(e) {
-                    if (e)
-                      console.log('error: '+e);
-                    else
-                      console.log(file.path+' removed')
-                });
-            }
-        }
-        // as Node crashs often you should also implement a cleaning FS logic with something like https://github.com/visionmedia/reap
     } else {
         res.send(format('\nform posted with value <strong>%s</strong>'
             , req.body.title));
