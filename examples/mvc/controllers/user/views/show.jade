@@ -1,0 +1,17 @@
+link(rel='stylesheet', href='/style.css')
+h1= user.name + ' '
+  a(href='/user/#{user.id}/edit') edit
+
+if (hasMessages)
+  ul#messages
+    each msg in messages
+      li= msg
+
+if (user.pets.length)
+  p View #{user.name}'s pets:
+  ul
+    each pet in user.pets
+      li
+        a(href='/pet/#{pet.id}')= pet.name
+else
+  p No pets!

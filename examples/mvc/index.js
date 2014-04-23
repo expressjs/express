@@ -13,11 +13,9 @@ var app = module.exports = express();
 
 // settings
 
-// map .renderFile to ".html" files
-app.engine('html', require('ejs').renderFile);
-
-// make ".html" the default
-app.set('view engine', 'html');
+// set our default template engine to "jade"
+// which prevents the need for extensions
+app.set('view engine', 'jade');
 
 // set views for error and 404 pages
 app.set('views', __dirname + '/views');
