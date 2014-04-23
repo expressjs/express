@@ -7,6 +7,7 @@ var logger = require('morgan');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 
 var app = module.exports = express();
 
@@ -44,6 +45,9 @@ app.use(session());
 
 // parse request bodies (req.body)
 app.use(bodyParser());
+
+// override methods (put, delete)
+app.use(methodOverride());
 
 // expose the "messages" local variable when views are rendered
 app.use(function(req, res, next){
