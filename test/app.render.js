@@ -74,7 +74,7 @@ describe('app', function(){
         app.render('user.jade', function(err, str){
           // nextTick to prevent cyclic
           process.nextTick(function(){
-            err.message.should.match(/user is not defined/);
+            err.message.should.match(/Cannot read property '[^']+' of undefined/);
             done();
           });
         })

@@ -94,7 +94,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(/user is not defined/, done);
+        .expect(/Cannot read property '[^']+' of undefined/, done);
       })
     })
 
@@ -265,7 +265,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(/is not defined/, done);
+        .expect(/Cannot read property '[^']+' of undefined/, done);
       })
     })
   })
