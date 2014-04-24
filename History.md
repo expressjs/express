@@ -1,17 +1,15 @@
-4.0.0 /
+3.5.2 / 2014-04-24
 ==================
 
- * remove:
-   - express(1) - moved to [express-generator](https://github.com/expressjs/generator)
-   - `req.accepted*` - use `req.accepts*()` instead
-   - `app.configure` - use logic in your own app code
- * change:
-   - `req.accepts*` -> `req.accepts*s` - i.e. `req.acceptsEncoding` -> `req.acceptsEncodings`
-   - `req.params` is now an object instead of an array
-   - `json spaces` no longer enabled by default in development
- * refactor:
-   - `req.accepts*` with [accepts](https://github.com/expressjs/accepts)
-   - `req.is` with [type-is](https://github.com/expressjs/type-is)
+ * update connect to 2.14.5
+ * update cookie to 0.1.2
+ * update mkdirp to 0.4.0
+ * update send to 0.3.0
+
+3.5.1 / 2014-03-25
+==================
+
+ * pin less-middleware in generated app
 
 3.5.0 / 2014-03-06
 ==================
