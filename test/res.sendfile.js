@@ -110,6 +110,30 @@ describe('res', function(){
   })
 
   describe('.sendfile(path)', function(){
+    it('should not serve hidden files', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.sendfile('test/fixtures/.name');
+      });
+
+      request(app)
+      .get('/')
+      .expect(404, done);
+    })
+
+    it('should accept hidden option', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.sendfile('test/fixtures/.name', { hidden: true });
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, 'tobi', done);
+    })
+
     describe('with an absolute path', function(){
       it('should transfer the file', function(done){
         var app = express();
