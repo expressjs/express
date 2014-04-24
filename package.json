@@ -56,6 +56,7 @@
     "express-session": "1.0.3",
     "jade": "~0.35.0",
     "marked": "0.3.2",
+    "multiparty": "~3.2.4",
     "static-favicon": "1.0.2",
     "hjs": "~0.0.6",
     "should": "~3.3.1",
