@@ -29,6 +29,19 @@
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
 
+3.5.2 / 2014-04-24
+==================
+
+ * update connect to 2.14.5
+ * update cookie to 0.1.2
+ * update mkdirp to 0.4.0
+ * update send to 0.3.0
+
+3.5.1 / 2014-03-25
+==================
+
+ * pin less-middleware in generated app
+
 3.5.0 / 2014-03-06
 ==================
 
