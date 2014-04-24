@@ -63,7 +63,8 @@
     "method-override": "1.0.0",
     "cookie-parser": "1.0.1",
     "morgan": "1.0.0",
-    "vhost": "1.0.0"
+    "vhost": "1.0.0",
+    "multiparty": "~3.2.4"
   },
   "keywords": [
     "express",
