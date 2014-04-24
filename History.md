@@ -1,3 +1,15 @@
+4.1.0 / 2014-04-24
+==================
+
+ * pass options from `res.sendfile` to `send`
+ * preserve casing of headers in `res.header` and `res.set`
+ * support unicode file names in `res.attachment` and `res.download`
+ * update accepts to 1.0.1
+ * update cookie to 0.1.2
+ * update send to 0.3.0
+ * update serve-static to 1.1.0
+ * update type-is to 1.1.0
+
 4.0.0 / 2014-04-09
 ==================
 
