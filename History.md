@@ -1,3 +1,8 @@
+4.1.1 / 2014-04-27
+==================
+
+ * fix package.json to reflect supported node version
+
 4.1.0 / 2014-04-24
 ==================
 
