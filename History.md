@@ -1,3 +1,8 @@
+3.x
+===
+
+ * Include ETag in HEAD requests
+
 3.8.1 / 2014-05-27
 ==================
 

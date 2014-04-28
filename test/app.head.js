@@ -16,6 +16,29 @@ describe('HEAD', function(){
     .head('/tobi')
     .expect(200, done);
   })
+
+  it('should output the same headers as GET requests', function(done){
+    var app = express();
+
+    app.get('/tobi', function(req, res){
+      // send() detects HEAD
+      res.send('tobi');
+    });
+
+    request(app)
+    .get('/tobi')
+    .expect(200, function(err, res){
+      if (err) return done(err);
+      var headers = res.headers;
+      request(app)
+      .get('/tobi')
+      .expect(200, function(err, res){
+        if (err) return done(err);
+        assert.deepEqual(res.headers, headers);
+        done();
+      });
+    });
+  })
 })
 
 describe('app.head()', function(){
