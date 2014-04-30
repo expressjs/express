@@ -16,6 +16,51 @@ describe('HEAD', function(){
     .head('/tobi')
     .expect(200, done);
   })
+
+  it('should output the same headers is GET or HEAD requests', function(done){
+    var app = express(),
+        headersGET,
+        headersHEAD,
+        compareHeaders;
+
+    compareHeaders = function(){
+      var keysHEAD, keysGET;
+      if(!headersHEAD || !headersGET){
+        return;
+      }
+      keysHEAD = Object.keys(headersHEAD);
+      keysGET = Object.keys(headersGET);
+
+      assert.equal(keysHEAD.length, keysGET.length);
+
+      keysGET.forEach(function(key){
+        assert.equal(headersGET[key], headersHEAD[key]);
+      });
+
+      done();
+    };
+    
+    app.get('/tobi', function(req, res){
+      // send() detects HEAD
+      res.send('tobi');
+    });
+
+    request(app)
+      .head('/tobi')
+      .expect(200)
+      .end(function(err, response){
+        headersHEAD = response.headers;
+        compareHeaders();
+      });
+
+    request(app)
+      .get('/tobi')
+      .expect(200)
+      .end(function(err, response){
+        headersGET = response.headers;
+        compareHeaders();
+      });
+  })
 })
 
 describe('app.head()', function(){
