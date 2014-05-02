@@ -1,6 +1,7 @@
 3.x
 ===
 
+ * keep previous `Content-Type` for `res.jsonp`
  * update connect to 2.17.1
    - fix `res.charset` appending charset when `content-type` has one
    - deps: express-session@1.2.0
