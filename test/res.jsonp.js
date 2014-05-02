@@ -242,4 +242,22 @@ describe('res', function(){
       })
     })
   })
+
+  it('should not override previous Content-Types', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.type('application/vnd.example+json');
+      res.jsonp({ hello: 'world' });
+    });
+
+    request(app)
+    .get('/')
+    .end(function(err, res){
+      res.statusCode.should.equal(200);
+      res.headers.should.have.property('content-type', 'application/vnd.example+json');
+      res.text.should.equal('{"hello":"world"}');
+      done();
+    })
+  })
 })
