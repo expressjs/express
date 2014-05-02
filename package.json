@@ -33,7 +33,7 @@
     "send": "0.3.0",
     "cookie-signature": "1.0.3",
     "merge-descriptors": "0.0.2",
-    "debug": ">= 0.7.3 < 1"
+    "debug": ">= 0.8.0 < 1"
   },
   "devDependencies": {
     "ejs": "~0.8.4",
