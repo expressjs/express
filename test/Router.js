@@ -150,6 +150,19 @@ describe('Router', function(){
     })
   })
 
+  describe('.VERB', function(){
+    it('should support .del', function(done){
+      var router = new Router();
+
+      var count = 0;
+      router.del('/foo', function() { count++; });
+
+      router.handle({ url: '/foo', method: 'delete' }, {}, function() {});
+      assert(count);
+      done();
+    })
+  })
+
   describe('.param', function() {
     it('should call param function when routing VERBS', function(done) {
       var router = new Router();
