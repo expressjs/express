@@ -73,6 +73,19 @@ describe('Route', function(){
       done();
     })
 
+    it('should support .del', function(done){
+      var route = new Route('');
+
+      var count = 0;
+      route.del(function(req, res, next) {
+        count++;
+      })
+
+      route.dispatch({ method: 'DELETE' }, {});
+      assert(count);
+      done();
+    })
+
     it('should limit to just .VERB', function(done){
       var route = new Route('');
 
