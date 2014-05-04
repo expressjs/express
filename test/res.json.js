@@ -162,7 +162,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.jsonp({ id: 1, a: "b", c: "d" }, [ "a", "c"]);
+        res.json({ id: 1, a: "b", c: "d" }, [ "a", "c"]);
       });
 
       request(app)
@@ -181,7 +181,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.jsonp(201, { id: 1, a: "b", c: "d" }, [ "a", "c"]);
+        res.json(201, { id: 1, a: "b", c: "d" }, [ "a", "c"]);
       });
 
       request(app)
@@ -200,7 +200,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.jsonp({ id: 1, a: "b", c: "d" }, 201, [ "a", "c"]);
+        res.json({ id: 1, a: "b", c: "d" }, 201, [ "a", "c"]);
       });
 
       request(app)
