@@ -1,3 +1,24 @@
+3.x
+===
+
+ * update connect to 2.15.0
+   * Add `res.appendHeader`
+   * Call error stack even when response has been sent
+   * Patch `res.headerSent` to return Boolean
+   * Patch `res.headersSent` for node.js 0.8
+   * Prevent default 404 handler after response sent
+   * dep: compression@1.0.2
+   * dep: connect-timeout@1.1.0
+   * dep: debug@^0.8.0
+   * dep: errorhandler@1.0.1
+   * dep: express-session@1.0.4
+   * dep: morgan@1.0.1
+   * dep: serve-favicon@2.0.0
+   * dep: serve-index@1.0.2
+ * update debug to 0.8.0
+   * add `enable()` method
+   * change from stderr to stdout
+
 3.5.2 / 2014-04-24
 ==================
 
