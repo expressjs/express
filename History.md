@@ -1,3 +1,9 @@
+4.1.2 / 2014-05-08
+==================
+
+ * fix `req.host` for IPv6 literals
+ * fix `res.jsonp` error if callback param is object
+
 4.1.1 / 2014-04-27
 ==================
 
@@ -45,6 +51,12 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.5.3 / 2014-05-08
+==================
+
+ * fix `req.host` for IPv6 literals
+ * fix `res.jsonp` error if callback param is object
 
 3.5.2 / 2014-04-24
 ==================

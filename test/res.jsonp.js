@@ -37,6 +37,22 @@ describe('res', function(){
           })
     })
 
+    it('should ignore object callback parameter with jsonp', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp({ count: 1 });
+      });
+
+      request(app)
+      .get('/?callback[a]=something')
+      .end(function(err, res){
+        res.headers.should.have.property('content-type', 'application/json');
+        res.text.should.equal('{"count":1}');
+        done();
+      })
+    })
+
     it('should allow renaming callback', function(done){
       var app = express();
 
@@ -205,7 +221,7 @@ describe('res', function(){
     })
   })
 
-  describe('.json(status, object)', function(){
+  describe('.jsonp(status, object)', function(){
     it('should respond with json and set the .statusCode', function(done){
       var app = express();
 
@@ -224,7 +240,7 @@ describe('res', function(){
     })
   })
 
-  describe('.json(object, status)', function(){
+  describe('.jsonp(object, status)', function(){
     it('should respond with json and set the .statusCode for backwards compat', function(done){
       var app = express();
 
