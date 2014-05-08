@@ -22,10 +22,31 @@
  * preserve casing of headers in `res.header` and `res.set`
  * support unicode file names in `res.attachment` and `res.download`
  * update accepts to 1.0.1
+   - deps: negotiator@0.4.0
  * update cookie to 0.1.2
+   - Fix for maxAge == 0
+   - made compat with expires field
  * update send to 0.3.0
+   - Accept API options in options object
+   - Coerce option types
+   - Control whether to generate etags
+   - Default directory access to 403 when index disabled
+   - Fix sending files with dots without root set
+   - Include file path in etag
+   - Make "Can't set headers after they are sent." catchable
+   - Send full entity-body for multi range requests
+   - Set etags to "weak"
+   - Support "If-Range" header
+   - Support multiple index paths
+   - deps: mime@1.2.11
  * update serve-static to 1.1.0
+   - Accept options directly to `send` module
+   - Resolve relative paths at middleware setup
+   - Use parseurl to parse the URL from request
+   - deps: send@0.3.0
  * update type-is to 1.1.0
+   - add non-array values support
+   - add `multipart` as a shorthand
 
 4.0.0 / 2014-04-09
 ==================
