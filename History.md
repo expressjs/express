@@ -2,6 +2,7 @@
 =====
 
  * fix `req.host` for IPv6 literals
+ * fix `res.jsonp` error if callback param is object
 
 3.5.2 / 2014-04-24
 ==================
