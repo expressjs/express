@@ -18,6 +18,7 @@
  * update debug to 0.8.0
    * add `enable()` method
    * change from stderr to stdout
+ * update mkdirp to 0.5.0
 
 3.5.3 / 2014-05-08
 ==================
