@@ -276,7 +276,7 @@ describe('res', function(){
       .get('/')
       .end(function(err, res){
         res.statusCode.should.equal(201);
-        res.headers.should.have.property('content-type', 'application/json');
+        res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
         res.text.should.equal('0');
         done();
       })
