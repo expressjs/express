@@ -156,6 +156,23 @@ describe('res', function(){
       })
     })
   })
+  
+  it('should default to .jsonp(status, object) when when both properties are integerss', function(done){
+    var app = express();
+
+    app.use(function(req, res){
+      res.jsonp(201, 0);
+    });
+
+    request(app)
+    .get('/')
+    .end(function(err, res){
+      res.statusCode.should.equal(201);
+      res.headers.should.have.property('content-type', 'application/json');
+      res.text.should.equal('0');
+      done();
+    })
+  })
 
   it('should not override previous Content-Types', function(done){
     var app = express();
