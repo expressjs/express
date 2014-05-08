@@ -1,14 +1,15 @@
 
 var express = require('../')
-  , request = require('./support/http')
+  , request = require('supertest')
   , assert = require('assert')
   , methods = require('methods');
 
 describe('app.router', function(){
   describe('methods supported', function(){
-    methods.forEach(function(method){
+    methods.concat('del').forEach(function(method){
+      if (method === 'connect') return;
+
       it('should include ' + method.toUpperCase(), function(done){
-        if (method == 'delete') method = 'del';
         var app = express();
         var calls = [];
 
@@ -152,8 +153,8 @@ describe('app.router', function(){
       var app = express();
 
       app.get(/^\/user\/([0-9]+)\/(view|edit)?$/, function(req, res){
-        var id = req.params.shift()
-          , op = req.params.shift();
+        var id = req.params[0]
+          , op = req.params[1];
         res.end(op + 'ing user ' + id);
       });
 
@@ -328,8 +329,8 @@ describe('app.router', function(){
       var app = express();
 
       app.get('/api/*.*', function(req, res){
-        var resource = req.params.shift()
-          , format = req.params.shift();
+        var resource = req.params[0]
+          , format = req.params[1];
         res.end(resource + ' as ' + format);
       });
 
