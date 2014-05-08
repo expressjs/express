@@ -1,6 +1,7 @@
 3.x
 ===
 
+ * deprecate `app.del()` -- use `app.delete()` instead
  * update connect to 2.15.0
    * Add `res.appendHeader`
    * Call error stack even when response has been sent

@@ -18,7 +18,7 @@ app.resource = function(path, obj) {
     obj.range(req, res, a, b, format);
   });
   this.get(path + '/:id', obj.show);
-  this.del(path + '/:id', obj.destroy);
+  this.delete(path + '/:id', obj.destroy);
 };
 
 // Fake records
