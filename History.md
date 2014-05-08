@@ -1,3 +1,9 @@
+4.2.x
+=====
+
+ * include `ETag` header in `HEAD` requests
+ * keep previous `Content-Type` for `res.jsonp`
+
 4.1.2 / 2014-05-08
 ==================
 
