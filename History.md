@@ -1,5 +1,5 @@
-3.5.x
-=====
+3.5.3 / 2014-05-08
+==================
 
  * fix `req.host` for IPv6 literals
  * fix `res.jsonp` error if callback param is object
