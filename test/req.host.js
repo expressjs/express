@@ -18,6 +18,19 @@ describe('req', function(){
       .expect('example.com', done);
     })
 
+    it('should strip port number', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.end(req.host);
+      });
+
+      request(app)
+      .post('/')
+      .set('Host', 'example.com:3000')
+      .expect('example.com', done);
+    })
+
     it('should return undefined otherwise', function(done){
       var app = express();
 
@@ -29,6 +42,32 @@ describe('req', function(){
       request(app)
       .post('/')
       .expect('undefined', done);
+    })
+
+    it('should work with IPv6 Host', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.end(req.host);
+      });
+
+      request(app)
+      .post('/')
+      .set('Host', '[::1]')
+      .expect('[::1]', done);
+    })
+
+    it('should work with IPv6 Host and port', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.end(req.host);
+      });
+
+      request(app)
+      .post('/')
+      .set('Host', '[::1]:3000')
+      .expect('[::1]', done);
     })
   })
 })

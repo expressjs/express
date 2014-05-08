@@ -19,6 +19,12 @@
    * add `enable()` method
    * change from stderr to stdout
 
+3.5.3 / 2014-05-08
+==================
+
+ * fix `req.host` for IPv6 literals
+ * fix `res.jsonp` error if callback param is object
+
 3.5.2 / 2014-04-24
 ==================
 
