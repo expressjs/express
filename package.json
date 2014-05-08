@@ -17,8 +17,20 @@
       "email": "ciaranj@gmail.com"
     },
     {
+      "name": "Douglas Christopher Wilson",
+      "email": "doug@somethingdoug.com"
+    },
+    {
       "name": "Guillermo Rauch",
       "email": "rauchg@gmail.com"
+    },
+    {
+      "name": "Jonathan Ong",
+      "email": "me@jongleberry.com"
+    },
+    {
+      "name": "Roman Shtylman",
+      "email": "shtylman+expressjs@gmail.com"
     }
   ],
   "dependencies": {
