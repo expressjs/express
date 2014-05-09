@@ -111,7 +111,7 @@ function test(app) {
     request(app)
     .get('/')
     .set('Accept', 'text/html; q=.5, text/plain')
-    .expect('Content-Type', 'text/plain; charset=UTF-8')
+    .expect('Content-Type', 'text/plain; charset=utf-8')
     .expect('hey', done);
   })
 
@@ -119,12 +119,12 @@ function test(app) {
     request(app)
     .get('/')
     .set('Accept', 'text/html')
-    .expect('Content-Type', 'text/html; charset=UTF-8');
+    .expect('Content-Type', 'text/html; charset=utf-8');
 
     request(app)
     .get('/')
     .set('Accept', 'text/plain')
-    .expect('Content-Type', 'text/plain; charset=UTF-8');
+    .expect('Content-Type', 'text/plain; charset=utf-8');
 
     request(app)
     .get('/')

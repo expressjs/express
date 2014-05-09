@@ -18,7 +18,7 @@ describe('res', function(){
       .expect("text/x-foo; charset=utf-8", done);
     })
 
-    it('should take precedence over res.send() defaults', function(done){
+    it('should be replaced by real charset in res.send', function(done){
       var app = express();
 
       app.use(function(req, res){
@@ -28,7 +28,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('Content-Type', 'text/html; charset=whoop', done);
+      .expect('Content-Type', 'text/html; charset=utf-8', done);
     })
   })
 })

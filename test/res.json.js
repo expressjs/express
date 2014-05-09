@@ -17,6 +17,20 @@ describe('res', function(){
       .expect('{"foo":"bar"}', done);
     })
 
+    it('should not override previous Content-Types', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.type('application/vnd.example+json');
+        res.json({ hello: 'world' });
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'application/vnd.example+json; charset=utf-8')
+      .expect(200, '{"hello":"world"}', done);
+    })
+
     describe('when given primitives', function(){
       it('should respond with json for null', function(done){
         var app = express();
@@ -27,11 +41,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-          res.text.should.equal('null');
-          done();
-        })
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, 'null', done)
       })
 
       it('should respond with json for Number', function(done){
@@ -43,12 +54,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          res.statusCode.should.equal(200);
-          res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-          res.text.should.equal('300');
-          done();
-        })
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '300', done)
       })
 
       it('should respond with json for String', function(done){
@@ -60,12 +67,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          res.statusCode.should.equal(200);
-          res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-          res.text.should.equal('"str"');
-          done();
-        })
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '"str"', done)
       })
     })
 
@@ -79,11 +82,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-          res.text.should.equal('["foo","bar","baz"]');
-          done();
-        })
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '["foo","bar","baz"]', done)
       })
     })
     
@@ -97,11 +97,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-          res.text.should.equal('{"name":"tobi"}');
-          done();
-        })
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{"name":"tobi"}', done)
       })
     })
 
@@ -121,10 +118,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          res.text.should.equal('{"name":"tobi"}');
-          done();
-        });
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{"name":"tobi"}', done)
       })
     })
 
@@ -152,10 +147,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          res.text.should.equal('{\n  "name": "tobi",\n  "age": 2\n}');
-          done();
-        });
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{\n  "name": "tobi",\n  "age": 2\n}', done)
       })
     })
   })
@@ -170,12 +163,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.statusCode.should.equal(201);
-        res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-        res.text.should.equal('{"id":1}');
-        done();
-      })
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(201, '{"id":1}', done)
     })
   })
 
@@ -189,12 +178,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.statusCode.should.equal(201);
-        res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-        res.text.should.equal('{"id":1}');
-        done();
-      })
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(201, '{"id":1}', done)
     })
 
     it('should use status as second number for backwards compat', function(done){
@@ -206,12 +191,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.statusCode.should.equal(201);
-        res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-        res.text.should.equal('200');
-        done();
-      })
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(201, '200', done)
     })
   })
 
@@ -225,11 +206,7 @@ describe('res', function(){
 
     request(app)
     .get('/')
-    .end(function(err, res){
-      res.statusCode.should.equal(200);
-      res.headers.should.have.property('content-type', 'application/vnd.example+json');
-      res.text.should.equal('{"hello":"world"}');
-      done();
-    })
+    .expect('content-type', 'application/vnd.example+json; charset=utf-8')
+    .expect(200, '{"hello":"world"}', done)
   })
 })

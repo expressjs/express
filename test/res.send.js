@@ -135,9 +135,34 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('Content-Type', 'text/plain')
-      .expect('hey')
-      .expect(200, done);
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect(200, 'hey', done);
+    })
+
+    it('should override charset in Content-Type', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.set('Content-Type', 'text/plain; charset=iso-8859-1').send('hey');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect(200, 'hey', done);
+    })
+
+    it('should keep charset in Content-Type for Buffers', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.set('Content-Type', 'text/plain; charset=iso-8859-1').send(new Buffer('hi'));
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/plain; charset=iso-8859-1')
+      .expect(200, 'hi', done);
     })
   })
 
@@ -201,11 +226,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
-        res.text.should.equal('{"name":"tobi"}');
-        done();
-      })
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200, '{"name":"tobi"}', done)
     })
   })
 

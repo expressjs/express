@@ -2,6 +2,7 @@
 ===
 
  * keep previous `Content-Type` for `res.jsonp`
+ * set proper `charset` in `Content-Type` for `res.send`
  * update connect to 2.17.1
    - fix `res.charset` appending charset when `content-type` has one
    - deps: express-session@1.2.0
