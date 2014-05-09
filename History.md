@@ -1,5 +1,5 @@
-3.x
-===
+3.6.0 / 2014-05-09
+==================
 
  * deprecate `app.del()` -- use `app.delete()` instead
  * deprecate `res.json(obj, status)` -- use `res.json(status, obj)` instead
