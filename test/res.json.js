@@ -157,6 +157,63 @@ describe('res', function(){
     })
   })
 
+  describe('.json(object, replacer)', function(){
+    it('should respond with json using replacer and set the .statusCode as (obj,replacer)', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.json({ id: 1, a: "b", c: "d" }, [ "a", "c"]);
+      });
+
+      request(app)
+      .get('/')
+      .end(function(err, res){
+        res.statusCode.should.equal(200);
+        res.headers.should.have.property('content-type', 'application/json');
+        res.text.should.equal('{"a":"b","c":"d"}');
+        done();
+      })
+    })
+  })
+
+  describe('.json(status, object, replacer)', function(){
+    it('should respond with json using replacer and set the .statusCode as (status,obj,replacer)', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.json(201, { id: 1, a: "b", c: "d" }, [ "a", "c"]);
+      });
+
+      request(app)
+      .get('/')
+      .end(function(err, res){
+        res.statusCode.should.equal(201);
+        res.headers.should.have.property('content-type', 'application/json');
+        res.text.should.equal('{"a":"b","c":"d"}');
+        done();
+      })
+    })
+  })
+
+  describe('.json(object, status, replacer)', function(){
+    it('should respond with json using replacer and set the .statusCode as (obj,status,replacer)', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.json({ id: 1, a: "b", c: "d" }, 201, [ "a", "c"]);
+      });
+
+      request(app)
+      .get('/')
+      .end(function(err, res){
+        res.statusCode.should.equal(201);
+        res.headers.should.have.property('content-type', 'application/json');
+        res.text.should.equal('{"a":"b","c":"d"}');
+        done();
+      })
+    })
+  })
+
   it('should not override previous Content-Types', function(done){
     var app = express();
 
