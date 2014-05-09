@@ -2,6 +2,10 @@
 ===
 
  * deprecate `app.del()` -- use `app.delete()` instead
+ * deprecate `res.json(obj, status)` -- use `res.json(status, obj)` instead
+   - the edge-case `res.json(status, num)` requires `res.status(status).json(num)`
+ * deprecate `res.jsonp(obj, status)` -- use `res.jsonp(status, obj)` instead
+   - the edge-case `res.jsonp(status, num)` requires `res.status(status).jsonp(num)`
  * update connect to 2.15.0
    * Add `res.appendHeader`
    * Call error stack even when response has been sent

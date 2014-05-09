@@ -264,5 +264,22 @@ describe('res', function(){
         done();
       })
     })
+
+    it('should use status as second number for backwards compat', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp(200, 201);
+      });
+
+      request(app)
+      .get('/')
+      .end(function(err, res){
+        res.statusCode.should.equal(201);
+        res.headers.should.have.property('content-type', 'application/json; charset=utf-8');
+        res.text.should.equal('200');
+        done();
+      })
+    })
   })
 })
