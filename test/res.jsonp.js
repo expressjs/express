@@ -119,6 +119,34 @@ describe('res', function(){
       });
     });
 
+    it('should not override previous Content-Types with no callback', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.type('application/vnd.example+json');
+        res.jsonp({ hello: 'world' });
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'application/vnd.example+json')
+      .expect(200, '{"hello":"world"}', done);
+    })
+
+    it('should override previous Content-Types with callback', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.type('application/vnd.example+json');
+        res.jsonp({ hello: 'world' });
+      });
+
+      request(app)
+      .get('/?callback=cb')
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect(200, /cb\(\{"hello":"world"\}\);$/, done);
+    })
+
     describe('when given primitives', function(){
       it('should respond with json', function(done){
         var app = express();
@@ -256,24 +284,6 @@ describe('res', function(){
         res.text.should.equal('{"id":1}');
         done();
       })
-    })
-  })
-
-  it('should not override previous Content-Types', function(done){
-    var app = express();
-
-    app.get('/', function(req, res){
-      res.type('application/vnd.example+json');
-      res.jsonp({ hello: 'world' });
-    });
-
-    request(app)
-    .get('/')
-    .end(function(err, res){
-      res.statusCode.should.equal(200);
-      res.headers.should.have.property('content-type', 'application/vnd.example+json');
-      res.text.should.equal('{"hello":"world"}');
-      done();
     })
   })
 })
