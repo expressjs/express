@@ -3,13 +3,9 @@
  */
 
 var express = require('../../');
-var favicon = require('static-favicon');
 var cookie-parser = require('cookie-parser');
 
 var app = module.exports = express();
-
-// ignore GET /favicon.ico
-app.use(favicon());
 
 // pass a secret to cookieParser() for signed cookies
 app.use(cookieParser('manny is cool'));

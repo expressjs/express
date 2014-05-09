@@ -4,17 +4,9 @@
 
 var express = require('../../');
 var app = module.exports = express();
-var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-// add favicon() before logger() so
-// GET /favicon.ico requests are not
-// logged, because this middleware
-// reponds to /favicon.ico and does not
-// call next()
-app.use(favicon());
 
 // custom log format
 if ('test' != process.env.NODE_ENV)

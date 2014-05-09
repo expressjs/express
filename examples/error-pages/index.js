@@ -5,7 +5,6 @@
 var express = require('../../');
 var app = module.exports = express();
 var logger = require('morgan');
-var favicon = require('static-favicon');
 var silent = 'test' == process.env.NODE_ENV;
 
 // general config
@@ -22,8 +21,6 @@ app.enable('verbose errors');
 if ('production' == app.settings.env) {
   app.disable('verbose errors');
 }
-
-app.use(favicon());
 
 silent || app.use(logger('dev'));
 
