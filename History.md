@@ -1,6 +1,14 @@
 3.x
 ===
 
+ * proper proxy trust with `app.set('trust proxy', trust)`
+   - `app.set('trust proxy', 1)` trust first hop
+   - `app.set('trust proxy', 'loopback')` trust loopback addresses
+   - `app.set('trust proxy', '10.0.0.1')` trust single IP
+   - `app.set('trust proxy', '10.0.0.1/16')` trust subnet
+   - `app.set('trust proxy', '10.0.0.1, 10.0.0.2')` trust list
+   - `app.set('trust proxy', false)` turn off
+   - `app.set('trust proxy', true)` trust everything
  * update connect to 2.16.1
    - deprecate `res.headerSent` -- use `res.headersSent`
    - deprecate `res.on("header")` -- use on-headers module instead
