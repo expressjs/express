@@ -201,6 +201,58 @@ describe('res', function(){
       })
     })
 
+    describe('when given primitives', function(){
+      it('should respond with json for null', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.jsonp(null);
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.headers.should.have.property('content-type', 'application/json');
+          res.text.should.equal('null');
+          done();
+        })
+      })
+
+      it('should respond with json for Number', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.jsonp(300);
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.statusCode.should.equal(200);
+          res.headers.should.have.property('content-type', 'application/json');
+          res.text.should.equal('300');
+          done();
+        })
+      })
+
+      it('should respond with json for String', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.jsonp('str');
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.statusCode.should.equal(200);
+          res.headers.should.have.property('content-type', 'application/json');
+          res.text.should.equal('"str"');
+          done();
+        })
+      })
+    })
+
     describe('"json replacer" setting', function(){
       it('should be passed to JSON.stringify()', function(done){
         var app = express();
@@ -282,6 +334,23 @@ describe('res', function(){
         res.statusCode.should.equal(201);
         res.headers.should.have.property('content-type', 'application/json');
         res.text.should.equal('{"id":1}');
+        done();
+      })
+    })
+
+    it('should use status as second number for backwards compat', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp(200, 201);
+      });
+
+      request(app)
+      .get('/')
+      .end(function(err, res){
+        res.statusCode.should.equal(201);
+        res.headers.should.have.property('content-type', 'application/json');
+        res.text.should.equal('200');
         done();
       })
     })

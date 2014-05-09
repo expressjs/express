@@ -1,9 +1,23 @@
 4.2.x
 =====
 
+ * deprecate `app.del()` -- use `app.delete()` instead
+ * deprecate `res.json(obj, status)` -- use `res.json(status, obj)` instead
+   - the edge-case `res.json(status, num)` requires `res.status(status).json(num)`
+ * deprecate `res.jsonp(obj, status)` -- use `res.jsonp(status, obj)` instead
+   - the edge-case `res.jsonp(status, num)` requires `res.status(status).jsonp(num)`
  * fix `req.next` when inside router instance
  * include `ETag` header in `HEAD` requests
  * keep previous `Content-Type` for `res.jsonp`
+ * support PURGE method
+   - add `app.purge`
+   - add `router.purge`
+   - include PURGE in `app.all`
+ * update debug to 0.8.0
+   - add `enable()` method
+   - change from stderr to stdout
+ * update methods to 1.0.0
+   - add PURGE
 
 4.1.2 / 2014-05-08
 ==================
@@ -79,6 +93,39 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.6.0 / 2014-05-09
+==================
+
+ * deprecate `app.del()` -- use `app.delete()` instead
+ * deprecate `res.json(obj, status)` -- use `res.json(status, obj)` instead
+   - the edge-case `res.json(status, num)` requires `res.status(status).json(num)`
+ * deprecate `res.jsonp(obj, status)` -- use `res.jsonp(status, obj)` instead
+   - the edge-case `res.jsonp(status, num)` requires `res.status(status).jsonp(num)`
+ * support PURGE method
+   - add `app.purge`
+   - add `router.purge`
+   - include PURGE in `app.all`
+ * update connect to 2.15.0
+   * Add `res.appendHeader`
+   * Call error stack even when response has been sent
+   * Patch `res.headerSent` to return Boolean
+   * Patch `res.headersSent` for node.js 0.8
+   * Prevent default 404 handler after response sent
+   * dep: compression@1.0.2
+   * dep: connect-timeout@1.1.0
+   * dep: debug@^0.8.0
+   * dep: errorhandler@1.0.1
+   * dep: express-session@1.0.4
+   * dep: morgan@1.0.1
+   * dep: serve-favicon@2.0.0
+   * dep: serve-index@1.0.2
+ * update debug to 0.8.0
+   * add `enable()` method
+   * change from stderr to stdout
+ * update methods to 1.0.0
+   - add PURGE
+ * update mkdirp to 0.5.0
 
 3.5.3 / 2014-05-08
 ==================

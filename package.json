@@ -17,6 +17,10 @@
       "email": "ciaranj@gmail.com"
     },
     {
+      "name": "Douglas Christopher Wilson",
+      "email": "doug@somethingdoug.com"
+    },
+    {
       "name": "Guillermo Rauch",
       "email": "rauchg@gmail.com"
     },
@@ -37,7 +41,7 @@
     "cookie": "0.1.2",
     "buffer-crc32": "0.2.1",
     "fresh": "0.2.2",
-    "methods": "0.1.0",
+    "methods": "1.0.0",
     "send": "0.3.0",
     "cookie-signature": "1.0.3",
     "merge-descriptors": "0.0.2",
@@ -46,7 +50,7 @@
     "qs": "0.6.6",
     "serve-static": "1.1.0",
     "path-to-regexp": "0.1.2",
-    "debug": ">= 0.7.3 < 1"
+    "debug": ">= 0.8.0 < 1"
   },
   "devDependencies": {
     "mocha": "~1.18.2",
@@ -58,7 +62,7 @@
     "multiparty": "~3.2.4",
     "hjs": "~0.0.6",
     "should": "~3.3.1",
-    "supertest": "~0.11.0",
+    "supertest": "~0.12.0",
     "method-override": "1.0.0",
     "cookie-parser": "1.0.1",
     "express-session": "1.0.4",
