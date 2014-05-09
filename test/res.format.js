@@ -4,9 +4,9 @@ var express = require('../')
   , utils = require('../lib/utils')
   , assert = require('assert');
 
-var app = express();
+var app1 = express();
 
-app.use(function(req, res, next){
+app1.use(function(req, res, next){
   res.format({
     'text/plain': function(){
       res.send('hey');
@@ -25,7 +25,7 @@ app.use(function(req, res, next){
   });
 });
 
-app.use(function(err, req, res, next){
+app1.use(function(err, req, res, next){
   if (!err.types) throw err;
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
@@ -53,10 +53,24 @@ app3.use(function(req, res, next){
   })
 });
 
+var app4 = express();
+
+app4.get('/', function(req, res, next){
+  res.format({
+    text: function(){ res.send('hey') },
+    html: function(){ res.send('<p>hey</p>') },
+    json: function(){ res.send({ message: 'hey' }) }
+  });
+});
+
+app4.use(function(err, req, res, next){
+  res.send(err.status, 'Supports: ' + err.types.join(', '));
+})
+
 describe('res', function(){
   describe('.format(obj)', function(){
     describe('with canonicalized mime types', function(){
-      test(app);
+      test(app1);
     })
 
     describe('with extnames', function(){
@@ -70,6 +84,10 @@ describe('res', function(){
         .set('Accept: text/html')
         .expect('default', done);
       })
+    })
+
+    describe('in router', function(){
+      test(app4);
     })
   })
 })
