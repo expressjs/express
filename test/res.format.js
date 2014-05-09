@@ -71,6 +71,27 @@ describe('res', function(){
         .expect('default', done);
       })
     })
+
+    describe('in router', function(){
+      var app = express();
+      var router = express.Router();
+
+      router.get('/', function(req, res, next){
+        res.format({
+          text: function(){ res.send('hey') },
+          html: function(){ res.send('<p>hey</p>') },
+          json: function(){ res.send({ message: 'hey' }) }
+        });
+      });
+
+      router.use(function(err, req, res, next){
+        res.send(err.status, 'Supports: ' + err.types.join(', '));
+      })
+
+      app.use(router)
+
+      test(app)
+    })
   })
 })
 

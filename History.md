@@ -1,6 +1,7 @@
 4.2.x
 =====
 
+ * fix `req.next` when inside router instance
  * include `ETag` header in `HEAD` requests
  * keep previous `Content-Type` for `res.jsonp`
 
