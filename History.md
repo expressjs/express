@@ -6,6 +6,10 @@
    - the edge-case `res.json(status, num)` requires `res.status(status).json(num)`
  * deprecate `res.jsonp(obj, status)` -- use `res.jsonp(status, obj)` instead
    - the edge-case `res.jsonp(status, num)` requires `res.status(status).jsonp(num)`
+ * support PURGE method
+   - add `app.purge`
+   - add `router.purge`
+   - include PURGE in `app.all`
  * update connect to 2.15.0
    * Add `res.appendHeader`
    * Call error stack even when response has been sent
@@ -23,6 +27,8 @@
  * update debug to 0.8.0
    * add `enable()` method
    * change from stderr to stdout
+ * update methods to 1.0.0
+   - add PURGE
  * update mkdirp to 0.5.0
 
 3.5.3 / 2014-05-08
