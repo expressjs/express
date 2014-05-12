@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "mocha": "~1.18.2",
-    "body-parser": "1.0.2",
+    "body-parser": "~1.1.2",
     "connect-redis": "~2.0.0",
     "ejs": "~1.0.0",
     "jade": "~0.35.0",
