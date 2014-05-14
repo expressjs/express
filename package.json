@@ -36,7 +36,7 @@
   "dependencies": {
     "parseurl": "1.0.1",
     "accepts": "1.0.1",
-    "type-is": "1.1.0",
+    "type-is": "1.2.0",
     "range-parser": "1.0.0",
     "cookie": "0.1.2",
     "buffer-crc32": "0.2.1",

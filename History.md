@@ -1,3 +1,9 @@
+unreleased
+==========
+
+ * update type-is to 1.2.0
+   - support suffix matching
+
 4.2.0 / 2014-05-11
 ==================
 
