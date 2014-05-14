@@ -9,3 +9,4 @@ testing.js
 .travis.yml
 coverage.html
 lib-cov
+Contributing.md
