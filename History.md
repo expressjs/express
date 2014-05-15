@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+ * fix behavior of multiple `app.VERB` for the same path
  * update type-is to 1.2.0
    - support suffix matching
 
