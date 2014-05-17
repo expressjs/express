@@ -1,3 +1,16 @@
+3.x
+===
+
+ * update connect to 2.16.1
+   - deprecate `res.headerSent` -- use `res.headersSent`
+   - deprecate `res.on("header")` -- use on-headers module instead
+   - json: use body-parser
+   - urlencoded: use body-parser
+   - dep: bytes@1.0.0
+   - dep: cookie-parser@1.1.0
+   - dep: csurf@1.2.0
+   - dep: express-session@1.1.0
+
 3.6.0 / 2014-05-09
 ==================
 
