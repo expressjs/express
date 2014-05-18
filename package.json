@@ -64,6 +64,7 @@
   },
   "devDependencies": {
     "ejs": "~0.8.4",
+    "istanbul": "0.2.10",
     "mocha": "~1.18.2",
     "jade": "~0.30.0",
     "hjs": "~0.0.6",
@@ -82,6 +83,7 @@
   "scripts": {
     "prepublish": "npm prune",
     "test": "mocha --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
-    "test-travis": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/"
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/"
   }
 }
