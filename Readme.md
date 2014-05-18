@@ -94,7 +94,9 @@ To run the test suite, first invoke the following command within the repo, insta
 
 Then run the tests:
 
-    $ make test
+```sh
+$ npm test
+```
 
 ## Contributors
 

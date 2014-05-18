@@ -78,7 +78,8 @@
   },
   "scripts": {
     "prepublish": "npm prune",
-    "test": "make test"
+    "test": "mocha --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
+    "test-travis": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/"
   },
   "engines": {
     "node": ">= 0.8.0"
