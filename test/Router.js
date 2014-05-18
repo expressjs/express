@@ -184,4 +184,41 @@ describe('Router', function(){
       router.handle({ url: '/foo/123/bar/baz', method: 'get' }, {}, done);
     });
   });
+
+  describe('parallel requests', function() {
+    it('should not mix requests', function(done) {
+      var count = 2;
+      var req1 = { url: '/foo/50/bar', method: 'get' };
+      var req2 = { url: '/foo/10/bar', method: 'get' };
+      var router = new Router();
+      var sub = new Router();
+
+      sub.get('/bar', function(req, res, next) {
+        next();
+      });
+
+      router.param('ms', function(req, res, next, ms) {
+        ms = parseInt(ms, 10);
+        req.ms = ms;
+        setTimeout(next, ms);
+      });
+
+      router.use('/foo/:ms/', new Router());
+      router.use('/foo/:ms/', sub);
+
+      router.handle(req1, {}, function(err) {
+        assert.ifError(err);
+        assert.equal(req1.ms, 50);
+        assert.equal(req1.originalUrl, '/foo/50/bar');
+        if (!--count) done();
+      });
+
+      router.handle(req2, {}, function(err) {
+        assert.ifError(err);
+        assert.equal(req2.ms, 10);
+        assert.equal(req2.originalUrl, '/foo/10/bar');
+        if (!--count) done();
+      });
+    });
+  });
 })
