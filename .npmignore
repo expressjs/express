@@ -1,5 +1,6 @@
 .git*
 benchmarks/
+coverage/
 docs/
 examples/
 support/
@@ -7,6 +8,4 @@ test/
 testing.js
 .DS_Store
 .travis.yml
-coverage.html
-lib-cov
 Contributing.md

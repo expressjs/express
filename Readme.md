@@ -2,7 +2,7 @@
 
   Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
 
-  [![Build Status](https://travis-ci.org/visionmedia/express.svg?branch=master)](https://travis-ci.org/visionmedia/express) [![Gittip](http://img.shields.io/gittip/visionmedia.svg)](https://www.gittip.com/visionmedia/) [![NPM version](https://badge.fury.io/js/express.svg)](http://badge.fury.io/js/express)
+  [![NPM version](https://badge.fury.io/js/express.svg)](http://badge.fury.io/js/express) [![Build Status](https://travis-ci.org/visionmedia/express.svg?branch=master)](https://travis-ci.org/visionmedia/express) [![Coverage Status](https://img.shields.io/coveralls/visionmedia/express.svg)](https://coveralls.io/r/visionmedia/express) [![Gittip](http://img.shields.io/gittip/visionmedia.svg)](https://www.gittip.com/visionmedia/)
 
 ```js
 var express = require('express');
@@ -95,7 +95,9 @@ To run the test suite, first invoke the following command within the repo, insta
 
 Then run the tests:
 
-    $ make test
+```sh
+$ npm test
+```
 
 ## Contributors
   

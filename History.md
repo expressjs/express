@@ -2,6 +2,14 @@ unreleased
 ==========
 
  * fix behavior of multiple `app.VERB` for the same path
+ * proper proxy trust with `app.set('trust proxy', trust)`
+   - `app.set('trust proxy', 1)` trust first hop
+   - `app.set('trust proxy', 'loopback')` trust loopback addresses
+   - `app.set('trust proxy', '10.0.0.1')` trust single IP
+   - `app.set('trust proxy', '10.0.0.1/16')` trust subnet
+   - `app.set('trust proxy', '10.0.0.1, 10.0.0.2')` trust list
+   - `app.set('trust proxy', false)` turn off
+   - `app.set('trust proxy', true)` trust everything
  * update type-is to 1.2.0
    - support suffix matching
 
@@ -100,6 +108,29 @@ unreleased
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.7.0 / 2014-05-18
+==================
+
+ * proper proxy trust with `app.set('trust proxy', trust)`
+   - `app.set('trust proxy', 1)` trust first hop
+   - `app.set('trust proxy', 'loopback')` trust loopback addresses
+   - `app.set('trust proxy', '10.0.0.1')` trust single IP
+   - `app.set('trust proxy', '10.0.0.1/16')` trust subnet
+   - `app.set('trust proxy', '10.0.0.1, 10.0.0.2')` trust list
+   - `app.set('trust proxy', false)` turn off
+   - `app.set('trust proxy', true)` trust everything
+ * update connect to 2.16.2
+   - deprecate `res.headerSent` -- use `res.headersSent`
+   - deprecate `res.on("header")` -- use on-headers module instead
+   - fix edge-case in `res.appendHeader` that would append in wrong order
+   - json: use body-parser
+   - urlencoded: use body-parser
+   - dep: bytes@1.0.0
+   - dep: cookie-parser@1.1.0
+   - dep: csurf@1.2.0
+   - dep: express-session@1.1.0
+   - dep: method-override@1.0.1
 
 3.6.0 / 2014-05-09
 ==================

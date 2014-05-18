@@ -78,7 +78,7 @@ function restrict(req, res, next) {
 }
 
 app.get('/', function(req, res){
-  res.redirect('login');
+  res.redirect('/login');
 });
 
 app.get('/restricted', restrict, function(req, res){
@@ -116,7 +116,7 @@ app.post('/login', function(req, res){
       req.session.error = 'Authentication failed, please check your '
         + ' username and password.'
         + ' (use "tj" and "foobar")';
-      res.redirect('login');
+      res.redirect('/login');
     }
   });
 });
