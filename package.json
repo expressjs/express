@@ -33,6 +33,19 @@
       "email": "shtylman+expressjs@gmail.com"
     }
   ],
+  "keywords": [
+    "express",
+    "framework",
+    "sinatra",
+    "web",
+    "rest",
+    "restful",
+    "router",
+    "app",
+    "api"
+  ],
+  "repository": "git://github.com/visionmedia/express",
+  "license": "MIT",
   "dependencies": {
     "connect": "2.16.1",
     "commander": "1.3.2",
@@ -60,19 +73,9 @@
     "marked": "0.2.10",
     "supertest": "~0.12.1"
   },
-  "keywords": [
-    "express",
-    "framework",
-    "sinatra",
-    "web",
-    "rest",
-    "restful",
-    "router",
-    "app",
-    "api"
-  ],
-  "repository": "git://github.com/visionmedia/express",
-  "main": "index",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
   "bin": {
     "express": "./bin/express"
   },
@@ -80,9 +83,5 @@
     "prepublish": "npm prune",
     "test": "mocha --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
     "test-travis": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/"
-  },
-  "engines": {
-    "node": ">= 0.8.0"
-  },
-  "license": "MIT"
+  }
 }
