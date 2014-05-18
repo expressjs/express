@@ -9,15 +9,17 @@
    - `app.set('trust proxy', '10.0.0.1, 10.0.0.2')` trust list
    - `app.set('trust proxy', false)` turn off
    - `app.set('trust proxy', true)` trust everything
- * update connect to 2.16.1
+ * update connect to 2.16.2
    - deprecate `res.headerSent` -- use `res.headersSent`
    - deprecate `res.on("header")` -- use on-headers module instead
+   - fix edge-case in `res.appendHeader` that would append in wrong order
    - json: use body-parser
    - urlencoded: use body-parser
    - dep: bytes@1.0.0
    - dep: cookie-parser@1.1.0
    - dep: csurf@1.2.0
    - dep: express-session@1.1.0
+   - dep: method-override@1.0.1
 
 3.6.0 / 2014-05-09
 ==================
