@@ -67,6 +67,7 @@
     "debug": "0.8.1"
   },
   "devDependencies": {
+    "after": "0.8.1",
     "coveralls": "2.10.0",
     "istanbul": "0.2.10",
     "mocha": "~1.18.2",
