@@ -1,5 +1,5 @@
-3.x
-===
+3.7.0 / 2014-05-18
+==================
 
  * proper proxy trust with `app.set('trust proxy', trust)`
    - `app.set('trust proxy', 1)` trust first hop
