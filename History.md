@@ -3,6 +3,7 @@ unreleased
 
  * fix behavior of multiple `app.VERB` for the same path
  * fix issue routing requests among sub routers
+ * invoke `router.param()` only when necessary instead of every match
  * proper proxy trust with `app.set('trust proxy', trust)`
    - `app.set('trust proxy', 1)` trust first hop
    - `app.set('trust proxy', 'loopback')` trust loopback addresses

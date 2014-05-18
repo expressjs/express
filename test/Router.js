@@ -183,6 +183,60 @@ describe('Router', function(){
 
       router.handle({ url: '/foo/123/bar/baz', method: 'get' }, {}, done);
     });
+
+    it('should only call once per request', function(done) {
+      var count = 0;
+      var req = { url: '/foo/bob/bar', method: 'get' };
+      var router = new Router();
+      var sub = new Router();
+
+      sub.get('/bar', function(req, res, next) {
+        next();
+      });
+
+      router.param('user', function(req, res, next, user) {
+        count++;
+        req.user = user;
+        next();
+      });
+
+      router.use('/foo/:user/', new Router());
+      router.use('/foo/:user/', sub);
+
+      router.handle(req, {}, function(err) {
+        if (err) return done(err);
+        assert.equal(count, 1);
+        assert.equal(req.user, 'bob');
+        done();
+      });
+    });
+
+    it('should call when values differ', function(done) {
+      var count = 0;
+      var req = { url: '/foo/bob/bar', method: 'get' };
+      var router = new Router();
+      var sub = new Router();
+
+      sub.get('/bar', function(req, res, next) {
+        next();
+      });
+
+      router.param('user', function(req, res, next, user) {
+        count++;
+        req.user = user;
+        next();
+      });
+
+      router.use('/foo/:user/', new Router());
+      router.use('/:user/bob/', sub);
+
+      router.handle(req, {}, function(err) {
+        if (err) return done(err);
+        assert.equal(count, 2);
+        assert.equal(req.user, 'foo');
+        done();
+      });
+    });
   });
 
   describe('parallel requests', function() {
