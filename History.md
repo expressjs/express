@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+ * add `req.baseUrl` to access the path stripped from `req.url` in routes
  * fix behavior of multiple `app.VERB` for the same path
  * fix issue routing requests among sub routers
  * invoke `router.param()` only when necessary instead of every match
