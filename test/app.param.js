@@ -95,5 +95,61 @@ describe('app', function(){
       .get('/user/123')
       .expect('123', done);
     })
+
+    it('should only call once per request', function(done) {
+      var app = express();
+      var called = 0;
+      var count = 0;
+
+      app.param('user', function(req, res, next, user) {
+        called++;
+        req.user = user;
+        next();
+      });
+
+      app.get('/foo/:user', function(req, res, next) {
+        count++;
+        next();
+      });
+      app.get('/foo/:user', function(req, res, next) {
+        count++;
+        next();
+      });
+      app.use(function(req, res) {
+        res.end([count, called, req.user].join(' '));
+      });
+
+      request(app)
+      .get('/foo/bob')
+      .expect('2 1 bob', done);
+    })
+
+    it('should call when values differ', function(done) {
+      var app = express();
+      var called = 0;
+      var count = 0;
+
+      app.param('user', function(req, res, next, user) {
+        called++;
+        req.users = (req.users || []).concat(user);
+        next();
+      });
+
+      app.get('/:user/bob', function(req, res, next) {
+        count++;
+        next();
+      });
+      app.get('/foo/:user', function(req, res, next) {
+        count++;
+        next();
+      });
+      app.use(function(req, res) {
+        res.end([count, called, req.users.join(',')].join(' '));
+      });
+
+      request(app)
+      .get('/foo/bob')
+      .expect('2 2 foo,bob', done);
+    })
   })
 })
