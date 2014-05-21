@@ -37,6 +37,11 @@ describe('app', function(){
       });
 
     })
+
+    it('should fail if not given fn', function(){
+      var app = express();
+      app.param.bind(app, ':name', 'bob').should.throw();
+    })
   })
 
   describe('.param(names, fn)', function(){
@@ -150,6 +155,44 @@ describe('app', function(){
       request(app)
       .get('/foo/bob')
       .expect('2 2 foo,bob', done);
+    })
+
+    it('should catch thrown error', function(done){
+      var app = express();
+
+      app.param('id', function(req, res, next, id){
+        throw new Error('err!');
+      });
+
+      app.get('/user/:id', function(req, res){
+        var id = req.params.id;
+        res.send('' + id);
+      });
+
+      request(app)
+      .get('/user/123')
+      .expect(500, done);
+    })
+
+    it('should defer to next route', function(done){
+      var app = express();
+
+      app.param('id', function(req, res, next, id){
+        next('route');
+      });
+
+      app.get('/user/:id', function(req, res){
+        var id = req.params.id;
+        res.send('' + id);
+      });
+
+      app.get('/:name/123', function(req, res){
+        res.send('name');
+      });
+
+      request(app)
+      .get('/user/123')
+      .expect('name', done);
     })
   })
 })

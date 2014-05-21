@@ -24,11 +24,72 @@ describe('web-service', function(){
       it('should respond users json', function(done){
         request(app)
         .get('/api/users?api-key=foo')
-        .end(function(err, res){
-          res.should.be.json;
-          res.text.should.equal('[{"name":"tobi"},{"name":"loki"},{"name":"jane"}]');
-          done();
-        });
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '[{"name":"tobi"},{"name":"loki"},{"name":"jane"}]', done)
+      })
+    })
+  })
+
+  describe('GET /api/repos', function(){
+    describe('without an api key', function(){
+      it('should respond with 400 bad request', function(done){
+        request(app)
+        .get('/api/repos')
+        .expect(400, done);
+      })
+    })
+
+    describe('with an invalid api key', function(){
+      it('should respond with 401 unauthorized', function(done){
+        request(app)
+        .get('/api/repos?api-key=rawr')
+        .expect(401, done);
+      })
+    })
+
+    describe('with a valid api key', function(){
+      it('should respond repos json', function(done){
+        request(app)
+        .get('/api/repos?api-key=foo')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(/"name":"express"/)
+        .expect(/"url":"http:\/\/github.com\/visionmedia\/express"/)
+        .expect(200, done)
+      })
+    })
+  })
+
+  describe('GET /api/user/:name/repos', function(){
+    describe('without an api key', function(){
+      it('should respond with 400 bad request', function(done){
+        request(app)
+        .get('/api/user/loki/repos')
+        .expect(400, done);
+      })
+    })
+
+    describe('with an invalid api key', function(){
+      it('should respond with 401 unauthorized', function(done){
+        request(app)
+        .get('/api/user/loki/repos?api-key=rawr')
+        .expect(401, done);
+      })
+    })
+
+    describe('with a valid api key', function(){
+      it('should respond user repos json', function(done){
+        request(app)
+        .get('/api/user/loki/repos?api-key=foo')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(/"name":"stylus"/)
+        .expect(/"url":"http:\/\/github.com\/learnboost\/stylus"/)
+        .expect(200, done)
+      })
+
+      it('should 404 with unknown user', function(done){
+        request(app)
+        .get('/api/user/bob/repos?api-key=foo')
+        .expect(404, done)
       })
     })
   })

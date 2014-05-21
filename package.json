@@ -68,9 +68,8 @@
   },
   "devDependencies": {
     "after": "0.8.1",
-    "coveralls": "2.10.0",
     "istanbul": "0.2.10",
-    "mocha": "~1.18.2",
+    "mocha": "~1.19.0",
     "should": "~3.3.1",
     "supertest": "~0.12.0",
     "connect-redis": "~2.0.0",
@@ -93,6 +92,6 @@
     "prepublish": "npm prune",
     "test": "mocha --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/ && (cat ./coverage/lcov.info | coveralls || true)"
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/"
   }
 }

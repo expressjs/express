@@ -36,7 +36,7 @@ describe('res', function(){
 
       app.use(function(req, res){
         res.attachment('/path/to/image.png');
-        res.send('foo');
+        res.send(new Buffer(4));
       });
 
       request(app)

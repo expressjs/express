@@ -54,6 +54,27 @@ describe('app', function(){
       })
     })
 
+    it('should handle render error throws', function(done){
+      var app = express();
+
+      function View(name, options){
+        this.name = name;
+        this.path = 'fale';
+      }
+
+      View.prototype.render = function(options, fn){
+        throw new Error('err!');
+      };
+
+      app.set('view', View);
+
+      app.render('something', function(err, str){
+        err.should.be.ok;
+        err.message.should.equal('err!');
+        done();
+      })
+    })
+
     describe('when the file does not exist', function(){
       it('should provide a helpful error', function(done){
         var app = express();
@@ -132,6 +153,68 @@ describe('app', function(){
         })
       })
     })
+
+    describe('caching', function(){
+      it('should always lookup view without cache', function(done){
+        var app = express();
+        var count = 0;
+
+        function View(name, options){
+          this.name = name;
+          this.path = 'fake';
+          count++;
+        }
+
+        View.prototype.render = function(options, fn){
+          fn(null, 'abstract engine');
+        };
+
+        app.set('view cache', false);
+        app.set('view', View);
+
+        app.render('something', function(err, str){
+          if (err) return done(err);
+          count.should.equal(1);
+          str.should.equal('abstract engine');
+          app.render('something', function(err, str){
+            if (err) return done(err);
+            count.should.equal(2);
+            str.should.equal('abstract engine');
+            done();
+          })
+        })
+      })
+
+      it('should cache with "view cache" setting', function(done){
+        var app = express();
+        var count = 0;
+
+        function View(name, options){
+          this.name = name;
+          this.path = 'fake';
+          count++;
+        }
+
+        View.prototype.render = function(options, fn){
+          fn(null, 'abstract engine');
+        };
+
+        app.set('view cache', true);
+        app.set('view', View);
+
+        app.render('something', function(err, str){
+          if (err) return done(err);
+          count.should.equal(1);
+          str.should.equal('abstract engine');
+          app.render('something', function(err, str){
+            if (err) return done(err);
+            count.should.equal(1);
+            str.should.equal('abstract engine');
+            done();
+          })
+        })
+      })
+    })
   })
 
   describe('.render(name, options, fn)', function(){
@@ -173,6 +256,38 @@ describe('app', function(){
         if (err) return done(err);
         str.should.equal('<p>jane</p>');
         done();
+      })
+    })
+
+    describe('caching', function(){
+      it('should cache with cache option', function(done){
+        var app = express();
+        var count = 0;
+
+        function View(name, options){
+          this.name = name;
+          this.path = 'fake';
+          count++;
+        }
+
+        View.prototype.render = function(options, fn){
+          fn(null, 'abstract engine');
+        };
+
+        app.set('view cache', false);
+        app.set('view', View);
+
+        app.render('something', {cache: true}, function(err, str){
+          if (err) return done(err);
+          count.should.equal(1);
+          str.should.equal('abstract engine');
+          app.render('something', {cache: true}, function(err, str){
+            if (err) return done(err);
+            count.should.equal(1);
+            str.should.equal('abstract engine');
+            done();
+          })
+        })
       })
     })
   })

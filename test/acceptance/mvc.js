@@ -7,10 +7,38 @@ describe('mvc', function(){
     it('should redirect to /users', function(done){
       request(app)
       .get('/')
+      .expect('Location', '/users')
+      .expect(302, done)
+    })
+  })
+
+  describe('GET /pet/0', function(){
+    it('should get pet', function(done){
+      request(app)
+      .get('/pet/0')
+      .expect(200, /Tobi/, done)
+    })
+  })
+
+  describe('GET /pet/0/edit', function(){
+    it('should get pet edit page', function(done){
+      request(app)
+      .get('/pet/0/edit')
+      .expect(/<form/)
+      .expect(200, /Tobi/, done)
+    })
+  })
+
+  describe('PUT /pet/2', function(){
+    it('should update the pet', function(done){
+      request(app)
+      .put('/pet/3')
+      .send({ pet: { name: 'Boots' } })
       .end(function(err, res){
-        res.should.have.status(302);
-        res.headers.location.should.include('/users');
-        done();
+        if (err) return done(err);
+        request(app)
+        .get('/pet/3/edit')
+        .expect(200, /Boots/, done)
       })
     })
   })
@@ -65,11 +93,8 @@ describe('mvc', function(){
     it('should display the edit form', function(done){
       request(app)
       .get('/user/1/edit')
-      .end(function(err, res){
-        res.text.should.include('<h1>Guillermo</h1>');
-        res.text.should.include('value="put"');
-        done();
-      })
+      .expect(/Guillermo/)
+      .expect(200, /<form/, done)
     })
   })
 
@@ -79,12 +104,25 @@ describe('mvc', function(){
       .put('/user/1')
       .send({ user: { name: 'Tobo' }})
       .end(function(err, res){
+        if (err) return done(err);
         request(app)
         .get('/user/1/edit')
-        .end(function(err, res){
-          res.text.should.include('<h1>Tobo</h1>');
-          done();
-        })
+        .expect(200, /Tobo/, done)
+      })
+    })
+  })
+
+  describe('POST /user/:id/pet', function(){
+    it('should create a pet for user', function(done){
+      request(app)
+      .post('/user/2/pet')
+      .send({ pet: { name: 'Snickers' }})
+      .expect('Location', '/user/2')
+      .expect(302, function(err, res){
+        if (err) return done(err)
+        request(app)
+        .get('/user/2')
+        .expect(200, /Snickers/, done)
       })
     })
   })

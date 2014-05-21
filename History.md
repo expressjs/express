@@ -13,6 +13,7 @@ unreleased
    - `app.set('trust proxy', '10.0.0.1, 10.0.0.2')` trust list
    - `app.set('trust proxy', false)` turn off
    - `app.set('trust proxy', true)` trust everything
+ * set proper `charset` in `Content-Type` for `res.send`
  * update type-is to 1.2.0
    - support suffix matching
 
@@ -111,6 +112,17 @@ unreleased
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.8.0 / 2014-05-21
+==================
+
+ * keep previous `Content-Type` for `res.jsonp`
+ * set proper `charset` in `Content-Type` for `res.send`
+ * update connect to 2.17.1
+   - fix `res.charset` appending charset when `content-type` has one
+   - deps: express-session@1.2.0
+   - deps: morgan@1.1.1
+   - deps: serve-index@1.0.3
 
 3.7.0 / 2014-05-18
 ==================
