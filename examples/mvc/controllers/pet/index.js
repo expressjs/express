@@ -20,7 +20,7 @@ exports.edit = function(req, res, next){
 
 exports.update = function(req, res, next){
   var body = req.body;
-  req.pet.name = body.user.name;
+  req.pet.name = body.pet.name;
   res.message('Information updated!');
   res.redirect('/pet/' + req.pet.id);
 };
