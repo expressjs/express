@@ -80,9 +80,9 @@
     "hjs": "~0.0.6",
     "body-parser": "1.2.0",
     "cookie-parser": "1.1.0",
-    "express-session": "1.1.0",
+    "express-session": "1.2.0",
     "method-override": "1.0.1",
-    "morgan": "1.1.0",
+    "morgan": "1.1.1",
     "vhost": "1.0.0"
   },
   "engines": {
