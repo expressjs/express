@@ -1,3 +1,11 @@
+3.x
+===
+
+ * update connect to 2.17.0
+   - deps: express-session@1.2.0
+   - deps: morgan@1.1.1
+   - deps: serve-index@1.0.3
+
 3.7.0 / 2014-05-18
 ==================
 
