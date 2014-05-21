@@ -1,7 +1,8 @@
 3.x
 ===
 
- * update connect to 2.17.0
+ * update connect to 2.17.1
+   - fix `res.charset` appending charset when `content-type` has one
    - deps: express-session@1.2.0
    - deps: morgan@1.1.1
    - deps: serve-index@1.0.3
