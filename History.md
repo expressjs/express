@@ -1,5 +1,5 @@
-3.x
-===
+3.8.0 / 2014-05-21
+==================
 
  * keep previous `Content-Type` for `res.jsonp`
  * set proper `charset` in `Content-Type` for `res.send`
