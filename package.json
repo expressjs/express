@@ -65,7 +65,7 @@
   "devDependencies": {
     "ejs": "~0.8.4",
     "istanbul": "0.2.10",
-    "mocha": "~1.18.2",
+    "mocha": "~1.19.0",
     "should": "~3.3.1",
     "jade": "~0.30.0",
     "hjs": "~0.0.6",
