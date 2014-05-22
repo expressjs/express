@@ -8,16 +8,16 @@ describe('utils.etag(body)', function(){
   var strUTF8 = '<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body><p>自動販売</p></body></html>';
 
   it('should support strings', function(){
-    utils.etag(str).should.eql('"-2034458343"');
+    utils.etag(str).should.eql('"1450003261"');
   })
 
   it('should support utf8 strings', function(){
-    utils.etag(strUTF8).should.eql('"1395090196"');
+    utils.etag(strUTF8).should.eql('"384820390"');
   })
 
   it('should support buffer', function(){
-    utils.etag(new Buffer(strUTF8)).should.eql('"1395090196"');
-    utils.etag(new Buffer(str)).should.eql('"-2034458343"');
+    utils.etag(new Buffer(strUTF8)).should.eql('"384820390"');
+    utils.etag(new Buffer(str)).should.eql('"1450003261"');
   })
 
 })
