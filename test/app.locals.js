@@ -13,6 +13,16 @@ describe('app', function(){
       app.locals.user.should.equal('tobi');
       app.locals.age.should.equal(2);
     })
+
+    it('should work when mounted', function(){
+      var app = express();
+      var blog = express();
+
+      app.use(blog);
+
+      app.locals.foo = 'bar';
+      blog.locals.foo.should.equal('bar');
+    })
   })
 
   describe('.locals.settings', function(){
