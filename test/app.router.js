@@ -588,6 +588,45 @@ describe('app.router', function(){
     .expect('editing user 12', done);
   })
 
+  it('should run in order added', function(done){
+    var app = express();
+    var path = [];
+
+    app.get('*', function(req, res, next){
+      path.push(0);
+      next();
+    });
+
+    app.get('/user/:id', function(req, res, next){
+      path.push(1);
+      next();
+    });
+
+    app.use(function(req, res, next){
+      path.push(2);
+      next();
+    });
+
+    app.all('/user/:id', function(req, res, next){
+      path.push(3);
+      next();
+    });
+
+    app.get('*', function(req, res, next){
+      path.push(4);
+      next();
+    });
+
+    app.use(function(req, res, next){
+      path.push(5);
+      res.end(path.join(','))
+    });
+
+    request(app)
+    .get('/user/1')
+    .expect(200, '0,1,2,3,4,5', done);
+  })
+
   it('should be chainable', function(){
     var app = express();
     app.get('/', function(){}).should.equal(app);
