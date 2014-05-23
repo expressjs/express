@@ -1,5 +1,5 @@
-unreleased
-==========
+4.3.1 / 2014-05-23
+==================
 
  * revert "fix behavior of multiple `app.VERB` for the same path"
    - this caused a regression in the order of route execution
