@@ -119,6 +119,14 @@
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
 
+3.8.1 / 2014-05-27
+==================
+
+ * update connect to 2.17.3
+   - deps: body-parser@1.2.2
+   - deps: express-session@1.2.1
+   - deps: method-override@1.0.2
+
 3.8.0 / 2014-05-21
 ==================
 
