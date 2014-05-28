@@ -101,6 +101,24 @@ describe('app', function(){
       .expect('123', done);
     })
 
+    it('should work with encoded values', function(done){
+      var app = express();
+
+      app.param('name', function(req, res, next, name){
+        req.params.name = name;
+        next();
+      });
+
+      app.get('/user/:name', function(req, res){
+        var name = req.params.name;
+        res.send('' + name);
+      });
+
+      request(app)
+      .get('/user/foo%25bar')
+      .expect('foo%bar', done);
+    })
+
     it('should catch thrown error', function(done){
       var app = express();
 
