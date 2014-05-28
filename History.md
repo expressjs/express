@@ -1,3 +1,11 @@
+unreleased
+==========
+
+ * update connect to 2.17.3
+   - deps: body-parser@1.2.2
+   - deps: express-session@1.2.1
+   - deps: method-override@1.0.2
+
 3.8.0 / 2014-05-21
 ==================
 
