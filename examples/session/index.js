@@ -28,5 +28,8 @@ app.get('/', function(req, res){
   res.send(body + '<p>viewed <strong>' + req.session.views + '</strong> times.</p>');
 });
 
-app.listen(3000);
-console.log('Express app started on port 3000');
+/* istanbul ignore next */
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}

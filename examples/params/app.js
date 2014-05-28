@@ -64,6 +64,7 @@ app.get('/users/:from-:to', function(req, res, next){
   res.send('users ' + names.slice(from, to).join(', '));
 });
 
+/* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
   console.log('Express started on port 3000');

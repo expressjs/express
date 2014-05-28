@@ -39,6 +39,7 @@ app.get('/fail', function(req, res){
   res.render('missing', { title: 'Markdown Example' });
 })
 
+/* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
   console.log('Express started on port 3000');

@@ -106,7 +106,8 @@ app.get('/500', function(req, res, next){
   next(new Error('keyboard cat!'));
 });
 
+/* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
-  silent || console.log('Express started on port 3000');
+  console.log('Express started on port 3000');
 }

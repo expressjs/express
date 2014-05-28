@@ -56,5 +56,8 @@ app.get('/user', function(req, res){
   res.render('page');
 });
 
-app.listen(3000);
-console.log('app listening on port 3000');
+/* istanbul ignore next */
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}
