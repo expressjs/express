@@ -19,8 +19,8 @@ var users = [
 // Convert :to and :from to integers
 
 app.param(['to', 'from'], function(req, res, next, num, name){ 
-  req.params[name] = num = parseInt(num, 10);
-  if( isNaN(num) ){
+  req.params[name] = parseInt(num, 10);
+  if( isNaN(req.params[name]) ){
     next(new Error('failed to parseInt '+num));
   } else {
     next();

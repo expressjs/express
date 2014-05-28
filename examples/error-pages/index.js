@@ -17,9 +17,7 @@ app.enable('verbose errors');
 
 // disable them in production
 // use $ NODE_ENV=production node examples/error-pages
-if ('production' == app.settings.env) {
-  app.disable('verbose errors');
-}
+if ('production' == app.settings.env) app.disable('verbose errors');
 
 app.use(express.favicon());
 

@@ -15,8 +15,7 @@ var express = require('../../')
 app.use(express.favicon());
 
 // custom log format
-if ('test' != process.env.NODE_ENV)
-  app.use(express.logger(':method :url'));
+if ('test' != process.env.NODE_ENV) app.use(express.logger(':method :url'));
 
 // parses request cookies, populating
 // req.cookies and req.signedCookies
