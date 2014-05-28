@@ -218,4 +218,10 @@ describe('utils.accepts(type, str)', function(){
         .should.equal('html');
     })
   })
+
+  describe('when params included', function(){
+    it('should match params', function(){
+      assert(null == utils.accepts('text/html; charset=us-ascii', 'text/html; charset=utf-8'));
+    })
+  })
 })
