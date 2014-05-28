@@ -72,7 +72,7 @@
     "stylus": "~0.40.0",
     "connect-redis": "~1.4.5",
     "marked": "0.2.10",
-    "supertest": "~0.12.1"
+    "supertest": "~0.13.0"
   },
   "engines": {
     "node": ">= 0.8.0"
