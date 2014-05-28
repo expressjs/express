@@ -1,5 +1,5 @@
-unreleased
-==========
+3.8.1 / 2014-05-27
+==================
 
  * update connect to 2.17.3
    - deps: body-parser@1.2.2
