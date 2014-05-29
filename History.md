@@ -1,5 +1,5 @@
-unreleased
-==========
+4.3.2 / 2014-05-28
+==================
 
  * fix handling of errors from `router.param()` callbacks
 
