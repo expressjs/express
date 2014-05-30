@@ -6,6 +6,10 @@
    - deps: compression@1.0.3
    - deps: serve-index@1.1.0
    - deps: serve-static@1.2.0
+ * update send to 0.4.0
+   - Calculate ETag with md5 for reduced collisions
+   - Ignore stream errors after request ends
+   - deps: debug@0.8.1
 
 3.8.1 / 2014-05-27
 ==================

@@ -54,10 +54,10 @@
     "parseurl": "1.0.1",
     "proxy-addr": "1.0.0",
     "range-parser": "1.0.0",
+    "send": "0.4.0",
     "cookie": "0.1.2",
     "buffer-crc32": "0.2.1",
     "fresh": "0.2.2",
-    "send": "0.3.0",
     "cookie-signature": "1.0.3",
     "merge-descriptors": "0.0.2",
     "debug": ">= 0.8.0 < 1"
