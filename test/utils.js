@@ -2,24 +2,28 @@
 var utils = require('../lib/utils')
   , assert = require('assert');
 
-describe('utils.etag(body)', function(){
-
-  var str = 'Hello CRC';
-  var strUTF8 = '<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body><p>自動販売</p></body></html>';
-
+describe('utils.etag(body, encoding)', function(){
   it('should support strings', function(){
-    utils.etag(str).should.eql('W/"9-2260508953"');
+    utils.etag('express!')
+    .should.eql('W/"8-3098196679"')
   })
 
   it('should support utf8 strings', function(){
-    utils.etag(strUTF8, 'utf8').should.eql('W/"4d-1395090196"');
+    utils.etag('express❤', 'utf8')
+    .should.eql('W/"a-1751845617"')
   })
 
   it('should support buffer', function(){
-    utils.etag(new Buffer(strUTF8, 'utf8')).should.eql('W/"4d-1395090196"');
-    utils.etag(new Buffer(str)).should.eql('W/"9-2260508953"');
+    var buf = new Buffer('express!')
+    utils.etag(buf)
+    .should.eql('W/"8-3098196679"');
   })
 
+  it('should support empty string', function(){
+    var buf = new Buffer('express!')
+    utils.etag('')
+    .should.eql('W/"0-0"');
+  })
 })
 
 describe('utils.isAbsolute()', function(){

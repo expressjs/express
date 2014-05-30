@@ -287,15 +287,16 @@ describe('res', function(){
 
   it('should always check regardless of length', function(done){
     var app = express();
+    var etag = '"asdf"';
 
     app.use(function(req, res, next){
-      res.set('ETag', 'asdf');
+      res.set('ETag', etag);
       res.send('hey');
     });
 
     request(app)
     .get('/')
-    .set('If-None-Match', 'asdf')
+    .set('If-None-Match', etag)
     .expect(304, done);
   })
 
@@ -315,16 +316,17 @@ describe('res', function(){
 
   it('should not perform freshness check unless 2xx or 304', function(done){
     var app = express();
+    var etag = '"asdf"';
 
     app.use(function(req, res, next){
       res.status(500);
-      res.set('ETag', 'asdf');
+      res.set('ETag', etag);
       res.send('hey');
     });
 
     request(app)
     .get('/')
-    .set('If-None-Match', 'asdf')
+    .set('If-None-Match', etag)
     .expect('hey')
     .expect(500, done);
   })
@@ -343,22 +345,21 @@ describe('res', function(){
 
   describe('"etag" setting', function(){
     describe('when enabled', function(){
-      it('should send ETag even when content-length < 1024', function(done){
+      it('should send ETag', function(done){
         var app = express();
 
         app.use(function(req, res){
           res.send('kajdslfkasdf');
         });
 
+        app.enable('etag');
+
         request(app)
         .get('/')
-        .end(function(err, res){
-          res.headers.should.have.property('etag');
-          done();
-        });
+        .expect('etag', 'W/"c-1525560792"', done)
       })
 
-      it('should send ETag', function(done){
+      it('should send ETag for long response', function(done){
         var app = express();
 
         app.use(function(req, res){
@@ -366,9 +367,26 @@ describe('res', function(){
           res.send(str);
         });
 
+        app.enable('etag');
+
         request(app)
         .get('/')
         .expect('etag', 'W/"7ff-2796319984"', done)
+      });
+
+      it('should not override ETag when manually set', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.set('etag', '"asdf"');
+          res.send(200);
+        });
+
+        app.enable('etag');
+
+        request(app)
+        .get('/')
+        .expect('etag', '"asdf"', done)
       });
     });
 
@@ -397,16 +415,13 @@ describe('res', function(){
         app.disable('etag');
 
         app.use(function(req, res){
-          res.set('etag', 1);
+          res.set('etag', '"asdf"');
           res.send(200);
         });
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          res.headers.should.have.property('etag');
-          done();
-        });
+        .expect('etag', '"asdf"', done)
       });
     });
   })
