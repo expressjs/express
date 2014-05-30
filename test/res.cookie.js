@@ -89,7 +89,7 @@ describe('res', function(){
         request(app)
         .get('/')
         .end(function(err, res){
-          res.headers['set-cookie'][0].should.not.include('Thu, 01 Jan 1970 00:00:01 GMT');
+          res.headers['set-cookie'][0].should.not.containEql('Thu, 01 Jan 1970 00:00:01 GMT');
           done();
         })
       })
@@ -104,10 +104,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          res.headers['set-cookie'][0].should.include('Max-Age=1');
-          done();
-        })
+        .expect('Set-Cookie', /Max-Age=1/, done)
       })
 
       it('should not mutate the options object', function(done){

@@ -98,12 +98,8 @@ describe('web-service', function(){
     it('should respond with 404 json', function(done){
       request(app)
       .get('/api/something?api-key=bar')
-      .end(function(err, res){
-        res.should.have.status(404);
-        res.should.be.json;
-        res.text.should.equal('{"error":"Lame, can\'t find that"}');
-        done();
-      });
+      .expect('Content-Type', /json/)
+      .expect(404, '{"error":"Lame, can\'t find that"}', done)
     })
   })
 })

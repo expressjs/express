@@ -13,11 +13,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.statusCode.should.equal(302);
-        res.headers.should.have.property('location', 'http://google.com');
-        done();
-      })
+      .expect('location', 'http://google.com')
+      .expect(302, done)
     })
   })
 
@@ -159,12 +156,11 @@ describe('res', function(){
       request(app)
       .get('/')
       .set('Accept', 'application/octet-stream')
-      .end(function(err, res){
-        res.should.have.status(302);
-        res.headers.should.have.property('location', 'http://google.com');
+      .expect('location', 'http://google.com')
+      .expect('content-length', '0')
+      .expect(302, '', function(err, res){
+        if (err) return done(err)
         res.headers.should.not.have.property('content-type');
-        res.headers.should.have.property('content-length', '0');
-        res.text.should.equal('');
         done();
       })
     })
