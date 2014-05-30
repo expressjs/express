@@ -2,6 +2,10 @@
 ===
 
  * Include ETag in HEAD requests
+ * update connect to 2.18.0
+   - deps: compression@1.0.3
+   - deps: serve-index@1.1.0
+   - deps: serve-static@1.2.0
 
 3.8.1 / 2014-05-27
 ==================
