@@ -105,7 +105,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('ETag', '"-1498647312"')
+      .expect('ETag', 'W/"7ff-2796319984"')
       .end(done);
     })
 
@@ -194,7 +194,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('ETag', '"-1498647312"')
+      .expect('ETag', 'W/"7ff-2796319984"')
       .end(done);
     })
 
@@ -309,7 +309,7 @@ describe('res', function(){
 
     request(app)
     .get('/')
-    .set('If-None-Match', '"-1498647312"')
+    .set('If-None-Match', 'W/"7ff-2796319984"')
     .expect(304, done);
   })
 
@@ -358,7 +358,7 @@ describe('res', function(){
         });
       })
 
-      it('should send ETag ', function(done){
+      it('should send ETag', function(done){
         var app = express();
 
         app.use(function(req, res){
@@ -368,10 +368,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          res.headers.should.have.property('etag', '"-1498647312"');
-          done();
-        });
+        .expect('etag', 'W/"7ff-2796319984"', done)
       });
     });
 

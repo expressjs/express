@@ -2,6 +2,7 @@
 ===
 
  * Include ETag in HEAD requests
+ * mark `res.send` ETag as weak and reduce collisions
  * update connect to 2.18.0
    - deps: compression@1.0.3
    - deps: serve-index@1.1.0
