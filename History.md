@@ -1,5 +1,5 @@
-3.x
-===
+3.9.0 / 2014-05-30
+==================
 
  * custom etag control with `app.set('etag', val)`
    - `app.set('etag', function(body, encoding){ return '"etag"' })` custom etag generation
