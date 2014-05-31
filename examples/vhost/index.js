@@ -44,5 +44,8 @@ var app = express();
 app.use(vhost('*.example.com', redirect)); // Serves all subdomains via Redirect app
 app.use(vhost('example.com', main)); // Serves top level domain via Main server app
 
-app.listen(3000);
-console.log('Express app started on port 3000');
+/* istanbul ignore next */
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}

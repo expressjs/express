@@ -47,13 +47,11 @@ describe('mvc', function(){
     it('should display a list of users', function(done){
       request(app)
       .get('/users')
-      .end(function(err, res){
-        res.text.should.include('<h1>Users</h1>');
-        res.text.should.include('>TJ<');
-        res.text.should.include('>Guillermo<');
-        res.text.should.include('>Nathan<');
-        done();
-      })
+      .expect(/<h1>Users<\/h1>/)
+      .expect(/>TJ</)
+      .expect(/>Guillermo</)
+      .expect(/>Nathan</)
+      .expect(200, done)
     })
   })
 
@@ -62,21 +60,16 @@ describe('mvc', function(){
       it('should display the user', function(done){
         request(app)
         .get('/user/0')
-        .end(function(err, res){
-          res.text.should.include('<h1>TJ <a href="/user/0/edit">edit');
-          done();
-        })
+        .expect(200, /<h1>TJ <a href="\/user\/0\/edit">edit/, done)
       })
 
       it('should display the users pets', function(done){
         request(app)
         .get('/user/0')
-        .end(function(err, res){
-          res.text.should.include('/pet/0">Tobi');
-          res.text.should.include('/pet/1">Loki');
-          res.text.should.include('/pet/2">Jane');
-          done();
-        })
+        .expect(/\/pet\/0">Tobi/)
+        .expect(/\/pet\/1">Loki/)
+        .expect(/\/pet\/2">Jane/)
+        .expect(200, done)
       })
     })
 

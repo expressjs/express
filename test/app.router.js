@@ -534,6 +534,30 @@ describe('app.router', function(){
     })
   })
 
+  describe('when next("route") is called', function(){
+    it('should jump to next route', function(done){
+      var app = express()
+
+      function fn(req, res, next){
+        res.set('X-Hit', '1')
+        next('route')
+      }
+
+      app.get('/foo', fn, function(req, res, next){
+        res.end('failure')
+      });
+
+      app.get('/foo', function(req, res){
+        res.end('success')
+      })
+
+      request(app)
+      .get('/foo')
+      .expect('X-Hit', '1')
+      .expect(200, 'success', done)
+    })
+  })
+
   describe('when next(err) is called', function(){
     it('should break out of app.router', function(done){
       var app = express()

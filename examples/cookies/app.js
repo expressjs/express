@@ -9,8 +9,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 // custom log format
-if ('test' != process.env.NODE_ENV)
-  app.use(logger(':method :url'));
+if ('test' != process.env.NODE_ENV) app.use(logger(':method :url'));
 
 // parses request cookies, populating
 // req.cookies and req.signedCookies
@@ -42,7 +41,8 @@ app.post('/', function(req, res){
   res.redirect('back');
 });
 
-if (!module.parent){
+/* istanbul ignore next */
+if (!module.parent) {
   app.listen(3000);
   console.log('Express started on port 3000');
 }

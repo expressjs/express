@@ -93,7 +93,8 @@ app.use(function(req, res, next){
   res.status(404).render('404', { url: req.originalUrl });
 });
 
+/* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
-  console.log('\n  listening on port 3000\n');
+  console.log('Express started on port 3000');
 }

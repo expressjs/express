@@ -17,7 +17,10 @@ app.resource = function(path, obj) {
     obj.range(req, res, a, b, format);
   });
   this.get(path + '/:id', obj.show);
-  this.delete(path + '/:id', obj.destroy);
+  this.delete(path + '/:id', function(req, res){
+    var id = parseInt(req.params.id, 10);
+    obj.destroy(req, res, id);
+  });
 };
 
 // Fake records
@@ -40,8 +43,7 @@ var User = {
   show: function(req, res){
     res.send(users[req.params.id] || { error: 'Cannot find user' });
   },
-  destroy: function(req, res){
-    var id = req.params.id;
+  destroy: function(req, res, id){
     var destroyed = id in users;
     delete users[id];
     res.send(destroyed ? 'destroyed' : 'Cannot find user');
@@ -84,6 +86,7 @@ app.get('/', function(req, res){
   ].join('\n'));
 });
 
+/* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
   console.log('Express started on port 3000');

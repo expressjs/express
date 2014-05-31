@@ -18,9 +18,7 @@ app.enable('verbose errors');
 
 // disable them in production
 // use $ NODE_ENV=production node examples/error-pages
-if ('production' == app.settings.env) {
-  app.disable('verbose errors');
-}
+if ('production' == app.settings.env) app.disable('verbose errors');
 
 silent || app.use(logger('dev'));
 
@@ -99,7 +97,8 @@ app.use(function(err, req, res, next){
 });
 
 
+/* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
-  silent || console.log('Express started on port 3000');
+  console.log('Express started on port 3000');
 }

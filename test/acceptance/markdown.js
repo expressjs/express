@@ -1,6 +1,6 @@
 
 var app = require('../../examples/markdown')
-  , request = require('supertest');
+var request = require('supertest')
 
 describe('markdown', function(){
   describe('GET /', function(){

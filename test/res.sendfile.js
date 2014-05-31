@@ -9,11 +9,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.sendfile('test/fixtures/user.html', function(err){
-          assert(!err);
-          req.socket.listeners('error').should.have.length(1); // node's original handler
-          done();
-        });
+        res.sendfile('test/fixtures/user.html', done)
       });
 
       request(app)

@@ -1,3 +1,18 @@
+unreleased
+==========
+
+ * custom etag control with `app.set('etag', val)`
+   - `app.set('etag', function(body, encoding){ return '"etag"' })` custom etag generation
+   - `app.set('etag', 'weak')` weak tag
+   - `app.set('etag', 'strong')` strong etag
+   - `app.set('etag', false)` turn off
+   - `app.set('etag', true)` standard etag
+ * mark `res.send` ETag as weak and reduce collisions
+ * update send to 0.4.0
+   - Calculate ETag with md5 for reduced collisions
+   - Ignore stream errors after request ends
+   - deps: debug@0.8.1
+
 4.3.2 / 2014-05-28
 ==================
 
@@ -123,6 +138,26 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.9.0 / 2014-05-30
+==================
+
+ * custom etag control with `app.set('etag', val)`
+   - `app.set('etag', function(body, encoding){ return '"etag"' })` custom etag generation
+   - `app.set('etag', 'weak')` weak tag
+   - `app.set('etag', 'strong')` strong etag
+   - `app.set('etag', false)` turn off
+   - `app.set('etag', true)` standard etag
+ * Include ETag in HEAD requests
+ * mark `res.send` ETag as weak and reduce collisions
+ * update connect to 2.18.0
+   - deps: compression@1.0.3
+   - deps: serve-index@1.1.0
+   - deps: serve-static@1.2.0
+ * update send to 0.4.0
+   - Calculate ETag with md5 for reduced collisions
+   - Ignore stream errors after request ends
+   - deps: debug@0.8.1
 
 3.8.1 / 2014-05-27
 ==================

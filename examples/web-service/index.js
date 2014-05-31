@@ -103,7 +103,8 @@ app.use(function(req, res){
   res.send(404, { error: "Lame, can't find that" });
 });
 
+/* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
-  console.log('Express server listening on port 3000');
+  console.log('Express started on port 3000');
 }

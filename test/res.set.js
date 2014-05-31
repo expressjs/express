@@ -20,8 +20,8 @@ describe('res', function(){
 
     it('should coerce to a string', function(){
       res.headers = {};
-      res.set('ETag', 123);
-      res.get('ETag').should.equal('123');
+      res.set('X-Number', 123);
+      res.get('X-Number').should.equal('123');
     })
   })
 
@@ -41,8 +41,9 @@ describe('res', function(){
 
     it('should coerce to an array of strings', function(){
       res.headers = {};
-      res.set('ETag', [123, 456]);
-      JSON.stringify(res.get('ETag')).should.equal('["123","456"]');
+      res.set('X-Numbers', [123, 456]);
+      JSON.stringify(res.get('X-Numbers'))
+      .should.equal('["123","456"]');
     })
 
     it('should not set a charset of one is already set', function () {
@@ -72,8 +73,8 @@ describe('res', function(){
 
     it('should coerce to a string', function(){
       res.headers = {};
-      res.set({ ETag: 123 });
-      res.get('ETag').should.equal('123');
+      res.set({ 'X-Number': 123 });
+      res.get('X-Number').should.equal('123');
     })
   })
 })
