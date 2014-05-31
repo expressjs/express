@@ -1,6 +1,12 @@
 3.x
 ===
 
+ * custom etag control with `app.set('etag', val)`
+   - `app.set('etag', function(body, encoding){ return '"etag"' })` custom etag generation
+   - `app.set('etag', 'weak')` weak tag
+   - `app.set('etag', 'strong')` strong etag
+   - `app.set('etag', false)` turn off
+   - `app.set('etag', true)` standard etag
  * Include ETag in HEAD requests
  * mark `res.send` ETag as weak and reduce collisions
  * update connect to 2.18.0

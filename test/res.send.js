@@ -359,6 +359,20 @@ describe('res', function(){
         .expect('etag', 'W/"c-1525560792"', done)
       })
 
+      it('should send ETag for empty string response', function(done){
+        var app = express()
+
+        app.use(function(req, res){
+          res.send('')
+        });
+
+        app.enable('etag')
+
+        request(app)
+        .get('/')
+        .expect('etag', 'W/"0-0"', done)
+      })
+
       it('should send ETag for long response', function(done){
         var app = express();
 
@@ -388,6 +402,23 @@ describe('res', function(){
         .get('/')
         .expect('etag', '"asdf"', done)
       });
+
+      it('should not send ETag for res.send()', function(done){
+        var app = express()
+
+        app.use(function(req, res){
+          res.send()
+        });
+
+        app.enable('etag')
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.headers.should.not.have.property('etag');
+          done();
+        })
+      })
     });
 
     describe('when disabled', function(){
@@ -424,5 +455,76 @@ describe('res', function(){
         .expect('etag', '"asdf"', done)
       });
     });
+
+    describe('when "strong"', function(){
+      it('should send strong ETag', function(done){
+        var app = express()
+
+        app.set('etag', 'strong');
+
+        app.use(function(req, res){
+          res.send('hello, world!');
+        });
+
+        request(app)
+        .get('/')
+        .expect('etag', '"Otu60XkfuuPskIiUxJY4cA=="', done)
+      })
+    })
+
+    describe('when "weak"', function(){
+      it('should send weak ETag', function(done){
+        var app = express()
+
+        app.set('etag', 'weak');
+
+        app.use(function(req, res){
+          res.send('hello, world!');
+        });
+
+        request(app)
+        .get('/')
+        .expect('etag', 'W/"d-1486392595"', done)
+      })
+    })
+
+    describe('when a function', function(){
+      it('should send custom ETag', function(done){
+        var app = express()
+
+        app.set('etag', function(body, encoding){
+          body.should.equal('hello, world!')
+          encoding.should.equal('utf8')
+          return '"custom"'
+        });
+
+        app.use(function(req, res){
+          res.send('hello, world!');
+        });
+
+        request(app)
+        .get('/')
+        .expect('etag', '"custom"', done)
+      })
+
+      it('should not send falsy ETag', function(done){
+        var app = express()
+
+        app.set('etag', function(body, encoding){
+          return undefined
+        });
+
+        app.use(function(req, res){
+          res.send('hello, world!');
+        });
+
+        request(app)
+        .get('/')
+        .end(function(err, res){
+          res.headers.should.not.have.property('etag')
+          done();
+        })
+      })
+    })
   })
 })
