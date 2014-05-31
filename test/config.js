@@ -27,6 +27,15 @@ describe('config', function(){
         app.get('etag fn').should.equal(fn)
       })
     })
+
+    describe('"trust proxy"', function(){
+      it('should set "trust proxy fn"', function(){
+        var app = express()
+        var fn = function(){}
+        app.set('trust proxy', fn)
+        app.get('trust proxy fn').should.equal(fn)
+      })
+    })
   })
 
   describe('.get()', function(){

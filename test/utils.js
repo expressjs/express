@@ -2,6 +2,28 @@
 var utils = require('../lib/utils')
   , assert = require('assert');
 
+describe('utils.deprecate(fn, msg)', function(){
+  var env
+  before(function(){
+    env = process.env.NODE_ENV
+  })
+  after(function(){
+    process.env.NODE_ENV = env
+  })
+
+  it('should pass-through fn in test environment', function(){
+    var fn = function(){}
+    process.env.NODE_ENV = 'test'
+    utils.deprecate(fn).should.equal(fn)
+  })
+
+  it('should return new fn in other environment', function(){
+    var fn = function(){}
+    process.env.NODE_ENV = ''
+    utils.deprecate(fn).should.not.equal(fn)
+  })
+})
+
 describe('utils.etag(body, encoding)', function(){
   it('should support strings', function(){
     utils.etag('express!')
@@ -54,7 +76,11 @@ describe('utils.isAbsolute()', function(){
     assert(!utils.isAbsolute(':\\'));
   })
 
-  it('should unices', function(){
+  it('should support windows unc', function(){
+    assert(utils.isAbsolute('\\\\foo\\bar'))
+  })
+
+  it('should support unices', function(){
     assert(utils.isAbsolute('/foo/bar'));
     assert(!utils.isAbsolute('foo/bar'));
   })
