@@ -14,6 +14,10 @@ unreleased
    - Calculate ETag with md5 for reduced collisions
    - Ignore stream errors after request ends
    - deps: debug@0.8.1
+ * update serve-static to 1.2.0
+   - Calculate ETag with md5 for reduced collisions
+   - Ignore stream errors after request ends
+   - deps: send@0.4.0
 
 4.3.2 / 2014-05-28
 ==================
