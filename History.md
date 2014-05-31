@@ -8,6 +8,8 @@ unreleased
    - `app.set('etag', false)` turn off
    - `app.set('etag', true)` standard etag
  * mark `res.send` ETag as weak and reduce collisions
+ * update accepts to 1.0.2
+   - Fix interpretation when header not in request
  * update send to 0.4.0
    - Calculate ETag with md5 for reduced collisions
    - Ignore stream errors after request ends

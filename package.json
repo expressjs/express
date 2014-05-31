@@ -47,7 +47,7 @@
   "repository": "git://github.com/visionmedia/express",
   "license": "MIT",
   "dependencies": {
-    "accepts": "1.0.1",
+    "accepts": "1.0.2",
     "buffer-crc32": "0.2.1",
     "parseurl": "1.0.1",
     "proxy-addr": "1.0.0",
