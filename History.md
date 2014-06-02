@@ -2,6 +2,7 @@ unreleased
 ==========
 
  * deprecate things with `depd` module
+ * fix behavior when handling request without routes
  * use `finalhandler` for final response handling
  * use `media-typer` to alter content-type charset
 
