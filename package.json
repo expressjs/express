@@ -52,7 +52,7 @@
     "escape-html": "1.0.1",
     "methods": "1.0.1",
     "parseurl": "1.0.1",
-    "proxy-addr": "1.0.0",
+    "proxy-addr": "1.0.1",
     "range-parser": "1.0.0",
     "send": "0.4.1",
     "serve-static": "1.2.1",
