@@ -4,6 +4,9 @@ unreleased
  * deps: methods@1.0.1
  * deps: send@0.4.1
    - Send `max-age` in `Cache-Control` in correct format
+ * deps: serve-static@1.2.1
+   - use `escape-html` for escaping
+   - deps: send@0.4.1
 
 4.4.0 / 2014-05-30
 ==================

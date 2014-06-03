@@ -54,6 +54,7 @@
     "proxy-addr": "1.0.0",
     "range-parser": "1.0.0",
     "send": "0.4.1",
+    "serve-static": "1.2.1",
     "type-is": "1.2.0",
     "cookie": "0.1.2",
     "fresh": "0.2.2",
@@ -62,7 +63,6 @@
     "utils-merge": "1.0.0",
     "escape-html": "1.0.1",
     "qs": "0.6.6",
-    "serve-static": "1.2.0",
     "path-to-regexp": "0.1.2",
     "debug": "0.8.1"
   },
