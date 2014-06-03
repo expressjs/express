@@ -2,6 +2,8 @@
 ===
 
  * deps: methods@1.0.1
+ * deps: send@0.4.1
+   - Send `max-age` in `Cache-Control` in correct format
 
 3.9.0 / 2014-05-30
 ==================

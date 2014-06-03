@@ -55,7 +55,7 @@
     "parseurl": "1.0.1",
     "proxy-addr": "1.0.0",
     "range-parser": "1.0.0",
-    "send": "0.4.0",
+    "send": "0.4.1",
     "cookie": "0.1.2",
     "fresh": "0.2.2",
     "cookie-signature": "1.0.3",
