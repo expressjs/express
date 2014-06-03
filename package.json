@@ -49,6 +49,7 @@
   "dependencies": {
     "accepts": "1.0.2",
     "buffer-crc32": "0.2.1",
+    "methods": "1.0.1",
     "parseurl": "1.0.1",
     "proxy-addr": "1.0.0",
     "range-parser": "1.0.0",
@@ -56,7 +57,6 @@
     "type-is": "1.2.0",
     "cookie": "0.1.2",
     "fresh": "0.2.2",
-    "methods": "1.0.0",
     "cookie-signature": "1.0.3",
     "merge-descriptors": "0.0.2",
     "utils-merge": "1.0.0",
