@@ -16,6 +16,7 @@ var user = require('./user');
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 app.use(logger('dev'));
+app.use(methodOverride('_method'));
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(express.static(__dirname + '/public'));

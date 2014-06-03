@@ -44,8 +44,8 @@ app.use(session());
 // parse request bodies (req.body)
 app.use(bodyParser());
 
-// override methods (put, delete)
-app.use(methodOverride());
+// allow overriding methods in query (?_method=put)
+app.use(methodOverride('_method'));
 
 // expose the "messages" local variable when views are rendered
 app.use(function(req, res, next){

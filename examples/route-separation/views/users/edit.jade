@@ -3,8 +3,7 @@ extends ../layout
 block content
   h1 Editing #{user.name}
   #user
-    form(method="post")
-      input(type="hidden", value="put", name="_method")
+    form(action="?_method=put", method="post")
       p Name: 
         input(type="text", value= user.name, name="user[name]")
       p Email: 
