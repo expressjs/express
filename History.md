@@ -155,6 +155,20 @@
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
 
+3.10.0 / 2014-06-02
+===================
+
+ * deps: connect@2.19.1
+   - deprecate `methodOverride()` -- use `method-override` module directly
+   - deps: body-parser@1.3.0
+   - deps: method-override@2.0.1
+   - deps: multiparty@3.2.8
+   - deps: response-time@2.0.0
+   - deps: serve-static@1.2.1
+ * deps: methods@1.0.1
+ * deps: send@0.4.1
+   - Send `max-age` in `Cache-Control` in correct format
+
 3.9.0 / 2014-05-30
 ==================
 
