@@ -1,5 +1,5 @@
-3.x
-===
+3.10.0 / 2014-06-02
+===================
 
  * deps: connect@2.19.1
    - deprecate `methodOverride()` -- use `method-override` module directly
