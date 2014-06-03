@@ -1,6 +1,8 @@
 3.x
 ===
 
+ * deps: connect@2.19.2
+   - deps: compression@1.0.4
  * deps: proxy-addr@1.0.1
 
 3.10.0 / 2014-06-02
