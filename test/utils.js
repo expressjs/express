@@ -94,13 +94,6 @@ describe('utils.flatten(arr)', function(){
   })
 })
 
-describe('utils.escape(html)', function(){
-  it('should escape html entities', function(){
-    utils.escape('<script>foo & "bar"')
-      .should.equal('&lt;script&gt;foo &amp; &quot;bar&quot;')
-  })
-})
-
 describe('utils.parseParams(str)', function(){
   it('should default quality to 1', function(){
     utils.parseParams('text/html')
