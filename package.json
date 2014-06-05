@@ -4,34 +4,12 @@
   "version": "3.10.2",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [
-    {
-      "name": "TJ Holowaychuk",
-      "email": "tj@vision-media.ca"
-    },
-    {
-      "name": "Aaron Heckmann",
-      "email": "aaron.heckmann+github@gmail.com"
-    },
-    {
-      "name": "Ciaran Jessup",
-      "email": "ciaranj@gmail.com"
-    },
-    {
-      "name": "Douglas Christopher Wilson",
-      "email": "doug@somethingdoug.com"
-    },
-    {
-      "name": "Guillermo Rauch",
-      "email": "rauchg@gmail.com"
-    },
-    {
-      "name": "Jonathan Ong",
-      "email": "me@jongleberry.com"
-    },
-    {
-      "name": "Roman Shtylman",
-      "email": "shtylman+expressjs@gmail.com"
-    }
+    "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
+    "Ciaran Jessup <ciaranj@gmail.com>",
+    "Douglas Christopher Wilson <doug@somethingdoug.com>",
+    "Guillermo Rauch <rauchg@gmail.com>",
+    "Jonathan Ong <me@jongleberry.com>",
+    "Roman Shtylman <shtylman+expressjs@gmail.com"
   ],
   "keywords": [
     "express",
@@ -44,7 +22,7 @@
     "app",
     "api"
   ],
-  "repository": "git://github.com/visionmedia/express",
+  "repository": "visionmedia/express",
   "license": "MIT",
   "dependencies": {
     "buffer-crc32": "0.2.1",
