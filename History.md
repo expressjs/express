@@ -2,6 +2,7 @@
 ===
 
  * use `vary` module for `res.vary`
+ * deps: debug@1.0.0
 
 3.10.2 / 2014-06-03
 ===================
