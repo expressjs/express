@@ -2,6 +2,7 @@ unreleased
 ==========
 
  * deps: proxy-addr@1.0.1
+ * deps: type-is@1.2.1
 
 4.4.1 / 2014-06-02
 ==================

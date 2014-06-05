@@ -56,7 +56,7 @@
     "range-parser": "1.0.0",
     "send": "0.4.1",
     "serve-static": "1.2.1",
-    "type-is": "1.2.0",
+    "type-is": "1.2.1",
     "cookie": "0.1.2",
     "fresh": "0.2.2",
     "cookie-signature": "1.0.3",
