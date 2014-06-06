@@ -1,8 +1,10 @@
 unreleased
 ==========
 
+ * use `vary` module for `res.vary`
  * deps: proxy-addr@1.0.1
  * deps: type-is@1.2.1
+ * deps: debug@1.0.0
 
 4.4.1 / 2014-06-02
 ==================
@@ -160,6 +162,29 @@ unreleased
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.10.3 / 2014-06-05
+===================
+
+ * use `vary` module for `res.vary`
+ * deps: connect@2.19.4
+   - deps: errorhandler@1.0.2
+   - deps: method-override@2.0.2
+   - deps: serve-favicon@2.0.1
+ * deps: debug@1.0.0
+
+3.10.2 / 2014-06-03
+===================
+
+ * deps: connect@2.19.3
+   - deps: compression@1.0.6
+
+3.10.1 / 2014-06-03
+===================
+
+ * deps: connect@2.19.2
+   - deps: compression@1.0.4
+ * deps: proxy-addr@1.0.1
 
 3.10.0 / 2014-06-02
 ===================

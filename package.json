@@ -4,34 +4,12 @@
   "version": "4.4.1",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [
-    {
-      "name": "TJ Holowaychuk",
-      "email": "tj@vision-media.ca"
-    },
-    {
-      "name": "Aaron Heckmann",
-      "email": "aaron.heckmann+github@gmail.com"
-    },
-    {
-      "name": "Ciaran Jessup",
-      "email": "ciaranj@gmail.com"
-    },
-    {
-      "name": "Douglas Christopher Wilson",
-      "email": "doug@somethingdoug.com"
-    },
-    {
-      "name": "Guillermo Rauch",
-      "email": "rauchg@gmail.com"
-    },
-    {
-      "name": "Jonathan Ong",
-      "email": "me@jongleberry.com"
-    },
-    {
-      "name": "Roman Shtylman",
-      "email": "shtylman+expressjs@gmail.com"
-    }
+    "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
+    "Ciaran Jessup <ciaranj@gmail.com>",
+    "Douglas Christopher Wilson <doug@somethingdoug.com>",
+    "Guillermo Rauch <rauchg@gmail.com>",
+    "Jonathan Ong <me@jongleberry.com>",
+    "Roman Shtylman <shtylman+expressjs@gmail.com"
   ],
   "keywords": [
     "express",
@@ -44,11 +22,12 @@
     "app",
     "api"
   ],
-  "repository": "git://github.com/visionmedia/express",
+  "repository": "visionmedia/express",
   "license": "MIT",
   "dependencies": {
     "accepts": "1.0.2",
     "buffer-crc32": "0.2.1",
+    "debug": "1.0.0",
     "escape-html": "1.0.1",
     "methods": "1.0.1",
     "parseurl": "1.0.1",
@@ -57,14 +36,14 @@
     "send": "0.4.1",
     "serve-static": "1.2.1",
     "type-is": "1.2.1",
+    "vary": "0.1.0",
     "cookie": "0.1.2",
     "fresh": "0.2.2",
     "cookie-signature": "1.0.3",
     "merge-descriptors": "0.0.2",
     "utils-merge": "1.0.0",
     "qs": "0.6.6",
-    "path-to-regexp": "0.1.2",
-    "debug": "0.8.1"
+    "path-to-regexp": "0.1.2"
   },
   "devDependencies": {
     "after": "0.8.1",
