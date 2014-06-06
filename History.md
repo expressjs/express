@@ -2,6 +2,7 @@ unreleased
 ==========
 
  * deprecate things with `depd` module
+ * use `finalhandler` for final response handling
  * use `media-typer` to alter content-type charset
 
 4.4.4 / 2014-06-20
