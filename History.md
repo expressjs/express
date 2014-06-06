@@ -2,6 +2,10 @@
 ===
 
  * use `vary` module for `res.vary`
+ * deps: connect@2.19.4
+   - deps: errorhandler@1.0.2
+   - deps: method-override@2.0.2
+   - deps: serve-favicon@2.0.1
  * deps: debug@1.0.0
 
 3.10.2 / 2014-06-03
