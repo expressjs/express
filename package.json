@@ -29,6 +29,7 @@
     "buffer-crc32": "0.2.1",
     "debug": "1.0.0",
     "escape-html": "1.0.1",
+    "finalhandler": "0.0.0",
     "methods": "1.0.1",
     "parseurl": "1.0.1",
     "proxy-addr": "1.0.1",
