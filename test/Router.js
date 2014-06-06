@@ -131,6 +131,25 @@ describe('Router', function(){
 
       router.handle({ url: '/foo/2', method: 'GET' }, {}, done);
     });
+
+    it('should handle throwing inside error handlers', function(done) {
+      var router = new Router();
+
+      router.use(function(req, res, next){
+        throw new Error('boom!');
+      });
+
+      router.use(function(err, req, res, next){
+        throw new Error('oops');
+      });
+
+      router.use(function(err, req, res, next){
+        assert.equal(err.message, 'oops');
+        done();
+      });
+
+      router.handle({ url: '/', method: 'GET' }, {}, done);
+    });
   })
 
   describe('.all', function() {
