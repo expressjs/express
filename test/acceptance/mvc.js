@@ -92,6 +92,13 @@ describe('mvc', function(){
   })
 
   describe('PUT /user/:id', function(){
+    it('should 500 on error', function(done){
+      request(app)
+      .put('/user/1')
+      .send({})
+      .expect(500, done)
+    })
+
     it('should update the user', function(done){
       request(app)
       .put('/user/1')
