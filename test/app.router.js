@@ -656,6 +656,33 @@ describe('app.router', function(){
     .expect(200, '0,1,2,3,4,5', done);
   })
 
+  it('should provide req.params to all handlers', function(done){
+    var app = express();
+    var router = new express.Router();
+
+    function handler1(req, res, next){
+      res.setHeader('x-user-id', req.params.id);
+      next()
+    }
+
+    function handler2(req, res){
+      res.send(req.params.id);
+    }
+
+    router.use(function(req, res, next){
+      res.setHeader('x-router', req.params.id);
+      next();
+    });
+
+    app.get('/user/:id', handler1, router, handler2);
+
+    request(app)
+    .get('/user/1')
+    .expect('x-router', 'undefined')
+    .expect('x-user-id', '1')
+    .expect(200, '1', done);
+  })
+
   it('should be chainable', function(){
     var app = express();
     app.get('/', function(){}).should.equal(app);

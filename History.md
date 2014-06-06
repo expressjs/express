@@ -2,6 +2,7 @@ unreleased
 ==========
 
  * fix behavior when handling request without routes
+ * restore `req.params` after invoking router
  * use `finalhandler` for final response handling
  * use `vary` module for `res.vary`
  * deps: proxy-addr@1.0.1
