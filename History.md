@@ -3,6 +3,7 @@ unreleased
 
  * deprecate things with `depd` module
  * fix behavior when handling request without routes
+ * restore `req.params` after invoking router
  * use `finalhandler` for final response handling
  * use `media-typer` to alter content-type charset
 
