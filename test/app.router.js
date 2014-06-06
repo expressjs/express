@@ -25,6 +25,11 @@ describe('app.router', function(){
         [method]('/foo')
         .expect('head' == method ? '' : method, done);
       })
+
+      it('should reject numbers for app.' + method, function(){
+        var app = express();
+        app[method].bind(app, '/', 3).should.throw(/Number/);
+      })
     });
   })
 

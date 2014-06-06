@@ -15,6 +15,11 @@ describe('app', function(){
     app.use(blog);
   })
 
+  it('should reject numbers', function(){
+    var app = express();
+    app.use.bind(app, 3).should.throw(/Number/);
+  })
+
   describe('.use(app)', function(){
     it('should mount the app', function(done){
       var blog = express()
