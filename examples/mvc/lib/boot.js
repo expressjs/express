@@ -13,22 +13,13 @@ module.exports = function(parent, options){
     var name = obj.name || name;
     var prefix = obj.prefix || '';
     var app = express();
+    var handler;
     var method;
     var path;
 
     // allow specifying the view engine
     if (obj.engine) app.set('view engine', obj.engine);
     app.set('views', __dirname + '/../controllers/' + name + '/views');
-
-    // before middleware support
-    if (obj.before) {
-      path = '/' + name + '/:' + name + '_id';
-      app.all(path, obj.before);
-      verbose && console.log('     ALL %s -> before', path);
-      path = '/' + name + '/:' + name + '_id/*';
-      app.all(path, obj.before);
-      verbose && console.log('     ALL %s -> before', path);
-    }
 
     // generate routes based
     // on the exported methods
@@ -62,12 +53,22 @@ module.exports = function(parent, options){
           path = '/';
           break;
         default:
+          /* istanbul ignore next */
           throw new Error('unrecognized route: ' + name + '.' + key);
       }
 
+      // setup
+      handler = obj[key];
       path = prefix + path;
-      app[method](path, obj[key]);
-      verbose && console.log('     %s %s -> %s', method.toUpperCase(), path, key);
+
+      // before middleware support
+      if (obj.before) {
+        app[method](path, obj.before, handler);
+        verbose && console.log('     %s %s -> before -> %s', method.toUpperCase(), path, key);
+      } else {
+        app[method](path, obj[key]);
+        verbose && console.log('     %s %s -> %s', method.toUpperCase(), path, key);
+      }
     }
 
     // mount the app

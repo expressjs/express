@@ -6,7 +6,7 @@ var db = require('../../db');
 
 exports.before = function(req, res, next){
   var pet = db.pets[req.params.pet_id];
-  if (!pet) return next(new Error('Pet not found'));
+  if (!pet) return next('route');
   req.pet = pet;
   next();
 };
