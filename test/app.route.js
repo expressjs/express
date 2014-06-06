@@ -49,4 +49,14 @@ describe('app.route', function(){
     .get('/test')
     .expect('test', done);
   });
+
+  it('should not error on empty routes', function(done){
+    var app = express();
+
+    app.route('/:foo');
+
+    request(app)
+    .get('/test')
+    .expect(404, done);
+  });
 });

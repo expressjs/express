@@ -167,5 +167,24 @@ describe('Route', function(){
 
       route.dispatch({ method: 'get' }, {});
     });
+
+    it('should handle throwing inside error handlers', function(done) {
+      var route = new Route('');
+
+      route.get(function(req, res, next){
+        throw new Error('boom!');
+      });
+
+      route.get(function(err, req, res, next){
+        throw new Error('oops');
+      });
+
+      route.get(function(err, req, res, next){
+        assert.equal(err.message, 'oops');
+        done();
+      });
+
+      route.dispatch({ url: '/', method: 'GET' }, {}, done);
+    });
   })
 })
