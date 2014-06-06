@@ -1,5 +1,5 @@
-3.x
-===
+3.10.3 / 2014-06-05
+===================
 
  * use `vary` module for `res.vary`
  * deps: connect@2.19.4
