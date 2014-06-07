@@ -1,4 +1,5 @@
 
+var should = require('should');
 var express = require('../')
   , Route = express.Route
   , methods = require('methods')
@@ -182,6 +183,31 @@ describe('Route', function(){
       route.get(function(err, req, res, next){
         assert.equal(err.message, 'oops');
         done();
+      });
+
+      route.dispatch({ url: '/', method: 'GET' }, {});
+    });
+
+    it('should handle throw in .all', function(done) {
+      var route = new Route('');
+
+      route.all(function(req, res, next){
+        throw new Error('boom!');
+      });
+
+      route.dispatch({ url: '/', method: 'GET' }, {}, function(err){
+        should(err).be.ok;
+        err.message.should.equal('boom!');
+        done();
+      });
+    });
+
+    it('should handle single error handler', function(done) {
+      var route = new Route('');
+
+      route.all(function(err, req, res, next){
+        // this should not execute
+        true.should.be.false;
       });
 
       route.dispatch({ url: '/', method: 'GET' }, {}, done);
