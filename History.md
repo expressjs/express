@@ -2,6 +2,7 @@ unreleased
 ==========
 
  * fix behavior when handling request without routes
+ * fix handling when `route.all` is only route
  * restore `req.params` after invoking router
  * use `finalhandler` for final response handling
  * use `vary` module for `res.vary`
