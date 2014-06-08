@@ -56,5 +56,5 @@ app.post('/', function(req, res, next){
 /* istanbul ignore next */
 if (!module.parent) {
   app.listen(4000);
-  console.log('Express started on port 3000');
+  console.log('Express started on port 4000');
 }
