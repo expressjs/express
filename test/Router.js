@@ -129,7 +129,29 @@ describe('Router', function(){
         done();
       });
 
-      router.handle({ url: '/foo/2', method: 'GET' }, {}, done);
+      router.handle({ url: '/foo/2', method: 'GET' }, {}, function() {});
+    });
+
+    it('should handle throwing in handler after async param', function(done) {
+      var router = new Router();
+
+      router.param('user', function(req, res, next, val){
+        process.nextTick(function(){
+          req.user = val;
+          next();
+        });
+      });
+
+      router.use('/:user', function(req, res, next){
+        throw new Error('oh no!');
+      });
+
+      router.use(function(err, req, res, next){
+        assert.equal(err.message, 'oh no!');
+        done();
+      });
+
+      router.handle({ url: '/bob', method: 'GET' }, {}, function() {});
     });
 
     it('should handle throwing inside error handlers', function(done) {
