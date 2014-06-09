@@ -1,3 +1,13 @@
+3.x
+===
+
+ * deps: connect@2.19.5
+   - fix "event emitter leak" warnings
+   - deps: csurf@1.2.1
+   - deps: debug@1.0.1
+   - deps: serve-static@1.2.2
+   - deps: type-is@1.2.1
+
 3.10.3 / 2014-06-05
 ===================
 
