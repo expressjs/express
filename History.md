@@ -8,6 +8,10 @@
    - deps: serve-static@1.2.2
    - deps: type-is@1.2.1
  * deps: debug@1.0.1
+ * deps: send@0.4.2
+   - fix "event emitter leak" warnings
+   - deps: finished@1.2.1
+   - deps: debug@1.0.1
 
 3.10.3 / 2014-06-05
 ===================
