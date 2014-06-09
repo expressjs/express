@@ -1,5 +1,5 @@
-3.x
-===
+3.10.4 / 2014-06-09
+===================
 
  * deps: connect@2.19.5
    - fix "event emitter leak" warnings
