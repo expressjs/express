@@ -3,9 +3,9 @@ unreleased
 
  * fix catching errors from top-level handlers
  * use `vary` module for `res.vary`
+ * deps: debug@1.0.1
  * deps: proxy-addr@1.0.1
  * deps: type-is@1.2.1
- * deps: debug@1.0.0
 
 4.4.1 / 2014-06-02
 ==================
