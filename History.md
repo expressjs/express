@@ -5,6 +5,10 @@ unreleased
  * use `vary` module for `res.vary`
  * deps: debug@1.0.1
  * deps: proxy-addr@1.0.1
+ * deps: send@0.4.2
+   - fix "event emitter leak" warnings
+   - deps: debug@1.0.1
+   - deps: finished@1.2.1
  * deps: serve-static@1.2.2
    - fix "event emitter leak" warnings
    - deps: send@0.4.2
