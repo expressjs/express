@@ -1,5 +1,5 @@
-unreleased
-==========
+4.4.2 / 2014-06-09
+==================
 
  * fix catching errors from top-level handlers
  * use `vary` module for `res.vary`
