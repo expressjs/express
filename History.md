@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+ * fix persistence of modified `req.params[name]` from `app.param()`
  * deps: debug@1.0.2
 
 4.4.2 / 2014-06-09

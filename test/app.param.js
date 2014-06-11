@@ -157,6 +157,26 @@ describe('app', function(){
       .expect('2 2 foo,bob', done);
     })
 
+    it('should support altering req.params across routes', function(done) {
+      var app = express();
+
+      app.param('user', function(req, res, next, user) {
+        req.params.user = 'loki';
+        next();
+      });
+
+      app.get('/:user', function(req, res, next) {
+        next('route');
+      });
+      app.get('/:user', function(req, res, next) {
+        res.send(req.params.user);
+      });
+
+      request(app)
+      .get('/bob')
+      .expect('loki', done);
+    })
+
     it('should work with encoded values', function(done){
       var app = express();
 
