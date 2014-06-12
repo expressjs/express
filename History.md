@@ -1,5 +1,5 @@
-unreleased
-==========
+4.4.3 / 2014-06-11
+==================
 
  * fix persistence of modified `req.params[name]` from `app.param()`
  * deps: accepts@1.0.3
