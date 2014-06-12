@@ -3,6 +3,12 @@ unreleased
 
  * fix persistence of modified `req.params[name]` from `app.param()`
  * deps: debug@1.0.2
+ * deps: send@0.4.3
+   - Do not throw un-catchable error on file open race condition
+   - Use `escape-html` for HTML escaping
+   - deps: debug@1.0.2
+   - deps: finished@1.2.2
+   - deps: fresh@0.2.2
 
 4.4.2 / 2014-06-09
 ==================
