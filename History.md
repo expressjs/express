@@ -7,6 +7,7 @@
    - deps: debug@1.0.2
    - deps: serve-index@1.1.1
    - deps: serve-static@1.2.3
+ * deps: debug@1.0.2
 
 3.10.4 / 2014-06-09
 ===================
