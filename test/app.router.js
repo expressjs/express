@@ -258,7 +258,7 @@ describe('app.router', function(){
   it('should allow escaped regexp', function(done){
     var app = express();
 
-    app.get('/user/\\d+', function(req, res){
+    app.get('/user/(\\d+)', function(req, res){
       res.end('woot');
     });
 
@@ -288,119 +288,50 @@ describe('app.router', function(){
   })
 
   describe('*', function(){
-    it('should denote a greedy capture group', function(done){
+    it('should denote a repeated optional parameter', function(done){
       var app = express();
 
-      app.get('/user/*.json', function(req, res){
-        res.end(req.params[0]);
+      app.get('/user/:user*', function(req, res){
+        res.send(req.params.user);
       });
 
       request(app)
-      .get('/user/tj.json')
-      .expect('tj', done);
-    })
-
-    it('should work with several', function(done){
-      var app = express();
-
-      app.get('/api/*.*', function(req, res){
-        var resource = req.params[0]
-          , format = req.params[1];
-        res.end(resource + ' as ' + format);
-      });
-
-      request(app)
-      .get('/api/users/foo.bar.json')
-      .expect('users/foo.bar as json', done);
-    })
-
-    it('should work cross-segment', function(done){
-      var app = express();
-
-      app.get('/api*', function(req, res){
-        res.send(req.params[0]);
-      });
-
-      request(app)
-      .get('/api')
-      .expect('', function(){
+      .get('/user')
+      .expect('[]')
+      .end(function(err, res){
         request(app)
-        .get('/api/hey')
-        .expect('/hey', done);
+        .get('/user/tj')
+        .expect('["tj"]')
+        .end(function(err, res){
+          request(app)
+          .get('/user/tj/tobi')
+          .expect('["tj","tobi"]', done);
+        });
       });
     })
+  })
 
-    it('should allow naming', function(done){
+  describe('+', function(){
+    it('should denote a repeated parameter', function(done){
       var app = express();
 
-      app.get('/api/:resource(*)', function(req, res){
-        var resource = req.params.resource;
-        res.end(resource);
+      app.get('/user/:user+', function(req, res){
+        res.send(req.params.user);
       });
 
       request(app)
-      .get('/api/users/0.json')
-      .expect('users/0.json', done);
-    })
-
-    it('should not be greedy immediately after param', function(done){
-      var app = express();
-
-      app.get('/user/:user*', function(req, res){
-        res.end(req.params.user);
+      .get('/user')
+      .expect(404)
+      .end(function(err, res){
+        request(app)
+        .get('/user/tj')
+        .expect('["tj"]')
+        .end(function(err, res){
+          request(app)
+          .get('/user/tj/tobi')
+          .expect('["tj","tobi"]', done);
+        });
       });
-
-      request(app)
-      .get('/user/122')
-      .expect('122', done);
-    })
-
-    it('should eat everything after /', function(done){
-      var app = express();
-
-      app.get('/user/:user*', function(req, res){
-        res.end(req.params.user);
-      });
-
-      request(app)
-      .get('/user/122/aaa')
-      .expect('122', done);
-    })
-
-    it('should span multiple segments', function(done){
-      var app = express();
-
-      app.get('/file/*', function(req, res){
-        res.end(req.params[0]);
-      });
-
-      request(app)
-      .get('/file/javascripts/jquery.js')
-      .expect('javascripts/jquery.js', done);
-    })
-
-    it('should be optional', function(done){
-      var app = express();
-
-      app.get('/file/*', function(req, res){
-        res.end(req.params[0]);
-      });
-
-      request(app)
-      .get('/file/')
-      .expect('', done);
-    })
-
-    it('should require a preceeding /', function(done){
-      var app = express();
-
-      app.get('/file/*', function(req, res){
-        res.end(req.params[0]);
-      });
-
-      request(app)
-      .get('/file')
-      .expect(404, done);
     })
   })
 
@@ -621,7 +552,7 @@ describe('app.router', function(){
     var app = express();
     var path = [];
 
-    app.get('*', function(req, res, next){
+    app.get('(.*)', function(req, res, next){
       path.push(0);
       next();
     });
@@ -641,7 +572,7 @@ describe('app.router', function(){
       next();
     });
 
-    app.get('*', function(req, res, next){
+    app.get('(.*)', function(req, res, next){
       path.push(4);
       next();
     });
