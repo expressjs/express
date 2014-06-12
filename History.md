@@ -2,6 +2,8 @@ unreleased
 ==========
 
  * fix persistence of modified `req.params[name]` from `app.param()`
+ * deps: accepts@1.0.3
+   - deps: negotiator@0.4.6
  * deps: debug@1.0.2
  * deps: send@0.4.3
    - Do not throw un-catchable error on file open race condition
