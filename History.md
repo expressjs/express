@@ -11,6 +11,9 @@ unreleased
    - deps: debug@1.0.2
    - deps: finished@1.2.2
    - deps: fresh@0.2.2
+ * deps: serve-static@1.2.3
+   - Do not throw un-catchable error on file open race condition
+   - deps: send@0.4.3
 
 4.4.2 / 2014-06-09
 ==================

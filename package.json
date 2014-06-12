@@ -34,7 +34,7 @@
     "proxy-addr": "1.0.1",
     "range-parser": "1.0.0",
     "send": "0.4.3",
-    "serve-static": "1.2.2",
+    "serve-static": "1.2.3",
     "type-is": "1.2.1",
     "vary": "0.1.0",
     "cookie": "0.1.2",
