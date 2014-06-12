@@ -1,3 +1,13 @@
+3.x
+===
+
+ * deps: connect@2.19.6
+   - deps: body-parser@1.3.1
+   - deps: compression@1.0.7
+   - deps: debug@1.0.2
+   - deps: serve-index@1.1.1
+   - deps: serve-static@1.2.3
+
 3.10.4 / 2014-06-09
 ===================
 

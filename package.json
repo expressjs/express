@@ -26,7 +26,7 @@
   "license": "MIT",
   "dependencies": {
     "buffer-crc32": "0.2.1",
-    "connect": "2.19.5",
+    "connect": "2.19.6",
     "commander": "1.3.2",
     "debug": "1.0.1",
     "escape-html": "1.0.1",
