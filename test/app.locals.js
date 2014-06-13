@@ -24,4 +24,43 @@ describe('app', function(){
       obj.should.have.property('title', 'House of Manny');
     })
   })
+
+  describe('.locals', function(){
+    it('should lookup on parent when mounted', function(done){
+      var app = express();
+      var blog = express();
+
+      app.locals.foo = 'bar';
+
+      app.use(blog);
+
+      blog.use(function(req, res){
+        req.app.locals.foo.should.equal('bar');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, done);
+    });
+
+    it('should override parent when mounted', function(done){
+      var app = express();
+      var blog = express();
+
+      app.locals.foo = 'bar';
+      blog.locals.foo = 'baz';
+
+      app.use(blog);
+
+      blog.use(function(req, res){
+        req.app.locals.foo.should.equal('baz');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, done);
+    });
+  })
 })
