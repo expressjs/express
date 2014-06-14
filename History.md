@@ -1,3 +1,8 @@
+unreleased
+==========
+
+ * fix "trim prefix" debug message in `express:router`
+
 4.4.3 / 2014-06-11
 ==================
 
