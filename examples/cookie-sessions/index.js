@@ -3,15 +3,11 @@
  */
 
 var express = require('../../');
-var cookie-parser = require('cookie-parser');
 
 var app = module.exports = express();
 
-// pass a secret to cookieParser() for signed cookies
-app.use(cookieParser('manny is cool'));
-
 // add req.session cookie support
-app.use(cookieSession());
+app.use(cookieSession({ secret: 'manny is cool' }));
 
 // do something with the session
 app.use(count);

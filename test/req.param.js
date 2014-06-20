@@ -34,7 +34,7 @@ describe('req', function(){
     it('should check req.body', function(done){
       var app = express();
 
-      app.use(bodyParser());
+      app.use(bodyParser.json());
 
       app.use(function(req, res){
         res.end(req.param('name'));

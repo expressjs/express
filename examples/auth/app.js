@@ -5,7 +5,6 @@
 var express = require('../..');
 var hash = require('./pass').hash;
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
 var app = module.exports = express();
@@ -17,9 +16,8 @@ app.set('views', __dirname + '/views');
 
 // middleware
 
-app.use(bodyParser());
-app.use(cookieParser('shhhh, very secret'));
-app.use(session());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({ secret: 'shhhh, very secret' }));
 
 // Session-persisted message middleware
 

@@ -3,18 +3,12 @@
 // $ redis-server
 
 var express = require('../..');
-var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
 var app = express();
 
-// Required by session() middleware
-// pass the secret for signed cookies
-// (required by session())
-app.use(cookieParser('keyboard cat'));
-
 // Populates req.session
-app.use(session());
+app.use(session({ secret: 'keyboard cat' }));
 
 app.get('/', function(req, res){
   var body = '';

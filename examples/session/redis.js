@@ -4,7 +4,6 @@
 
 var express = require('../..');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
 // pass the express to the connect redis module
@@ -15,13 +14,8 @@ var app = express();
 
 app.use(logger('dev'));
 
-// Required by session() middleware
-// pass the secret for signed cookies
-// (required by session())
-app.use(cookieParser('keyboard cat'));
-
 // Populates req.session
-app.use(session({ store: new RedisStore }));
+app.use(session({ store: new RedisStore, secret: 'keyboard cat' }));
 
 app.get('/', function(req, res){
   var body = '';

@@ -15,7 +15,7 @@ app.use(express.static(__dirname + '/public'));
 // api middleware
 
 api.use(logger('dev'));
-api.use(bodyParser());
+api.use(bodyParser.json());
 
 /**
  * CORS support.

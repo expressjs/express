@@ -5,7 +5,6 @@
 var express = require('../..');
 var logger = require('morgan');
 var session = require('express-session');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 
@@ -38,11 +37,10 @@ if (!module.parent) app.use(logger('dev'));
 app.use(express.static(__dirname + '/public'));
 
 // session support
-app.use(cookieParser('some secret here'));
-app.use(session());
+app.use(session({ secret: 'some secret here' }));
 
 // parse request bodies (req.body)
-app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // allow overriding methods in query (?_method=put)
 app.use(methodOverride('_method'));

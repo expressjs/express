@@ -17,8 +17,8 @@ if ('test' != process.env.NODE_ENV) app.use(logger(':method :url'));
 // for signing the cookies.
 app.use(cookieParser('my secret here'));
 
-// parses json, x-www-form-urlencoded, and multipart/form-data
-app.use(bodyParser());
+// parses x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', function(req, res){
   if (req.cookies.remember) {

@@ -18,7 +18,7 @@ app.set('views', __dirname + '/views');
 app.use(logger('dev'));
 app.use(methodOverride('_method'));
 app.use(cookieParser());
-app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
 // General
