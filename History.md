@@ -1,5 +1,5 @@
-unreleased
-==========
+4.4.4 / 2014-06-20
+==================
 
  * fix `res.attachment` Unicode filenames in Safari
  * fix "trim prefix" debug message in `express:router`
