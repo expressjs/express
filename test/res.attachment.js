@@ -57,7 +57,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('Content-Disposition', 'attachment;' +
-          ' filename=%E6%97%A5%E6%9C%AC%E8%AA%9E.txt;' +
+          ' filename="%E6%97%A5%E6%9C%AC%E8%AA%9E.txt";' +
           ' filename*=UTF-8\'\'%E6%97%A5%E6%9C%AC%E8%AA%9E.txt',
         done);
     })
