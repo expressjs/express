@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+ * deprecate things with `depd` module
  * deps: buffer-crc32@0.2.3
  * deps: connect@2.20.2
    - deprecate `verify` option to `json` -- use `body-parser` module directly
