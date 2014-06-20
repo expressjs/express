@@ -10,6 +10,7 @@ app.get('/', function(req, res){
     + '<li>Download <a href="/files/amazing.txt">amazing.txt</a>.</li>'
     + '<li>Download <a href="/files/utf-8 한中日.txt">utf-8 한中日.txt</a>.</li>'
     + '<li>Download <a href="/files/missing.txt">missing.txt</a>.</li>'
+    + '<li>Download <a href="/files/首届CCTV阿拉伯语大赛上海分赛区初赛圆满落幕.txt">首届CCTV阿拉伯语大赛上海分赛区初赛圆满落幕.txt</a>.</li>'
     + '</ul>');
 });
 
