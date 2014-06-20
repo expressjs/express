@@ -1,5 +1,5 @@
-unreleased
-==========
+3.11.0 / 2014-06-19
+===================
 
  * deprecate things with `depd` module
  * deps: buffer-crc32@0.2.3
