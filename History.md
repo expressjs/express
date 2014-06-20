@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+ * fix `res.attachment` Unicode filenames in Safari
  * fix "trim prefix" debug message in `express:router`
  * deps: accepts@~1.0.5
  * deps: buffer-crc32@0.2.3
