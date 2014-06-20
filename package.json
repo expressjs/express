@@ -26,7 +26,7 @@
   "license": "MIT",
   "dependencies": {
     "accepts": "1.0.3",
-    "buffer-crc32": "0.2.1",
+    "buffer-crc32": "0.2.3",
     "debug": "1.0.2",
     "escape-html": "1.0.1",
     "methods": "1.0.1",

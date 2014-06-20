@@ -2,6 +2,7 @@ unreleased
 ==========
 
  * fix "trim prefix" debug message in `express:router`
+ * deps: buffer-crc32@0.2.3
 
 4.4.3 / 2014-06-11
 ==================
