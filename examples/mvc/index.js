@@ -35,7 +35,7 @@ app.use(express.cookieParser('some secret here'));
 app.use(express.session());
 
 // parse request bodies (req.body)
-app.use(express.bodyParser());
+app.use(express.urlencoded({ extended: true }));
 
 // support _method (PUT in forms etc)
 app.use(express.methodOverride());

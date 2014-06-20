@@ -33,6 +33,7 @@ describe('mvc', function(){
     it('should update the pet', function(done){
       request(app)
       .put('/pet/3')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
       .send({ pet: { name: 'Boots' } })
       .end(function(err, res){
         if (err) return done(err);
@@ -95,6 +96,7 @@ describe('mvc', function(){
     it('should update the user', function(done){
       request(app)
       .put('/user/1')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
       .send({ user: { name: 'Tobo' }})
       .end(function(err, res){
         if (err) return done(err);
@@ -109,6 +111,7 @@ describe('mvc', function(){
     it('should create a pet for user', function(done){
       request(app)
       .post('/user/2/pet')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
       .send({ pet: { name: 'Snickers' }})
       .expect('Location', '/user/2')
       .expect(302, function(err, res){
