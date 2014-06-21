@@ -14,9 +14,8 @@ app.set('views', __dirname + '/views');
 
 // middleware
 
-app.use(express.bodyParser());
-app.use(express.cookieParser('shhhh, very secret'));
-app.use(express.session());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.session({ secret: 'shhhh, very secret' }));
 
 // Session-persisted message middleware
 

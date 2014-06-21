@@ -335,7 +335,7 @@ function createApplicationAt(path) {
 
     // Session support
     app = app.replace('{sess}', program.sessions
-      ? eol + 'app.use(express.cookieParser(\'your secret here\'));' + eol + 'app.use(express.session());'
+      ? eol + 'app.use(express.session({ secret: \'your secret here\' }));'
       : '');
 
     // Template support

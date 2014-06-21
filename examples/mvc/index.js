@@ -31,8 +31,7 @@ if (!module.parent) app.use(express.logger('dev'));
 app.use(express.static(__dirname + '/public'));
 
 // session support
-app.use(express.cookieParser('some secret here'));
-app.use(express.session());
+app.use(express.session({ secret: 'some secret here' }));
 
 // parse request bodies (req.body)
 app.use(express.urlencoded({ extended: true }));

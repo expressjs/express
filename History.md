@@ -1,3 +1,15 @@
+unreleased
+==========
+
+ * deps: connect@2.21.0
+   - deprecate `connect(middleware)` -- use `app.use(middleware)` instead
+   - deprecate `connect.createServer()` -- use `connect()` instead
+   - fix `res.setHeader()` patch to work with with get -> append -> set pattern
+   - deps: compression@~1.0.8
+   - deps: errorhandler@~1.1.1
+   - deps: express-session@~1.5.0
+   - deps: serve-index@~1.1.3
+
 3.11.0 / 2014-06-19
 ===================
 

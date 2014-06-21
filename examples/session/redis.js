@@ -10,13 +10,8 @@ var app = express();
 
 app.use(express.logger('dev'));
 
-// Required by session() middleware
-// pass the secret for signed cookies
-// (required by session())
-app.use(express.cookieParser('keyboard cat'));
-
 // Populates req.session
-app.use(express.session({ store: new RedisStore }));
+app.use(express.session({ store: new RedisStore, secret: 'keyboard cat' }));
 
 app.get('/', function(req, res){
   var body = '';
