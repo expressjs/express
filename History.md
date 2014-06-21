@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+ * use `media-typer` to alter content-type charset
  * deps: connect@2.21.0
    - deprecate `connect(middleware)` -- use `app.use(middleware)` instead
    - deprecate `connect.createServer()` -- use `connect()` instead
