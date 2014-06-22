@@ -1,5 +1,5 @@
-unreleased
-==========
+3.12.0 / 2014-06-21
+===================
 
  * use `media-typer` to alter content-type charset
  * deps: connect@2.21.0
