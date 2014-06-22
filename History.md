@@ -1,3 +1,9 @@
+unreleased
+==========
+
+ * deprecate things with `depd` module
+ * use `media-typer` to alter content-type charset
+
 4.4.4 / 2014-06-20
 ==================
 
@@ -195,6 +201,41 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.12.0 / 2014-06-21
+===================
+
+ * use `media-typer` to alter content-type charset
+ * deps: connect@2.21.0
+   - deprecate `connect(middleware)` -- use `app.use(middleware)` instead
+   - deprecate `connect.createServer()` -- use `connect()` instead
+   - fix `res.setHeader()` patch to work with with get -> append -> set pattern
+   - deps: compression@~1.0.8
+   - deps: errorhandler@~1.1.1
+   - deps: express-session@~1.5.0
+   - deps: serve-index@~1.1.3
+
+3.11.0 / 2014-06-19
+===================
+
+ * deprecate things with `depd` module
+ * deps: buffer-crc32@0.2.3
+ * deps: connect@2.20.2
+   - deprecate `verify` option to `json` -- use `body-parser` module directly
+   - deprecate `verify` option to `urlencoded` -- use `body-parser` module directly
+   - deprecate things with `depd` module
+   - use `finalhandler` for final response handling
+   - use `media-typer` to parse `content-type` for charset
+   - deps: body-parser@1.4.3
+   - deps: connect-timeout@1.1.1
+   - deps: cookie-parser@1.3.1
+   - deps: csurf@1.2.2
+   - deps: errorhandler@1.1.0
+   - deps: express-session@1.4.0
+   - deps: multiparty@3.2.9
+   - deps: serve-index@1.1.2
+   - deps: type-is@1.3.1
+   - deps: vhost@2.0.0
 
 3.10.5 / 2014-06-11
 ===================

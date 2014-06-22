@@ -2,28 +2,6 @@
 var utils = require('../lib/utils')
   , assert = require('assert');
 
-describe('utils.deprecate(fn, msg)', function(){
-  var env
-  before(function(){
-    env = process.env.NODE_ENV
-  })
-  after(function(){
-    process.env.NODE_ENV = env
-  })
-
-  it('should pass-through fn in test environment', function(){
-    var fn = function(){}
-    process.env.NODE_ENV = 'test'
-    utils.deprecate(fn).should.equal(fn)
-  })
-
-  it('should return new fn in other environment', function(){
-    var fn = function(){}
-    process.env.NODE_ENV = ''
-    utils.deprecate(fn).should.not.equal(fn)
-  })
-})
-
 describe('utils.etag(body, encoding)', function(){
   it('should support strings', function(){
     utils.etag('express!')
