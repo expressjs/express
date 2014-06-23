@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+ * add deprecation message to non-plural `req.accepts*`
  * deprecate things with `depd` module
  * fix behavior when handling request without routes
  * fix handling when `route.all` is only route
