@@ -10,6 +10,7 @@ unreleased
  * restore `req.params` after invoking router
  * use `finalhandler` for final response handling
  * use `media-typer` to alter content-type charset
+ * deps: type-is@~1.3.2
 
 4.4.4 / 2014-06-20
 ==================
