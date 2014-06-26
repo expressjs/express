@@ -1,3 +1,12 @@
+3.x
+===
+
+ * deps: connect@2.21.1
+   - deps: cookie-parser@1.3.2
+   - deps: cookie-signature@1.0.4
+   - deps: express-session@~1.5.2
+   - deps: type-is@~1.3.2
+
 3.12.0 / 2014-06-21
 ===================
 
