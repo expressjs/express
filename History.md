@@ -12,6 +12,12 @@ unreleased
  * use `media-typer` to alter content-type charset
  * deps: type-is@~1.3.2
 
+4.4.5 / 2014-06-26
+==================
+
+ * deps: cookie-signature@1.0.4
+   - fix for timing attacks
+
 4.4.4 / 2014-06-20
 ==================
 
