@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "after": "0.8.1",
-    "istanbul": "0.2.11",
+    "istanbul": "0.2.12",
     "mocha": "~1.20.1",
     "should": "~4.0.4",
     "supertest": "~0.13.0",

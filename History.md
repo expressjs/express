@@ -216,6 +216,17 @@ unreleased
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
 
+3.12.1 / 2014-06-26
+===================
+
+ * deps: connect@2.21.1
+   - deps: cookie-parser@1.3.2
+   - deps: cookie-signature@1.0.4
+   - deps: express-session@~1.5.2
+   - deps: type-is@~1.3.2
+ * deps: cookie-signature@1.0.4
+   - fix for timing attacks
+
 3.12.0 / 2014-06-21
 ===================
 
