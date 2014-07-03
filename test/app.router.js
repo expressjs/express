@@ -5,6 +5,33 @@ var express = require('../')
   , methods = require('methods');
 
 describe('app.router', function(){
+  it('should restore req.params after leaving router', function(done){
+    var app = express();
+    var router = new express.Router();
+
+    function handler1(req, res, next){
+      res.setHeader('x-user-id', req.params.id);
+      next()
+    }
+
+    function handler2(req, res){
+      res.send(req.params.id);
+    }
+
+    router.use(function(req, res, next){
+      res.setHeader('x-router', req.params.id);
+      next();
+    });
+
+    app.get('/user/:id', handler1, router, handler2);
+
+    request(app)
+    .get('/user/1')
+    .expect('x-router', 'undefined')
+    .expect('x-user-id', '1')
+    .expect(200, '1', done);
+  })
+
   describe('methods supported', function(){
     methods.concat('del').forEach(function(method){
       if (method === 'connect') return;
@@ -180,6 +207,106 @@ describe('app.router', function(){
         .get('/user')
         .expect(404, done);
       })
+    })
+  })
+
+  describe('params', function(){
+    it('should overwrite existing req.params by default', function(done){
+      var app = express();
+      var router = new express.Router();
+
+      router.get('/:action', function(req, res){
+        res.send(req.params);
+      });
+
+      app.use('/user/:user', router);
+
+      request(app)
+      .get('/user/1/get')
+      .expect(200, '{"action":"get"}', done);
+    })
+
+    it('should allow merging existing req.params', function(done){
+      var app = express();
+      var router = new express.Router({ mergeParams: true });
+
+      router.get('/:action', function(req, res){
+        var keys = Object.keys(req.params).sort();
+        res.send(keys.map(function(k){ return [k, req.params[k]] }));
+      });
+
+      app.use('/user/:user', router);
+
+      request(app)
+      .get('/user/tj/get')
+      .expect(200, '[["action","get"],["user","tj"]]', done);
+    })
+
+    it('should use params from router', function(done){
+      var app = express();
+      var router = new express.Router({ mergeParams: true });
+
+      router.get('/:thing', function(req, res){
+        var keys = Object.keys(req.params).sort();
+        res.send(keys.map(function(k){ return [k, req.params[k]] }));
+      });
+
+      app.use('/user/:thing', router);
+
+      request(app)
+      .get('/user/tj/get')
+      .expect(200, '[["thing","get"]]', done);
+    })
+
+    it('should merge numeric indices req.params', function(done){
+      var app = express();
+      var router = new express.Router({ mergeParams: true });
+
+      router.get('/*.*', function(req, res){
+        var keys = Object.keys(req.params).sort();
+        res.send(keys.map(function(k){ return [k, req.params[k]] }));
+      });
+
+      app.use('/user/id:(\\d+)', router);
+
+      request(app)
+      .get('/user/id:10/profile.json')
+      .expect(200, '[["0","10"],["1","profile"],["2","json"]]', done);
+    })
+
+    it('should merge numeric indices req.params when more in parent', function(done){
+      var app = express();
+      var router = new express.Router({ mergeParams: true });
+
+      router.get('/*', function(req, res){
+        var keys = Object.keys(req.params).sort();
+        res.send(keys.map(function(k){ return [k, req.params[k]] }));
+      });
+
+      app.use('/user/id:(\\d+)/name:(\\w+)', router);
+
+      request(app)
+      .get('/user/id:10/name:tj/profile')
+      .expect(200, '[["0","10"],["1","tj"],["2","profile"]]', done);
+    })
+
+    it('should ignore invalid incoming req.params', function(done){
+      var app = express();
+      var router = new express.Router({ mergeParams: true });
+
+      router.get('/:name', function(req, res){
+        var keys = Object.keys(req.params).sort();
+        res.send(keys.map(function(k){ return [k, req.params[k]] }));
+      });
+
+      app.use('/user/', function (req, res, next) {
+        req.params = 3; // wat?
+        router(req, res, next);
+      });
+
+      request(app)
+      .get('/user/tj')
+      .expect(200, '[["name","tj"]]', done);
     })
   })
 
@@ -654,33 +781,6 @@ describe('app.router', function(){
     request(app)
     .get('/user/1')
     .expect(200, '0,1,2,3,4,5', done);
-  })
-
-  it('should provide req.params to all handlers', function(done){
-    var app = express();
-    var router = new express.Router();
-
-    function handler1(req, res, next){
-      res.setHeader('x-user-id', req.params.id);
-      next()
-    }
-
-    function handler2(req, res){
-      res.send(req.params.id);
-    }
-
-    router.use(function(req, res, next){
-      res.setHeader('x-router', req.params.id);
-      next();
-    });
-
-    app.get('/user/:id', handler1, router, handler2);
-
-    request(app)
-    .get('/user/1')
-    .expect('x-router', 'undefined')
-    .expect('x-user-id', '1')
-    .expect(200, '1', done);
   })
 
   it('should be chainable', function(){

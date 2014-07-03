@@ -4,6 +4,8 @@ unreleased
  * add deprecation message to non-plural `req.accepts*`
  * add deprecation message to `res.send(body, status)`
  * add deprecation message to `res.vary()`
+ * add `mergeParams` option to `Router`
+   - merges `req.params` from parent routes
  * deprecate things with `depd` module
  * fix behavior when handling request without routes
  * fix handling when `route.all` is only route
