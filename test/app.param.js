@@ -177,6 +177,31 @@ describe('app', function(){
       .expect('loki', done);
     })
 
+    it('should not invoke without route handler', function(done) {
+      var app = express();
+
+      app.param('thing', function(req, res, next, thing) {
+        req.thing = thing;
+        next();
+      });
+
+      app.param('user', function(req, res, next, user) {
+        next(new Error('invalid invokation'));
+      });
+
+      app.post('/:user', function(req, res, next) {
+        res.send(req.params.user);
+      });
+
+      app.get('/:thing', function(req, res, next) {
+        res.send(req.thing);
+      });
+
+      request(app)
+      .get('/bob')
+      .expect(200, 'bob', done);
+    })
+
     it('should work with encoded values', function(done){
       var app = express();
 
