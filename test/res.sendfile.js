@@ -130,6 +130,41 @@ describe('res', function(){
       .expect(200, 'tobi', done);
     })
 
+    it('should accept headers option', function(done){
+      var app = express();
+      var headers = {
+         'x-success': 'sent',
+         'x-other': 'done'
+      };
+
+      app.use(function(req, res){
+        res.sendfile('test/fixtures/user.html', { headers: headers });
+      });
+
+      request(app)
+      .get('/')
+      .expect('x-success', 'sent')
+      .expect('x-other', 'done')
+      .expect(200, done);
+    })
+
+    it('should ignore headers option on 404', function(done){
+      var app = express();
+      var headers = { 'x-success': 'sent' };
+
+      app.use(function(req, res){
+        res.sendfile('test/fixtures/user.nothing', { headers: headers });
+      });
+
+      request(app)
+      .get('/')
+      .expect(404, function (err, res) {
+        if (err) return done(err);
+        res.headers.should.not.have.property('x-success');
+        done();
+      });
+    })
+
     describe('with an absolute path', function(){
       it('should transfer the file', function(done){
         var app = express();

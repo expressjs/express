@@ -4,6 +4,8 @@ unreleased
  * add deprecation message to non-plural `req.accepts*`
  * add deprecation message to `res.send(body, status)`
  * add deprecation message to `res.vary()`
+ * add `headers` option to `res.sendfile`
+   - use to set headers on successful file transfer
  * add `mergeParams` option to `Router`
    - merges `req.params` from parent routes
  * deprecate things with `depd` module
