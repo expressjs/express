@@ -37,7 +37,11 @@ if (!module.parent) app.use(logger('dev'));
 app.use(express.static(__dirname + '/public'));
 
 // session support
-app.use(session({ secret: 'some secret here' }));
+app.use(session({
+  resave: false, // don't save session if unmodified
+  saveUninitialized: false, // don't create session until something stored
+  secret: 'some secret here'
+}));
 
 // parse request bodies (req.body)
 app.use(bodyParser.urlencoded({ extended: true }));

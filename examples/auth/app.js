@@ -17,7 +17,11 @@ app.set('views', __dirname + '/views');
 // middleware
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(session({ secret: 'shhhh, very secret' }));
+app.use(session({
+  resave: false, // don't save session if unmodified
+  saveUninitialized: false, // don't create session until something stored
+  secret: 'shhhh, very secret'
+}));
 
 // Session-persisted message middleware
 
