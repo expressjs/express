@@ -1,3 +1,10 @@
+unreleased
+==========
+
+ * deps: send@0.5.0
+   - Accept string for `maxage` (converted by `ms`)
+   - Include link in default redirect response
+
 3.12.1 / 2014-06-26
 ===================
 
