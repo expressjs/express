@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+ * add deprecation message to `app.configure`
  * deps: send@0.5.0
    - Accept string for `maxage` (converted by `ms`)
    - Include link in default redirect response
