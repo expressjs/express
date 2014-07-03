@@ -12,6 +12,9 @@ unreleased
  * restore `req.params` after invoking router
  * use `finalhandler` for final response handling
  * use `media-typer` to alter content-type charset
+ * deps: send@0.5.0
+   - Accept string for `maxage` (converted by `ms`)
+   - Include link in default redirect response
  * deps: serve-static@~1.3.0
    - Accept string for `maxAge` (converted by `ms`)
    - Add `setHeaders` option

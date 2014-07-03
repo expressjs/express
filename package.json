@@ -36,7 +36,7 @@
     "parseurl": "1.0.1",
     "proxy-addr": "1.0.1",
     "range-parser": "1.0.0",
-    "send": "0.4.3",
+    "send": "0.5.0",
     "serve-static": "~1.3.0",
     "type-is": "~1.3.2",
     "vary": "0.1.0",
