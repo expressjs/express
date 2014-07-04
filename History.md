@@ -8,7 +8,9 @@ unreleased
    - use to set headers on successful file transfer
  * add `mergeParams` option to `Router`
    - merges `req.params` from parent routes
+ * add `req.hostname` -- correct name for what `req.host` returns
  * deprecate things with `depd` module
+ * deprecate `req.host` -- use `req.hostname` instead
  * fix behavior when handling request without routes
  * fix handling when `route.all` is only route
  * invoke `router.param()` only when route matches
