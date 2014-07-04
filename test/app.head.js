@@ -34,6 +34,8 @@ describe('HEAD', function(){
       .get('/tobi')
       .expect(200, function(err, res){
         if (err) return done(err);
+        delete headers.date;
+        delete res.headers.date;
         assert.deepEqual(res.headers, headers);
         done();
       });
