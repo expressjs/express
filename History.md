@@ -1,5 +1,5 @@
-unreleased
-==========
+3.13.0 / 2014-07-03
+===================
 
  * add deprecation message to `app.configure`
  * add deprecation message to `req.auth`
