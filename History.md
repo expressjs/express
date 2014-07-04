@@ -2,6 +2,8 @@ unreleased
 ==========
 
  * add deprecation message to `app.configure`
+ * add deprecation message to `req.auth`
+ * use `basic-auth` to parse `Authorization` header
  * deps: connect@2.22.0
    - deps: csurf@~1.3.0
    - deps: express-session@~1.6.1
