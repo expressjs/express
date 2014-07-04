@@ -14,6 +14,7 @@ unreleased
  * restore `req.params` after invoking router
  * use `finalhandler` for final response handling
  * use `media-typer` to alter content-type charset
+ * deps: accepts@~1.0.7
  * deps: send@0.5.0
    - Accept string for `maxage` (converted by `ms`)
    - Include link in default redirect response

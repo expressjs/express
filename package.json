@@ -25,7 +25,7 @@
   "repository": "visionmedia/express",
   "license": "MIT",
   "dependencies": {
-    "accepts": "~1.0.5",
+    "accepts": "~1.0.7",
     "buffer-crc32": "0.2.3",
     "debug": "1.0.2",
     "depd": "0.3.0",
