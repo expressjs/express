@@ -1,48 +1,58 @@
-[![express logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](http://expressjs.com/)
+[![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](https://expressjs.com/)
 
-  Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
+  Fast, unopinionated, minimalist web framework for [node](https://nodejs.org).
 
-  [![NPM version](https://badge.fury.io/js/express.svg)](http://badge.fury.io/js/express)
+  [![NPM Version](https://badge.fury.io/js/express.svg)](https://badge.fury.io/js/express)
   [![Build Status](https://travis-ci.org/visionmedia/express.svg?branch=master)](https://travis-ci.org/visionmedia/express)
   [![Coverage Status](https://img.shields.io/coveralls/visionmedia/express.svg)](https://coveralls.io/r/visionmedia/express)
-  [![Gittip](http://img.shields.io/gittip/visionmedia.svg)](https://www.gittip.com/visionmedia/)
+  [![Gittip](https://img.shields.io/gittip/visionmedia.svg)](https://www.gittip.com/visionmedia/)
 
 ```js
-var express = require('express');
-var app = express();
+var express = require('express')
+var app = express()
 
-app.get('/', function(req, res){
-  res.send('Hello World');
-});
+app.get('/', function (req, res) {
+  res.send('Hello World')
+})
 
-app.listen(3000);
+app.listen(3000)
 ```
 
-**PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/visionmedia/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/visionmedia/express/wiki/New-features-in-4.x).
+  **PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/visionmedia/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/visionmedia/express/wiki/New-features-in-4.x).
 
-## Installation
+### Installation
 
-    $ npm install express
+```bash
+$ npm install express
+```
 
 ## Quick Start
 
- The quickest way to get started with express is to utilize the executable [`express(1)`](http://github.com/expressjs/generator) to generate an application as shown below:
- 
- Install the executable. The executable's major version will match Express's:
- 
-    $ npm install -g express-generator@3
+  The quickest way to get started with express is to utilize the executable [`express(1)`](https://github.com/expressjs/generator) to generate an application as shown below:
 
- Create the app:
+  Install the executable. The executable's major version will match Express's:
 
-    $ express /tmp/foo && cd /tmp/foo
+```bash
+$ npm install -g express-generator@4
+```
 
- Install dependencies:
+  Create the app:
 
-    $ npm install
+```bash
+$ express /tmp/foo && cd /tmp/foo
+```
 
- Start the server:
+  Install dependencies:
 
-    $ npm start
+```bash
+$ npm install
+```
+
+  Start the server:
+
+```bash
+$ npm start
+```
 
 ## Features
 
@@ -61,53 +71,57 @@ app.listen(3000);
   HTTP APIs.
 
   Express does not force you to use any specific ORM or template engine. With support for over
-  14 template engines via [Consolidate.js](http://github.com/visionmedia/consolidate.js),
+  14 template engines via [Consolidate.js](https://github.com/visionmedia/consolidate.js),
   you can quickly craft your perfect framework.
 
 ## More Information
 
-  * [Website and Documentation](http://expressjs.com/) stored at [visionmedia/expressjs.com](https://github.com/visionmedia/expressjs.com)
-  * Join #express on freenode
-  * [Google Group](http://groups.google.com/group/express-js) for discussion
-  * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) and [defunctzombie](https://twitter.com/defunctzombie) on twitter for updates
-  * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
+  * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/visionmedia/expressjs.com)]
+  * [Github Organization](https://github.com/expressjs) for Official Middleware & Modules
+  * [#express](https://webchat.freenode.net/?channels=express) on freenode IRC
+  * Visit the [Wiki](https://github.com/visionmedia/express/wiki)
+  * [Google Group](https://groups.google.com/group/express-js) for discussion
   * [Русскоязычная документация](http://jsman.ru/express/)
   * Run express examples [online](https://runnable.com/express)
 
 ## Viewing Examples
 
-Clone the Express repo, then install the dev dependencies to install all the example / test suite dependencies:
+  Clone the Express repo, then install the dev dependencies to install all the example / test suite dependencies:
 
-    $ git clone git://github.com/visionmedia/express.git --depth 1
-    $ cd express
-    $ npm install
+```bash
+$ git clone git://github.com/visionmedia/express.git --depth 1
+$ cd express
+$ npm install
+```
 
-Then run whichever tests you want:
+  Then run whichever example you want:
 
     $ node examples/content-negotiation
 
-You can also view live examples here:
+  You can also view live examples here:
 
-<a href="https://runnable.com/express" target="_blank"><img src="https://runnable.com/external/styles/assets/runnablebtn.png" style="width:67px;height:25px;"></a>
+  <a href="https://runnable.com/express" target="_blank"><img src="https://runnable.com/external/styles/assets/runnablebtn.png" style="width:67px;height:25px;"></a>
 
 ## Running Tests
 
-To run the test suite, first invoke the following command within the repo, installing the development dependencies:
+  To run the test suite, first invoke the following command within the repo, installing the development dependencies:
 
-    $ npm install
+```bash
+$ npm install
+```
 
-Then run the tests:
+  Then run the tests:
 
-```sh
+```bash
 $ npm test
 ```
 
-## Contributors
-  
-  Author: [TJ Holowaychuk](http://github.com/visionmedia)  
-  Lead Maintainer: [Roman Shtylman](https://github.com/defunctzombie)  
-  Contributors: https://github.com/visionmedia/express/graphs/contributors  
+### Contributors
 
-## License
+ * Author: [TJ Holowaychuk](https://github.com/visionmedia)
+ * Lead Maintainer: [Douglas Christopher Wilson](https://github.com/dougwilson)
+ * [All Contributors](https://github.com/visionmedia/express/graphs/contributors)
 
-MIT
+### License
+
+  [MIT](LICENSE)
