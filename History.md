@@ -228,6 +228,21 @@ unreleased
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
 
+3.13.0 / 2014-07-03
+===================
+
+ * add deprecation message to `app.configure`
+ * add deprecation message to `req.auth`
+ * use `basic-auth` to parse `Authorization` header
+ * deps: connect@2.22.0
+   - deps: csurf@~1.3.0
+   - deps: express-session@~1.6.1
+   - deps: multiparty@3.3.0
+   - deps: serve-static@~1.3.0
+ * deps: send@0.5.0
+   - Accept string for `maxage` (converted by `ms`)
+   - Include link in default redirect response
+
 3.12.1 / 2014-06-26
 ===================
 
