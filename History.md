@@ -2,6 +2,11 @@ unreleased
 ==========
 
  * add deprecation message to `app.configure`
+ * deps: connect@2.22.0
+   - deps: csurf@~1.3.0
+   - deps: express-session@~1.6.1
+   - deps: multiparty@3.3.0
+   - deps: serve-static@~1.3.0
  * deps: send@0.5.0
    - Accept string for `maxage` (converted by `ms`)
    - Include link in default redirect response
