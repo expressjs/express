@@ -1,6 +1,7 @@
 
-var express = require('../')
-  , request = require('supertest');
+var after = require('after');
+var express = require('..');
+var request = require('supertest');
 
 describe('app', function(){
   it('should emit "mount" when mounted', function(done){
@@ -82,6 +83,85 @@ describe('app', function(){
       request(app)
       .get('/post/once-upon-a-time')
       .expect('success', done);
+    })
+  })
+
+  describe('.use(middleware)', function(){
+    it('should invoke middleware for all requests', function (done) {
+      var app = express();
+      var cb = after(3, done);
+
+      app.use(function (req, res) {
+        res.send('saw ' + req.method + ' ' + req.url);
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, 'saw GET /', cb);
+
+      request(app)
+      .options('/')
+      .expect(200, 'saw OPTIONS /', cb);
+
+      request(app)
+      .post('/foo')
+      .expect(200, 'saw POST /foo', cb);
+    })
+  })
+
+  describe('.use(path, middleware)', function(){
+    it('should strip path from req.url', function (done) {
+      var app = express();
+
+      app.use('/foo', function (req, res) {
+        res.send('saw ' + req.method + ' ' + req.url);
+      });
+
+      request(app)
+      .get('/foo/bar')
+      .expect(200, 'saw GET /bar', done);
+    })
+
+    it('should invoke middleware for all requests starting with path', function (done) {
+      var app = express();
+      var cb = after(3, done);
+
+      app.use('/foo', function (req, res) {
+        res.send('saw ' + req.method + ' ' + req.url);
+      });
+
+      request(app)
+      .get('/')
+      .expect(404, cb);
+
+      request(app)
+      .post('/foo')
+      .expect(200, 'saw POST /', cb);
+
+      request(app)
+      .post('/foo/bar')
+      .expect(200, 'saw POST /bar', cb);
+    })
+
+    it('should work if path has trailing slash', function (done) {
+      var app = express();
+      var cb = after(3, done);
+
+      app.use('/foo/', function (req, res) {
+        res.send('saw ' + req.method + ' ' + req.url);
+      });
+
+      request(app)
+      .get('/')
+      .expect(404, cb);
+
+      request(app)
+      .post('/foo')
+      .expect(200, 'saw POST /', cb);
+
+      request(app)
+      .post('/foo/bar')
+      .expect(200, 'saw POST /bar', cb);
     })
   })
 })
