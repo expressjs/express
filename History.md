@@ -6,12 +6,16 @@ unreleased
   * deprecate `res.redirect(url, status)` -- use `res.redirect(status, url)` instead
   * fix `res.send(status, num)` to send `num` as json (not error)
   * remove unnecessary escaping when `res.jsonp` returns JSON response
+  * support non-string `path` in `app.use(path, fn)`
+    - supports array of paths
+    - supports `RegExp`
   * deps: debug@1.0.3
     - Add support for multiple wildcards in namespaces
   * deps: methods@1.1.0
     - add `CONNECT`
   * deps: parseurl@~1.1.3
     - faster parsing of href-only URLs
+  * deps: path-to-regexp@0.1.3
 
 4.5.1 / 2014-07-06
 ==================

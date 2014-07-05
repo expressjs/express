@@ -163,5 +163,51 @@ describe('app', function(){
       .post('/foo/bar')
       .expect(200, 'saw POST /bar', cb);
     })
+
+    it('should support array of paths', function (done) {
+      var app = express();
+      var cb = after(3, done);
+
+      app.use(['/foo/', '/bar'], function (req, res) {
+        res.send('saw ' + req.method + ' ' + req.url + ' through ' + req.originalUrl);
+      });
+
+      request(app)
+      .get('/')
+      .expect(404, cb);
+
+      request(app)
+      .get('/foo')
+      .expect(200, 'saw GET / through /foo', cb);
+
+      request(app)
+      .get('/bar')
+      .expect(200, 'saw GET / through /bar', cb);
+    })
+
+    it('should support regexp path', function (done) {
+      var app = express();
+      var cb = after(4, done);
+
+      app.use(/^\/[a-z]oo/, function (req, res) {
+        res.send('saw ' + req.method + ' ' + req.url + ' through ' + req.originalUrl);
+      });
+
+      request(app)
+      .get('/')
+      .expect(404, cb);
+
+      request(app)
+      .get('/foo')
+      .expect(200, 'saw GET / through /foo', cb);
+
+      request(app)
+      .get('/zoo/bear')
+      .expect(200, 'saw GET /bear through /zoo/bear', cb);
+
+      request(app)
+      .get('/get/zoo')
+      .expect(404, cb);
+    })
   })
 })
