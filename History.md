@@ -1,5 +1,5 @@
-unreleased
-==========
+4.5.0 / 2014-07-04
+==================
 
  * add deprecation message to non-plural `req.accepts*`
  * add deprecation message to `res.send(body, status)`
