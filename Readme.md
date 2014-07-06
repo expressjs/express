@@ -8,14 +8,14 @@
   [![Gittip](https://img.shields.io/gittip/visionmedia.svg)](https://www.gittip.com/visionmedia/)
 
 ```js
-var express = require('express')
-var app = express()
+var express = require('express');
+var app = express();
 
 app.get('/', function (req, res) {
-  res.send('Hello World')
-})
+  res.send('Hello World');
+});
 
-app.listen(3000)
+app.listen(3000);
 ```
 
   **PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/visionmedia/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/visionmedia/express/wiki/New-features-in-4.x).
