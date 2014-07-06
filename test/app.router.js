@@ -1,4 +1,5 @@
 
+var after = require('after');
 var express = require('../')
   , request = require('supertest')
   , assert = require('assert')
@@ -32,7 +33,7 @@ describe('app.router', function(){
     .expect(200, '1', done);
   })
 
-  describe('methods supported', function(){
+  describe('methods', function(){
     methods.concat('del').forEach(function(method){
       if (method === 'connect') return;
 
@@ -57,6 +58,35 @@ describe('app.router', function(){
         var app = express();
         app[method].bind(app, '/', 3).should.throw(/Number/);
       })
+    });
+
+    it('should re-route when method is altered', function (done) {
+      var app = express();
+      var cb = after(3, done);
+
+      app.use(function (req, res, next) {
+        if (req.method !== 'POST') return next();
+        req.method = 'DELETE';
+        res.setHeader('X-Method-Altered', '1');
+        next();
+      });
+
+      app.delete('/', function (req, res) {
+        res.end('deleted everything');
+      });
+
+      request(app)
+      .get('/')
+      .expect(404, 'Cannot GET /\n', cb);
+
+      request(app)
+      .delete('/')
+      .expect(200, 'deleted everything', cb);
+
+      request(app)
+      .post('/')
+      .expect('X-Method-Altered', '1')
+      .expect(200, 'deleted everything', cb);
     });
   })
 
