@@ -1,5 +1,5 @@
-unreleased
-==========
+4.5.1 / 2014-07-06
+==================
 
  * fix routing regression when altering `req.method`
 
