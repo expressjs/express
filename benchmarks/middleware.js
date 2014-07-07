@@ -1,7 +1,7 @@
 
 var http = require('http');
 var express = require('..');
-var app = express();
+var app = new express.Router();
 
 // number of middleware
 
@@ -17,7 +17,8 @@ while (n--) {
 var body = new Buffer('Hello World');
 
 app.use(function(req, res, next){
-  res.send(body);
+  res.statusCode = 200;
+  res.end(body);
 });
 
-app.listen(3333);
+http.createServer(app).listen(3333);
