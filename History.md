@@ -3,6 +3,7 @@ unreleased
 
   * add explicit "Rosetta Flash JSONP abuse" protection
     - previous versions are not vulnerable; this is just explicit protection
+  * catch errors in multiple `req.param(name, fn)` handlers
   * deprecate `res.redirect(url, status)` -- use `res.redirect(status, url)` instead
   * fix `res.send(status, num)` to send `num` as json (not error)
   * remove unnecessary escaping when `res.jsonp` returns JSON response

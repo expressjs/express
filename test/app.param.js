@@ -237,6 +237,27 @@ describe('app', function(){
       .expect(500, done);
     })
 
+    it('should catch thrown secondary error', function(done){
+      var app = express();
+
+      app.param('id', function(req, res, next, val){
+        process.nextTick(next);
+      });
+
+      app.param('id', function(req, res, next, id){
+        throw new Error('err!');
+      });
+
+      app.get('/user/:id', function(req, res){
+        var id = req.params.id;
+        res.send('' + id);
+      });
+
+      request(app)
+      .get('/user/123')
+      .expect(500, done);
+    })
+
     it('should defer to next route', function(done){
       var app = express();
 
