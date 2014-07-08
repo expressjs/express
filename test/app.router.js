@@ -368,6 +368,46 @@ describe('app.router', function(){
         .expect('tj', done);
       })
 
+      it('should pass-though middleware', function(done){
+        var app = express();
+
+        app.enable('strict routing');
+
+        app.use(function (req, res, next) {
+          res.setHeader('x-middleware', 'true');
+          next();
+        });
+
+        app.get('/user/', function(req, res){
+          res.end('tj');
+        });
+
+        request(app)
+        .get('/user/')
+        .expect('x-middleware', 'true')
+        .expect(200, 'tj', done);
+      })
+
+      it('should pass-though mounted middleware', function(done){
+        var app = express();
+
+        app.enable('strict routing');
+
+        app.use('/user/', function (req, res, next) {
+          res.setHeader('x-middleware', 'true');
+          next();
+        });
+
+        app.get('/user/test/', function(req, res){
+          res.end('tj');
+        });
+
+        request(app)
+        .get('/user/test/')
+        .expect('x-middleware', 'true')
+        .expect(200, 'tj', done);
+      })
+
       it('should match no slashes', function(done){
         var app = express();
 
@@ -380,6 +420,48 @@ describe('app.router', function(){
         request(app)
         .get('/user')
         .expect('tj', done);
+      })
+
+      it('should match middleware when omitting the trailing slash', function(done){
+        var app = express();
+
+        app.enable('strict routing');
+
+        app.use('/user/', function(req, res){
+          res.end('tj');
+        });
+
+        request(app)
+        .get('/user')
+        .expect(200, 'tj', done);
+      })
+
+      it('should match middleware', function(done){
+        var app = express();
+
+        app.enable('strict routing');
+
+        app.use('/user', function(req, res){
+          res.end('tj');
+        });
+
+        request(app)
+        .get('/user')
+        .expect(200, 'tj', done);
+      })
+
+      it('should match middleware when adding the trailing slash', function(done){
+        var app = express();
+
+        app.enable('strict routing');
+
+        app.use('/user', function(req, res){
+          res.end('tj');
+        });
+
+        request(app)
+        .get('/user/')
+        .expect(200, 'tj', done);
       })
 
       it('should fail when omitting the trailing slash', function(done){
