@@ -10,6 +10,7 @@ unreleased
     - supports array of paths
     - supports `RegExp`
   * router: fix optimization on router exit
+  * router: speed up standard `app.use(fn)`
   * deps: debug@1.0.3
     - Add support for multiple wildcards in namespaces
   * deps: methods@1.1.0
