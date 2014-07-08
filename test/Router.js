@@ -174,6 +174,111 @@ describe('Router', function(){
     });
   })
 
+  describe('FQDN', function () {
+    it('should not obscure FQDNs', function (done) {
+      var request = { hit: 0, url: 'http://example.com/foo', method: 'GET' };
+      var router = new Router();
+
+      router.use(function (req, res, next) {
+        assert.equal(req.hit++, 0);
+        assert.equal(req.url, 'http://example.com/foo');
+        next();
+      });
+
+      router.handle(request, {}, function (err) {
+        if (err) return done(err);
+        assert.equal(request.hit, 1);
+        done();
+      });
+    });
+
+    it('should ignore FQDN in search', function (done) {
+      var request = { hit: 0, url: '/proxy?url=http://example.com/blog/post/1', method: 'GET' };
+      var router = new Router();
+
+      router.use('/proxy', function (req, res, next) {
+        assert.equal(req.hit++, 0);
+        assert.equal(req.url, '/?url=http://example.com/blog/post/1');
+        next();
+      });
+
+      router.handle(request, {}, function (err) {
+        if (err) return done(err);
+        assert.equal(request.hit, 1);
+        done();
+      });
+    });
+
+    it('should adjust FQDN req.url', function (done) {
+      var request = { hit: 0, url: 'http://example.com/blog/post/1', method: 'GET' };
+      var router = new Router();
+
+      router.use('/blog', function (req, res, next) {
+        assert.equal(req.hit++, 0);
+        assert.equal(req.url, 'http://example.com/post/1');
+        next();
+      });
+
+      router.handle(request, {}, function (err) {
+        if (err) return done(err);
+        assert.equal(request.hit, 1);
+        done();
+      });
+    });
+
+    it('should adjust FQDN req.url with multiple handlers', function (done) {
+      var request = { hit: 0, url: 'http://example.com/blog/post/1', method: 'GET' };
+      var router = new Router();
+
+      router.use(function (req, res, next) {
+        assert.equal(req.hit++, 0);
+        assert.equal(req.url, 'http://example.com/blog/post/1');
+        next();
+      });
+
+      router.use('/blog', function (req, res, next) {
+        assert.equal(req.hit++, 1);
+        assert.equal(req.url, 'http://example.com/post/1');
+        next();
+      });
+
+      router.handle(request, {}, function (err) {
+        if (err) return done(err);
+        assert.equal(request.hit, 2);
+        done();
+      });
+    });
+
+    it('should adjust FQDN req.url with multiple routed handlers', function (done) {
+      var request = { hit: 0, url: 'http://example.com/blog/post/1', method: 'GET' };
+      var router = new Router();
+
+      router.use('/blog', function (req, res, next) {
+        assert.equal(req.hit++, 0);
+        assert.equal(req.url, 'http://example.com/post/1');
+        next();
+      });
+
+      router.use('/blog', function (req, res, next) {
+        assert.equal(req.hit++, 1);
+        assert.equal(req.url, 'http://example.com/post/1');
+        next();
+      });
+
+      router.use(function (req, res, next) {
+        assert.equal(req.hit++, 2);
+        assert.equal(req.url, 'http://example.com/blog/post/1');
+        next();
+      });
+
+      router.handle(request, {}, function (err) {
+        if (err) return done(err);
+        assert.equal(request.hit, 3);
+        done();
+      });
+    });
+  })
+
   describe('.all', function() {
     it('should support using .all to capture all http verbs', function(done){
       var router = new Router();
