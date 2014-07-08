@@ -9,6 +9,7 @@ unreleased
   * support non-string `path` in `app.use(path, fn)`
     - supports array of paths
     - supports `RegExp`
+  * router: fix optimization on router exit
   * deps: debug@1.0.3
     - Add support for multiple wildcards in namespaces
   * deps: methods@1.1.0
