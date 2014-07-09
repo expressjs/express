@@ -109,7 +109,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('ETag', 'W/"7ff-2796319984"')
+      .expect('ETag', 'W/"7ff-1ju)Ki"')
       .end(done);
     })
 
@@ -198,7 +198,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('ETag', 'W/"7ff-2796319984"')
+      .expect('ETag', 'W/"7ff-1ju)Ki"')
       .end(done);
     })
 
@@ -314,7 +314,7 @@ describe('res', function(){
 
     request(app)
     .get('/')
-    .set('If-None-Match', 'W/"7ff-2796319984"')
+    .set('If-None-Match', 'W/"7ff-1ju)Ki"')
     .expect(304, done);
   })
 
@@ -360,7 +360,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('etag', 'W/"c-1525560792"', done)
+        .expect('etag', 'W/"c-bd3c-"', done)
       })
 
       it('should send ETag for empty string response', function(done){
@@ -389,7 +389,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('etag', 'W/"7ff-2796319984"', done)
+        .expect('etag', 'W/"7ff-1ju)Ki"', done)
       });
 
       it('should not override ETag when manually set', function(done){
@@ -488,7 +488,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('etag', 'W/"d-1486392595"', done)
+        .expect('etag', 'W/"d-mq8Up"', done)
       })
     })
 
