@@ -1,6 +1,8 @@
 5.x
 ===
 
+  * remove:
+    - `res.send(body, status)` signature - use `res.send(status, body)`
   * change:
     - `req.host` now returns host (`hostname:port`) - use `req.hostname` for only hostname
 

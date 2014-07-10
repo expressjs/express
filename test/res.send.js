@@ -66,21 +66,6 @@ describe('res', function(){
     })
   })
 
-  describe('.send(body, code)', function(){
-    it('should be supported for backwards compat', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.send('Bad!', 400);
-      });
-
-      request(app)
-      .get('/')
-      .expect('Bad!')
-      .expect(400, done);
-    })
-  })
-
   describe('.send(code, number)', function(){
     it('should send number as json', function(done){
       var app = express();
