@@ -303,34 +303,6 @@ describe('res', function(){
     })
   })
 
-  describe('.jsonp(object, status)', function(){
-    it('should respond with json and set the .statusCode for backwards compat', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.jsonp({ id: 1 }, 201);
-      });
-
-      request(app)
-      .get('/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(201, '{"id":1}', done)
-    })
-
-    it('should use status as second number for backwards compat', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.jsonp(200, 201);
-      });
-
-      request(app)
-      .get('/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(201, '200', done)
-    })
-  })
-
   it('should not override previous Content-Types', function(done){
     var app = express();
 
