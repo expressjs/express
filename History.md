@@ -1,6 +1,7 @@
 3.x
 ===
 
+ * fix `res.send(status, num)` to send `num` as json (not error)
  * deps: basic-auth@1.0.0
    - support empty password
    - support empty username
