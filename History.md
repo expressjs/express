@@ -1,6 +1,7 @@
 3.x
 ===
 
+ * deprecate `res.redirect(url, status)` -- use `res.redirect(status, url)` instead
  * fix `res.send(status, num)` to send `num` as json (not error)
  * deps: basic-auth@1.0.0
    - support empty password
