@@ -16,9 +16,9 @@ describe('app', function(){
     app.use(blog);
   })
 
-  it('should reject numbers', function(){
+  it('should reject missing functions', function(){
     var app = express();
-    app.use.bind(app, 3).should.throw(/Number/);
+    app.use.bind(app, 3).should.throw(/requires callback function/);
   })
 
   describe('.use(app)', function(){
@@ -87,6 +87,32 @@ describe('app', function(){
   })
 
   describe('.use(middleware)', function(){
+    it('should accept multiple arguments', function (done) {
+      var app = express();
+
+      function fn1(req, res, next) {
+        res.setHeader('x-fn-1', 'hit');
+        next();
+      }
+
+      function fn2(req, res, next) {
+        res.setHeader('x-fn-2', 'hit');
+        next();
+      }
+
+      app.use(fn1, fn2, function fn3(req, res) {
+        res.setHeader('x-fn-3', 'hit');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('x-fn-1', 'hit')
+      .expect('x-fn-2', 'hit')
+      .expect('x-fn-3', 'hit')
+      .expect(200, done);
+    })
+
     it('should invoke middleware for all requests', function (done) {
       var app = express();
       var cb = after(3, done);
@@ -120,6 +146,32 @@ describe('app', function(){
       request(app)
       .get('/foo/bar')
       .expect(200, 'saw GET /bar', done);
+    })
+
+    it('should accept multiple arguments', function (done) {
+      var app = express();
+
+      function fn1(req, res, next) {
+        res.setHeader('x-fn-1', 'hit');
+        next();
+      }
+
+      function fn2(req, res, next) {
+        res.setHeader('x-fn-2', 'hit');
+        next();
+      }
+
+      app.use('/foo', fn1, fn2, function fn3(req, res) {
+        res.setHeader('x-fn-3', 'hit');
+        res.end();
+      });
+
+      request(app)
+      .get('/foo')
+      .expect('x-fn-1', 'hit')
+      .expect('x-fn-2', 'hit')
+      .expect('x-fn-3', 'hit')
+      .expect(200, done);
     })
 
     it('should invoke middleware for all requests starting with path', function (done) {

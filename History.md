@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * accept multiple callbacks to `app.use()`
   * add explicit "Rosetta Flash JSONP abuse" protection
     - previous versions are not vulnerable; this is just explicit protection
   * catch errors in multiple `req.param(name, fn)` handlers
