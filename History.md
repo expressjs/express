@@ -21,6 +21,7 @@ unreleased
   * deps: parseurl@~1.1.3
     - faster parsing of href-only URLs
   * deps: path-to-regexp@0.1.3
+  * perf: fix arguments reassign deopt in some `res` methods
 
 4.5.1 / 2014-07-06
 ==================
