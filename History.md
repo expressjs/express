@@ -1,3 +1,9 @@
+5.x
+===
+
+  * change:
+    - `req.host` now returns host (`hostname:port`) - use `req.hostname` for only hostname
+
 4.10.1 / 2014-10-28
 ===================
 
