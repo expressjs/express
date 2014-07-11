@@ -1,3 +1,18 @@
+unreleased
+==========
+
+  * add explicit "Rosetta Flash JSONP abuse" protection
+    - previous versions are not vulnerable; this is just explicit protection
+  * deprecate `res.redirect(url, status)` -- use `res.redirect(status, url)` instead
+  * fix `res.send(status, num)` to send `num` as json (not error)
+  * remove unnecessary escaping when `res.jsonp` returns JSON response
+  * deps: debug@1.0.3
+    - Add support for multiple wildcards in namespaces
+  * deps: methods@1.1.0
+    - add `CONNECT`
+  * deps: parseurl@~1.1.3
+    - faster parsing of href-only URLs
+
 4.5.1 / 2014-07-06
 ==================
 
@@ -236,6 +251,30 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.14.0 / 2014-07-11
+===================
+
+ * add explicit "Rosetta Flash JSONP abuse" protection
+   - previous versions are not vulnerable; this is just explicit protection
+ * deprecate `res.redirect(url, status)` -- use `res.redirect(status, url)` instead
+ * fix `res.send(status, num)` to send `num` as json (not error)
+ * remove unnecessary escaping when `res.jsonp` returns JSON response
+ * deps: basic-auth@1.0.0
+   - support empty password
+   - support empty username
+ * deps: connect@2.23.0
+   - deps: debug@1.0.3
+   - deps: express-session@~1.6.4
+   - deps: method-override@~2.1.0
+   - deps: parseurl@~1.1.3
+   - deps: serve-static@~1.3.1
+  * deps: debug@1.0.3
+    - Add support for multiple wildcards in namespaces
+  * deps: methods@1.1.0
+    - add `CONNECT`
+  * deps: parseurl@~1.1.3
+    - faster parsing of href-only URLs
 
 3.13.0 / 2014-07-03
 ===================

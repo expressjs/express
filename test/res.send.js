@@ -81,6 +81,21 @@ describe('res', function(){
     })
   })
 
+  describe('.send(code, number)', function(){
+    it('should send number as json', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send(200, 0.123);
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200, '0.123', done);
+    })
+  })
+
   describe('.send(String)', function(){
     it('should send as html', function(done){
       var app = express();
