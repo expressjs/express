@@ -1,6 +1,8 @@
 3.x
 ===
 
+ * add explicit "Rosetta Flash JSONP abuse" protection
+   - previous versions are not vulnerable; this is just explicit protection
  * deprecate `res.redirect(url, status)` -- use `res.redirect(status, url)` instead
  * fix `res.send(status, num)` to send `num` as json (not error)
  * deps: basic-auth@1.0.0

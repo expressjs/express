@@ -14,11 +14,8 @@ describe('res', function(){
 
       request(app)
       .get('/?callback=something')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
-        res.text.should.equal('typeof something === \'function\' && something({"count":1});');
-        done();
-      })
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect(200, /something\(\{"count":1\}\);/, done);
     })
 
     it('should use first callback parameter with jsonp', function(done){
@@ -29,12 +26,9 @@ describe('res', function(){
       });
 
       request(app)
-          .get('/?callback=something&callback=somethingelse')
-          .end(function(err, res){
-            res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
-            res.text.should.equal('typeof something === \'function\' && something({"count":1});');
-            done();
-          })
+      .get('/?callback=something&callback=somethingelse')
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect(200, /something\(\{"count":1\}\);/, done);
     })
 
     it('should ignore object callback parameter with jsonp', function(done){
@@ -61,11 +55,8 @@ describe('res', function(){
 
       request(app)
       .get('/?clb=something')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
-        res.text.should.equal('typeof something === \'function\' && something({"count":1});');
-        done();
-      })
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect(200, /something\(\{"count":1\}\);/, done);
     })
 
     it('should allow []', function(done){
@@ -77,11 +68,8 @@ describe('res', function(){
 
       request(app)
       .get('/?callback=callbacks[123]')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
-        res.text.should.equal('typeof callbacks[123] === \'function\' && callbacks[123]({"count":1});');
-        done();
-      })
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect(200, /callbacks\[123\]\(\{"count":1\}\);/, done);
     })
 
     it('should disallow arbitrary js', function(done){
@@ -93,11 +81,8 @@ describe('res', function(){
 
       request(app)
       .get('/?callback=foo;bar()')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
-        res.text.should.equal('typeof foobar === \'function\' && foobar({});');
-        done();
-      })
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect(200, /foobar\(\{\}\);/, done);
     })
 
     it('should escape utf whitespace', function(done){
@@ -109,12 +94,23 @@ describe('res', function(){
 
       request(app)
       .get('/?callback=foo')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/javascript; charset=utf-8');
-        res.text.should.equal('typeof foo === \'function\' && foo({"str":"\\u2028 \\u2029 woot"});');
-        done();
-      });
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect(200, /foo\(\{"str":"\\u2028 \\u2029 woot"\}\);/, done);
     });
+
+    it('should include security header and prologue', function (done) {
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp({ count: 1 });
+      });
+
+      request(app)
+      .get('/?callback=something')
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect('X-Content-Type-Options', 'nosniff')
+      .expect(200, /^\/\*\*\//, done);
+    })
 
     it('should not override previous Content-Types with no callback', function(done){
       var app = express();
@@ -127,7 +123,11 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('Content-Type', 'application/vnd.example+json; charset=utf-8')
-      .expect(200, '{"hello":"world"}', done);
+      .expect(200, '{"hello":"world"}', function (err, res) {
+        if (err) return done(err);
+        res.headers.should.not.have.property('x-content-type-options');
+        done();
+      });
     })
 
     it('should override previous Content-Types with callback', function(done){
@@ -141,6 +141,7 @@ describe('res', function(){
       request(app)
       .get('/?callback=cb')
       .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect('X-Content-Type-Options', 'nosniff')
       .expect(200, /cb\(\{"hello":"world"\}\);$/, done);
     })
 
