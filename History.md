@@ -7,6 +7,8 @@
    - deps: method-override@~2.1.0
    - deps: parseurl@~1.1.3
    - deps: serve-static@~1.3.1
+  * deps: debug@1.0.3
+    - Add support for multiple wildcards in namespaces
 
 3.13.0 / 2014-07-03
 ===================
