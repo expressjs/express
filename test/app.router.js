@@ -836,6 +836,32 @@ describe('app.router', function(){
         done();
       })
     })
+
+    it('should call handler in same route, if exists', function(done){
+      var app = express();
+
+      function fn1(req, res, next) {
+        next(new Error('boom!'));
+      }
+
+      function fn2(req, res, next) {
+        res.send('foo here');
+      }
+
+      function fn3(err, req, res, next) {
+        res.send('route go ' + err.message);
+      }
+
+      app.get('/foo', fn1, fn2, fn3);
+
+      app.use(function (err, req, res, next) {
+        res.end('error!');
+      })
+
+      request(app)
+      .get('/foo')
+      .expect('route go boom!', done)
+    })
   })
 
   it('should allow rewriting of the url', function(done){
