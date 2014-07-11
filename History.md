@@ -1,6 +1,9 @@
 3.x
 ===
 
+ * deps: basic-auth@1.0.0
+   - support empty password
+   - support empty username
  * deps: connect@2.23.0
    - deps: debug@1.0.3
    - deps: express-session@~1.6.4
