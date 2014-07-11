@@ -1,3 +1,13 @@
+3.x
+===
+
+ * deps: connect@2.23.0
+   - deps: debug@1.0.3
+   - deps: express-session@~1.6.4
+   - deps: method-override@~2.1.0
+   - deps: parseurl@~1.1.3
+   - deps: serve-static@~1.3.1
+
 3.13.0 / 2014-07-03
 ===================
 
