@@ -46,7 +46,7 @@
     "merge-descriptors": "0.0.2"
   },
   "devDependencies": {
-    "istanbul": "0.2.12",
+    "istanbul": "0.3.0",
     "mocha": "~1.20.0",
     "should": "~4.0.0",
     "ejs": "~1.0.0",
