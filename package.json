@@ -46,7 +46,7 @@
     "merge-descriptors": "0.0.2",
     "utils-merge": "1.0.0",
     "qs": "0.6.6",
-    "path-to-regexp": "0.1.2"
+    "path-to-regexp": "0.2.1"
   },
   "devDependencies": {
     "after": "0.8.1",

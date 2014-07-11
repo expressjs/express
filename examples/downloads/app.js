@@ -16,7 +16,7 @@ app.get('/', function(req, res){
 
 // /files/* is accessed via req.params[0]
 // but here we name it :file
-app.get('/files/:file(*)', function(req, res, next){
+app.get('/files/:file(.*)', function(req, res, next){
   var file = req.params.file;
   var path = __dirname + '/files/' + file;
 
