@@ -1,5 +1,5 @@
-3.x
-===
+3.14.0 / 2014-07-11
+===================
 
  * add explicit "Rosetta Flash JSONP abuse" protection
    - previous versions are not vulnerable; this is just explicit protection
