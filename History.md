@@ -9,6 +9,8 @@
    - deps: serve-static@~1.3.1
   * deps: debug@1.0.3
     - Add support for multiple wildcards in namespaces
+  * deps: methods@1.1.0
+    - add `CONNECT`
   * deps: parseurl@~1.1.3
     - faster parsing of href-only URLs
 
