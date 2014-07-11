@@ -5,6 +5,7 @@
    - previous versions are not vulnerable; this is just explicit protection
  * deprecate `res.redirect(url, status)` -- use `res.redirect(status, url)` instead
  * fix `res.send(status, num)` to send `num` as json (not error)
+ * remove unnecessary escaping when `res.jsonp` returns JSON response
  * deps: basic-auth@1.0.0
    - support empty password
    - support empty username

@@ -98,6 +98,19 @@ describe('res', function(){
       .expect(200, /foo\(\{"str":"\\u2028 \\u2029 woot"\}\);/, done);
     });
 
+    it('should not escape utf whitespace for json fallback', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp({ str: '\u2028 \u2029 woot' });
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200, '{"str":"\u2028 \u2029 woot"}', done);
+    });
+
     it('should include security header and prologue', function (done) {
       var app = express();
 
