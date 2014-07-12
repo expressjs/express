@@ -1,5 +1,5 @@
-unreleased
-==========
+4.6.0 / 2014-07-11
+==================
 
   * accept multiple callbacks to `app.use()`
   * add explicit "Rosetta Flash JSONP abuse" protection
