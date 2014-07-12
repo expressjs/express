@@ -512,8 +512,10 @@ describe('res', function(){
         var app = express()
 
         app.set('etag', function(body, encoding){
-          body.should.equal('hello, world!')
-          encoding.should.equal('utf8')
+          var chunk = !Buffer.isBuffer(body)
+            ? new Buffer(body, encoding)
+            : body;
+          chunk.toString().should.equal('hello, world!')
           return '"custom"'
         });
 

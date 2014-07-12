@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * perf: prevent multiple `Buffer` creation in `res.send`
+
 4.6.1 / 2014-07-12
 ==================
 
