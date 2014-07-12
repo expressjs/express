@@ -23,6 +23,9 @@ unreleased
   * deps: path-to-regexp@0.1.3
   * deps: send@0.6.0
     - deps: debug@1.0.3
+  * deps: serve-static@~1.3.2
+    - deps: parseurl@~1.1.3
+    - deps: send@0.6.0
   * perf: fix arguments reassign deopt in some `res` methods
 
 4.5.1 / 2014-07-06
