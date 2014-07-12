@@ -16,6 +16,8 @@ unreleased
   * router: speed up standard `app.use(fn)`
   * deps: debug@1.0.3
     - Add support for multiple wildcards in namespaces
+  * deps: finalhandler@0.0.3
+    - deps: debug@1.0.3
   * deps: methods@1.1.0
     - add `CONNECT`
   * deps: parseurl@~1.1.3
