@@ -39,16 +39,19 @@ describe('app.parent', function(){
 
 describe('app.mountpath', function(){
   it('should return the mounted path', function(){
-    var app = express()
-      , blog = express()
-      , blogAdmin = express();
+    var admin = express();
+    var app = express();
+    var blog = express();
+    var fallback = express();
 
     app.use('/blog', blog);
-    blog.use('/admin', blogAdmin);
+    app.use(fallback);
+    blog.use('/admin', admin);
 
+    admin.mountpath.should.equal('/admin');
     app.mountpath.should.equal('/');
     blog.mountpath.should.equal('/blog');
-    blogAdmin.mountpath.should.equal('/admin');
+    fallback.mountpath.should.equal('/');
   })
 })
 

@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * fix `subapp.mountpath` regression for `app.use(subapp)`
+
 4.6.0 / 2014-07-11
 ==================
 
