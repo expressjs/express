@@ -1,6 +1,11 @@
 unreleased
 ==========
 
+  * configurable query parser with `app.set('query parser', parser)`
+    - `app.set('query parser', 'extended')` parse with "qs" module
+    - `app.set('query parser', 'simple')` parse with "querystring" core module
+    - `app.set('query parser', false)` disable query string parsing
+    - `app.set('query parser', true)` enable simple parsing
   * perf: prevent multiple `Buffer` creation in `res.send`
 
 4.6.1 / 2014-07-12
