@@ -9,6 +9,8 @@
   * change:
     - `req.host` now returns host (`hostname:port`) - use `req.hostname` for only hostname
     - `req.query` is now a getter instead of a plain property
+  * add:
+    - `app.router` is a reference to the base router
 
 4.10.1 / 2014-10-28
 ===================
