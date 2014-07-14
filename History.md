@@ -5,8 +5,10 @@
     - `res.json(obj, status)` signature - use `res.json(status, obj)`
     - `res.jsonp(obj, status)` signature - use `res.jsonp(status, obj)`
     - `res.send(body, status)` signature - use `res.send(status, body)`
+    - `express.query` middleware
   * change:
     - `req.host` now returns host (`hostname:port`) - use `req.hostname` for only hostname
+    - `req.query` is now a getter instead of a plain property
 
 4.10.1 / 2014-10-28
 ===================
