@@ -31,7 +31,7 @@
     "debug": "1.0.4",
     "depd": "0.3.0",
     "escape-html": "1.0.1",
-    "finalhandler": "0.0.3",
+    "finalhandler": "0.1.0",
     "media-typer": "0.2.0",
     "methods": "1.1.0",
     "parseurl": "~1.1.3",

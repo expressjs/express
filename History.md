@@ -7,6 +7,9 @@ unreleased
     - `app.set('query parser', false)` disable query string parsing
     - `app.set('query parser', true)` enable simple parsing
   * deps: debug@1.0.4
+  * deps: finalhandler@0.1.0
+    - Respond after request fully read
+    - deps: debug@1.0.4
   * perf: prevent multiple `Buffer` creation in `res.send`
 
 4.6.1 / 2014-07-12
