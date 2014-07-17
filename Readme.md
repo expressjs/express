@@ -117,6 +117,20 @@ $ npm install
 $ npm test
 ```
 
+## Running benchmarks
+
+  To run benchmarks, first invoke the following command within the repo, installing the development dependencies:
+
+```bash
+$ npm install
+```
+
+  Then run the benchmarks:
+
+```bash
+$ npm run-script bench
+```
+
 ### Contributors
 
  * Author: [TJ Holowaychuk](https://github.com/visionmedia)

@@ -8,7 +8,6 @@ coverage/
 *.pid
 *.swp
 *.swo
-benchmarks/graphs
 testing
 node_modules/
 testing
