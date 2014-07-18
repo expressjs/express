@@ -1,6 +1,7 @@
 3.x
 ===
 
+  * Fix `req.protocol` for proxy-direct connections
   * Pass options from `res.sendfile` to `send`
   * deps: connect@2.24.0
     - deps: body-parser@~1.5.0
