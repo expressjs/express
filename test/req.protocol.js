@@ -32,6 +32,21 @@ describe('req', function(){
         .expect('https', done);
       })
 
+      it('should default to the socket addr if X-Forwarded-Proto not present', function(done){
+        var app = express();
+
+        app.enable('trust proxy');
+
+        app.use(function(req, res){
+          req.connection.encrypted = true;
+          res.end(req.protocol);
+        });
+
+        request(app)
+        .get('/')
+        .expect('https', done);
+      })
+
       it('should ignore X-Forwarded-Proto if socket addr not trusted', function(done){
         var app = express();
 
