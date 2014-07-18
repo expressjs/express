@@ -6,6 +6,9 @@ unreleased
     - `app.set('query parser', 'simple')` parse with "querystring" core module
     - `app.set('query parser', false)` disable query string parsing
     - `app.set('query parser', true)` enable simple parsing
+  * deprecate `res.json(status, obj)` -- use `res.status(status).json(obj)` instead
+  * deprecate `res.jsonp(status, obj)` -- use `res.status(status).jsonp(obj)` instead
+  * deprecate `res.send(status, body)` -- use `res.status(status).send(body)` instead
   * deps: debug@1.0.4
   * deps: finalhandler@0.1.0
     - Respond after request fully read
