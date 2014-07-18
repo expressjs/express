@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * fix `req.protocol` for proxy-direct connections
   * configurable query parser with `app.set('query parser', parser)`
     - `app.set('query parser', 'extended')` parse with "qs" module
     - `app.set('query parser', 'simple')` parse with "querystring" core module
