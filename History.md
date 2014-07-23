@@ -24,6 +24,11 @@
     - Cache URLs based on original value
     - Remove no-longer-needed URL mis-parse work-around
     - Simplify the "fast-path" `RegExp`
+  * deps: send@0.7.0
+    - Add `dotfiles` option
+    - Cap `maxAge` value to 1 year
+    - deps: debug@1.0.4
+    - deps: depd@0.4.2
 
 3.14.0 / 2014-07-11
 ===================
