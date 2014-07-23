@@ -106,6 +106,30 @@ describe('res', function(){
   })
 
   describe('.sendfile(path)', function(){
+    it('should not serve dotfiles', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.sendfile('test/fixtures/.name');
+      });
+
+      request(app)
+      .get('/')
+      .expect(404, done);
+    })
+
+    it('should accept dotfiles option', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.sendfile('test/fixtures/.name', { dotfiles: 'allow' });
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, 'tobi', done);
+    })
+
     describe('with an absolute path', function(){
       it('should transfer the file', function(done){
         var app = express();
