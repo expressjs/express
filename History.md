@@ -1,6 +1,19 @@
 3.x
 ===
 
+  * deps: connect@2.24.0
+    - deps: body-parser@~1.5.0
+    - deps: compression@~1.0.9
+    - deps: connect-timeout@~1.2.1
+    - deps: debug@1.0.4
+    - deps: depd@0.4.2
+    - deps: express-session@~1.7.0
+    - deps: finalhandler@0.1.0
+    - deps: method-override@~2.1.2
+    - deps: morgan@~1.2.0
+    - deps: multiparty@3.3.1
+    - deps: parseurl@~1.2.0
+    - deps: serve-static@~1.4.0
   * deps: debug@1.0.4
 
 3.14.0 / 2014-07-11
