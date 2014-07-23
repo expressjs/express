@@ -20,6 +20,10 @@
     - Remove non-standard grey color from color output
     - Support `--no-deprecation` argument
     - Support `--trace-deprecation` argument
+  * deps: parseurl@~1.2.0
+    - Cache URLs based on original value
+    - Remove no-longer-needed URL mis-parse work-around
+    - Simplify the "fast-path" `RegExp`
 
 3.14.0 / 2014-07-11
 ===================
