@@ -15,6 +15,11 @@
     - deps: parseurl@~1.2.0
     - deps: serve-static@~1.4.0
   * deps: debug@1.0.4
+  * deps: depd@0.4.2
+    - Add `TRACE_DEPRECATION` environment variable
+    - Remove non-standard grey color from color output
+    - Support `--no-deprecation` argument
+    - Support `--trace-deprecation` argument
 
 3.14.0 / 2014-07-11
 ===================
