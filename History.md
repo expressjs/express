@@ -18,6 +18,10 @@ unreleased
   * deps: finalhandler@0.1.0
     - Respond after request fully read
     - deps: debug@1.0.4
+  * deps: parseurl@~1.2.0
+    - Cache URLs based on original value
+    - Remove no-longer-needed URL mis-parse work-around
+    - Simplify the "fast-path" `RegExp`
   * perf: prevent multiple `Buffer` creation in `res.send`
 
 4.6.1 / 2014-07-12
