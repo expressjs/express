@@ -1,5 +1,5 @@
-3.x
-===
+3.15.0 / 2014-07-22
+===================
 
   * Fix `req.protocol` for proxy-direct connections
   * Pass options from `res.sendfile` to `send`
