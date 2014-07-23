@@ -106,7 +106,7 @@ describe('res', function(){
   })
 
   describe('.sendfile(path)', function(){
-    it('should not serve hidden files', function(done){
+    it('should not serve dotfiles', function(done){
       var app = express();
 
       app.use(function(req, res){
@@ -118,11 +118,11 @@ describe('res', function(){
       .expect(404, done);
     })
 
-    it('should accept hidden option', function(done){
+    it('should accept dotfiles option', function(done){
       var app = express();
 
       app.use(function(req, res){
-        res.sendfile('test/fixtures/.name', { hidden: true });
+        res.sendfile('test/fixtures/.name', { dotfiles: 'allow' });
       });
 
       request(app)
