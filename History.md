@@ -10,6 +10,11 @@ unreleased
   * deprecate `res.jsonp(status, obj)` -- use `res.status(status).jsonp(obj)` instead
   * deprecate `res.send(status, body)` -- use `res.status(status).send(body)` instead
   * deps: debug@1.0.4
+  * deps: depd@0.4.2
+    - Add `TRACE_DEPRECATION` environment variable
+    - Remove non-standard grey color from color output
+    - Support `--no-deprecation` argument
+    - Support `--trace-deprecation` argument
   * deps: finalhandler@0.1.0
     - Respond after request fully read
     - deps: debug@1.0.4
