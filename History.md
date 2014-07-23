@@ -309,6 +309,40 @@ unreleased
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
 
+3.15.0 / 2014-07-22
+===================
+
+  * Fix `req.protocol` for proxy-direct connections
+  * Pass options from `res.sendfile` to `send`
+  * deps: connect@2.24.0
+    - deps: body-parser@~1.5.0
+    - deps: compression@~1.0.9
+    - deps: connect-timeout@~1.2.1
+    - deps: debug@1.0.4
+    - deps: depd@0.4.2
+    - deps: express-session@~1.7.0
+    - deps: finalhandler@0.1.0
+    - deps: method-override@~2.1.2
+    - deps: morgan@~1.2.0
+    - deps: multiparty@3.3.1
+    - deps: parseurl@~1.2.0
+    - deps: serve-static@~1.4.0
+  * deps: debug@1.0.4
+  * deps: depd@0.4.2
+    - Add `TRACE_DEPRECATION` environment variable
+    - Remove non-standard grey color from color output
+    - Support `--no-deprecation` argument
+    - Support `--trace-deprecation` argument
+  * deps: parseurl@~1.2.0
+    - Cache URLs based on original value
+    - Remove no-longer-needed URL mis-parse work-around
+    - Simplify the "fast-path" `RegExp`
+  * deps: send@0.7.0
+    - Add `dotfiles` option
+    - Cap `maxAge` value to 1 year
+    - deps: debug@1.0.4
+    - deps: depd@0.4.2
+
 3.14.0 / 2014-07-11
 ===================
 
