@@ -2,7 +2,10 @@
 
   Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
 
-  [![NPM version](https://badge.fury.io/js/express.svg)](http://badge.fury.io/js/express) [![Build Status](https://travis-ci.org/visionmedia/express.svg?branch=master)](https://travis-ci.org/visionmedia/express) [![Coverage Status](https://img.shields.io/coveralls/visionmedia/express.svg)](https://coveralls.io/r/visionmedia/express) [![Gittip](http://img.shields.io/gittip/visionmedia.svg)](https://www.gittip.com/visionmedia/)
+  [![NPM version](https://badge.fury.io/js/express.svg)](http://badge.fury.io/js/express)
+  [![Build Status](https://travis-ci.org/visionmedia/express.svg?branch=master)](https://travis-ci.org/visionmedia/express)
+  [![Coverage Status](https://img.shields.io/coveralls/visionmedia/express.svg)](https://coveralls.io/r/visionmedia/express)
+  [![Gittip](http://img.shields.io/gittip/dougwilson.svg)](https://www.gittip.com/dougwilson/)
 
 ```js
 var express = require('express');
