@@ -27,6 +27,9 @@ unreleased
     - Cap `maxAge` value to 1 year
     - deps: debug@1.0.4
     - deps: depd@0.4.2
+  * deps: serve-static@~1.4.0
+    - deps: parseurl@~1.2.0
+    - deps: send@0.7.0
   * perf: prevent multiple `Buffer` creation in `res.send`
 
 4.6.1 / 2014-07-12
