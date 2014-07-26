@@ -5,6 +5,7 @@ unreleased
     - Fix exception when global `Error.stackTraceLimit` is too low
   * deps: send@0.7.1
     - deps: depd@0.4.3
+  * deps: serve-static@~1.4.1
 
 4.7.0 / 2014-07-25
 ==================
