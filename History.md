@@ -1,3 +1,11 @@
+unreleased
+==========
+
+  * deps: depd@0.4.3
+    - Fix exception when global `Error.stackTraceLimit` is too low
+  * deps: send@0.7.1
+    - deps: depd@0.4.3
+
 4.7.0 / 2014-07-25
 ==================
 
@@ -309,6 +317,21 @@
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
 
+3.15.1 / 2014-07-26
+===================
+
+  * deps: connect@2.24.1
+    - deps: body-parser@~1.5.0
+    - deps: depd@0.4.3
+    - deps: express-session@~1.7.1
+    - deps: morgan@~1.2.1
+    - deps: serve-index@~1.1.4
+    - deps: serve-static@~1.4.1
+  * deps: depd@0.4.3
+    - Fix exception when global `Error.stackTraceLimit` is too low
+  * deps: send@0.7.1
+    - deps: depd@0.4.3
+
 3.15.0 / 2014-07-22
 ===================
 
@@ -412,8 +435,8 @@
  * deprecate things with `depd` module
  * deps: buffer-crc32@0.2.3
  * deps: connect@2.20.2
-   - deprecate `verify` option to `json` -- use `body-parser` module directly
-   - deprecate `verify` option to `urlencoded` -- use `body-parser` module directly
+   - deprecate `verify` option to `json` -- use `body-parser` npm module instead
+   - deprecate `verify` option to `urlencoded` -- use `body-parser` npm module instead
    - deprecate things with `depd` module
    - use `finalhandler` for final response handling
    - use `media-typer` to parse `content-type` for charset
@@ -487,7 +510,7 @@
 ===================
 
  * deps: connect@2.19.1
-   - deprecate `methodOverride()` -- use `method-override` module directly
+   - deprecate `methodOverride()` -- use `method-override` npm module instead
    - deps: body-parser@1.3.0
    - deps: method-override@2.0.1
    - deps: multiparty@3.2.8
