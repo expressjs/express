@@ -76,7 +76,7 @@ $ npm start
 
 ## More Information
 
-  * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/visionmedia/expressjs.com)]
+  * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/visionmedia/expressjs.com)] [[한국어](http://expressjs.kr), [repo](https://github.com/Hanul/expressjs.kr)]
   * [Github Organization](https://github.com/expressjs) for Official Middleware & Modules
   * [#express](https://webchat.freenode.net/?channels=express) on freenode IRC
   * Visit the [Wiki](https://github.com/visionmedia/express/wiki)
