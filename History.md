@@ -8,6 +8,8 @@
     - deps: morgan@~1.2.1
     - deps: serve-index@~1.1.4
     - deps: serve-static@~1.4.1
+  * deps: depd@0.4.3
+    - Fix exception when global `Error.stackTraceLimit` is too low
 
 3.15.0 / 2014-07-22
 ===================

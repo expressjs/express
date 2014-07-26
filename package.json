@@ -30,7 +30,7 @@
     "connect": "2.24.1",
     "commander": "1.3.2",
     "debug": "1.0.4",
-    "depd": "0.4.2",
+    "depd": "0.4.3",
     "escape-html": "1.0.1",
     "media-typer": "0.2.0",
     "methods": "1.1.0",
