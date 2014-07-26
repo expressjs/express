@@ -114,8 +114,8 @@
  * deprecate things with `depd` module
  * deps: buffer-crc32@0.2.3
  * deps: connect@2.20.2
-   - deprecate `verify` option to `json` -- use `body-parser` module directly
-   - deprecate `verify` option to `urlencoded` -- use `body-parser` module directly
+   - deprecate `verify` option to `json` -- use `body-parser` npm module instead
+   - deprecate `verify` option to `urlencoded` -- use `body-parser` npm module instead
    - deprecate things with `depd` module
    - use `finalhandler` for final response handling
    - use `media-typer` to parse `content-type` for charset
@@ -189,7 +189,7 @@
 ===================
 
  * deps: connect@2.19.1
-   - deprecate `methodOverride()` -- use `method-override` module directly
+   - deprecate `methodOverride()` -- use `method-override` npm module instead
    - deps: body-parser@1.3.0
    - deps: method-override@2.0.1
    - deps: multiparty@3.2.8
