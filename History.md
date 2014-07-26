@@ -1,5 +1,5 @@
-unreleased
-==========
+4.7.1 / 2014-07-26
+==================
 
   * deps: depd@0.4.3
     - Fix exception when global `Error.stackTraceLimit` is too low
