@@ -1,5 +1,5 @@
-unreleased
-==========
+4.7.0 / 2014-07-25
+==================
 
   * fix `req.protocol` for proxy-direct connections
   * configurable query parser with `app.set('query parser', parser)`
