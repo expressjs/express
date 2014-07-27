@@ -9,6 +9,8 @@
     - deps: serve-static@~1.4.2
   * deps: depd@0.4.4
     - Work-around v8 generating empty stack traces
+  * deps: send@0.7.2
+    - deps: depd@0.4.4
 
 3.15.1 / 2014-07-26
 ===================
