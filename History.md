@@ -5,6 +5,7 @@ unreleased
     - Work-around v8 generating empty stack traces
   * deps: send@0.7.2
     - deps: depd@0.4.4
+  * deps: serve-static@~1.4.2
 
 4.7.1 / 2014-07-26
 ==================
