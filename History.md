@@ -1,8 +1,18 @@
+3.x
+===
+
+  * deps: connect@2.24.2
+    - deps: body-parser@~1.5.2
+    - deps: depd@0.4.4
+    - deps: express-session@~1.7.2
+    - deps: morgan@~1.2.2
+    - deps: serve-static@~1.4.2
+
 3.15.1 / 2014-07-26
 ===================
 
   * deps: connect@2.24.1
-    - deps: body-parser@~1.5.0
+    - deps: body-parser@~1.5.1
     - deps: depd@0.4.3
     - deps: express-session@~1.7.1
     - deps: morgan@~1.2.1
