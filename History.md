@@ -7,6 +7,8 @@
     - deps: express-session@~1.7.2
     - deps: morgan@~1.2.2
     - deps: serve-static@~1.4.2
+  * deps: depd@0.4.4
+    - Work-around v8 generating empty stack traces
 
 3.15.1 / 2014-07-26
 ===================
