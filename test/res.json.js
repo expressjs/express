@@ -106,7 +106,7 @@ describe('res', function(){
       it('should be passed to JSON.stringify()', function(done){
         var app = express();
 
-        app.set('json replacer', function(key, val){
+        app.settings.set('json replacer', function(key, val){
           return '_' == key[0]
             ? undefined
             : val;
@@ -126,13 +126,13 @@ describe('res', function(){
     describe('"json spaces" setting', function(){
       it('should be undefined by default', function(){
         var app = express();
-        assert(undefined === app.get('json spaces'));
+        assert(undefined === app.settings.get('json spaces'));
       })
 
       it('should be passed to JSON.stringify()', function(done){
         var app = express();
 
-        app.set('json spaces', 2);
+        app.settings.set('json spaces', 2);
 
         app.use(function(req, res){
           res.json({ name: 'tobi', age: 2 });

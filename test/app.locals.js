@@ -18,8 +18,8 @@ describe('app', function(){
   describe('.locals.settings', function(){
     it('should expose app settings', function(){
       var app = express();
-      app.set('title', 'House of Manny');
-      var obj = app.locals.settings;
+      app.settings.set('title', 'House of Manny');
+      var obj = app.locals.settings();
       obj.should.have.property('env', 'test');
       obj.should.have.property('title', 'House of Manny');
     })

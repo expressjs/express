@@ -92,7 +92,7 @@ describe('without NODE_ENV', function(){
   it('should default to development', function(){
     process.env.NODE_ENV = '';
     var app = express();
-    app.get('env').should.equal('development');
+    app.settings.get('env').should.equal('development');
     process.env.NODE_ENV = 'test';
   })
 })

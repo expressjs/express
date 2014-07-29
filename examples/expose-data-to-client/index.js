@@ -3,8 +3,8 @@ var express = require('../..');
 var logger = require('morgan');
 var app = express();
 
-app.set('view engine', 'jade');
-app.set('views', __dirname + '/views');
+app.settings.set('view engine', 'jade');
+app.settings.set('views', __dirname + '/views');
 
 function User(name) {
   this.private = 'heyyyy';

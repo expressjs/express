@@ -25,10 +25,10 @@ app.engine('md', function(path, options, fn){
   });
 });
 
-app.set('views', __dirname + '/views');
+app.settings.set('views', __dirname + '/views');
 
 // make it the default so we dont need .md
-app.set('view engine', 'md');
+app.settings.set('view engine', 'md');
 
 app.get('/', function(req, res){
   res.render('index', { title: 'Markdown Example' });
