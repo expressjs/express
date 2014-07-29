@@ -24,7 +24,7 @@ describe('req', function(){
         it('should stop at first untrusted', function(done){
           var app = express();
 
-          app.set('trust proxy', 2);
+          app.settings.set('trust proxy', 2);
 
           app.use(function(req, res, next){
             res.send(req.ips);

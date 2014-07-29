@@ -13,8 +13,8 @@ var user = require('./user');
 
 // Config
 
-app.set('view engine', 'jade');
-app.set('views', __dirname + '/views');
+app.settings.set('view engine', 'jade');
+app.settings.set('views', __dirname + '/views');
 app.use(logger('dev'));
 app.use(methodOverride('_method'));
 app.use(cookieParser());

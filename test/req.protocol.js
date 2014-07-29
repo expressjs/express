@@ -50,7 +50,7 @@ describe('req', function(){
       it('should ignore X-Forwarded-Proto if socket addr not trusted', function(done){
         var app = express();
 
-        app.set('trust proxy', '10.0.0.1');
+        app.settings.set('trust proxy', '10.0.0.1');
 
         app.use(function(req, res){
           res.end(req.protocol);

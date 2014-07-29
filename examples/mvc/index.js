@@ -14,10 +14,10 @@ var app = module.exports = express();
 
 // set our default template engine to "jade"
 // which prevents the need for extensions
-app.set('view engine', 'jade');
+app.settings.set('view engine', 'jade');
 
 // set views for error and 404 pages
-app.set('views', __dirname + '/views');
+app.settings.set('views', __dirname + '/views');
 
 // define a custom res.message() method
 // which stores messages in the session

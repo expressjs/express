@@ -6,25 +6,25 @@ describe('config', function(){
   describe('.set()', function(){
     it('should set a value', function(){
       var app = express();
-      app.set('foo', 'bar').should.equal(app);
+      app.settings.set('foo', 'bar').should.be.an.instanceOf(Object);
     })
 
     it('should return the app when undefined', function(){
       var app = express();
-      app.set('foo', undefined).should.equal(app);
+      app.settings.set('foo', undefined).should.be.an.instanceOf(Object);
     })
 
     describe('"etag"', function(){
       it('should throw on bad value', function(){
         var app = express()
-        app.set.bind(app, 'etag', 42).should.throw(/unknown value/)
+        app.settings.set.bind(app, 'etag', 42).should.throw(/unknown value/)
       })
 
       it('should set "etag fn"', function(){
         var app = express()
         var fn = function(){}
-        app.set('etag', fn)
-        app.get('etag fn').should.equal(fn)
+        app.settings.set('etag', fn)
+        app.settings.get('etag fn').should.equal(fn)
       })
     })
 
@@ -32,8 +32,8 @@ describe('config', function(){
       it('should set "trust proxy fn"', function(){
         var app = express()
         var fn = function(){}
-        app.set('trust proxy', fn)
-        app.get('trust proxy fn').should.equal(fn)
+        app.settings.set('trust proxy', fn)
+        app.settings.get('trust proxy fn').should.equal(fn)
       })
     })
   })
@@ -41,13 +41,13 @@ describe('config', function(){
   describe('.get()', function(){
     it('should return undefined when unset', function(){
       var app = express();
-      assert(undefined === app.get('foo'));
+      assert(undefined === app.settings.get('foo'));
     })
     
     it('should otherwise return the value', function(){
       var app = express();
-      app.set('foo', 'bar');
-      app.get('foo').should.equal('bar');
+      app.settings.set('foo', 'bar');
+      app.settings.get('foo').should.equal('bar');
     })
 
     describe('when mounted', function(){
@@ -55,9 +55,10 @@ describe('config', function(){
         var app = express()
           , blog = express();
 
-        app.set('title', 'Express');
+        app.settings.set('title', 'Express');
         app.use(blog);
-        blog.get('title').should.equal('Express');
+        console.log(blog.settings())
+        blog.settings.get('title').should.equal('Express');
       })
       
       it('should given precedence to the child', function(){
@@ -65,10 +66,10 @@ describe('config', function(){
           , blog = express();
 
         app.use(blog);
-        app.set('title', 'Express');
-        blog.set('title', 'Some Blog');
+        app.settings.set('title', 'Express');
+        blog.settings.set('title', 'Some Blog');
 
-        blog.get('title').should.equal('Some Blog');
+        blog.settings.get('title').should.equal('Some Blog');
       })
     })
   })
@@ -76,16 +77,16 @@ describe('config', function(){
   describe('.enable()', function(){
     it('should set the value to true', function(){
       var app = express();
-      app.enable('tobi').should.equal(app);
-      app.get('tobi').should.be.true;
+      app.enable('tobi');
+      app.settings.get('tobi').should.be.true;
     })
   })
   
   describe('.disable()', function(){
     it('should set the value to false', function(){
       var app = express();
-      app.disable('tobi').should.equal(app);
-      app.get('tobi').should.be.false;
+      app.disable('tobi');
+      app.settings.get('tobi').should.be.false;
     })
   })
   
@@ -97,7 +98,7 @@ describe('config', function(){
     
     it('should return true when set', function(){
       var app = express();
-      app.set('foo', 'bar');
+      app.settings.set('foo', 'bar');
       app.enabled('foo').should.be.true;
     })
   })
@@ -110,7 +111,7 @@ describe('config', function(){
     
     it('should return false when set', function(){
       var app = express();
-      app.set('foo', 'bar');
+      app.settings.set('foo', 'bar');
       app.disabled('foo').should.be.false;
     })
   })

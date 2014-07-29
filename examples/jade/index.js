@@ -15,12 +15,12 @@ app.use(express.static(pub));
 
 // Optional since express defaults to CWD/views
 
-app.set('views', __dirname + '/views');
+app.settings.set('views', __dirname + '/views');
 
 // Set our default template engine to "jade"
 // which prevents the need for extensions
 // (although you can still mix and match)
-app.set('view engine', 'jade');
+app.settings.set('view engine', 'jade');
 
 function User(name, email) {
   this.name = name;

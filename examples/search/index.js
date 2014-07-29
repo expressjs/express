@@ -15,8 +15,8 @@ var db = redis.createClient();
 
 var app = express();
 
-app.set('view engine', 'jade');
-app.set('views', __dirname);
+app.settings.set('view engine', 'jade');
+app.settings.set('views', __dirname);
 
 // populate search
 

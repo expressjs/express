@@ -18,7 +18,7 @@ describe('app', function(){
     it('should support absolute paths with "view engine"', function(done){
       var app = express();
 
-      app.set('view engine', 'jade');
+      app.settings.set('view engine', 'jade');
       app.locals.user = { name: 'tobi' };
 
       app.render(__dirname + '/fixtures/user', function(err, str){
@@ -31,7 +31,7 @@ describe('app', function(){
     it('should expose app.locals', function(done){
       var app = express();
 
-      app.set('views', __dirname + '/fixtures');
+      app.settings.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
       app.render('user.jade', function(err, str){
@@ -44,8 +44,8 @@ describe('app', function(){
     it('should support index.<engine>', function(done){
       var app = express();
 
-      app.set('views', __dirname + '/fixtures');
-      app.set('view engine', 'jade');
+      app.settings.set('views', __dirname + '/fixtures');
+      app.settings.set('view engine', 'jade');
 
       app.render('blog/post', function(err, str){
         if (err) return done(err);
@@ -66,7 +66,7 @@ describe('app', function(){
         throw new Error('err!');
       };
 
-      app.set('view', View);
+      app.settings.set('view', View);
 
       app.render('something', function(err, str){
         err.should.be.ok;
@@ -78,7 +78,7 @@ describe('app', function(){
     describe('when the file does not exist', function(){
       it('should provide a helpful error', function(done){
         var app = express();
-        app.set('views', __dirname + '/fixtures');
+        app.settings.set('views', __dirname + '/fixtures');
         app.render('rawr.jade', function(err){
           err.message.should.equal('Failed to lookup view "rawr.jade" in views directory "' + __dirname + '/fixtures"');
           done();
@@ -90,7 +90,7 @@ describe('app', function(){
       it('should invoke the callback', function(done){
         var app = express();
 
-        app.set('views', __dirname + '/fixtures');
+        app.settings.set('views', __dirname + '/fixtures');
 
         app.render('user.jade', function(err, str){
           // nextTick to prevent cyclic
@@ -106,7 +106,7 @@ describe('app', function(){
       it('should render the template', function(done){
         var app = express();
 
-        app.set('views', __dirname + '/fixtures');
+        app.settings.set('views', __dirname + '/fixtures');
 
         app.render('email.jade', function(err, str){
           if (err) return done(err);
@@ -120,8 +120,8 @@ describe('app', function(){
       it('should render the template', function(done){
         var app = express();
 
-        app.set('view engine', 'jade');
-        app.set('views', __dirname + '/fixtures');
+        app.settings.set('view engine', 'jade');
+        app.settings.set('views', __dirname + '/fixtures');
 
         app.render('email', function(err, str){
           if (err) return done(err);
@@ -144,7 +144,7 @@ describe('app', function(){
           fn(null, 'abstract engine');
         };
 
-        app.set('view', View);
+        app.settings.set('view', View);
 
         app.render('something', function(err, str){
           if (err) return done(err);
@@ -169,8 +169,8 @@ describe('app', function(){
           fn(null, 'abstract engine');
         };
 
-        app.set('view cache', false);
-        app.set('view', View);
+        app.settings.set('view cache', false);
+        app.settings.set('view', View);
 
         app.render('something', function(err, str){
           if (err) return done(err);
@@ -199,8 +199,8 @@ describe('app', function(){
           fn(null, 'abstract engine');
         };
 
-        app.set('view cache', true);
-        app.set('view', View);
+        app.settings.set('view cache', true);
+        app.settings.set('view', View);
 
         app.render('something', function(err, str){
           if (err) return done(err);
@@ -221,7 +221,7 @@ describe('app', function(){
     it('should render the template', function(done){
       var app = express();
 
-      app.set('views', __dirname + '/fixtures');
+      app.settings.set('views', __dirname + '/fixtures');
 
       var user = { name: 'tobi' };
 
@@ -235,7 +235,7 @@ describe('app', function(){
     it('should expose app.locals', function(done){
       var app = express();
 
-      app.set('views', __dirname + '/fixtures');
+      app.settings.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
       app.render('user.jade', {}, function(err, str){
@@ -248,7 +248,7 @@ describe('app', function(){
     it('should give precedence to app.render() locals', function(done){
       var app = express();
 
-      app.set('views', __dirname + '/fixtures');
+      app.settings.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
       var jane = { name: 'jane' };
 
@@ -274,8 +274,8 @@ describe('app', function(){
           fn(null, 'abstract engine');
         };
 
-        app.set('view cache', false);
-        app.set('view', View);
+        app.settings.set('view cache', false);
+        app.settings.set('view', View);
 
         app.render('something', {cache: true}, function(err, str){
           if (err) return done(err);

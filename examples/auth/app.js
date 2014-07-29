@@ -11,8 +11,8 @@ var app = module.exports = express();
 
 // config
 
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
+app.settings.set('view engine', 'ejs');
+app.settings.set('views', __dirname + '/views');
 
 // middleware
 

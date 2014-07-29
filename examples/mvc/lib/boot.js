@@ -18,8 +18,8 @@ module.exports = function(parent, options){
     var path;
 
     // allow specifying the view engine
-    if (obj.engine) app.set('view engine', obj.engine);
-    app.set('views', __dirname + '/../controllers/' + name + '/views');
+    if (obj.engine) app.settings.set('view engine', obj.engine);
+    app.settings.set('views', __dirname + '/../controllers/' + name + '/views');
 
     // generate routes based
     // on the exported methods
@@ -73,5 +73,6 @@ module.exports = function(parent, options){
 
     // mount the app
     parent.use(app);
+    console.log(app.settings('views'))
   });
 };
