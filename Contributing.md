@@ -1,7 +1,7 @@
 
 ## Website Issues
 
-Issues for the expressjs.com website go here https://github.com/visionmedia/expressjs.com
+Issues for the expressjs.com website go here https://github.com/strongloop/expressjs.com
 
 ## PRs and Code contributions
 
@@ -22,4 +22,3 @@ Things that will help get your question issue looked at:
 * Steps you have taken to debug it yourself.
 
 If you post a question and do not outline the above items or make it easy for us to understand and reproduce your issue, it will be closed.
-

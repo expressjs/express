@@ -23,7 +23,7 @@
     "app",
     "api"
   ],
-  "repository": "visionmedia/express",
+  "repository": "strongloop/express",
   "license": "MIT",
   "dependencies": {
     "accepts": "~1.0.7",
