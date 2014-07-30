@@ -3,8 +3,8 @@
   Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
 
   [![NPM version](https://badge.fury.io/js/express.svg)](http://badge.fury.io/js/express)
-  [![Build Status](https://travis-ci.org/visionmedia/express.svg?branch=master)](https://travis-ci.org/visionmedia/express)
-  [![Coverage Status](https://img.shields.io/coveralls/visionmedia/express.svg)](https://coveralls.io/r/visionmedia/express)
+  [![Build Status](https://travis-ci.org/strongloop/express.svg?branch=master)](https://travis-ci.org/strongloop/express)
+  [![Coverage Status](https://img.shields.io/coveralls/strongloop/express.svg)](https://coveralls.io/r/strongloop/express)
   [![Gittip](http://img.shields.io/gittip/dougwilson.svg)](https://www.gittip.com/dougwilson/)
 
 ```js
@@ -65,11 +65,11 @@ app.listen(3000);
 
 ## More Information
 
-  * [Website and Documentation](http://expressjs.com/) stored at [visionmedia/expressjs.com](https://github.com/visionmedia/expressjs.com)
+  * [Website and Documentation](http://expressjs.com/) stored at [strongloop/expressjs.com](https://github.com/strongloop/expressjs.com)
   * Join #express on freenode
   * [Google Group](http://groups.google.com/group/express-js) for discussion
   * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
-  * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
+  * Visit the [Wiki](http://github.com/strongloop/express/wiki)
   * [Русскоязычная документация](http://jsman.ru/express/)
   * Run express examples [online](https://runnable.com/express)
 
@@ -77,7 +77,7 @@ app.listen(3000);
 
 Clone the Express repo, then install the dev dependencies to install all the example / test suite dependencies:
 
-    $ git clone git://github.com/visionmedia/express.git --depth 1
+    $ git clone git://github.com/strongloop/express.git --depth 1
     $ cd express
     $ npm install
 
@@ -103,7 +103,7 @@ $ npm test
 
 ## Contributors
 
-  https://github.com/visionmedia/express/graphs/contributors
+  https://github.com/strongloop/express/graphs/contributors
 
 ## License
 
