@@ -3,8 +3,8 @@
   Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
 
   [![NPM Version](https://badge.fury.io/js/express.svg)](https://badge.fury.io/js/express)
-  [![Build Status](https://travis-ci.org/visionmedia/express.svg?branch=master)](https://travis-ci.org/visionmedia/express)
-  [![Coverage Status](https://img.shields.io/coveralls/visionmedia/express.svg)](https://coveralls.io/r/visionmedia/express)
+  [![Build Status](https://travis-ci.org/strongloop/express.svg?branch=master)](https://travis-ci.org/strongloop/express)
+  [![Coverage Status](https://img.shields.io/coveralls/strongloop/express.svg)](https://coveralls.io/r/strongloop/express)
   [![Gittip](http://img.shields.io/gittip/dougwilson.svg)](https://www.gittip.com/dougwilson/)
 
 ```js
@@ -18,7 +18,7 @@ app.get('/', function (req, res) {
 app.listen(3000)
 ```
 
-  **PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/visionmedia/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/visionmedia/express/wiki/New-features-in-4.x).
+  **PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/strongloop/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/strongloop/express/wiki/New-features-in-4.x).
 
 ### Installation
 
@@ -76,10 +76,10 @@ $ npm start
 
 ## More Information
 
-  * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/visionmedia/expressjs.com)]
+  * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/strongloop/expressjs.com)]
   * [Github Organization](https://github.com/expressjs) for Official Middleware & Modules
   * [#express](https://webchat.freenode.net/?channels=express) on freenode IRC
-  * Visit the [Wiki](https://github.com/visionmedia/express/wiki)
+  * Visit the [Wiki](https://github.com/strongloop/express/wiki)
   * [Google Group](https://groups.google.com/group/express-js) for discussion
   * [Русскоязычная документация](http://jsman.ru/express/)
   * [한국어 문서](http://expressjs.kr) - [[website repo](https://github.com/Hanul/expressjs.kr)]
@@ -90,7 +90,7 @@ $ npm start
   Clone the Express repo, then install the dev dependencies to install all the example / test suite dependencies:
 
 ```bash
-$ git clone git://github.com/visionmedia/express.git --depth 1
+$ git clone git://github.com/strongloop/express.git --depth 1
 $ cd express
 $ npm install
 ```
@@ -121,7 +121,7 @@ $ npm test
 
  * Author: [TJ Holowaychuk](https://github.com/visionmedia)
  * Lead Maintainer: [Douglas Christopher Wilson](https://github.com/dougwilson)
- * [All Contributors](https://github.com/visionmedia/express/graphs/contributors)
+ * [All Contributors](https://github.com/strongloop/express/graphs/contributors)
 
 ### License
 
