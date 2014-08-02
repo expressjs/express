@@ -5,6 +5,7 @@ unreleased
     - accepts a file system path instead of a URL
     - requires an absolute path or `root` option specified
   * deprecate `res.sendfile` -- use `res.sendFile` instead
+  * support mounted app as any argument to `app.use()`
   * deps: qs@1.0.2
     - Complete rewrite
     - Limits array length to 20
