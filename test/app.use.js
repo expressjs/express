@@ -84,6 +84,33 @@ describe('app', function(){
       .get('/post/once-upon-a-time')
       .expect('success', done);
     })
+    
+    it('should support middleware', function(done){
+      var blog = express()
+        , app = express();
+
+      function fn1(req, res, next) {
+        res.setHeader('x-fn-1', 'hit');
+        next();
+      }
+      
+      function fn2(req, res, next) {
+        res.setHeader('x-fn-2', 'hit');
+        next();
+      }
+
+      blog.get('/', function(req, res){
+        res.end('success');
+      });
+
+      app.use('/post/:article', fn1, fn2, blog);
+
+      request(app)
+      .get('/post/once-upon-a-time')
+      .expect('x-fn-1', 'hit')
+      .expect('x-fn-2', 'hit')
+      .expect('success', done);
+    })
   })
 
   describe('.use(middleware)', function(){
