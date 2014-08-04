@@ -1,9 +1,13 @@
 3.x
 ===
 
+  * fix `res.sendfile` regression for serving directory index files
   * deps: connect@2.24.3
     - deps: serve-index@~1.1.5
     - deps: serve-static@~1.4.4
+  * deps: send@0.7.4
+    - Fix incorrect 403 on Windows and Node.js 0.11
+    - Fix serving index files without root dir
 
 3.15.2 / 2014-07-27
 ===================
