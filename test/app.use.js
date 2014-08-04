@@ -102,7 +102,19 @@ describe('app', function(){
       blog.get('/', function(req, res){
         res.end('success');
       });
+      
+      // var other = express();
+      // 
+      // other.use(function(req, res, next) {
+      //   next();
+      // });
+      // 
+      // other.get('/', function(req, res, next) {
+      //   next();
+      // });
 
+      // app.use('/post/:article', fn1, other, fn2, blog);
+      
       app.use('/post/:article', fn1, fn2, blog);
 
       request(app)
