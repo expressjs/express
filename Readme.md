@@ -120,7 +120,6 @@ $ npm test
 ### Contributors
 
  * Author: [TJ Holowaychuk](https://github.com/visionmedia)
- * Lead Maintainer: [Douglas Christopher Wilson](https://github.com/dougwilson)
  * [All Contributors](https://github.com/strongloop/express/graphs/contributors)
 
 ### License
