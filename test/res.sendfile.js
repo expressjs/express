@@ -165,6 +165,30 @@ describe('res', function(){
       });
     })
 
+    it('should transfer a file', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.sendfile('test/fixtures/name.txt');
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, 'tobi', done);
+    });
+
+    it('should transfer a directory index file', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.sendfile('test/fixtures/blog/');
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, '<b>index</b>', done);
+    });
+
     describe('with an absolute path', function(){
       it('should transfer the file', function(done){
         var app = express();

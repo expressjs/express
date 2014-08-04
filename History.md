@@ -1,6 +1,10 @@
 unreleased
 ==========
 
+  * fix `res.sendfile` regression for serving directory index files
+  * deps: send@0.7.4
+    - Fix incorrect 403 on Windows and Node.js 0.11
+    - Fix serving index files without root dir
   * deps: serve-static@~1.4.4
     - deps: send@0.7.4
 
@@ -341,6 +345,17 @@ unreleased
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.15.3 / 2014-08-04
+===================
+
+  * fix `res.sendfile` regression for serving directory index files
+  * deps: connect@2.24.3
+    - deps: serve-index@~1.1.5
+    - deps: serve-static@~1.4.4
+  * deps: send@0.7.4
+    - Fix incorrect 403 on Windows and Node.js 0.11
+    - Fix serving index files without root dir
 
 3.15.2 / 2014-07-27
 ===================
