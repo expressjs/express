@@ -1,3 +1,10 @@
+3.x
+===
+
+  * deps: connect@2.24.3
+    - deps: serve-index@~1.1.5
+    - deps: serve-static@~1.4.4
+
 3.15.2 / 2014-07-27
 ===================
 
