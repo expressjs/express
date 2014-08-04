@@ -1,5 +1,5 @@
-unreleased
-==========
+4.7.4 / 2014-08-04
+==================
 
   * fix `res.sendfile` regression for serving directory index files
   * deps: send@0.7.4
