@@ -1,5 +1,5 @@
-3.x
-===
+3.15.3 / 2014-08-04
+===================
 
   * fix `res.sendfile` regression for serving directory index files
   * deps: connect@2.24.3
