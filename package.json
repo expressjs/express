@@ -46,7 +46,7 @@
     "fresh": "0.2.2",
     "cookie-signature": "1.0.4",
     "merge-descriptors": "0.0.2",
-    "qs": "0.6.6",
+    "qs": "1.0.0",
     "utils-merge": "1.0.0"
   },
   "devDependencies": {
