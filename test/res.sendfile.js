@@ -189,6 +189,18 @@ describe('res', function(){
       .expect(200, '<b>index</b>', done);
     });
 
+    it('should transfer a file with urlencoded name', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.sendfile('test/fixtures/%25%20of%20dogs.txt');
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, '20%', done);
+    });
+
     describe('with an absolute path', function(){
       it('should transfer the file', function(done){
         var app = express();
