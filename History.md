@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * deps: send@0.8.1
+    - Add `extensions` option
+
 4.7.4 / 2014-08-04
 ==================
 
@@ -345,6 +351,19 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.16.0 / 2014-08-05
+===================
+
+  * deps: connect@2.25.0
+    - deps: body-parser@~1.6.0
+    - deps: compression@~1.0.10
+    - deps: csurf@~1.4.0
+    - deps: express-session@~1.7.4
+    - deps: qs@1.0.2
+    - deps: serve-static@~1.5.0
+  * deps: send@0.8.1
+    - Add `extensions` option
 
 3.15.3 / 2014-08-04
 ===================
