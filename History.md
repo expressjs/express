@@ -2,6 +2,9 @@ unreleased
 ==========
 
   * fix incorrect deprecation warnings on `res.download`
+  * deps: qs@1.1.0
+    - Accept urlencoded square brackets
+    - Accept empty values in implicit array notation
 
 4.8.0 / 2014-08-05
 ==================
