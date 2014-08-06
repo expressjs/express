@@ -1,5 +1,5 @@
-unreleased
-==========
+4.8.0 / 2014-08-05
+==================
 
   * add `res.sendFile`
     - accepts a file system path instead of a URL
