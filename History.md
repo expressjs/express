@@ -1,3 +1,41 @@
+4.8.0 / 2014-08-05
+==================
+
+  * add `res.sendFile`
+    - accepts a file system path instead of a URL
+    - requires an absolute path or `root` option specified
+  * deprecate `res.sendfile` -- use `res.sendFile` instead
+  * support mounted app as any argument to `app.use()`
+  * deps: qs@1.0.2
+    - Complete rewrite
+    - Limits array length to 20
+    - Limits object depth to 5
+    - Limits parameters to 1,000
+  * deps: send@0.8.1
+    - Add `extensions` option
+  * deps: serve-static@~1.5.0
+    - Add `extensions` option
+    - deps: send@0.8.1
+
+4.7.4 / 2014-08-04
+==================
+
+  * fix `res.sendfile` regression for serving directory index files
+  * deps: send@0.7.4
+    - Fix incorrect 403 on Windows and Node.js 0.11
+    - Fix serving index files without root dir
+  * deps: serve-static@~1.4.4
+    - deps: send@0.7.4
+
+4.7.3 / 2014-08-04
+==================
+
+  * deps: send@0.7.3
+    - Fix incorrect 403 on Windows and Node.js 0.11
+  * deps: serve-static@~1.4.3
+    - Fix incorrect 403 on Windows and Node.js 0.11
+    - deps: send@0.7.3
+
 4.7.2 / 2014-07-27
 ==================
 
@@ -326,6 +364,30 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.16.0 / 2014-08-05
+===================
+
+  * deps: connect@2.25.0
+    - deps: body-parser@~1.6.0
+    - deps: compression@~1.0.10
+    - deps: csurf@~1.4.0
+    - deps: express-session@~1.7.4
+    - deps: qs@1.0.2
+    - deps: serve-static@~1.5.0
+  * deps: send@0.8.1
+    - Add `extensions` option
+
+3.15.3 / 2014-08-04
+===================
+
+  * fix `res.sendfile` regression for serving directory index files
+  * deps: connect@2.24.3
+    - deps: serve-index@~1.1.5
+    - deps: serve-static@~1.4.4
+  * deps: send@0.7.4
+    - Fix incorrect 403 on Windows and Node.js 0.11
+    - Fix serving index files without root dir
 
 3.15.2 / 2014-07-27
 ===================
