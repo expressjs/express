@@ -52,7 +52,7 @@
   "devDependencies": {
     "after": "0.8.1",
     "istanbul": "0.3.0",
-    "mocha": "~1.21.0",
+    "mocha": "~1.21.4",
     "should": "~4.0.4",
     "supertest": "~0.13.0",
     "connect-redis": "~2.0.0",
