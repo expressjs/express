@@ -3,6 +3,9 @@ unreleased
 
   * deps: send@0.8.1
     - Add `extensions` option
+  * deps: serve-static@~1.5.0
+    - Add `extensions` option
+    - deps: send@0.8.1
 
 4.7.4 / 2014-08-04
 ==================
