@@ -1,5 +1,5 @@
-unreleased
-==========
+4.8.1 / 2014-08-06
+==================
 
   * fix incorrect deprecation warnings on `res.download`
   * deps: qs@1.1.0
