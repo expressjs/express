@@ -1,6 +1,9 @@
 unreleased
 ==========
 
+  * add `res.sendFile`
+    - accepts a file system path instead of a URL
+    - requires an absolute path or `root` option specified
   * deps: qs@1.0.2
     - Complete rewrite
     - Limits array length to 20
