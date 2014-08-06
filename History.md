@@ -8,6 +8,8 @@
     - deps: express-session@~1.7.4
     - deps: qs@1.0.2
     - deps: serve-static@~1.5.0
+  * deps: send@0.8.1
+    - Add `extensions` option
 
 3.15.3 / 2014-08-04
 ===================
