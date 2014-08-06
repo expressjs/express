@@ -20,7 +20,8 @@ function error(err, req, res, next) {
   if (!test) console.error(err.stack);
 
   // respond with 500 "Internal Server Error".
-  res.send(500);
+  res.status(500);
+  res.send('Internal Server Error');
 }
 
 app.get('/', function(req, res){

@@ -93,14 +93,16 @@ app.get('/api/user/:name/repos', function(req, res, next){
 app.use(function(err, req, res, next){
   // whatever you want here, feel free to populate
   // properties on `err` to treat it differently in here.
-  res.send(err.status || 500, { error: err.message });
+  res.status(err.status || 500);
+  res.send({ error: err.message });
 });
 
 // our custom JSON 404 middleware. Since it's placed last
 // it will be the last middleware called, if all others
 // invoke next() and do not respond.
 app.use(function(req, res){
-  res.send(404, { error: "Lame, can't find that" });
+  res.status(404);
+  res.send({ error: "Lame, can't find that" });
 });
 
 /* istanbul ignore next */
