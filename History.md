@@ -1,6 +1,11 @@
 unreleased
 ==========
 
+  * deps: qs@1.0.2
+    - Complete rewrite
+    - Limits array length to 20
+    - Limits object depth to 5
+    - Limits parameters to 1,000
   * deps: send@0.8.1
     - Add `extensions` option
   * deps: serve-static@~1.5.0
