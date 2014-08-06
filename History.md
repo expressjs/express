@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * fix incorrect deprecation warnings on `res.download`
+
 4.8.0 / 2014-08-05
 ==================
 
