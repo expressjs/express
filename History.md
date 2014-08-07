@@ -1,5 +1,5 @@
-unreleased
-==========
+4.8.2 / 2014-08-07
+==================
 
   * deps: qs@1.2.0
     - Fix parsing array of objects
