@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * deps: qs@1.2.0
+    - Fix parsing array of objects
+
 4.8.1 / 2014-08-06
 ==================
 
