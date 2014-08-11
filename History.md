@@ -1,3 +1,20 @@
+3.x
+===
+
+  * deps: connect@2.25.4
+    - Fix `query` middleware breaking with argument
+    - deps: body-parser@~1.6.3
+    - deps: compression@~1.0.11
+    - deps: connect-timeout@~1.2.2
+    - deps: express-session@~1.7.5
+    - deps: method-override@~2.1.3
+    - deps: on-headers@~1.0.0
+    - deps: parseurl@~1.3.0
+    - deps: qs@1.2.1
+    - deps: response-time@~2.0.1
+    - deps: serve-index@~1.1.6
+    - deps: serve-static@~1.5.1
+
 3.16.3 / 2014-08-07
 ===================
 
