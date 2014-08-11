@@ -1,6 +1,7 @@
 3.x
 ===
 
+  * Fix original URL parsing in `res.location`
   * deps: connect@2.25.4
     - Fix `query` middleware breaking with argument
     - deps: body-parser@~1.6.3
