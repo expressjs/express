@@ -14,6 +14,7 @@
     - deps: response-time@~2.0.1
     - deps: serve-index@~1.1.6
     - deps: serve-static@~1.5.1
+  * deps: parseurl@~1.3.0
 
 3.16.3 / 2014-08-07
 ===================
