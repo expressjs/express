@@ -3,6 +3,10 @@ unreleased
 
   * deps: parseurl@~1.3.0
   * deps: qs@1.2.1
+  * deps: serve-static@~1.5.1
+    - Fix parsing of weird `req.originalUrl` values
+    - deps: parseurl@~1.3.0
+    - deps: utils-merge@1.0.0
 
 4.8.2 / 2014-08-07
 ==================
