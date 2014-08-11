@@ -1,5 +1,5 @@
-3.x
-===
+3.16.4 / 2014-08-10
+===================
 
   * Fix original URL parsing in `res.location`
   * deps: connect@2.25.4
