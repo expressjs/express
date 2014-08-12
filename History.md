@@ -1,5 +1,5 @@
-3.x
-===
+3.16.5 / 2014-08-11
+===================
 
   * deps: connect@2.25.5
     - Fix backwards compatibility in `logger`
