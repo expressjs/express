@@ -1,3 +1,9 @@
+3.x
+===
+
+  * deps: connect@2.25.5
+    - Fix backwards compatibility in `logger`
+
 3.16.4 / 2014-08-10
 ===================
 
