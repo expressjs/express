@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Add `res.sendStatus`
   * Invoke callback for sendfile when client aborts
     - Applies to `res.sendFile`, `res.sendfile`, and `res.download`
     - `err` will be populated with request aborted error
