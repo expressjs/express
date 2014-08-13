@@ -1,5 +1,6 @@
-var app = require('../../examples/resource/app')
+
 var request = require('supertest')
+  , app = require('../../examples/resource/app');
 
 describe('resource', function(){
   describe('GET /', function(){

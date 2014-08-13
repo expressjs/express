@@ -1,5 +1,6 @@
-var app = require('../../examples/params/app')
+
 var request = require('supertest')
+  , app = require('../../examples/params/app');
 
 describe('params', function(){
   describe('GET /', function(){
