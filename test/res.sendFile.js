@@ -153,20 +153,11 @@ describe('res', function(){
     })
 
     it('should throw a TypeError if path is null', function(done){
-      var app = express();
-
-      app.use(function (req, res) {
-        try {
-          res.sendFile(null, function (err) {});
-        } catch(e) {
-          e.name.should.equal('TypeError');
-          done();
-        }
-      });
+      var app = createApp(null);
 
       request(app)
       .get('/')
-      .end(function(){});
+      .expect(500, /path argument/, done);
     })
   })
 
