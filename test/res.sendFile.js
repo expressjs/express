@@ -151,6 +151,14 @@ describe('res', function(){
       .get('/')
       .expect(200, 'got it', done);
     })
+
+    it('should throw a TypeError if path is null', function(done){
+      var app = createApp(null);
+
+      request(app)
+      .get('/')
+      .expect(500, /path argument/, done);
+    })
   })
 
   describe('.sendfile(path, fn)', function(){
