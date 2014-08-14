@@ -59,7 +59,23 @@ describe('Router', function(){
       }
       router.handle({ url: '/foo', method: 'GET' }, res);
     })
-  })
+  });
+
+  describe('.use', function(){
+    it('Should throw if no callback', function(){
+      assert.throws(function() {
+        var router = new Router();
+        router.use();
+      });
+    });
+
+    it('Should throw if callback is not a function', function(){
+      assert.throws(function() {
+        var router = new Router();
+        router.use('stupid string', 'another string');
+      });
+    });
+  });
 
   describe('.multiple callbacks', function(){
     it('should throw if a callback is null', function(){
