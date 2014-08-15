@@ -297,6 +297,18 @@ describe('Router', function(){
     })
   })
 
+  describe('.use', function() {
+    it('should require arguments', function(){
+      var router = new Router();
+      router.use.bind(router).should.throw(/requires callback function/)
+    })
+
+    it('should not accept non-functions', function(){
+      var router = new Router();
+      router.use.bind(router, '/', 'hello').should.throw(/requires callback function/)
+    })
+  })
+
   describe('.param', function() {
     it('should call param function when routing VERBS', function(done) {
       var router = new Router();
