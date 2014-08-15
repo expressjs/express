@@ -1,3 +1,11 @@
+3.x
+===
+
+  * deps: connect@2.25.6
+    - deps: body-parser@~1.6.4
+    - deps: qs@1.2.2
+    - deps: serve-static@~1.5.2
+
 3.16.5 / 2014-08-11
 ===================
 
