@@ -3,6 +3,8 @@ unreleased
 
   * deps: send@0.8.2
     - Work around `fd` leak in Node.js 0.10 for `fs.ReadStream`
+  * deps: serve-static@~1.5.2
+    - deps: send@0.8.2
 
 4.8.3 / 2014-08-10
 ==================
