@@ -9,6 +9,14 @@ var fixtures = path.join(__dirname, 'fixtures');
 
 describe('res', function(){
   describe('.sendFile(path)', function () {
+    it('should error missing path', function (done) {
+      var app = createApp();
+
+      request(app)
+      .get('/')
+      .expect(500, /path.*required/, done);
+    });
+
     it('should transfer a file', function (done) {
       var app = createApp(path.resolve(fixtures, 'name.txt'));
 
