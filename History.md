@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * deps: send@0.8.2
+    - Work around `fd` leak in Node.js 0.10 for `fs.ReadStream`
+
 4.8.3 / 2014-08-10
 ==================
 
@@ -388,6 +394,22 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.16.6 / 2014-08-14
+===================
+
+  * deps: connect@2.25.6
+    - deps: body-parser@~1.6.4
+    - deps: qs@1.2.2
+    - deps: serve-static@~1.5.2
+  * deps: send@0.8.2
+    - Work around `fd` leak in Node.js 0.10 for `fs.ReadStream`
+
+3.16.5 / 2014-08-11
+===================
+
+  * deps: connect@2.25.5
+    - Fix backwards compatibility in `logger`
 
 3.16.4 / 2014-08-10
 ===================
