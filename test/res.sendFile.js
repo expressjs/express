@@ -498,7 +498,7 @@ describe('res', function(){
         var port = this.address().port;
         var headers = [
             'GET / HTTP/1.1',
-            'Host: localhost:3000',
+            'Host: localhost:' + port,
             '',
             ''
           ].join('\r\n');
