@@ -5,6 +5,8 @@ var express = require('../')
   , assert = require('assert');
 var path = require('path');
 var should = require('should');
+var net = require('net');
+var http = require('http');
 var fixtures = path.join(__dirname, 'fixtures');
 
 describe('res', function(){
@@ -485,6 +487,55 @@ describe('res', function(){
           .expect('tobi', done);
         })
       })
+    })
+  })
+  describe('with aborted requests', function(){
+
+    function sendAbortedRequest (app) {
+      var server = http.createServer(app);
+      app.server = server;
+      server.listen(function () {
+        var port = this.address().port;
+        var headers = [
+            'GET / HTTP/1.1',
+            'Host: localhost:' + port,
+            '',
+            ''
+          ].join('\r\n');
+
+        var socket = new net.Socket();
+        socket.connect(port, 'localhost', function() {
+          socket.write(headers, 'utf-8', function () {
+              socket.end();
+          });
+        });
+      });
+    }
+
+    it('should invoke callback', function(done){
+      var app = express();
+      app.get('/', function (req, res) {
+        res.sendFile(__filename, function (err) {
+          // assert(err); ?
+          app.server.close();
+          done();
+        });
+      });
+      sendAbortedRequest(app);
+    })
+
+    it('should also invoke callback when called on nextTick', function(done){
+      var app = express();
+      app.get('/', function (req, res) {
+        setImmediate(function () {
+          res.sendFile(__filename, function (err) {
+            // assert(err); ?
+            app.server.close();
+            done();
+          });  
+        });
+      });
+      sendAbortedRequest(app);
     })
   })
 })
