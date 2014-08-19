@@ -49,6 +49,21 @@ describe('req', function(){
       })
     })
 
+    describe('when host is an ip address', function(){
+      it('should return an empty array', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.send(req.subdomains);
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', '127.0.0.1')
+        .expect([], done);
+      })
+    })
+
     describe('when subdomain offset is set', function(){
       describe('when subdomain offset is zero', function(){
         it('should return an array with the whole domain', function(done){
