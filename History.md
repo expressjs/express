@@ -6,6 +6,9 @@
     - deps: express-session@~1.7.6
     - deps: morgan@~1.2.3
     - deps: serve-static@~1.5.3
+  * deps: send@0.8.3
+    - deps: destroy@1.0.3
+    - deps: on-finished@2.1.0
 
 3.16.6 / 2014-08-14
 ===================
