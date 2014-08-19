@@ -1,3 +1,12 @@
+3.x
+===
+
+  * deps: connect@2.25.7
+    - deps: body-parser@~1.6.5
+    - deps: express-session@~1.7.6
+    - deps: morgan@~1.2.3
+    - deps: serve-static@~1.5.3
+
 3.16.6 / 2014-08-14
 ===================
 
