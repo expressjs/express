@@ -4,6 +4,8 @@ unreleased
   * deps: send@0.8.3
     - deps: destroy@1.0.3
     - deps: on-finished@2.1.0
+  * deps: serve-static@~1.5.3
+    - deps: send@0.8.3
 
 4.8.4 / 2014-08-14
 ==================
