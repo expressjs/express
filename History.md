@@ -1,3 +1,10 @@
+unreleased
+==========
+
+  * deps: send@0.8.3
+    - deps: destroy@1.0.3
+    - deps: on-finished@2.1.0
+
 4.8.4 / 2014-08-14
 ==================
 
@@ -397,6 +404,18 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.16.7 / 2014-08-18
+===================
+
+  * deps: connect@2.25.7
+    - deps: body-parser@~1.6.5
+    - deps: express-session@~1.7.6
+    - deps: morgan@~1.2.3
+    - deps: serve-static@~1.5.3
+  * deps: send@0.8.3
+    - deps: destroy@1.0.3
+    - deps: on-finished@2.1.0
 
 3.16.6 / 2014-08-14
 ===================

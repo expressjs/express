@@ -23,7 +23,7 @@ app.engine('md', function(str, options, fn){
 });
 
 // pointing to a particular github repo to load files from it
-app.set('views', 'visionmedia/express');
+app.set('views', 'strongloop/express');
 
 // register a new view constructor
 app.set('view', GithubView);
@@ -36,7 +36,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/Readme.md', function(req, res){
-  // rendering a view from https://github.com/visionmedia/express/blob/master/Readme.md
+  // rendering a view from https://github.com/strongloop/express/blob/master/Readme.md
   res.render('Readme.md');
 });
 

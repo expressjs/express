@@ -1,7 +1,7 @@
 
 ## Website Issues
 
-Issues for the expressjs.com website go here https://github.com/visionmedia/expressjs.com
+Issues for the expressjs.com website go here https://github.com/strongloop/expressjs.com
 
 ## PRs and Code contributions
 
