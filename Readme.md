@@ -2,10 +2,10 @@
 
   Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
 
-  [![NPM version](https://badge.fury.io/js/express.svg)](http://badge.fury.io/js/express)
-  [![Build Status](https://travis-ci.org/strongloop/express.svg?branch=master)](https://travis-ci.org/strongloop/express)
+  [![NPM version](https://img.shields.io/npm/v/express.svg)](https://www.npmjs.org/package/express)
+  [![Build Status](https://img.shields.io/travis/strongloop/express.svg)](https://travis-ci.org/strongloop/express)
   [![Coverage Status](https://img.shields.io/coveralls/strongloop/express.svg)](https://coveralls.io/r/strongloop/express)
-  [![Gittip](http://img.shields.io/gittip/dougwilson.svg)](https://www.gittip.com/dougwilson/)
+  [![Gittip](https://img.shields.io/gittip/dougwilson.svg)](https://www.gittip.com/dougwilson/)
 
 ```js
 var express = require('express');
