@@ -24,6 +24,7 @@
   ],
   "repository": "strongloop/express",
   "license": "MIT",
+  "homepage": "http://expressjs.com/",
   "dependencies": {
     "basic-auth": "1.0.0",
     "buffer-crc32": "0.2.3",
