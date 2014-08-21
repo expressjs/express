@@ -33,6 +33,14 @@ describe('res', function(){
       .expect(200, '20%', done);
     });
 
+    it('should 404 for directory', function (done) {
+      var app = createApp(path.resolve(fixtures, 'blog'));
+
+      request(app)
+      .get('/')
+      .expect(404, done);
+    });
+
     it('should 404 when not found', function (done) {
       var app = createApp(path.resolve(fixtures, 'does-no-exist'));
 
@@ -164,15 +172,15 @@ describe('res', function(){
   describe('.sendfile(path, fn)', function(){
     it('should invoke the callback when complete', function(done){
       var app = express();
+      var cb = after(2, done);
 
       app.use(function(req, res){
-        res.sendfile('test/fixtures/user.html', done)
+        res.sendfile('test/fixtures/user.html', cb)
       });
 
       request(app)
       .get('/')
-      .expect(200)
-      .end(function(){});
+      .expect(200, cb);
     })
 
     it('should utilize the same options as express.static()', function(done){
@@ -344,6 +352,18 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect(200, '<b>index</b>', done);
+    });
+
+    it('should 404 for directory without trailing slash', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.sendfile('test/fixtures/blog');
+      });
+
+      request(app)
+      .get('/')
+      .expect(404, done);
     });
 
     it('should transfer a file with urlencoded name', function (done) {
