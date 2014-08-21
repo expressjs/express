@@ -3,6 +3,7 @@ var after = require('after');
 var express = require('../')
   , request = require('supertest')
   , assert = require('assert');
+var onFinished = require('on-finished');
 var path = require('path');
 var should = require('should');
 var fixtures = path.join(__dirname, 'fixtures');
@@ -152,6 +153,44 @@ describe('res', function(){
       .expect(200, cb);
     })
 
+    it('should invoke the callback when client aborts', function (done) {
+      var cb = after(1, done);
+      var app = express();
+
+      app.use(function (req, res) {
+        setImmediate(function () {
+          res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
+            should(err).be.ok;
+            err.code.should.equal('ECONNABORT');
+            cb();
+          });
+        });
+        test.abort();
+      });
+
+      var test = request(app).get('/');
+      test.expect(200, cb);
+    })
+
+    it('should invoke the callback when client already aborted', function (done) {
+      var cb = after(1, done);
+      var app = express();
+
+      app.use(function (req, res) {
+        onFinished(res, function () {
+          res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
+            should(err).be.ok;
+            err.code.should.equal('ECONNABORT');
+            cb();
+          });
+        });
+        test.abort();
+      });
+
+      var test = request(app).get('/');
+      test.expect(200, cb);
+    })
+
     it('should invoke the callback on 404', function(done){
       var app = express();
 
@@ -194,6 +233,44 @@ describe('res', function(){
       .get('/')
       .expect('Cache-Control', 'public, max-age=60')
       .end(done);
+    })
+
+    it('should invoke the callback when client aborts', function (done) {
+      var cb = after(1, done);
+      var app = express();
+
+      app.use(function (req, res) {
+        setImmediate(function () {
+          res.sendfile('test/fixtures/name.txt', function (err) {
+            should(err).be.ok;
+            err.code.should.equal('ECONNABORT');
+            cb();
+          });
+        });
+        test.abort();
+      });
+
+      var test = request(app).get('/');
+      test.expect(200, cb);
+    })
+
+    it('should invoke the callback when client already aborted', function (done) {
+      var cb = after(1, done);
+      var app = express();
+
+      app.use(function (req, res) {
+        onFinished(res, function () {
+          res.sendfile('test/fixtures/name.txt', function (err) {
+            should(err).be.ok;
+            err.code.should.equal('ECONNABORT');
+            cb();
+          });
+        });
+        test.abort();
+      });
+
+      var test = request(app).get('/');
+      test.expect(200, cb);
     })
 
     it('should invoke the callback on 404', function(done){

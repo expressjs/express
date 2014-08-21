@@ -1,6 +1,9 @@
 unreleased
 ==========
 
+  * Invoke callback for sendfile when client aborts
+    - Applies to `res.sendFile`, `res.sendfile`, and `res.download`
+    - `err` will be populated with request aborted error
   * Support IP address host in `req.subdomains`
   * deps: accepts@~1.1.0
     - update `mime-types`
