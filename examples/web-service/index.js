@@ -28,7 +28,7 @@ function error(status, msg) {
 app.use('/api', function(req, res, next){
   var key = req.query['api-key'];
 
-  // key isnt present
+  // key isn't present
   if (!key) return next(error(400, 'api key required'));
 
   // key is invalid

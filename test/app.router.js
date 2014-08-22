@@ -630,7 +630,7 @@ describe('app.router', function(){
       .expect('', done);
     })
 
-    it('should require a preceeding /', function(done){
+    it('should require a preceding /', function(done){
       var app = express();
 
       app.get('/file/*', function(req, res){
