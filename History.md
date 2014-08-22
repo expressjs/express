@@ -1978,7 +1978,7 @@ Shaw]
   * Added "encoding" option to Request#render(). Closes #299
   * Added "dump exceptions" setting, which is enabled by default.
   * Added simple ejs template engine support
-  * Added error reponse support for text/plain, application/json. Closes #297
+  * Added error response support for text/plain, application/json. Closes #297
   * Added callback function param to Request#error()
   * Added Request#sendHead()
   * Added Request#stream()
@@ -2192,7 +2192,7 @@ Shaw]
   * Updated sample chat app to show messages on load
   * Updated libxmljs parseString -> parseHtmlString
   * Fixed `make init` to work with older versions of git
-  * Fixed specs can now run independant specs for those who cant build deps. Closes #127
+  * Fixed specs can now run independent specs for those who cant build deps. Closes #127
   * Fixed issues introduced by the node url module changes. Closes 126.
   * Fixed two assertions failing due to Collection#keys() returning strings
   * Fixed faulty Collection#toArray() spec due to keys() returning strings
