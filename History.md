@@ -5,6 +5,7 @@ unreleased
     - Applies to `res.sendFile`, `res.sendfile`, and `res.download`
     - `err` will be populated with request aborted error
   * Support IP address host in `req.subdomains`
+  * Use `etag` to generate `ETag` headers
   * deps: accepts@~1.1.0
     - update `mime-types`
   * deps: cookie-signature@1.0.5
