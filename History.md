@@ -1,3 +1,11 @@
+unreleased
+==========
+
+  * deps: connect@2.25.8
+    - deps: body-parser@~1.6.6
+    - deps: csurf@~1.4.1
+    - deps: qs@2.2.0
+
 3.16.7 / 2014-08-18
 ===================
 
