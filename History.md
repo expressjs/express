@@ -1,3 +1,10 @@
+unreleased
+==========
+
+  * deps: qs@2.2.0
+    - Array parsing fix
+    - Performance improvements
+
 4.8.5 / 2014-08-18
 ==================
 
