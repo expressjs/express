@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * deps: qs@2.2.2
+    - Remove unnecessary cloning
+
 4.8.6 / 2014-08-27
 ==================
 
