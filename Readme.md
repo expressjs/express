@@ -7,8 +7,6 @@
   [![Coverage Status](https://img.shields.io/coveralls/strongloop/express.svg?style=flat)](https://coveralls.io/r/strongloop/express)
   [![Gittip](https://img.shields.io/gittip/dougwilson.svg?style=flat)](https://www.gittip.com/dougwilson/)
 
-  modified by Ansaga
-  
 ```js
 var express = require('express')
 var app = express()
