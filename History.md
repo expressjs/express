@@ -1,3 +1,10 @@
+unreleased
+==========
+
+  * deps: send@0.8.5
+    - Fix a path traversal issue when using `root`
+    - Fix malicious path detection for empty string path
+
 4.8.7 / 2014-08-29
 ==================
 
@@ -419,6 +426,15 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.16.10 / 2014-09-04
+====================
+
+  * deps: connect@2.25.10
+    - deps: serve-static@~1.5.4
+  * deps: send@0.8.5
+    - Fix a path traversal issue when using `root`
+    - Fix malicious path detection for empty string path
 
 3.16.9 / 2014-08-29
 ===================
