@@ -34,7 +34,7 @@ function GithubView(name, options){
 GithubView.prototype.render = function(options, fn){
   var self = this;
   var opts = {
-    host: 'rawgithub.com',
+    host: 'rawgit.com',
     port: 80,
     path: this.path,
     method: 'GET'
