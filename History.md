@@ -1,5 +1,5 @@
-unreleased
-==========
+4.8.8 / 2014-09-04
+==================
 
   * deps: send@0.8.5
     - Fix a path traversal issue when using `root`
