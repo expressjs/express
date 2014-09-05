@@ -3,6 +3,9 @@
 
   * deps: connect@2.25.10
     - deps: serve-static@~1.5.4
+  * deps: send@0.8.5
+    - Fix a path traversal issue when using `root`
+    - Fix malicious path detection for empty string path
 
 3.16.9 / 2014-08-29
 ===================
