@@ -90,7 +90,7 @@ $ npm start
   Clone the Express repo, then install the dev dependencies to install all the example / test suite dependencies:
 
 ```bash
-$ git clone git://github.com/strongloop/express.git --depth 1
+$ git clone https://github.com/strongloop/express.git --depth 1
 $ cd express
 $ npm install
 ```
