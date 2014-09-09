@@ -1,6 +1,7 @@
 3.x
 ===
 
+  * Support `X-Forwarded-Host` in `req.subdomains`
   * deps: connect@2.26.0
     - deps: body-parser@~1.8.1
     - deps: compression@~1.1.0

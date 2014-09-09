@@ -49,6 +49,22 @@ describe('req', function(){
       })
     })
 
+    describe('with trusted X-Forwarded-Host', function () {
+      it('should return an array', function (done) {
+        var app = express();
+
+        app.set('trust proxy', true);
+        app.use(function (req, res) {
+          res.send(req.subdomains);
+        });
+
+        request(app)
+        .get('/')
+        .set('X-Forwarded-Host', 'tobi.ferrets.example.com')
+        .expect(['ferrets', 'tobi'], done);
+      })
+    })
+
     describe('when subdomain offset is set', function(){
       describe('when subdomain offset is zero', function(){
         it('should return an array with the whole domain', function(done){
