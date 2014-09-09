@@ -4,6 +4,9 @@ unreleased
   * Support IP address host in `req.subdomains`
   * deps: cookie-signature@1.0.5
   * deps: debug@~2.0.0
+  * deps: finalhandler@0.2.0
+    - Set `X-Content-Type-Options: nosniff` header
+    - deps: debug@~2.0.0
   * deps: fresh@0.2.4
   * deps: media-typer@0.3.0
     - Throw error when parameter format invalid on parse
