@@ -1,3 +1,28 @@
+3.x
+===
+
+  * deps: connect@2.26.0
+    - deps: body-parser@~1.8.1
+    - deps: compression@~1.1.0
+    - deps: connect-timeout@~1.3.0
+    - deps: cookie-parser@~1.3.3
+    - deps: cookie-signature@1.0.5
+    - deps: csurf@~1.6.1
+    - deps: debug@~2.0.0
+    - deps: errorhandler@~1.2.0
+    - deps: express-session@~1.8.1
+    - deps: finalhandler@0.2.0
+    - deps: fresh@0.2.4
+    - deps: media-typer@0.3.0
+    - deps: method-override@~2.2.0
+    - deps: morgan@~1.3.0
+    - deps: qs@2.2.3
+    - deps: serve-favicon@~2.1.3
+    - deps: serve-index@~1.2.1
+    - deps: serve-static@~1.6.1
+    - deps: type-is@~1.5.1
+    - deps: vhost@~3.0.0
+
 3.16.10 / 2014-09-04
 ====================
 

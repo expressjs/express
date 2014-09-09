@@ -28,7 +28,7 @@
   "dependencies": {
     "basic-auth": "1.0.0",
     "buffer-crc32": "0.2.3",
-    "connect": "2.25.10",
+    "connect": "2.26.0",
     "commander": "1.3.2",
     "debug": "1.0.4",
     "depd": "0.4.4",
