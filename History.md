@@ -18,6 +18,9 @@ unreleased
     - Use `etag` to generate `ETag` header
     - deps: debug@~2.0.0
     - deps: fresh@0.2.4
+  * deps: serve-static@~1.6.1
+    - Add `lastModified` option
+    - deps: send@0.9.1
   * deps: type-is@~1.5.1
     - fix `hasbody` to be true for `content-length: 0`
     - deps: media-typer@0.3.0
