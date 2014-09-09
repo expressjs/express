@@ -1,3 +1,8 @@
+3.x
+===
+
+  * Fix error in `req.subdomains` on empty host
+
 3.17.0 / 2014-09-08
 ===================
 
