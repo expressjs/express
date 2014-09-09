@@ -22,6 +22,7 @@
     - deps: serve-static@~1.6.1
     - deps: type-is@~1.5.1
     - deps: vhost@~3.0.0
+  * deps: debug@~2.0.0
   * deps: media-typer@0.3.0
     - Throw error when parameter format invalid on parse
 
