@@ -18,6 +18,10 @@ unreleased
     - Use `etag` to generate `ETag` header
     - deps: debug@~2.0.0
     - deps: fresh@0.2.4
+  * deps: type-is@~1.5.1
+    - fix `hasbody` to be true for `content-length: 0`
+    - deps: media-typer@0.3.0
+    - deps: mime-types@~2.0.1
   * deps: vary@~1.0.0
     - Accept valid `Vary` header string as `field`
 
