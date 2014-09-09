@@ -1,3 +1,21 @@
+unreleased
+==========
+
+  * Support IP address host in `req.subdomains`
+  * deps: cookie-signature@1.0.5
+  * deps: debug@~2.0.0
+  * deps: fresh@0.2.4
+  * deps: media-typer@0.3.0
+    - Throw error when parameter format invalid on parse
+  * deps: range-parser@~1.0.2
+  * deps: send@0.9.1
+    - Add `lastModified` option
+    - Use `etag` to generate `ETag` header
+    - deps: debug@~2.0.0
+    - deps: fresh@0.2.4
+  * deps: vary@~1.0.0
+    - Accept valid `Vary` header string as `field`
+
 4.8.8 / 2014-09-04
 ==================
 
@@ -428,6 +446,51 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.17.1 / 2014-09-08
+===================
+
+  * Fix error in `req.subdomains` on empty host
+
+3.17.0 / 2014-09-08
+===================
+
+  * Support `X-Forwarded-Host` in `req.subdomains`
+  * Support IP address host in `req.subdomains`
+  * deps: connect@2.26.0
+    - deps: body-parser@~1.8.1
+    - deps: compression@~1.1.0
+    - deps: connect-timeout@~1.3.0
+    - deps: cookie-parser@~1.3.3
+    - deps: cookie-signature@1.0.5
+    - deps: csurf@~1.6.1
+    - deps: debug@~2.0.0
+    - deps: errorhandler@~1.2.0
+    - deps: express-session@~1.8.1
+    - deps: finalhandler@0.2.0
+    - deps: fresh@0.2.4
+    - deps: media-typer@0.3.0
+    - deps: method-override@~2.2.0
+    - deps: morgan@~1.3.0
+    - deps: qs@2.2.3
+    - deps: serve-favicon@~2.1.3
+    - deps: serve-index@~1.2.1
+    - deps: serve-static@~1.6.1
+    - deps: type-is@~1.5.1
+    - deps: vhost@~3.0.0
+  * deps: cookie-signature@1.0.5
+  * deps: debug@~2.0.0
+  * deps: fresh@0.2.4
+  * deps: media-typer@0.3.0
+    - Throw error when parameter format invalid on parse
+  * deps: range-parser@~1.0.2
+  * deps: send@0.9.1
+    - Add `lastModified` option
+    - Use `etag` to generate `ETag` header
+    - deps: debug@~2.0.0
+    - deps: fresh@0.2.4
+  * deps: vary@~1.0.0
+    - Accept valid `Vary` header string as `field`
 
 3.16.10 / 2014-09-04
 ====================
