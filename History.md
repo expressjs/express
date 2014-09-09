@@ -2,6 +2,8 @@ unreleased
 ==========
 
   * Support IP address host in `req.subdomains`
+  * deps: accepts@~1.1.0
+    - update `mime-types`
   * deps: cookie-signature@1.0.5
   * deps: debug@~2.0.0
   * deps: finalhandler@0.2.0
