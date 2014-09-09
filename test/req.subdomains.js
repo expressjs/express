@@ -17,6 +17,32 @@ describe('req', function(){
         .set('Host', 'tobi.ferrets.example.com')
         .expect(["ferrets","tobi"], done);
       })
+
+      it('should work with IPv4 address', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.send(req.subdomains);
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', '127.0.0.1')
+        .expect([], done);
+      })
+
+      it('should work with IPv6 address', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.send(req.subdomains);
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', '[::1]')
+        .expect([], done);
+      })
     })
 
     describe('otherwise', function(){
@@ -79,6 +105,34 @@ describe('req', function(){
           .get('/')
           .set('Host', 'tobi.ferrets.sub.example.com')
           .expect(["com","example","sub","ferrets","tobi"], done);
+        })
+
+        it('should return an array with the whole IPv4', function (done) {
+          var app = express();
+          app.set('subdomain offset', 0);
+
+          app.use(function(req, res){
+            res.send(req.subdomains);
+          });
+
+          request(app)
+          .get('/')
+          .set('Host', '127.0.0.1')
+          .expect(['127.0.0.1'], done);
+        })
+
+        it('should return an array with the whole IPv6', function (done) {
+          var app = express();
+          app.set('subdomain offset', 0);
+
+          app.use(function(req, res){
+            res.send(req.subdomains);
+          });
+
+          request(app)
+          .get('/')
+          .set('Host', '[::1]')
+          .expect(['[::1]'], done);
         })
       })
 
