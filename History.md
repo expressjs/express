@@ -1,5 +1,5 @@
-3.x
-===
+3.17.0 / 2014-09-08
+===================
 
   * Support `X-Forwarded-Host` in `req.subdomains`
   * Support IP address host in `req.subdomains`
