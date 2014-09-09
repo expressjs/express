@@ -27,6 +27,7 @@
   * deps: fresh@0.2.4
   * deps: media-typer@0.3.0
     - Throw error when parameter format invalid on parse
+  * deps: range-parser@~1.0.2
   * deps: send@0.9.1
     - Add `lastModified` option
     - Use `etag` to generate `ETag` header
