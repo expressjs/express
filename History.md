@@ -32,6 +32,8 @@
     - Use `etag` to generate `ETag` header
     - deps: debug@~2.0.0
     - deps: fresh@0.2.4
+  * deps: vary@~1.0.0
+    - Accept valid `Vary` header string as `field`
 
 3.16.10 / 2014-09-04
 ====================

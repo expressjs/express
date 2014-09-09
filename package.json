@@ -42,7 +42,7 @@
     "proxy-addr": "1.0.1",
     "range-parser": "1.0.0",
     "send": "0.9.1",
-    "vary": "0.1.0",
+    "vary": "~1.0.0",
     "cookie": "0.1.2",
     "merge-descriptors": "0.0.2"
   },
