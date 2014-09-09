@@ -33,6 +33,7 @@
     "debug": "~2.0.0",
     "depd": "0.4.4",
     "escape-html": "1.0.1",
+    "fresh": "0.2.4",
     "media-typer": "0.3.0",
     "methods": "1.1.0",
     "mkdirp": "0.5.0",
@@ -42,7 +43,6 @@
     "send": "0.9.1",
     "vary": "0.1.0",
     "cookie": "0.1.2",
-    "fresh": "0.2.2",
     "cookie-signature": "1.0.4",
     "merge-descriptors": "0.0.2"
   },
