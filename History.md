@@ -1,5 +1,5 @@
-unreleased
-==========
+4.9.0 / 2014-09-08
+==================
 
   * Add `res.sendStatus`
   * Invoke callback for sendfile when client aborts
