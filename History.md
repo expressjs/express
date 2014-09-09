@@ -1,5 +1,5 @@
-3.x
-===
+3.17.1 / 2014-09-08
+===================
 
   * Fix error in `req.subdomains` on empty host
 
