@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix `app.use` to accept array of middleware without path
+
 4.9.0 / 2014-09-08
 ==================
 

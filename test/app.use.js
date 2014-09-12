@@ -171,6 +171,90 @@ describe('app', function(){
       .post('/foo')
       .expect(200, 'saw POST /foo', cb);
     })
+
+    it('should accept array of middleware', function (done) {
+      var app = express();
+
+      function fn1(req, res, next) {
+        res.setHeader('x-fn-1', 'hit');
+        next();
+      }
+
+      function fn2(req, res, next) {
+        res.setHeader('x-fn-2', 'hit');
+        next();
+      }
+
+      function fn3(req, res, next) {
+        res.setHeader('x-fn-3', 'hit');
+        res.end();
+      }
+
+      app.use([fn1, fn2, fn3]);
+
+      request(app)
+      .get('/')
+      .expect('x-fn-1', 'hit')
+      .expect('x-fn-2', 'hit')
+      .expect('x-fn-3', 'hit')
+      .expect(200, done);
+    })
+
+    it('should accept multiple arrays of middleware', function (done) {
+      var app = express();
+
+      function fn1(req, res, next) {
+        res.setHeader('x-fn-1', 'hit');
+        next();
+      }
+
+      function fn2(req, res, next) {
+        res.setHeader('x-fn-2', 'hit');
+        next();
+      }
+
+      function fn3(req, res, next) {
+        res.setHeader('x-fn-3', 'hit');
+        res.end();
+      }
+
+      app.use([fn1, fn2], [fn3]);
+
+      request(app)
+      .get('/')
+      .expect('x-fn-1', 'hit')
+      .expect('x-fn-2', 'hit')
+      .expect('x-fn-3', 'hit')
+      .expect(200, done);
+    })
+
+    it('should accept nested arrays of middleware', function (done) {
+      var app = express();
+
+      function fn1(req, res, next) {
+        res.setHeader('x-fn-1', 'hit');
+        next();
+      }
+
+      function fn2(req, res, next) {
+        res.setHeader('x-fn-2', 'hit');
+        next();
+      }
+
+      function fn3(req, res, next) {
+        res.setHeader('x-fn-3', 'hit');
+        res.end();
+      }
+
+      app.use([[fn1], fn2], [fn3]);
+
+      request(app)
+      .get('/')
+      .expect('x-fn-1', 'hit')
+      .expect('x-fn-2', 'hit')
+      .expect('x-fn-3', 'hit')
+      .expect(200, done);
+    })
   })
 
   describe('.use(path, middleware)', function(){
@@ -254,6 +338,90 @@ describe('app', function(){
       .expect(200, 'saw POST /bar', cb);
     })
 
+    it('should accept array of middleware', function (done) {
+      var app = express();
+
+      function fn1(req, res, next) {
+        res.setHeader('x-fn-1', 'hit');
+        next();
+      }
+
+      function fn2(req, res, next) {
+        res.setHeader('x-fn-2', 'hit');
+        next();
+      }
+
+      function fn3(req, res, next) {
+        res.setHeader('x-fn-3', 'hit');
+        res.end();
+      }
+
+      app.use('/foo', [fn1, fn2, fn3]);
+
+      request(app)
+      .get('/foo')
+      .expect('x-fn-1', 'hit')
+      .expect('x-fn-2', 'hit')
+      .expect('x-fn-3', 'hit')
+      .expect(200, done);
+    })
+
+    it('should accept multiple arrays of middleware', function (done) {
+      var app = express();
+
+      function fn1(req, res, next) {
+        res.setHeader('x-fn-1', 'hit');
+        next();
+      }
+
+      function fn2(req, res, next) {
+        res.setHeader('x-fn-2', 'hit');
+        next();
+      }
+
+      function fn3(req, res, next) {
+        res.setHeader('x-fn-3', 'hit');
+        res.end();
+      }
+
+      app.use('/foo', [fn1, fn2], [fn3]);
+
+      request(app)
+      .get('/foo')
+      .expect('x-fn-1', 'hit')
+      .expect('x-fn-2', 'hit')
+      .expect('x-fn-3', 'hit')
+      .expect(200, done);
+    })
+
+    it('should accept nested arrays of middleware', function (done) {
+      var app = express();
+
+      function fn1(req, res, next) {
+        res.setHeader('x-fn-1', 'hit');
+        next();
+      }
+
+      function fn2(req, res, next) {
+        res.setHeader('x-fn-2', 'hit');
+        next();
+      }
+
+      function fn3(req, res, next) {
+        res.setHeader('x-fn-3', 'hit');
+        res.end();
+      }
+
+      app.use('/foo', [fn1, [fn2]], [fn3]);
+
+      request(app)
+      .get('/foo')
+      .expect('x-fn-1', 'hit')
+      .expect('x-fn-2', 'hit')
+      .expect('x-fn-3', 'hit')
+      .expect(200, done);
+    })
+
     it('should support array of paths', function (done) {
       var app = express();
       var cb = after(3, done);
@@ -272,6 +440,42 @@ describe('app', function(){
 
       request(app)
       .get('/bar')
+      .expect(200, 'saw GET / through /bar', cb);
+    })
+
+    it('should support array of paths with middleware array', function (done) {
+      var app = express();
+      var cb = after(2, done);
+
+      function fn1(req, res, next) {
+        res.setHeader('x-fn-1', 'hit');
+        next();
+      }
+
+      function fn2(req, res, next) {
+        res.setHeader('x-fn-2', 'hit');
+        next();
+      }
+
+      function fn3(req, res, next) {
+        res.setHeader('x-fn-3', 'hit');
+        res.send('saw ' + req.method + ' ' + req.url + ' through ' + req.originalUrl);
+      }
+
+      app.use(['/foo/', '/bar'], [[fn1], fn2], [fn3]);
+
+      request(app)
+      .get('/foo')
+      .expect('x-fn-1', 'hit')
+      .expect('x-fn-2', 'hit')
+      .expect('x-fn-3', 'hit')
+      .expect(200, 'saw GET / through /foo', cb);
+
+      request(app)
+      .get('/bar')
+      .expect('x-fn-1', 'hit')
+      .expect('x-fn-2', 'hit')
+      .expect('x-fn-3', 'hit')
       .expect(200, 'saw GET / through /bar', cb);
     })
 
