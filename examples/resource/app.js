@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -12,13 +11,16 @@ var app = module.exports = express();
 app.resource = function(path, obj) {
   this.get(path, obj.index);
   this.get(path + '/:a..:b.:format?', function(req, res){
-    var a = parseInt(req.params.a, 10)
-      , b = parseInt(req.params.b, 10)
-      , format = req.params.format;
+    var a = parseInt(req.params.a, 10);
+    var b = parseInt(req.params.b, 10);
+    var format = req.params.format;
     obj.range(req, res, a, b, format);
   });
   this.get(path + '/:id', obj.show);
-  this.del(path + '/:id', obj.destroy);
+  this.delete(path + '/:id', function(req, res){
+    var id = parseInt(req.params.id, 10);
+    obj.destroy(req, res, id);
+  });
 };
 
 // Fake records
@@ -41,8 +43,7 @@ var User = {
   show: function(req, res){
     res.send(users[req.params.id] || { error: 'Cannot find user' });
   },
-  destroy: function(req, res){
-    var id = req.params.id;
+  destroy: function(req, res, id){
     var destroyed = id in users;
     delete users[id];
     res.send(destroyed ? 'destroyed' : 'Cannot find user');
@@ -82,9 +83,10 @@ app.get('/', function(req, res){
     , '<li>GET /users/1..3.json</li>'
     , '<li>DELETE /users/4</li>'
     , '</ul>'
-  ].join('\n')); 
+  ].join('\n'));
 });
 
+/* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
   console.log('Express started on port 3000');

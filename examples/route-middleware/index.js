@@ -77,9 +77,12 @@ app.get('/user/:id/edit', loadUser, andRestrictToSelf, function(req, res){
   res.send('Editing user ' + req.user.name);
 });
 
-app.del('/user/:id', loadUser, andRestrictTo('admin'), function(req, res){
+app.delete('/user/:id', loadUser, andRestrictTo('admin'), function(req, res){
   res.send('Deleted user ' + req.user.name);
 });
 
-app.listen(3000);
-console.log('Express app started on port 3000');
+/* istanbul ignore next */
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}

@@ -1,12 +1,24 @@
 
-var express = require('../')
-  , assert = require('assert');
+var assert = require('assert')
+var express = require('..')
+var request = require('supertest')
 
 describe('app', function(){
   it('should inherit from event emitter', function(done){
     var app = express();
     app.on('foo', done);
     app.emit('foo');
+  })
+
+  it('should be callable', function(){
+    var app = express();
+    assert(typeof app, 'function');
+  })
+
+  it('should 404 without routes', function(done){
+    request(express())
+    .get('/')
+    .expect(404, done);
   })
 })
 
@@ -25,18 +37,33 @@ describe('app.parent', function(){
   })
 })
 
-describe('app.route', function(){
+describe('app.mountpath', function(){
   it('should return the mounted path', function(){
-    var app = express()
-      , blog = express()
-      , blogAdmin = express();
+    var admin = express();
+    var app = express();
+    var blog = express();
+    var fallback = express();
 
     app.use('/blog', blog);
-    blog.use('/admin', blogAdmin);
+    app.use(fallback);
+    blog.use('/admin', admin);
 
-    app.route.should.equal('/');
-    blog.route.should.equal('/blog');
-    blogAdmin.route.should.equal('/admin');
+    admin.mountpath.should.equal('/admin');
+    app.mountpath.should.equal('/');
+    blog.mountpath.should.equal('/blog');
+    fallback.mountpath.should.equal('/');
+  })
+})
+
+describe('app.router', function(){
+  it('should throw with notice', function(done){
+    var app = express()
+
+    try {
+      app.router;
+    } catch(err) {
+      done();
+    }
   })
 })
 
@@ -69,6 +96,15 @@ describe('in production', function(){
     process.env.NODE_ENV = 'production';
     var app = express();
     app.enabled('view cache').should.be.true;
+    process.env.NODE_ENV = 'test';
+  })
+})
+
+describe('without NODE_ENV', function(){
+  it('should default to development', function(){
+    process.env.NODE_ENV = '';
+    var app = express();
+    app.get('env').should.equal('development');
     process.env.NODE_ENV = 'test';
   })
 })

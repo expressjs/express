@@ -1,0 +1,7 @@
+link(rel='stylesheet', href='/style.css')
+h1 Users
+p Click a user below to view their pets.
+ul
+  each user in users
+    li
+      a(href='/user/#{user.id}')= user.name

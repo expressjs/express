@@ -1,5 +1,5 @@
 
-var request = require('../support/http')
+var request = require('supertest')
   , app = require('../../examples/web-service');
 
 describe('web-service', function(){
@@ -24,11 +24,72 @@ describe('web-service', function(){
       it('should respond users json', function(done){
         request(app)
         .get('/api/users?api-key=foo')
-        .end(function(err, res){
-          res.should.be.json;
-          res.text.should.equal('[{"name":"tobi"},{"name":"loki"},{"name":"jane"}]');
-          done();
-        });
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '[{"name":"tobi"},{"name":"loki"},{"name":"jane"}]', done)
+      })
+    })
+  })
+
+  describe('GET /api/repos', function(){
+    describe('without an api key', function(){
+      it('should respond with 400 bad request', function(done){
+        request(app)
+        .get('/api/repos')
+        .expect(400, done);
+      })
+    })
+
+    describe('with an invalid api key', function(){
+      it('should respond with 401 unauthorized', function(done){
+        request(app)
+        .get('/api/repos?api-key=rawr')
+        .expect(401, done);
+      })
+    })
+
+    describe('with a valid api key', function(){
+      it('should respond repos json', function(done){
+        request(app)
+        .get('/api/repos?api-key=foo')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(/"name":"express"/)
+        .expect(/"url":"http:\/\/github.com\/strongloop\/express"/)
+        .expect(200, done)
+      })
+    })
+  })
+
+  describe('GET /api/user/:name/repos', function(){
+    describe('without an api key', function(){
+      it('should respond with 400 bad request', function(done){
+        request(app)
+        .get('/api/user/loki/repos')
+        .expect(400, done);
+      })
+    })
+
+    describe('with an invalid api key', function(){
+      it('should respond with 401 unauthorized', function(done){
+        request(app)
+        .get('/api/user/loki/repos?api-key=rawr')
+        .expect(401, done);
+      })
+    })
+
+    describe('with a valid api key', function(){
+      it('should respond user repos json', function(done){
+        request(app)
+        .get('/api/user/loki/repos?api-key=foo')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(/"name":"stylus"/)
+        .expect(/"url":"http:\/\/github.com\/learnboost\/stylus"/)
+        .expect(200, done)
+      })
+
+      it('should 404 with unknown user', function(done){
+        request(app)
+        .get('/api/user/bob/repos?api-key=foo')
+        .expect(404, done)
       })
     })
   })
@@ -37,12 +98,8 @@ describe('web-service', function(){
     it('should respond with 404 json', function(done){
       request(app)
       .get('/api/something?api-key=bar')
-      .end(function(err, res){
-        res.should.have.status(404);
-        res.should.be.json;
-        res.text.should.equal('{"error":"Lame, can\'t find that"}');
-        done();
-      });
+      .expect('Content-Type', /json/)
+      .expect(404, '{"error":"Lame, can\'t find that"}', done)
     })
   })
 })

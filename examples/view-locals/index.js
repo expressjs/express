@@ -1,7 +1,10 @@
+/**
+ * Module dependencies.
+ */
 
-var express = require('../..')
-  , User = require('./user')
-  , app = express();
+var express = require('../..');
+var User = require('./user');
+var app = express();
 
 app.set('views', __dirname);
 app.set('view engine', 'jade');
@@ -69,7 +72,7 @@ app.get('/middleware', count, users, function(req, res, next){
 // this approach is much like the last
 // however we're explicitly exposing
 // the locals within each middleware
-// 
+//
 // note that this may not always work
 // well, for example here we filter
 // the users in the middleware, which
@@ -142,5 +145,8 @@ app.all('/api/*', function(req, res, next){
 
 */
 
-app.listen(3000);
-console.log('Application listening on port 3000');
+/* istanbul ignore next */
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}

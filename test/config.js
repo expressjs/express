@@ -13,6 +13,29 @@ describe('config', function(){
       var app = express();
       app.set('foo', undefined).should.equal(app);
     })
+
+    describe('"etag"', function(){
+      it('should throw on bad value', function(){
+        var app = express()
+        app.set.bind(app, 'etag', 42).should.throw(/unknown value/)
+      })
+
+      it('should set "etag fn"', function(){
+        var app = express()
+        var fn = function(){}
+        app.set('etag', fn)
+        app.get('etag fn').should.equal(fn)
+      })
+    })
+
+    describe('"trust proxy"', function(){
+      it('should set "trust proxy fn"', function(){
+        var app = express()
+        var fn = function(){}
+        app.set('trust proxy', fn)
+        app.get('trust proxy fn').should.equal(fn)
+      })
+    })
   })
 
   describe('.get()', function(){

@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http')
+  , request = require('supertest')
   , assert = require('assert');
 
 describe('res', function(){
@@ -14,12 +14,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
-        res.should.have.header('Content-Disposition', 'attachment; filename="user.html"');
-        res.text.should.equal('<p>{{user.name}}</p>');
-        done();
-      });
+      .expect('Content-Type', 'text/html; charset=UTF-8')
+      .expect('Content-Disposition', 'attachment; filename="user.html"')
+      .expect(200, '<p>{{user.name}}</p>', done)
     })
   })
 
@@ -33,11 +30,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
-        res.should.have.header('Content-Disposition', 'attachment; filename="document"');
-        done();
-      });
+      .expect('Content-Type', 'text/html; charset=UTF-8')
+      .expect('Content-Disposition', 'attachment; filename="document"')
+      .expect(200, done)
     })
   })
 
@@ -52,10 +47,11 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
-        res.should.have.header('Content-Disposition', 'attachment; filename="user.html"');
-      });
+      .expect('Content-Type', 'text/html; charset=UTF-8')
+      .expect('Content-Disposition', 'attachment; filename="user.html"')
+      .expect(200, function(err){
+        assert.ifError(err)
+      })
     })
   })
 
@@ -70,10 +66,11 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.should.have.header('Content-Type', 'text/html; charset=UTF-8');
-        res.should.have.header('Content-Disposition', 'attachment; filename="document"');
-      });
+      .expect('Content-Type', 'text/html; charset=UTF-8')
+      .expect('Content-Disposition', 'attachment; filename="document"')
+      .expect(200, function(err){
+        assert.ifError(err)
+      })
     })
   })
 

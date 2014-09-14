@@ -1,5 +1,5 @@
 var app = require('../../examples/resource/app')
-  , request = require('../support/http');
+var request = require('supertest')
 
 describe('resource', function(){
   describe('GET /', function(){
@@ -26,6 +26,14 @@ describe('resource', function(){
     })
   })
 
+  describe('GET /users/9', function(){
+    it('should respond with error', function(done){
+      request(app)
+        .get('/users/9')
+        .expect('{"error":"Cannot find user"}', done)
+    })
+  })
+
   describe('GET /users/1..3', function(){
     it('should respond with users 1 through 3', function(done){
       request(app)
@@ -35,10 +43,18 @@ describe('resource', function(){
   })
 
   describe('DELETE /users/1', function(){
-    it('should respond with users 1 through 3', function(done){
+    it('should delete user 1', function(done){
       request(app)
         .del('/users/1')
         .expect(/^destroyed/,done)
+    })
+  })
+
+  describe('DELETE /users/9', function(){
+    it('should fail', function(done){
+      request(app)
+        .del('/users/9')
+        .expect('Cannot find user', done)
     })
   })
 

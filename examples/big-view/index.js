@@ -1,6 +1,10 @@
+/**
+ * Module dependencies.
+ */
 
-var express = require('../..')
-  , app = express();
+var express = require('../..');
+var logger = require('morgan');
+var app = express();
 
 app.set('views', __dirname);
 app.set('view engine', 'jade');
@@ -14,11 +18,14 @@ while (n--) {
   pets.push({ name: 'Jane', age: 6, species: 'ferret' });
 }
 
-app.use(express.logger('dev'));
+app.use(logger('dev'));
 
 app.get('/', function(req, res){
   res.render('pets', { pets: pets });
 });
 
-app.listen(3000);
-console.log('Express listening on port 3000');
+/* istanbul ignore next */
+if (!module.parent) {
+  app.listen(3000);
+  console.log('Express started on port 3000');
+}

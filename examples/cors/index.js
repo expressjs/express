@@ -2,9 +2,11 @@
  * Module dependencies.
  */
 
-var express = require('../..')
-  , app = express()
-  , api = express();
+var express = require('../..');
+var logger = require('morgan');
+var app = express();
+var bodyParser = require('body-parser');
+var api = express();
 
 // app middleware
 
@@ -12,8 +14,8 @@ app.use(express.static(__dirname + '/public'));
 
 // api middleware
 
-api.use(express.logger('dev'));
-api.use(express.bodyParser());
+api.use(logger('dev'));
+api.use(bodyParser.json());
 
 /**
  * CORS support.
@@ -23,7 +25,7 @@ api.all('*', function(req, res, next){
   if (!req.get('Origin')) return next();
   // use "*" here to accept any origin
   res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.set('Access-Control-Allow-Methods', 'GET, POST');
+  res.set('Access-Control-Allow-Methods', 'PUT');
   res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
   // res.set('Access-Control-Allow-Max-Age', 3600);
   if ('OPTIONS' == req.method) return res.send(200);
@@ -31,12 +33,12 @@ api.all('*', function(req, res, next){
 });
 
 /**
- * POST a user.
+ * PUT an existing user.
  */
 
-api.post('/user', function(req, res){
+api.put('/user/:id', function(req, res){
   console.log(req.body);
-  res.send(201);
+  res.send(204);
 });
 
 app.listen(3000);

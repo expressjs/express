@@ -1,0 +1,11 @@
+link(rel='stylesheet', href='/style.css')
+h1= user.name
+form(action='/user/#{user.id}?_method=put', method='post')
+  label= 'Name: '
+    input(type='text', name='user[name]', value='#{user.name}')
+  input(type='submit', value='Update')
+
+form(action='/user/#{user.id}/pet', method='post')
+  label= 'Pet: '
+    input(type='text', name='pet[name]', placeholder='Name')
+  input(type='submit', value='Add')

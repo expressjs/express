@@ -1,5 +1,5 @@
 var app = require('../../examples/params/app')
-  , request = require('../support/http');
+var request = require('supertest')
 
 describe('params', function(){
   describe('GET /', function(){
@@ -18,11 +18,27 @@ describe('params', function(){
     })
   })
 
+  describe('GET /user/9', function(){
+    it('should fail to find user', function(done){
+      request(app)
+        .get('/user/9')
+        .expect(/failed to find user/,done)
+    })
+  })
+
   describe('GET /users/0-2', function(){
     it('should respond with three users', function(done){
       request(app)
         .get('/users/0-2')
         .expect(/users tj, tobi/,done)
+    })
+  })
+
+  describe('GET /users/foo-bar', function(){
+    it('should fail integer parsing', function(done){
+      request(app)
+        .get('/users/foo-bar')
+        .expect(/failed to parseInt foo/,done)
     })
   })
 })

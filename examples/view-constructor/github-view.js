@@ -1,11 +1,10 @@
-
 /**
  * Module dependencies.
  */
 
-var http = require('http')
-  , path = require('path')
-  , extname = path.extname
+var http = require('http');
+var path = require('path');
+var extname = path.extname;
 
 /**
  * Expose `GithubView`.
@@ -35,13 +34,13 @@ function GithubView(name, options){
 GithubView.prototype.render = function(options, fn){
   var self = this;
   var opts = {
-    host: 'rawgithub.com',
-    port: 80,
+    host: 'raw.githubusercontent.com',
+    port: 443,
     path: this.path,
     method: 'GET'
   };
 
-  http.request(opts, function(res) {
+  https.request(opts, function(res) {
     var buf = '';
     res.setEncoding('utf8');
     res.on('data', function(str){ buf += str });

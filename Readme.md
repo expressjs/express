@@ -1,180 +1,128 @@
-![express logo](http://f.cl.ly/items/0V2S1n0K1i3y1c122g04/Screen%20Shot%202012-04-11%20at%209.59.42%20AM.png)
+[![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](http://expressjs.com/)
 
-  Fast, unopinionated, minimalist web framework for [node](http://nodejs.org). [![Build Status](https://secure.travis-ci.org/visionmedia/express.png)](http://travis-ci.org/visionmedia/express) [![Dependency Status](https://gemnasium.com/visionmedia/express.png)](https://gemnasium.com/visionmedia/express)
+  Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
+
+  [![NPM Version](https://img.shields.io/npm/v/express.svg?style=flat)](https://www.npmjs.org/package/express)
+  [![Build Status](https://img.shields.io/travis/strongloop/express.svg?style=flat)](https://travis-ci.org/strongloop/express)
+  [![Coverage Status](https://img.shields.io/coveralls/strongloop/express.svg?style=flat)](https://coveralls.io/r/strongloop/express)
+  [![Gittip](https://img.shields.io/gittip/dougwilson.svg?style=flat)](https://www.gittip.com/dougwilson/)
 
 ```js
-var express = require('express');
-var app = express();
+var express = require('express')
+var app = express()
 
-app.get('/', function(req, res){
-  res.send('Hello World');
-});
+app.get('/', function (req, res) {
+  res.send('Hello World')
+})
 
-app.listen(3000);
+app.listen(3000)
 ```
 
-## Installation
+  **PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/strongloop/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/strongloop/express/wiki/New-features-in-4.x).
 
-    $ npm install -g express
+### Installation
+
+```bash
+$ npm install express
+```
 
 ## Quick Start
 
- The quickest way to get started with express is to utilize the executable `express(1)` to generate an application as shown below:
+  The quickest way to get started with express is to utilize the executable [`express(1)`](https://github.com/expressjs/generator) to generate an application as shown below:
 
- Create the app:
+  Install the executable. The executable's major version will match Express's:
 
-    $ npm install -g express
-    $ express /tmp/foo && cd /tmp/foo
+```bash
+$ npm install -g express-generator@4
+```
 
- Install dependencies:
+  Create the app:
 
-    $ npm install
+```bash
+$ express /tmp/foo && cd /tmp/foo
+```
 
- Start the server:
+  Install dependencies:
 
-    $ node app
+```bash
+$ npm install
+```
+
+  Start the server:
+
+```bash
+$ npm start
+```
 
 ## Features
 
-  * Built on [Connect](http://github.com/senchalabs/connect)
   * Robust routing
   * HTTP helpers (redirection, caching, etc)
   * View system supporting 14+ template engines
   * Content negotiation
   * Focus on high performance
-  * Environment based configuration
   * Executable for generating applications quickly
   * High test coverage
 
 ## Philosophy
 
-  The Express philosophy is to provide small, robust tooling for HTTP servers. Making
+  The Express philosophy is to provide small, robust tooling for HTTP servers, making
   it a great solution for single page applications, web sites, hybrids, or public
   HTTP APIs.
 
-  Built on Connect you can use _only_ what you need, and nothing more, applications
-  can be as big or as small as you like, even a single file. Express does
-  not force you to use any specific ORM or template engine. With support for over
-  14 template engines via [Consolidate.js](http://github.com/visionmedia/consolidate.js)
+  Express does not force you to use any specific ORM or template engine. With support for over
+  14 template engines via [Consolidate.js](https://github.com/visionmedia/consolidate.js),
   you can quickly craft your perfect framework.
 
 ## More Information
 
-  * Join #express on freenode
-  * [Google Group](http://groups.google.com/group/express-js) for discussion
-  * Follow [tjholowaychuk](http://twitter.com/tjholowaychuk) on twitter for updates
-  * Visit the [Wiki](http://github.com/visionmedia/express/wiki)
-  * [日本語ドキュメンテーション](http://hideyukisaito.com/doc/expressjs/) by [hideyukisaito](https://github.com/hideyukisaito)
+  * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/strongloop/expressjs.com)]
+  * [Github Organization](https://github.com/expressjs) for Official Middleware & Modules
+  * [#express](https://webchat.freenode.net/?channels=express) on freenode IRC
+  * Visit the [Wiki](https://github.com/strongloop/express/wiki)
+  * [Google Group](https://groups.google.com/group/express-js) for discussion
   * [Русскоязычная документация](http://jsman.ru/express/)
+  * [한국어 문서](http://expressjs.kr) - [[website repo](https://github.com/Hanul/expressjs.kr)]
   * Run express examples [online](https://runnable.com/express)
 
 ## Viewing Examples
 
-Clone the Express repo, then install the dev dependencies to install all the example / test suite deps:
+  Clone the Express repo, then install the dev dependencies to install all the example / test suite dependencies:
 
-    $ git clone git://github.com/visionmedia/express.git --depth 1
-    $ cd express
-    $ npm install
+```bash
+$ git clone git://github.com/strongloop/express.git --depth 1
+$ cd express
+$ npm install
+```
 
-then run whichever tests you want:
+  Then run whichever example you want:
 
     $ node examples/content-negotiation
 
+  You can also view live examples here:
+
+  <a href="https://runnable.com/express" target="_blank"><img src="https://runnable.com/external/styles/assets/runnablebtn.png" style="width:67px;height:25px;"></a>
+
 ## Running Tests
 
-To run the test suite first invoke the following command within the repo, installing the development dependencies:
+  To run the test suite, first invoke the following command within the repo, installing the development dependencies:
 
-    $ npm install
-
-then run the tests:
-
-    $ make test
-
-## Contributors
-
-```
-project: express
-commits: 3559
-active : 468 days
-files  : 237
-authors:
- 1891	Tj Holowaychuk          53.1%
- 1285	visionmedia             36.1%
-  182	TJ Holowaychuk          5.1%
-   54	Aaron Heckmann          1.5%
-   34	csausdev                1.0%
-   26	ciaranj                 0.7%
-   21	Robert Sköld            0.6%
-    6	Guillermo Rauch         0.2%
-    3	Dav Glass               0.1%
-    3	Nick Poulden            0.1%
-    2	Randy Merrill           0.1%
-    2	Benny Wong              0.1%
-    2	Hunter Loftis           0.1%
-    2	Jake Gordon             0.1%
-    2	Brian McKinney          0.1%
-    2	Roman Shtylman          0.1%
-    2	Ben Weaver              0.1%
-    2	Dave Hoover             0.1%
-    2	Eivind Fjeldstad        0.1%
-    2	Daniel Shaw             0.1%
-    1	Matt Colyer             0.0%
-    1	Pau Ramon               0.0%
-    1	Pero Pejovic            0.0%
-    1	Peter Rekdal Sunde      0.0%
-    1	Raynos                  0.0%
-    1	Teng Siong Ong          0.0%
-    1	Viktor Kelemen          0.0%
-    1	ctide                   0.0%
-    1	8bitDesigner            0.0%
-    1	isaacs                  0.0%
-    1	mgutz                   0.0%
-    1	pikeas                  0.0%
-    1	shuwatto                0.0%
-    1	tstrimple               0.0%
-    1	ewoudj                  0.0%
-    1	Adam Sanderson          0.0%
-    1	Andrii Kostenko         0.0%
-    1	Andy Hiew               0.0%
-    1	Arpad Borsos            0.0%
-    1	Ashwin Purohit          0.0%
-    1	Benjen                  0.0%
-    1	Darren Torpey           0.0%
-    1	Greg Ritter             0.0%
-    1	Gregory Ritter          0.0%
-    1	James Herdman           0.0%
-    1	Jim Snodgrass           0.0%
-    1	Joe McCann              0.0%
-    1	Jonathan Dumaine        0.0%
-    1	Jonathan Palardy        0.0%
-    1	Jonathan Zacsh          0.0%
-    1	Justin Lilly            0.0%
-    1	Ken Sato                0.0%
-    1	Maciej Małecki          0.0%
-    1	Masahiro Hayashi        0.0%
+```bash
+$ npm install
 ```
 
-## License
+  Then run the tests:
 
-(The MIT License)
+```bash
+$ npm test
+```
 
-Copyright (c) 2009-2012 TJ Holowaychuk &lt;tj@vision-media.ca&gt;
+### Contributors
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+ * Author: [TJ Holowaychuk](https://github.com/visionmedia)
+ * Lead Maintainer: [Douglas Christopher Wilson](https://github.com/dougwilson)
+ * [All Contributors](https://github.com/strongloop/express/graphs/contributors)
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+### License
 
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  [MIT](LICENSE)

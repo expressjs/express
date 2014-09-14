@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -44,7 +43,8 @@ app.get('/', function(req, res){
   });
 });
 
+/* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
-  console.log('Express app started on port 3000');
+  console.log('Express started on port 3000');
 }

@@ -1,12 +1,12 @@
 
 var express = require('../')
-  , request = require('./support/http');
+  , request = require('supertest');
 
 describe('res', function(){
   describe('.render(name)', function(){
     it('should support absolute paths', function(done){
       var app = express();
-  
+
       app.locals.user = { name: 'tobi' };
 
       app.use(function(req, res){
@@ -17,10 +17,10 @@ describe('res', function(){
       .get('/')
       .expect('<p>tobi</p>', done);
     })
-    
+
     it('should support absolute paths with "view engine"', function(done){
       var app = express();
-  
+
       app.locals.user = { name: 'tobi' };
       app.set('view engine', 'jade');
 
@@ -35,7 +35,7 @@ describe('res', function(){
 
     it('should expose app.locals', function(done){
       var app = express();
-  
+
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
@@ -47,46 +47,61 @@ describe('res', function(){
       .get('/')
       .expect('<p>tobi</p>', done);
     })
-  
+
+    it('should expose app.locals with `name` property', function(done){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+      app.locals.name = 'tobi';
+
+      app.use(function(req, res){
+        res.render('name.jade');
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>tobi</p>', done);
+    })
+
     it('should support index.<engine>', function(done){
       var app = express();
-  
+
       app.set('views', __dirname + '/fixtures');
       app.set('view engine', 'jade');
 
       app.use(function(req, res){
         res.render('blog/post');
       });
-      
+
       request(app)
       .get('/')
       .expect('<h1>blog post</h1>', done);
     })
-  
+
     describe('when an error occurs', function(){
       it('should next(err)', function(done){
         var app = express();
-  
+
         app.set('views', __dirname + '/fixtures');
 
         app.use(function(req, res){
           res.render('user.jade');
         });
-        
+
         app.use(function(err, req, res, next){
           res.end(err.message);
         });
 
         request(app)
         .get('/')
-        .expect(/user is not defined/, done);
+        .expect(/Cannot read property '[^']+' of undefined/, done);
       })
     })
-  
+
     describe('when "view engine" is given', function(){
       it('should render the template', function(done){
         var app = express();
-  
+
         app.set('view engine', 'jade');
         app.set('views', __dirname + '/fixtures');
 
@@ -104,9 +119,9 @@ describe('res', function(){
   describe('.render(name, option)', function(){
     it('should render the template', function(done){
       var app = express();
-  
+
       app.set('views', __dirname + '/fixtures');
-  
+
       var user = { name: 'tobi' };
 
       app.use(function(req, res){
@@ -117,10 +132,10 @@ describe('res', function(){
       .get('/')
       .expect('<p>tobi</p>', done);
     })
-  
+
     it('should expose app.locals', function(done){
       var app = express();
-    
+
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
@@ -132,10 +147,10 @@ describe('res', function(){
       .get('/')
       .expect('<p>tobi</p>', done);
     })
-    
+
     it('should expose res.locals', function(done){
       var app = express();
-    
+
       app.set('views', __dirname + '/fixtures');
 
       app.use(function(req, res){
@@ -147,10 +162,10 @@ describe('res', function(){
       .get('/')
       .expect('<p>tobi</p>', done);
     })
-    
+
     it('should give precedence to res.locals over app.locals', function(done){
       var app = express();
-    
+
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
@@ -166,10 +181,10 @@ describe('res', function(){
 
     it('should give precedence to res.render() locals over res.locals', function(done){
       var app = express();
-    
+
       app.set('views', __dirname + '/fixtures');
       var jane = { name: 'jane' };
-    
+
       app.use(function(req, res){
         res.locals.user = { name: 'tobi' };
         res.render('user.jade', { user: jane });
@@ -179,14 +194,14 @@ describe('res', function(){
       .get('/')
       .expect('<p>jane</p>', done);
     })
-    
+
     it('should give precedence to res.render() locals over app.locals', function(done){
       var app = express();
-    
+
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
       var jane = { name: 'jane' };
-    
+
       app.use(function(req, res){
         res.render('user.jade', { user: jane });
       });
@@ -250,7 +265,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(/is not defined/, done);
+        .expect(/Cannot read property '[^']+' of undefined/, done);
       })
     })
   })

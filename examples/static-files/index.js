@@ -1,9 +1,13 @@
+/**
+ * Module dependencies.
+ */
 
 var express = require('../..');
+var logger = require('morgan');
 var app = express();
 
 // log requests
-app.use(express.logger('dev'));
+app.use(logger('dev'));
 
 // express on its own has no notion
 // of a "file". The express.static()
@@ -27,14 +31,6 @@ app.use('/static', express.static(__dirname + '/public'));
 // multiple times! Here we're passing "./public/css",
 // this will allow "GET /style.css" instead of "GET /css/style.css":
 app.use(express.static(__dirname + '/public/css'));
-
-// this examples does not have any routes, however
-// you may `app.use(app.router)` before or after these
-// static() middleware. If placed before them your routes
-// will be matched BEFORE file serving takes place. If placed
-// after as shown here then file serving is performed BEFORE
-// any routes are hit:
-app.use(app.router);
 
 app.listen(3000);
 console.log('listening on port 3000');

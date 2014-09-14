@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -29,7 +28,7 @@ function error(status, msg) {
 app.use('/api', function(req, res, next){
   var key = req.query['api-key'];
 
-  // key isnt present
+  // key isn't present
   if (!key) return next(error(400, 'api key required'));
 
   // key is invalid
@@ -38,29 +37,6 @@ app.use('/api', function(req, res, next){
   // all good, store req.key for route access
   req.key = key;
   next();
-});
-
-// position our routes above the error handling middleware,
-// and below our API middleware, since we want the API validation
-// to take place BEFORE our routes
-app.use(app.router);
-
-// middleware with an arity of 4 are considered
-// error handling middleware. When you next(err)
-// it will be passed through the defined middleware
-// in order, but ONLY those with an arity of 4, ignoring
-// regular middleware.
-app.use(function(err, req, res, next){
-  // whatever you want here, feel free to populate
-  // properties on `err` to treat it differently in here.
-  res.send(err.status || 500, { error: err.message });
-});
-
-// our custom JSON 404 middleware. Since it's placed last
-// it will be the last middleware called, if all others
-// invoke next() and do not respond.
-app.use(function(req, res){
-  res.send(404, { error: "Lame, can't find that" });
 });
 
 // map of valid api keys, typically mapped to
@@ -73,7 +49,7 @@ var apiKeys = ['foo', 'bar', 'baz'];
 // these two objects will serve as our faux database
 
 var repos = [
-    { name: 'express', url: 'http://github.com/visionmedia/express' }
+    { name: 'express', url: 'http://github.com/strongloop/express' }
   , { name: 'stylus', url: 'http://github.com/learnboost/stylus' }
   , { name: 'cluster', url: 'http://github.com/learnboost/cluster' }
 ];
@@ -102,14 +78,35 @@ app.get('/api/repos', function(req, res, next){
 });
 
 app.get('/api/user/:name/repos', function(req, res, next){
-  var name = req.params.name
-    , user = userRepos[name];
-  
+  var name = req.params.name;
+  var user = userRepos[name];
+
   if (user) res.send(user);
   else next();
 });
 
+// middleware with an arity of 4 are considered
+// error handling middleware. When you next(err)
+// it will be passed through the defined middleware
+// in order, but ONLY those with an arity of 4, ignoring
+// regular middleware.
+app.use(function(err, req, res, next){
+  // whatever you want here, feel free to populate
+  // properties on `err` to treat it differently in here.
+  res.status(err.status || 500);
+  res.send({ error: err.message });
+});
+
+// our custom JSON 404 middleware. Since it's placed last
+// it will be the last middleware called, if all others
+// invoke next() and do not respond.
+app.use(function(req, res){
+  res.status(404);
+  res.send({ error: "Lame, can't find that" });
+});
+
+/* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
-  console.log('Express server listening on port 3000');
+  console.log('Express started on port 3000');
 }

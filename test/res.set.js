@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('./support/http')
+  , request = require('supertest')
   , res = express.response;
 
 describe('res', function(){
@@ -9,19 +9,19 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.set('Content-Type', 'text/x-foo').end();
+        res.set('Content-Type', 'text/x-foo; charset=utf-8').end();
       });
 
       request(app)
       .get('/')
-      .expect('Content-Type', 'text/x-foo')
+      .expect('Content-Type', 'text/x-foo; charset=utf-8')
       .end(done);
     })
 
     it('should coerce to a string', function(){
       res.headers = {};
-      res.set('ETag', 123);
-      res.get('ETag').should.equal('123');
+      res.set('X-Number', 123);
+      res.get('X-Number').should.equal('123');
     })
   })
 
@@ -41,11 +41,18 @@ describe('res', function(){
 
     it('should coerce to an array of strings', function(){
       res.headers = {};
-      res.set('ETag', [123, 456]);
-      JSON.stringify(res.get('ETag')).should.equal('["123","456"]');
+      res.set('X-Numbers', [123, 456]);
+      JSON.stringify(res.get('X-Numbers'))
+      .should.equal('["123","456"]');
+    })
+
+    it('should not set a charset of one is already set', function () {
+      res.headers = {};
+      res.set('Content-Type', 'text/html; charset=lol');
+      res.get('content-type').should.equal('text/html; charset=lol');
     })
   })
-  
+
   describe('.set(object)', function(){
     it('should set multiple fields', function(done){
       var app = express();
@@ -66,8 +73,8 @@ describe('res', function(){
 
     it('should coerce to a string', function(){
       res.headers = {};
-      res.set({ ETag: 123 });
-      res.get('ETag').should.equal('123');
+      res.set({ 'X-Number': 123 });
+      res.get('X-Number').should.equal('123');
     })
   })
 })

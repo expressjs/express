@@ -1,4 +1,3 @@
-
 // faux database
 
 var pets = exports.pets = [];

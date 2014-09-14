@@ -1,5 +1,6 @@
 
-var express = require('../');
+var assert = require('assert');
+var express = require('..');
 
 function req(ret) {
   return {
@@ -26,6 +27,12 @@ describe('req', function(){
       var ret = [{ start: 0, end: Infinity }];
       ret.type = 'users';
       req('users=0-').range(Infinity).should.eql(ret);
+    })
+
+    it('should return undefined if no range', function(){
+      var ret = [{ start: 0, end: 50 }, { start: 60, end: 100 }];
+      ret.type = 'bytes';
+      assert(req('').range(120) === undefined);
     })
   })
 })
