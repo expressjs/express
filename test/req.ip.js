@@ -2,6 +2,24 @@
 var express = require('../')
   , request = require('supertest');
 
+
+function getExpectedClientAddress(server) {
+  /*
+   * By default, Node.js will listen on an IPv6 socket if it works
+   * on the host. However, supertest currently connects to the server
+   * using an IPv4 address, so in this case we expect req.ip to be
+   * the IPv6 IPv4-mapped loopback address. If IPv6 is not available,
+   * then Node.js will bind to an IPv4 address, and req.ip will then
+   * be an IPv4 address too.
+   */
+  var expectedClientAddr = '127.0.0.1';
+  if (server.address().address === '::') {
+    expectedClientAddr = '::ffff:' + expectedClientAddr;
+  }
+
+  return expectedClientAddr;
+}
+
 describe('req', function(){
   describe('.ip', function(){
     describe('when X-Forwarded-For is present', function(){
@@ -45,10 +63,17 @@ describe('req', function(){
             res.send(req.ip);
           });
 
-          request(app)
-          .get('/')
-          .set('X-Forwarded-For', 'client, p1, p2')
-          .expect('127.0.0.1', done);
+          var server = app.listen(function() {
+            request(server)
+            .get('/')
+            .set('X-Forwarded-For', 'client, p1, p2')
+            .expect(getExpectedClientAddress(server), function(err) {
+              server.close(function() {
+                done(err);
+              })
+            });
+          });
+
         })
       })
     })
@@ -63,9 +88,16 @@ describe('req', function(){
           res.send(req.ip);
         });
 
-        request(app)
-        .get('/')
-        .expect('127.0.0.1', done);
+        var server = app.listen(function() {
+          request(server)
+          .get('/')
+          .expect(getExpectedClientAddress(server), function(err) {
+            server.close(function() {
+              done(err);
+            })
+          });
+        });
+
       })
     })
   })
