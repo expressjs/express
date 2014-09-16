@@ -1,6 +1,7 @@
 3.x
 ===
 
+  * Use `crc` instead of `buffer-crc32` for speed
   * deps: connect@2.26.1
     - deps: body-parser@~1.8.2
     - deps: depd@0.4.5
