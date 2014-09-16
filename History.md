@@ -1,5 +1,5 @@
-3.x
-===
+3.17.2 / 2014-09-15
+===================
 
   * Use `crc` instead of `buffer-crc32` for speed
   * deps: connect@2.26.1
