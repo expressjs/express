@@ -9,6 +9,10 @@
     - deps: serve-favicon@~2.1.3
     - deps: serve-static@~1.6.2
   * deps: depd@0.4.5
+  * deps: send@0.9.2
+    - deps: depd@0.4.5
+    - deps: etag@~1.3.1
+    - deps: range-parser@~1.0.2
 
 3.17.1 / 2014-09-08
 ===================
