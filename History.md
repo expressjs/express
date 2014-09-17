@@ -1,5 +1,5 @@
-unreleased
-==========
+4.9.1 / 2014-09-16
+==================
 
   * Fix `app.use` to accept array of middleware without path
   * deps: depd@0.4.5
