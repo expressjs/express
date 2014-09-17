@@ -3,6 +3,7 @@ unreleased
 
   * Fix `app.use` to accept array of middleware without path
   * deps: depd@0.4.5
+  * deps: etag@~1.3.1
   * deps: send@0.9.2
     - deps: depd@0.4.5
     - deps: etag@~1.3.1
