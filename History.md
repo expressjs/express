@@ -2,6 +2,11 @@ unreleased
 ==========
 
   * Fix `app.use` to accept array of middleware without path
+  * deps: depd@0.4.5
+  * deps: send@0.9.2
+    - deps: depd@0.4.5
+    - deps: etag@~1.3.1
+    - deps: range-parser@~1.0.2
 
 4.9.0 / 2014-09-08
 ==================
@@ -470,6 +475,23 @@ unreleased
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.17.2 / 2014-09-15
+===================
+
+  * Use `crc` instead of `buffer-crc32` for speed
+  * deps: connect@2.26.1
+    - deps: body-parser@~1.8.2
+    - deps: depd@0.4.5
+    - deps: express-session@~1.8.2
+    - deps: morgan@~1.3.1
+    - deps: serve-favicon@~2.1.3
+    - deps: serve-static@~1.6.2
+  * deps: depd@0.4.5
+  * deps: send@0.9.2
+    - deps: depd@0.4.5
+    - deps: etag@~1.3.1
+    - deps: range-parser@~1.0.2
 
 3.17.1 / 2014-09-08
 ===================
