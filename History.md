@@ -8,6 +8,8 @@ unreleased
     - deps: depd@0.4.5
     - deps: etag@~1.3.1
     - deps: range-parser@~1.0.2
+  * deps: serve-static@~1.6.2
+    - deps: send@0.9.2
 
 4.9.0 / 2014-09-08
 ==================
