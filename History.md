@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Fix regression for empty string `path` in `app.use`
+  * Improve error message for bad `app.use` arguments
 
 4.9.1 / 2014-09-16
 ==================

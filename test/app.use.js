@@ -16,11 +16,6 @@ describe('app', function(){
     app.use(blog);
   })
 
-  it('should reject missing functions', function(){
-    var app = express();
-    app.use.bind(app, 3).should.throw(/requires middleware function/);
-  })
-
   describe('.use(app)', function(){
     it('should mount the app', function(done){
       var blog = express()
@@ -258,6 +253,19 @@ describe('app', function(){
   })
 
   describe('.use(path, middleware)', function(){
+    it('should reject missing functions', function () {
+      var app = express();
+      app.use.bind(app, '/').should.throw(/requires middleware function/);
+    })
+
+    it('should reject non-functions as middleware', function () {
+      var app = express();
+      app.use.bind(app, '/', 'hi').should.throw(/requires middleware function.*string/);
+      app.use.bind(app, '/', 5).should.throw(/requires middleware function.*number/);
+      app.use.bind(app, '/', null).should.throw(/requires middleware function.*Null/);
+      app.use.bind(app, '/', new Date()).should.throw(/requires middleware function.*Date/);
+    })
+
     it('should strip path from req.url', function (done) {
       var app = express();
 

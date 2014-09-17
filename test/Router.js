@@ -300,12 +300,15 @@ describe('Router', function(){
   describe('.use', function() {
     it('should require arguments', function(){
       var router = new Router();
-      router.use.bind(router).should.throw(/requires callback function/)
+      router.use.bind(router).should.throw(/requires middleware function/)
     })
 
     it('should not accept non-functions', function(){
       var router = new Router();
-      router.use.bind(router, '/', 'hello').should.throw(/requires callback function/)
+      router.use.bind(router, '/', 'hello').should.throw(/requires middleware function.*string/)
+      router.use.bind(router, '/', 5).should.throw(/requires middleware function.*number/)
+      router.use.bind(router, '/', null).should.throw(/requires middleware function.*Null/)
+      router.use.bind(router, '/', new Date()).should.throw(/requires middleware function.*Date/)
     })
   })
 
