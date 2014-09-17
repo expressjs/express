@@ -310,6 +310,28 @@ describe('Router', function(){
       router.use.bind(router, '/', null).should.throw(/requires middleware function.*Null/)
       router.use.bind(router, '/', new Date()).should.throw(/requires middleware function.*Date/)
     })
+
+    it('should accept array of middleware', function(done){
+      var count = 0;
+      var router = new Router();
+
+      function fn1(req, res, next){
+        assert.equal(++count, 1);
+        next();
+      }
+
+      function fn2(req, res, next){
+        assert.equal(++count, 2);
+        next();
+      }
+
+      router.use([fn1, fn2], function(req, res){
+        assert.equal(++count, 3);
+        done();
+      });
+
+      router.handle({ url: '/foo', method: 'GET' }, {}, function(){});
+    })
   })
 
   describe('.param', function() {
