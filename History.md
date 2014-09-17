@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix regression for empty string `path` in `app.use`
+
 4.9.1 / 2014-09-16
 ==================
 

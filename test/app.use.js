@@ -503,5 +503,17 @@ describe('app', function(){
       .get('/get/zoo')
       .expect(404, cb);
     })
+
+    it('should support empty string path', function (done) {
+      var app = express();
+
+      app.use('', function (req, res) {
+        res.send('saw ' + req.method + ' ' + req.url + ' through ' + req.originalUrl);
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, 'saw GET / through /', done);
+    })
   })
 })
