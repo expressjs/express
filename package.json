@@ -39,7 +39,7 @@
     "methods": "1.1.0",
     "mkdirp": "0.5.0",
     "parseurl": "~1.3.0",
-    "proxy-addr": "1.0.1",
+    "proxy-addr": "~1.0.2",
     "range-parser": "~1.0.2",
     "send": "0.9.2",
     "vary": "~1.0.0",

@@ -1,3 +1,10 @@
+3.x
+===
+
+  * deps: proxy-addr@~1.0.2
+    - Fix a global leak when multiple subnets are trusted
+    - deps: ipaddr.js@0.1.3
+
 3.17.2 / 2014-09-15
 ===================
 
