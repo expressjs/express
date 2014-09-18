@@ -1,5 +1,5 @@
-unreleased
-==========
+4.9.2 / 2014-09-17
+==================
 
   * Fix regression for empty string `path` in `app.use`
   * Fix `router.use` to accept array of middleware without path
