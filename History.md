@@ -493,6 +493,13 @@
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
 
+3.17.4 / 2014-09-19
+===================
+
+  * deps: connect@2.26.2
+    - deps: body-parser@~1.8.3
+    - deps: qs@2.2.4
+
 3.17.3 / 2014-09-18
 ===================
 
