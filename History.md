@@ -5,6 +5,8 @@
     - deps: body-parser@~1.8.4
     - deps: serve-favicon@~2.1.5
     - deps: serve-static@~1.6.3
+  * deps: proxy-addr@~1.0.3
+    - Use `forwarded` npm module
 
 3.17.4 / 2014-09-19
 ===================
