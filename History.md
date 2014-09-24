@@ -7,6 +7,8 @@
     - deps: serve-static@~1.6.3
   * deps: proxy-addr@~1.0.3
     - Use `forwarded` npm module
+  * deps: send@0.9.3
+    - deps: etag@~1.4.0
 
 3.17.4 / 2014-09-19
 ===================
