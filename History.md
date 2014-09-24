@@ -1,3 +1,11 @@
+3.x
+===
+
+  * deps: connect@2.26.3
+    - deps: body-parser@~1.8.4
+    - deps: serve-favicon@~2.1.5
+    - deps: serve-static@~1.6.3
+
 3.17.4 / 2014-09-19
 ===================
 
