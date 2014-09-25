@@ -1,3 +1,11 @@
+unreleased
+==========
+
+  * deps: proxy-addr@~1.0.3
+    - Use `forwarded` npm module
+  * deps: send@0.9.3
+    - deps: etag@~1.4.0
+
 4.9.4 / 2014-09-19
 ==================
 
@@ -498,6 +506,18 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.17.5 / 2014-09-24
+===================
+
+  * deps: connect@2.26.3
+    - deps: body-parser@~1.8.4
+    - deps: serve-favicon@~2.1.5
+    - deps: serve-static@~1.6.3
+  * deps: proxy-addr@~1.0.3
+    - Use `forwarded` npm module
+  * deps: send@0.9.3
+    - deps: etag@~1.4.0
 
 3.17.4 / 2014-09-19
 ===================
