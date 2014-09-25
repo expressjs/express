@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * deps: etag@~1.4.0
   * deps: proxy-addr@~1.0.3
     - Use `forwarded` npm module
   * deps: send@0.9.3
