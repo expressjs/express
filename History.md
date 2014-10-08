@@ -1,5 +1,5 @@
-3.x
-===
+3.17.7 / 2014-10-08
+===================
 
   * deps: connect@2.26.5
     - Fix accepting non-object arguments to `logger`
