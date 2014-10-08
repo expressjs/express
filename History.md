@@ -1,3 +1,10 @@
+3.x
+===
+
+  * deps: connect@2.26.5
+    - Fix accepting non-object arguments to `logger`
+    - deps: serve-static@~1.6.4
+
 3.17.6 / 2014-10-02
 ===================
 
