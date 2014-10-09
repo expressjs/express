@@ -510,6 +510,20 @@
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
 
+3.17.7 / 2014-10-08
+===================
+
+  * deps: connect@2.26.5
+    - Fix accepting non-object arguments to `logger`
+    - deps: serve-static@~1.6.4
+
+3.17.6 / 2014-10-02
+===================
+
+  * deps: connect@2.26.4
+    - deps: morgan@~1.3.2
+    - deps: type-is@~1.5.2
+
 3.17.5 / 2014-09-24
 ===================
 
