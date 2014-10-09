@@ -6,6 +6,8 @@ unreleased
     - deps: negotiator@0.4.8
   * deps: serve-static@~1.6.4
     - Fix redirect loop when index file serving disabled
+  * deps: type-is@~1.5.2
+    - deps: mime-types@~2.0.2
 
 4.9.5 / 2014-09-24
 ==================
