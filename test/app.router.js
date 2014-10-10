@@ -679,6 +679,23 @@ describe('app.router', function(){
       .get('/user/tj/edit')
       .expect('editing tj', done);
     })
+
+    it('should work in array of paths', function(done){
+      var app = express();
+      var cb = after(2, done);
+
+      app.get(['/user/:user/poke', '/user/:user/pokes'], function(req, res){
+        res.end('poking ' + req.params.user);
+      });
+
+      request(app)
+      .get('/user/tj/poke')
+      .expect('poking tj', cb);
+
+      request(app)
+      .get('/user/tj/pokes')
+      .expect('poking tj', cb);
+    })
   })
 
   describe(':name?', function(){

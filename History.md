@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix using same param name in array of paths
+
 4.9.6 / 2014-10-08
 ==================
 
