@@ -1,5 +1,5 @@
-unreleased
-==========
+4.9.7 / 2014-10-10
+==================
 
   * Fix using same param name in array of paths
 
