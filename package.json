@@ -11,6 +11,9 @@
     "Jonathan Ong <me@jongleberry.com>",
     "Roman Shtylman <shtylman+expressjs@gmail.com"
   ],
+  "license": "MIT",
+  "repository": "strongloop/express",
+  "homepage": "http://expressjs.com/",
   "keywords": [
     "express",
     "framework",
@@ -22,9 +25,6 @@
     "app",
     "api"
   ],
-  "repository": "strongloop/express",
-  "license": "MIT",
-  "homepage": "http://expressjs.com/",
   "dependencies": {
     "basic-auth": "1.0.0",
     "connect": "2.27.0",
@@ -63,8 +63,15 @@
   "bin": {
     "express": "./bin/express"
   },
+  "files": [
+    "LICENSE",
+    "History.md",
+    "Readme.md",
+    "index.js",
+    "bin/",
+    "lib/"
+  ],
   "scripts": {
-    "prepublish": "npm prune",
     "test": "mocha --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
     "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/",
