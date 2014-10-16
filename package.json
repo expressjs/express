@@ -27,7 +27,7 @@
   "homepage": "http://expressjs.com/",
   "dependencies": {
     "basic-auth": "1.0.0",
-    "connect": "2.26.5",
+    "connect": "2.26.6",
     "commander": "1.3.2",
     "cookie-signature": "1.0.5",
     "crc": "3.0.0",
