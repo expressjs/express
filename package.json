@@ -27,7 +27,7 @@
   "license": "MIT",
   "homepage": "http://expressjs.com/",
   "dependencies": {
-    "accepts": "~1.1.1",
+    "accepts": "~1.1.2",
     "cookie-signature": "1.0.5",
     "debug": "~2.0.0",
     "depd": "0.4.5",
