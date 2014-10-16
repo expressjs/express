@@ -1,5 +1,5 @@
-unreleased
-==========
+4.9.8 / 2014-10-15
+==================
 
   * deps: accepts@~1.1.2
     - Fix error when media type has invalid parameter
