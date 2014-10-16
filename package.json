@@ -54,7 +54,7 @@
   "devDependencies": {
     "after": "0.8.1",
     "istanbul": "0.3.2",
-    "mocha": "~1.21.4",
+    "mocha": "~1.21.5",
     "should": "~4.0.4",
     "supertest": "~0.14.0",
     "ejs": "~1.0.0",
