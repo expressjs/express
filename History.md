@@ -1,5 +1,5 @@
-3.x
-===
+3.18.0 / 2014-10-17
+===================
 
   * Use `content-disposition` module for `res.attachment`/`res.download`
     - Sends standards-compliant `Content-Disposition` header
