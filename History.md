@@ -20,6 +20,10 @@
   * deps: debug@~2.1.0
     - Implement `DEBUG_FD` env variable support
   * deps: depd@~1.0.0
+  * deps: send@0.10.0
+    - deps: debug@~2.1.0
+    - deps: depd@~1.0.0
+    - deps: etag@~1.5.0
 
 3.17.8 / 2014-10-15
 ===================
