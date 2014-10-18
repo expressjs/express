@@ -28,6 +28,20 @@ describe('app', function(){
       })
     })
 
+    it('should support multiple path resolution for views', function(done){
+      var app = express();
+
+      app.set('view engine', 'jade');
+      app.locals.user = { name: 'tobi' };
+      app.set('views', ['somefolder', __dirname + '/fixtures' ]);
+
+      app.render('user', function(err, str){
+        if (err) return done(err);
+        str.should.equal('<p>tobi</p>');
+        done();
+      })
+    })
+
     it('should expose app.locals', function(done){
       var app = express();
 
