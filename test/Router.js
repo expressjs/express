@@ -43,6 +43,28 @@ describe('Router', function(){
     router.handle({ url: '/test/route', method: 'GET' }, { end: done });
   });
 
+  it('should support early bail', function(done){
+    var main = new Router();
+    var one = new Router();
+    var two = new Router();
+
+    main.use(one);
+    main.use(two);
+
+    one.use(function(req, res, next) {
+      next('break');
+    });
+    one.get('/', function(req, res, next) {
+      assert(false);
+    });
+
+    two.get('/', function(req, res, next) {
+      res.end();
+    });
+
+    main.handle({ url: '/', method: 'GET' }, { end: done });
+  });
+
   describe('.handle', function(){
     it('should dispatch', function(done){
       var router = new Router();
