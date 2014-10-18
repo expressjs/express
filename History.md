@@ -19,6 +19,7 @@
     - deps: serve-static@~1.7.0
   * deps: debug@~2.1.0
     - Implement `DEBUG_FD` env variable support
+  * deps: depd@~1.0.0
 
 3.17.8 / 2014-10-15
 ===================
