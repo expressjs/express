@@ -17,6 +17,8 @@
     - deps: serve-favicon@~2.1.6
     - deps: serve-index@~1.5.0
     - deps: serve-static@~1.7.0
+  * deps: debug@~2.1.0
+    - Implement `DEBUG_FD` env variable support
 
 3.17.8 / 2014-10-15
 ===================

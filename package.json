@@ -31,7 +31,7 @@
     "commander": "1.3.2",
     "cookie-signature": "1.0.5",
     "crc": "3.0.0",
-    "debug": "~2.0.0",
+    "debug": "~2.1.0",
     "depd": "0.4.5",
     "escape-html": "1.0.1",
     "fresh": "0.2.4",
