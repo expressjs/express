@@ -1,3 +1,23 @@
+3.x
+===
+
+  * deps: connect@2.27.0
+    - Use `http-errors` module for creating errors
+    - Use `utils-merge` module for merging objects
+    - deps: body-parser@~1.9.0
+    - deps: compression@~1.2.0
+    - deps: connect-timeout@~1.4.0
+    - deps: debug@~2.1.0
+    - deps: depd@~1.0.0
+    - deps: express-session@~1.9.0
+    - deps: finalhandler@0.3.1
+    - deps: method-override@~2.3.0
+    - deps: morgan@~1.4.0
+    - deps: response-time@~2.2.0
+    - deps: serve-favicon@~2.1.6
+    - deps: serve-index@~1.5.0
+    - deps: serve-static@~1.7.0
+
 3.17.8 / 2014-10-15
 ===================
 
