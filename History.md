@@ -4,6 +4,7 @@
   * Use `content-disposition` module for `res.attachment`/`res.download`
     - Sends standards-compliant `Content-Disposition` header
     - Full Unicode support
+  * Use `etag` module to generate `ETag` headers
   * deps: connect@2.27.0
     - Use `http-errors` module for creating errors
     - Use `utils-merge` module for merging objects

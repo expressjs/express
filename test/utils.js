@@ -28,18 +28,18 @@ describe('utils.etag(body, encoding)', function(){
 describe('utils.wetag(body, encoding)', function(){
   it('should support strings', function(){
     utils.wetag('express!')
-    .should.eql('W/"8-3098196679"')
+    .should.eql('W/"8-b8aabac7"')
   })
 
   it('should support utf8 strings', function(){
     utils.wetag('express❤', 'utf8')
-    .should.eql('W/"a-1751845617"')
+    .should.eql('W/"a-686b0af1"')
   })
 
   it('should support buffer', function(){
     var buf = new Buffer('express!')
     utils.wetag(buf)
-    .should.eql('W/"8-3098196679"');
+    .should.eql('W/"8-b8aabac7"');
   })
 
   it('should support empty string', function(){
