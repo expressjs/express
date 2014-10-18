@@ -106,6 +106,21 @@ describe('res', function(){
         done();
       })
     })
+
+    it('should include the redirect type', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(301, 'http://google.com');
+      });
+
+      request(app)
+      .get('/')
+      .set('Accept', 'text/html')
+      .expect('Content-Type', /html/)
+      .expect('Location', 'http://google.com')
+      .expect(301, '<p>Moved Permanently. Redirecting to <a href="http://google.com">http://google.com</a></p>', done);
+    })
   })
 
   describe('when accepting text', function(){
@@ -142,6 +157,21 @@ describe('res', function(){
         res.text.should.equal('Moved Temporarily. Redirecting to http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E');
         done();
       })
+    })
+
+    it('should include the redirect type', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(301, 'http://google.com');
+      });
+
+      request(app)
+      .get('/')
+      .set('Accept', 'text/plain, */*')
+      .expect('Content-Type', /plain/)
+      .expect('Location', 'http://google.com')
+      .expect(301, 'Moved Permanently. Redirecting to http://google.com', done);
     })
   })
 

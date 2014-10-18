@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix `res.redirect` body when redirect status specified
   * deps: accepts@~1.1.2
     - Fix error when media type has invalid parameter
     - deps: negotiator@0.4.9
