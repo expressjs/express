@@ -1,5 +1,5 @@
-unreleased
-==========
+4.9.8 / 2014-10-17
+==================
 
   * Fix `res.redirect` body when redirect status specified
   * deps: accepts@~1.1.2
