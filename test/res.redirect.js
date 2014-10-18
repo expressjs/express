@@ -90,6 +90,24 @@ describe('res', function(){
       })
     })
 
+    it('should respond with html with response in body when two arguments are passed', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(301, 'http://google.com');
+      });
+
+      request(app)
+      .get('/')
+      .set('Accept', 'text/html')
+      .end(function(err, res){
+        res.statusCode.should.equal(301);
+        res.headers.should.have.property('location', 'http://google.com');
+        res.text.should.equal('<p>Moved Permanently. Redirecting to <a href="http://google.com">http://google.com</a></p>');
+        done();
+      })
+    })
+
     it('should escape the url', function(done){
       var app = express();
 
