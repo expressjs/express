@@ -1,6 +1,9 @@
 3.x
 ===
 
+  * Use `content-disposition` module for `res.attachment`/`res.download`
+    - Sends standards-compliant `Content-Disposition` header
+    - Full Unicode support
   * deps: connect@2.27.0
     - Use `http-errors` module for creating errors
     - Use `utils-merge` module for merging objects
