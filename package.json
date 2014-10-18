@@ -12,6 +12,9 @@
     "Roman Shtylman <shtylman+expressjs@gmail.com>",
     "Young Jae Sim <hanul@hanul.me>"
   ],
+  "license": "MIT",
+  "repository": "strongloop/express",
+  "homepage": "http://expressjs.com/",
   "keywords": [
     "express",
     "framework",
@@ -23,9 +26,6 @@
     "app",
     "api"
   ],
-  "repository": "strongloop/express",
-  "license": "MIT",
-  "homepage": "http://expressjs.com/",
   "dependencies": {
     "accepts": "~1.1.2",
     "cookie-signature": "1.0.5",
@@ -73,6 +73,13 @@
   "engines": {
     "node": ">= 0.10.0"
   },
+  "files": [
+    "LICENSE",
+    "History.md",
+    "Readme.md",
+    "index.js",
+    "lib"
+  ],
   "scripts": {
     "prepublish": "npm prune",
     "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/ test/acceptance/",
