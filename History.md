@@ -1,6 +1,9 @@
 unreleased
 ==========
 
+  * Use `content-disposition` module for `res.attachment`/`res.download`
+    - Sends standards-compliant `Content-Disposition` header
+    - Full Unicode support
   * deps: etag@~1.5.0
     - Improve string performance
     - Slightly improve speed for weak ETags over 1KB

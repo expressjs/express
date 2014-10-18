@@ -56,10 +56,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('Content-Disposition', 'attachment;' +
-          ' filename="%E6%97%A5%E6%9C%AC%E8%AA%9E.txt";' +
-          ' filename*=UTF-8\'\'%E6%97%A5%E6%9C%AC%E8%AA%9E.txt',
-        done);
+      .expect('Content-Disposition', 'attachment; filename="???.txt"; filename*=UTF-8\'\'%E6%97%A5%E6%9C%AC%E8%AA%9E.txt')
+      .expect(200, done);
     })
 
     it('should set the Content-Type', function(done){
