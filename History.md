@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix `res.redirect` body when redirect status specified
+
 4.9.8 / 2014-10-15
 ==================
 
