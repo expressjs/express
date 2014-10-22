@@ -43,6 +43,7 @@
     "proxy-addr": "~1.0.3",
     "range-parser": "~1.0.2",
     "send": "0.10.0",
+    "utils-merge": "1.0.0",
     "vary": "~1.0.0",
     "cookie": "0.1.2",
     "merge-descriptors": "0.0.2"

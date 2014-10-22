@@ -1,3 +1,8 @@
+3.x
+===
+
+  * Fix internal `utils.merge` deprecation warnings
+
 3.18.0 / 2014-10-17
 ===================
 
