@@ -1,5 +1,5 @@
-3.x
-===
+3.18.1 / 2014-10-22
+===================
 
   * Fix internal `utils.merge` deprecation warnings
   * deps: connect@2.27.1
