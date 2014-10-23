@@ -114,6 +114,54 @@ describe('res', function(){
         .expect('<p>This is an email</p>', done);
       })
     })
+
+    describe('when "views" is given', function(){
+      it('should lookup the file in the path', function(done){
+        var app = express();
+
+        app.set('views', __dirname + '/fixtures/default_layout');
+
+        app.use(function(req, res){
+          res.render('user.jade', { user: { name: 'tobi' } });
+        });
+
+        request(app)
+        .get('/')
+        .expect('<p>tobi</p>', done);
+      })
+
+      describe('when array of paths', function(){
+        it('should lookup the file in the path', function(done){
+          var app = express();
+          var views = [__dirname + '/fixtures/local_layout', __dirname + '/fixtures/default_layout'];
+
+          app.set('views', views);
+
+          app.use(function(req, res){
+            res.render('user.jade', { user: { name: 'tobi' } });
+          });
+
+          request(app)
+          .get('/')
+          .expect('<span>tobi</span>', done);
+        })
+
+        it('should lookup in later paths until found', function(done){
+          var app = express();
+          var views = [__dirname + '/fixtures/local_layout', __dirname + '/fixtures/default_layout'];
+
+          app.set('views', views);
+
+          app.use(function(req, res){
+            res.render('name.jade', { name: 'tobi' });
+          });
+
+          request(app)
+          .get('/')
+          .expect('<p>tobi</p>', done);
+        })
+      })
+    })
   })
 
   describe('.render(name, option)', function(){

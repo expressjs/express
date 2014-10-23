@@ -131,6 +131,64 @@ describe('app', function(){
       })
     })
 
+    describe('when "views" is given', function(){
+      it('should lookup the file in the path', function(done){
+        var app = express();
+
+        app.set('views', __dirname + '/fixtures/default_layout');
+        app.locals.user = { name: 'tobi' };
+
+        app.render('user.jade', function(err, str){
+          if (err) return done(err);
+          str.should.equal('<p>tobi</p>');
+          done();
+        })
+      })
+
+      describe('when array of paths', function(){
+        it('should lookup the file in the path', function(done){
+          var app = express();
+          var views = [__dirname + '/fixtures/local_layout', __dirname + '/fixtures/default_layout'];
+
+          app.set('views', views);
+          app.locals.user = { name: 'tobi' };
+
+          app.render('user.jade', function(err, str){
+            if (err) return done(err);
+            str.should.equal('<span>tobi</span>');
+            done();
+          })
+        })
+
+        it('should lookup in later paths until found', function(done){
+          var app = express();
+          var views = [__dirname + '/fixtures/local_layout', __dirname + '/fixtures/default_layout'];
+
+          app.set('views', views);
+          app.locals.name = 'tobi';
+
+          app.render('name.jade', function(err, str){
+            if (err) return done(err);
+            str.should.equal('<p>tobi</p>');
+            done();
+          })
+        })
+
+        it('should error if file does not exist', function(done){
+          var app = express();
+          var views = [__dirname + '/fixtures/local_layout', __dirname + '/fixtures/default_layout'];
+
+          app.set('views', views);
+          app.locals.name = 'tobi';
+
+          app.render('pet.jade', function(err, str){
+            err.message.should.equal('Failed to lookup view "pet.jade" in views directories "' + __dirname + '/fixtures/local_layout" or "' + __dirname + '/fixtures/default_layout"');
+            done();
+          })
+        })
+      })
+    })
+
     describe('when a "view" constructor is given', function(){
       it('should create an instance of it', function(done){
         var app = express();

@@ -1,6 +1,8 @@
 unreleased
 ==========
 
+  * Add support for `app.set('views', array)`
+    - Views are looked up in sequence in array of directories
   * Fix `res.send(status)` to mention `res.sendStatus(status)`
   * Use `content-disposition` module for `res.attachment`/`res.download`
     - Sends standards-compliant `Content-Disposition` header
