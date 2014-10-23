@@ -9,6 +9,8 @@
     - deps: morgan@~1.4.1
     - deps: qs@2.3.0
     - deps: serve-static@~1.7.1
+  * deps: send@0.10.1
+    - deps: on-finished@~2.1.1
 
 3.18.0 / 2014-10-17
 ===================
