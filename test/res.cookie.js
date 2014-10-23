@@ -1,9 +1,9 @@
 
 var express = require('../')
   , request = require('supertest')
-  , mixin = require('utils-merge')
   , cookie = require('cookie')
   , cookieParser = require('cookie-parser')
+var merge = require('utils-merge');
 
 describe('res', function(){
   describe('.cookie(name, object)', function(){
@@ -113,7 +113,7 @@ describe('res', function(){
         var app = express();
 
         var options = { maxAge: 1000 };
-        var optionsCopy = mixin({}, options);
+        var optionsCopy = merge({}, options);
 
         app.use(function(req, res){
           res.cookie('name', 'tobi', options)

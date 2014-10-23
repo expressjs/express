@@ -12,6 +12,9 @@
     "Roman Shtylman <shtylman+expressjs@gmail.com>",
     "Young Jae Sim <hanul@hanul.me>"
   ],
+  "license": "MIT",
+  "repository": "strongloop/express",
+  "homepage": "http://expressjs.com/",
   "keywords": [
     "express",
     "framework",
@@ -23,15 +26,12 @@
     "app",
     "api"
   ],
-  "repository": "strongloop/express",
-  "license": "MIT",
-  "homepage": "http://expressjs.com/",
   "dependencies": {
     "accepts": "~1.1.2",
     "content-disposition": "0.5.0",
     "cookie-signature": "1.0.5",
-    "debug": "~2.0.0",
-    "depd": "0.4.5",
+    "debug": "~2.1.0",
+    "depd": "~1.0.0",
     "escape-html": "1.0.1",
     "etag": "~1.5.0",
     "finalhandler": "0.3.2",
@@ -44,7 +44,7 @@
     "proxy-addr": "~1.0.3",
     "qs": "2.3.0",
     "range-parser": "~1.0.2",
-    "send": "0.9.3",
+    "send": "0.10.1",
     "serve-static": "~1.7.1",
     "type-is": "~1.5.2",
     "vary": "~1.0.0",
@@ -55,8 +55,8 @@
   "devDependencies": {
     "after": "0.8.1",
     "istanbul": "0.3.2",
-    "mocha": "~1.21.5",
-    "should": "~4.0.4",
+    "mocha": "~2.0.0",
+    "should": "~4.1.0",
     "supertest": "~0.14.0",
     "ejs": "~1.0.0",
     "marked": "0.3.2",
@@ -65,7 +65,7 @@
     "connect-redis": "~2.1.0",
     "cookie-parser": "~1.3.3",
     "express-session": "~1.8.2",
-    "jade": "~1.6.0",
+    "jade": "~1.7.0",
     "method-override": "~2.2.0",
     "morgan": "~1.3.1",
     "multiparty": "~3.3.2",
@@ -74,8 +74,14 @@
   "engines": {
     "node": ">= 0.10.0"
   },
+  "files": [
+    "LICENSE",
+    "History.md",
+    "Readme.md",
+    "index.js",
+    "lib/"
+  ],
   "scripts": {
-    "prepublish": "npm prune",
     "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/ test/acceptance/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
     "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/",

@@ -5,6 +5,9 @@ unreleased
   * Use `content-disposition` module for `res.attachment`/`res.download`
     - Sends standards-compliant `Content-Disposition` header
     - Full Unicode support
+  * deps: debug@~2.1.0
+    - Implement `DEBUG_FD` env variable support
+  * deps: depd@~1.0.0
   * deps: etag@~1.5.0
     - Improve string performance
     - Slightly improve speed for weak ETags over 1KB
@@ -17,6 +20,11 @@ unreleased
     - Fix handling of pipelined requests
   * deps: qs@2.3.0
     - Fix parsing of mixed implicit and explicit arrays
+  * deps: send@0.10.1
+    - deps: debug@~2.1.0
+    - deps: depd@~1.0.0
+    - deps: etag@~1.5.0
+    - deps: on-finished@~2.1.1
   * deps: serve-static@~1.7.1
     - deps: send@0.10.1
 
@@ -555,6 +563,51 @@ unreleased
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.18.1 / 2014-10-22
+===================
+
+  * Fix internal `utils.merge` deprecation warnings
+  * deps: connect@2.27.1
+    - deps: body-parser@~1.9.1
+    - deps: express-session@~1.9.1
+    - deps: finalhandler@0.3.2
+    - deps: morgan@~1.4.1
+    - deps: qs@2.3.0
+    - deps: serve-static@~1.7.1
+  * deps: send@0.10.1
+    - deps: on-finished@~2.1.1
+
+3.18.0 / 2014-10-17
+===================
+
+  * Use `content-disposition` module for `res.attachment`/`res.download`
+    - Sends standards-compliant `Content-Disposition` header
+    - Full Unicode support
+  * Use `etag` module to generate `ETag` headers
+  * deps: connect@2.27.0
+    - Use `http-errors` module for creating errors
+    - Use `utils-merge` module for merging objects
+    - deps: body-parser@~1.9.0
+    - deps: compression@~1.2.0
+    - deps: connect-timeout@~1.4.0
+    - deps: debug@~2.1.0
+    - deps: depd@~1.0.0
+    - deps: express-session@~1.9.0
+    - deps: finalhandler@0.3.1
+    - deps: method-override@~2.3.0
+    - deps: morgan@~1.4.0
+    - deps: response-time@~2.2.0
+    - deps: serve-favicon@~2.1.6
+    - deps: serve-index@~1.5.0
+    - deps: serve-static@~1.7.0
+  * deps: debug@~2.1.0
+    - Implement `DEBUG_FD` env variable support
+  * deps: depd@~1.0.0
+  * deps: send@0.10.0
+    - deps: debug@~2.1.0
+    - deps: depd@~1.0.0
+    - deps: etag@~1.5.0
 
 3.17.8 / 2014-10-15
 ===================
