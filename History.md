@@ -2,6 +2,13 @@
 ===
 
   * Fix internal `utils.merge` deprecation warnings
+  * deps: connect@2.27.1
+    - deps: body-parser@~1.9.1
+    - deps: express-session@~1.9.1
+    - deps: finalhandler@0.3.2
+    - deps: morgan@~1.4.1
+    - deps: qs@2.3.0
+    - deps: serve-static@~1.7.1
 
 3.18.0 / 2014-10-17
 ===================
