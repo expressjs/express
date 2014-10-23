@@ -15,6 +15,8 @@ unreleased
     - deps: on-finished@~2.1.1
   * deps: qs@2.3.0
     - Fix parsing of mixed implicit and explicit arrays
+  * deps: serve-static@~1.7.1
+    - deps: send@0.10.1
 
 4.9.8 / 2014-10-17
 ==================
