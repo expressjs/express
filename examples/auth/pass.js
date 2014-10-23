@@ -1,5 +1,5 @@
 
-// check out https://github.com/visionmedia/node-pwd
+// check out https://github.com/tj/node-pwd
 
 /**
  * Module dependencies.

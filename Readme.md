@@ -81,7 +81,7 @@ $ npm start
   HTTP APIs.
 
   Express does not force you to use any specific ORM or template engine. With support for over
-  14 template engines via [Consolidate.js](https://github.com/visionmedia/consolidate.js),
+  14 template engines via [Consolidate.js](https://github.com/tj/consolidate.js),
   you can quickly craft your perfect framework.
 
 ## Examples
@@ -111,7 +111,7 @@ $ npm test
 
 ### People
 
-The original author of Express is [TJ Holowaychuk](https://github.com/visionmedia) [![TJ's Gratipay][gratipay-image-visionmedia]][gratipay-url-visionmedia]
+The original author of Express is [TJ Holowaychuk](https://github.com/tj) [![TJ's Gratipay][gratipay-image-visionmedia]][gratipay-url-visionmedia]
 
 The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson) [![Doug's Gratipay][gratipay-image-dougwilson]][gratipay-url-dougwilson]
 
