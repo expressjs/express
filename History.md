@@ -13,6 +13,8 @@ unreleased
     - Use `on-finished` to determine request status
     - deps: debug@~2.1.0
     - deps: on-finished@~2.1.1
+  * deps: qs@2.3.0
+    - Fix parsing of mixed implicit and explicit arrays
 
 4.9.8 / 2014-10-17
 ==================
