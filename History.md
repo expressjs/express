@@ -5,6 +5,7 @@ unreleased
   * Use `content-disposition` module for `res.attachment`/`res.download`
     - Sends standards-compliant `Content-Disposition` header
     - Full Unicode support
+  * Use `path.resolve` in view lookup
   * deps: debug@~2.1.0
     - Implement `DEBUG_FD` env variable support
   * deps: depd@~1.0.0
