@@ -32,6 +32,19 @@ describe('res', function(){
     })
 
     describe('when given primitives', function(){
+      it('should respond with json for undefined', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.json(undefined);
+        });
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, 'null', done)
+      })
+
       it('should respond with json for null', function(done){
         var app = express();
 
@@ -86,7 +99,7 @@ describe('res', function(){
         .expect(200, '["foo","bar","baz"]', done)
       })
     })
-    
+
     describe('when given an object', function(){
       it('should respond with json', function(done){
         var app = express();
@@ -152,7 +165,7 @@ describe('res', function(){
       })
     })
   })
-  
+
   describe('.json(status, object)', function(){
     it('should respond with json and set the .statusCode', function(done){
       var app = express();
