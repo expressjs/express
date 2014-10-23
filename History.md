@@ -8,10 +8,11 @@ unreleased
   * deps: etag@~1.5.0
     - Improve string performance
     - Slightly improve speed for weak ETags over 1KB
-  * deps: finalhandler@0.3.1
+  * deps: finalhandler@0.3.2
     - Terminate in progress response only on error
     - Use `on-finished` to determine request status
     - deps: debug@~2.1.0
+    - deps: on-finished@~2.1.1
 
 4.9.8 / 2014-10-17
 ==================
