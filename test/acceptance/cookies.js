@@ -1,5 +1,5 @@
 
-var app = require('../../examples/cookies/app')
+var app = require('../../examples/cookies')
   , request = require('supertest');
 
 describe('cookies', function(){

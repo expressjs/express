@@ -1,5 +1,5 @@
 
-var app = require('../../examples/downloads/app')
+var app = require('../../examples/downloads')
   , request = require('supertest');
 
 describe('downloads', function(){

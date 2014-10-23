@@ -1,4 +1,4 @@
-var app = require('../../examples/auth/app')
+var app = require('../../examples/auth')
 var request = require('supertest')
 
 function getCookie(res) {
