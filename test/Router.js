@@ -43,6 +43,16 @@ describe('Router', function(){
     router.handle({ url: '/test/route', method: 'GET' }, { end: done });
   });
 
+  it('should handle blank URL', function(done){
+    var router = new Router();
+
+    router.use(function (req, res) {
+      false.should.be.true;
+    });
+
+    router.handle({ url: '', method: 'GET' }, {}, done);
+  });
+
   describe('.handle', function(){
     it('should dispatch', function(done){
       var router = new Router();

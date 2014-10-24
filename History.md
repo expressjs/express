@@ -4,6 +4,7 @@ unreleased
   * Add support for `app.set('views', array)`
     - Views are looked up in sequence in array of directories
   * Fix `res.send(status)` to mention `res.sendStatus(status)`
+  * Fix handling of invalid empty URLs
   * Use `content-disposition` module for `res.attachment`/`res.download`
     - Sends standards-compliant `Content-Disposition` header
     - Full Unicode support
