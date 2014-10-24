@@ -1,5 +1,5 @@
-unreleased
-==========
+4.10.0 / 2014-10-23
+===================
 
   * Add support for `app.set('views', array)`
     - Views are looked up in sequence in array of directories
