@@ -4,6 +4,7 @@ unreleased
   * Deprecate leading `:` in `name` for `app.param(name, fn)`
   * Fix `OPTIONS` responses to include the `HEAD` method properly
   * Fix `res.sendFile` not always detecting aborted connection
+  * Match routes iteratively to prevent stack overflows
 
 4.10.8 / 2015-01-13
 ===================
