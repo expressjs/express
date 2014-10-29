@@ -1,5 +1,5 @@
-3.x
-===
+3.18.2 / 2014-10-28
+===================
 
   * deps: connect@2.27.2
     - Fix handling of URLs containing `://` in the path
