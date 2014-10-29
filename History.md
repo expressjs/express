@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix handling of URLs containing `://` in the path
+
 4.10.0 / 2014-10-23
 ===================
 

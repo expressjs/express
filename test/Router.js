@@ -219,6 +219,23 @@ describe('Router', function(){
       });
     });
 
+    it('should ignore FQDN in path', function (done) {
+      var request = { hit: 0, url: '/proxy/http://example.com/blog/post/1', method: 'GET' };
+      var router = new Router();
+
+      router.use('/proxy', function (req, res, next) {
+        assert.equal(req.hit++, 0);
+        assert.equal(req.url, '/http://example.com/blog/post/1');
+        next();
+      });
+
+      router.handle(request, {}, function (err) {
+        if (err) return done(err);
+        assert.equal(request.hit, 1);
+        done();
+      });
+    });
+
     it('should adjust FQDN req.url', function (done) {
       var request = { hit: 0, url: 'http://example.com/blog/post/1', method: 'GET' };
       var router = new Router();
