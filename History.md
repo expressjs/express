@@ -2,6 +2,8 @@ unreleased
 ==========
 
   * Fix handling of URLs containing `://` in the path
+  * deps: qs@2.3.2
+    - Fix parsing of mixed objects and values
 
 4.10.0 / 2014-10-23
 ===================
