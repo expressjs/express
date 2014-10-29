@@ -1,5 +1,5 @@
-unreleased
-==========
+4.10.1 / 2014-10-28
+===================
 
   * Fix handling of URLs containing `://` in the path
   * deps: qs@2.3.2
