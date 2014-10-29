@@ -219,6 +219,17 @@ describe('Router', function(){
       });
     });
 
+    it('should ignore FQDN in a later part of the URL', function(done){
+      var router = new Router();
+
+      router.get('/test/*', function (req, res){
+        req.params[0].should.equal('http://expressjs.com');
+        done();
+      });
+
+      router.handle({ url: '/test/http://expressjs.com', method: 'GET' }, {}, done);
+    });
+
     it('should adjust FQDN req.url', function (done) {
       var request = { hit: 0, url: 'http://example.com/blog/post/1', method: 'GET' };
       var router = new Router();
