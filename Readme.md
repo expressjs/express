@@ -130,6 +130,6 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [coveralls-image]: https://img.shields.io/coveralls/strongloop/express.svg?style=flat
 [coveralls-url]: https://coveralls.io/r/strongloop/express?branch=master
 [gratipay-image-visionmedia]: https://img.shields.io/gratipay/visionmedia.svg?style=flat
-[gratipay-url-visionmedia]: https://gratipay/visionmedia/
+[gratipay-url-visionmedia]: https://gratipay.com/visionmedia/
 [gratipay-image-dougwilson]: https://img.shields.io/gratipay/dougwilson.svg?style=flat
-[gratipay-url-dougwilson]: https://gratipay/dougwilson/
+[gratipay-url-dougwilson]: https://gratipay.com/dougwilson/
