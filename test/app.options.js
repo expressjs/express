@@ -6,7 +6,7 @@ describe('OPTIONS', function(){
   it('should default to the routes defined', function(done){
     var app = express();
 
-    app.del('/', function(){});
+    app.post('/', function(){});
     app.get('/users', function(req, res){});
     app.put('/users', function(req, res){});
 

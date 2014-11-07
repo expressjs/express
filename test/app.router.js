@@ -34,7 +34,7 @@ describe('app.router', function(){
   })
 
   describe('methods', function(){
-    methods.concat('del').forEach(function(method){
+    methods.forEach(function(method){
       if (method === 'connect') return;
 
       it('should include ' + method.toUpperCase(), function(done){
