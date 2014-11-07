@@ -28,7 +28,7 @@ api.all('*', function(req, res, next){
   res.set('Access-Control-Allow-Methods', 'PUT');
   res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
   // res.set('Access-Control-Allow-Max-Age', 3600);
-  if ('OPTIONS' == req.method) return res.send(200);
+  if ('OPTIONS' == req.method) return res.sendStatus(200);
   next();
 });
 
@@ -38,7 +38,7 @@ api.all('*', function(req, res, next){
 
 api.put('/user/:id', function(req, res){
   console.log(req.body);
-  res.send(204);
+  res.sendStatus(204);
 });
 
 app.listen(3000);

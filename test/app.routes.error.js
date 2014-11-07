@@ -32,7 +32,7 @@ describe('app', function(){
         b.should.be.true;
         c.should.be.true;
         d.should.be.false;
-        res.send(204);
+        res.sendStatus(204);
       });
 
       request(app)
