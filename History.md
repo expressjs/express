@@ -5,6 +5,7 @@
     - `app.del` - use `app.delete`
     - `req.acceptsCharset` - use `req.acceptsCharsets`
     - `req.acceptsEncoding` - use `req.acceptsEncodings`
+    - `req.acceptsLanguage` - use `req.acceptsLanguages`
     - `res.json(obj, status)` signature - use `res.json(status, obj)`
     - `res.jsonp(obj, status)` signature - use `res.jsonp(status, obj)`
     - `res.send(body, status)` signature - use `res.send(status, body)`
