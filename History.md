@@ -1,5 +1,5 @@
-3.x
-===
+3.18.3 / 2014-11-09
+===================
 
   * deps: connect@2.27.3
     - Correctly invoke async callback asynchronously
