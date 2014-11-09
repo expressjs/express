@@ -1,3 +1,10 @@
+3.x
+===
+
+  * deps: connect@2.27.3
+    - Correctly invoke async callback asynchronously
+    - deps: csurf@~1.6.3
+
 3.18.2 / 2014-10-28
 ===================
 
