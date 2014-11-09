@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Correctly invoke async router callback asynchronously
   * deps: accepts@~1.1.3
     - deps: mime-types@~2.0.3
   * deps: type-is@~1.5.3
