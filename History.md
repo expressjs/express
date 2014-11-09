@@ -575,6 +575,13 @@
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
 
+3.18.3 / 2014-11-09
+===================
+
+  * deps: connect@2.27.3
+    - Correctly invoke async callback asynchronously
+    - deps: csurf@~1.6.3
+
 3.18.2 / 2014-10-28
 ===================
 
