@@ -1,5 +1,5 @@
-unreleased
-==========
+4.10.2 / 2014-11-09
+===================
 
   * Correctly invoke async router callback asynchronously
   * deps: accepts@~1.1.3
