@@ -1,3 +1,10 @@
+unreleased
+==========
+
+  * deps: etag@~1.5.1
+  * deps: proxy-addr@~1.0.4
+    - deps: ipaddr.js@0.1.5
+
 4.10.2 / 2014-11-09
 ===================
 
@@ -583,6 +590,22 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.18.4 / 2014-11-23
+===================
+
+  * deps: connect@2.27.4
+    - deps: body-parser@~1.9.3
+    - deps: compression@~1.2.1
+    - deps: errorhandler@~1.2.3
+    - deps: express-session@~1.9.2
+    - deps: qs@2.3.3
+    - deps: serve-favicon@~2.1.7
+    - deps: serve-static@~1.5.1
+    - deps: type-is@~1.5.3
+  * deps: etag@~1.5.1
+  * deps: proxy-addr@~1.0.4
+    - deps: ipaddr.js@0.1.5
 
 3.18.3 / 2014-11-09
 ===================
