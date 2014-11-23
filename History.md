@@ -4,6 +4,8 @@ unreleased
   * deps: etag@~1.5.1
   * deps: proxy-addr@~1.0.4
     - deps: ipaddr.js@0.1.5
+  * deps: qs@2.3.3
+    - Fix `arrayLimit` behavior
 
 4.10.2 / 2014-11-09
 ===================
