@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix `res.sendFile` logging standard write errors
   * deps: etag@~1.5.1
   * deps: proxy-addr@~1.0.4
     - deps: ipaddr.js@0.1.5

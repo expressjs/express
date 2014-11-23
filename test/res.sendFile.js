@@ -69,6 +69,27 @@ describe('res', function(){
       .end(done);
     })
 
+    it('should not error if the client aborts', function (done) {
+      var cb = after(1, done);
+      var app = express();
+
+      app.use(function (req, res) {
+        setImmediate(function () {
+          res.sendFile(path.resolve(fixtures, 'name.txt'));
+          cb();
+        });
+        test.abort();
+      });
+
+      app.use(function (err, req, res, next) {
+        err.code.should.be.empty;
+        cb();
+      });
+
+      var test = request(app).get('/');
+      test.expect(200, cb);
+    })
+
     describe('with "dotfiles" option', function () {
       it('should not serve dotfiles by default', function (done) {
         var app = createApp(path.resolve(__dirname, 'fixtures/.name'));
