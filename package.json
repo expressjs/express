@@ -52,7 +52,7 @@
     "connect-redis": "~1.5.0",
     "istanbul": "0.3.2",
     "mocha": "~2.0.0",
-    "should": "~4.2.1",
+    "should": "~4.3.0",
     "supertest": "~0.15.0",
     "ejs": "~1.0.0",
     "jade": "~1.7.0",
