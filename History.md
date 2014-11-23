@@ -1,5 +1,5 @@
-unreleased
-==========
+4.10.3 / 2014-11-23
+===================
 
   * Fix `res.sendFile` logging standard write errors
   * deps: etag@~1.5.1
