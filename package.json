@@ -34,7 +34,7 @@
     "debug": "~2.1.0",
     "depd": "~1.0.0",
     "escape-html": "1.0.1",
-    "etag": "~1.5.0",
+    "etag": "~1.5.1",
     "fresh": "0.2.4",
     "media-typer": "0.3.0",
     "methods": "1.1.0",

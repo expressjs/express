@@ -10,6 +10,7 @@
     - deps: serve-favicon@~2.1.7
     - deps: serve-static@~1.5.1
     - deps: type-is@~1.5.3
+  * deps: etag@~1.5.1
 
 3.18.3 / 2014-11-09
 ===================
