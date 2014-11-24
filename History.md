@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Deprecate leading `:` in `name` for `app.param(name, fn)`
+
 4.10.8 / 2015-01-13
 ===================
 
