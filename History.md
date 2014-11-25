@@ -1,5 +1,5 @@
-unreleased
-==========
+4.10.4 / 2014-11-24
+===================
 
   * Fix `res.sendfile` logging standard write errors
 
