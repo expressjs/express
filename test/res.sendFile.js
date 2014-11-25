@@ -476,6 +476,27 @@ describe('res', function(){
       .expect(200, '20%', done);
     });
 
+    it('should not error if the client aborts', function (done) {
+      var cb = after(1, done);
+      var app = express();
+
+      app.use(function (req, res) {
+        setImmediate(function () {
+          res.sendfile(path.resolve(fixtures, 'name.txt'));
+          cb();
+        });
+        test.abort();
+      });
+
+      app.use(function (err, req, res, next) {
+        err.code.should.be.empty;
+        cb();
+      });
+
+      var test = request(app).get('/');
+      test.expect(200, cb);
+    })
+
     describe('with an absolute path', function(){
       it('should transfer the file', function(done){
         var app = express();
