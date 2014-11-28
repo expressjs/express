@@ -1,14 +1,15 @@
 
-var express = require('../');
+var express = require('..');
+var tmpl = require('./support/tmpl');
 
 describe('app', function(){
   describe('.render(name, fn)', function(){
     it('should support absolute paths', function(done){
-      var app = express();
+      var app = createApp();
 
       app.locals.user = { name: 'tobi' };
 
-      app.render(__dirname + '/fixtures/user.jade', function(err, str){
+      app.render(__dirname + '/fixtures/user.tmpl', function (err, str) {
         if (err) return done(err);
         str.should.equal('<p>tobi</p>');
         done();
@@ -16,9 +17,9 @@ describe('app', function(){
     })
 
     it('should support absolute paths with "view engine"', function(done){
-      var app = express();
+      var app = createApp();
 
-      app.set('view engine', 'jade');
+      app.set('view engine', 'tmpl');
       app.locals.user = { name: 'tobi' };
 
       app.render(__dirname + '/fixtures/user', function(err, str){
@@ -29,12 +30,12 @@ describe('app', function(){
     })
 
     it('should expose app.locals', function(done){
-      var app = express();
+      var app = createApp();
 
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
-      app.render('user.jade', function(err, str){
+      app.render('user.tmpl', function (err, str) {
         if (err) return done(err);
         str.should.equal('<p>tobi</p>');
         done();
@@ -42,12 +43,12 @@ describe('app', function(){
     })
 
     it('should support index.<engine>', function(done){
-      var app = express();
+      var app = createApp();
 
       app.set('views', __dirname + '/fixtures');
-      app.set('view engine', 'jade');
+      app.set('view engine', 'tmpl');
 
-      app.render('blog/post', function(err, str){
+      app.render('blog/post', function (err, str) {
         if (err) return done(err);
         str.should.equal('<h1>blog post</h1>');
         done();
@@ -77,10 +78,11 @@ describe('app', function(){
 
     describe('when the file does not exist', function(){
       it('should provide a helpful error', function(done){
-        var app = express();
+        var app = createApp();
+
         app.set('views', __dirname + '/fixtures');
-        app.render('rawr.jade', function(err){
-          err.message.should.equal('Failed to lookup view "rawr.jade" in views directory "' + __dirname + '/fixtures"');
+        app.render('rawr.tmpl', function (err) {
+          err.message.should.equal('Failed to lookup view "rawr.tmpl" in views directory "' + __dirname + '/fixtures"');
           done();
         });
       })
@@ -88,11 +90,11 @@ describe('app', function(){
 
     describe('when an error occurs', function(){
       it('should invoke the callback', function(done){
-        var app = express();
+        var app = createApp();
 
         app.set('views', __dirname + '/fixtures');
 
-        app.render('user.jade', function(err, str){
+        app.render('user.tmpl', function (err, str) {
           // nextTick to prevent cyclic
           process.nextTick(function(){
             err.message.should.match(/Cannot read property 'name' of undefined/);
@@ -104,11 +106,11 @@ describe('app', function(){
 
     describe('when an extension is given', function(){
       it('should render the template', function(done){
-        var app = express();
+        var app = createApp();
 
         app.set('views', __dirname + '/fixtures');
 
-        app.render('email.jade', function(err, str){
+        app.render('email.tmpl', function (err, str) {
           if (err) return done(err);
           str.should.equal('<p>This is an email</p>');
           done();
@@ -118,9 +120,9 @@ describe('app', function(){
 
     describe('when "view engine" is given', function(){
       it('should render the template', function(done){
-        var app = express();
+        var app = createApp();
 
-        app.set('view engine', 'jade');
+        app.set('view engine', 'tmpl');
         app.set('views', __dirname + '/fixtures');
 
         app.render('email', function(err, str){
@@ -219,13 +221,13 @@ describe('app', function(){
 
   describe('.render(name, options, fn)', function(){
     it('should render the template', function(done){
-      var app = express();
+      var app = createApp();
 
       app.set('views', __dirname + '/fixtures');
 
       var user = { name: 'tobi' };
 
-      app.render('user.jade', { user: user }, function(err, str){
+      app.render('user.tmpl', { user: user }, function (err, str) {
         if (err) return done(err);
         str.should.equal('<p>tobi</p>');
         done();
@@ -233,12 +235,12 @@ describe('app', function(){
     })
 
     it('should expose app.locals', function(done){
-      var app = express();
+      var app = createApp();
 
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
-      app.render('user.jade', {}, function(err, str){
+      app.render('user.tmpl', {}, function (err, str) {
         if (err) return done(err);
         str.should.equal('<p>tobi</p>');
         done();
@@ -246,13 +248,13 @@ describe('app', function(){
     })
 
     it('should give precedence to app.render() locals', function(done){
-      var app = express();
+      var app = createApp();
 
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
       var jane = { name: 'jane' };
 
-      app.render('user.jade', { user: jane }, function(err, str){
+      app.render('user.tmpl', { user: jane }, function (err, str) {
         if (err) return done(err);
         str.should.equal('<p>jane</p>');
         done();
@@ -292,3 +294,11 @@ describe('app', function(){
     })
   })
 })
+
+function createApp() {
+  var app = express();
+
+  app.engine('.tmpl', tmpl);
+
+  return app;
+}
