@@ -1,7 +1,7 @@
 
 var db = require('../../db');
 
-exports.engine = 'jade';
+exports.engine = 'ejs';
 
 exports.before = function(req, res, next){
   var pet = db.pets[req.params.pet_id];

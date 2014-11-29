@@ -8,7 +8,7 @@ var express = require('../../')
 
 // general config
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 // our custom "verbose errors" setting
 // which we can use in the templates
@@ -82,7 +82,7 @@ app.use(function(err, req, res, next){
 // Routes
 
 app.get('/', function(req, res){
-  res.render('index.jade');
+  res.render('index.ejs');
 });
 
 app.get('/404', function(req, res, next){
