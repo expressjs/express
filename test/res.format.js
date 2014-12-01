@@ -19,7 +19,6 @@ app1.use(function(req, res, next){
     'application/json': function(a, b, c){
       assert(req == a);
       assert(res == b);
-      assert(next == c);
       res.send({ message: 'hey' });
     }
   });
