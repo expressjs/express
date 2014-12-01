@@ -31,6 +31,15 @@ describe('res', function(){
       JSON.stringify(res.get('fruit'))
       .should.equal('["banana","apple"]');
     })
+
+    it('should handle append-first', function() {
+      res.headers = {};
+      res.removeHeader('Fruit');
+      res.set('Fruit', 'banana', true);
+      res.set('Fruit', 'apple', true);
+      JSON.stringify(res.get('fruit'))
+      .should.equal('["banana","apple"]');
+    })
   })
 
   describe('.set(field, values, append)', function(){
