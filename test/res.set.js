@@ -25,11 +25,11 @@ describe('res', function(){
     })
 
     it('should create an array out of a string header', function() {
-        res.headers = {};
-        res.set('Fruit', 'banana');
-        res.set('Fruit', 'apple', true);
-        JSON.stringify(res.get('fruit'))
-        .should.equal('["banana","apple"]');
+      res.headers = {};
+      res.set('Fruit', 'banana');
+      res.set('Fruit', 'apple', true);
+      JSON.stringify(res.get('fruit'))
+      .should.equal('["banana","apple"]');
     })
   })
 
@@ -61,15 +61,15 @@ describe('res', function(){
     })
 
     it('should work on already existing multi-valued headers', function() {
-        res.headers = {};
-        res.set('Fruit', ['banana', 'apple']);
-        res.set('Fruit', 'mango', true);
-        JSON.stringify(res.get('fruit'))
-        .should.equal('["banana","apple","mango"]');
+      res.headers = {};
+      res.set('Fruit', ['banana', 'apple']);
+      res.set('Fruit', 'mango', true);
+      JSON.stringify(res.get('fruit'))
+      .should.equal('["banana","apple","mango"]');
     })
   })
 
-  describe('.set(object)', function(){
+  describe('.set(object, append)', function(){
     it('should set multiple fields', function(done){
       var app = express();
 
@@ -91,6 +91,14 @@ describe('res', function(){
       res.headers = {};
       res.set({ 'X-Number': 123 });
       res.get('X-Number').should.equal('123');
+    })
+
+    it('should work on already existing multi-valued headers', function() {
+      res.headers = {};
+      res.set({ 'Fruit': ['banana', 'apple'] });
+      res.set({ 'Fruit': 'mango' }, true);
+      JSON.stringify(res.get('fruit'))
+      .should.equal('["banana","apple","mango"]');
     })
   })
 })
