@@ -4,7 +4,7 @@ var express = require('../')
   , res = express.response;
 
 describe('res', function(){
-  describe('.set(field, value)', function(){
+  describe('.set(field, value, append)', function(){
     it('should set the response header field', function(done){
       var app = express();
 
@@ -23,9 +23,17 @@ describe('res', function(){
       res.set('X-Number', 123);
       res.get('X-Number').should.equal('123');
     })
+
+    it('should create an array out of a string header', function() {
+        res.headers = {};
+        res.set('Fruit', 'banana');
+        res.set('Fruit', 'apple', true);
+        JSON.stringify(res.get('fruit'))
+        .should.equal('["banana","apple"]');
+    })
   })
 
-  describe('.set(field, values)', function(){
+  describe('.set(field, values, append)', function(){
     it('should set multiple response header fields', function(done){
       var app = express();
 
@@ -50,6 +58,14 @@ describe('res', function(){
       res.headers = {};
       res.set('Content-Type', 'text/html; charset=lol');
       res.get('content-type').should.equal('text/html; charset=lol');
+    })
+
+    it('should work on already existing multi-valued headers', function() {
+        res.headers = {};
+        res.set('Fruit', ['banana', 'apple']);
+        res.set('Fruit', 'mango', true);
+        JSON.stringify(res.get('fruit'))
+        .should.equal('["banana","apple","mango"]');
     })
   })
 
