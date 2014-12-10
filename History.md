@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix `res.send` double-calling `res.end` for `HEAD` requests
+
 4.10.4 / 2014-11-24
 ===================
 
