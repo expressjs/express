@@ -46,7 +46,7 @@
     "range-parser": "~1.0.2",
     "send": "0.10.1",
     "serve-static": "~1.7.1",
-    "type-is": "~1.5.3",
+    "type-is": "~1.5.4",
     "vary": "~1.0.0",
     "cookie": "0.1.2",
     "merge-descriptors": "0.0.2",
