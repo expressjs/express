@@ -1,3 +1,13 @@
+3.x
+===
+
+  * deps: connect@2.27.6
+    - deps: compression@~1.2.2
+    - deps: express-session@~1.9.3
+    - deps: http-errors@~1.2.8
+    - deps: serve-index@~1.5.3
+    - deps: type-is@~1.5.4
+
 3.18.4 / 2014-11-23
 ===================
 
