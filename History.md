@@ -1,5 +1,5 @@
-unreleased
-==========
+4.10.5 / 2014-12-10
+===================
 
   * Fix `res.send` double-calling `res.end` for `HEAD` requests
   * deps: accepts@~1.1.4
