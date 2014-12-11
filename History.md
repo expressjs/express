@@ -2,6 +2,8 @@ unreleased
 ==========
 
   * Fix `res.send` double-calling `res.end` for `HEAD` requests
+  * deps: accepts@~1.1.4
+    - deps: mime-types@~2.0.4
 
 4.10.4 / 2014-11-24
 ===================
