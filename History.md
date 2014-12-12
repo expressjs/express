@@ -1,3 +1,8 @@
+3.x
+===
+
+  * Fix exception in `req.fresh`/`req.stale` without response headers
+
 3.18.5 / 2014-12-11
 ===================
 
