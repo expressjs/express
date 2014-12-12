@@ -32,5 +32,19 @@ describe('req', function(){
       .set('If-None-Match', '"12345"')
       .expect(200, 'false', done);
     })
+
+    it('should succeed even if no response headers are present', function(done){
+      var app = express();
+      app.disable('x-powered-by'); // ensure there are no default response headers
+
+      app.use(function(req, res){
+        res.send(req.fresh);
+      });
+
+      // this would previously fail because jshttp/fresh is expecting res.headers to not be undefined
+      request(app)
+      .get('/')
+      .expect(200, done);
+    })
   })
 })
