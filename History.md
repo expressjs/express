@@ -1,5 +1,5 @@
-3.x
-===
+3.18.6 / 2014-12-12
+===================
 
   * Fix exception in `req.fresh`/`req.stale` without response headers
 

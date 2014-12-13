@@ -1,7 +1,7 @@
 {
   "name": "express",
   "description": "Sinatra inspired web development framework",
-  "version": "3.18.5",
+  "version": "3.18.6",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [
     "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
