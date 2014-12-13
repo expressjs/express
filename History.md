@@ -1,5 +1,5 @@
-unreleased
-==========
+4.10.6 / 2014-12-12
+===================
 
   * Fix exception in `req.fresh`/`req.stale` without response headers
 
