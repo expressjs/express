@@ -32,5 +32,18 @@ describe('req', function(){
       .set('If-None-Match', '"12345"')
       .expect(200, 'false', done);
     })
+
+    it('should return false without response headers', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res._headers = undefined;
+        res.send(req.fresh);
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, 'false', done);
+    })
   })
 })
