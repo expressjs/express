@@ -18,7 +18,7 @@ app.get('/', function (req, res) {
 app.listen(3000)
 ```
 
-### Installation
+## Installation
 
 ```bash
 $ npm install express
@@ -86,7 +86,7 @@ $ npm start
 
 ## Examples
 
-  To view the examples, clone the Express repo & install the dependancies:
+  To view the examples, clone the Express repo and install the dependancies:
 
 ```bash
 $ git clone git://github.com/strongloop/express.git --depth 1
@@ -109,7 +109,7 @@ $ npm install
 $ npm test
 ```
 
-### People
+## People
 
 The original author of Express is [TJ Holowaychuk](https://github.com/tj) [![TJ's Gratipay][gratipay-image-visionmedia]][gratipay-url-visionmedia]
 
@@ -117,7 +117,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 [List of all contributors](https://github.com/strongloop/express/graphs/contributors)
 
-### License
+## License
 
   [MIT](LICENSE)
 
