@@ -34,7 +34,7 @@
     "depd": "~1.0.0",
     "escape-html": "1.0.1",
     "etag": "~1.5.1",
-    "finalhandler": "0.3.2",
+    "finalhandler": "0.3.3",
     "fresh": "0.2.4",
     "media-typer": "0.3.0",
     "methods": "1.1.0",
