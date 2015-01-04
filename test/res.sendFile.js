@@ -34,6 +34,31 @@ describe('res', function(){
       .expect(200, '20%', done);
     });
 
+    it('should include ETag', function (done) {
+      var app = createApp(path.resolve(fixtures, 'name.txt'));
+
+      request(app)
+      .get('/')
+      .expect('ETag', /^(?:W\/)?"[^"]+"$/)
+      .expect(200, 'tobi', done);
+    });
+
+    it('should 304 when ETag matches', function (done) {
+      var app = createApp(path.resolve(fixtures, 'name.txt'));
+
+      request(app)
+      .get('/')
+      .expect('ETag', /^(?:W\/)?"[^"]+"$/)
+      .expect(200, 'tobi', function (err, res) {
+        if (err) return done(err);
+        var etag = res.headers.etag;
+        request(app)
+        .get('/')
+        .set('If-None-Match', etag)
+        .expect(304, done);
+      });
+    });
+
     it('should 404 for directory', function (done) {
       var app = createApp(path.resolve(fixtures, 'blog'));
 
@@ -212,6 +237,40 @@ describe('res', function(){
       test.expect(200, cb);
     })
 
+    it('should invoke the callback without error when HEAD', function (done) {
+      var app = express();
+      var cb = after(2, done);
+
+      app.use(function (req, res) {
+        res.sendFile(path.resolve(fixtures, 'name.txt'), cb);
+      });
+
+      request(app)
+      .head('/')
+      .expect(200, cb);
+    });
+
+    it('should invoke the callback without error when 304', function (done) {
+      var app = express();
+      var cb = after(3, done);
+
+      app.use(function (req, res) {
+        res.sendFile(path.resolve(fixtures, 'name.txt'), cb);
+      });
+
+      request(app)
+      .get('/')
+      .expect('ETag', /^(?:W\/)?"[^"]+"$/)
+      .expect(200, 'tobi', function (err, res) {
+        if (err) return cb(err);
+        var etag = res.headers.etag;
+        request(app)
+        .get('/')
+        .set('If-None-Match', etag)
+        .expect(304, cb);
+      });
+    });
+
     it('should invoke the callback on 404', function(done){
       var app = express();
 
@@ -293,6 +352,40 @@ describe('res', function(){
       var test = request(app).get('/');
       test.expect(200, cb);
     })
+
+    it('should invoke the callback without error when HEAD', function (done) {
+      var app = express();
+      var cb = after(2, done);
+
+      app.use(function (req, res) {
+        res.sendfile('test/fixtures/name.txt', cb);
+      });
+
+      request(app)
+      .head('/')
+      .expect(200, cb);
+    });
+
+    it('should invoke the callback without error when 304', function (done) {
+      var app = express();
+      var cb = after(3, done);
+
+      app.use(function (req, res) {
+        res.sendfile('test/fixtures/name.txt', cb);
+      });
+
+      request(app)
+      .get('/')
+      .expect('ETag', /^(?:W\/)?"[^"]+"$/)
+      .expect(200, 'tobi', function (err, res) {
+        if (err) return cb(err);
+        var etag = res.headers.etag;
+        request(app)
+        .get('/')
+        .set('If-None-Match', etag)
+        .expect(304, cb);
+      });
+    });
 
     it('should invoke the callback on 404', function(done){
       var app = express()
