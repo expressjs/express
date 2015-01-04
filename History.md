@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * deps: debug@~2.1.1
   * deps: finalhandler@0.3.3
     - deps: debug@~2.1.1
     - deps: on-finished@~2.2.0
