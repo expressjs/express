@@ -7,6 +7,8 @@ unreleased
     - deps: on-finished@~2.2.0
   * deps: methods@~1.1.1
   * deps: on-finished@~2.2.0
+  * deps: serve-static@~1.7.2
+    - Fix potential open redirect when mounted at root
 
 4.10.6 / 2014-12-12
 ===================

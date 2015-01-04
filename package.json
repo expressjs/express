@@ -45,7 +45,7 @@
     "qs": "2.3.3",
     "range-parser": "~1.0.2",
     "send": "0.10.1",
-    "serve-static": "~1.7.1",
+    "serve-static": "~1.7.2",
     "type-is": "~1.5.4",
     "vary": "~1.0.0",
     "cookie": "0.1.2",
