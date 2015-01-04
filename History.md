@@ -4,6 +4,7 @@ unreleased
   * deps: finalhandler@0.3.3
     - deps: debug@~2.1.1
     - deps: on-finished@~2.2.0
+  * deps: methods@~1.1.1
 
 4.10.6 / 2014-12-12
 ===================

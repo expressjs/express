@@ -37,7 +37,7 @@
     "finalhandler": "0.3.3",
     "fresh": "0.2.4",
     "media-typer": "0.3.0",
-    "methods": "1.1.0",
+    "methods": "1.1.1",
     "on-finished": "~2.1.1",
     "parseurl": "~1.3.0",
     "path-to-regexp": "0.1.3",
