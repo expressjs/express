@@ -1,5 +1,5 @@
-unreleased
-==========
+4.10.7 / 2015-01-04
+===================
 
   * Fix `Allow` header for `OPTIONS` to not contain duplicate methods
   * Fix incorrect "Request aborted" for `res.sendFile` when `HEAD` or 304
