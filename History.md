@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix `Allow` header for `OPTIONS` to not contain duplicate methods
   * Fix incorrect "Request aborted" for `res.sendFile` when `HEAD` or 304
   * deps: debug@~2.1.1
   * deps: finalhandler@0.3.3
