@@ -5,7 +5,7 @@
   [![NPM version](https://img.shields.io/npm/v/express.svg?style=flat)](https://www.npmjs.org/package/express)
   [![Build Status](https://img.shields.io/travis/strongloop/express.svg?style=flat)](https://travis-ci.org/strongloop/express)
   [![Coverage Status](https://img.shields.io/coveralls/strongloop/express.svg?style=flat)](https://coveralls.io/r/strongloop/express)
-  [![Gittip](https://img.shields.io/gittip/dougwilson.svg?style=flat)](https://www.gittip.com/dougwilson/)
+  [![Gratipay](https://img.shields.io/gratipay/dougwilson.svg?style=flat)](https://gratipay.com/dougwilson/)
 
 ```js
 var express = require('express');
