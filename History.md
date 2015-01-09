@@ -1,3 +1,22 @@
+3.x
+===
+
+  * deps: connect@2.28.1
+    - deps: body-parser@~1.10.1
+    - deps: compression@~1.3.0
+    - deps: connect-timeout@~1.5.0
+    - deps: csurf@~1.6.4
+    - deps: debug@~2.1.1
+    - deps: errorhandler@~1.3.2
+    - deps: express-session@~1.10.1
+    - deps: finalhandler@0.3.3
+    - deps: method-override@~2.3.1
+    - deps: morgan@~1.5.1
+    - deps: serve-favicon@~2.2.0
+    - deps: serve-index@~1.6.0
+    - deps: serve-static@~1.8.0
+    - deps: type-is@~1.5.5
+
 3.18.6 / 2014-12-12
 ===================
 
