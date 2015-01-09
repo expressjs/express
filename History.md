@@ -2,6 +2,7 @@
 ===
 
   * Use `readline` for prompt in `express(1)`
+  * deps: commander@2.6.0
   * deps: connect@2.28.1
     - deps: body-parser@~1.10.1
     - deps: compression@~1.3.0
