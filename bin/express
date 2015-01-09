@@ -7,6 +7,7 @@
 var program = require('commander')
   , mkdirp = require('mkdirp')
   , pkg = require('../package.json')
+  , readline = require('readline')
   , version = pkg.version
   , os = require('os')
   , fs = require('fs');
@@ -249,7 +250,7 @@ var app = [
     if (empty || program.force) {
       createApplicationAt(path);
     } else {
-      program.confirm('destination is not empty, continue? ', function(ok){
+      confirm('destination is not empty, continue? [y/N] ', function (ok) {
         if (ok) {
           process.stdin.destroy();
           createApplicationAt(path);
@@ -260,6 +261,22 @@ var app = [
     }
   });
 })(path);
+
+/**
+ * Prompt for confirmation on STDOUT/STDIN
+ */
+
+function confirm(msg, callback) {
+  var rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+  rl.question(msg, function (input) {
+    rl.close();
+    callback(/^y|yes|ok|true$/i.test(input));
+  });
+}
 
 /**
  * Create application at the given directory `path`.
