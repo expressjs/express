@@ -16,6 +16,7 @@
     - deps: serve-index@~1.6.0
     - deps: serve-static@~1.8.0
     - deps: type-is@~1.5.5
+  * deps: methods@~1.1.1
 
 3.18.6 / 2014-12-12
 ===================
