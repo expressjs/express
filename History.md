@@ -1,6 +1,7 @@
 3.x
 ===
 
+  * Fix `OPTIONS` responses to include the `HEAD` method property
   * Use `readline` for prompt in `express(1)`
   * deps: commander@2.6.0
   * deps: connect@2.28.1

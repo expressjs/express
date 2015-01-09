@@ -12,8 +12,8 @@ describe('OPTIONS', function(){
 
     request(app)
     .options('/users')
-    .expect('GET,PUT')
-    .expect('Allow', 'GET,PUT', done);
+    .expect('GET,HEAD,PUT')
+    .expect('Allow', 'GET,HEAD,PUT', done);
   })
 
   it('should not respond if the path is not defined', function(done){
@@ -36,8 +36,8 @@ describe('OPTIONS', function(){
 
     request(app)
     .options('/other')
-    .expect('GET')
-    .expect('Allow', 'GET', done);
+    .expect('GET,HEAD')
+    .expect('Allow', 'GET,HEAD', done);
   })
 })
 
