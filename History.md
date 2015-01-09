@@ -19,6 +19,11 @@
   * deps: methods@~1.1.1
   * deps: proxy-addr@~1.0.5
     - deps: ipaddr.js@0.1.6
+  * deps: send@0.11.0
+    - deps: debug@~2.1.1
+    - deps: etag@~1.5.1
+    - deps: ms@0.7.0
+    - deps: on-finished@~2.2.0
 
 3.18.6 / 2014-12-12
 ===================
