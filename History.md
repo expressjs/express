@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix crash from error within `OPTIONS` response handler
   * deps: proxy-addr@~1.0.5
     - deps: ipaddr.js@0.1.6
 

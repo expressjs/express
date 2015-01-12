@@ -71,6 +71,28 @@ describe('OPTIONS', function(){
     .expect('GET')
     .expect('Allow', 'GET', done);
   })
+
+  describe('when error occurs in respone handler', function () {
+    it('should pass error to callback', function (done) {
+      var app = express();
+      var router = express.Router();
+
+      router.get('/users', function(req, res){});
+
+      app.use(function (req, res, next) {
+        res.writeHead(200);
+        next();
+      });
+      app.use(router);
+      app.use(function (err, req, res, next) {
+        res.end('true');
+      });
+
+      request(app)
+      .options('/users')
+      .expect(200, 'true', done)
+    })
+  })
 })
 
 describe('app.options()', function(){
