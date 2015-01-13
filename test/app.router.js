@@ -288,6 +288,32 @@ describe('app.router', function(){
       .expect(200, '[["thing","get"]]', done);
     })
 
+    it('should use param handlers from router', function (done) {
+      var app = express();
+      var router = new express.Router({ inheritParamHandlers: true });
+
+      app.param('thing', function (req, res, next, id) {
+        req.thing = id;
+        next();
+      });
+
+      router.param('thing', function (req, res, next, id) {
+        req.thing = id;
+        next();
+      });
+
+      router.get('/:thing', function (req, res) {
+        var keys = Object.keys(req.params).sort();
+        return res.send(req.thing);
+      });
+
+      app.use('/user/:thing', router);
+
+      request(app)
+      .get('/user/tj/get')
+      .expect('get', done);
+    })
+
     it('should merge numeric indices req.params', function(done){
       var app = express();
       var router = new express.Router({ mergeParams: true });
@@ -318,6 +344,72 @@ describe('app.router', function(){
       request(app)
       .get('/user/id:10/name:tj/profile')
       .expect(200, '[["0","10"],["1","tj"],["2","profile"]]', done);
+    })
+
+    it('should merge param handlers from parent when requested', function (done) {
+      var app = express();
+
+      app.param('who', function (req, res, next, id) {
+        if (!req.model) req.model = {};
+        req.model.who = id;
+        next();
+      });
+
+      var router = new express.Router({ inheritParamHandlers: true });
+
+      router.param('mode', function (req, res, next, id) {
+        if (!req.model) req.model = {};
+        req.model.mode = id;
+        next();
+      });
+
+      router.get('/:mode', function (req, res) {
+        return res.send(req.model.mode + 'ing ' + req.model.who);
+      });
+
+      app.use('/orgs/:who', router);
+
+      request(app)
+      .get('/orgs/github/join')
+      .expect(200, 'joining github', done);
+    })
+
+    it('should use child param handlers before parent handlers', function (done) {
+      var app = express();
+
+      app.param('id', function (req, res, next, id) {
+        if (!req.model) req.model = {};
+        if (req.model.ids) {
+          req.model.ids.push('app' + id);
+        }
+        else {
+          req.model.ids = ['app' + id];
+        }
+        next();
+      });
+
+      var router = new express.Router({ inheritParamHandlers: true });
+
+      router.param('id', function (req, res, next, id) {
+        if (!req.model) req.model = {};
+        if (req.model.ids) {
+          req.model.ids.push('router' + id);
+        }
+        else {
+          req.model.ids = ['router' + id];
+        }
+        next();
+      });
+
+      router.get('/:id', function (req, res) {
+        return res.json(req.model.ids);
+      });
+
+      app.use('/find', router);
+
+      request(app)
+      .get('/find/3')
+      .expect(200, '["router3","app3"]', done);
     })
 
     it('should ignore invalid incoming req.params', function(done){
