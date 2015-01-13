@@ -1,5 +1,5 @@
-unreleased
-==========
+4.10.8 / 2015-01-13
+===================
 
   * Fix crash from error within `OPTIONS` response handler
   * deps: proxy-addr@~1.0.5
