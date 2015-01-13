@@ -12,8 +12,8 @@ describe('OPTIONS', function(){
 
     request(app)
     .options('/users')
-    .expect('GET,PUT')
-    .expect('Allow', 'GET,PUT', done);
+    .expect('Allow', 'GET,HEAD,PUT')
+    .expect(200, 'GET,HEAD,PUT', done);
   })
 
   it('should only include each method once', function(done){
@@ -26,8 +26,8 @@ describe('OPTIONS', function(){
 
     request(app)
     .options('/users')
-    .expect('GET,PUT')
-    .expect('Allow', 'GET,PUT', done);
+    .expect('Allow', 'GET,HEAD,PUT')
+    .expect(200, 'GET,HEAD,PUT', done);
   })
 
   it('should not be affected by app.all', function(done){
@@ -44,8 +44,8 @@ describe('OPTIONS', function(){
     request(app)
     .options('/users')
     .expect('x-hit', '1')
-    .expect('allow', 'GET,PUT')
-    .expect(200, 'GET,PUT', done);
+    .expect('Allow', 'GET,HEAD,PUT')
+    .expect(200, 'GET,HEAD,PUT', done);
   })
 
   it('should not respond if the path is not defined', function(done){
@@ -68,8 +68,8 @@ describe('OPTIONS', function(){
 
     request(app)
     .options('/other')
-    .expect('GET')
-    .expect('Allow', 'GET', done);
+    .expect('Allow', 'GET,HEAD')
+    .expect(200, 'GET,HEAD', done);
   })
 
   describe('when error occurs in respone handler', function () {

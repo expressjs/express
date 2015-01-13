@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Deprecate leading `:` in `name` for `app.param(name, fn)`
+  * Fix `OPTIONS` responses to include the `HEAD` method properly
 
 4.10.8 / 2015-01-13
 ===================
