@@ -8,6 +8,9 @@ unreleased
   * Fix `OPTIONS` responses to include the `HEAD` method properly
   * Fix `res.sendFile` not always detecting aborted connection
   * Match routes iteratively to prevent stack overflows
+  * deps: accepts@~1.2.2
+    - deps: mime-types@~2.0.7
+    - deps: negotiator@0.5.0
   * deps: send@0.11.0
     - deps: debug@~2.1.1
     - deps: etag@~1.5.1
