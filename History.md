@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Deprecate leading `:` in `name` for `app.param(name, fn)`
+  * Deprecate `req.param()` -- use `req.params`, `req.body`, or `req.query` instead
   * Fix `OPTIONS` responses to include the `HEAD` method properly
   * Fix `res.sendFile` not always detecting aborted connection
   * Match routes iteratively to prevent stack overflows
