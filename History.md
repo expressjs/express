@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Add `res.append(field, val)` to append headers
   * Deprecate leading `:` in `name` for `app.param(name, fn)`
   * Deprecate `req.param()` -- use `req.params`, `req.body`, or `req.query` instead
   * Deprecate `app.param(fn)`
