@@ -1,5 +1,5 @@
-unreleased
-==========
+4.11.0 / 2015-01-13
+===================
 
   * Add `res.append(field, val)` to append headers
   * Deprecate leading `:` in `name` for `app.param(name, fn)`
