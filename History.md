@@ -16,6 +16,8 @@ unreleased
     - deps: etag@~1.5.1
     - deps: ms@0.7.0
     - deps: on-finished@~2.2.0
+  * deps: serve-static@~1.8.0
+    - deps: send@0.11.0
 
 4.10.8 / 2015-01-13
 ===================
