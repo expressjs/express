@@ -8,6 +8,11 @@ unreleased
   * Fix `OPTIONS` responses to include the `HEAD` method properly
   * Fix `res.sendFile` not always detecting aborted connection
   * Match routes iteratively to prevent stack overflows
+  * deps: send@0.11.0
+    - deps: debug@~2.1.1
+    - deps: etag@~1.5.1
+    - deps: ms@0.7.0
+    - deps: on-finished@~2.2.0
 
 4.10.8 / 2015-01-13
 ===================
@@ -646,6 +651,37 @@ unreleased
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.19.0 / 2015-01-09
+===================
+
+  * Fix `OPTIONS` responses to include the `HEAD` method property
+  * Use `readline` for prompt in `express(1)`
+  * deps: commander@2.6.0
+  * deps: connect@2.28.1
+    - deps: body-parser@~1.10.1
+    - deps: compression@~1.3.0
+    - deps: connect-timeout@~1.5.0
+    - deps: csurf@~1.6.4
+    - deps: debug@~2.1.1
+    - deps: errorhandler@~1.3.2
+    - deps: express-session@~1.10.1
+    - deps: finalhandler@0.3.3
+    - deps: method-override@~2.3.1
+    - deps: morgan@~1.5.1
+    - deps: serve-favicon@~2.2.0
+    - deps: serve-index@~1.6.0
+    - deps: serve-static@~1.8.0
+    - deps: type-is@~1.5.5
+  * deps: debug@~2.1.1
+  * deps: methods@~1.1.1
+  * deps: proxy-addr@~1.0.5
+    - deps: ipaddr.js@0.1.6
+  * deps: send@0.11.0
+    - deps: debug@~2.1.1
+    - deps: etag@~1.5.1
+    - deps: ms@0.7.0
+    - deps: on-finished@~2.2.0
 
 3.18.6 / 2014-12-12
 ===================
