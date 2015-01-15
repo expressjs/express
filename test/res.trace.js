@@ -4,15 +4,15 @@ var request = require('supertest');
 
 describe('res', function(){
   describe('.trace(event)', function(){
-    it('should activate all tracers set at application level', function(done){
+    it('should call all tracers set at application level', function(done){
       var app = express();
 
-      app.instrument(function(traceApp, req, res, event, date, args){
-        (traceApp === traceApp).should.be.ok;
-        req.url.should.be.equal('/');
-        res.id.should.be.equal('1');
-        'one:event'.should.be.equal(event);
-        'info'.should.be.equal(args[0]);
+      app.instrument(function(options){
+        (options.app === app).should.be.ok;
+        options.req.url.should.be.equal('/');
+        options.res.id.should.be.equal('1');
+        'one:event'.should.be.equal(options.event);
+        'info'.should.be.equal(options.args[0]);
       });
 
       app.use(function(req, res, next){
@@ -27,9 +27,7 @@ describe('res', function(){
 
       request(app)
         .get('/')
-        .end(function(err, res) {
-          done();
-        });
+        .expect(200, done);
     })
   })
 })

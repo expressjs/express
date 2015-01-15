@@ -37,8 +37,8 @@ app.use(function (req, res, next) {
   res.trace('finish');
 });
 
-app.instrument(function (app, req, res, event, date, args) {
-  debug(res.id, event, args.join(' '));
+app.instrument(function (options) {
+  debug(options.res.id, options.event, options.args.join(' '));
 });
 
 var port = process.env.PORT || 3210;

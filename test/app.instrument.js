@@ -5,8 +5,8 @@ describe('app', function(){
   describe('.instrument(fn)', function(){
     it('should add function to the tracer list', function(){
       var app = express();
-      function debug (app, req, res, event, args) {
-        console.log(event);
+      function debug (options) {
+        console.log(options.event);
       }
       app.instrument(debug);
       debug.should.be.equal(app.tracers[0]);
