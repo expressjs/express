@@ -14,7 +14,7 @@ describe('app', function(){
         options.res.id.should.be.equal('1');
         options.event.should.be.equal('new:event');
         options.date.should.exist;
-        (options.args[0] === 'arg1').should.be.ok
+        (options.args[0] === 'arg1').should.be.ok;
       }
 
       function otherTracer(options){
