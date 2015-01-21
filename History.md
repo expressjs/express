@@ -4,6 +4,8 @@
   * deps: connect@2.28.2
     - deps: body-parser@~1.10.2
     - deps: serve-static@~1.8.1
+  * deps: send@0.11.1
+    - Fix root path disclosure
 
 3.19.0 / 2015-01-09
 ===================
