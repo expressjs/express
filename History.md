@@ -1,50 +1,12 @@
 5.x
 ===
 
-  * Add `res.append(field, val)` to append headers
-  * Correctly invoke async router callback asynchronously
-  * Deprecate leading `:` in `name` for `app.param(name, fn)`
-  * Deprecate `req.param()` -- use `req.params`, `req.body`, or `req.query` instead
-  * Deprecate `app.param(fn)`
-  * Fix `Allow` header for `OPTIONS` to not contain duplicate methods
-  * Fix crash from error within `OPTIONS` response handler
-  * Fix exception in `req.fresh`/`req.stale` without response headers
-  * Fix incorrect "Request aborted" for `res.sendFile` when `HEAD` or 304
-  * Fix `OPTIONS` responses to include the `HEAD` method properly
-  * Fix `res.send` double-calling `res.end` for `HEAD` requests
-  * Fix `res.sendFile` logging standard write errors
-  * Fix `res.sendFile` not always detecting aborted connection
-  * Match routes iteratively to prevent stack overflows
-  * deps: accepts@~1.2.2
-    - deps: mime-types@~2.0.7
-    - deps: negotiator@0.5.0
-  * deps: debug@~2.1.1
-  * deps: etag@~1.5.1
-  * deps: finalhandler@0.3.3
-    - deps: debug@~2.1.1
-    - deps: on-finished@~2.2.0
-  * deps: methods@~1.1.1
-  * deps: on-finished@~2.2.0
-  * deps: proxy-addr@~1.0.5
-    - deps: ipaddr.js@0.1.6
-  * deps: qs@2.3.3
-    - Fix `arrayLimit` behavior
-  * deps: send@0.11.1
-    - Fix root path disclosure
-    - deps: debug@~2.1.1
-    - deps: etag@~1.5.1
-    - deps: ms@0.7.0
-    - deps: on-finished@~2.2.0
-  * deps: serve-static@~1.8.1
-    - Fix potential open redirect when mounted at root
-    - Fix redirect loop in Node.js 0.11.14
-    - Fix root path disclosure
-    - deps: send@0.11.1
-  * deps: type-is@~1.5.5
-    - deps: mime-types@~2.0.7
+This incorporates all changes after 4.10.1 up to 4.11.1.
 
 5.0.0-alpha.1 / 2014-11-06
 ==========================
+
+This is the first Express 5.0 alpha release, based off 4.10.1.
 
   * remove:
     - `app.del` - use `app.delete`
