@@ -3,6 +3,10 @@ unreleased
 
   * deps: send@0.11.1
     - Fix root path disclosure
+  * deps: serve-static@~1.8.1
+    - Fix redirect loop in Node.js 0.11.14
+    - Fix root path disclosure
+    - deps: send@0.11.1
 
 4.11.0 / 2015-01-13
 ===================
