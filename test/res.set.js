@@ -1,7 +1,6 @@
 
-var express = require('../')
-  , request = require('supertest')
-  , res = express.response;
+var express = require('..');
+var request = require('supertest');
 
 describe('res', function(){
   describe('.set(field, value)', function(){
@@ -18,10 +17,18 @@ describe('res', function(){
       .end(done);
     })
 
-    it('should coerce to a string', function(){
-      res.headers = {};
-      res.set('X-Number', 123);
-      res.get('X-Number').should.equal('123');
+    it('should coerce to a string', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('X-Number', 123);
+        res.end(typeof res.get('X-Number'));
+      });
+
+      request(app)
+      .get('/')
+      .expect('X-Number', '123')
+      .expect(200, 'string', done);
     })
   })
 
@@ -39,11 +46,18 @@ describe('res', function(){
       .expect('["type=ninja","language=javascript"]', done);
     })
 
-    it('should coerce to an array of strings', function(){
-      res.headers = {};
-      res.set('X-Numbers', [123, 456]);
-      JSON.stringify(res.get('X-Numbers'))
-      .should.equal('["123","456"]');
+    it('should coerce to an array of strings', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('X-Numbers', [123, 456]);
+        res.end(JSON.stringify(res.get('X-Numbers')));
+      });
+
+      request(app)
+      .get('/')
+      .expect('X-Numbers', '123, 456')
+      .expect(200, '["123","456"]', done);
     })
   })
 
@@ -65,10 +79,18 @@ describe('res', function(){
       .end(done);
     })
 
-    it('should coerce to a string', function(){
-      res.headers = {};
-      res.set({ 'X-Number': 123 });
-      res.get('X-Number').should.equal('123');
+    it('should coerce to a string', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set({ 'X-Number': 123 });
+        res.end(typeof res.get('X-Number'));
+      });
+
+      request(app)
+      .get('/')
+      .expect('X-Number', '123')
+      .expect(200, 'string', done);
     })
   })
 })
