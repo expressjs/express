@@ -1,5 +1,5 @@
-unreleased
-==========
+4.11.1 / 2015-01-20
+===================
 
   * deps: send@0.11.1
     - Fix root path disclosure
