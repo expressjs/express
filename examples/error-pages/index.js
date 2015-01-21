@@ -9,7 +9,7 @@ var silent = 'test' == process.env.NODE_ENV;
 
 // general config
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 // our custom "verbose errors" setting
 // which we can use in the templates
@@ -25,7 +25,7 @@ silent || app.use(logger('dev'));
 // Routes
 
 app.get('/', function(req, res){
-  res.render('index.jade');
+  res.render('index.ejs');
 });
 
 app.get('/404', function(req, res, next){
@@ -95,7 +95,6 @@ app.use(function(err, req, res, next){
   res.status(err.status || 500);
   res.render('500', { error: err });
 });
-
 
 /* istanbul ignore next */
 if (!module.parent) {

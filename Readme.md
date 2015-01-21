@@ -18,7 +18,7 @@ app.get('/', function (req, res) {
 app.listen(3000)
 ```
 
-### Installation
+## Installation
 
 ```bash
 $ npm install express
@@ -86,7 +86,7 @@ $ npm start
 
 ## Examples
 
-  To view the examples, clone the Express repo & install the dependancies:
+  To view the examples, clone the Express repo and install the dependancies:
 
 ```bash
 $ git clone git://github.com/strongloop/express.git --depth 1
@@ -109,7 +109,7 @@ $ npm install
 $ npm test
 ```
 
-### People
+## People
 
 The original author of Express is [TJ Holowaychuk](https://github.com/tj) [![TJ's Gratipay][gratipay-image-visionmedia]][gratipay-url-visionmedia]
 
@@ -117,7 +117,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 [List of all contributors](https://github.com/strongloop/express/graphs/contributors)
 
-### License
+## License
 
   [MIT](LICENSE)
 
@@ -130,6 +130,6 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [coveralls-image]: https://img.shields.io/coveralls/strongloop/express.svg?style=flat
 [coveralls-url]: https://coveralls.io/r/strongloop/express?branch=master
 [gratipay-image-visionmedia]: https://img.shields.io/gratipay/visionmedia.svg?style=flat
-[gratipay-url-visionmedia]: https://gratipay/visionmedia/
+[gratipay-url-visionmedia]: https://gratipay.com/visionmedia/
 [gratipay-image-dougwilson]: https://img.shields.io/gratipay/dougwilson.svg?style=flat
-[gratipay-url-dougwilson]: https://gratipay/dougwilson/
+[gratipay-url-dougwilson]: https://gratipay.com/dougwilson/
