@@ -1,6 +1,7 @@
 
 var express = require('../')
-  , request = require('supertest');
+  , request = require('supertest')
+  , assert = require('assert');
 
 describe('res', function(){
   describe('.redirect(url)', function(){
@@ -69,6 +70,27 @@ describe('res', function(){
         res.text.should.equal('');
         done();
       })
+    })
+
+    it('should end the response only once', function(done){
+      var app = express()
+        , calledN = 0;
+
+      app.head('/tobi', function(req, res) {
+        var origEnd = res.end;
+        res.end = function () {
+          origEnd.apply(this, arguments);
+          calledN++;
+        };
+        res.redirect(301, '/elsewhere');
+      });
+
+      request(app)
+      .head('/tobi')
+      .expect(301, function() {
+        assert.equal(calledN, 1);
+        done();
+      });
     })
   })
 
