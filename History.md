@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix `res.redirect` double-calling `res.end` for `HEAD` requests
   * deps: type-is@~1.5.6
     - deps: mime-types@~2.0.8
 
