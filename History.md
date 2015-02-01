@@ -1,5 +1,5 @@
-unreleased
-==========
+4.11.2 / 2015-02-01
+===================
 
   * Fix `res.redirect` double-calling `res.end` for `HEAD` requests
   * deps: accepts@~1.2.3
