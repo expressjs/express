@@ -8,6 +8,8 @@
     - deps: express-session@~1.10.2
     - deps: serve-index@~1.6.1
     - deps: type-is@~1.5.6
+  * deps: proxy-addr@~1.0.6
+    - deps: ipaddr.js@0.1.8
 
 3.19.1 / 2015-01-20
 ===================
