@@ -1,7 +1,7 @@
 5.x
 ===
 
-This incorporates all changes after 4.10.1 up to 4.11.1.
+This incorporates all changes after 4.10.1 up to 4.11.2.
 
 5.0.0-alpha.1 / 2014-11-06
 ==========================
@@ -24,6 +24,17 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.11.2 / 2015-02-01
+===================
+
+  * Fix `res.redirect` double-calling `res.end` for `HEAD` requests
+  * deps: accepts@~1.2.3
+    - deps: mime-types@~2.0.8
+  * deps: proxy-addr@~1.0.6
+    - deps: ipaddr.js@0.1.8
+  * deps: type-is@~1.5.6
+    - deps: mime-types@~2.0.8
 
 4.11.1 / 2015-01-20
 ===================
@@ -693,6 +704,19 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.19.2 / 2015-02-01
+===================
+
+  * deps: connect@2.28.3
+    - deps: compression@~1.3.1
+    - deps: csurf@~1.6.6
+    - deps: errorhandler@~1.3.3
+    - deps: express-session@~1.10.2
+    - deps: serve-index@~1.6.1
+    - deps: type-is@~1.5.6
+  * deps: proxy-addr@~1.0.6
+    - deps: ipaddr.js@0.1.8
 
 3.19.1 / 2015-01-20
 ===================
