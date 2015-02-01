@@ -2,6 +2,8 @@ unreleased
 ==========
 
   * Fix `res.redirect` double-calling `res.end` for `HEAD` requests
+  * deps: accepts@~1.2.3
+    - deps: mime-types@~2.0.8
   * deps: proxy-addr@~1.0.6
     - deps: ipaddr.js@0.1.8
   * deps: type-is@~1.5.6
