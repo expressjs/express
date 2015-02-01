@@ -1,3 +1,14 @@
+3.x
+===
+
+  * deps: connect@2.28.3
+    - deps: compression@~1.3.1
+    - deps: csurf@~1.6.6
+    - deps: errorhandler@~1.3.3
+    - deps: express-session@~1.10.2
+    - deps: serve-index@~1.6.1
+    - deps: type-is@~1.5.6
+
 3.19.1 / 2015-01-20
 ===================
 
