@@ -2,6 +2,8 @@ unreleased
 ==========
 
   * Fix `res.redirect` double-calling `res.end` for `HEAD` requests
+  * deps: proxy-addr@~1.0.6
+    - deps: ipaddr.js@0.1.8
   * deps: type-is@~1.5.6
     - deps: mime-types@~2.0.8
 
@@ -673,6 +675,19 @@ unreleased
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.19.2 / 2015-02-01
+===================
+
+  * deps: connect@2.28.3
+    - deps: compression@~1.3.1
+    - deps: csurf@~1.6.6
+    - deps: errorhandler@~1.3.3
+    - deps: express-session@~1.10.2
+    - deps: serve-index@~1.6.1
+    - deps: type-is@~1.5.6
+  * deps: proxy-addr@~1.0.6
+    - deps: ipaddr.js@0.1.8
 
 3.19.1 / 2015-01-20
 ===================
