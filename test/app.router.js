@@ -292,7 +292,7 @@ describe('app.router', function(){
       var app = express();
       var router = new express.Router({ mergeParams: true });
 
-      router.get('/*.*', function(req, res){
+      router.get('/(.*).(.*)', function(req, res){
         var keys = Object.keys(req.params).sort();
         res.send(keys.map(function(k){ return [k, req.params[k]] }));
       });
@@ -308,7 +308,7 @@ describe('app.router', function(){
       var app = express();
       var router = new express.Router({ mergeParams: true });
 
-      router.get('/*', function(req, res){
+      router.get('/(.*)', function(req, res){
         var keys = Object.keys(req.params).sort();
         res.send(keys.map(function(k){ return [k, req.params[k]] }));
       });
@@ -497,7 +497,7 @@ describe('app.router', function(){
   it('should allow escaped regexp', function(done){
     var app = express();
 
-    app.get('/user/\\d+', function(req, res){
+    app.get('/user/(\\d+)', function(req, res){
       res.end('woot');
     });
 
@@ -530,7 +530,7 @@ describe('app.router', function(){
     it('should denote a greedy capture group', function(done){
       var app = express();
 
-      app.get('/user/*.json', function(req, res){
+      app.get('/user/(.*).json', function(req, res){
         res.end(req.params[0]);
       });
 
@@ -542,7 +542,7 @@ describe('app.router', function(){
     it('should work with several', function(done){
       var app = express();
 
-      app.get('/api/*.*', function(req, res){
+      app.get('/api/(.*).(.*)', function(req, res){
         var resource = req.params[0]
           , format = req.params[1];
         res.end(resource + ' as ' + format);
@@ -556,7 +556,7 @@ describe('app.router', function(){
     it('should work cross-segment', function(done){
       var app = express();
 
-      app.get('/api*', function(req, res){
+      app.get('/api(.*)', function(req, res){
         res.send(req.params[0]);
       });
 
@@ -572,7 +572,7 @@ describe('app.router', function(){
     it('should allow naming', function(done){
       var app = express();
 
-      app.get('/api/:resource(*)', function(req, res){
+      app.get('/api/:resource*', function(req, res){
         var resource = req.params.resource;
         res.end(resource);
       });
@@ -609,7 +609,7 @@ describe('app.router', function(){
     it('should span multiple segments', function(done){
       var app = express();
 
-      app.get('/file/*', function(req, res){
+      app.get('/file/(.*)', function(req, res){
         res.end(req.params[0]);
       });
 
@@ -621,7 +621,7 @@ describe('app.router', function(){
     it('should be optional', function(done){
       var app = express();
 
-      app.get('/file/*', function(req, res){
+      app.get('/file/(.*)', function(req, res){
         res.end(req.params[0]);
       });
 
@@ -903,7 +903,7 @@ describe('app.router', function(){
     var app = express();
     var path = [];
 
-    app.get('*', function(req, res, next){
+    app.get('/(.*)', function(req, res, next){
       path.push(0);
       next();
     });
@@ -923,7 +923,7 @@ describe('app.router', function(){
       next();
     });
 
-    app.get('*', function(req, res, next){
+    app.get('/(.*)', function(req, res, next){
       path.push(4);
       next();
     });
