@@ -603,7 +603,7 @@ describe('app.router', function(){
 
       request(app)
       .get('/user/122/aaa')
-      .expect('122', done);
+      .expect('122/aaa', done);
     })
 
     it('should span multiple segments', function(done){
