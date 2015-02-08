@@ -2,9 +2,13 @@ language: node_js
 node_js:
   - "0.10"
   - "0.11"
+  - "0.12"
+  - "io.js"
 matrix:
   allow_failures:
     - node_js: "0.11"
+    - node_js: "0.12"
+    - node_js: "io.js"
   fast_finish: true
 script: "npm run-script test-travis"
 after_script: "npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
