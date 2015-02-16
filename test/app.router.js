@@ -11,7 +11,7 @@ describe('app.router', function(){
     var router = new express.Router();
 
     function handler1(req, res, next){
-      res.setHeader('x-user-id', req.params.id);
+      res.setHeader('x-user-id', String(req.params.id));
       next()
     }
 
@@ -20,7 +20,7 @@ describe('app.router', function(){
     }
 
     router.use(function(req, res, next){
-      res.setHeader('x-router', req.params.id);
+      res.setHeader('x-router', String(req.params.id));
       next();
     });
 

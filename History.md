@@ -1,3 +1,24 @@
+4.11.2 / 2015-02-01
+===================
+
+  * Fix `res.redirect` double-calling `res.end` for `HEAD` requests
+  * deps: accepts@~1.2.3
+    - deps: mime-types@~2.0.8
+  * deps: proxy-addr@~1.0.6
+    - deps: ipaddr.js@0.1.8
+  * deps: type-is@~1.5.6
+    - deps: mime-types@~2.0.8
+
+4.11.1 / 2015-01-20
+===================
+
+  * deps: send@0.11.1
+    - Fix root path disclosure
+  * deps: serve-static@~1.8.1
+    - Fix redirect loop in Node.js 0.11.14
+    - Fix root path disclosure
+    - deps: send@0.11.1
+
 4.11.0 / 2015-01-13
 ===================
 
@@ -656,6 +677,28 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.19.2 / 2015-02-01
+===================
+
+  * deps: connect@2.28.3
+    - deps: compression@~1.3.1
+    - deps: csurf@~1.6.6
+    - deps: errorhandler@~1.3.3
+    - deps: express-session@~1.10.2
+    - deps: serve-index@~1.6.1
+    - deps: type-is@~1.5.6
+  * deps: proxy-addr@~1.0.6
+    - deps: ipaddr.js@0.1.8
+
+3.19.1 / 2015-01-20
+===================
+
+  * deps: connect@2.28.2
+    - deps: body-parser@~1.10.2
+    - deps: serve-static@~1.8.1
+  * deps: send@0.11.1
+    - Fix root path disclosure
 
 3.19.0 / 2015-01-09
 ===================

@@ -37,7 +37,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        res._headers = undefined;
+        res._headers = null;
         res.send(req.stale);
       });
 
