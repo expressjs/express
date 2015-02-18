@@ -2,11 +2,7 @@ language: node_js
 node_js:
   - "0.8"
   - "0.10"
-  - "0.11"
-matrix:
-  allow_failures:
-    - node_js: "0.11"
-  fast_finish: true
+  - "0.12"
 sudo: false
 script: "npm run-script test-travis"
 after_script: "npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
