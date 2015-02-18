@@ -30,7 +30,7 @@
     "connect": "2.29.0",
     "content-disposition": "0.5.0",
     "commander": "2.6.0",
-    "cookie-signature": "1.0.5",
+    "cookie-signature": "1.0.6",
     "debug": "~2.1.1",
     "depd": "~1.0.0",
     "escape-html": "1.0.1",

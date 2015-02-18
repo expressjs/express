@@ -16,6 +16,7 @@
     - deps: serve-index@~1.6.2
     - deps: serve-static@~1.9.1
     - deps: type-is@~1.6.0
+  * deps: cookie-signature@1.0.6
 
 3.19.2 / 2015-02-01
 ===================
