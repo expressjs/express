@@ -1,6 +1,8 @@
 3.x
 ===
 
+  * Generate `ETag`s for all request responses
+    - No longer restricted to only responses for `GET` and `HEAD` requests
   * Use `content-type` to parse `Content-Type` headers
   * deps: connect@2.29.0
     - Use `content-type` to parse `Content-Type` headers
