@@ -1,6 +1,7 @@
 3.x
 ===
 
+  * Use `content-type` to parse `Content-Type` headers
   * deps: connect@2.29.0
     - Use `content-type` to parse `Content-Type` headers
     - deps: body-parser@~1.12.0
