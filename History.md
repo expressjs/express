@@ -17,6 +17,10 @@
     - deps: serve-static@~1.9.1
     - deps: type-is@~1.6.0
   * deps: cookie-signature@1.0.6
+  * deps: send@0.12.1
+    - Always read the stat size from the file
+    - Fix mutating passed-in `options`
+    - deps: mime@1.3.4
 
 3.19.2 / 2015-02-01
 ===================
