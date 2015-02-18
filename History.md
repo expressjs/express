@@ -1,6 +1,7 @@
 3.x
 ===
 
+  * Fix `"trust proxy"` setting to inherit when app is mounted
   * Generate `ETag`s for all request responses
     - No longer restricted to only responses for `GET` and `HEAD` requests
   * Use `content-type` to parse `Content-Type` headers
