@@ -1,3 +1,22 @@
+3.x
+===
+
+  * deps: connect@2.29.0
+    - Use `content-type` to parse `Content-Type` headers
+    - deps: body-parser@~1.12.0
+    - deps: compression@~1.4.1
+    - deps: connect-timeout@~1.6.0
+    - deps: cookie-parser@~1.3.4
+    - deps: cookie-signature@1.0.6
+    - deps: csurf@~1.7.0
+    - deps: errorhandler@~1.3.4
+    - deps: express-session@~1.10.3
+    - deps: http-errors@~1.3.1
+    - deps: response-time@~2.3.0
+    - deps: serve-index@~1.6.2
+    - deps: serve-static@~1.9.1
+    - deps: type-is@~1.6.0
+
 3.19.2 / 2015-02-01
 ===================
 

@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "basic-auth": "1.0.0",
-    "connect": "2.28.3",
+    "connect": "2.29.0",
     "content-disposition": "0.5.0",
     "commander": "2.6.0",
     "cookie-signature": "1.0.5",
