@@ -14,6 +14,11 @@ unreleased
     - Always read the stat size from the file
     - Fix mutating passed-in `options`
     - deps: mime@1.3.4
+  * deps: type-is@~1.6.0
+    - fix argument reassignment
+    - fix false-positives in `hasBody` `Transfer-Encoding` check
+    - support wildcard for both type and subtype (`*/*`)
+    - deps: mime-types@~2.0.9
 
 4.11.2 / 2015-02-01
 ===================
