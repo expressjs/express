@@ -35,6 +35,23 @@ describe('req', function(){
           .set('X-Forwarded-For', 'client, p1, p2')
           .expect('p1', done);
         })
+
+        it('should return the addr after trusted proxy, from sub app', function (done) {
+          var app = express();
+          var sub = express();
+
+          app.set('trust proxy', 2);
+          app.use(sub);
+
+          sub.use(function (req, res, next) {
+            res.send(req.ip);
+          });
+
+          request(app)
+          .get('/')
+          .set('X-Forwarded-For', 'client, p1, p2')
+          .expect(200, 'p1', done);
+        })
       })
 
       describe('when "trust proxy" is disabled', function(){
