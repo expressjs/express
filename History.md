@@ -14,6 +14,8 @@ unreleased
     - Always read the stat size from the file
     - Fix mutating passed-in `options`
     - deps: mime@1.3.4
+  * deps: serve-static@~1.9.1
+    - deps: send@0.12.1
   * deps: type-is@~1.6.0
     - fix argument reassignment
     - fix false-positives in `hasBody` `Transfer-Encoding` check
