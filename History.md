@@ -1,3 +1,16 @@
+unreleased
+==========
+
+  * Fix `"trust proxy"` setting to inherit when app is mounted
+  * Generate `ETag`s for all request responses
+    - No longer restricted to only responses for `GET` and `HEAD` requests
+  * Use `content-type` to parse `Content-Type` headers
+  * deps: cookie-signature@1.0.6
+  * deps: send@0.12.1
+    - Always read the stat size from the file
+    - Fix mutating passed-in `options`
+    - deps: mime@1.3.4
+
 4.11.2 / 2015-02-01
 ===================
 
@@ -677,6 +690,34 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.20.0 / 2015-02-18
+===================
+
+  * Fix `"trust proxy"` setting to inherit when app is mounted
+  * Generate `ETag`s for all request responses
+    - No longer restricted to only responses for `GET` and `HEAD` requests
+  * Use `content-type` to parse `Content-Type` headers
+  * deps: connect@2.29.0
+    - Use `content-type` to parse `Content-Type` headers
+    - deps: body-parser@~1.12.0
+    - deps: compression@~1.4.1
+    - deps: connect-timeout@~1.6.0
+    - deps: cookie-parser@~1.3.4
+    - deps: cookie-signature@1.0.6
+    - deps: csurf@~1.7.0
+    - deps: errorhandler@~1.3.4
+    - deps: express-session@~1.10.3
+    - deps: http-errors@~1.3.1
+    - deps: response-time@~2.3.0
+    - deps: serve-index@~1.6.2
+    - deps: serve-static@~1.9.1
+    - deps: type-is@~1.6.0
+  * deps: cookie-signature@1.0.6
+  * deps: send@0.12.1
+    - Always read the stat size from the file
+    - Fix mutating passed-in `options`
+    - deps: mime@1.3.4
 
 3.19.2 / 2015-02-01
 ===================
