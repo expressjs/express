@@ -5,6 +5,10 @@ unreleased
   * Generate `ETag`s for all request responses
     - No longer restricted to only responses for `GET` and `HEAD` requests
   * Use `content-type` to parse `Content-Type` headers
+  * deps: accepts@~1.2.4
+    - Fix preference sorting to be stable for long acceptable lists
+    - deps: mime-types@~2.0.9
+    - deps: negotiator@0.5.1
   * deps: cookie-signature@1.0.6
   * deps: send@0.12.1
     - Always read the stat size from the file

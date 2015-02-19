@@ -27,7 +27,7 @@
     "api"
   ],
   "dependencies": {
-    "accepts": "~1.2.3",
+    "accepts": "~1.2.4",
     "content-disposition": "0.5.0",
     "content-type": "~1.0.1",
     "cookie-signature": "1.0.6",
