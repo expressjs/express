@@ -58,7 +58,7 @@
     "istanbul": "0.3.6",
     "marked": "0.3.3",
     "mocha": "~2.1.0",
-    "should": "~5.0.0",
+    "should": "~5.0.1",
     "supertest": "~0.15.0",
     "hjs": "~0.0.6",
     "body-parser": "~1.12.0",
