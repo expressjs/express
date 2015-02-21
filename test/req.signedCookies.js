@@ -29,7 +29,7 @@ describe('req', function(){
         .get('/')
         .set('Cookie', cookie)
         .end(function(err, res){
-          if (err) return don(err);
+          if (err) return done(err);
           res.body.should.eql({ obj: { foo: 'bar' } });
           done();
         });
