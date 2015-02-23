@@ -1,5 +1,5 @@
-unreleased
-==========
+4.12.0 / 2015-02-23
+===================
 
   * Fix `"trust proxy"` setting to inherit when app is mounted
   * Generate `ETag`s for all request responses
