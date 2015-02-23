@@ -1,7 +1,7 @@
 5.x
 ===
 
-This incorporates all changes after 4.10.1 up to 4.11.2.
+This incorporates all changes after 4.10.1 up to 4.12.0.
 
 5.0.0-alpha.1 / 2014-11-06
 ==========================
@@ -24,6 +24,30 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.12.0 / 2015-02-23
+===================
+
+  * Fix `"trust proxy"` setting to inherit when app is mounted
+  * Generate `ETag`s for all request responses
+    - No longer restricted to only responses for `GET` and `HEAD` requests
+  * Use `content-type` to parse `Content-Type` headers
+  * deps: accepts@~1.2.4
+    - Fix preference sorting to be stable for long acceptable lists
+    - deps: mime-types@~2.0.9
+    - deps: negotiator@0.5.1
+  * deps: cookie-signature@1.0.6
+  * deps: send@0.12.1
+    - Always read the stat size from the file
+    - Fix mutating passed-in `options`
+    - deps: mime@1.3.4
+  * deps: serve-static@~1.9.1
+    - deps: send@0.12.1
+  * deps: type-is@~1.6.0
+    - fix argument reassignment
+    - fix false-positives in `hasBody` `Transfer-Encoding` check
+    - support wildcard for both type and subtype (`*/*`)
+    - deps: mime-types@~2.0.9
 
 4.11.2 / 2015-02-01
 ===================
@@ -704,6 +728,34 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.20.0 / 2015-02-18
+===================
+
+  * Fix `"trust proxy"` setting to inherit when app is mounted
+  * Generate `ETag`s for all request responses
+    - No longer restricted to only responses for `GET` and `HEAD` requests
+  * Use `content-type` to parse `Content-Type` headers
+  * deps: connect@2.29.0
+    - Use `content-type` to parse `Content-Type` headers
+    - deps: body-parser@~1.12.0
+    - deps: compression@~1.4.1
+    - deps: connect-timeout@~1.6.0
+    - deps: cookie-parser@~1.3.4
+    - deps: cookie-signature@1.0.6
+    - deps: csurf@~1.7.0
+    - deps: errorhandler@~1.3.4
+    - deps: express-session@~1.10.3
+    - deps: http-errors@~1.3.1
+    - deps: response-time@~2.3.0
+    - deps: serve-index@~1.6.2
+    - deps: serve-static@~1.9.1
+    - deps: type-is@~1.6.0
+  * deps: cookie-signature@1.0.6
+  * deps: send@0.12.1
+    - Always read the stat size from the file
+    - Fix mutating passed-in `options`
+    - deps: mime@1.3.4
 
 3.19.2 / 2015-02-01
 ===================

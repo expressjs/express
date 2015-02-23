@@ -1,30 +1,36 @@
 
-var express = require('../')
-  , assert = require('assert');
+var assert = require('assert');
+var express = require('..');
 
-describe('config', function(){
-  describe('.set()', function(){
-    it('should set a value', function(){
+describe('config', function () {
+  describe('.set()', function () {
+    it('should set a value', function () {
       var app = express();
-      app.set('foo', 'bar').should.equal(app);
+      app.set('foo', 'bar');
+      assert.equal(app.get('foo'), 'bar');
     })
 
-    it('should return the app when undefined', function(){
+    it('should return the app', function () {
       var app = express();
-      app.set('foo', undefined).should.equal(app);
+      assert.equal(app.set('foo', 'bar'), app);
+    })
+
+    it('should return the app when undefined', function () {
+      var app = express();
+      assert.equal(app.set('foo', undefined), app);
     })
 
     describe('"etag"', function(){
       it('should throw on bad value', function(){
-        var app = express()
-        app.set.bind(app, 'etag', 42).should.throw(/unknown value/)
+        var app = express();
+        assert.throws(app.set.bind(app, 'etag', 42), /unknown value/);
       })
 
       it('should set "etag fn"', function(){
         var app = express()
         var fn = function(){}
         app.set('etag', fn)
-        app.get('etag fn').should.equal(fn)
+        assert.equal(app.get('etag fn'), fn)
       })
     })
 
@@ -33,7 +39,7 @@ describe('config', function(){
         var app = express()
         var fn = function(){}
         app.set('trust proxy', fn)
-        app.get('trust proxy fn').should.equal(fn)
+        assert.equal(app.get('trust proxy fn'), fn)
       })
     })
   })
@@ -41,34 +47,73 @@ describe('config', function(){
   describe('.get()', function(){
     it('should return undefined when unset', function(){
       var app = express();
-      assert(undefined === app.get('foo'));
+      assert.strictEqual(app.get('foo'), undefined);
     })
     
     it('should otherwise return the value', function(){
       var app = express();
       app.set('foo', 'bar');
-      app.get('foo').should.equal('bar');
+      assert.equal(app.get('foo'), 'bar');
     })
 
     describe('when mounted', function(){
       it('should default to the parent app', function(){
-        var app = express()
-          , blog = express();
+        var app = express();
+        var blog = express();
 
         app.set('title', 'Express');
         app.use(blog);
-        blog.get('title').should.equal('Express');
+        assert.equal(blog.get('title'), 'Express');
       })
-      
+
       it('should given precedence to the child', function(){
-        var app = express()
-          , blog = express();
+        var app = express();
+        var blog = express();
 
         app.use(blog);
         app.set('title', 'Express');
         blog.set('title', 'Some Blog');
 
-        blog.get('title').should.equal('Some Blog');
+        assert.equal(blog.get('title'), 'Some Blog');
+      })
+
+      it('should inherit "trust proxy" setting', function () {
+        var app = express();
+        var blog = express();
+
+        function fn() { return false }
+
+        app.set('trust proxy', fn);
+        assert.equal(app.get('trust proxy'), fn);
+        assert.equal(app.get('trust proxy fn'), fn);
+
+        app.use(blog);
+
+        assert.equal(blog.get('trust proxy'), fn);
+        assert.equal(blog.get('trust proxy fn'), fn);
+      })
+
+      it('should prefer child "trust proxy" setting', function () {
+        var app = express();
+        var blog = express();
+
+        function fn1() { return false }
+        function fn2() { return true }
+
+        app.set('trust proxy', fn1);
+        assert.equal(app.get('trust proxy'), fn1);
+        assert.equal(app.get('trust proxy fn'), fn1);
+
+        blog.set('trust proxy', fn2);
+        assert.equal(blog.get('trust proxy'), fn2);
+        assert.equal(blog.get('trust proxy fn'), fn2);
+
+        app.use(blog);
+
+        assert.equal(app.get('trust proxy'), fn1);
+        assert.equal(app.get('trust proxy fn'), fn1);
+        assert.equal(blog.get('trust proxy'), fn2);
+        assert.equal(blog.get('trust proxy fn'), fn2);
       })
     })
   })
@@ -76,42 +121,42 @@ describe('config', function(){
   describe('.enable()', function(){
     it('should set the value to true', function(){
       var app = express();
-      app.enable('tobi').should.equal(app);
-      app.get('tobi').should.be.true;
+      assert.equal(app.enable('tobi'), app);
+      assert.strictEqual(app.get('tobi'), true);
     })
   })
   
   describe('.disable()', function(){
     it('should set the value to false', function(){
       var app = express();
-      app.disable('tobi').should.equal(app);
-      app.get('tobi').should.be.false;
+      assert.equal(app.disable('tobi'), app);
+      assert.strictEqual(app.get('tobi'), false);
     })
   })
   
   describe('.enabled()', function(){
     it('should default to false', function(){
       var app = express();
-      app.enabled('foo').should.be.false;
+      assert.strictEqual(app.enabled('foo'), false);
     })
     
     it('should return true when set', function(){
       var app = express();
       app.set('foo', 'bar');
-      app.enabled('foo').should.be.true;
+      assert.strictEqual(app.enabled('foo'), true);
     })
   })
   
   describe('.disabled()', function(){
     it('should default to true', function(){
       var app = express();
-      app.disabled('foo').should.be.true;
+      assert.strictEqual(app.disabled('foo'), true);
     })
     
     it('should return false when set', function(){
       var app = express();
       app.set('foo', 'bar');
-      app.disabled('foo').should.be.false;
+      assert.strictEqual(app.disabled('foo'), false);
     })
   })
 })
