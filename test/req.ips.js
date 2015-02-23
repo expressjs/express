@@ -35,6 +35,24 @@ describe('req', function(){
           .set('X-Forwarded-For', 'client, p1, p2')
           .expect('["p1","p2"]', done);
         })
+
+        // Regression test for https://github.com/strongloop/express/issues/2550
+        it('should be inherited by mounted servers', function(done){
+          var app = express();
+
+          app.enable('trust proxy');
+
+          app.use('/subapp', express()
+            .get('/', function (req, res) {
+              res.send(req.ips);
+            })
+          );
+
+          request(app)
+          .get('/subapp/')
+          .set('X-Forwarded-For', '77.66.55.44')
+          .expect('["77.66.55.44"]', done);
+        });
       })
 
       describe('when "trust proxy" is disabled', function(){
