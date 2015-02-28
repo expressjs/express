@@ -109,7 +109,7 @@ describe('req', function(){
         .expect('https', done);
       })
 
-      it('should ignore X-Forwarded-Proto if range is great than hops', function(done){
+      it('should respect X-Forwarded-Proto even if range is great than hops', function(done){
         var app = express();
 
         app.set('trust proxy', 2);
@@ -121,8 +121,8 @@ describe('req', function(){
         request(app)
         .get('/')
         .set('X-Forwarded-Proto', 'https')
-        .set('X-Forwarded-For', '10.0.0.1, 10.0.0.2, 10.0.0.2')
-        .expect('http', done);
+        .set('X-Forwarded-For', '10.0.0.1, 10.0.0.2, 10.0.0.3')
+        .expect('https', done);
       })
 
       it('should default to http', function(done){

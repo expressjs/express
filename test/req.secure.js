@@ -78,6 +78,54 @@ describe('req', function(){
         .set('X-Forwarded-Proto', 'https, http')
         .expect('yes', done)
       })
+
+      it('should return true when initial proxy is https and within hops', function(done){
+        var app = express();
+
+        app.enable('trust proxy', 2);
+
+        app.get('/', function(req, res){
+          res.send(req.secure ? 'yes' : 'no');
+        });
+
+        request(app)
+        .get('/')
+        .set('X-Forwarded-Proto', 'https')
+        .set('X-Forwarded-For', '10.0.0.1')
+        .expect('yes', done)
+      })
+
+      it('should return true when initial proxy is https at hops', function(done){
+        var app = express();
+
+        app.enable('trust proxy', 2);
+
+        app.get('/', function(req, res){
+          res.send(req.secure ? 'yes' : 'no');
+        });
+
+        request(app)
+        .get('/')
+        .set('X-Forwarded-Proto', 'https')
+        .set('X-Forwarded-For', '10.0.0.1, 10.0.0.2')
+        .expect('yes', done)
+      })
+
+      it('should return false when initial proxy is https but beyond hops', function(done){
+        var app = express();
+
+        app.enable('trust proxy', 2);
+
+        app.get('/', function(req, res){
+          res.send(req.secure ? 'yes' : 'no');
+        });
+
+        request(app)
+        .get('/')
+        .set('X-Forwarded-Proto', 'https')
+        .set('X-Forwarded-For', '10.0.0.1, 10.0.0.2, 10.0.0.2')
+        .expect('yes', done)
+      })
     })
   })
 })
