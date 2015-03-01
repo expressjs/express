@@ -55,8 +55,7 @@
     "marked": "0.3.3",
     "mocha": "~2.1.0",
     "should": "~5.0.0",
-    "supertest": "~0.15.0",
-    "hjs": "~0.0.6"
+    "supertest": "~0.15.0"
   },
   "engines": {
     "node": ">= 0.8.0"
