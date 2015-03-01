@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * Fix `req.host` when using "trust proxy" hops count
+  * Fix `req.protocol`/`req.secure` when using "trust proxy" hops count
+
 4.12.0 / 2015-02-23
 ===================
 
@@ -701,6 +707,12 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.20.1 / 2015-02-28
+===================
+
+  * Fix `req.host` when using "trust proxy" hops count
+  * Fix `req.protocol`/`req.secure` when using "trust proxy" hops count
 
 3.20.0 / 2015-02-18
 ===================
