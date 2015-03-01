@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Fix constructing application with non-configurable prototype properties
+  * Fix `ECONNRESET` errors from `res.sendFile` usage
   * Fix `req.host` when using "trust proxy" hops count
   * Fix `req.protocol`/`req.secure` when using "trust proxy" hops count
   * Fix wrong `code` on aborted connections from `res.sendFile`
