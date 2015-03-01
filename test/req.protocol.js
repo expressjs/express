@@ -62,6 +62,69 @@ describe('req', function(){
         .expect('http', done);
       })
 
+      it('should respect X-Forwarded-Proto hops without X-Forwarded-For', function(done){
+        var app = express();
+
+        app.set('trust proxy', 2);
+
+        app.use(function(req, res){
+          res.end(req.protocol);
+        });
+
+        request(app)
+        .get('/')
+        .set('X-Forwarded-Proto', 'https')
+        .expect('https', done);
+      })
+
+      it('should respect X-Forwarded-Proto if range is less than hops', function(done){
+        var app = express();
+
+        app.set('trust proxy', 2);
+
+        app.use(function(req, res){
+          res.end(req.protocol);
+        });
+
+        request(app)
+        .get('/')
+        .set('X-Forwarded-Proto', 'https')
+        .set('X-Forwarded-For', '10.0.0.1')
+        .expect('https', done);
+      })
+
+      it('should respect X-Forwarded-Proto if range equal to hops', function(done){
+        var app = express();
+
+        app.set('trust proxy', 2);
+
+        app.use(function(req, res){
+          res.end(req.protocol);
+        });
+
+        request(app)
+        .get('/')
+        .set('X-Forwarded-Proto', 'https')
+        .set('X-Forwarded-For', '10.0.0.1, 10.0.0.2')
+        .expect('https', done);
+      })
+
+      it('should respect X-Forwarded-Proto even if range is great than hops', function(done){
+        var app = express();
+
+        app.set('trust proxy', 2);
+
+        app.use(function(req, res){
+          res.end(req.protocol);
+        });
+
+        request(app)
+        .get('/')
+        .set('X-Forwarded-Proto', 'https')
+        .set('X-Forwarded-For', '10.0.0.1, 10.0.0.2, 10.0.0.3')
+        .expect('https', done);
+      })
+
       it('should default to http', function(done){
         var app = express();
 
