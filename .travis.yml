@@ -4,5 +4,6 @@ node_js:
   - "0.10"
   - "0.12"
 sudo: false
+before_install: "npm rm --save-dev connect-redis"
 script: "npm run-script test-travis"
 after_script: "npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
