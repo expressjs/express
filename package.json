@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "connect-redis": "~1.5.0",
-    "ejs": "2.1.4",
+    "ejs": "2.3.1",
     "istanbul": "0.3.5",
     "marked": "0.3.3",
     "mocha": "~2.1.0",
