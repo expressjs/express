@@ -117,6 +117,24 @@ describe('req', function(){
         .set('Host', 'example.com')
         .expect('example.com', done);
       })
+
+      describe('when trusting hop count', function () {
+        it('should respect X-Forwarded-Host', function (done) {
+          var app = express();
+
+          app.set('trust proxy', 1);
+
+          app.use(function (req, res) {
+            res.end(req.host);
+          });
+
+          request(app)
+          .get('/')
+          .set('Host', 'localhost')
+          .set('X-Forwarded-Host', 'example.com')
+          .expect('example.com', done);
+        })
+      })
     })
 
     describe('when "trust proxy" is disabled', function(){
