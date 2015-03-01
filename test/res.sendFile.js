@@ -207,7 +207,7 @@ describe('res', function(){
         setImmediate(function () {
           res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
             should(err).be.ok;
-            err.code.should.equal('ECONNABORT');
+            err.code.should.equal('ECONNABORTED');
             cb();
           });
         });
@@ -226,7 +226,7 @@ describe('res', function(){
         onFinished(res, function () {
           res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
             should(err).be.ok;
-            err.code.should.equal('ECONNABORT');
+            err.code.should.equal('ECONNABORTED');
             cb();
           });
         });
@@ -323,7 +323,7 @@ describe('res', function(){
         setImmediate(function () {
           res.sendfile('test/fixtures/name.txt', function (err) {
             should(err).be.ok;
-            err.code.should.equal('ECONNABORT');
+            err.code.should.equal('ECONNABORTED');
             cb();
           });
         });
@@ -342,7 +342,7 @@ describe('res', function(){
         onFinished(res, function () {
           res.sendfile('test/fixtures/name.txt', function (err) {
             should(err).be.ok;
-            err.code.should.equal('ECONNABORT');
+            err.code.should.equal('ECONNABORTED');
             cb();
           });
         });

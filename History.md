@@ -4,6 +4,7 @@ unreleased
   * Fix constructing application with non-configurable prototype properties
   * Fix `req.host` when using "trust proxy" hops count
   * Fix `req.protocol`/`req.secure` when using "trust proxy" hops count
+  * Fix wrong `code` on aborted connections from `res.sendFile`
   * deps: merge-descriptors@1.0.0
 
 4.12.0 / 2015-02-23
