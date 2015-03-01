@@ -1,5 +1,5 @@
-3.x
-===
+3.20.1 / 2015-02-28
+===================
 
   * Fix `req.host` when using "trust proxy" hops count
   * Fix `req.protocol`/`req.secure` when using "trust proxy" hops count
