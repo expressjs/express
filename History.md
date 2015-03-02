@@ -1,5 +1,5 @@
-unreleased
-==========
+4.12.1 / 2015-03-01
+===================
 
   * Fix constructing application with non-configurable prototype properties
   * Fix `ECONNRESET` errors from `res.sendFile` usage
