@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix regression where `"Request aborted"` is logged using `res.sendFile`
+
 4.12.1 / 2015-03-01
 ===================
 
