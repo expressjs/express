@@ -3,7 +3,8 @@ var after = require('after');
 var express = require('../')
   , Router = express.Router
   , methods = require('methods')
-  , assert = require('assert');
+  , assert = require('assert')
+  , Q = require('q');
 
 describe('Router', function(){
   it('should return a function with router methods', function() {
@@ -196,6 +197,21 @@ describe('Router', function(){
       });
 
       router.handle({ url: '/', method: 'GET' }, {}, done);
+    });
+    
+    it('should handle rejected promises', function (done) {
+      var router = new Router();
+      
+      router.get('/foo', function(req, res, next){
+        return Q.reject(new Error('foo'));
+      });
+      
+      router.use(function(err, req, res, next) {
+        assert.equal(err.message, 'foo');
+        done();
+      });
+      
+      router.handle({ url: '/foo', method: 'GET' }, {}, function() {});
     });
   })
 
