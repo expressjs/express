@@ -3,8 +3,7 @@ var after = require('after');
 var express = require('../')
   , Router = express.Router
   , methods = require('methods')
-  , assert = require('assert')
-  , Q = require('q');
+  , assert = require('assert');
 
 describe('Router', function(){
   it('should return a function with router methods', function() {
@@ -203,7 +202,12 @@ describe('Router', function(){
       var router = new Router();
       
       router.get('/foo', function(req, res, next){
-        return Q.reject(new Error('foo'));
+        // fake a rejected promise
+        return {
+          catch: function (fn) {
+            process.nextTick(fn.bind(null, new Error('foo')));
+          }
+        };
       });
       
       router.use(function(err, req, res, next) {

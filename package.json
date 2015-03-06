@@ -68,8 +68,7 @@
     "method-override": "~2.3.1",
     "morgan": "~1.5.1",
     "multiparty": "~4.1.1",
-    "vhost": "~3.0.0",
-    "q": "~1.2.0"
+    "vhost": "~3.0.0"
   },
   "engines": {
     "node": ">= 0.10.0"
