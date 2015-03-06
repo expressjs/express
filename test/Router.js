@@ -204,8 +204,8 @@ describe('Router', function(){
       router.get('/foo', function(req, res, next){
         // fake a rejected promise
         return {
-          catch: function (fn) {
-            process.nextTick(fn.bind(null, new Error('foo')));
+          then: function (resolve, reject) {
+            process.nextTick(reject.bind(null, new Error('foo')));
           }
         };
       });
