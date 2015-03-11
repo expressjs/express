@@ -103,7 +103,7 @@ $ node examples/content-negotiation
 
 ## Tests
 
-  To run the test suite, first install the dependancies, then run `npm test`:
+  To run the test suite, first install the dependencies, then run `npm test`:
 
 ```bash
 $ npm install
