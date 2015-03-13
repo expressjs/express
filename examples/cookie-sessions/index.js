@@ -5,6 +5,7 @@
 var express = require('../../');
 
 var app = module.exports = express();
+var cookieSession = require('cookie-session');
 
 // add req.session cookie support
 app.use(cookieSession({ secret: 'manny is cool' }));
