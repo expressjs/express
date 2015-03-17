@@ -54,7 +54,7 @@
     "istanbul": "0.3.6",
     "marked": "0.3.3",
     "mocha": "~2.2.1",
-    "should": "~5.0.0",
+    "should": "~5.2.0",
     "supertest": "~0.15.0"
   },
   "engines": {
