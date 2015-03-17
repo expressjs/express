@@ -1,3 +1,21 @@
+3.x
+===
+
+  * deps: connect@2.29.1
+    - deps: body-parser@~1.12.2
+    - deps: compression@~1.4.3
+    - deps: connect-timeout@~1.6.1
+    - deps: debug@~2.1.3
+    - deps: errorhandler@~1.3.5
+    - deps: express-session@~1.10.4
+    - deps: finalhandler@0.3.4
+    - deps: method-override@~2.3.2
+    - deps: morgan@~1.5.2
+    - deps: qs@2.4.1
+    - deps: serve-index@~1.6.3
+    - deps: serve-static@~1.9.2
+    - deps: type-is@~1.6.1
+
 3.20.1 / 2015-02-28
 ===================
 
