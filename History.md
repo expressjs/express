@@ -15,6 +15,9 @@
     - deps: serve-index@~1.6.3
     - deps: serve-static@~1.9.2
     - deps: type-is@~1.6.1
+  * deps: debug@~2.1.3
+    - Fix high intensity foreground color for bold
+    - deps: ms@0.7.0
   * deps: merge-descriptors@1.0.0
   * deps: send@0.12.2
     - Throw errors early for invalid `extensions` or `index` options
