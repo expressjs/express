@@ -4,6 +4,8 @@ unreleased
   * deps: debug@~2.1.3
     - Fix high intensity foreground color for bold
     - deps: ms@0.7.0
+  * deps: finalhandler@0.3.4
+    - deps: debug@~2.1.3
   * deps: proxy-addr@~1.0.7
     - deps: ipaddr.js@0.1.9
   * deps: send@0.12.2

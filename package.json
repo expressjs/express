@@ -36,7 +36,7 @@
     "depd": "~1.0.0",
     "escape-html": "1.0.1",
     "etag": "~1.5.1",
-    "finalhandler": "0.3.3",
+    "finalhandler": "0.3.4",
     "fresh": "0.2.4",
     "merge-descriptors": "1.0.0",
     "methods": "~1.1.1",
