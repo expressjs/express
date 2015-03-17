@@ -16,7 +16,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('Content-Length', '0')
-      .expect('', done);
+      .expect(200, '', done);
     })
   })
 
@@ -30,10 +30,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('', function(req, res){
-        res.header.should.not.have.property('content-length');
-        done();
-      });
+      .expect(200, '', done);
     })
   })
 
