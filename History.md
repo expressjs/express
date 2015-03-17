@@ -10,6 +10,8 @@ unreleased
     - deps: debug@~2.1.3
   * deps: proxy-addr@~1.0.7
     - deps: ipaddr.js@0.1.9
+  * deps: qs@2.4.1
+    - Fix error when parameter `hasOwnProperty` is present
   * deps: send@0.12.2
     - Throw errors early for invalid `extensions` or `index` options
     - deps: debug@~2.1.3
