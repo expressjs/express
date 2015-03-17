@@ -9,6 +9,8 @@ unreleased
   * deps: send@0.12.2
     - Throw errors early for invalid `extensions` or `index` options
     - deps: debug@~2.1.3
+  * deps: serve-static@~1.9.2
+    - deps: send@0.12.2
 
 4.12.2 / 2015-03-02
 ===================
