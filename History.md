@@ -1,3 +1,15 @@
+unreleased
+==========
+
+  * deps: debug@~2.1.3
+    - Fix high intensity foreground color for bold
+    - deps: ms@0.7.0
+  * deps: proxy-addr@~1.0.7
+    - deps: ipaddr.js@0.1.9
+  * deps: send@0.12.2
+    - Throw errors early for invalid `extensions` or `index` options
+    - deps: debug@~2.1.3
+
 4.12.2 / 2015-03-02
 ===================
 
@@ -716,6 +728,33 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.20.2 / 2015-03-16
+===================
+
+  * deps: connect@2.29.1
+    - deps: body-parser@~1.12.2
+    - deps: compression@~1.4.3
+    - deps: connect-timeout@~1.6.1
+    - deps: debug@~2.1.3
+    - deps: errorhandler@~1.3.5
+    - deps: express-session@~1.10.4
+    - deps: finalhandler@0.3.4
+    - deps: method-override@~2.3.2
+    - deps: morgan@~1.5.2
+    - deps: qs@2.4.1
+    - deps: serve-index@~1.6.3
+    - deps: serve-static@~1.9.2
+    - deps: type-is@~1.6.1
+  * deps: debug@~2.1.3
+    - Fix high intensity foreground color for bold
+    - deps: ms@0.7.0
+  * deps: merge-descriptors@1.0.0
+  * deps: proxy-addr@~1.0.7
+    - deps: ipaddr.js@0.1.9
+  * deps: send@0.12.2
+    - Throw errors early for invalid `extensions` or `index` options
+    - deps: debug@~2.1.3
 
 3.20.1 / 2015-02-28
 ===================
