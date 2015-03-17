@@ -19,6 +19,8 @@
     - Fix high intensity foreground color for bold
     - deps: ms@0.7.0
   * deps: merge-descriptors@1.0.0
+  * deps: proxy-addr@~1.0.7
+    - deps: ipaddr.js@0.1.9
   * deps: send@0.12.2
     - Throw errors early for invalid `extensions` or `index` options
     - deps: debug@~2.1.3
