@@ -13,6 +13,8 @@ unreleased
     - deps: debug@~2.1.3
   * deps: serve-static@~1.9.2
     - deps: send@0.12.2
+  * deps: type-is@~1.6.1
+    - deps: mime-types@~2.0.10
 
 4.12.2 / 2015-03-02
 ===================
