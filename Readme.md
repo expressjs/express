@@ -87,7 +87,7 @@ $ npm start
 
 ## Examples
 
-  To view the examples, clone the Express repo and install the dependancies:
+  To view the examples, clone the Express repo and install the dependencies:
 
 ```bash
 $ git clone git://github.com/strongloop/express.git --depth 1
