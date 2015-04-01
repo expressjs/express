@@ -1,6 +1,0 @@
-link(rel='stylesheet', href='/style.css')
-h1= pet.name
-form(action='/pet/#{pet.id}?_method=put', method='post')
-  label= 'Name: '
-    input(type='text', name='pet[name]', value=pet.name)
-  input(type='submit', value='Update')

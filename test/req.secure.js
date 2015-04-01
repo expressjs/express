@@ -78,6 +78,23 @@ describe('req', function(){
         .set('X-Forwarded-Proto', 'https, http')
         .expect('yes', done)
       })
+
+      describe('when "trust proxy" trusting hop count', function () {
+        it('should respect X-Forwarded-Proto', function (done) {
+          var app = express();
+
+          app.set('trust proxy', 1);
+
+          app.get('/', function (req, res) {
+            res.send(req.secure ? 'yes' : 'no');
+          });
+
+          request(app)
+          .get('/')
+          .set('X-Forwarded-Proto', 'https')
+          .expect('yes', done)
+        })
+      })
     })
   })
 })

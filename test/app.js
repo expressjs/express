@@ -12,7 +12,7 @@ describe('app', function(){
 
   it('should be callable', function(){
     var app = express();
-    assert(typeof app, 'function');
+    assert.equal(typeof app, 'function');
   })
 
   it('should 404 without routes', function(done){

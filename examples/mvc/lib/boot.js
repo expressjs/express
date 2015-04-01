@@ -66,7 +66,7 @@ module.exports = function(parent, options){
         app[method](path, obj.before, handler);
         verbose && console.log('     %s %s -> before -> %s', method.toUpperCase(), path, key);
       } else {
-        app[method](path, obj[key]);
+        app[method](path, handler);
         verbose && console.log('     %s %s -> %s', method.toUpperCase(), path, key);
       }
     }

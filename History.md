@@ -1,3 +1,167 @@
+4.12.3 / 2015-03-17
+===================
+
+  * deps: accepts@~1.2.5
+    - deps: mime-types@~2.0.10
+  * deps: debug@~2.1.3
+    - Fix high intensity foreground color for bold
+    - deps: ms@0.7.0
+  * deps: finalhandler@0.3.4
+    - deps: debug@~2.1.3
+  * deps: proxy-addr@~1.0.7
+    - deps: ipaddr.js@0.1.9
+  * deps: qs@2.4.1
+    - Fix error when parameter `hasOwnProperty` is present
+  * deps: send@0.12.2
+    - Throw errors early for invalid `extensions` or `index` options
+    - deps: debug@~2.1.3
+  * deps: serve-static@~1.9.2
+    - deps: send@0.12.2
+  * deps: type-is@~1.6.1
+    - deps: mime-types@~2.0.10
+
+4.12.2 / 2015-03-02
+===================
+
+  * Fix regression where `"Request aborted"` is logged using `res.sendFile`
+
+4.12.1 / 2015-03-01
+===================
+
+  * Fix constructing application with non-configurable prototype properties
+  * Fix `ECONNRESET` errors from `res.sendFile` usage
+  * Fix `req.host` when using "trust proxy" hops count
+  * Fix `req.protocol`/`req.secure` when using "trust proxy" hops count
+  * Fix wrong `code` on aborted connections from `res.sendFile`
+  * deps: merge-descriptors@1.0.0
+
+4.12.0 / 2015-02-23
+===================
+
+  * Fix `"trust proxy"` setting to inherit when app is mounted
+  * Generate `ETag`s for all request responses
+    - No longer restricted to only responses for `GET` and `HEAD` requests
+  * Use `content-type` to parse `Content-Type` headers
+  * deps: accepts@~1.2.4
+    - Fix preference sorting to be stable for long acceptable lists
+    - deps: mime-types@~2.0.9
+    - deps: negotiator@0.5.1
+  * deps: cookie-signature@1.0.6
+  * deps: send@0.12.1
+    - Always read the stat size from the file
+    - Fix mutating passed-in `options`
+    - deps: mime@1.3.4
+  * deps: serve-static@~1.9.1
+    - deps: send@0.12.1
+  * deps: type-is@~1.6.0
+    - fix argument reassignment
+    - fix false-positives in `hasBody` `Transfer-Encoding` check
+    - support wildcard for both type and subtype (`*/*`)
+    - deps: mime-types@~2.0.9
+
+4.11.2 / 2015-02-01
+===================
+
+  * Fix `res.redirect` double-calling `res.end` for `HEAD` requests
+  * deps: accepts@~1.2.3
+    - deps: mime-types@~2.0.8
+  * deps: proxy-addr@~1.0.6
+    - deps: ipaddr.js@0.1.8
+  * deps: type-is@~1.5.6
+    - deps: mime-types@~2.0.8
+
+4.11.1 / 2015-01-20
+===================
+
+  * deps: send@0.11.1
+    - Fix root path disclosure
+  * deps: serve-static@~1.8.1
+    - Fix redirect loop in Node.js 0.11.14
+    - Fix root path disclosure
+    - deps: send@0.11.1
+
+4.11.0 / 2015-01-13
+===================
+
+  * Add `res.append(field, val)` to append headers
+  * Deprecate leading `:` in `name` for `app.param(name, fn)`
+  * Deprecate `req.param()` -- use `req.params`, `req.body`, or `req.query` instead
+  * Deprecate `app.param(fn)`
+  * Fix `OPTIONS` responses to include the `HEAD` method properly
+  * Fix `res.sendFile` not always detecting aborted connection
+  * Match routes iteratively to prevent stack overflows
+  * deps: accepts@~1.2.2
+    - deps: mime-types@~2.0.7
+    - deps: negotiator@0.5.0
+  * deps: send@0.11.0
+    - deps: debug@~2.1.1
+    - deps: etag@~1.5.1
+    - deps: ms@0.7.0
+    - deps: on-finished@~2.2.0
+  * deps: serve-static@~1.8.0
+    - deps: send@0.11.0
+
+4.10.8 / 2015-01-13
+===================
+
+  * Fix crash from error within `OPTIONS` response handler
+  * deps: proxy-addr@~1.0.5
+    - deps: ipaddr.js@0.1.6
+
+4.10.7 / 2015-01-04
+===================
+
+  * Fix `Allow` header for `OPTIONS` to not contain duplicate methods
+  * Fix incorrect "Request aborted" for `res.sendFile` when `HEAD` or 304
+  * deps: debug@~2.1.1
+  * deps: finalhandler@0.3.3
+    - deps: debug@~2.1.1
+    - deps: on-finished@~2.2.0
+  * deps: methods@~1.1.1
+  * deps: on-finished@~2.2.0
+  * deps: serve-static@~1.7.2
+    - Fix potential open redirect when mounted at root
+  * deps: type-is@~1.5.5
+    - deps: mime-types@~2.0.7
+
+4.10.6 / 2014-12-12
+===================
+
+  * Fix exception in `req.fresh`/`req.stale` without response headers
+
+4.10.5 / 2014-12-10
+===================
+
+  * Fix `res.send` double-calling `res.end` for `HEAD` requests
+  * deps: accepts@~1.1.4
+    - deps: mime-types@~2.0.4
+  * deps: type-is@~1.5.4
+    - deps: mime-types@~2.0.4
+
+4.10.4 / 2014-11-24
+===================
+
+  * Fix `res.sendfile` logging standard write errors
+
+4.10.3 / 2014-11-23
+===================
+
+  * Fix `res.sendFile` logging standard write errors
+  * deps: etag@~1.5.1
+  * deps: proxy-addr@~1.0.4
+    - deps: ipaddr.js@0.1.5
+  * deps: qs@2.3.3
+    - Fix `arrayLimit` behavior
+
+4.10.2 / 2014-11-09
+===================
+
+  * Correctly invoke async router callback asynchronously
+  * deps: accepts@~1.1.3
+    - deps: mime-types@~2.0.3
+  * deps: type-is@~1.5.3
+    - deps: mime-types@~2.0.3
+
 4.10.1 / 2014-10-28
 ===================
 
@@ -574,6 +738,158 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.20.2 / 2015-03-16
+===================
+
+  * deps: connect@2.29.1
+    - deps: body-parser@~1.12.2
+    - deps: compression@~1.4.3
+    - deps: connect-timeout@~1.6.1
+    - deps: debug@~2.1.3
+    - deps: errorhandler@~1.3.5
+    - deps: express-session@~1.10.4
+    - deps: finalhandler@0.3.4
+    - deps: method-override@~2.3.2
+    - deps: morgan@~1.5.2
+    - deps: qs@2.4.1
+    - deps: serve-index@~1.6.3
+    - deps: serve-static@~1.9.2
+    - deps: type-is@~1.6.1
+  * deps: debug@~2.1.3
+    - Fix high intensity foreground color for bold
+    - deps: ms@0.7.0
+  * deps: merge-descriptors@1.0.0
+  * deps: proxy-addr@~1.0.7
+    - deps: ipaddr.js@0.1.9
+  * deps: send@0.12.2
+    - Throw errors early for invalid `extensions` or `index` options
+    - deps: debug@~2.1.3
+
+3.20.1 / 2015-02-28
+===================
+
+  * Fix `req.host` when using "trust proxy" hops count
+  * Fix `req.protocol`/`req.secure` when using "trust proxy" hops count
+
+3.20.0 / 2015-02-18
+===================
+
+  * Fix `"trust proxy"` setting to inherit when app is mounted
+  * Generate `ETag`s for all request responses
+    - No longer restricted to only responses for `GET` and `HEAD` requests
+  * Use `content-type` to parse `Content-Type` headers
+  * deps: connect@2.29.0
+    - Use `content-type` to parse `Content-Type` headers
+    - deps: body-parser@~1.12.0
+    - deps: compression@~1.4.1
+    - deps: connect-timeout@~1.6.0
+    - deps: cookie-parser@~1.3.4
+    - deps: cookie-signature@1.0.6
+    - deps: csurf@~1.7.0
+    - deps: errorhandler@~1.3.4
+    - deps: express-session@~1.10.3
+    - deps: http-errors@~1.3.1
+    - deps: response-time@~2.3.0
+    - deps: serve-index@~1.6.2
+    - deps: serve-static@~1.9.1
+    - deps: type-is@~1.6.0
+  * deps: cookie-signature@1.0.6
+  * deps: send@0.12.1
+    - Always read the stat size from the file
+    - Fix mutating passed-in `options`
+    - deps: mime@1.3.4
+
+3.19.2 / 2015-02-01
+===================
+
+  * deps: connect@2.28.3
+    - deps: compression@~1.3.1
+    - deps: csurf@~1.6.6
+    - deps: errorhandler@~1.3.3
+    - deps: express-session@~1.10.2
+    - deps: serve-index@~1.6.1
+    - deps: type-is@~1.5.6
+  * deps: proxy-addr@~1.0.6
+    - deps: ipaddr.js@0.1.8
+
+3.19.1 / 2015-01-20
+===================
+
+  * deps: connect@2.28.2
+    - deps: body-parser@~1.10.2
+    - deps: serve-static@~1.8.1
+  * deps: send@0.11.1
+    - Fix root path disclosure
+
+3.19.0 / 2015-01-09
+===================
+
+  * Fix `OPTIONS` responses to include the `HEAD` method property
+  * Use `readline` for prompt in `express(1)`
+  * deps: commander@2.6.0
+  * deps: connect@2.28.1
+    - deps: body-parser@~1.10.1
+    - deps: compression@~1.3.0
+    - deps: connect-timeout@~1.5.0
+    - deps: csurf@~1.6.4
+    - deps: debug@~2.1.1
+    - deps: errorhandler@~1.3.2
+    - deps: express-session@~1.10.1
+    - deps: finalhandler@0.3.3
+    - deps: method-override@~2.3.1
+    - deps: morgan@~1.5.1
+    - deps: serve-favicon@~2.2.0
+    - deps: serve-index@~1.6.0
+    - deps: serve-static@~1.8.0
+    - deps: type-is@~1.5.5
+  * deps: debug@~2.1.1
+  * deps: methods@~1.1.1
+  * deps: proxy-addr@~1.0.5
+    - deps: ipaddr.js@0.1.6
+  * deps: send@0.11.0
+    - deps: debug@~2.1.1
+    - deps: etag@~1.5.1
+    - deps: ms@0.7.0
+    - deps: on-finished@~2.2.0
+
+3.18.6 / 2014-12-12
+===================
+
+  * Fix exception in `req.fresh`/`req.stale` without response headers
+
+3.18.5 / 2014-12-11
+===================
+
+  * deps: connect@2.27.6
+    - deps: compression@~1.2.2
+    - deps: express-session@~1.9.3
+    - deps: http-errors@~1.2.8
+    - deps: serve-index@~1.5.3
+    - deps: type-is@~1.5.4
+
+3.18.4 / 2014-11-23
+===================
+
+  * deps: connect@2.27.4
+    - deps: body-parser@~1.9.3
+    - deps: compression@~1.2.1
+    - deps: errorhandler@~1.2.3
+    - deps: express-session@~1.9.2
+    - deps: qs@2.3.3
+    - deps: serve-favicon@~2.1.7
+    - deps: serve-static@~1.5.1
+    - deps: type-is@~1.5.3
+  * deps: etag@~1.5.1
+  * deps: proxy-addr@~1.0.4
+    - deps: ipaddr.js@0.1.5
+
+3.18.3 / 2014-11-09
+===================
+
+  * deps: connect@2.27.3
+    - Correctly invoke async callback asynchronously
+    - deps: csurf@~1.6.3
 
 3.18.2 / 2014-10-28
 ===================
