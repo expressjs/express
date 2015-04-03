@@ -37,11 +37,11 @@ describe('app.route', function(){
     .expect('post', done);
   });
   
-  it('should all .VERB after .register with default', function(done){
+  it('should all .VERB after .verbs with default', function(done){
     var app = express();
 
     app.route('/foo')
-    .register({
+    .verbs({
       get : function(req, res) {
         res.send('get');
       },
