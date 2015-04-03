@@ -923,19 +923,26 @@ describe('app.router', function(){
       next();
     });
 
+    app.verbs('/user/:id', {
+      default: function(req, res, next){
+        path.push(4);
+        next();
+      }
+    });
+
     app.get('*', function(req, res, next){
-      path.push(4);
+      path.push(5);
       next();
     });
 
     app.use(function(req, res, next){
-      path.push(5);
+      path.push(6);
       res.end(path.join(','))
     });
 
     request(app)
     .get('/user/1')
-    .expect(200, '0,1,2,3,4,5', done);
+    .expect(200, '0,1,2,3,4,5,6', done);
   })
 
   it('should be chainable', function(){

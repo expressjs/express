@@ -113,6 +113,41 @@ describe('Router', function(){
       router.route('/foo').all(function(){}).all(function(){});
     })
   })
+  
+  describe('.verbs handlers', function(){
+    it('should throw if the handlers object is null', function(){
+      assert.throws(function () {
+        var router = new Router();
+        router.route('/foo').verbs(null);
+      })
+    })
+
+    it('should throw if the handlers object is undefined', function(){
+      assert.throws(function () {
+        var router = new Router();
+        router.route('/foo').verbs(undefined);
+      })
+    })
+
+    it('should throw if the handlers object is not an object', function(){
+      assert.throws(function () {
+        var router = new Router();
+        router.route('/foo').verbs('not an object');
+      })
+    })
+
+    it('should throw if the handlers object is an array', function(){
+      assert.throws(function () {
+        var router = new Router();
+        router.route('/foo').verbs([]);
+      })
+    })
+
+    it('should not throw if all callbacks are an object', function(){
+      var router = new Router();
+      router.route('/foo').verbs({}).verbs({});
+    })
+  })
 
   describe('error', function(){
     it('should skip non error middleware', function(done){
