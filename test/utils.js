@@ -69,19 +69,3 @@ describe('utils.wetag(body, encoding)', function(){
     .should.eql('W/"0-1B2M2Y8AsgTpgAmY7PhCfg"');
   })
 })
-
-describe('utils.isAbsolute()', function(){
-  it('should support windows', function(){
-    assert(utils.isAbsolute('c:\\'));
-    assert(!utils.isAbsolute(':\\'));
-  })
-
-  it('should support windows unc', function(){
-    assert(utils.isAbsolute('\\\\foo\\bar'))
-  })
-
-  it('should support unices', function(){
-    assert(utils.isAbsolute('/foo/bar'));
-    assert(!utils.isAbsolute('foo/bar'));
-  })
-})
