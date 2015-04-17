@@ -42,6 +42,7 @@
     "methods": "~1.1.1",
     "on-finished": "~2.2.0",
     "parseurl": "~1.3.0",
+    "path-is-absolute": "~1.0.0",
     "path-to-regexp": "0.1.3",
     "proxy-addr": "~1.0.7",
     "qs": "2.4.1",
