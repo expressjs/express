@@ -28,6 +28,7 @@
   ],
   "dependencies": {
     "accepts": "~1.2.7",
+    "array-flatten": "1.1.0",
     "content-disposition": "0.5.0",
     "content-type": "~1.0.1",
     "cookie": "0.1.3",
