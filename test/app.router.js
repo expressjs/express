@@ -6,17 +6,6 @@ var express = require('../')
   , methods = require('methods');
 
 describe('app.router', function(){
-  it('should order params correctly when used with leading wildcard', function(done) {
-    var app = express();
-
-    app.get('*/test/:id', function (req, res) {
-      res.send(req.params[0] + ',' + req.params.id);
-    });
-
-    request(app)
-    .get('/1/test/2')
-    .expect(200, '/1,2', done);
-  })
   it('should restore req.params after leaving router', function(done){
     var app = express();
     var router = new express.Router();
@@ -348,6 +337,18 @@ describe('app.router', function(){
       request(app)
       .get('/user/tj')
       .expect(200, '[["name","tj"]]', done);
+    })
+    
+    it('should order params correctly when used with leading wildcard', function(done) {
+      var app = express();
+
+      app.get('*/test/:id', function (req, res) {
+        res.send(req.params[0] + ',' + req.params.id);
+      });
+
+      request(app)
+      .get('/1/test/2')
+      .expect(200, '/1,2', done);
     })
   })
 
