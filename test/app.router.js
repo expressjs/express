@@ -10,7 +10,6 @@ describe('app.router', function(){
     var app = express();
 
     app.get('*/test/:id', function (req, res) {
-      console.log(req.param);
       res.send(req.params[0] + ',' + req.params.id);
     });
 
