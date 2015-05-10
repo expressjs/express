@@ -338,6 +338,18 @@ describe('app.router', function(){
       .get('/user/tj')
       .expect(200, '[["name","tj"]]', done);
     })
+
+    it('should order params correctly when used with leading wildcard', function(done) {
+      var app = express();
+
+      app.get('/*/test/:id', function (req, res) {
+        res.send(req.params[0] + ',' + req.params.id);
+      });
+
+      request(app)
+      .get('/1/test/2')
+      .expect(200, '1,2', done);
+    })
   })
 
   describe('trailing slashes', function(){
