@@ -350,6 +350,26 @@ describe('app', function(){
         })
       })
     })
+
+    describe('view engine calling', function (){
+      it('should accept a four-parameter view engine', function(done){
+        var app = express();
+        var count = 0;
+
+        app.set('view engine', 'tmpl');
+        app.set('views', __dirname + '/fixtures');
+        app.engine('tmpl', function (name, options, view, callback) {
+          view.constructor.should.equal(app.get('view'));
+          callback(null, 'done');
+        })
+
+        app.render('user.tmpl', function(err, str){
+          if (err) return done(err);
+          str.should.equal('done');
+          done();
+        })
+      })
+    })
   })
 })
 
