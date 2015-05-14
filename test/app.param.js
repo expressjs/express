@@ -364,4 +364,28 @@ describe('app', function(){
       .expect('1 2 bob', done);
     })
   })
+
+  describe('.param(name, fns)', function(){
+    it('should map logic for a series of functions', function(done){
+      var app = express();
+      var fns = [];
+
+      app.param('id', function(req, res, next, id){
+        fns.push(1);
+        next();
+      }, function(req, res, next, id){
+        fns.push(2);
+        next();
+      });
+
+      app.get('/user/:id', function(req, res){
+        res.send('' + fns.join(''));
+      });
+
+      request(app)
+      .get('/user/123')
+      .expect('12', done);
+    })
+  })
+
 })
