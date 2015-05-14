@@ -3,6 +3,8 @@ node_js:
   - "0.8"
   - "0.10"
   - "0.12"
+  - "iojs-v1"
+  - "iojs-v2"
 sudo: false
 before_install: "npm rm --save-dev connect-redis"
 script: "npm run-script test-travis"
