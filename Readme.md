@@ -7,6 +7,7 @@
   [![Linux Build][travis-image]][travis-url]
   [![Windows Build][appveyor-image]][appveyor-url]
   [![Test Coverage][coveralls-image]][coveralls-url]
+  [![Dependency Status][david-dm-image]][david-dm-url]
 
 ```js
 var express = require('express')
@@ -136,3 +137,5 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [gratipay-url-visionmedia]: https://gratipay.com/visionmedia/
 [gratipay-image-dougwilson]: https://img.shields.io/gratipay/dougwilson.svg
 [gratipay-url-dougwilson]: https://gratipay.com/dougwilson/
+[david-dm-image]: https://david-dm.org/strongloop/express.svg
+[david-dm-url]: https://david-dm.org/strongloop/express
