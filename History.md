@@ -1,7 +1,7 @@
 5.x
 ===
 
-This incorporates all changes after 4.10.1 up to 4.12.0.
+This incorporates all changes after 4.10.1 up to 4.12.4.
 
 5.0.0-alpha.1 / 2014-11-06
 ==========================
@@ -24,6 +24,75 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.12.4 / 2015-05-17
+===================
+
+  * deps: accepts@~1.2.7
+    - deps: mime-types@~2.0.11
+    - deps: negotiator@0.5.3
+  * deps: debug@~2.2.0
+    - deps: ms@0.7.1
+  * deps: depd@~1.0.1
+  * deps: etag@~1.6.0
+    - Improve support for JXcore
+    - Support "fake" stats objects in environments without `fs`
+  * deps: finalhandler@0.3.6
+    - deps: debug@~2.2.0
+    - deps: on-finished@~2.2.1
+  * deps: on-finished@~2.2.1
+    - Fix `isFinished(req)` when data buffered
+  * deps: proxy-addr@~1.0.8
+    - deps: ipaddr.js@1.0.1
+  * deps: qs@2.4.2
+   - Fix allowing parameters like `constructor`
+  * deps: send@0.12.3
+    - deps: debug@~2.2.0
+    - deps: depd@~1.0.1
+    - deps: etag@~1.6.0
+    - deps: ms@0.7.1
+    - deps: on-finished@~2.2.1
+  * deps: serve-static@~1.9.3
+    - deps: send@0.12.3
+  * deps: type-is@~1.6.2
+    - deps: mime-types@~2.0.11
+
+4.12.3 / 2015-03-17
+===================
+
+  * deps: accepts@~1.2.5
+    - deps: mime-types@~2.0.10
+  * deps: debug@~2.1.3
+    - Fix high intensity foreground color for bold
+    - deps: ms@0.7.0
+  * deps: finalhandler@0.3.4
+    - deps: debug@~2.1.3
+  * deps: proxy-addr@~1.0.7
+    - deps: ipaddr.js@0.1.9
+  * deps: qs@2.4.1
+    - Fix error when parameter `hasOwnProperty` is present
+  * deps: send@0.12.2
+    - Throw errors early for invalid `extensions` or `index` options
+    - deps: debug@~2.1.3
+  * deps: serve-static@~1.9.2
+    - deps: send@0.12.2
+  * deps: type-is@~1.6.1
+    - deps: mime-types@~2.0.10
+
+4.12.2 / 2015-03-02
+===================
+
+  * Fix regression where `"Request aborted"` is logged using `res.sendFile`
+
+4.12.1 / 2015-03-01
+===================
+
+  * Fix constructing application with non-configurable prototype properties
+  * Fix `ECONNRESET` errors from `res.sendFile` usage
+  * Fix `req.host` when using "trust proxy" hops count
+  * Fix `req.protocol`/`req.secure` when using "trust proxy" hops count
+  * Fix wrong `code` on aborted connections from `res.sendFile`
+  * deps: merge-descriptors@1.0.0
 
 4.12.0 / 2015-02-23
 ===================
@@ -728,6 +797,70 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.20.3 / 2015-05-17
+===================
+
+  * deps: connect@2.29.2
+    - deps: body-parser@~1.12.4
+    - deps: compression@~1.4.4
+    - deps: connect-timeout@~1.6.2
+    - deps: debug@~2.2.0
+    - deps: depd@~1.0.1
+    - deps: errorhandler@~1.3.6
+    - deps: finalhandler@0.3.6
+    - deps: method-override@~2.3.3
+    - deps: morgan@~1.5.3
+    - deps: qs@2.4.2
+    - deps: response-time@~2.3.1
+    - deps: serve-favicon@~2.2.1
+    - deps: serve-index@~1.6.4
+    - deps: serve-static@~1.9.3
+    - deps: type-is@~1.6.2
+  * deps: debug@~2.2.0
+    - deps: ms@0.7.1
+  * deps: depd@~1.0.1
+  * deps: proxy-addr@~1.0.8
+    - deps: ipaddr.js@1.0.1
+  * deps: send@0.12.3
+    - deps: debug@~2.2.0
+    - deps: depd@~1.0.1
+    - deps: etag@~1.6.0
+    - deps: ms@0.7.1
+    - deps: on-finished@~2.2.1
+
+3.20.2 / 2015-03-16
+===================
+
+  * deps: connect@2.29.1
+    - deps: body-parser@~1.12.2
+    - deps: compression@~1.4.3
+    - deps: connect-timeout@~1.6.1
+    - deps: debug@~2.1.3
+    - deps: errorhandler@~1.3.5
+    - deps: express-session@~1.10.4
+    - deps: finalhandler@0.3.4
+    - deps: method-override@~2.3.2
+    - deps: morgan@~1.5.2
+    - deps: qs@2.4.1
+    - deps: serve-index@~1.6.3
+    - deps: serve-static@~1.9.2
+    - deps: type-is@~1.6.1
+  * deps: debug@~2.1.3
+    - Fix high intensity foreground color for bold
+    - deps: ms@0.7.0
+  * deps: merge-descriptors@1.0.0
+  * deps: proxy-addr@~1.0.7
+    - deps: ipaddr.js@0.1.9
+  * deps: send@0.12.2
+    - Throw errors early for invalid `extensions` or `index` options
+    - deps: debug@~2.1.3
+
+3.20.1 / 2015-02-28
+===================
+
+  * Fix `req.host` when using "trust proxy" hops count
+  * Fix `req.protocol`/`req.secure` when using "trust proxy" hops count
 
 3.20.0 / 2015-02-18
 ===================

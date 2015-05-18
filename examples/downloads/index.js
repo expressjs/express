@@ -8,7 +8,6 @@ var app = module.exports = express();
 app.get('/', function(req, res){
   res.send('<ul>'
     + '<li>Download <a href="/files/amazing.txt">amazing.txt</a>.</li>'
-    + '<li>Download <a href="/files/utf-8 한中日.txt">utf-8 한中日.txt</a>.</li>'
     + '<li>Download <a href="/files/missing.txt">missing.txt</a>.</li>'
     + '<li>Download <a href="/files/CCTV大赛上海分赛区.txt">CCTV大赛上海分赛区.txt</a>.</li>'
     + '</ul>');

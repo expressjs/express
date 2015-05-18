@@ -2,6 +2,7 @@
  * Module dependencies.
  */
 
+var cookieSession = require('cookie-session');
 var express = require('../../');
 
 var app = module.exports = express();

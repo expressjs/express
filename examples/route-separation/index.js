@@ -21,7 +21,7 @@ app.set('views', __dirname + '/views');
 
 /* istanbul ignore next */
 if (!module.parent) {
-  app.use(express.logger('dev'));
+  app.use(logger('dev'));
 }
 
 app.use(methodOverride('_method'));

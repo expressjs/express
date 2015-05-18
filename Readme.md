@@ -87,7 +87,7 @@ $ npm start
 
 ## Examples
 
-  To view the examples, clone the Express repo and install the dependancies:
+  To view the examples, clone the Express repo and install the dependencies:
 
 ```bash
 $ git clone git://github.com/strongloop/express.git --depth 1
@@ -103,7 +103,7 @@ $ node examples/content-negotiation
 
 ## Tests
 
-  To run the test suite, first install the dependancies, then run `npm test`:
+  To run the test suite, first install the dependencies, then run `npm test`:
 
 ```bash
 $ npm install
