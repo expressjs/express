@@ -9,6 +9,8 @@ unreleased
     - deps: on-finished@~2.2.1
   * deps: proxy-addr@~1.0.8
     - deps: ipaddr.js@1.0.1
+  * deps: qs@2.4.2
+   - Fix allowing parameters like `constructor`
   * deps: send@0.12.3
     - deps: debug@~2.2.0
     - deps: depd@~1.0.1
