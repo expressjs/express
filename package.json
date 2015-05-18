@@ -34,7 +34,7 @@
     "cookie": "0.1.2",
     "cookie-signature": "1.0.6",
     "debug": "~2.1.3",
-    "depd": "~1.0.0",
+    "depd": "~1.0.1",
     "escape-html": "1.0.1",
     "etag": "~1.5.1",
     "fresh": "0.2.4",
