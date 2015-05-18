@@ -21,8 +21,8 @@ describe('params', function(){
   describe('GET /user/9', function(){
     it('should fail to find user', function(done){
       request(app)
-        .get('/user/9')
-        .expect(/failed to find user/,done)
+      .get('/user/9')
+      .expect(404, /failed to find user/, done)
     })
   })
 
@@ -37,8 +37,8 @@ describe('params', function(){
   describe('GET /users/foo-bar', function(){
     it('should fail integer parsing', function(done){
       request(app)
-        .get('/users/foo-bar')
-        .expect(/failed to parseInt foo/,done)
+      .get('/users/foo-bar')
+      .expect(400, /failed to parseInt foo/, done)
     })
   })
 })
