@@ -47,7 +47,7 @@
     "qs": "2.4.1",
     "range-parser": "~1.0.2",
     "send": "0.12.3",
-    "serve-static": "~1.9.2",
+    "serve-static": "~1.9.3",
     "type-is": "~1.6.1",
     "vary": "~1.0.0",
     "utils-merge": "1.0.0"
