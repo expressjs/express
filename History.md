@@ -7,6 +7,8 @@ unreleased
   * deps: finalhandler@0.3.6
     - deps: debug@~2.2.0
     - deps: on-finished@~2.2.1
+  * deps: on-finished@~2.2.1
+    - Fix `isFinished(req)` when data buffered
   * deps: proxy-addr@~1.0.8
     - deps: ipaddr.js@1.0.1
   * deps: qs@2.4.2
