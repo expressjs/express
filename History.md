@@ -17,6 +17,8 @@
     - deps: serve-index@~1.6.4
     - deps: serve-static@~1.9.3
     - deps: type-is@~1.6.2
+  * deps: proxy-addr@~1.0.8
+    - deps: ipaddr.js@1.0.1
 
 3.20.2 / 2015-03-16
 ===================
