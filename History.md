@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix issue where `next('route')` in `app.param` would incorrectly skip values
   * deps: cookie@0.1.3
     - perf: deduce the scope of try-catch deopt
     - perf: remove argument reassignments
