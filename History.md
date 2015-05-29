@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix `res.format` error when only `default` provided
   * Fix issue where `next('route')` in `app.param` would incorrectly skip values
   * Use `array-flatten` module for flattening arrays
   * deps: accepts@~1.2.9
