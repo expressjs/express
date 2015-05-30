@@ -37,6 +37,7 @@
     "escape-html": "1.0.1",
     "etag": "~1.6.0",
     "finalhandler": "0.3.6",
+    "forwarded-http": "^0.3.0",
     "fresh": "0.2.4",
     "merge-descriptors": "1.0.0",
     "methods": "~1.1.1",
@@ -49,8 +50,8 @@
     "send": "0.12.3",
     "serve-static": "~1.9.3",
     "type-is": "~1.6.2",
-    "vary": "~1.0.0",
-    "utils-merge": "1.0.0"
+    "utils-merge": "1.0.0",
+    "vary": "~1.0.0"
   },
   "devDependencies": {
     "after": "0.8.1",
