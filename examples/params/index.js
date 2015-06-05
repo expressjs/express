@@ -15,12 +15,20 @@ var users = [
   , { name: 'bandit' }
 ];
 
+// Create HTTP error
+
+function createError(status, message) {
+  var err = new Error(message);
+  err.status = status;
+  return err;
+}
+
 // Convert :to and :from to integers
 
 app.param(['to', 'from'], function(req, res, next, num, name){
   req.params[name] = parseInt(num, 10);
   if( isNaN(req.params[name]) ){
-    next(new Error('failed to parseInt '+num));
+    next(createError(400, 'failed to parseInt '+num));
   } else {
     next();
   }
@@ -32,7 +40,7 @@ app.param('user', function(req, res, next, id){
   if (req.user = users[id]) {
     next();
   } else {
-    next(new Error('failed to find user'));
+    next(createError(404, 'failed to find user'));
   }
 });
 
