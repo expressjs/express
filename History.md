@@ -1620,7 +1620,7 @@
  * update commander
  * jsonp: check if callback is a function
  * router: wrap encodeURIComponent in a try/catch #1735 (@lxe)
- * res.format: now includes chraset @1747 (@sorribas)
+ * res.format: now includes charset @1747 (@sorribas)
  * res.links: allow multiple calls @1746 (@sorribas)
 
 3.4.0 / 2013-09-07
