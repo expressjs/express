@@ -1899,7 +1899,7 @@
   * Added another example to content-negotiation
   * Added `fresh` dep
   * Changed: `res.send()` always checks freshness
-  * Fixed: expose connects mime module. Cloases #1165
+  * Fixed: expose connects mime module. Closes #1165
 
 3.0.0beta2 / 2012-06-06
 ==================
