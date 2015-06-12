@@ -1981,7 +1981,7 @@
   * Added `req.ips`
   * Added `req.fresh`
   * Added `req.stale`
-  * Added comma-delmited / array support for `req.accepts()`
+  * Added comma-delimited / array support for `req.accepts()`
   * Added debug instrumentation
   * Added `res.set(obj)`
   * Added `res.set(field, value)`
