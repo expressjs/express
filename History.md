@@ -852,7 +852,7 @@
  * update commander
  * jsonp: check if callback is a function
  * router: wrap encodeURIComponent in a try/catch #1735 (@lxe)
- * res.format: now includes chraset @1747 (@sorribas)
+ * res.format: now includes charset @1747 (@sorribas)
  * res.links: allow multiple calls @1746 (@sorribas)
 
 3.4.0 / 2013-09-07
@@ -1131,7 +1131,7 @@
   * Added another example to content-negotiation
   * Added `fresh` dep
   * Changed: `res.send()` always checks freshness
-  * Fixed: expose connects mime module. Cloases #1165
+  * Fixed: expose connects mime module. Closes #1165
 
 3.0.0beta2 / 2012-06-06
 ==================
@@ -1213,7 +1213,7 @@
   * Added `req.ips`
   * Added `req.fresh`
   * Added `req.stale`
-  * Added comma-delmited / array support for `req.accepts()`
+  * Added comma-delimited / array support for `req.accepts()`
   * Added debug instrumentation
   * Added `res.set(obj)`
   * Added `res.set(field, value)`
