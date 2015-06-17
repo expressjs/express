@@ -1,3 +1,9 @@
+3.x
+===
+
+  * deps: mkdirp@0.5.1
+    - Work in global strict mode
+
 3.20.3 / 2015-05-17
 ===================
 
