@@ -3,6 +3,8 @@ unreleased
 
   * Fix `res.format` error when only `default` provided
   * Fix issue where `next('route')` in `app.param` would incorrectly skip values
+  * Fix using `*` before params in routes
+  * Fix using capture groups before params in routes
   * Use `array-flatten` module for flattening arrays
   * deps: accepts@~1.2.9
     - deps: mime-types@~2.1.1
@@ -36,7 +38,7 @@ unreleased
     - Add defined behavior for HTTP `CONNECT` requests
     - Add defined behavior for HTTP `Upgrade` requests
     - deps: ee-first@1.1.1
-  * deps: path-to-regexp@0.1.4
+  * deps: path-to-regexp@0.1.6
   * deps: send@0.13.0
     - Allow Node.js HTTP server to set `Date` response header
     - Fix incorrectly removing `Content-Location` on 304 response
