@@ -1,5 +1,5 @@
-3.x
-===
+3.21.0 / 2015-06-18
+===================
 
   * deps: basic-auth@1.0.2
     - perf: enable strict mode
