@@ -30,6 +30,15 @@ unreleased
     - deps: on-finished@~2.3.0
     - perf: enable strict mode
     - perf: remove unnecessary array allocations
+  * deps: serve-static@~1.10.0
+    - Add `fallthrough` option
+    - Fix reading options from options prototype
+    - Improve the default redirect response headers
+    - Malformed URLs now `next()` instead of 400
+    - deps: escape-html@1.0.2
+    - deps: send@0.13.0
+    - perf: enable strict mode
+    - perf: remove argument reassignment
 
 4.12.4 / 2015-05-17
 ===================
