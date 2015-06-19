@@ -3,6 +3,12 @@ unreleased
 
   * Fix issue where `next('route')` in `app.param` would incorrectly skip values
   * Use `array-flatten` module for flattening arrays
+  * deps: accepts@~1.2.9
+    - deps: mime-types@~2.1.1
+    - perf: avoid argument reassignment & argument slice
+    - perf: avoid negotiator recursive construction
+    - perf: enable strict mode
+    - perf: remove unnecessary bitwise operator
   * deps: cookie@0.1.3
     - perf: deduce the scope of try-catch deopt
     - perf: remove argument reassignments
