@@ -36,6 +36,7 @@ unreleased
     - Add defined behavior for HTTP `CONNECT` requests
     - Add defined behavior for HTTP `Upgrade` requests
     - deps: ee-first@1.1.1
+  * deps: path-to-regexp@0.1.4
   * deps: send@0.13.0
     - Allow Node.js HTTP server to set `Date` response header
     - Fix incorrectly removing `Content-Location` on 304 response
