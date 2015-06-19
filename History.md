@@ -15,6 +15,14 @@ unreleased
     - Remove base64 padding in ETags to shorten
     - Support "fake" stats objects in environments without fs
     - Use MD5 instead of MD4 in weak ETags over 1KB
+  * deps: finalhandler@0.4.0
+    - Fix a false-positive when unpiping in Node.js 0.8
+    - Support `statusCode` property on `Error` objects
+    - Use `unpipe` module for unpiping requests
+    - deps: escape-html@1.0.2
+    - deps: on-finished@~2.3.0
+    - perf: enable strict mode
+    - perf: remove argument reassignment
   * deps: fresh@0.3.0
     - Add weak `ETag` matching support
   * deps: send@0.13.0
