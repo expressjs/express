@@ -303,5 +303,65 @@ describe('app', function(){
       .get('/user/new')
       .expect('get.new', done);
     })
+
+    it('should not call when values differ on hard error', function(done) {
+      var app = express();
+      var called = 0;
+      var count = 0;
+
+      app.param('user', function(req, res, next, user) {
+        called++;
+        if (user === 'foo') throw new Error('err!');
+        req.user = user;
+        next();
+      });
+
+      app.get('/:user/bob', function(req, res, next) {
+        count++;
+        next();
+      });
+      app.get('/foo/:user', function(req, res, next) {
+        count++;
+        next();
+      });
+
+      request(app)
+      .get('/foo/bob')
+      .end(function(err, res) {
+        res.status.should.equal(500);
+        called.should.equal(1);
+        count.should.equal(0);
+        done();
+      });
+    })
+
+    it('should call when values differ on soft error', function(done) {
+      var app = express();
+      var called = 0;
+      var count = 0;
+
+      app.param('user', function(req, res, next, user) {
+        called++;
+        if (user === 'foo') return next('route');
+        req.user = user;
+        next();
+      });
+
+      app.get('/:user/bob', function(req, res, next) {
+        count++;
+        next();
+      });
+      app.get('/foo/:user', function(req, res, next) {
+        count++;
+        next();
+      });
+      app.use(function(req, res) {
+        res.end([count, called, req.user].join(' '));
+      });
+
+      request(app)
+      .get('/foo/bob')
+      .expect('1 2 bob', done);
+    })
   })
 })
