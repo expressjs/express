@@ -51,6 +51,10 @@ unreleased
     - deps: send@0.13.0
     - perf: enable strict mode
     - perf: remove argument reassignment
+  * deps: type-is@~1.6.3
+    - deps: mime-types@~2.1.1
+    - perf: reduce try block size
+    - perf: remove bitwise operations
 
 4.12.4 / 2015-05-17
 ===================
