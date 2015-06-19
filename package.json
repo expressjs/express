@@ -35,7 +35,7 @@
     "cookie-signature": "1.0.6",
     "debug": "~2.2.0",
     "depd": "~1.0.1",
-    "escape-html": "1.0.1",
+    "escape-html": "1.0.2",
     "etag": "~1.5.1",
     "fresh": "0.2.4",
     "merge-descriptors": "1.0.0",

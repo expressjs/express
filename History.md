@@ -25,6 +25,7 @@
   * deps: cookie@0.1.3
     - perf: deduce the scope of try-catch deopt
     - perf: remove argument reassignments
+  * deps: escape-html@1.0.2
   * deps: mkdirp@0.5.1
     - Work in global strict mode
 
