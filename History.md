@@ -36,6 +36,19 @@
     - Use MD5 instead of MD4 in weak ETags over 1KB
   * deps: mkdirp@0.5.1
     - Work in global strict mode
+  * deps: send@0.13.0
+    - Allow Node.js HTTP server to set `Date` response header
+    - Fix incorrectly removing `Content-Location` on 304 response
+    - Improve the default redirect response headers
+    - Send appropriate headers on default error response
+    - Use `http-errors` for standard emitted errors
+    - Use `statuses` instead of `http` module for status messages
+    - deps: escape-html@1.0.2
+    - deps: etag@~1.7.0
+    - deps: fresh@0.3.0
+    - deps: on-finished@~2.3.0
+    - perf: enable strict mode
+    - perf: remove unnecessary array allocations
 
 3.20.3 / 2015-05-17
 ===================
