@@ -1,6 +1,11 @@
 3.x
 ===
 
+  * deps: basic-auth@1.0.2
+    - perf: enable strict mode
+    - perf: hoist regular expression
+    - perf: parse with regular expressions
+    - perf: remove argument reassignment
   * deps: connect@2.30.0
     - deps: body-parser@~1.13.1
     - deps: bytes@2.1.0
