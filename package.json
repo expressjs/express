@@ -37,7 +37,7 @@
     "depd": "~1.0.1",
     "escape-html": "1.0.2",
     "etag": "~1.7.0",
-    "fresh": "0.2.4",
+    "fresh": "0.3.0",
     "merge-descriptors": "1.0.0",
     "methods": "~1.1.1",
     "mkdirp": "0.5.1",

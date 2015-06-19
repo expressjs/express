@@ -34,6 +34,8 @@
     - Remove base64 padding in ETags to shorten
     - Support "fake" stats objects in environments without fs
     - Use MD5 instead of MD4 in weak ETags over 1KB
+  * deps: fresh@0.3.0
+    - Add weak `ETag` matching support
   * deps: mkdirp@0.5.1
     - Work in global strict mode
   * deps: send@0.13.0
