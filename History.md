@@ -22,6 +22,9 @@
     - deps: serve-index@~1.7.0
     - deps: serve-static@~1.10.0
     - deps: type-is@~1.6.3
+  * deps: cookie@0.1.3
+    - perf: deduce the scope of try-catch deopt
+    - perf: remove argument reassignments
   * deps: mkdirp@0.5.1
     - Work in global strict mode
 
