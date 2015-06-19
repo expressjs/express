@@ -121,7 +121,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('ETag', 'W/"fz/jGo0ONwzb+aKy/rWipg=="')
+      .expect('ETag', 'W/"7ff-fFD7Se+Vsq6deAl063thow"')
       .expect(200, done);
     })
 
@@ -193,7 +193,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('ETag', 'W/"fz/jGo0ONwzb+aKy/rWipg=="')
+      .expect('ETag', 'W/"7ff-fFD7Se+Vsq6deAl063thow"')
       .expect(200, done);
     })
 
@@ -309,7 +309,7 @@ describe('res', function(){
 
     request(app)
     .get('/')
-    .set('If-None-Match', 'W/"fz/jGo0ONwzb+aKy/rWipg=="')
+    .set('If-None-Match', 'W/"7ff-fFD7Se+Vsq6deAl063thow"')
     .expect(304, done);
   })
 
@@ -355,7 +355,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', 'W/"c-5aee35d8"')
+        .expect('ETag', 'W/"c-ZUfd0NJ26qwjlKF4r8qb2g"')
         .expect(200, done);
       });
 
@@ -371,7 +371,7 @@ describe('res', function(){
 
           request(app)
           [method]('/')
-          .expect('ETag', 'W/"c-5aee35d8"')
+          .expect('ETag', 'W/"c-ZUfd0NJ26qwjlKF4r8qb2g"')
           .expect(200, done);
         })
       });
@@ -387,7 +387,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', 'W/"0-0"')
+        .expect('ETag', 'W/"0-1B2M2Y8AsgTpgAmY7PhCfg"')
         .expect(200, done);
       })
 
@@ -403,7 +403,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', 'W/"fz/jGo0ONwzb+aKy/rWipg=="')
+        .expect('ETag', 'W/"7ff-fFD7Se+Vsq6deAl063thow"')
         .expect(200, done);
       });
 
@@ -485,7 +485,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', '"Otu60XkfuuPskIiUxJY4cA=="')
+        .expect('ETag', '"d-Otu60XkfuuPskIiUxJY4cA"')
         .expect(200, done);
       })
     })
@@ -502,7 +502,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', 'W/"d-58988d13"')
+        .expect('ETag', 'W/"d-Otu60XkfuuPskIiUxJY4cA"')
         .expect(200, done)
       })
     })

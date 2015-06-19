@@ -26,6 +26,14 @@
     - perf: deduce the scope of try-catch deopt
     - perf: remove argument reassignments
   * deps: escape-html@1.0.2
+  * deps: etag@~1.7.0
+    - Always include entity length in ETags for hash length extensions
+    - Generate non-Stats ETags using MD5 only (no longer CRC32)
+    - Improve stat performance by removing hashing
+    - Improve support for JXcore
+    - Remove base64 padding in ETags to shorten
+    - Support "fake" stats objects in environments without fs
+    - Use MD5 instead of MD4 in weak ETags over 1KB
   * deps: mkdirp@0.5.1
     - Work in global strict mode
 
