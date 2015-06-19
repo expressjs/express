@@ -1,6 +1,22 @@
 3.x
 ===
 
+  * deps: connect@2.30.0
+    - deps: body-parser@~1.13.1
+    - deps: bytes@2.1.0
+    - deps: compression@~1.5.0
+    - deps: cookie@0.1.3
+    - deps: cookie-parser@~1.3.5
+    - deps: csurf@~1.8.3
+    - deps: errorhandler@~1.4.0
+    - deps: express-session@~1.11.3
+    - deps: finalhandler@0.4.0
+    - deps: fresh@0.3.0
+    - deps: morgan@~1.6.0
+    - deps: serve-favicon@~2.3.0
+    - deps: serve-index@~1.7.0
+    - deps: serve-static@~1.10.0
+    - deps: type-is@~1.6.3
   * deps: mkdirp@0.5.1
     - Work in global strict mode
 
