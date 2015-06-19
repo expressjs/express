@@ -122,7 +122,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('ETag', 'W/"3e7-8084ccd1"')
+      .expect('ETag', 'W/"3e7-VYgCBglFKiDVAcpzPNt4Sg"')
       .expect(200, done);
     })
 
@@ -194,7 +194,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('ETag', 'W/"3e7-8084ccd1"')
+      .expect('ETag', 'W/"3e7-VYgCBglFKiDVAcpzPNt4Sg"')
       .expect(200, done);
     })
 
@@ -358,7 +358,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', 'W/"c-5aee35d8"')
+        .expect('ETag', 'W/"c-ZUfd0NJ26qwjlKF4r8qb2g"')
         .expect(200, done);
       });
 
@@ -374,7 +374,7 @@ describe('res', function(){
 
           request(app)
           [method]('/')
-          .expect('ETag', 'W/"c-5aee35d8"')
+          .expect('ETag', 'W/"c-ZUfd0NJ26qwjlKF4r8qb2g"')
           .expect(200, done);
         })
       });
@@ -390,7 +390,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', 'W/"0-0"')
+        .expect('ETag', 'W/"0-1B2M2Y8AsgTpgAmY7PhCfg"')
         .expect(200, done);
       })
 
@@ -406,7 +406,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', 'W/"3e7-8084ccd1"')
+        .expect('ETag', 'W/"3e7-VYgCBglFKiDVAcpzPNt4Sg"')
         .expect(200, done);
       });
 
@@ -488,7 +488,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', '"Otu60XkfuuPskIiUxJY4cA=="')
+        .expect('ETag', '"d-Otu60XkfuuPskIiUxJY4cA"')
         .expect(200, done);
       })
     })
@@ -505,7 +505,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', 'W/"d-58988d13"')
+        .expect('ETag', 'W/"d-Otu60XkfuuPskIiUxJY4cA"')
         .expect(200, done)
       })
     })

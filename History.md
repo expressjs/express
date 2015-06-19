@@ -1,3 +1,34 @@
+unreleased
+==========
+
+  * deps: cookie@0.1.3
+    - perf: deduce the scope of try-catch deopt
+    - perf: remove argument reassignments
+  * deps: escape-html@1.0.2
+  * deps: etag@~1.7.0
+    - Always include entity length in ETags for hash length extensions
+    - Generate non-Stats ETags using MD5 only (no longer CRC32)
+    - Improve stat performance by removing hashing
+    - Improve support for JXcore
+    - Remove base64 padding in ETags to shorten
+    - Support "fake" stats objects in environments without fs
+    - Use MD5 instead of MD4 in weak ETags over 1KB
+  * deps: fresh@0.3.0
+    - Add weak `ETag` matching support
+  * deps: send@0.13.0
+    - Allow Node.js HTTP server to set `Date` response header
+    - Fix incorrectly removing `Content-Location` on 304 response
+    - Improve the default redirect response headers
+    - Send appropriate headers on default error response
+    - Use `http-errors` for standard emitted errors
+    - Use `statuses` instead of `http` module for status messages
+    - deps: escape-html@1.0.2
+    - deps: etag@~1.7.0
+    - deps: fresh@0.3.0
+    - deps: on-finished@~2.3.0
+    - perf: enable strict mode
+    - perf: remove unnecessary array allocations
+
 4.12.4 / 2015-05-17
 ===================
 
@@ -770,6 +801,60 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.21.0 / 2015-06-18
+===================
+
+  * deps: basic-auth@1.0.2
+    - perf: enable strict mode
+    - perf: hoist regular expression
+    - perf: parse with regular expressions
+    - perf: remove argument reassignment
+  * deps: connect@2.30.0
+    - deps: body-parser@~1.13.1
+    - deps: bytes@2.1.0
+    - deps: compression@~1.5.0
+    - deps: cookie@0.1.3
+    - deps: cookie-parser@~1.3.5
+    - deps: csurf@~1.8.3
+    - deps: errorhandler@~1.4.0
+    - deps: express-session@~1.11.3
+    - deps: finalhandler@0.4.0
+    - deps: fresh@0.3.0
+    - deps: morgan@~1.6.0
+    - deps: serve-favicon@~2.3.0
+    - deps: serve-index@~1.7.0
+    - deps: serve-static@~1.10.0
+    - deps: type-is@~1.6.3
+  * deps: cookie@0.1.3
+    - perf: deduce the scope of try-catch deopt
+    - perf: remove argument reassignments
+  * deps: escape-html@1.0.2
+  * deps: etag@~1.7.0
+    - Always include entity length in ETags for hash length extensions
+    - Generate non-Stats ETags using MD5 only (no longer CRC32)
+    - Improve stat performance by removing hashing
+    - Improve support for JXcore
+    - Remove base64 padding in ETags to shorten
+    - Support "fake" stats objects in environments without fs
+    - Use MD5 instead of MD4 in weak ETags over 1KB
+  * deps: fresh@0.3.0
+    - Add weak `ETag` matching support
+  * deps: mkdirp@0.5.1
+    - Work in global strict mode
+  * deps: send@0.13.0
+    - Allow Node.js HTTP server to set `Date` response header
+    - Fix incorrectly removing `Content-Location` on 304 response
+    - Improve the default redirect response headers
+    - Send appropriate headers on default error response
+    - Use `http-errors` for standard emitted errors
+    - Use `statuses` instead of `http` module for status messages
+    - deps: escape-html@1.0.2
+    - deps: etag@~1.7.0
+    - deps: fresh@0.3.0
+    - deps: on-finished@~2.3.0
+    - perf: enable strict mode
+    - perf: remove unnecessary array allocations
 
 3.20.3 / 2015-05-17
 ===================
@@ -1620,7 +1705,7 @@
  * update commander
  * jsonp: check if callback is a function
  * router: wrap encodeURIComponent in a try/catch #1735 (@lxe)
- * res.format: now includes chraset @1747 (@sorribas)
+ * res.format: now includes charset @1747 (@sorribas)
  * res.links: allow multiple calls @1746 (@sorribas)
 
 3.4.0 / 2013-09-07
@@ -1899,7 +1984,7 @@
   * Added another example to content-negotiation
   * Added `fresh` dep
   * Changed: `res.send()` always checks freshness
-  * Fixed: expose connects mime module. Cloases #1165
+  * Fixed: expose connects mime module. Closes #1165
 
 3.0.0beta2 / 2012-06-06
 ==================
@@ -1981,7 +2066,7 @@
   * Added `req.ips`
   * Added `req.fresh`
   * Added `req.stale`
-  * Added comma-delmited / array support for `req.accepts()`
+  * Added comma-delimited / array support for `req.accepts()`
   * Added debug instrumentation
   * Added `res.set(obj)`
   * Added `res.set(field, value)`
