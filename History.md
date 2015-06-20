@@ -66,6 +66,7 @@ unreleased
     - perf: reduce try block size
     - perf: remove bitwise operations
   * perf: enable strict mode
+  * perf: isolate `app.render` try block
   * perf: remove argument reassignments in application
   * perf: remove argument reassignments in `View`
   * perf: use saved reference to `http.STATUS_CODES`
