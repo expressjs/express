@@ -5,6 +5,7 @@ unreleased
   * Fix issue where `next('route')` in `app.param` would incorrectly skip values
   * Fix using `*` before params in routes
   * Fix using capture groups before params in routes
+  * Simplify `res.cookie` to call `res.append`
   * Use `array-flatten` module for flattening arrays
   * deps: accepts@~1.2.9
     - deps: mime-types@~2.1.1
