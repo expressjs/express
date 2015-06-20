@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Add settings to debug output
   * Fix `res.format` error when only `default` provided
   * Fix issue where `next('route')` in `app.param` would incorrectly skip values
   * Fix hiding platform issues with `decodeURIComponent`
