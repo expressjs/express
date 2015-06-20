@@ -34,6 +34,20 @@ describe('res', function(){
       .expect('<p>tobi</p>', done);
     })
 
+    it('should error without "view engine" set and no file extension', function (done) {
+      var app = createApp();
+
+      app.locals.user = { name: 'tobi' };
+
+      app.use(function(req, res){
+        res.render(__dirname + '/fixtures/user');
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, /No default engine was specified/, done);
+    })
+
     it('should expose app.locals', function(done){
       var app = createApp();
 
