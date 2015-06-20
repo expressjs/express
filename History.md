@@ -73,6 +73,7 @@ unreleased
   * perf: remove argument reassignments in application
   * perf: remove argument reassignments in request prototype
   * perf: remove argument reassignments in response prototype
+  * perf: remove argument reassignments in routing
   * perf: remove argument reassignments in `View`
   * perf: skip attempting to decode zero length string
   * perf: use saved reference to `http.STATUS_CODES`
