@@ -68,6 +68,7 @@ unreleased
   * perf: enable strict mode
   * perf: isolate `app.render` try block
   * perf: remove argument reassignments in application
+  * perf: remove argument reassignments in request prototype
   * perf: remove argument reassignments in `View`
   * perf: use saved reference to `http.STATUS_CODES`
 
