@@ -3,6 +3,8 @@ unreleased
 
   * Fix `res.format` error when only `default` provided
   * Fix issue where `next('route')` in `app.param` would incorrectly skip values
+  * Fix hiding platform issues with `decodeURIComponent`
+    - Only `URIError`s are a 400
   * Fix using `*` before params in routes
   * Fix using capture groups before params in routes
   * Simplify `res.cookie` to call `res.append`
