@@ -70,22 +70,6 @@ describe('utils.wetag(body, encoding)', function(){
   })
 })
 
-describe('utils.isAbsolute()', function(){
-  it('should support windows', function(){
-    assert(utils.isAbsolute('c:\\'));
-    assert(!utils.isAbsolute(':\\'));
-  })
-
-  it('should support windows unc', function(){
-    assert(utils.isAbsolute('\\\\foo\\bar'))
-  })
-
-  it('should support unices', function(){
-    assert(utils.isAbsolute('/foo/bar'));
-    assert(!utils.isAbsolute('foo/bar'));
-  })
-})
-
 describe('utils.flatten(arr)', function(){
   it('should flatten an array', function(){
     var arr = ['one', ['two', ['three', 'four'], 'five']];
