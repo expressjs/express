@@ -1,5 +1,5 @@
-unreleased
-==========
+4.13.0 / 2015-06-20
+===================
 
   * Add settings to debug output
   * Fix `res.format` error when only `default` provided
