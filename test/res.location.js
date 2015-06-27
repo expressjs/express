@@ -51,7 +51,7 @@ describe('res', function(){
         var app = express()
 
         app.use(function (req, res) {
-          res.location('back').end()
+          res.location(req.back).end()
         })
 
         request(app)
@@ -65,7 +65,7 @@ describe('res', function(){
         var app = express()
 
         app.use(function (req, res) {
-          res.location('back').end()
+          res.location(req.back).end()
         })
 
         request(app)
@@ -79,7 +79,7 @@ describe('res', function(){
         var app = express()
 
         app.use(function (req, res) {
-          res.location('back').end()
+          res.location(req.back).end()
         })
 
         request(app)
@@ -94,7 +94,7 @@ describe('res', function(){
         var app = express()
 
         app.use(function (req, res) {
-          res.location('back').end()
+          res.location(req.back).end()
         })
 
         request(app)
