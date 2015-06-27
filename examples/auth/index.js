@@ -112,7 +112,7 @@ app.post('/login', function(req, res){
         req.session.success = 'Authenticated as ' + user.name
           + ' click to <a href="/logout">logout</a>. '
           + ' You may now access <a href="/restricted">/restricted</a>.';
-        res.redirect('back');
+        res.redirect(req.back);
       });
     } else {
       req.session.error = 'Authentication failed, please check your '

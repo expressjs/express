@@ -32,13 +32,13 @@ app.get('/', function(req, res){
 
 app.get('/forget', function(req, res){
   res.clearCookie('remember');
-  res.redirect('back');
+  res.redirect(req.back);
 });
 
 app.post('/', function(req, res){
   var minute = 60000;
   if (req.body.remember) res.cookie('remember', 1, { maxAge: minute });
-  res.redirect('back');
+  res.redirect(req.back);
 });
 
 /* istanbul ignore next */
