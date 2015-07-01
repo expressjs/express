@@ -35,13 +35,15 @@ describe('app', function(){
       .get('/blog')
       .expect(404, done);
     })
-    it('should remove the child\'s .parent', function(){
+    it('should remove the child\'s .parent and clean inheritance', function(){
       var blog = express()
         , app = express();
 
       app.use('/blog', blog);
       app.disuse('/blog', blog);
       assert.equal(blog.parent, null);
+      assert.equal(blog.mountpath, null);
+      assert.equal(blog.mountedRouter, null);
     })
   })
 
