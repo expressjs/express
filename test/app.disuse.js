@@ -42,7 +42,7 @@ describe('app', function(){
       app.use('/blog', blog);
       app.disuse('/blog', blog);
       assert.equal(blog.parent, null);
-      assert.equal(blog.mountpath, null);
+      assert.equal(blog.mountpath, '/');
       assert.equal(blog.mountedRouter, null);
     })
   })
