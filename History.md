@@ -1,7 +1,7 @@
 5.x
 ===
 
-This incorporates all changes after 4.10.1 up to 4.12.4.
+This incorporates all changes after 4.10.1 up to 4.13.1.
 
 5.0.0-alpha.1 / 2014-11-06
 ==========================
@@ -24,6 +24,100 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.13.1 / 2015-07-05
+===================
+
+  * deps: accepts@~1.2.10
+    - deps: mime-types@~2.1.2
+  * deps: qs@4.0.0
+    - Fix dropping parameters like `hasOwnProperty`
+    - Fix various parsing edge cases
+  * deps: type-is@~1.6.4
+    - deps: mime-types@~2.1.2
+    - perf: enable strict mode
+    - perf: remove argument reassignment
+
+4.13.0 / 2015-06-20
+===================
+
+  * Add settings to debug output
+  * Fix `res.format` error when only `default` provided
+  * Fix issue where `next('route')` in `app.param` would incorrectly skip values
+  * Fix hiding platform issues with `decodeURIComponent`
+    - Only `URIError`s are a 400
+  * Fix using `*` before params in routes
+  * Fix using capture groups before params in routes
+  * Simplify `res.cookie` to call `res.append`
+  * Use `array-flatten` module for flattening arrays
+  * deps: accepts@~1.2.9
+    - deps: mime-types@~2.1.1
+    - perf: avoid argument reassignment & argument slice
+    - perf: avoid negotiator recursive construction
+    - perf: enable strict mode
+    - perf: remove unnecessary bitwise operator
+  * deps: cookie@0.1.3
+    - perf: deduce the scope of try-catch deopt
+    - perf: remove argument reassignments
+  * deps: escape-html@1.0.2
+  * deps: etag@~1.7.0
+    - Always include entity length in ETags for hash length extensions
+    - Generate non-Stats ETags using MD5 only (no longer CRC32)
+    - Improve stat performance by removing hashing
+    - Improve support for JXcore
+    - Remove base64 padding in ETags to shorten
+    - Support "fake" stats objects in environments without fs
+    - Use MD5 instead of MD4 in weak ETags over 1KB
+  * deps: finalhandler@0.4.0
+    - Fix a false-positive when unpiping in Node.js 0.8
+    - Support `statusCode` property on `Error` objects
+    - Use `unpipe` module for unpiping requests
+    - deps: escape-html@1.0.2
+    - deps: on-finished@~2.3.0
+    - perf: enable strict mode
+    - perf: remove argument reassignment
+  * deps: fresh@0.3.0
+    - Add weak `ETag` matching support
+  * deps: on-finished@~2.3.0
+    - Add defined behavior for HTTP `CONNECT` requests
+    - Add defined behavior for HTTP `Upgrade` requests
+    - deps: ee-first@1.1.1
+  * deps: path-to-regexp@0.1.6
+  * deps: send@0.13.0
+    - Allow Node.js HTTP server to set `Date` response header
+    - Fix incorrectly removing `Content-Location` on 304 response
+    - Improve the default redirect response headers
+    - Send appropriate headers on default error response
+    - Use `http-errors` for standard emitted errors
+    - Use `statuses` instead of `http` module for status messages
+    - deps: escape-html@1.0.2
+    - deps: etag@~1.7.0
+    - deps: fresh@0.3.0
+    - deps: on-finished@~2.3.0
+    - perf: enable strict mode
+    - perf: remove unnecessary array allocations
+  * deps: serve-static@~1.10.0
+    - Add `fallthrough` option
+    - Fix reading options from options prototype
+    - Improve the default redirect response headers
+    - Malformed URLs now `next()` instead of 400
+    - deps: escape-html@1.0.2
+    - deps: send@0.13.0
+    - perf: enable strict mode
+    - perf: remove argument reassignment
+  * deps: type-is@~1.6.3
+    - deps: mime-types@~2.1.1
+    - perf: reduce try block size
+    - perf: remove bitwise operations
+  * perf: enable strict mode
+  * perf: isolate `app.render` try block
+  * perf: remove argument reassignments in application
+  * perf: remove argument reassignments in request prototype
+  * perf: remove argument reassignments in response prototype
+  * perf: remove argument reassignments in routing
+  * perf: remove argument reassignments in `View`
+  * perf: skip attempting to decode zero length string
+  * perf: use saved reference to `http.STATUS_CODES`
 
 4.12.4 / 2015-05-17
 ===================
@@ -797,6 +891,74 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.21.1 / 2015-07-05
+===================
+
+  * deps: basic-auth@~1.0.3
+  * deps: connect@2.30.1
+    - deps: body-parser@~1.13.2
+    - deps: compression@~1.5.1
+    - deps: errorhandler@~1.4.1
+    - deps: morgan@~1.6.1
+    - deps: pause@0.1.0
+    - deps: qs@4.0.0
+    - deps: serve-index@~1.7.1
+    - deps: type-is@~1.6.4
+
+3.21.0 / 2015-06-18
+===================
+
+  * deps: basic-auth@1.0.2
+    - perf: enable strict mode
+    - perf: hoist regular expression
+    - perf: parse with regular expressions
+    - perf: remove argument reassignment
+  * deps: connect@2.30.0
+    - deps: body-parser@~1.13.1
+    - deps: bytes@2.1.0
+    - deps: compression@~1.5.0
+    - deps: cookie@0.1.3
+    - deps: cookie-parser@~1.3.5
+    - deps: csurf@~1.8.3
+    - deps: errorhandler@~1.4.0
+    - deps: express-session@~1.11.3
+    - deps: finalhandler@0.4.0
+    - deps: fresh@0.3.0
+    - deps: morgan@~1.6.0
+    - deps: serve-favicon@~2.3.0
+    - deps: serve-index@~1.7.0
+    - deps: serve-static@~1.10.0
+    - deps: type-is@~1.6.3
+  * deps: cookie@0.1.3
+    - perf: deduce the scope of try-catch deopt
+    - perf: remove argument reassignments
+  * deps: escape-html@1.0.2
+  * deps: etag@~1.7.0
+    - Always include entity length in ETags for hash length extensions
+    - Generate non-Stats ETags using MD5 only (no longer CRC32)
+    - Improve stat performance by removing hashing
+    - Improve support for JXcore
+    - Remove base64 padding in ETags to shorten
+    - Support "fake" stats objects in environments without fs
+    - Use MD5 instead of MD4 in weak ETags over 1KB
+  * deps: fresh@0.3.0
+    - Add weak `ETag` matching support
+  * deps: mkdirp@0.5.1
+    - Work in global strict mode
+  * deps: send@0.13.0
+    - Allow Node.js HTTP server to set `Date` response header
+    - Fix incorrectly removing `Content-Location` on 304 response
+    - Improve the default redirect response headers
+    - Send appropriate headers on default error response
+    - Use `http-errors` for standard emitted errors
+    - Use `statuses` instead of `http` module for status messages
+    - deps: escape-html@1.0.2
+    - deps: etag@~1.7.0
+    - deps: fresh@0.3.0
+    - deps: on-finished@~2.3.0
+    - perf: enable strict mode
+    - perf: remove unnecessary array allocations
 
 3.20.3 / 2015-05-17
 ===================
@@ -1647,7 +1809,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
  * update commander
  * jsonp: check if callback is a function
  * router: wrap encodeURIComponent in a try/catch #1735 (@lxe)
- * res.format: now includes chraset @1747 (@sorribas)
+ * res.format: now includes charset @1747 (@sorribas)
  * res.links: allow multiple calls @1746 (@sorribas)
 
 3.4.0 / 2013-09-07
@@ -1926,7 +2088,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * Added another example to content-negotiation
   * Added `fresh` dep
   * Changed: `res.send()` always checks freshness
-  * Fixed: expose connects mime module. Cloases #1165
+  * Fixed: expose connects mime module. Closes #1165
 
 3.0.0beta2 / 2012-06-06
 ==================
@@ -2008,7 +2170,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * Added `req.ips`
   * Added `req.fresh`
   * Added `req.stale`
-  * Added comma-delmited / array support for `req.accepts()`
+  * Added comma-delimited / array support for `req.accepts()`
   * Added debug instrumentation
   * Added `res.set(obj)`
   * Added `res.set(field, value)`

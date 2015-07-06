@@ -28,6 +28,14 @@ describe('req', function(){
         .get('/?user[name]=tj')
         .expect(200, '{"user":{"name":"tj"}}', done);
       });
+
+      it('should parse parameters with dots', function (done) {
+        var app = createApp('extended');
+
+        request(app)
+        .get('/?user.name=tj')
+        .expect(200, '{"user.name":"tj"}', done);
+      });
     });
 
     describe('when "query parser" is simple', function () {
