@@ -1,3 +1,16 @@
+3.x
+===
+
+  * deps: connect@2.30.1
+    - deps: body-parser@~1.13.2
+    - deps: compression@~1.5.1
+    - deps: errorhandler@~1.4.1
+    - deps: morgan@~1.6.1
+    - deps: pause@0.1.0
+    - deps: qs@4.0.0
+    - deps: serve-index@~1.7.1
+    - deps: type-is@~1.6.4
+
 3.21.0 / 2015-06-18
 ===================
 
