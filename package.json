@@ -27,7 +27,7 @@
     "api"
   ],
   "dependencies": {
-    "accepts": "~1.2.9",
+    "accepts": "~1.2.10",
     "array-flatten": "1.1.0",
     "content-disposition": "0.5.0",
     "content-type": "~1.0.1",
