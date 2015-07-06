@@ -1,3 +1,11 @@
+unreleased
+==========
+
+  * deps: type-is@~1.6.4
+    - deps: mime-types@~2.1.2
+    - perf: enable strict mode
+    - perf: remove argument reassignment
+
 4.13.0 / 2015-06-20
 ===================
 

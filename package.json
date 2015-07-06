@@ -49,7 +49,7 @@
     "range-parser": "~1.0.2",
     "send": "0.13.0",
     "serve-static": "~1.10.0",
-    "type-is": "~1.6.3",
+    "type-is": "~1.6.4",
     "vary": "~1.0.0",
     "utils-merge": "1.0.0"
   },
