@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "after": "0.8.1",
-    "ejs": "2.3.1",
+    "ejs": "2.3.2",
     "istanbul": "0.3.9",
     "marked": "0.3.3",
     "mocha": "2.2.5",
