@@ -377,6 +377,16 @@ describe('Router', function(){
   })
 
   describe('.param', function() {
+    it('should require function', function () {
+      var router = new Router();
+      assert.throws(router.param.bind(router, 'id'), /argument fn is required/);
+    });
+
+    it('should reject non-function', function () {
+      var router = new Router();
+      assert.throws(router.param.bind(router, 'id', 42), /argument fn must be a function/);
+    });
+
     it('should call param function when routing VERBS', function(done) {
       var router = new Router();
 
