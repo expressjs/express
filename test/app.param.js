@@ -21,7 +21,7 @@ describe('app', function(){
         }
       })
 
-      app.param(':name', /^([a-zA-Z]+)$/);
+      app.param('name', /^([a-zA-Z]+)$/);
 
       app.get('/user/:name', function(req, res){
         res.send(req.params.name);
@@ -29,18 +29,17 @@ describe('app', function(){
 
       request(app)
       .get('/user/tj')
-      .end(function(err, res){
-        res.text.should.equal('tj');
+      .expect(200, 'tj', function (err) {
+        if (err) return done(err);
         request(app)
         .get('/user/123')
         .expect(404, done);
       });
-
     })
 
     it('should fail if not given fn', function(){
       var app = express();
-      app.param.bind(app, ':name', 'bob').should.throw();
+      app.param.bind(app, 'name', 'bob').should.throw();
     })
   })
 

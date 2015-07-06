@@ -3,6 +3,9 @@
 
 This incorporates all changes after 4.10.1 up to 4.13.1.
 
+  * change:
+    - The leading `:` character in `name` for `app.param(name, fn)` is no longer removed
+
 5.0.0-alpha.1 / 2014-11-06
 ==========================
 
