@@ -3,6 +3,9 @@ unreleased
 
   * deps: accepts@~1.2.10
     - deps: mime-types@~2.1.2
+  * deps: qs@4.0.0
+    - Fix dropping parameters like `hasOwnProperty`
+    - Fix various parsing edge cases
   * deps: type-is@~1.6.4
     - deps: mime-types@~2.1.2
     - perf: enable strict mode
