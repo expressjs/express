@@ -1,6 +1,7 @@
 3.x
 ===
 
+  * deps: basic-auth@~1.0.3
   * deps: connect@2.30.1
     - deps: body-parser@~1.13.2
     - deps: compression@~1.5.1
