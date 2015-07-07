@@ -1,7 +1,8 @@
-5.x
-===
+5.0.0-alpha.2 / 2015-07-06
+==========================
 
-This incorporates all changes after 4.10.1 up to 4.13.1.
+This is the second Express 5.0 alpha release, based off 4.13.1 and includes
+changes from 5.0.0-alpha.1.
 
   * remove:
     - `app.param(fn)`
