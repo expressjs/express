@@ -5,6 +5,7 @@ This incorporates all changes after 4.10.1 up to 4.13.1.
 
   * remove:
     - `app.param(fn)`
+    - `req.param()` -- use `req.params`, `req.body`, or `req.query` instead
   * change:
     - The leading `:` character in `name` for `app.param(name, fn)` is no longer removed
 
