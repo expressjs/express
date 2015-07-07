@@ -8,6 +8,7 @@ This incorporates all changes after 4.10.1 up to 4.13.1.
     - `req.param()` -- use `req.params`, `req.body`, or `req.query` instead
   * change:
     - The leading `:` character in `name` for `app.param(name, fn)` is no longer removed
+    - Use `router` module for routing
 
 5.0.0-alpha.1 / 2014-11-06
 ==========================

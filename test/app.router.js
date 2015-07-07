@@ -56,7 +56,7 @@ describe('app.router', function(){
 
       it('should reject numbers for app.' + method, function(){
         var app = express();
-        app[method].bind(app, '/', 3).should.throw(/Number/);
+        assert.throws(app[method].bind(app, '/', 3), /argument handler must be a function/);
       })
     });
 

@@ -27,7 +27,7 @@ describe('Router', function(){
     });
     router.use('/foo', another);
 
-    router.handle({ url: '/foo/bar', method: 'GET' }, { end: done });
+    router.handle({ url: '/foo/bar', method: 'GET' }, { end: done }, function(){});
   });
 
   it('should support dynamic routes', function(done){
@@ -40,7 +40,7 @@ describe('Router', function(){
     });
     router.use('/:foo', another);
 
-    router.handle({ url: '/test/route', method: 'GET' }, { end: done });
+    router.handle({ url: '/test/route', method: 'GET' }, { end: done }, function(){});
   });
 
   it('should handle blank URL', function(done){
@@ -65,7 +65,7 @@ describe('Router', function(){
       res.end();
     });
 
-    router.handle({ url: '/', method: 'GET' }, { end: done });
+    router.handle({ url: '/', method: 'GET' }, { end: done }, function(){});
   });
 
   describe('.handle', function(){
@@ -82,7 +82,7 @@ describe('Router', function(){
           done();
         }
       }
-      router.handle({ url: '/foo', method: 'GET' }, res);
+      router.handle({ url: '/foo', method: 'GET' }, res, function(){});
     })
   })
 
@@ -342,15 +342,15 @@ describe('Router', function(){
   describe('.use', function() {
     it('should require arguments', function(){
       var router = new Router();
-      router.use.bind(router).should.throw(/requires middleware function/)
+      assert.throws(router.use.bind(router), /argument handler is required/)
     })
 
     it('should not accept non-functions', function(){
       var router = new Router();
-      router.use.bind(router, '/', 'hello').should.throw(/requires middleware function.*string/)
-      router.use.bind(router, '/', 5).should.throw(/requires middleware function.*number/)
-      router.use.bind(router, '/', null).should.throw(/requires middleware function.*Null/)
-      router.use.bind(router, '/', new Date()).should.throw(/requires middleware function.*Date/)
+      assert.throws(router.use.bind(router, '/', 'hello'), /argument handler must be a function/)
+      assert.throws(router.use.bind(router, '/', 5), /argument handler must be a function/)
+      assert.throws(router.use.bind(router, '/', null), /argument handler must be a function/)
+      assert.throws(router.use.bind(router, '/', new Date()), /argument handler must be a function/)
     })
 
     it('should accept array of middleware', function(done){
