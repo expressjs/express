@@ -85,11 +85,3 @@ describe('utils.isAbsolute()', function(){
     assert(!utils.isAbsolute('foo/bar'));
   })
 })
-
-describe('utils.flatten(arr)', function(){
-  it('should flatten an array', function(){
-    var arr = ['one', ['two', ['three', 'four'], 'five']];
-    utils.flatten(arr)
-      .should.eql(['one', 'two', 'three', 'four', 'five']);
-  })
-})
