@@ -1036,7 +1036,7 @@ describe('app.router', function(){
     var app = express();
     var router = express.Router({ automatic405: true });
 
-    router.route("/foo")
+    router.route('/foo')
     .get(function (req, res) {
       res.send('get');
     });
@@ -1052,7 +1052,7 @@ describe('app.router', function(){
     var app = express();
     var router = express.Router();
 
-    router.route("/foo", { automatic405: true })
+    router.route('/foo', { automatic405: true })
     .get(function (req, res) {
       res.send('get');
     });
@@ -1067,7 +1067,7 @@ describe('app.router', function(){
   it('should override automatic405 option if specific path option is set.', function (done) {
     var app = express();
     var router = express.Router({ automatic405: true });
-    router.route("/foo", { automatic405: false })
+    router.route('/foo', { automatic405: false })
     .get(function (req, res) {
       res.send('get');
     });
@@ -1078,4 +1078,48 @@ describe('app.router', function(){
     .post('/foo')
     .expect(404, done);
   });
+
+  it('should return 405 for /bar', function (done) {
+    var app = express();
+    var router = express.Router();
+
+    router.route('/foo')
+    .get(function (req, res) {
+      return res.send('get foo');
+    });
+
+    router.route('/bar', { automatic405: true })
+    .get(function (req, res) {
+      return res.send('get bar');
+    });
+
+    app.use(router);
+
+    request(app)
+    .post('/bar')
+    .expect(405, done);
+  });
+
+  it('should return 404 for /foo', function (done) {
+    var app = express();
+    var router = express.Router();
+
+    router.route('/foo')
+    .get(function (req, res) {
+      return res.send('get foo');
+    });
+
+    router.route('/bar', { automatic405: true })
+    .get(function (req, res) {
+      return res.send('get bar');
+    });
+
+    app.use(router);
+
+    request(app)
+    .post('/foo')
+    .expect(404, done);
+  });
+
+
 })
