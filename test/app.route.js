@@ -59,4 +59,17 @@ describe('app.route', function(){
     .get('/test')
     .expect(404, done);
   });
+
+  it('should return 405 status on non implemented handlers for specific routes with automatic405 option set', function(done){
+    var app = express();
+
+    app.route('/foo', { automatic405: true })
+    .get(function (req, res) {
+      res.send('get');
+    });
+
+    request(app)
+    .post('/foo')
+    .expect(405, done);
+  });
 });

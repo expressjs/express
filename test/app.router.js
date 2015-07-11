@@ -983,4 +983,51 @@ describe('app.router', function(){
     var app = express();
     app.get('/', function(){}).should.equal(app);
   })
+
+  it('should return 405 status on non implemented handlers for a router with automatic405 option set', function (done) {
+    var app = express();
+    var router = express.Router({ automatic405: true });
+
+    router.route("/foo")
+    .get(function (req, res) {
+      res.send('get');
+    });
+
+    app.use(router);
+
+    request(app)
+    .post('/foo')
+    .expect(405, done);
+  });
+
+  it('should return 405 status on non implemented handlers for a specific path in a router with automatic405 option set', function (done) {
+    var app = express();
+    var router = express.Router();
+
+    router.route("/foo", { automatic405: true })
+    .get(function (req, res) {
+      res.send('get');
+    });
+
+    app.use(router);
+
+    request(app)
+    .post('/foo')
+    .expect(405, done);
+  });
+
+  it('should override automatic405 option if specific path option is set.', function (done) {
+    var app = express();
+    var router = express.Router({ automatic405: true });
+    router.route("/foo", { automatic405: false })
+    .get(function (req, res) {
+      res.send('get');
+    });
+
+    app.use(router);
+
+    request(app)
+    .post('/foo')
+    .expect(404, done);
+  });
 })
