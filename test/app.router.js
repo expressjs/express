@@ -1121,5 +1121,24 @@ describe('app.router', function(){
     .expect(404, done);
   });
 
+  it('should return 500 if an error is thrown anywhere with 405 routing', function(done) {
+    var app = express();
+    var router = express.Router();
 
-})
+    router.route('/bar', { automatic405: true })
+    .all(function(req, res, next) {
+      return next(new Error('Boom!'));
+    })
+    .get(function (req, res) {
+      return res.send('get bar');
+    });
+
+    app.use(router);
+
+    request(app)
+    .post('/bar')
+    .expect(500, done);
+
+  });
+
+});
