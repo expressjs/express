@@ -46,7 +46,7 @@
     "range-parser": "~1.0.2",
     "send": "0.13.0",
     "utils-merge": "1.0.0",
-    "vary": "~1.0.0"
+    "vary": "~1.0.1"
   },
   "devDependencies": {
     "connect-redis": "~1.5.0",
