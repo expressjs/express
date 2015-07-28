@@ -3,6 +3,8 @@ unreleased
 
   * deps: array-flatten@1.1.1
     - perf: enable strict mode
+  * deps: path-to-regexp@0.1.7
+    - Fix regression with escaped round brackets and matching groups
 
 4.13.1 / 2015-07-05
 ===================

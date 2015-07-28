@@ -721,6 +721,18 @@ describe('app.router', function(){
       .expect('editing tj (old)', cb);
     })
 
+    it('should work inside literal paranthesis', function(done){
+      var app = express();
+
+      app.get('/:user\\(:op\\)', function(req, res){
+        res.end(req.params.op + 'ing ' + req.params.user);
+      });
+
+      request(app)
+      .get('/tj(edit)')
+      .expect('editing tj', done);
+    })
+
     it('should work in array of paths', function(done){
       var app = express();
       var cb = after(2, done);
