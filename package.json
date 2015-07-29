@@ -62,15 +62,15 @@
     "should": "7.0.1",
     "supertest": "1.0.1",
     "body-parser": "~1.13.2",
-    "connect-redis": "~2.3.0",
+    "connect-redis": "~2.4.1",
     "cookie-parser": "~1.3.5",
     "cookie-session": "~1.2.0",
     "express-session": "~1.11.3",
     "jade": "~1.11.0",
-    "method-override": "~2.3.3",
+    "method-override": "~2.3.4",
     "morgan": "~1.6.1",
     "multiparty": "~4.1.2",
-    "vhost": "~3.0.0"
+    "vhost": "~3.0.1"
   },
   "engines": {
     "node": ">= 0.10.0"
