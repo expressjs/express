@@ -1,6 +1,14 @@
 3.x
 ===
 
+  * deps: connect@2.30.2
+    - deps: body-parser@~1.13.3
+    - deps: compression@~1.5.2
+    - deps: errorhandler@~1.4.2
+    - deps: method-override@~2.3.5
+    - deps: serve-index@~1.7.2
+    - deps: type-is@~1.6.6
+    - deps: vhost@~3.0.1
   * deps: vary@~1.0.1
     - Fix setting empty header from empty `field`
     - perf: enable strict mode
