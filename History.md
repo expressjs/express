@@ -1,6 +1,8 @@
 unreleased
 ==========
 
+  * deps: accepts@~1.2.12
+    - deps: mime-types@~2.1.4
   * deps: array-flatten@1.1.1
     - perf: enable strict mode
   * deps: path-to-regexp@0.1.7
