@@ -7,6 +7,8 @@ unreleased
     - perf: enable strict mode
   * deps: path-to-regexp@0.1.7
     - Fix regression with escaped round brackets and matching groups
+  * deps: type-is@~1.6.6
+    - deps: mime-types@~2.1.4
 
 4.13.1 / 2015-07-05
 ===================
