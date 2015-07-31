@@ -50,16 +50,16 @@
     "send": "0.13.0",
     "serve-static": "~1.10.0",
     "type-is": "~1.6.4",
-    "vary": "~1.0.0",
-    "utils-merge": "1.0.0"
+    "utils-merge": "1.0.0",
+    "vary": "~1.0.1"
   },
   "devDependencies": {
     "after": "0.8.1",
-    "ejs": "2.3.2",
+    "ejs": "2.3.3",
     "istanbul": "0.3.9",
-    "marked": "0.3.3",
+    "marked": "0.3.5",
     "mocha": "2.2.5",
-    "should": "7.0.1",
+    "should": "7.0.2",
     "supertest": "1.0.1",
     "body-parser": "~1.13.2",
     "connect-redis": "~2.4.1",

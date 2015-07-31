@@ -871,6 +871,22 @@ unreleased
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
 
+3.21.2 / 2015-07-31
+===================
+
+  * deps: connect@2.30.2
+    - deps: body-parser@~1.13.3
+    - deps: compression@~1.5.2
+    - deps: errorhandler@~1.4.2
+    - deps: method-override@~2.3.5
+    - deps: serve-index@~1.7.2
+    - deps: type-is@~1.6.6
+    - deps: vhost@~3.0.1
+  * deps: vary@~1.0.1
+    - Fix setting empty header from empty `field`
+    - perf: enable strict mode
+    - perf: remove argument reassignments
+
 3.21.1 / 2015-07-05
 ===================
 
