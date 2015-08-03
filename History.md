@@ -1,5 +1,5 @@
-unreleased
-==========
+4.13.3 / 2015-08-02
+===================
 
   * Fix infinite loop condition using `mergeParams: true`
   * Fix inner numeric indices incorrectly altering parent `req.params`
