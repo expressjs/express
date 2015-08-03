@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix infinite loop condition using `mergeParams: true`
+
 4.13.2 / 2015-07-31
 ===================
 

@@ -320,6 +320,22 @@ describe('app.router', function(){
       .expect(200, '[["0","10"],["1","tj"],["2","profile"]]', done);
     })
 
+    it('should merge numeric indices req.params when parent has same number', function(done){
+      var app = express();
+      var router = new express.Router({ mergeParams: true });
+
+      router.get('/name:(\\w+)', function(req, res){
+        var keys = Object.keys(req.params).sort();
+        res.send(keys.map(function(k){ return [k, req.params[k]] }));
+      });
+
+      app.use('/user/id:(\\d+)', router);
+
+      request(app)
+      .get('/user/id:10/name:tj')
+      .expect(200, '[["0","10"],["1","tj"]]', done);
+    })
+
     it('should ignore invalid incoming req.params', function(done){
       var app = express();
       var router = new express.Router({ mergeParams: true });
