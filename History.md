@@ -29,6 +29,7 @@ unreleased
     - deps: ipaddr.js@1.1.1
   * deps: vary@~1.1.0
     - Only accept valid field names in the `field` argument
+  * perf: use strict equality when possible
 
 4.13.4 / 2016-01-21
 ===================
