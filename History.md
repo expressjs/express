@@ -11,6 +11,7 @@ unreleased
   * deps: qs@6.3.1
     - Fix array parsing from skipping empty values
     - Fix compacting nested arrays
+  * perf: improve `req.ips` performance
 
 4.14.1 / 2017-01-28
 ===================
