@@ -354,6 +354,26 @@ describe('app.router', function(){
       .get('/user/tj')
       .expect(200, '[["name","tj"]]', done);
     })
+
+    it('should restore req.params', function(done){
+      var app = express();
+      var router = new express.Router({ mergeParams: true });
+
+      router.get('/user:(\\w+)/*', function (req, res, next) {
+        next();
+      });
+
+      app.use('/user/id:(\\d+)', function (req, res, next) {
+        router(req, res, function (err) {
+          var keys = Object.keys(req.params).sort();
+          res.send(keys.map(function(k){ return [k, req.params[k]] }));
+        });
+      });
+
+      request(app)
+      .get('/user/id:42/user:tj/profile')
+      .expect(200, '[["0","42"]]', done);
+    })
   })
 
   describe('trailing slashes', function(){
