@@ -42,5 +42,33 @@ describe('res', function(){
       .expect('Link', '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last", <http://api.example.com/users?page=1>; rel="prev"')
       .expect(200, done);
     })
+      it('should set Link header field with an Array', function (done) {
+          var app = express();
+
+          app.use(function (req, res) {
+              res.links([
+                  {
+                      href: 'http://api.example.com/users?page=2',
+                      rel: 'next',
+                      title: 'next chapter',
+                      type: 'text/plain;charset=UTF-8'
+                  },
+                  {
+                      href: 'http://api.example.com/users?page=5',
+                      rel: 'last',
+                      title: 'the grand finale',
+                      type: 'video/webm'
+                  }
+              ]);
+
+              res.end();
+          });
+
+          request(app)
+              .get('/')
+              .expect('Link', '<http://api.example.com/users?page=2>; rel="next"; title="next chapter"; type="text/plain;charset=UTF-8",'
+                            + ' <http://api.example.com/users?page=5>; rel="last"; title="the grand finale"; type="video/webm"')
+              .expect(200, done);
+      })
   })
 })
