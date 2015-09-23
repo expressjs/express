@@ -5,31 +5,6 @@ var Promise = require('bluebird');
 
 describe('middleware', function () {
   describe('promises', function () {
-    it('resolving will be waited on', function (done) {
-      var app = express();
-      var count = 0;
-
-      app.use(function (req, res) {
-        count++;
-        return new Promise(function (resolve, reject) {
-          count++;
-          setTimeout(function () {
-            count++;
-            resolve();
-          }, 5);
-        });
-      });
-
-      app.use(function (req, res) {
-        count.should.be.exactly(3);
-        res.end('Awesome!')
-      });
-
-      request(app)
-      .get('/')
-      .expect(200, done);
-    });
-
     it('rejecting will trigger error handlers', function (done) {
       var app = express();
 
