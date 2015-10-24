@@ -126,4 +126,23 @@ describe('app.route', function(){
     .post('/bar')
     .expect(500, done);
   });
+
+  it('headers should contain allowed methods when returning a 405 status', function(done) {
+    var app = express();
+    app.set('automatic 405 routing', true);
+
+    app.route('/bar')
+    .get(function (req, res) {
+      return res.send('get');
+    })
+    .post(function (req, res) {
+      return res.send('post');
+    });
+
+    request(app)
+    .put('/bar')
+    .expect('Allow', 'GET, POST, HEAD')
+    .expect(405, done);
+
+  });
 });
