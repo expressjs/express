@@ -141,7 +141,7 @@ describe('app.route', function(){
 
     request(app)
     .put('/bar')
-    .expect('Allow', 'GET, POST, HEAD')
+    .expect('Allow', 'GET,POST,HEAD')
     .expect(405, done);
 
   });
