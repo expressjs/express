@@ -19,6 +19,20 @@ describe('res', function(){
       .expect(200, '', done);
     })
   })
+  
+  describe('.send()', function(){
+    it('should set body to ""', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send();
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, '', done);
+    })
+  })
 
   describe('.send(undefined)', function(){
     it('should set body to ""', function(done){
