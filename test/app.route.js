@@ -145,4 +145,39 @@ describe('app.route', function(){
     .expect(405, done);
 
   });
+
+  it('should always return OPTIONS response with proper status', function(done) {
+    var app = express();
+    app.set('automatic 405 routing', true);
+
+    app.route('/bar')
+    .get(function (req, res) {
+      return res.send('get');
+    })
+    .post(function (req, res) {
+      return res.send('post');
+    });
+
+    request(app)
+    .options('/bar')
+    .expect('Allow', 'GET,POST,HEAD')
+    .expect(200, done);
+
+  });
+
+  it('OPTIONS method should send the defined status if a handler is provided', function(done) {
+    var app = express();
+    app.set('automatic 405 routing', true);
+
+    app.route('/bar')
+    .options(function (req, res) {
+      return res.status(401).end();
+    });
+
+    request(app)
+    .options('/bar')
+    .expect(401, done);
+
+  });
+
 });

@@ -1141,4 +1141,25 @@ describe('app.router', function(){
 
   });
 
+  it('should always return OPTIONS response with proper status', function(done) {
+    var app = express();
+    var router = express.Router();
+
+    router.route('/bar', { automatic405: true })
+    .get(function(req, res, next) {
+      return res.send('get bar');
+    })
+    .post(function (req, res) {
+      return res.send('post bar');
+    });
+
+    app.use(router);
+
+    request(app)
+    .options('/bar')
+    .expect('Allow','GET,POST,HEAD')
+    .expect(200, done);
+
+  });
+
 });
