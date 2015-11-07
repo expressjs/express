@@ -2,9 +2,7 @@ language: node_js
 node_js:
   - "0.10"
   - "0.12"
-  - "1.0"
   - "1.8"
-  - "2.0"
   - "2.3"
 sudo: false
 before_install: "npm rm --save-dev connect-redis"
