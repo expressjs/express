@@ -59,7 +59,7 @@
     "istanbul": "0.4.0",
     "marked": "0.3.5",
     "mocha": "2.3.3",
-    "should": "7.0.2",
+    "should": "7.1.1",
     "supertest": "1.1.0",
     "body-parser": "~1.13.3",
     "connect-redis": "~2.4.1",
