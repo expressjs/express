@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Improve error message for non-strings to `res.sendFile`
+  * Improve error message for `null`/`undefined` to `res.status`
 
 4.16.4 / 2018-10-10
 ===================
