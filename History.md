@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Add debug message when loading view engine
+  * Add `next("router")` to exit from router
   * Fix case where `router.use` skipped requests routes did not
   * Remove usage of `res._headers` private field
     - Improves compatibility with Node.js 8 nightly

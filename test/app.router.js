@@ -932,6 +932,37 @@ describe('app.router', function(){
     })
   })
 
+  describe('when next("router") is called', function () {
+    it('should jump out of router', function (done) {
+      var app = express()
+      var router = express.Router()
+
+      function fn (req, res, next) {
+        res.set('X-Hit', '1')
+        next('router')
+      }
+
+      router.get('/foo', fn, function (req, res, next) {
+        res.end('failure')
+      })
+
+      router.get('/foo', function (req, res, next) {
+        res.end('failure')
+      })
+
+      app.use(router)
+
+      app.get('/foo', function (req, res) {
+        res.end('success')
+      })
+
+      request(app)
+      .get('/foo')
+      .expect('X-Hit', '1')
+      .expect(200, 'success', done)
+    })
+  })
+
   describe('when next(err) is called', function(){
     it('should break out of app.router', function(done){
       var app = express()
