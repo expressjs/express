@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * deps: cookie@0.1.5
+    - Throw on invalid values provided to `serialize`
+
 4.13.3 / 2015-08-02
 ===================
 
