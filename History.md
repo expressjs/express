@@ -1,3 +1,21 @@
+4.13.3 / 2015-08-02
+===================
+
+  * Fix infinite loop condition using `mergeParams: true`
+  * Fix inner numeric indices incorrectly altering parent `req.params`
+
+4.13.2 / 2015-07-31
+===================
+
+  * deps: accepts@~1.2.12
+    - deps: mime-types@~2.1.4
+  * deps: array-flatten@1.1.1
+    - perf: enable strict mode
+  * deps: path-to-regexp@0.1.7
+    - Fix regression with escaped round brackets and matching groups
+  * deps: type-is@~1.6.6
+    - deps: mime-types@~2.1.4
+
 4.13.1 / 2015-07-05
 ===================
 
@@ -864,6 +882,22 @@
    - `app.router()` - returns the app Router instance
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
+
+3.21.2 / 2015-07-31
+===================
+
+  * deps: connect@2.30.2
+    - deps: body-parser@~1.13.3
+    - deps: compression@~1.5.2
+    - deps: errorhandler@~1.4.2
+    - deps: method-override@~2.3.5
+    - deps: serve-index@~1.7.2
+    - deps: type-is@~1.6.6
+    - deps: vhost@~3.0.1
+  * deps: vary@~1.0.1
+    - Fix setting empty header from empty `field`
+    - perf: enable strict mode
+    - perf: remove argument reassignments
 
 3.21.1 / 2015-07-05
 ===================
