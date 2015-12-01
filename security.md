@@ -11,7 +11,7 @@ The Express team and community take all security bugs in Express seriously.  Tha
 security of Express. We appreciate your efforts and responsible disclosure and will make every effort to 
 acknowledge your contributions.
 
-Report security bugs by emailing _Email TBD_.   Email to this address is delivered to a subset of the core 
+Report security bugs by emailing security@expressjs.com.   Email to this address is delivered to a subset of the core 
 team who handle security issues.
 
 The security team will acknowledge your email within 24 hours, and will send a more detailed response within 
@@ -41,5 +41,5 @@ Security notifications will be distributed via the following methods.
  
 ## Comments on this Policy
 
-If you have suggestions on how this process could be improved please submit a pull request or email _Email TBD_ 
+If you have suggestions on how this process could be improved please submit a pull request or email security@expressjs.com 
 to discuss.
