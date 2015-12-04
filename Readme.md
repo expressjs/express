@@ -45,7 +45,13 @@ $ npm install express
   * [Русскоязычная документация](http://jsman.ru/express/)
   * [한국어 문서](http://expressjs.kr) - [[website repo](https://github.com/Hanul/expressjs.kr)]
 
-**PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/strongloop/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/strongloop/express/wiki/New-features-in-4.x).
+**PRO TIP** Read the migration guides: 
+* [Moving to 4.x](http://expressjs.com/en/guide/migrating-4.html) 
+* [Moving to 5.x](http://expressjs.com/en/guide/migrating-5.html)
+
+###Security Issues
+
+If you discover a security vulnerability in Express, please see [Security Policies and Procedures](security.md). 
 
 ## Quick Start
 
