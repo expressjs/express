@@ -5,6 +5,7 @@ environment:
     - nodejs_version: "1.8"
     - nodejs_version: "2.5"
     - nodejs_version: "3.3"
+    - nodejs_version: "4.2"
 install:
   - ps: Install-Product node $env:nodejs_version
   - npm rm --save-dev connect-redis
