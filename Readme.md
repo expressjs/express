@@ -48,7 +48,7 @@ $ npm install express
 
 ###Security Issues
 
-If you discover a security vulnerability in Express, please see [Security Policies and Procedures](security.md).
+If you discover a security vulnerability in Express, please see [Security Policies and Procedures](Security.md).
 
 ## Quick Start
 
