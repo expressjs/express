@@ -7,6 +7,8 @@ unreleased
     - perf: enable strict mode
     - perf: optimize string replacement
     - perf: use faster string coercion
+  * deps: finalhandler@0.4.1
+    - deps: escape-html@~1.0.3
 
 4.13.3 / 2015-08-02
 ===================
