@@ -3,6 +3,10 @@ unreleased
 
   * deps: cookie@0.1.5
     - Throw on invalid values provided to `serialize`
+  * deps: escape-html@~1.0.3
+    - perf: enable strict mode
+    - perf: optimize string replacement
+    - perf: use faster string coercion
 
 4.13.3 / 2015-08-02
 ===================
