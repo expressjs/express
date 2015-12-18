@@ -12,6 +12,8 @@ unreleased
   * deps: proxy-addr@~1.0.10
     - deps: ipaddr.js@1.0.5
     - perf: enable strict mode
+  * deps: range-parser@~1.0.3
+    - perf: enable strict mode
 
 4.13.3 / 2015-08-02
 ===================
