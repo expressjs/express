@@ -42,6 +42,7 @@ $ npm install express
   * [Github Organization](https://github.com/expressjs) for Official Middleware & Modules
   * Visit the [Wiki](https://github.com/strongloop/express/wiki)
   * [Google Group](https://groups.google.com/group/express-js) for discussion
+  * [Gitter](https://gitter.im/strongloop/express) for support and discussion
   * [Русскоязычная документация](http://jsman.ru/express/)
 
 **PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/strongloop/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/strongloop/express/wiki/New-features-in-4.x).
