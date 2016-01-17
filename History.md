@@ -3,6 +3,9 @@ unreleased
 
   * deps: cookie@0.1.5
     - Throw on invalid values provided to `serialize`
+  * deps: depd@~1.1.0
+    - Support web browser loading
+    - perf: enable strict mode
   * deps: escape-html@~1.0.3
     - perf: enable strict mode
     - perf: optimize string replacement
