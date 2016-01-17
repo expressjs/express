@@ -1,6 +1,8 @@
 unreleased
 ==========
 
+  * deps: content-disposition@0.5.1
+    - perf: enable strict mode
   * deps: cookie@0.1.5
     - Throw on invalid values provided to `serialize`
   * deps: depd@~1.1.0
