@@ -16,6 +16,8 @@ unreleased
     - deps: escape-html@~1.0.3
   * deps: merge-descriptors@1.0.1
     - perf: enable strict mode
+  * deps: methods@~1.1.2
+    - perf: enable strict mode
   * deps: proxy-addr@~1.0.10
     - deps: ipaddr.js@1.0.5
     - perf: enable strict mode
