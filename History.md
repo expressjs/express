@@ -28,8 +28,9 @@ unreleased
     - deps: destroy@~1.0.4
     - deps: escape-html@~1.0.3
     - deps: range-parser@~1.0.3
-  * deps: serve-static@~1.10.1
+  * deps: serve-static@~1.10.2
     - deps: escape-html@~1.0.3
+    - deps: parseurl@~1.3.0
     - deps: send@0.13.1
 
 4.13.3 / 2015-08-02
