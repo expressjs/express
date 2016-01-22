@@ -1,5 +1,5 @@
-unreleased
-==========
+4.13.4 / 2016-01-21
+===================
 
   * deps: content-disposition@0.5.1
     - perf: enable strict mode
