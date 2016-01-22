@@ -1,6 +1,7 @@
 
-var express = require('../')
-  , request = require('supertest');
+var http = require('http');
+var express = require('..');
+var request = require('supertest');
 
 describe('res', function(){
   describe('.redirect(url)', function(){
@@ -83,11 +84,9 @@ describe('res', function(){
       request(app)
       .get('/')
       .set('Accept', 'text/html')
-      .end(function(err, res){
-        res.headers.should.have.property('location', 'http://google.com');
-        res.text.should.equal('<p>Moved Temporarily. Redirecting to <a href="http://google.com">http://google.com</a></p>');
-        done();
-      })
+      .expect('Content-Type', /html/)
+      .expect('Location', 'http://google.com')
+      .expect(302, '<p>' + http.STATUS_CODES[302] + '. Redirecting to <a href="http://google.com">http://google.com</a></p>', done);
     })
 
     it('should escape the url', function(done){
@@ -101,10 +100,9 @@ describe('res', function(){
       .get('/')
       .set('Host', 'http://example.com')
       .set('Accept', 'text/html')
-      .end(function(err, res){
-        res.text.should.equal('<p>Moved Temporarily. Redirecting to <a href="&lt;lame&gt;">&lt;lame&gt;</a></p>');
-        done();
-      })
+      .expect('Content-Type', /html/)
+      .expect('Location', '<lame>')
+      .expect(302, '<p>' + http.STATUS_CODES[302] + '. Redirecting to <a href="&lt;lame&gt;">&lt;lame&gt;</a></p>', done);
     })
 
     it('should include the redirect type', function(done){
@@ -134,12 +132,9 @@ describe('res', function(){
       request(app)
       .get('/')
       .set('Accept', 'text/plain, */*')
-      .end(function(err, res){
-        res.headers.should.have.property('location', 'http://google.com');
-        res.headers.should.have.property('content-length', '51');
-        res.text.should.equal('Moved Temporarily. Redirecting to http://google.com');
-        done();
-      })
+      .expect('Content-Type', /plain/)
+      .expect('Location', 'http://google.com')
+      .expect(302, http.STATUS_CODES[302] + '. Redirecting to http://google.com', done);
     })
 
     it('should encode the url', function(done){
@@ -153,10 +148,9 @@ describe('res', function(){
       .get('/')
       .set('Host', 'http://example.com')
       .set('Accept', 'text/plain, */*')
-      .end(function(err, res){
-        res.text.should.equal('Moved Temporarily. Redirecting to http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E');
-        done();
-      })
+      .expect('Content-Type', /plain/)
+      .expect('Location', 'http://example.com/?param=<script>alert("hax");</script>')
+      .expect(302, http.STATUS_CODES[302] + '. Redirecting to http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E', done);
     })
 
     it('should include the redirect type', function(done){

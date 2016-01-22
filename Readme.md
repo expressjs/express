@@ -37,15 +37,15 @@ $ npm install express
 
 ## Docs & Community
 
-  * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/strongloop/expressjs.com)]
   * [#express](https://webchat.freenode.net/?channels=express) on freenode IRC
   * [Github Organization](https://github.com/expressjs) for Official Middleware & Modules
-  * Visit the [Wiki](https://github.com/strongloop/express/wiki)
   * [Google Group](https://groups.google.com/group/express-js) for discussion
+  * [Gitter](https://gitter.im/expressjs/express) for support and discussion
   * [Русскоязычная документация](http://jsman.ru/express/)
-  * [한국어 문서](http://expressjs.kr) - [[website repo](https://github.com/Hanul/expressjs.kr)]
 
-**PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/strongloop/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/strongloop/express/wiki/New-features-in-4.x).
+###Security Issues
+
+If you discover a security vulnerability in Express, please see [Security Policies and Procedures](Security.md).
 
 ## Quick Start
 
@@ -90,7 +90,7 @@ $ npm start
   To view the examples, clone the Express repo and install the dependencies:
 
 ```bash
-$ git clone git://github.com/strongloop/express.git --depth 1
+$ git clone git://github.com/expressjs/express.git --depth 1
 $ cd express
 $ npm install
 ```
@@ -116,7 +116,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj) [![TJ'
 
 The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson) [![Doug's Gratipay][gratipay-image-dougwilson]][gratipay-url-dougwilson]
 
-[List of all contributors](https://github.com/strongloop/express/graphs/contributors)
+[List of all contributors](https://github.com/expressjs/express/graphs/contributors)
 
 ## License
 
@@ -126,12 +126,12 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [npm-url]: https://npmjs.org/package/express
 [downloads-image]: https://img.shields.io/npm/dm/express.svg
 [downloads-url]: https://npmjs.org/package/express
-[travis-image]: https://img.shields.io/travis/strongloop/express/master.svg?label=linux
-[travis-url]: https://travis-ci.org/strongloop/express
+[travis-image]: https://img.shields.io/travis/expressjs/express/master.svg?label=linux
+[travis-url]: https://travis-ci.org/expressjs/express
 [appveyor-image]: https://img.shields.io/appveyor/ci/dougwilson/express/master.svg?label=windows
 [appveyor-url]: https://ci.appveyor.com/project/dougwilson/express
-[coveralls-image]: https://img.shields.io/coveralls/strongloop/express/master.svg
-[coveralls-url]: https://coveralls.io/r/strongloop/express?branch=master
+[coveralls-image]: https://img.shields.io/coveralls/expressjs/express/master.svg
+[coveralls-url]: https://coveralls.io/r/expressjs/express?branch=master
 [gratipay-image-visionmedia]: https://img.shields.io/gratipay/visionmedia.svg
 [gratipay-url-visionmedia]: https://gratipay.com/visionmedia/
 [gratipay-image-dougwilson]: https://img.shields.io/gratipay/dougwilson.svg
