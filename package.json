@@ -13,8 +13,7 @@
     "Young Jae Sim <hanul@hanul.me>"
   ],
   "license": "MIT",
-  "repository": "strongloop/express",
-  "homepage": "http://expressjs.com/",
+  "repository": "expressjs/express",
   "keywords": [
     "express",
     "framework",
