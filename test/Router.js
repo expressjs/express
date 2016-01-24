@@ -502,4 +502,25 @@ describe('Router', function(){
       });
     });
   });
+
+  describe('matchedRoutes', function() {
+    it('should store matchedRoutes in request', function(done) {
+      var req = { url: '/foo/10/bar/baz/30', method: 'get' };
+      var fooRouter = new Router();
+      var barRouter = new Router();
+      var bazRouter = new Router();
+
+      bazRouter.get(['/bez', '/baz/:subId'], function(req, res, next) {
+        next();
+      });
+
+      fooRouter.use(['/foo/:id', '/foe'], barRouter);
+      barRouter.use(['/bar'], bazRouter);
+
+      fooRouter.handle(req, {}, function(err) {
+        assert.deepEqual(req.matchedRoutes, ['/foo/:id', '/bar', '/baz/:subId']);
+        done();
+      });
+    });
+  });
 })
