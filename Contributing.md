@@ -1,36 +1,129 @@
+# Contributing to Express
 
-## Website Issues
+## Code of Conduct
 
-Issues for the expressjs.com website go here https://github.com/strongloop/expressjs.com
+The [Code of Conduct][] explains the bare minimum behavior expectations for all
+contributors to Express. Please read it before participating.
 
-## PRs and Code contributions
+## Developer's Certificate of Origin
 
-* Tests must pass.
-* Follow existing coding style.
-* If you fix a bug, add a test.
+All code contributions to Express fall under the Express
+[Developer's Certificate of Origin][].
 
-## Branches
+## Issue Contributions
 
-* Use the `master` branch for bug fixes or minor work that is intended for the current release stream
-* Use the correspondingly named branch, e.g. `5.0`, for anything intended for a future release of Express 
+When opening new issues or commenting on existing issues on this repository
+please make sure discussions are related to concrete technical issues with the
+Express software.
 
-## Steps for contributing
+The issues tracker in this repository is not ideal for posting general help
+using Express. Helpful information and documentation can be found at
+http://expressjs.com.
 
-* [Create an issue](https://github.com/strongloop/express/issues/new) for the bug you want to fix or the feature that you want to add.
-* Create your own [fork](https://github.com/strongloop/express) on github, then checkout your fork.
-* Write your code in your local copy. It's good practice to create a branch for each new issue you work on, although not compulsory.
-* To run the test suite, first install the dependencies by running `npm install`, then run `npm test`.
-* If the tests pass, you can commit your changes to your fork and then create a pull request from there. Make sure to reference your issue from the pull request comments by including the issue number e.g. #123.
+Issues for the expressjs.com website should be directed to the
+[expressjs.com GitHub repository][].
 
-## Issues which are questions
+## Code contributions
 
-We will typically close any vague issues or questions that are specific to some app you are writing. Please double check the docs and other references before being trigger happy with posting a question issue.
+The Express project has an Open Governance model and welcomes new contributors.
+Individuals making significant and valuable contributions are made
+Collaborators and given commit-access to the project. See the
+[Express governance document][] for more information about how this works.
 
-Things that will help get your question issue looked at:
+This document will guide you through the contribution process.
 
-* Full and runnable JS code.
-* Clear description of the problem or unexpected behavior.
-* Clear description of the expected result.
-* Steps you have taken to debug it yourself.
+### Step 1: Fork
 
-If you post a question and do not outline the above items or make it easy for us to understand and reproduce your issue, it will be closed.
+Fork the project [on GitHub][] and check out your copy locally.
+
+```
+$ git clone git@github.com:username/express.git
+$ cd express
+$ git remote add upstream git://github.com/strongloop/express.git
+```
+
+### Step 2: Branch
+
+Create a feature branch and start hacking:
+
+```
+$ git checkout -b my-feature-branch -t origin/master
+```
+
+Please follow the existing coding style.
+
+### Step 3: Commit
+
+Make sure git knows your name and email address:
+
+```
+$ git config --global user.name "J. Random User"
+$ git config --global user.email "j.random.user@example.com"
+```
+
+Writing good commit logs is important. A commit log should describe what
+changed and why. Follow these guidelines when writing one:
+
+* The first line should be 50 characters or less and contain a short
+  description of the change.
+* Keep the second line blank.
+* Wrap all other lines at 72 columns.
+
+A good commit log can look something like this:
+
+```
+explaining the commit in one line
+
+Body of commit message is a few lines of text, explaining things
+in more detail, possibly giving some background about the issue
+being fixed, etc. etc.
+
+The body of the commit message can be several paragraphs, and
+please do proper word-wrap and keep columns shorter than about
+72 characters or so. That way `git log` will show things
+nicely even when it is indented.
+```
+
+The header line should be meaningful; it is what other people see when they run
+`git shortlog` or `git log --oneline`.
+
+### Step 4: Rebase
+
+Use `git rebase` (*not* `git merge`) to sync your work from time to time.
+
+```
+$ git fetch upstream
+$ git rebase upstream/master
+```
+
+### Step 5: Test
+
+Bug fixes and features should come with tests. Add your tests in the `test/`
+directory. Look at other tests to see how they should be structured (license
+boilerplate, common includes, etc.).
+
+```
+$ npm test
+```
+
+All tests must pass. Please do not submit pull requests with failing tests.
+
+### Step 6: Push
+
+```
+$ git push origin my-feature-branch
+```
+
+Go to https://github.com/yourusername/express and select your feature branch.
+Click the 'Pull Request' button and fill out the form.
+
+Pull requests are usually reviewed within a few days. If there are comments to
+address, apply your changes in a separate commit and push that to your feature
+branch. Post a comment in the pull request afterwards; GitHub does not send out
+notifications when you add commits.
+
+[Code of Conduct]: governance/CodeOfConduct.md
+[Express governance document]: governance/Governance.md
+[expressjs.com GitHub repository]: https://github.com/strongloop/expressjs.com
+[on GitHub]: https://github.com/strongloop/express
+[Developer's Certificate of Origin]: governance/DCO.md
