@@ -320,6 +320,22 @@ describe('app.router', function(){
       .expect(200, '[["0","10"],["1","tj"],["2","profile"]]', done);
     })
 
+    it('should merge numeric indices req.params when parent has same number', function(done){
+      var app = express();
+      var router = new express.Router({ mergeParams: true });
+
+      router.get('/name:(\\w+)', function(req, res){
+        var keys = Object.keys(req.params).sort();
+        res.send(keys.map(function(k){ return [k, req.params[k]] }));
+      });
+
+      app.use('/user/id:(\\d+)', router);
+
+      request(app)
+      .get('/user/id:10/name:tj')
+      .expect(200, '[["0","10"],["1","tj"]]', done);
+    })
+
     it('should ignore invalid incoming req.params', function(done){
       var app = express();
       var router = new express.Router({ mergeParams: true });
@@ -337,6 +353,26 @@ describe('app.router', function(){
       request(app)
       .get('/user/tj')
       .expect(200, '[["name","tj"]]', done);
+    })
+
+    it('should restore req.params', function(done){
+      var app = express();
+      var router = new express.Router({ mergeParams: true });
+
+      router.get('/user:(\\w+)/*', function (req, res, next) {
+        next();
+      });
+
+      app.use('/user/id:(\\d+)', function (req, res, next) {
+        router(req, res, function (err) {
+          var keys = Object.keys(req.params).sort();
+          res.send(keys.map(function(k){ return [k, req.params[k]] }));
+        });
+      });
+
+      request(app)
+      .get('/user/id:42/user:tj/profile')
+      .expect(200, '[["0","42"]]', done);
     })
   })
 
@@ -719,6 +755,18 @@ describe('app.router', function(){
       request(app)
       .get('/users/tj/edit')
       .expect('editing tj (old)', cb);
+    })
+
+    it('should work inside literal paranthesis', function(done){
+      var app = express();
+
+      app.get('/:user\\(:op\\)', function(req, res){
+        res.end(req.params.op + 'ing ' + req.params.user);
+      });
+
+      request(app)
+      .get('/tj(edit)')
+      .expect('editing tj', done);
     })
 
     it('should work in array of paths', function(done){
