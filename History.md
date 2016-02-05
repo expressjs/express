@@ -20,6 +20,9 @@ unreleased
     - perf: enable strict mode
   * deps: parseurl@~1.3.1
     - perf: enable strict mode
+  * deps: proxy-addr@~1.0.10
+    - deps: ipaddr.js@1.0.5
+    - perf: enable strict mode
 
 4.13.3 / 2015-08-02
 ===================
