@@ -16,15 +16,15 @@
   "repository": "strongloop/express",
   "homepage": "http://expressjs.com/",
   "keywords": [
+    "api",
+    "app",
     "express",
     "framework",
-    "sinatra",
-    "web",
     "rest",
     "restful",
     "router",
-    "app",
-    "api"
+    "sinatra",
+    "web"
   ],
   "dependencies": {
     "accepts": "~1.2.12",
@@ -55,29 +55,29 @@
   },
   "devDependencies": {
     "after": "0.8.1",
-    "ejs": "2.3.4",
-    "marked": "0.3.5",
-    "should": "7.1.1",
-    "supertest": "1.1.0",
     "body-parser": "~1.14.2",
     "connect-redis": "~2.4.1",
     "cookie-parser": "~1.4.1",
     "cookie-session": "~1.2.0",
+    "ejs": "2.3.4",
     "express-session": "~1.13.0",
     "istanbul": "0.4.2",
     "jade": "~1.11.0",
+    "marked": "0.3.5",
     "method-override": "~2.3.5",
     "mocha": "2.3.4",
     "morgan": "~1.6.1",
     "multiparty": "~4.1.2",
+    "should": "7.1.1",
+    "supertest": "1.1.0",
     "vhost": "~3.0.1"
   },
   "engines": {
     "node": ">= 0.10.0"
   },
   "files": [
-    "LICENSE",
     "History.md",
+    "LICENSE",
     "Readme.md",
     "index.js",
     "lib/"
