@@ -1,8 +1,39 @@
-unreleased
-==========
+4.13.4 / 2016-01-21
+===================
 
+  * deps: content-disposition@0.5.1
+    - perf: enable strict mode
   * deps: cookie@0.1.5
     - Throw on invalid values provided to `serialize`
+  * deps: depd@~1.1.0
+    - Support web browser loading
+    - perf: enable strict mode
+  * deps: escape-html@~1.0.3
+    - perf: enable strict mode
+    - perf: optimize string replacement
+    - perf: use faster string coercion
+  * deps: finalhandler@0.4.1
+    - deps: escape-html@~1.0.3
+  * deps: merge-descriptors@1.0.1
+    - perf: enable strict mode
+  * deps: methods@~1.1.2
+    - perf: enable strict mode
+  * deps: parseurl@~1.3.1
+    - perf: enable strict mode
+  * deps: proxy-addr@~1.0.10
+    - deps: ipaddr.js@1.0.5
+    - perf: enable strict mode
+  * deps: range-parser@~1.0.3
+    - perf: enable strict mode
+  * deps: send@0.13.1
+    - deps: depd@~1.1.0
+    - deps: destroy@~1.0.4
+    - deps: escape-html@~1.0.3
+    - deps: range-parser@~1.0.3
+  * deps: serve-static@~1.10.2
+    - deps: escape-html@~1.0.3
+    - deps: parseurl@~1.3.0
+    - deps: send@0.13.1
 
 4.13.3 / 2015-08-02
 ===================
