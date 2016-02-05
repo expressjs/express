@@ -8,6 +8,10 @@ unreleased
   * deps: depd@~1.1.0
     - Support web browser loading
     - perf: enable strict mode
+  * deps: escape-html@~1.0.3
+    - perf: enable strict mode
+    - perf: optimize string replacement
+    - perf: use faster string coercion
 
 4.13.3 / 2015-08-02
 ===================
