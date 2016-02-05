@@ -25,6 +25,11 @@ unreleased
     - perf: enable strict mode
   * deps: range-parser@~1.0.3
     - perf: enable strict mode
+  * deps: send@0.13.1
+    - deps: depd@~1.1.0
+    - deps: destroy@~1.0.4
+    - deps: escape-html@~1.0.3
+    - deps: range-parser@~1.0.3
 
 4.13.3 / 2015-08-02
 ===================
