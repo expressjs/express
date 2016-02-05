@@ -57,7 +57,6 @@
     "after": "0.8.1",
     "ejs": "2.3.4",
     "marked": "0.3.5",
-    "mocha": "2.3.3",
     "should": "7.1.1",
     "supertest": "1.1.0",
     "body-parser": "~1.14.2",
@@ -68,6 +67,7 @@
     "istanbul": "0.4.2",
     "jade": "~1.11.0",
     "method-override": "~2.3.5",
+    "mocha": "2.3.4",
     "morgan": "~1.6.1",
     "multiparty": "~4.1.2",
     "vhost": "~3.0.1"
