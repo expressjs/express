@@ -18,6 +18,8 @@ unreleased
     - perf: enable strict mode
   * deps: methods@~1.1.2
     - perf: enable strict mode
+  * deps: parseurl@~1.3.1
+    - perf: enable strict mode
 
 4.13.3 / 2015-08-02
 ===================
