@@ -5,6 +5,9 @@ unreleased
     - perf: enable strict mode
   * deps: cookie@0.1.5
     - Throw on invalid values provided to `serialize`
+  * deps: depd@~1.1.0
+    - Support web browser loading
+    - perf: enable strict mode
 
 4.13.3 / 2015-08-02
 ===================
