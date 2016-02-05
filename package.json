@@ -64,7 +64,7 @@
     "connect-redis": "~2.4.1",
     "cookie-parser": "~1.4.1",
     "cookie-session": "~1.2.0",
-    "express-session": "~1.11.3",
+    "express-session": "~1.13.0",
     "istanbul": "0.4.2",
     "jade": "~1.11.0",
     "method-override": "~2.3.5",
