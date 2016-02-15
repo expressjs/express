@@ -19,6 +19,10 @@ app.get('/', function (req, res) {
 app.listen(3000)
 ```
 
+The Express project is supported by the [Node.js Foundation][foundation].
+Contributions, policies and releases are managed under an 
+[open governance model][]. We are also bound by a [Code of Conduct][].
+
 ## Installation
 
 ```bash
@@ -114,18 +118,33 @@ $ npm install
 $ npm test
 ```
 
-## People
+## Current Project Team Members
 
-The original author of Express is [TJ Holowaychuk](https://github.com/tj) [![TJ's Gratipay][gratipay-image-visionmedia]][gratipay-url-visionmedia]
+### Technical Committee
 
-The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson) [![Doug's Gratipay][gratipay-image-dougwilson]][gratipay-url-dougwilson]
+* (TODO: Complete members list)
 
-[List of all contributors](https://github.com/expressjs/express/graphs/contributors)
+### Collaborators
+
+* (TODO: Complete collaborators list)
+
+### Release Team
+
+* (TODO: Complete release team members list)
+
+### Original author, lead maintainer(s), other contributors
+
+* [TJ Holowaychuk](https://github.com/tj)
+* [Douglas Christopher Wilson](https://github.com/dougwilson)
+* [List of all contributors](https://github.com/strongloop/express/graphs/contributors)
 
 ## License
 
   [MIT](LICENSE)
 
+[Node.js Foundation]: https://nodejs.org/foundation
+[open governance model]: GOVERNANCE.md
+[Code of Conduct]: CODE_OF_CONDUCT.md
 [npm-image]: https://img.shields.io/npm/v/express.svg
 [npm-url]: https://npmjs.org/package/express
 [downloads-image]: https://img.shields.io/npm/dm/express.svg

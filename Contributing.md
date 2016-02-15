@@ -122,8 +122,8 @@ address, apply your changes in a separate commit and push that to your feature
 branch. Post a comment in the pull request afterwards; GitHub does not send out
 notifications when you add commits.
 
-[Code of Conduct]: governance/CodeOfConduct.md
-[Express governance document]: governance/Governance.md
+[Code of Conduct]: CODE_OF_CONDUCT.md
+[Express governance document]: GOVERNANCE.md
 [expressjs.com GitHub repository]: https://github.com/strongloop/expressjs.com
-[on GitHub]: https://github.com/strongloop/express
-[Developer's Certificate of Origin]: governance/DCO.md
+[on GitHub]: https://github.com/expressjs/express
+[Developer's Certificate of Origin]: GOVERNANCE.md#developers-certificate-of-origin-11
