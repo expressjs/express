@@ -136,7 +136,7 @@ $ npm test
 
 * [TJ Holowaychuk](https://github.com/tj)
 * [Douglas Christopher Wilson](https://github.com/dougwilson)
-* [List of all contributors](https://github.com/strongloop/express/graphs/contributors)
+* [List of all contributors](https://github.com/expressjs/express/graphs/contributors)
 
 ## License
 

@@ -1,6 +1,6 @@
-## Express Working Group Governance
+# Express Governance
 
-### Collaborators
+## Collaborators
 
 The expressjs/express GitHub repository is maintained by the Express TC and 
 additional Collaborators who are added by the TC on an ongoing basis.
@@ -34,7 +34,7 @@ final arbiter where required.
 
 For the current list of Collaborators, see the project [README.md][].
 
-### TC Membership
+## TC Membership
 
 TC seats are not time-limited.  There is no fixed size of the TC.
 However, the expected target is between 6 and 12, to ensure adequate
@@ -70,7 +70,7 @@ situation where more than 1/3 of the TC membership shares an employer, then the
 situation must be immediately remedied by the resignation or removal of one or
 more TC members affiliated with the over-represented employer(s).
 
-### TC Meetings
+## TC Meetings
 
 The TC meets bi-weekly using Google Hangouts on Air or similar tool that allows
 public viewing or participation. A designated moderator approved by the TC runs
@@ -102,7 +102,7 @@ participate in a non-voting capacity.
 The moderator is responsible for summarizing the discussion of each
 agenda item and sends it as a pull request after the meeting.
 
-### Consensus Seeking Process
+## Consensus Seeking Process
 
 The TC follows a [Consensus Seeking][] decision-making model.
 

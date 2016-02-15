@@ -39,7 +39,7 @@ Fork the project [on GitHub][] and check out your copy locally.
 ```
 $ git clone git@github.com:username/express.git
 $ cd express
-$ git remote add upstream git://github.com/strongloop/express.git
+$ git remote add upstream git://github.com/expressjs/express.git
 ```
 
 ### Step 2: Branch

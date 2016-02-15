@@ -1,4 +1,4 @@
-### Express WG Moderation Policy
+# Express WG Moderation Policy
 
 The [Node.js Moderation Policy] applies to this WG.
 
