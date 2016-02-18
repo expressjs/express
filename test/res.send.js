@@ -178,6 +178,38 @@ describe('res', function(){
       .expect('Content-Type', 'text/plain; charset=iso-8859-1')
       .expect(200, 'hi', done);
     })
+
+    it('should set content-length', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send(new Buffer('hi'));
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Length', '2')
+      .expect(200, 'hi', done);
+    })
+
+    it('should not set content-length', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.set('Transfer-Encoding', 'chunked').send(new Buffer('hi'));
+      });
+
+      request(app)
+      .get('/')
+      .expect(function (res) {
+        if (!res.headers['content-length']) {
+          return false;
+        }
+        return true;
+      })
+      .expect('Transfer-Encoding', 'chunked')
+      .expect(200, 'hi', done);
+    })
   })
 
   describe('.send(Buffer)', function(){
