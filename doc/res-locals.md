@@ -12,10 +12,10 @@ this property is identical to [app.locals](#app.locals).
 This property is useful for exposing request-level information such as the request path name,
 authenticated user, user settings, and so on.
 
-{% highlight js %}
+~~~js
 app.use(function(req, res, next){
   res.locals.user = req.user;
   res.locals.authenticated = ! req.user.anonymous;
   next();
 });
-{% endhighlight %}
+~~~

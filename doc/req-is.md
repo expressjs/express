@@ -9,7 +9,7 @@ Returns `true` if the incoming request's "Content-Type" HTTP header field
 matches the MIME type specified by the `type` parameter.
 Returns `false` otherwise.
 
-{% highlight js %}
+~~~js
 // With Content-Type: text/html; charset=utf-8
 req.is('html');
 req.is('text/html');
@@ -24,6 +24,6 @@ req.is('application/*');
 
 req.is('html');
 // => false
-{% endhighlight %}
+~~~
 
 For more information, or if you have issues or concerns, see [type-is](https://github.com/expressjs/type-is).

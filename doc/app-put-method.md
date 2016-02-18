@@ -14,8 +14,8 @@ remaining route callback(s). You can use this mechanism to impose pre-conditions
 a route, then pass control to subsequent routes if there's no reason to proceed with
 the current route.
 
-{% highlight js %}
+~~~js
 app.put('/', function (req, res) {
   res.send('PUT request to homepage');
 });
-{% endhighlight %}
+~~~

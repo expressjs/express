@@ -15,9 +15,9 @@ of the following are true:
 * The `if-none-match` request header, after being parsed into its directives, does not
 match the `etag` response header.
 
-{% highlight js %}
+~~~js
 req.fresh
 // => true
-{% endhighlight %}
+~~~
 
 For more information, issues, or concerns, see [fresh](https://github.com/jshttp/fresh).

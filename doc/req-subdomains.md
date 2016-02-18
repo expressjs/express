@@ -7,8 +7,8 @@
 
 An array of subdomains in the domain name of the request.
 
-{% highlight js %}
+~~~js
 // Host: "tobi.ferrets.example.com"
 req.subdomains
 // => ["ferrets", "tobi"]
-{% endhighlight %}
+~~~

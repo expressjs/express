@@ -58,9 +58,9 @@ For this option, specify a function to set custom response headers. Alterations 
 
 The signature of the function is:
 
-{% highlight js %}
+~~~js
 fn(res, path, stat)
-{% endhighlight %}
+~~~
 
 Arguments:
 

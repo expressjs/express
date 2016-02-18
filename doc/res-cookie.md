@@ -27,10 +27,10 @@ Any option not specified defaults to the value stated in [RFC 6265](http://tools
 
 For example:
 
-{% highlight js %}
+~~~js
 res.cookie('name', 'tobi', { domain: '.example.com', path: '/admin', secure: true });
 res.cookie('rememberme', '1', { expires: new Date(Date.now() + 900000), httpOnly: true });
-{% endhighlight %}
+~~~
 
 The `encode` option allows you to choose the function used for cookie value encoding.
 Does not support asynchronous functions.
@@ -38,7 +38,7 @@ Does not support asynchronous functions.
 Example use case: You need to set a domain-wide cookie for another site in your organization.
 This other site (not under your administrative control) does not use URI-encoded cookie values.
 
-{% highlight js %}
+~~~js
 //Default encoding
 res.cookie('some_cross_domain_cookie', 'http://mysubdomain.example.com',{domain:'example.com'});
 // Result: 'some_cross_domain_cookie=http%3A%2F%2Fmysubdomain.example.com; Domain=example.com; Path=/'
@@ -46,28 +46,28 @@ res.cookie('some_cross_domain_cookie', 'http://mysubdomain.example.com',{domain:
 //Custom encoding
 res.cookie('some_cross_domain_cookie', 'http://mysubdomain.example.com',{domain:'example.com', encode: String});
 // Result: 'some_cross_domain_cookie=http://mysubdomain.example.com; Domain=example.com; Path=/;'
-{% endhighlight %}
+~~~
 
 The `maxAge` option is a convenience option for setting "expires" relative to the current time in milliseconds.
 The following is equivalent to the second example above.
 
-{% highlight js %}
+~~~js
 res.cookie('rememberme', '1', { maxAge: 900000, httpOnly: true });
-{% endhighlight %}
+~~~
 
 You can pass an object as the `value` parameter; it is then serialized as JSON and parsed by `bodyParser()` middleware.
 
-{% highlight js %}
+~~~js
 res.cookie('cart', { items: [1,2,3] });
 res.cookie('cart', { items: [1,2,3] }, { maxAge: 900000 });
-{% endhighlight %}
+~~~
 
 When using [cookie-parser](https://www.npmjs.com/package/cookie-parser) middleware, this method also
 supports signed cookies. Simply include the `signed` option set to `true`.
 Then `res.cookie()` will use the secret passed to `cookieParser(secret)` to sign the value.
 
-{% highlight js %}
+~~~js
 res.cookie('name', 'tobi', { signed: true });
-{% endhighlight %}
+~~~
 
 Later you may access this value through the [req.signedCookie](#req.signedCookies) object.

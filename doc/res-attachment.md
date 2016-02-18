@@ -9,11 +9,11 @@ Sets the HTTP response `Content-Disposition` header field to "attachment". If a 
 then it sets the Content-Type based on the extension name via `res.type()`,
 and sets the `Content-Disposition` "filename=" parameter.
 
-{% highlight js %}
+~~~js
 res.attachment();
 // Content-Disposition: attachment
 
 res.attachment('path/to/logo.png');
 // Content-Disposition: attachment; filename="logo.png"
 // Content-Type: image/png
-{% endhighlight %}
+~~~

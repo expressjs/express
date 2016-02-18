@@ -7,6 +7,6 @@
 
 A Boolean property that is true if a TLS connection is established. Equivalent to:
 
-{% highlight js %}
+~~~js
 'https' == req.protocol;
-{% endhighlight %}
+~~~

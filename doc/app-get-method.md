@@ -13,8 +13,8 @@ these callbacks can invoke `next('route')` to bypass the remaining route callbac
 You can use this mechanism to impose pre-conditions on a route, then pass control to
 subsequent routes if there's no reason to proceed with the current route.
 
-{% highlight js %}
+~~~js
 app.get('/', function (req, res) {
   res.send('GET request to homepage');
 });
-{% endhighlight %}
+~~~

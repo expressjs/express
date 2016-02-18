@@ -12,7 +12,7 @@ thus typo errors.
 Building on the `router.param()` example above, the following code shows how to use
 `router.route()` to specify various HTTP method handlers.
 
-{% highlight js %}
+~~~js
 var router = express.Router();
 
 router.param('user_id', function(req, res, next, id) {
@@ -45,7 +45,7 @@ router.route('/users/:user_id')
 .delete(function(req, res, next) {
   next(new Error('not implemented'));
 });
-{% endhighlight %}
+~~~
 
 This approach re-uses the single `/users/:user_id` path and add handlers for
 various HTTP methods.

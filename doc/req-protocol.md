@@ -11,7 +11,7 @@ When the [`trust proxy` setting](/4x/api.html#trust.proxy.options.table) does no
 this property will use the value of the `X-Forwarded-Proto` header field if present.
 This header can be set by the client or by the proxy.
 
-{% highlight js %}
+~~~js
 req.protocol
 // => "http"
-{% endhighlight %}
+~~~

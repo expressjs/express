@@ -11,7 +11,7 @@ The `app.mountpath` property contains one or more path patterns on which a sub-a
   A sub-app is an instance of `express` that may be used for handling the request to a route.
 </div>
 
-{% highlight js %}
+~~~js
 var express = require('express');
 
 var app = express(); // the main app
@@ -23,7 +23,7 @@ admin.get('/', function (req, res) {
 });
 
 app.use('/admin', admin); // mount the sub app
-{% endhighlight %}
+~~~
 
 It is similar to the [baseUrl](#req.baseUrl) property of the `req` object, except `req.baseUrl`
 returns the matched URL path, instead of the matched patterns.
@@ -31,7 +31,7 @@ returns the matched URL path, instead of the matched patterns.
 If a sub-app is mounted on multiple path patterns, `app.mountpath` returns the list of
 patterns it is mounted on, as shown in the following example.
 
-{% highlight js %}
+~~~js
 var admin = express();
 
 admin.get('/', function (req, res) {
@@ -47,4 +47,4 @@ secret.get('/', function (req, res) {
 
 admin.use('/secr*t', secret); // load the 'secret' router on '/secr*t', on the 'admin' sub app
 app.use(['/adm*n', '/manager'], admin); // load the 'admin' router on '/adm*n' and '/manager', on the parent app
-{% endhighlight %}
+~~~

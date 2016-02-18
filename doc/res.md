@@ -13,19 +13,19 @@ by the parameters to the callback function in which you're working.
 
 For example:
 
-{% highlight js %}
+~~~js
 app.get('/user/:id', function(req, res){
   res.send('user ' + req.params.id);
 });
-{% endhighlight %}
+~~~
 
 But you could just as well have:
 
-{% highlight js %}
+~~~js
 app.get('/user/:id', function(request, response){
   response.send('user ' + request.params.id);
 });
-{% endhighlight %}
+~~~
 
 <h3 id='res.properties'>Properties</h3>
 

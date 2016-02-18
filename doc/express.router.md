@@ -7,9 +7,9 @@
 
 Creates a new [router](#router) object.
 
-{% highlight js %}
+~~~js
 var router = express.Router([options]);
-{% endhighlight %}
+~~~
 
 The optional `options` parameter specifies the behavior of the router.
 

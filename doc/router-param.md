@@ -20,7 +20,7 @@ Unlike `app.param()`, `router.param()` does not accept an array of route paramet
 
 For example, when `:user` is present in a route path, you may map user loading logic to automatically provide `req.user` to the route, or perform validations on the parameter input.
 
-{% highlight js %}
+~~~js
 router.param('user', function(req, res, next, id) {
 
   // try to get the user details from the User model and attach it to the request object
@@ -35,13 +35,13 @@ router.param('user', function(req, res, next, id) {
     }
   });
 });
-{% endhighlight %}
+~~~
 
 Param callback functions are local to the router on which they are defined. They are not inherited by mounted apps or routers. Hence, param callbacks defined on `router` will be triggered only by route parameters defined on `router` routes.
 
 A param callback will be called only once in a request-response cycle, even if the parameter is matched in multiple routes, as shown in the following examples.
 
-{% highlight js %}
+~~~js
 router.param('id', function (req, res, next, id) {
   console.log('CALLED ONLY ONCE');
   next();
@@ -56,7 +56,7 @@ router.get('/user/:id', function (req, res) {
   console.log('and this matches too');
   res.end();
 });
-{% endhighlight %}
+~~~
 
 On `GET /user/42`, the following is printed:
 
@@ -78,7 +78,7 @@ The middleware returned by the function decides the behavior of what happens whe
 
 In this example, the `router.param(name, callback)` signature is modified to `router.param(name, accessId)`. Instead of accepting a name and a callback, `router.param()` will now accept a name and a number.
 
-{% highlight js %}
+~~~js
 var express = require('express');
 var app = express();
 var router = express.Router();
@@ -108,11 +108,11 @@ app.use(router);
 app.listen(3000, function () {
   console.log('Ready');
 });
-{% endhighlight %}
+~~~
 
 In this example, the `router.param(name, callback)` signature remains the same, but instead of a middleware callback, a custom data type checking function has been defined to validate the data type of the user id.
 
-{% highlight js %}
+~~~js
 router.param(function(param, validator) {
   return function (req, res, next, val) {
     if (validator(val)) {
@@ -127,4 +127,4 @@ router.param(function(param, validator) {
 router.param('id', function (candidate) {
   return !isNaN(parseFloat(candidate)) && isFinite(candidate);
 });
-{% endhighlight %}
+~~~

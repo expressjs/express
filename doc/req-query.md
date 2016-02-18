@@ -8,7 +8,7 @@
 This property is an object containing a property for each query string parameter in the route.
 If there is no query string, it is the empty object, `{}`.
 
-{% highlight js %}
+~~~js
 // GET /search?q=tobi+ferret
 req.query.q
 // => "tobi ferret"
@@ -22,4 +22,4 @@ req.query.shoe.color
 
 req.query.shoe.type
 // => "converse"
-{% endhighlight %}
+~~~

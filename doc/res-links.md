@@ -10,16 +10,16 @@ Joins the `links` provided as properties of the parameter to populate the respon
 
 For example, the following call:
 
-{% highlight js %}
+~~~js
 res.links({
   next: 'http://api.example.com/users?page=2',
   last: 'http://api.example.com/users?page=5'
 });
-{% endhighlight %}
+~~~
 
 Yields the following results:
 
-{% highlight js %}
+~~~js
 Link: <http://api.example.com/users?page=2>; rel="next",
       <http://api.example.com/users?page=5>; rel="last"
-{% endhighlight %}
+~~~

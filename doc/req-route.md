@@ -7,16 +7,16 @@
 
 Contains the currently-matched route, a string.  For example:
 
-{% highlight js %}
+~~~js
 app.get('/user/:id?', function userIdHandler(req, res) {
   console.log(req.route);
   res.send('GET');
 });
-{% endhighlight %}
+~~~
 
 Example output from the previous snippet:
 
-{% highlight js %}
+~~~js
 { path: '/user/:id?',
   stack:
    [ { handle: [Function: userIdHandler],
@@ -27,4 +27,4 @@ Example output from the previous snippet:
        regexp: /^\/?$/i,
        method: 'get' } ],
   methods: { get: true } }
-{% endhighlight %}
+~~~

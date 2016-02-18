@@ -18,7 +18,7 @@ The top-level `express` object has a [Router()](#express.router) method that cre
 Once you've created a router object, you can add middleware and HTTP method routes (such as `get`, `put`, `post`,
 and so on) to it just like an application.  For example:
 
-{% highlight js %}
+~~~js
 // invoked for any requests passed to this router
 router.use(function(req, res, next) {
   // .. some logic here .. like any other middleware
@@ -30,14 +30,14 @@ router.use(function(req, res, next) {
 router.get('/events', function(req, res, next) {
   // ..
 });
-{% endhighlight %}
+~~~
 
 You can then use a router for a particular root URL in this way separating your routes into files or even mini-apps.
 
-{% highlight js %}
+~~~js
 // only requests to /calendar/* will be sent to our "router"
 app.use('/calendar', router);
-{% endhighlight %}
+~~~
 
 
 </section>

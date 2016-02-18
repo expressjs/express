@@ -14,10 +14,10 @@ property is the same as calling `app.disable('foo')`.
 
 Retrieve the value of a setting with [`app.get()`](#app.get).
 
-{% highlight js %}
+~~~js
 app.set('title', 'My Site');
 app.get('title'); // "My Site"
-{% endhighlight %}
+~~~
 
 <h4 id='app.settings.table'>Application Settings</h4>
 

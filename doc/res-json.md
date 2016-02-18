@@ -9,8 +9,8 @@ Sends a JSON response. This method is identical to `res.send()` with an object o
 However, you can use it to convert other values to JSON, such as `null`, and `undefined` 
 (although these are technically not valid JSON).
 
-{% highlight js %}
+~~~js
 res.json(null);
 res.json({ user: 'tobi' });
 res.status(500).json({ error: 'message' });
-{% endhighlight %}
+~~~
