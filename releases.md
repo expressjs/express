@@ -8,19 +8,22 @@ as npm packages hosted on https://npmjs.com/package/express.
 ## Who can make releases?
 
 Release authorization is given by the Express TC. Once authorized, an individual
-must have the following:
+must have the following access permissions:
 
 ### 1. Github release access
 
-Releases can be tagged by members of the @expressjs/express team with Write or
-Admin permission level.
+The individual making the release will need to be a member of the 
+expressjs/express team with Write or Admin permission level so they are 
+able to tag the release commit (see Step 4).
+
 [tunniclm: Is there  a separate way to indicate whether an individual is allowed
            to tag a release, or some higher level of permission?]
 
 ### 2. npmjs.com release accesss
 
-Releases can be published to npmjs.com by members of the npmjs.com express
-organisation.
+The individual making the release will need to be a member of the expressjs 
+organisation on npmjs.com so they are able to publish the release package 
+(see Step 6).
 
 ## How to create a release
 
