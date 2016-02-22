@@ -12,44 +12,127 @@ must have the following access permissions:
 
 ### 1. Github release access
 
-The individual making the release will need to be a member of the 
-expressjs/express team with Write or Admin permission level so they are 
-able to tag the release commit (see Step 4).
+The individual making the release will need to be a member of the
+expressjs/express team with Write or Admin permission level so they are
+able to tag the release commit and push changes to the expressjs/express
+repository (see Steps 4 and 5).
 
 [tunniclm: Is there  a separate way to indicate whether an individual is allowed
            to tag a release, or some higher level of permission?]
 
-### 2. npmjs.com release accesss
+### 2. npmjs.com release access
 
-The individual making the release will need to be a member of the expressjs 
-organisation on npmjs.com so they are able to publish the release package 
+The individual making the release will need to be a member of the expressjs
+organisation on npmjs.com so they are able to publish the release package
 (see Step 6).
 
-## How to create a release
+## When to publish a release
 
-### 1. Check all the code and doc changes are in
+[Link to another document here?]
 
-Check the milestone and labels for the release in github, depending on the
-express major version (eg: 4 vs 5) to ensure all the code, tests and
-documentation updates are complete.
+## How to publish a release
 
-### 2. Update the History.md and package.json to the new version number
+Before publishing, the following preconditions should be met:
+- A release proposal issue or tracking pull request (see "Proposal branch"
+  below) will exist documenting:
+  - the proposed changes
+  - the type of release: patch, minor or major
+  - the version number (according to semantic versioning - http://semver.org)
+- The proposed changes should be complete.
+[Link to document for more info on proposing a release etc]
+[Add "For more information..." link here to another document (contributor
+ guide?), for more detailed information about the general
+ development/contribution process works? Perhaps move some of this detail there
+ as well?]
 
-The new release version number is determined by semver and whether the code
-for the release includes any semver-minor or semver-major changes.
-[tunniclm: link to or explain the semver rules here? Or the semver command-line
-           tool?]
+There are two main release flows: patch and non-patch.
 
-The branch to use depends on the major version to be released:
+The patch flow is for making **patch releases** of the **current version of
+Express**. As per semantic versioning, patch releases are for simple changes,
+eg: typo fixes, patch dependency updates, and simple/low-risk bug fixes.
+Every other type of change is made via the non-patch flow.
 
- Major version | Branch
----------------|--------
-           4.x | master [tunniclm: how does the 4.x branch get updated?]
-           5.x | 5.0    [tunniclm: is this correct?]
+### Patch flow
+
+In the patch flow, simple changes are committed to the `master` branch which
+acts as an ever-present branch for the next patch release of the current major
+version of Express.
+
+"Main development branch"
+- For the current major version of Express there is a branch in git named
+  `master`.
+- This branch contains the completed commits for the next patch release of the
+  current major version.
+- Patch releases for the current major version are published from this branch.
+
+`master` is usually kept in a state where it is ready to release. Releases are
+made when sufficient time or change has been made to warrant it. This is usually
+proposed and decided using a github issue.
+
+### Non-patch flow
+
+In the non-patch flow, changes are committed to a temporary proposal branch
+created specifically for that release proposal. The branch is based on the
+most recent release of the major version of Express that the release targets.
+
+"Release branch"
+- For any given major version of Express (current, previous or next) there is
+  a branch in git for that release named ``<major-version>.x` (eg: `4.x`).
+- This branch contains the code from the most recently published minor or
+  patch version of the release.
+- Releases are published from these branches.
+  [Not true presently, since releases are published from master for current
+   version. Maybe it should be true though, since 4.x is out of date]
+
+"Proposal branch"
+- A branch in git representing a proposed new release of Express. This can be a
+  patch, minor or major release, named `<major-version>.0` for a major release,
+  `<major-version>.<minor-version>` for a minor release, or `<major-version>.<minor-version>.<patch-version>` for a patch release.
+- A tracking pull request should exist to document the proposed release,
+  targeted at the appropriate release branch. Prior to opening the tracking
+  pull request the content of the release may have be discussed in an issue.
+  [ These may be skipped for a patch release of the current major version ]
+- This branch contains the commits accepted so far that implement the proposal
+  in the tracking pull request.
+
+Releases are made when all the changes on a proposal branch are complete and
+approved. This is done by merging the proposal branch into the release branch
+(using a fast-forward merge), tagging it with the new version number and
+publishing the release package to npmjs.com.
+
+### Flow
+
+Below is a detailed description of the steps to publish a release.
+
+#### Step 1. Check the release is ready to publish
+
+Check any relevant information to ensure the release is ready, eg: any
+milestone, label, issue or tracking pull request for the release. The release
+is ready when all proposed code, tests and documentation updates are complete
+(either merged, closed or re-targeted to another release).
+
+#### Step 2. (Non-patch flow only) Merge the proposal branch into the release branch
+
+In the patch flow: skip this step.
+
+In the non-patch flow:
+```sh
+$ git checkout <release-branch>
+$ git merge --ff-only <proposal-branch>
+```
+
+<release-branch> - see "Release branch" of "Non-patch flow" above.
+<proposal-branch> - see "Proposal branch" of "Non-patch flow" above.
+
+**NOTE:** You may need to rebase the proposal branch to allow a fast-forward
+          merge. Using a fast-forward merge keeps the history clean as it does
+          not introduce merge commits.
+
+### Step 3. Update the History.md and package.json to the new version number
 
 The changes so far for the release should already be documented under the
-"unreleased" section at the top of the History.md file on the release branch,
-as per the usual development practice.
+"unreleased" section at the top of the History.md file, as per the usual
+development practice.
 Change "unreleased" to the new release version / date.
 Example diff fragment:
 ```diff
@@ -65,45 +148,48 @@ the previous release. Change it to the new release version.
 Commit these changes together under a single commit with the message set to
 the new release version (eg: `4.13.3`).
 
-Example (in a local clone of expressjs/express):
+In a local clone of expressjs/express:
 ```shell
-git checkout master
+git checkout <branch>
 <..edit files..>
 git add History.md package.json
-git commit -m '4.13.3'
+git commit -m '<version-number>'
 ```
 
-As per the usual development practice, the commit should follow directly from
-the release branch with no merge commit.
+In the patch flow: <branch> = `master`
+In the non-patch flow: <branch> = <release-branch>
 
-### 4. Identify and tag the release commit with the new release version
+### Step 4. Identify and tag the release commit with the new release version
 
 Create a lightweight tag (rather than an annotated tag) named after the new
 release version (eg: `4.13.3`).
 
-Example:
+Following directly from Step 3:
 ```shell
-git tag 4.13.3
+git tag <version-number>
 ```
 
-### 5. Push the release branch changes and tag to github
+### Step 5. Push the release branch changes and tag to github
 
-The commit should be pushed directly to the main repository
+The branch and tag should be pushed directly to the main repository
 (https://github.com/expressjs/express).
 
-Example:
+Following directly from Step 4:
 ```shell
-git push origin master
-git push origin 4.13.3
+git push origin <branch>
+git push origin <version-number>
 ```
 
-### 6. Publish to npmjs.com
+### Step 6. Publish to npmjs.com
 
 Ensure your local working copy is completely clean (no extra or changed files).
 You can use `git status` for this purpose.
 
-Example:
+Following directly from Step 5:
 ```shell
-npm login tunniclm
+npm login <npm-username>
 npm publish
 ```
+
+**NOTE:** The version number to publish will be picked up automatically from
+          package.json.
