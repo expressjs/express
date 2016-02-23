@@ -77,7 +77,7 @@ most recent release of the major version of Express that the release targets.
 
 "Release branch"
 - For any given major version of Express (current, previous or next) there is
-  a branch in git for that release named ``<major-version>.x` (eg: `4.x`).
+  a branch in git for that release named `<major-version>.x` (eg: `4.x`).
 - This branch contains the code from the most recently published minor or
   patch version of the release.
 - Releases are published from these branches.
