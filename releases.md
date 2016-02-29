@@ -22,8 +22,8 @@ release commit and push changes to the expressjs/express repository
 
 ### 2. npmjs.com release access
 
-The individual making the release will need to be a member of the expressjs
-organisation on npmjs.com so they are able to publish the release package
+The individual making the release will need to be a collaborator on the
+`express` package on npmjs.com so they are able to publish the release
 (see Step 6).
 
 ## When to publish a release
