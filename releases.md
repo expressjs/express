@@ -39,7 +39,6 @@ Before publishing, the following preconditions should be met:
   - the type of release: patch, minor or major
   - the version number (according to semantic versioning - http://semver.org)
 - The proposed changes should be complete.
-[Link to document for more info on proposing a release etc]
 [Add "For more information..." link here to another document (contributor
  guide?), for more detailed information about the general
  development/contribution process works? Perhaps move some of this detail there
