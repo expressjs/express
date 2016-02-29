@@ -13,9 +13,9 @@ must have the following access permissions:
 ### 1. Github release access
 
 The individual making the release will need to be a member of the
-expressjs/express team with Write or Admin permission level so they are
-able to tag the release commit and push changes to the expressjs/express
-repository (see Steps 4 and 5).
+expressjs/express team with Write permission level so they are able to tag the
+release commit and push changes to the expressjs/express repository
+(see Steps 4 and 5).
 
 [tunniclm: Is there  a separate way to indicate whether an individual is allowed
            to tag a release, or some higher level of permission?]
