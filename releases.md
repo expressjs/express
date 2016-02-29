@@ -46,53 +46,63 @@ Before publishing, the following preconditions should be met:
 
 There are two main release flows: patch and non-patch.
 
-The patch flow is for making **patch releases** of the **current version of
-Express**. As per semantic versioning, patch releases are for simple changes,
+The patch flow is for making **patch releases**.
+As per semantic versioning, patch releases are for simple changes,
 eg: typo fixes, patch dependency updates, and simple/low-risk bug fixes.
 Every other type of change is made via the non-patch flow.
 
-### Patch flow
+### Branch terminology
 
-In the patch flow, simple changes are committed to the `master` branch which
-acts as an ever-present branch for the next patch release of the current major
-version of Express.
-
-"Main development branch"
-- For the current major version of Express there is a branch in git named
+"Master branch"
+- There is a branch in git used for the current major version of Express, named
   `master`.
 - This branch contains the completed commits for the next patch release of the
   current major version.
-- Patch releases for the current major version are published from this branch.
+- Releases for the current major version are published from this branch.
 
-`master` is usually kept in a state where it is ready to release. Releases are
-made when sufficient time or change has been made to warrant it. This is usually
-proposed and decided using a github issue.
+"Version branch"
+- For any given major version of Express (current, previous or next) there is
+  a branch in git for that release named `<major-version>.x` (eg: `4.x`).
+- This branch contains the completed commits for the next patch release of the
+  associated major version. [ What about the current version? ]
+- Releases are published from these branches, except for the current major
+  branch mean for the current version? Since `master` is used for releases etc.
+  Is it just a placeholder? How up-to-date should it be?]
+  release of Express, which uses `master` instead. [What does the release
+
+"Release branch"
+- For any given major version of Express, there is a branch used for publishing
+  releases.
+- For the current major version of Express, the release branch is the
+  "Master branch" named `master`.
+- For all other major versions of Express, the release branch is the
+  "Version branch" named `<major-version>.x`.
+
+"Proposal branch"
+- A branch in git representing a proposed new release of Express. This can be a
+  minor or major release, named `<major-version>.0` for a major release,
+  `<major-version>.<minor-version>` for a minor release.
+- A tracking pull request should exist to document the proposed release,
+  targeted at the appropriate release branch. Prior to opening the tracking
+  pull request the content of the release may have be discussed in an issue.
+- This branch contains the commits accepted so far that implement the proposal
+  in the tracking pull request.
+
+### Patch flow
+
+In the patch flow, simple changes are committed to the release branch which
+acts as an ever-present branch for the next patch release of the associated
+major version of Express.
+
+The release branch is usually kept in a state where it is ready to release.
+Releases are made when sufficient time or change has been made to warrant it.
+This is usually proposed and decided using a github issue.
 
 ### Non-patch flow
 
 In the non-patch flow, changes are committed to a temporary proposal branch
 created specifically for that release proposal. The branch is based on the
 most recent release of the major version of Express that the release targets.
-
-"Release branch"
-- For any given major version of Express (current, previous or next) there is
-  a branch in git for that release named `<major-version>.x` (eg: `4.x`).
-- This branch contains the code from the most recently published minor or
-  patch version of the release.
-- Releases are published from these branches.
-  [Not true presently, since releases are published from master for current
-   version. Maybe it should be true though, since 4.x is out of date]
-
-"Proposal branch"
-- A branch in git representing a proposed new release of Express. This can be a
-  patch, minor or major release, named `<major-version>.0` for a major release,
-  `<major-version>.<minor-version>` for a minor release, or `<major-version>.<minor-version>.<patch-version>` for a patch release.
-- A tracking pull request should exist to document the proposed release,
-  targeted at the appropriate release branch. Prior to opening the tracking
-  pull request the content of the release may have be discussed in an issue.
-  [ These may be skipped for a patch release of the current major version ]
-- This branch contains the commits accepted so far that implement the proposal
-  in the tracking pull request.
 
 Releases are made when all the changes on a proposal branch are complete and
 approved. This is done by merging the proposal branch into the release branch
@@ -120,7 +130,7 @@ $ git checkout <release-branch>
 $ git merge --ff-only <proposal-branch>
 ```
 
-<release-branch> - see "Release branch" of "Non-patch flow" above.
+<release-branch> - see "Release branch" of "Branches" above.
 <proposal-branch> - see "Proposal branch" of "Non-patch flow" above.
 
 **NOTE:** You may need to rebase the proposal branch to allow a fast-forward
@@ -149,14 +159,11 @@ the new release version (eg: `4.13.3`).
 
 In a local clone of expressjs/express:
 ```shell
-git checkout <branch>
+git checkout <release-branch>
 <..edit files..>
 git add History.md package.json
 git commit -m '<version-number>'
 ```
-
-In the patch flow: <branch> = `master`
-In the non-patch flow: <branch> = <release-branch>
 
 ### Step 4. Identify and tag the release commit with the new release version
 
@@ -175,7 +182,7 @@ The branch and tag should be pushed directly to the main repository
 
 Following directly from Step 4:
 ```shell
-git push origin <branch>
+git push origin <release-branch>
 git push origin <version-number>
 ```
 
