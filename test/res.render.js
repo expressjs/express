@@ -211,6 +211,22 @@ describe('res', function(){
       .expect('<p>tobi</p>', done);
     })
 
+    it('should expose auxiliary variables', function(done){
+      var app = createApp();
+      var tobi = { name: 'tobi' };
+
+      app.set('views', __dirname + '/fixtures');
+
+      app.use(function(req, res){
+        res.addTmplVars({ user: tobi });
+        res.render('user.tmpl');
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>tobi</p>', done);
+    })
+
     it('should expose res.locals', function(done){
       var app = createApp();
 
@@ -224,6 +240,62 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('<p>tobi</p>', done);
+    })
+
+    it('should give precedence to auxiliary variables over app.locals', function(done){
+      var app = createApp();
+      var jane = { name: 'jane' };
+
+      app.set('views', __dirname + '/fixtures');
+      app.locals.user = { name: 'tobi' };
+
+      app.use(function(req, res){
+        res.addTmplVars({ user: jane });
+        res.render('user.tmpl');
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>jane</p>', done);
+    })
+
+    it('should give precedence to later auxiliary variables over earlier ones', function(done){
+      var app = createApp();
+      var tobi = { name: 'tobi' };
+      var jane = { name: 'jane' };
+
+      app.set('views', __dirname + '/fixtures');
+
+      app.use(function(req, res, next){
+        res.addTmplVars({ user: tobi });
+        next();
+      })
+
+      app.use(function(req, res){
+        res.addTmplVars({ user: jane });
+        res.render('user.tmpl');
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>jane</p>', done);
+    })
+
+    it('should give precedence to res.locals over auxiliary variables', function(done){
+      var app = createApp();
+      var tobi = { name: 'tobi' };
+
+      app.set('views', __dirname + '/fixtures');
+
+      app.use(function(req, res){
+        res.addTmplVars({ user: tobi });
+        res.locals.user = { name: 'jane' };
+        res.render('user.tmpl', {});
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>jane</p>', done);
     })
 
     it('should give precedence to res.locals over app.locals', function(done){
@@ -258,6 +330,23 @@ describe('res', function(){
       .expect('<p>jane</p>', done);
     })
 
+    it('should give precedence to res.render() locals over auxiliary variables', function(done){
+      var app = createApp();
+      var tobi = { name: 'tobi' };
+      var jane = { name: 'jane' };
+
+      app.set('views', __dirname + '/fixtures');
+
+      app.use(function(req, res){
+        res.addTmplVars({ user: tobi });
+        res.render('user.tmpl', { user: jane });
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>jane</p>', done);
+    })
+
     it('should give precedence to res.render() locals over app.locals', function(done){
       var app = createApp();
 
@@ -272,6 +361,27 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('<p>jane</p>', done);
+    })
+
+    it('should flatten all scopes into one', function(done){
+      var app = createApp();
+
+      app.set('views', __dirname + '/fixtures');
+      app.locals.fee = 1;
+      app.locals.fie = 1;
+      app.locals.foe = 1;
+      app.locals.fum = 1;
+
+      app.use(function(req, res){
+        res.addTmplVars({ fie: 2, foe: 2, fum: 2} );
+        res.locals.foe = 3;
+        res.locals.fum = 3;
+        res.render('scope.tmpl', { fum: 4 });
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>1, 2, 3, 4</p>', done);
     })
   })
 
