@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-var variableRegExp = /\$([0-9a-zA-Z\.]+)/g;
+var variableRegExp = /\$([_0-9a-zA-Z\.]+)/g;
 
 module.exports = function renderFile(fileName, options, callback) {
   function onReadFile(err, str) {
