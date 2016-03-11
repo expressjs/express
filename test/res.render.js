@@ -218,7 +218,7 @@ describe('res', function(){
       app.set('views', __dirname + '/fixtures');
 
       app.use(function(req, res){
-        res.addTmplVars({ user: tobi });
+        res.scope('aux', { user: tobi });
         res.render('user.tmpl');
       });
 
@@ -244,13 +244,12 @@ describe('res', function(){
 
     it('should give precedence to auxiliary variables over app.locals', function(done){
       var app = createApp();
-      var jane = { name: 'jane' };
 
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
       app.use(function(req, res){
-        res.addTmplVars({ user: jane });
+        res.scope('aux').user = { name: 'jane' };
         res.render('user.tmpl');
       });
 
@@ -261,18 +260,16 @@ describe('res', function(){
 
     it('should give precedence to later auxiliary variables over earlier ones', function(done){
       var app = createApp();
-      var tobi = { name: 'tobi' };
-      var jane = { name: 'jane' };
 
       app.set('views', __dirname + '/fixtures');
 
       app.use(function(req, res, next){
-        res.addTmplVars({ user: tobi });
+        res.scope('aux').user = { name: 'tobi' };
         next();
       })
 
       app.use(function(req, res){
-        res.addTmplVars({ user: jane });
+        res.scope('aux2').user = { name: 'jane' };
         res.render('user.tmpl');
       });
 
@@ -283,12 +280,11 @@ describe('res', function(){
 
     it('should give precedence to res.locals over auxiliary variables', function(done){
       var app = createApp();
-      var tobi = { name: 'tobi' };
 
       app.set('views', __dirname + '/fixtures');
 
       app.use(function(req, res){
-        res.addTmplVars({ user: tobi });
+        res.scope('aux').user = { name: 'tobi' };
         res.locals.user = { name: 'jane' };
         res.render('user.tmpl', {});
       });
@@ -332,13 +328,12 @@ describe('res', function(){
 
     it('should give precedence to res.render() locals over auxiliary variables', function(done){
       var app = createApp();
-      var tobi = { name: 'tobi' };
       var jane = { name: 'jane' };
 
       app.set('views', __dirname + '/fixtures');
 
       app.use(function(req, res){
-        res.addTmplVars({ user: tobi });
+        res.scope('aux').user = { name: 'tobi' };
         res.render('user.tmpl', { user: jane });
       });
 
@@ -373,7 +368,7 @@ describe('res', function(){
       app.locals.fum = 1;
 
       app.use(function(req, res){
-        res.addTmplVars({ fie: 2, foe: 2, fum: 2} );
+        res.scope('aux', { fie: 2, foe: 2, fum: 2 });
         res.locals.foe = 3;
         res.locals.fum = 3;
         res.render('scope.tmpl', { fum: 4 });
