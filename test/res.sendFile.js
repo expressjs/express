@@ -93,26 +93,6 @@ describe('res', function(){
       .expect('Content-Type', 'application/x-bogus')
       .end(done);
     })
-    
-    it('should set etag according to app settings', function (done) {
-        var app = express();
-        
-        app.disable('etag');
-        app.use(function (req, res) {
-            res.sendFile(path.resolve(fixtures, 'name.txt'));
-        });
-        
-        request(app)
-        .get('/')
-        .end(function(err, res) {
-            if (err) {
-                return done(err);
-            }
-            assert.equal('etag' in res.headers, false);
-            done();
-        });
-    })
-
 
     it('should not error if the client aborts', function (done) {
       var cb = after(1, done);
