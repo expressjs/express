@@ -3,6 +3,9 @@
 
 This incorporates all changes after 4.13.1 up to 4.14.0.
 
+  * remove:
+    - `res.send(status, body)` signature - use `res.status(status).send(body)`
+
 5.0.0-alpha.2 / 2015-07-06
 ==========================
 
