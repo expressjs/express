@@ -3,6 +3,9 @@
 
 This incorporates all changes after 4.13.1 up to 4.14.0.
 
+  * remove:
+    - `res.vary()` (no arguments) -- provide a field name as an argument
+
 5.0.0-alpha.2 / 2015-07-06
 ==========================
 
