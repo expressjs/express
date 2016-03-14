@@ -4,6 +4,7 @@
 This incorporates all changes after 4.15.2 up to 4.15.4.
 
   * remove:
+    - `res.redirect(url, status)` signature - use `res.redirect(status, url)`
     - `res.send(status, body)` signature - use `res.status(status).send(body)`
   * deps: router@~1.3.1
     - deps: debug@2.6.8
