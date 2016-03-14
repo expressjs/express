@@ -26,7 +26,8 @@ app1.use(function(req, res, next){
 
 app1.use(function(err, req, res, next){
   if (!err.types) throw err;
-  res.send(err.status, 'Supports: ' + err.types.join(', '));
+  res.status(err.status)
+  res.send('Supports: ' + err.types.join(', '))
 })
 
 var app2 = express();
@@ -40,7 +41,8 @@ app2.use(function(req, res, next){
 });
 
 app2.use(function(err, req, res, next){
-  res.send(err.status, 'Supports: ' + err.types.join(', '));
+  res.status(err.status)
+  res.send('Supports: ' + err.types.join(', '))
 })
 
 var app3 = express();
@@ -63,7 +65,8 @@ app4.get('/', function(req, res, next){
 });
 
 app4.use(function(err, req, res, next){
-  res.send(err.status, 'Supports: ' + err.types.join(', '));
+  res.status(err.status)
+  res.send('Supports: ' + err.types.join(', '))
 })
 
 var app5 = express();
@@ -96,7 +99,8 @@ describe('res', function(){
       });
 
       app.use(function(err, req, res, next){
-        res.send(err.status, 'Supports: ' + err.types.join(', '));
+        res.status(err.status)
+        res.send('Supports: ' + err.types.join(', '))
       });
 
       test(app);
@@ -135,7 +139,8 @@ describe('res', function(){
       });
 
       router.use(function(err, req, res, next){
-        res.send(err.status, 'Supports: ' + err.types.join(', '));
+        res.status(err.status)
+        res.send('Supports: ' + err.types.join(', '))
       })
 
       app.use(router)
