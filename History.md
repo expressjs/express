@@ -3,6 +3,9 @@
 
 This incorporates all changes after 4.13.1 up to 4.14.0.
 
+  * remove:
+    - `res.json(status, obj)` signature - use `res.status(status).json(val)`
+
 5.0.0-alpha.2 / 2015-07-06
 ==========================
 
