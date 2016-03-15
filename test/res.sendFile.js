@@ -332,6 +332,23 @@ describe('res', function(){
         .expect('ETag', /^(?:W\/)"[^"]+"$/, done);
     })
     
+    it('should contain etag custom', function (done) {
+        var app = express();
+        
+        app.set('etag', function (body, encoding) {
+            return '"custom"';
+        });
+
+        app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'name.txt'));
+        });
+
+        request(app)
+        .get('/')
+        .expect('ETag', '"custom"')
+        .expect(200, done);
+    })
+    
     it('should contain etag strong', function (done) {
        var app = express();
         
