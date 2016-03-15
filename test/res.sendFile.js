@@ -286,6 +286,65 @@ describe('res', function(){
       .get('/')
       .expect(200, 'got it', done);
     })
+    
+    it('should set etag according to app settings', function (done) {
+       var app = express();
+        
+       app.disable('etag');
+       app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'name.txt'));
+        });
+     
+       request(app)
+        .get('/')
+        .end(function(err, res) {
+            if (err) {
+                return done(err);
+            }
+            assert.equal('etag' in res.headers, false);
+            done();
+        });
+    })
+    
+    it('should set etag according to app settings, with input args priority', function (done) {
+       var app = express();
+        
+       app.disable('etag');
+       app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'name.txt'),{etag:'weak'});
+        });
+     
+       request(app)
+        .get('/')
+        .expect('ETag', /^(?:W\/)"[^"]+"$/, done);
+    })
+    
+    it('should contain etag weak', function (done) {
+       var app = express();
+        
+       app.set('etag', 'weak');
+       app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'name.txt'));
+        });
+     
+       request(app)
+        .get('/')
+        .expect('ETag', /^(?:W\/)"[^"]+"$/, done);
+    })
+    
+    it('should contain etag strong', function (done) {
+       var app = express();
+        
+       app.set('etag', 'strong');
+       app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'name.txt'));
+        });
+     
+       request(app)
+        .get('/')
+        .expect('ETag', /^"[^"]+"$/, done);
+
+    })
   })
 })
 
