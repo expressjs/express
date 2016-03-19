@@ -297,12 +297,10 @@ describe('res', function(){
      
        request(app)
         .get('/')
-        .end(function(err, res) {
-            if (err) {
-                return done(err);
-            }
-            assert.equal('etag' in res.headers, false);
-            done();
+        .expect(200, function (err, res) {
+          if (err) return done(err);
+          res.headers.should.not.have.property('ETag');
+          done();
         });
     })
     
