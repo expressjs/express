@@ -287,7 +287,7 @@ describe('res', function(){
       .expect(200, 'got it', done);
     })
 
-    describe('should set settings according to app settings', function () {
+    describe('when app etag is set', function () {
       it('should inherit app setting', function (done) {
         var app = express();
 
