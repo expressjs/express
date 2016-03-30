@@ -76,7 +76,7 @@ for now let's go into a few more features before ending this tutorial.
 div(id="content", class="main")
   a(href="http://expressjsguide.com", title="Express.js Guide", target="_blank") Express.js Guide
   form(action="/login")
-    button(type="submit, value="save")
+    button(type="submit", value="save")
 div(class="hero-unit") Lean Node.js!
 ```
 turns into 
