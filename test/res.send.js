@@ -299,6 +299,24 @@ describe('res', function(){
     })
   })
 
+  describe('when Transfer-Encoding is chunked', function() {
+    it('should strip the Content-Length field', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.status(200).set('Transfer-Encoding', 'chunked').send();
+      });
+
+      request(app)
+      .get('/')
+      .end(function(err, res){
+        res.headers.should.not.have.property('content-length');
+        res.headers.should.have.property('transfer-encoding');
+        done();
+      })
+    })
+  })
+
   it('should always check regardless of length', function(done){
     var app = express();
     var etag = '"asdf"';
