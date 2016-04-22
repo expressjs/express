@@ -245,6 +245,21 @@ describe('res', function(){
     })
   })
 
+  describe('.send(String)', function(){
+    it('should send as text/plain', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send(new String('tobi'));
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect(200, 'tobi', done)
+    })
+  })
+  
   describe('when the request method is HEAD', function(){
     it('should ignore the body', function(done){
       var app = express();
