@@ -156,7 +156,7 @@ describe('res', function(){
         .get('/')
         .expect(404, function (err, res) {
           if (err) return done(err);
-          res.headers.should.not.have.property('x-success');
+          should(res.headers).not.have.property('x-success');
           done();
         });
       });
@@ -511,7 +511,7 @@ describe('res', function(){
       .get('/')
       .expect(404, function (err, res) {
         if (err) return done(err);
-        res.headers.should.not.have.property('x-success');
+        should(res.headers).not.have.property('x-success');
         done();
       });
     })
@@ -597,7 +597,7 @@ describe('res', function(){
         .get('/')
         .end(function(err, res){
           res.text.should.equal('<p>{{user.name}}</p>');
-          res.headers.should.have.property('content-type', 'text/html; charset=UTF-8');
+          should(res.headers).have.property('content-type', 'text/html; charset=UTF-8');
           done();
         });
       })
@@ -615,7 +615,7 @@ describe('res', function(){
         .get('/')
         .end(function(err, res){
           res.text.should.equal('<p>{{user.name}}</p>');
-          res.headers.should.have.property('content-type', 'text/html; charset=UTF-8');
+          should(res.headers).have.property('content-type', 'text/html; charset=UTF-8');
           done();
         });
       })
@@ -631,7 +631,7 @@ describe('res', function(){
         .get('/')
         .end(function(err, res){
           res.text.should.equal('<p>{{user.name}}</p>');
-          res.headers.should.have.property('content-type', 'text/html; charset=UTF-8');
+          should(res.headers).have.property('content-type', 'text/html; charset=UTF-8');
           done();
         });
       })

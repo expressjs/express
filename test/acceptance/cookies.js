@@ -1,6 +1,7 @@
 
 var app = require('../../examples/cookies')
-  , request = require('supertest');
+  , request = require('supertest')
+  , should = require('should');
 
 describe('cookies', function(){
   describe('GET /', function(){
@@ -14,7 +15,7 @@ describe('cookies', function(){
       request(app)
       .get('/')
       .end(function(err, res){
-        res.headers.should.not.have.property('set-cookie')
+        should(res.headers).not.have.property('set-cookie')
         done()
       })
     })
@@ -58,7 +59,7 @@ describe('cookies', function(){
       .type('urlencoded')
       .send({ remember: 1 })
       .expect(302, function(err, res){
-        res.headers.should.have.property('set-cookie')
+        should(res.headers).have.property('set-cookie')
         done()
       })
     })
@@ -68,7 +69,7 @@ describe('cookies', function(){
       .post('/')
       .send({})
       .expect(302, function(err, res){
-        res.headers.should.not.have.property('set-cookie')
+        should(res.headers).not.have.property('set-cookie')
         done()
       })
     })

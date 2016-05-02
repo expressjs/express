@@ -1,6 +1,7 @@
 
 var express = require('../')
-  , request = require('supertest');
+  , request = require('supertest')
+  , should = require('should');
 
 describe('res', function(){
   describe('.location(url)', function(){
@@ -14,7 +15,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(err, res){
-        res.headers.should.have.property('location', 'http://google.com');
+        should(res.headers).have.property('location', 'http://google.com');
         done();
       })
     })

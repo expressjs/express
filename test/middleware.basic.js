@@ -1,6 +1,7 @@
 
 var express = require('../');
 var request = require('supertest');
+var should = require('should');
 
 describe('middleware', function(){
   describe('.next()', function(){
@@ -34,7 +35,7 @@ describe('middleware', function(){
       .send('{"foo":"bar"}')
       .end(function(err, res){
         if (err) return done(err);
-        res.headers.should.have.property('content-type', 'application/json');
+        should(res.headers).have.property('content-type', 'application/json');
         res.statusCode.should.equal(200);
         res.text.should.equal('{"foo":"bar"}');
         done();

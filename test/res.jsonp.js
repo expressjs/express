@@ -1,7 +1,8 @@
 
 var express = require('../')
   , request = require('supertest')
-  , assert = require('assert');
+  , assert = require('assert')
+  , should = require('should');
 
 describe('res', function(){
   describe('.jsonp(object)', function(){
@@ -138,7 +139,7 @@ describe('res', function(){
       .expect('Content-Type', 'application/vnd.example+json; charset=utf-8')
       .expect(200, '{"hello":"world"}', function (err, res) {
         if (err) return done(err);
-        res.headers.should.not.have.property('x-content-type-options');
+        should(res.headers).not.have.property('x-content-type-options');
         done();
       });
     })
