@@ -150,6 +150,28 @@ describe('res', function(){
       })
     })
 
+    describe('signed without secret', function(){
+      it('should throw an error', function(done){
+        var app = express();
+
+        app.use(cookieParser());
+
+        app.use(function(req, res){
+          try {
+            res.cookie('name', 'tobi', { signed: true });
+          } catch (err) {
+            return res.json({ status: 'OK' });
+          }
+
+          res.json({ status: 'FAIL' });
+        });
+
+        request(app)
+        .get('/')
+        .expect({ status: 'OK' }, done);
+      })
+    })
+
     describe('.signedCookie(name, string)', function(){
       it('should set a signed cookie', function(done){
         var app = express();
