@@ -2,6 +2,7 @@
 var http = require('http');
 var express = require('..');
 var request = require('supertest');
+var should = require('should');
 
 describe('res', function(){
   describe('.redirect(url)', function(){
@@ -31,7 +32,7 @@ describe('res', function(){
       .get('/')
       .end(function(err, res){
         res.statusCode.should.equal(303);
-        res.headers.should.have.property('location', 'http://google.com');
+        should(res.headers).have.property('location', 'http://google.com');
         done();
       })
     })
@@ -49,7 +50,7 @@ describe('res', function(){
       .get('/')
       .end(function(err, res){
         res.statusCode.should.equal(303);
-        res.headers.should.have.property('location', 'http://google.com');
+        should(res.headers).have.property('location', 'http://google.com');
         done();
       })
     })
@@ -66,7 +67,7 @@ describe('res', function(){
       request(app)
       .head('/')
       .end(function(err, res){
-        res.headers.should.have.property('location', 'http://google.com');
+        should(res.headers).have.property('location', 'http://google.com');
         res.text.should.equal('');
         done();
       })
@@ -184,7 +185,7 @@ describe('res', function(){
       .expect('content-length', '0')
       .expect(302, '', function(err, res){
         if (err) return done(err)
-        res.headers.should.not.have.property('content-type');
+        should(res.headers).not.have.property('content-type');
         done();
       })
     })

@@ -3,6 +3,7 @@ var assert = require('assert');
 var express = require('..');
 var methods = require('methods');
 var request = require('supertest');
+var should = require('should');
 
 describe('res', function(){
   describe('.send()', function(){
@@ -119,7 +120,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/html; charset=utf-8');
+        should(res.headers).have.property('content-type', 'text/html; charset=utf-8');
         res.text.should.equal('<p>hey</p>');
         res.statusCode.should.equal(200);
         done();
@@ -191,7 +192,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(err, res){
-        res.headers.should.have.property('content-type', 'application/octet-stream');
+        should(res.headers).have.property('content-type', 'application/octet-stream');
         res.text.should.equal('hello');
         res.statusCode.should.equal(200);
         done();
@@ -222,7 +223,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/plain; charset=utf-8');
+        should(res.headers).have.property('content-type', 'text/plain; charset=utf-8');
         res.text.should.equal('hey');
         res.statusCode.should.equal(200);
         done();
@@ -270,9 +271,9 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(err, res){
-        res.headers.should.not.have.property('content-type');
-        res.headers.should.not.have.property('content-length');
-        res.headers.should.not.have.property('transfer-encoding');
+        should(res.headers).not.have.property('content-type');
+        should(res.headers).not.have.property('content-length');
+        should(res.headers).not.have.property('transfer-encoding');
         res.text.should.equal('');
         done();
       })
@@ -290,9 +291,9 @@ describe('res', function(){
       request(app)
       .get('/')
       .end(function(err, res){
-        res.headers.should.not.have.property('content-type');
-        res.headers.should.not.have.property('content-length');
-        res.headers.should.not.have.property('transfer-encoding');
+        should(res.headers).not.have.property('content-type');
+        should(res.headers).not.have.property('content-length');
+        should(res.headers).not.have.property('transfer-encoding');
         res.text.should.equal('');
         done();
       })
