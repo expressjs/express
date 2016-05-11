@@ -23,12 +23,13 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.end(req.get(['Referer']));
-      });
-
+        assert(req.get(['Something-Else']) == '[TypeError: Parameter "name" needs to be a String but got a object]' );
+        res.end(req.get('Content-Type'));
+      })
+      
       request(app)
       .post('/')
-      .set(['Referrer'], 'http://foobar.com')
+      .set('Content-Type', 'application/json')
       .expect(500, done);
     })
 
