@@ -6,6 +6,8 @@ node_js:
   - "2.5"
   - "3.3"
   - "4.4"
+  - "5.11"
+  - "6.1"
 sudo: false
 before_install: "npm rm --save-dev connect-redis"
 script: "npm run-script test-ci"
