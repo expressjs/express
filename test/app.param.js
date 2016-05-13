@@ -43,6 +43,50 @@ describe('app', function(){
       app.param.bind(app, ':name', 'bob').should.throw();
     })
   })
+  
+  describe('.param(fn)', function(){
+    it('should map app.param(name, ...) logic', function(done){
+      var app = express();
+
+      app.param(function(name, option){
+        return function(req, res, next, val){
+          if(val >= option){
+            next();
+          }else{
+            res.sendStatus(403);
+          }
+        }
+      });
+      
+      app.param(function(name, option){
+        return function(req, res, next, val){
+          if(val >= 2*option){
+            next();
+          }else{
+            res.sendStatus(404);
+          }
+        }
+      });
+
+      app.param(':name', 6);
+
+      app.get('/user/:name', function(req, res){
+        res.send(req.params.name);
+      });
+
+      request(app)
+      .get('/user/12')
+      .end(function(err, res){
+        res.text.should.equal('12');
+      });
+      request(app)
+        .get('/user/5')
+        .expect(403);
+      request(app)
+        .get('/user/7')
+        .expect(404, done);
+    })
+  })
 
   describe('.param(names, fn)', function(){
     it('should map the array', function(done){
