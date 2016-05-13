@@ -3,7 +3,7 @@ var express = require('../')
   , request = require('supertest')
   , cookie = require('cookie')
   , cookieParser = require('cookie-parser')
-var merge = require('utils-merge');
+  , merge = require('../lib/utils').merge;
 
 describe('res', function(){
   describe('.cookie(name, object)', function(){
