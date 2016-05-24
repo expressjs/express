@@ -8,6 +8,8 @@ unreleased
     - Many performance improvments
     - deps: mime-types@~2.1.11
     - deps: negotiator@0.6.1
+  * deps: content-type@~1.0.2
+    - perf: enable strict mode
 
 4.13.4 / 2016-01-21
 ===================
