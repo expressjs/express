@@ -6,9 +6,13 @@ environment:
     - nodejs_version: "2.5"
     - nodejs_version: "3.3"
     - nodejs_version: "4.4"
+cache:
+  - node_modules
 install:
   - ps: Install-Product node $env:nodejs_version
   - npm rm --save-dev connect-redis
+  - if exist node_modules npm prune
+  - if exist node_modules npm rebuild
   - npm install
 build: off
 test_script:
