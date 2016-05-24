@@ -7,6 +7,11 @@ var express = require('../')
   , assert = require('assert');
 
 describe('Route', function(){
+  it('should work without handlers', function(done) {
+    var req = { method: 'GET', url: '/' }
+    var route = new Route('/foo')
+    route.dispatch(req, {}, done)
+  })
 
   describe('.all', function(){
     it('should add handler', function(done){
