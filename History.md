@@ -1,3 +1,14 @@
+unreleased
+==========
+
+  * deps: accepts@~1.3.3
+    - Fix including type extensions in parameters in `Accept` parsing
+    - Fix parsing `Accept` parameters with quoted equals
+    - Fix parsing `Accept` parameters with quoted semicolons
+    - Many performance improvments
+    - deps: mime-types@~2.1.11
+    - deps: negotiator@0.6.1
+
 4.13.4 / 2016-01-21
 ===================
 
