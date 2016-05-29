@@ -10,6 +10,8 @@ unreleased
     - deps: negotiator@0.6.1
   * deps: content-type@~1.0.2
     - perf: enable strict mode
+  * deps: vary@~1.1.0
+    - Only accept valid field names in the `field` argument
 
 4.13.4 / 2016-01-21
 ===================
