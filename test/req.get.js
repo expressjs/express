@@ -18,6 +18,20 @@ describe('req', function(){
       .set('Content-Type', 'application/json')
       .expect('application/json', done);
     })
+    
+    it('should handle render error throws', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        assert(req.get(['Something-Else']) == '[TypeError: Parameter "name" needs to be a String but got a object]' );
+        res.end(req.get('Content-Type'));
+      })
+      
+      request(app)
+      .post('/')
+      .set('Content-Type', 'application/json')
+      .expect(500, done);
+    })
 
     it('should special-case Referer', function(done){
       var app = express();
