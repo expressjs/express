@@ -10,6 +10,17 @@ unreleased
     - deps: negotiator@0.6.1
   * deps: content-type@~1.0.2
     - perf: enable strict mode
+  * deps: cookie@0.3.1
+    - Add `sameSite` option
+    - Fix cookie `Max-Age` to never be a floating point number
+    - Improve error message when `encode` is not a function
+    - Improve error message when `expires` is not a `Date`
+    - Throw better error for invalid argument to parse
+    - Throw on invalid values provided to `serialize`
+    - perf: enable strict mode
+    - perf: hoist regular expression
+    - perf: use for loop in parse
+    - perf: use string concatination for serialization
   * deps: vary@~1.1.0
     - Only accept valid field names in the `field` argument
 
