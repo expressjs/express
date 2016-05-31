@@ -28,6 +28,9 @@ unreleased
     - IPv4 netmasks must be contingous
     - IPv6 addresses cannot be used as a netmask
     - deps: ipaddr.js@1.1.1
+  * deps: type-is@~1.6.13
+    - Fix type error when given invalid type to match against
+    - deps: mime-types@~2.1.11
   * deps: vary@~1.1.0
     - Only accept valid field names in the `field` argument
   * perf: use strict equality when possible
