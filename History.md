@@ -28,6 +28,8 @@ unreleased
     - IPv4 netmasks must be contingous
     - IPv6 addresses cannot be used as a netmask
     - deps: ipaddr.js@1.1.1
+  * deps: qs@6.2.0
+    - Add `decoder` option in `parse` function
   * deps: type-is@~1.6.13
     - Fix type error when given invalid type to match against
     - deps: mime-types@~2.1.11
