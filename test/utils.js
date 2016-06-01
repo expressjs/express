@@ -73,6 +73,7 @@ describe('utils.wetag(body, encoding)', function(){
 describe('utils.isAbsolute()', function(){
   it('should support windows', function(){
     assert(utils.isAbsolute('c:\\'));
+    assert(utils.isAbsolute('c:/'));
     assert(!utils.isAbsolute(':\\'));
   })
 

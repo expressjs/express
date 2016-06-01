@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix Windows absolute path check using forward slashes
   * Improve performance for `res.json`/`res.jsonp` in most cases
   * deps: accepts@~1.3.3
     - Fix including type extensions in parameters in `Accept` parsing
