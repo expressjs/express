@@ -31,6 +31,10 @@ unreleased
     - deps: ipaddr.js@1.1.1
   * deps: qs@6.2.0
     - Add `decoder` option in `parse` function
+  * deps: range-parser@~1.2.0
+    - Add `combine` option to combine overlapping ranges
+    - Fix incorrectly returning -1 when there is at least one valid range
+    - perf: remove internal function
   * deps: type-is@~1.6.13
     - Fix type error when given invalid type to match against
     - deps: mime-types@~2.1.11

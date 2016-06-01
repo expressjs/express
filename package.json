@@ -46,7 +46,7 @@
     "path-to-regexp": "0.1.7",
     "proxy-addr": "~1.1.2",
     "qs": "6.2.0",
-    "range-parser": "~1.0.3",
+    "range-parser": "~1.2.0",
     "send": "0.13.1",
     "serve-static": "~1.10.2",
     "type-is": "~1.6.13",
