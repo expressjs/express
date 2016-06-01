@@ -12,9 +12,9 @@ function req(ret) {
 describe('req', function(){
   describe('.range(size)', function(){
     it('should return parsed ranges', function(){
-      var ret = [{ start: 0, end: 50 }, { start: 60, end: 100 }];
-      ret.type = 'bytes';
-      req('bytes=0-50,60-100').range(120).should.eql(ret);
+      var ranges = [{ start: 0, end: 50 }, { start: 51, end: 100 }]
+      ranges.type = 'bytes'
+      assert.deepEqual(req('bytes=0-50,51-100').range(120), ranges)
     })
 
     it('should cap to the given size', function(){
@@ -33,6 +33,16 @@ describe('req', function(){
       var ret = [{ start: 0, end: 50 }, { start: 60, end: 100 }];
       ret.type = 'bytes';
       assert(req('').range(120) === undefined);
+    })
+  })
+
+  describe('.range(size, options)', function(){
+    describe('with "combine: true" option', function(){
+      it('should return combined ranges', function(){
+        var ranges = [{ start: 0, end: 100 }]
+        ranges.type = 'bytes'
+        assert.deepEqual(req('bytes=0-50,51-100').range(120, { combine: true }), ranges)
+      })
     })
   })
 })

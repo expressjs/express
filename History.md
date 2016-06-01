@@ -1,6 +1,8 @@
 unreleased
 ==========
 
+  * Add `options` argument to `req.range`
+    - Includes the `combine` option
   * Fix Windows absolute path check using forward slashes
   * Improve performance for `res.json`/`res.jsonp` in most cases
   * deps: accepts@~1.3.3
