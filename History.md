@@ -56,6 +56,14 @@ unreleased
     - deps: range-parser@~1.2.0
     - deps: statuses@~1.3.0
     - perf: remove argument reassignment
+  * deps: serve-static@~1.11.1
+    - Add `acceptRanges` option
+    - Add `cacheControl` option
+    - Attempt to combine multiple ranges into single range
+    - Fix redirect error when `req.url` contains raw non-URL characters
+    - Ignore non-byte `Range` headers
+    - Use status code 301 for redirects
+    - deps: send@0.14.1
   * deps: type-is@~1.6.13
     - Fix type error when given invalid type to match against
     - deps: mime-types@~2.1.11
