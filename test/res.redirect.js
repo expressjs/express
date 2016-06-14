@@ -18,6 +18,32 @@ describe('res', function(){
       .expect('location', 'http://google.com')
       .expect(302, done)
     })
+
+    it('should encode "url"', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect('https://google.com?q=\u2603 §10')
+      })
+
+      request(app)
+      .get('/')
+      .expect('Location', 'https://google.com?q=%E2%98%83%20%C2%A710')
+      .expect(302, done)
+    })
+
+    it('should not touch already-encoded sequences in "url"', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect('https://google.com?q=%A710')
+      })
+
+      request(app)
+      .get('/')
+      .expect('Location', 'https://google.com?q=%A710')
+      .expect(302, done)
+    })
   })
 
   describe('.redirect(status, url)', function(){
@@ -85,7 +111,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.redirect('<lame>');
+        res.redirect('<la\'me>');
       });
 
       request(app)
@@ -93,8 +119,8 @@ describe('res', function(){
       .set('Host', 'http://example.com')
       .set('Accept', 'text/html')
       .expect('Content-Type', /html/)
-      .expect('Location', '<lame>')
-      .expect(302, '<p>' + http.STATUS_CODES[302] + '. Redirecting to <a href="&lt;lame&gt;">&lt;lame&gt;</a></p>', done);
+      .expect('Location', '%3Cla\'me%3E')
+      .expect(302, '<p>' + http.STATUS_CODES[302] + '. Redirecting to <a href="%3Cla&#39;me%3E">%3Cla&#39;me%3E</a></p>', done)
     })
 
     it('should include the redirect type', function(done){
@@ -141,8 +167,8 @@ describe('res', function(){
       .set('Host', 'http://example.com')
       .set('Accept', 'text/plain, */*')
       .expect('Content-Type', /plain/)
-      .expect('Location', 'http://example.com/?param=<script>alert("hax");</script>')
-      .expect(302, http.STATUS_CODES[302] + '. Redirecting to http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E', done);
+      .expect('Location', 'http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E')
+      .expect(302, http.STATUS_CODES[302] + '. Redirecting to http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E', done)
     })
 
     it('should include the redirect type', function(done){

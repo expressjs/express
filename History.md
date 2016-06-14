@@ -5,6 +5,7 @@ unreleased
   * Add `cacheControl` option to `res.sendFile`/`res.sendfile`
   * Add `options` argument to `req.range`
     - Includes the `combine` option
+  * Encode URL in `res.location`/`res.redirect` if not already encoded
   * Fix some redirect handling in `res.sendFile`/`res.sendfile`
   * Fix Windows absolute path check using forward slashes
   * Improve error with invalid arguments to `req.get()`
