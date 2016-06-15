@@ -31,6 +31,12 @@ unreleased
     - perf: hoist regular expression
     - perf: use for loop in parse
     - perf: use string concatination for serialization
+  * deps: finalhandler@0.5.0
+    - Change invalid or non-numeric status code to 500
+    - Overwrite status message to match set status code
+    - Prefer `err.statusCode` if `err.status` is invalid
+    - Set response headers from `err.headers` object
+    - Use `statuses` instead of `http` module for status messages
   * deps: proxy-addr@~1.1.2
     - Fix accepting various invalid netmasks
     - Fix IPv6-mapped IPv4 validation edge cases
