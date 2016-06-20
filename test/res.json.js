@@ -145,19 +145,4 @@ describe('res', function(){
       })
     })
   })
-
-  describe('.json(status, object)', function(){
-    it('should respond with json and set the .statusCode', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.json(201, { id: 1 });
-      });
-
-      request(app)
-      .get('/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(201, '{"id":1}', done)
-    })
-  })
 })
