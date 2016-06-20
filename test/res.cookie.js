@@ -150,6 +150,22 @@ describe('res', function(){
       })
     })
 
+    describe('signed without secret', function(){
+      it('should throw an error', function(done){
+        var app = express();
+
+        app.use(cookieParser());
+
+        app.use(function(req, res){
+          res.cookie('name', 'tobi', { signed: true }).end();
+        });
+
+        request(app)
+        .get('/')
+        .expect(500, /secret\S+ required for signed cookies/, done);
+      })
+    })
+
     describe('.signedCookie(name, string)', function(){
       it('should set a signed cookie', function(done){
         var app = express();

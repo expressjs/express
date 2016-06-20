@@ -32,13 +32,8 @@ describe('middleware', function(){
       .get('/')
       .set('Content-Type', 'application/json')
       .send('{"foo":"bar"}')
-      .end(function(err, res){
-        if (err) return done(err);
-        res.headers.should.have.property('content-type', 'application/json');
-        res.statusCode.should.equal(200);
-        res.text.should.equal('{"foo":"bar"}');
-        done();
-      })
+      .expect('Content-Type', 'application/json')
+      .expect(200, '{"foo":"bar"}', done)
     })
   })
 })

@@ -3,6 +3,7 @@ var assert = require('assert');
 var express = require('..');
 var methods = require('methods');
 var request = require('supertest');
+var utils = require('./support/utils');
 
 describe('res', function(){
   describe('.send()', function(){
@@ -103,12 +104,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/html; charset=utf-8');
-        res.text.should.equal('<p>hey</p>');
-        res.statusCode.should.equal(200);
-        done();
-      })
+      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect(200, '<p>hey</p>', done);
     })
 
     it('should set ETag', function (done) {
@@ -175,12 +172,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'application/octet-stream');
-        res.text.should.equal('hello');
-        res.statusCode.should.equal(200);
-        done();
-      })
+      .expect('Content-Type', 'application/octet-stream')
+      .expect(200, 'hello', done);
     })
 
     it('should set ETag', function (done) {
@@ -206,12 +199,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/plain; charset=utf-8');
-        res.text.should.equal('hey');
-        res.statusCode.should.equal(200);
-        done();
-      })
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect(200, 'hey', done);
     })
   })
 
@@ -254,13 +243,10 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.headers.should.not.have.property('content-type');
-        res.headers.should.not.have.property('content-length');
-        res.headers.should.not.have.property('transfer-encoding');
-        res.text.should.equal('');
-        done();
-      })
+      .expect(utils.shouldNotHaveHeader('Content-Type'))
+      .expect(utils.shouldNotHaveHeader('Content-Length'))
+      .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
+      .expect(204, '', done);
     })
   })
 
@@ -274,13 +260,10 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.headers.should.not.have.property('content-type');
-        res.headers.should.not.have.property('content-length');
-        res.headers.should.not.have.property('transfer-encoding');
-        res.text.should.equal('');
-        done();
-      })
+      .expect(utils.shouldNotHaveHeader('Content-Type'))
+      .expect(utils.shouldNotHaveHeader('Content-Length'))
+      .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
+      .expect(304, '', done);
     })
   })
 
@@ -436,7 +419,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(shouldNotHaveHeader('ETag'))
+        .expect(utils.shouldNotHaveHeader('ETag'))
         .expect(200, done);
       })
     });
@@ -454,7 +437,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(shouldNotHaveHeader('ETag'))
+        .expect(utils.shouldNotHaveHeader('ETag'))
         .expect(200, done);
       });
 
@@ -544,15 +527,9 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(shouldNotHaveHeader('ETag'))
+        .expect(utils.shouldNotHaveHeader('ETag'))
         .expect(200, done);
       })
     })
   })
 })
-
-function shouldNotHaveHeader(header) {
-  return function (res) {
-    assert.ok(!(header.toLowerCase() in res.headers), 'should not have header ' + header)
-  }
-}

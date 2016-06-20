@@ -2,6 +2,7 @@
 var assert = require('assert');
 var express = require('..');
 var request = require('supertest');
+var utils = require('./support/utils');
 
 describe('res.vary()', function(){
   describe('with no arguments', function(){
@@ -15,7 +16,7 @@ describe('res.vary()', function(){
 
       request(app)
       .get('/')
-      .expect(shouldNotHaveHeader('Vary'))
+      .expect(utils.shouldNotHaveHeader('Vary'))
       .expect(200, done);
     })
   })
@@ -31,7 +32,7 @@ describe('res.vary()', function(){
 
       request(app)
       .get('/')
-      .expect(shouldNotHaveHeader('Vary'))
+      .expect(utils.shouldNotHaveHeader('Vary'))
       .expect(200, done);
     })
   })
@@ -88,9 +89,3 @@ describe('res.vary()', function(){
     })
   })
 })
-
-function shouldNotHaveHeader(header) {
-  return function (res) {
-    assert.ok(!(header.toLowerCase() in res.headers), 'should not have header ' + header);
-  };
-}

@@ -43,7 +43,7 @@ describe('req', function(){
         var app = createApp('simple');
 
         request(app)
-        .get('/?user[name]=tj')
+        .get('/?user%5Bname%5D=tj')
         .expect(200, '{"user[name]":"tj"}', done);
       });
     });
@@ -55,7 +55,7 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/?user[name]=tj')
+        .get('/?user%5Bname%5D=tj')
         .expect(200, '{"length":17}', done);
       });
     });
@@ -65,7 +65,7 @@ describe('req', function(){
         var app = createApp(false);
 
         request(app)
-        .get('/?user[name]=tj')
+        .get('/?user%5Bname%5D=tj')
         .expect(200, '{}', done);
       });
     });
@@ -75,7 +75,7 @@ describe('req', function(){
         var app = createApp(true);
 
         request(app)
-        .get('/?user[name]=tj')
+        .get('/?user%5Bname%5D=tj')
         .expect(200, '{"user[name]":"tj"}', done);
       });
     });

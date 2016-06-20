@@ -7,6 +7,7 @@ var onFinished = require('on-finished');
 var path = require('path');
 var should = require('should');
 var fixtures = path.join(__dirname, 'fixtures');
+var utils = require('./support/utils');
 
 describe('res', function(){
   describe('.sendFile(path)', function () {
@@ -154,11 +155,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(404, function (err, res) {
-          if (err) return done(err);
-          res.headers.should.not.have.property('x-success');
-          done();
-        });
+        .expect(utils.shouldNotHaveHeader('X-Success'))
+        .expect(404, done);
       });
     });
 
@@ -285,6 +283,14 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect(200, 'got it', done);
+    })
+  })
+
+  describe('.sendFile(path, options)', function () {
+    it('should pass options to send module', function (done) {
+      request(createApp(path.resolve(fixtures, 'name.txt'), { start: 0, end: 1 }))
+      .get('/')
+      .expect(200, 'to', done)
     })
   })
 })

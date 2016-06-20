@@ -1,3 +1,8 @@
+5.x
+===
+
+This incorporates all changes after 4.13.1 up to 4.14.0.
+
 5.0.0-alpha.2 / 2015-07-06
 ==========================
 
@@ -34,6 +39,86 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.14.0 / 2016-06-16
+===================
+
+  * Add `acceptRanges` option to `res.sendFile`/`res.sendfile`
+  * Add `cacheControl` option to `res.sendFile`/`res.sendfile`
+  * Add `options` argument to `req.range`
+    - Includes the `combine` option
+  * Encode URL in `res.location`/`res.redirect` if not already encoded
+  * Fix some redirect handling in `res.sendFile`/`res.sendfile`
+  * Fix Windows absolute path check using forward slashes
+  * Improve error with invalid arguments to `req.get()`
+  * Improve performance for `res.json`/`res.jsonp` in most cases
+  * Improve `Range` header handling in `res.sendFile`/`res.sendfile`
+  * deps: accepts@~1.3.3
+    - Fix including type extensions in parameters in `Accept` parsing
+    - Fix parsing `Accept` parameters with quoted equals
+    - Fix parsing `Accept` parameters with quoted semicolons
+    - Many performance improvments
+    - deps: mime-types@~2.1.11
+    - deps: negotiator@0.6.1
+  * deps: content-type@~1.0.2
+    - perf: enable strict mode
+  * deps: cookie@0.3.1
+    - Add `sameSite` option
+    - Fix cookie `Max-Age` to never be a floating point number
+    - Improve error message when `encode` is not a function
+    - Improve error message when `expires` is not a `Date`
+    - Throw better error for invalid argument to parse
+    - Throw on invalid values provided to `serialize`
+    - perf: enable strict mode
+    - perf: hoist regular expression
+    - perf: use for loop in parse
+    - perf: use string concatination for serialization
+  * deps: finalhandler@0.5.0
+    - Change invalid or non-numeric status code to 500
+    - Overwrite status message to match set status code
+    - Prefer `err.statusCode` if `err.status` is invalid
+    - Set response headers from `err.headers` object
+    - Use `statuses` instead of `http` module for status messages
+  * deps: proxy-addr@~1.1.2
+    - Fix accepting various invalid netmasks
+    - Fix IPv6-mapped IPv4 validation edge cases
+    - IPv4 netmasks must be contingous
+    - IPv6 addresses cannot be used as a netmask
+    - deps: ipaddr.js@1.1.1
+  * deps: qs@6.2.0
+    - Add `decoder` option in `parse` function
+  * deps: range-parser@~1.2.0
+    - Add `combine` option to combine overlapping ranges
+    - Fix incorrectly returning -1 when there is at least one valid range
+    - perf: remove internal function
+  * deps: send@0.14.1
+    - Add `acceptRanges` option
+    - Add `cacheControl` option
+    - Attempt to combine multiple ranges into single range
+    - Correctly inherit from `Stream` class
+    - Fix `Content-Range` header in 416 responses when using `start`/`end` options
+    - Fix `Content-Range` header missing from default 416 responses
+    - Fix redirect error when `path` contains raw non-URL characters
+    - Fix redirect when `path` starts with multiple forward slashes
+    - Ignore non-byte `Range` headers
+    - deps: http-errors@~1.5.0
+    - deps: range-parser@~1.2.0
+    - deps: statuses@~1.3.0
+    - perf: remove argument reassignment
+  * deps: serve-static@~1.11.1
+    - Add `acceptRanges` option
+    - Add `cacheControl` option
+    - Attempt to combine multiple ranges into single range
+    - Fix redirect error when `req.url` contains raw non-URL characters
+    - Ignore non-byte `Range` headers
+    - Use status code 301 for redirects
+    - deps: send@0.14.1
+  * deps: type-is@~1.6.13
+    - Fix type error when given invalid type to match against
+    - deps: mime-types@~2.1.11
+  * deps: vary@~1.1.0
+    - Only accept valid field names in the `field` argument
+  * perf: use strict equality when possible
 
 4.13.4 / 2016-01-21
 ===================
