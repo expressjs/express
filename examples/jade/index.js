@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express');
+var express = require('../../');
 
 // Path to our public directory
 
@@ -10,7 +10,7 @@ var pub = __dirname + '/public';
 
 // setup middleware
 
-var app = express();
+var app = module.exports = express();
 app.use(express.static(pub));
 
 // Optional since express defaults to CWD/views
