@@ -68,6 +68,7 @@
     "grunt-contrib-uglify": "^2.0.0",
     "istanbul": "0.4.3",
     "jade": "~1.11.0",
+    "jshint": "2.9.3",
     "jshint-stylish": "^2.2.1",
     "marked": "0.3.5",
     "method-override": "~2.3.6",
@@ -90,7 +91,7 @@
     "lib/"
   ],
   "scripts": {
-    "test": "mocha -R xunit > xunit.xml ",
+    "test": "mocha --reporter mocha-jenkins-reporter > xunit1.xml ",
     "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
     "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
