@@ -94,7 +94,7 @@
     "test": "mocha --reporter mocha-jenkins-reporter > xunit1.xml ",
     "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report istanbul report cobertura -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
-    "test-coverage-report": "istanbul report cobertura",
+    "test-coverage-report": "istanbul cover node_modules/mocha/bin/_mocha --report cobertura",
     "jshint": "jshint ./lib --jslint-reporter > jshint.xml || true"
   }
 }
