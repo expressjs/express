@@ -160,32 +160,4 @@ describe('res', function(){
       .expect(201, '{"id":1}', done)
     })
   })
-
-  describe('.json(object, status)', function(){
-    it('should respond with json and set the .statusCode for backwards compat', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.json({ id: 1 }, 201);
-      });
-
-      request(app)
-      .get('/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(201, '{"id":1}', done)
-    })
-
-    it('should use status as second number for backwards compat', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.json(200, 201);
-      });
-
-      request(app)
-      .get('/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(201, '200', done)
-    })
-  })
 })

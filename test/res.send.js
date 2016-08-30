@@ -49,21 +49,6 @@ describe('res', function(){
     })
   })
 
-  describe('.send(code)', function(){
-    it('should set .statusCode', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.send(201).should.equal(res);
-      });
-
-      request(app)
-      .get('/')
-      .expect('Created')
-      .expect(201, done);
-    })
-  })
-
   describe('.send(code, body)', function(){
     it('should set .statusCode and body', function(done){
       var app = express();
@@ -79,21 +64,6 @@ describe('res', function(){
     })
   })
 
-  describe('.send(body, code)', function(){
-    it('should be supported for backwards compat', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.send('Bad!', 400);
-      });
-
-      request(app)
-      .get('/')
-      .expect('Bad!')
-      .expect(400, done);
-    })
-  })
-
   describe('.send(code, number)', function(){
     it('should send number as json', function(done){
       var app = express();
@@ -106,6 +76,21 @@ describe('res', function(){
       .get('/')
       .expect('Content-Type', 'application/json; charset=utf-8')
       .expect(200, '0.123', done);
+    })
+  })
+
+  describe('.send(Number)', function(){
+    it('should send as application/json', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send(1000);
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200, '1000', done)
     })
   })
 
@@ -412,7 +397,7 @@ describe('res', function(){
 
         app.use(function (req, res) {
           res.set('etag', '"asdf"');
-          res.send(200);
+          res.send('hello!');
         });
 
         app.enable('etag');
@@ -463,7 +448,7 @@ describe('res', function(){
 
         app.use(function (req, res) {
           res.set('etag', '"asdf"');
-          res.send(200);
+          res.send('hello!');
         });
 
         request(app)

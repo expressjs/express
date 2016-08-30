@@ -34,7 +34,7 @@ describe('app.router', function(){
   })
 
   describe('methods', function(){
-    methods.concat('del').forEach(function(method){
+    methods.forEach(function(method){
       if (method === 'connect') return;
 
       it('should include ' + method.toUpperCase(), function(done){
@@ -56,7 +56,7 @@ describe('app.router', function(){
 
       it('should reject numbers for app.' + method, function(){
         var app = express();
-        app[method].bind(app, '/', 3).should.throw(/Number/);
+        assert.throws(app[method].bind(app, '/', 3), /argument handler must be a function/);
       })
     });
 

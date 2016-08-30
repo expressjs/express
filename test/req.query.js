@@ -80,23 +80,6 @@ describe('req', function(){
       });
     });
 
-    describe('when "query parser fn" is missing', function () {
-      it('should act like "extended"', function (done) {
-        var app = express();
-
-        delete app.settings['query parser'];
-        delete app.settings['query parser fn'];
-
-        app.use(function (req, res) {
-          res.send(req.query);
-        });
-
-        request(app)
-        .get('/?user[name]=tj&user.name=tj')
-        .expect(200, '{"user":{"name":"tj"},"user.name":"tj"}', done);
-      });
-    });
-
     describe('when "query parser" an unknown value', function () {
       it('should throw', function () {
         createApp.bind(null, 'bogus').should.throw(/unknown value.*query parser/);

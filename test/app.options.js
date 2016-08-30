@@ -6,28 +6,28 @@ describe('OPTIONS', function(){
   it('should default to the routes defined', function(done){
     var app = express();
 
-    app.del('/', function(){});
+    app.post('/', function(){});
     app.get('/users', function(req, res){});
     app.put('/users', function(req, res){});
 
     request(app)
     .options('/users')
-    .expect('Allow', 'GET,HEAD,PUT')
-    .expect(200, 'GET,HEAD,PUT', done);
+    .expect('Allow', 'GET, HEAD, PUT')
+    .expect(200, 'GET, HEAD, PUT', done);
   })
 
   it('should only include each method once', function(done){
     var app = express();
 
-    app.del('/', function(){});
+    app.delete('/', function(){});
     app.get('/users', function(req, res){});
     app.put('/users', function(req, res){});
     app.get('/users', function(req, res){});
 
     request(app)
     .options('/users')
-    .expect('Allow', 'GET,HEAD,PUT')
-    .expect(200, 'GET,HEAD,PUT', done);
+    .expect('Allow', 'GET, HEAD, PUT')
+    .expect(200, 'GET, HEAD, PUT', done);
   })
 
   it('should not be affected by app.all', function(done){
@@ -44,8 +44,8 @@ describe('OPTIONS', function(){
     request(app)
     .options('/users')
     .expect('x-hit', '1')
-    .expect('Allow', 'GET,HEAD,PUT')
-    .expect(200, 'GET,HEAD,PUT', done);
+    .expect('Allow', 'GET, HEAD, PUT')
+    .expect(200, 'GET, HEAD, PUT', done);
   })
 
   it('should not respond if the path is not defined', function(done){
@@ -68,8 +68,8 @@ describe('OPTIONS', function(){
 
     request(app)
     .options('/other')
-    .expect('Allow', 'GET,HEAD')
-    .expect(200, 'GET,HEAD', done);
+    .expect('Allow', 'GET, HEAD')
+    .expect(200, 'GET, HEAD', done);
   })
 
   describe('when error occurs in respone handler', function () {

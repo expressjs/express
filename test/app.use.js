@@ -1,5 +1,6 @@
 
 var after = require('after');
+var assert = require('assert');
 var express = require('..');
 var request = require('supertest');
 
@@ -255,15 +256,15 @@ describe('app', function(){
   describe('.use(path, middleware)', function(){
     it('should reject missing functions', function () {
       var app = express();
-      app.use.bind(app, '/').should.throw(/requires middleware function/);
+      assert.throws(app.use.bind(app, '/'), /requires middleware function/);
     })
 
     it('should reject non-functions as middleware', function () {
       var app = express();
-      app.use.bind(app, '/', 'hi').should.throw(/requires middleware function.*string/);
-      app.use.bind(app, '/', 5).should.throw(/requires middleware function.*number/);
-      app.use.bind(app, '/', null).should.throw(/requires middleware function.*Null/);
-      app.use.bind(app, '/', new Date()).should.throw(/requires middleware function.*Date/);
+      assert.throws(app.use.bind(app, '/', 'hi'), /argument handler must be a function/);
+      assert.throws(app.use.bind(app, '/', 5), /argument handler must be a function/);
+      assert.throws(app.use.bind(app, '/', null), /argument handler must be a function/);
+      assert.throws(app.use.bind(app, '/', new Date()), /argument handler must be a function/);
     })
 
     it('should strip path from req.url', function (done) {
