@@ -68,33 +68,33 @@ describe('Router', function(){
     router.handle({ url: '/', method: 'GET' }, { end: done });
   });
 
-  it('should expose the matched route on the req object', function (done) {
+  it('should expose the matched routes on the req object', function (done) {
     var router = new Router();
     var path = '/foo/:num';
 
     router.use(path, function (req, res) {
-      assert(req.matchedRoute);
-      assert.equal(req.matchedRoute, path);
+      assert(req.matchedRoutes);
+      assert.deepEqual(req.matchedRoutes, [path]);
       res.end();
     });
 
     router.handle({ url: '/foo/123', method: 'GET' }, {end: done});
   });
 
-  it('should expose the nested matched route on the req object', function (done) {
+  it('should expose the nested matched routes on the req object', function (done) {
     var layer1 = new Router();
     var layer2 = new Router();
     var layer3 = new Router();
 
     layer1.use(layer2);
     layer2.use('/foo/:num', layer3);
-    layer3.get('/bar/:num', function (req, res) {
-      assert.equal(req.matchedRoute, '/foo/:num/bar/:num');
+    layer3.get(/[0-9]/, function (req, res) {
+      assert.deepEqual(req.matchedRoutes, ['/', '/foo/:num', /[0-9]/]);
       res.end();
     });
 
     // Simulate request entering "app" or "base" later
-    layer1.handle({ url: '/foo/123/bar/321', method: 'GET' }, {end: done});
+    layer1.handle({ url: '/foo/123/321', method: 'GET' }, {end: done});
   });
 
   describe('.handle', function(){
