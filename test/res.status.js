@@ -16,5 +16,16 @@ describe('res', function(){
       .expect('Created')
       .expect(201, done);
     })
+
+    it('should throw a TypeError if code is null or undefined', function(done){
+     var app = express();
+     app.use(function(req, res){
+         res.status(null).end('Created');
+     });
+
+     request(app)
+       .get('/')
+       .expect(500, done);
+    })
   })
-})
+});
