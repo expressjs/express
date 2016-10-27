@@ -11,7 +11,7 @@ function render(path, options, fn) {
 }
 
 describe('app', function(){
-  describe('.engine(ext, fn)', function(){
+  describe('.engine(ext, fn, options)', function(){
     it('should map a template engine', function(done){
       var app = express();
 
@@ -73,6 +73,49 @@ describe('app', function(){
       app.render('user', function(err, str){
         if (err) return done(err);
         str.should.equal('<p>tobi</p>');
+        done();
+      })
+    })
+    
+    it('should throw when no options are specified and the file does not exist', function(done){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+      app.engine('.html', render);
+      app.set('view engine', '.html');
+
+      app.render('nonexistent', function(err, str){
+        if (err) return done();
+        done(new Error('No Error was thrown despite missing file'));
+      })
+    })
+
+    it('should throw when noFileSystem is explicitly set to false and the file does not exist', function(done){
+      var app = express();
+
+      app.set('views', __dirname + '/fixtures');
+      app.engine('.html', render, { noFileSystem: false });
+      app.set('view engine', '.html');
+
+      app.render('nonexistent', function(err, str){
+        if (err) return done();
+        done(new Error('No Error was thrown despite missing file'));
+      })
+    })
+
+    it('should work when noFileSystem is set to true and the file does not exist', function(done){
+      var app = express();
+      var fileName = 'nonexistent';
+
+      app.set('views', __dirname + '/fixtures');
+      app.engine('.html', function(name, options, fn) {
+        name.should.equal(fileName);
+        done();
+      }, { noFileSystem: true });
+      app.set('view engine', '.html');
+
+      app.render(fileName, function(err, str){
+        if (err) return done(err);
         done();
       })
     })
