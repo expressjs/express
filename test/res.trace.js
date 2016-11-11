@@ -70,7 +70,9 @@ describe('res', function(){
 
       request(appParent1)
         .get('/childof1')
-        .expect(200, function(){
+        .expect(200, function(err){
+
+        if (err) return done(err);
 
         parentTraces1.length.should.be.equal(1);
         parentTraces2.length.should.be.equal(1);
@@ -79,7 +81,9 @@ describe('res', function(){
 
         request(appParent2)
           .get('/childof2')
-          .expect(200, function(){
+          .expect(200, function(err){
+
+          if (err) return done(err);
 
           parentTraces1.length.should.be.equal(2);
           parentTraces2.length.should.be.equal(2);
