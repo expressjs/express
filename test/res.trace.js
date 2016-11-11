@@ -1,6 +1,7 @@
 
 var express = require('../');
 var request = require('supertest');
+var assert = require('assert');
 
 describe('res', function(){
   describe('.trace(event)', function(){
@@ -8,11 +9,11 @@ describe('res', function(){
       var app = express();
 
       app.instrument(function(options){
-        (options.app === app).should.be.ok;
-        options.req.url.should.be.equal('/');
-        options.res.id.should.be.equal('1');
-        'one:event'.should.be.equal(options.event);
-        'info'.should.be.equal(options.args[0]);
+        assert.equal(options.app, app)
+        assert.equal(options.req.url, '/');
+        assert.equal(options.res.id, '1');
+        assert.equal(options.event, 'one:event');
+        assert.equal(options.args[0], 'info');
       });
 
       app.use(function(req, res, next){
@@ -42,24 +43,24 @@ describe('res', function(){
       var parentTraces2 = [];
 
       appParent1.instrument(function(options){
-        options.res.id.should.be.equal('1');
+        assert.equal(options.req.id, '1');
         parentTraces1.push(options.event + ':parent1');
       });
 
       appParent2.instrument(function(options){
-        options.res.id.should.be.equal('1');
+        assert.equal(options.req.id, '1');
         parentTraces2.push(options.event + ':parent2');
       });
 
       appParent1.use('/childof1', app);
       appParent2.use('/childof2', app);
       app.instrument(function(options){
-        'one:event'.should.be.equal(options.event);
-        'info'.should.be.equal(options.args[0]);
+        assert.equal(options.event, 'one:event');
+        assert.equal(options.args[0], 'info');
       });
 
       app.use(function(req, res, next){
-        res.id = '1';
+        req.id = '1';
         next();
       });
 
@@ -71,26 +72,24 @@ describe('res', function(){
       request(appParent1)
         .get('/childof1')
         .expect(200, function(err){
-
         if (err) return done(err);
 
-        parentTraces1.length.should.be.equal(1);
-        parentTraces2.length.should.be.equal(1);
-        parentTraces1[0].should.be.equal('one:event:parent1');
-        parentTraces2[0].should.be.equal('one:event:parent2');
+        assert.equal(parentTraces1.length, 1);
+        assert.equal(parentTraces2.length, 1);
+        assert.equal(parentTraces1[0], 'one:event:parent1');
+        assert.equal(parentTraces2[0], 'one:event:parent2');
 
         request(appParent2)
           .get('/childof2')
           .expect(200, function(err){
-
           if (err) return done(err);
 
-          parentTraces1.length.should.be.equal(2);
-          parentTraces2.length.should.be.equal(2);
-          parentTraces1[0].should.be.equal('one:event:parent1');
-          parentTraces2[0].should.be.equal('one:event:parent2');
-          parentTraces1[1].should.be.equal('one:event:parent1');
-          parentTraces2[1].should.be.equal('one:event:parent2');
+          assert.equal(parentTraces1.length, 2);
+          assert.equal(parentTraces2.length, 2);
+          assert.equal(parentTraces1[0], 'one:event:parent1');
+          assert.equal(parentTraces2[0], 'one:event:parent2');
+          assert.equal(parentTraces1[1], 'one:event:parent1');
+          assert.equal(parentTraces2[1], 'one:event:parent2');
           done();
         });
       });
