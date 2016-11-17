@@ -72,7 +72,7 @@ describe('OPTIONS', function(){
     .expect(200, 'GET,HEAD', done);
   })
 
-  describe('when error occurs in respone handler', function () {
+  describe('when error occurs in response handler', function () {
     it('should pass error to callback', function (done) {
       var app = express();
       var router = express.Router();
