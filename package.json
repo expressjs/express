@@ -1,7 +1,7 @@
 {
   "name": "express",
   "description": "Fast, unopinionated, minimalist web framework",
-  "version": "4.14.0",
+  "version": "4.14.24",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [
     "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
@@ -57,20 +57,27 @@
   "devDependencies": {
     "after": "0.8.1",
     "body-parser": "~1.15.1",
+    "connect-redis": "~2.4.1",
     "cookie-parser": "~1.4.3",
+    "cookie-session": "~1.2.0",
     "ejs": "2.4.2",
+    "express-session": "~1.13.0",
+    "grunt": "^1.0.1",
+    "grunt-bumpup": "^0.6.3",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
     "istanbul": "0.4.3",
+    "jade": "~1.11.0",
+    "jshint": "2.9.3",
+    "jshint-stylish": "^2.2.1",
     "marked": "0.3.5",
     "method-override": "~2.3.6",
     "mocha": "2.5.3",
+    "mocha-jenkins-reporter": "0.2.4",
     "morgan": "~1.7.0",
+    "multiparty": "~4.1.2",
     "should": "9.0.2",
     "supertest": "1.2.0",
-    "connect-redis": "~2.4.1",
-    "cookie-session": "~1.2.0",
-    "express-session": "~1.13.0",
-    "jade": "~1.11.0",
-    "multiparty": "~4.1.2",
     "vhost": "~3.0.2"
   },
   "engines": {
@@ -84,9 +91,11 @@
     "lib/"
   ],
   "scripts": {
-    "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/ test/acceptance/",
-    "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
+    "test": "mocha --reporter mocha-jenkins-reporter > xunit1.xml ",
+    "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report istanbul report cobertura -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
-    "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
+    "test-coverage-report": "istanbul cover node_modules/mocha/bin/_mocha --report cobertura",
+    "bump": "grunt bumpup",
+    "jshint": "jshint ./lib --jslint-reporter > jshint.xml || true"
   }
 }
