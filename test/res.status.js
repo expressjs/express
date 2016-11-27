@@ -17,7 +17,19 @@ describe('res', function(){
       .expect(201, done);
     })
 
-    it('should throw a TypeError if invalid', function(done){
+    it('should throw a TypeError if not a number', function(done) {
+      var app = express();
+
+      app.use(function(req, res){
+        res.status('foo').end();
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, /Invalid status code/, done);
+    })
+
+    it('should throw a TypeError if invalid number', function(done){
       var app = express();
 
       app.use(function(req, res){
@@ -27,30 +39,6 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect(500, /Invalid status code/, done);
-    })
-
-    it('should handle numeric strings', function(done) {
-      var app = express();
-
-      app.use(function(req, res){
-        res.status('400').end();
-      });
-
-      request(app)
-      .get('/')
-      .expect(400, done);
-    })
-
-    it('should handle floats as integers', function(done) {
-      var app = express();
-
-      app.use(function(req, res){
-        res.status(404.04).end();
-      });
-
-      request(app)
-      .get('/')
-      .expect(404, done);
     })
   })
 })
