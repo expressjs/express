@@ -7,7 +7,7 @@ environment:
     - nodejs_version: "3.3"
     - nodejs_version: "4.6"
     - nodejs_version: "5.12"
-    - nodejs_version: "6.2"
+    - nodejs_version: "6.9"
 cache:
   - node_modules
 install:
