@@ -59,7 +59,7 @@
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
     "ejs": "2.4.2",
-    "istanbul": "0.4.3",
+    "istanbul": "0.4.5",
     "marked": "0.3.5",
     "method-override": "~2.3.6",
     "mocha": "2.5.3",
