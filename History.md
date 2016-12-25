@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Add debug message when loading view engine
+
 4.14.1 / 2017-01-28
 ===================
 
