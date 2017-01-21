@@ -62,7 +62,7 @@
     "istanbul": "0.4.5",
     "marked": "0.3.5",
     "method-override": "~2.3.6",
-    "mocha": "2.5.3",
+    "mocha": "3.2.0",
     "morgan": "~1.7.0",
     "should": "9.0.2",
     "supertest": "1.2.0",
