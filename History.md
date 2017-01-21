@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * deps: content-disposition@0.5.2
+
 4.14.0 / 2016-06-16
 ===================
 
