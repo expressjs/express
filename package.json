@@ -64,7 +64,7 @@
     "method-override": "~2.3.6",
     "mocha": "3.2.0",
     "morgan": "~1.7.0",
-    "should": "9.0.2",
+    "should": "11.1.2",
     "supertest": "1.2.0",
     "connect-redis": "~2.4.1",
     "cookie-session": "~1.2.0",
