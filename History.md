@@ -2,6 +2,8 @@ unreleased
 ==========
 
   * deps: content-disposition@0.5.2
+  * deps: proxy-addr@~1.1.3
+    - deps: ipaddr.js@1.2.0
 
 4.14.0 / 2016-06-16
 ===================
