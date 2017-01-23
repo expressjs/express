@@ -9,6 +9,10 @@ unreleased
     - perf: remove duplicate validation path
   * deps: proxy-addr@~1.1.3
     - deps: ipaddr.js@1.2.0
+  * deps: send@0.14.2
+    - deps: http-errors@~1.5.1
+    - deps: ms@0.7.2
+    - deps: statuses@~1.3.1
 
 4.14.0 / 2016-06-16
 ===================
