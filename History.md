@@ -13,6 +13,8 @@ unreleased
     - deps: http-errors@~1.5.1
     - deps: ms@0.7.2
     - deps: statuses@~1.3.1
+  * deps: serve-static@~1.11.2
+    - deps: send@0.14.2
 
 4.14.0 / 2016-06-16
 ===================
