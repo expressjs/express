@@ -12,9 +12,9 @@ var app = module.exports = express();
 
 // settings
 
-// set our default template engine to "jade"
+// set our default template engine to "pug"
 // which prevents the need for extensions
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 // set views for error and 404 pages
 app.set('views', __dirname + '/views');

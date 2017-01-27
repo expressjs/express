@@ -15,7 +15,7 @@ var db = redis.createClient();
 
 var app = express();
 
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.set('views', __dirname);
 
 // populate search
@@ -49,7 +49,7 @@ app.get('/search/:query?', function(req, res){
 /**
  * GET client javascript. Here we use sendFile()
  * because serving __dirname with the static() middleware
- * would also mean serving our server "index.js" and the "search.jade"
+ * would also mean serving our server "index.js" and the "search.pug"
  * template.
  */
 

@@ -1,6 +1,6 @@
 link(rel='stylesheet', href='/style.css')
 h1= user.name + ' '
-  a(href='/user/#{user.id}/edit') edit
+  a(href='/user/' + user.id + '/edit') edit
 
 if (hasMessages)
   ul#messages
@@ -12,6 +12,6 @@ if (user.pets.length)
   ul
     each pet in user.pets
       li
-        a(href='/pet/#{pet.id}')= pet.name
+        a(href='/pet/' + pet.id)= pet.name
 else
   p No pets!

@@ -7,7 +7,7 @@ var User = require('./user');
 var app = express();
 
 app.set('views', __dirname);
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 // filter ferrets only
 
