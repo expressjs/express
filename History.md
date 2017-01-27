@@ -15,6 +15,8 @@ unreleased
     - deps: statuses@~1.3.1
   * deps: serve-static@~1.11.2
     - deps: send@0.14.2
+  * deps: type-is@~1.6.14
+    - deps: mime-types@~2.1.13
 
 4.14.0 / 2016-06-16
 ===================
