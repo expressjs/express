@@ -8,6 +8,7 @@ This incorporates all changes after 4.13.1 up to 4.14.1.
     - `res.jsonp(status, obj)` signature - use `res.status(status).jsonp(obj)`
     - `res.vary()` (no arguments) -- provide a field name as an argument
   * deps: array-flatten@2.1.1
+  * deps: path-is-absolute@1.0.1
   * deps: router@~1.1.5
     - deps: array-flatten@2.0.1
     - deps: methods@~1.1.2
