@@ -1,7 +1,8 @@
-5.x
-===
+5.0.0-alpha.3 / 2017-01-28
+==========================
 
-This incorporates all changes after 4.13.1 up to 4.14.1.
+This is the third Express 5.0 alpha release, based off 4.14.1 and includes
+changes from 5.0.0-alpha.2.
 
   * remove:
     - `res.json(status, obj)` signature - use `res.status(status).json(obj)`
