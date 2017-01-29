@@ -31,7 +31,7 @@ exception is security dislosures which should be sent privately.
 Committers may direct you to another repository, ask for additional clarifications, and
 add appropriate metadata before the issue is addressed.
 
-Please be courteous, respectful, and every participant is expected to follow the 
+Please be courteous and respectful. Every participant is expected to follow the
 project's Code of Conduct.
 
 # Contributions

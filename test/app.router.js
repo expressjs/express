@@ -757,7 +757,7 @@ describe('app.router', function(){
       .expect('editing tj (old)', cb);
     })
 
-    it('should work inside literal paranthesis', function(done){
+    it('should work inside literal parenthesis', function(done){
       var app = express();
 
       app.get('/:user\\(:op\\)', function(req, res){

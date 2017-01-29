@@ -116,6 +116,26 @@ describe('res', function(){
       test.expect(200, cb);
     })
 
+    describe('with "cacheControl" option', function () {
+      it('should enable cacheControl by default', function (done) {
+        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'))
+
+        request(app)
+        .get('/')
+        .expect('Cache-Control', 'public, max-age=0')
+        .expect(200, done)
+      })
+
+      it('should accept cacheControl option', function (done) {
+        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), { cacheControl: false })
+
+        request(app)
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('Cache-Control'))
+        .expect(200, done)
+      })
+    })
+
     describe('with "dotfiles" option', function () {
       it('should not serve dotfiles by default', function (done) {
         var app = createApp(path.resolve(__dirname, 'fixtures/.name'));

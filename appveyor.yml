@@ -5,9 +5,9 @@ environment:
     - nodejs_version: "1.8"
     - nodejs_version: "2.5"
     - nodejs_version: "3.3"
-    - nodejs_version: "4.4"
-    - nodejs_version: "5.11"
-    - nodejs_version: "6.2"
+    - nodejs_version: "4.7"
+    - nodejs_version: "5.12"
+    - nodejs_version: "6.9"
 cache:
   - node_modules
 install:

@@ -1,7 +1,7 @@
 5.x
 ===
 
-This incorporates all changes after 4.13.1 up to 4.14.0.
+This incorporates all changes after 4.13.1 up to 4.14.1.
 
   * remove:
     - `res.json(status, obj)` signature - use `res.status(status).json(obj)`
@@ -44,6 +44,26 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.14.1 / 2017-01-28
+===================
+
+  * deps: content-disposition@0.5.2
+  * deps: finalhandler@0.5.1
+    - Fix exception when `err.headers` is not an object
+    - deps: statuses@~1.3.1
+    - perf: hoist regular expressions
+    - perf: remove duplicate validation path
+  * deps: proxy-addr@~1.1.3
+    - deps: ipaddr.js@1.2.0
+  * deps: send@0.14.2
+    - deps: http-errors@~1.5.1
+    - deps: ms@0.7.2
+    - deps: statuses@~1.3.1
+  * deps: serve-static@~1.11.2
+    - deps: send@0.14.2
+  * deps: type-is@~1.6.14
+    - deps: mime-types@~2.1.13
 
 4.14.0 / 2016-06-16
 ===================
