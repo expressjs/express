@@ -7,6 +7,11 @@ This incorporates all changes after 4.13.1 up to 4.14.1.
     - `res.json(status, obj)` signature - use `res.status(status).json(obj)`
     - `res.jsonp(status, obj)` signature - use `res.status(status).jsonp(obj)`
     - `res.vary()` (no arguments) -- provide a field name as an argument
+  * deps: router@~1.1.5
+    - deps: array-flatten@2.0.1
+    - deps: methods@~1.1.2
+    - deps: parseurl@~1.3.1
+    - deps: setprototypeof@1.0.2
 
 5.0.0-alpha.2 / 2015-07-06
 ==========================
