@@ -60,20 +60,17 @@ app.get('/500', function(req, res, next){
 app.use(function(req, res, next){
   res.status(404);
 
-  switch (req.accepts(['html', 'json'])) {
-    case "html":
-      // respond with html page
-      res.render('404', { url: req.url });
-      break;
-    case "json":
-      // respond with json
-      res.send({ error: 'Not found' });
-      break;
-    default:
-      // default to plain-text. send()
+  res.format({
+    text: function() {
       res.type('txt').send('Not found');
-
-  }
+    },
+    html: function() {
+      res.render('404', { url: req.url });
+    },
+    json: function() {
+      res.send({ error: 'Not found' });
+    }
+  });
 });
 
 // error-handling middleware, take the same form
