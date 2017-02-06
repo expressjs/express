@@ -90,7 +90,7 @@ describe('app.router', function(){
     });
   })
 
-  describe('decode querystring', function(){
+  describe('decode params', function () {
     it('should decode correct params', function(done){
       var app = express();
 
