@@ -205,6 +205,26 @@ describe('res', function(){
         .expect(403, done);
       })
     })
+
+    describe('with "cacheControl" option', function () {
+      it('should enable cacheControl by default', function (done) {
+        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'));
+
+        request(app)
+        .get('/')
+        .expect('cache-control', 'public, max-age=0')
+        .expect(200, done);
+      })
+
+      it('should accept cacheControl option', function(done){
+        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), { cacheControl: false });
+
+        request(app)
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('cache-control'))
+        .expect(200, done);
+      })
+    })
   })
 
   describe('.sendFile(path, fn)', function () {

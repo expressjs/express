@@ -1,7 +1,13 @@
+/**
+ * Module dependencies.
+ */
 
-var express = require('../..');
+var express = require('../../');
 var logger = require('morgan');
-var app = express();
+var app = module.exports = express();
+var test = app.get('env') == 'test';
+
+if (!test) app.use(logger('dev'));
 
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
@@ -23,8 +29,6 @@ User.prototype.toJSON = function(){
     name: this.name
   };
 };
-
-app.use(logger('dev'));
 
 // earlier on expose an object
 // that we can tack properties on.
