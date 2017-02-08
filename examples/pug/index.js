@@ -17,10 +17,10 @@ app.use(express.static(pub));
 
 app.set('views', __dirname + '/views');
 
-// Set our default template engine to "jade"
+// Set our default template engine to "pug"
 // which prevents the need for extensions
 // (although you can still mix and match)
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 function User(name, email) {
   this.name = name;

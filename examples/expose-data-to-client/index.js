@@ -3,7 +3,7 @@ var express = require('../..');
 var logger = require('morgan');
 var app = express();
 
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 
 function User(name) {
