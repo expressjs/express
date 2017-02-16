@@ -8,6 +8,9 @@ unreleased
     - Fix error when running under React Native
     - Use same color for same namespace
     - deps: ms@0.7.2
+  * deps: qs@6.3.1
+    - Fix array parsing from skipping empty values
+    - Fix compacting nested arrays
 
 4.14.1 / 2017-01-28
 ===================
