@@ -8,6 +8,9 @@ unreleased
     - Fix error when running under React Native
     - Use same color for same namespace
     - deps: ms@0.7.2
+  * deps: etag@~1.8.0
+    - Use SHA1 instead of MD5 for ETag hashing
+    - Works with FIPS 140-2 OpenSSL configuration
   * deps: finalhandler@~1.0.0
     - Fix exception when `err` cannot be converted to a string
     - Fully URL-encode the pathname in the 404
