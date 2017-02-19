@@ -38,7 +38,7 @@
     "encodeurl": "~1.0.1",
     "escape-html": "~1.0.3",
     "etag": "~1.7.0",
-    "finalhandler": "0.5.1",
+    "finalhandler": "~1.0.0",
     "fresh": "0.3.0",
     "merge-descriptors": "1.0.1",
     "methods": "~1.1.2",

@@ -77,7 +77,7 @@ describe('app.router', function(){
 
       request(app)
       .get('/')
-      .expect(404, 'Cannot GET /\n', cb);
+      .expect(404, cb)
 
       request(app)
       .delete('/')
