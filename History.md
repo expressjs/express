@@ -4,6 +4,7 @@ unreleased
   * Add debug message when loading view engine
   * Remove usage of `res._headers` private field
     - Improves compatibility with Node.js 8 nightly
+  * Use `statuses` instead of `http` module for status messages
   * deps: debug@2.6.1
     - Allow colors in workers
     - Deprecated `DEBUG_FD` environment variable set to `3` or higher
