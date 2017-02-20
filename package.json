@@ -27,6 +27,8 @@
     "api"
   ],
   "dependencies": {
+    "@wesleytodd/express-request": "^1.0.1",
+    "@wesleytodd/express-response": "^1.0.1",
     "accepts": "~1.3.3",
     "array-flatten": "2.1.1",
     "content-disposition": "0.5.2",

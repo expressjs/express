@@ -25,28 +25,6 @@ describe('utils.etag(body, encoding)', function(){
   })
 })
 
-describe('utils.setCharset(type, charset)', function () {
-  it('should do anything without type', function () {
-    assert.strictEqual(utils.setCharset(), undefined);
-  });
-
-  it('should return type if not given charset', function () {
-    assert.strictEqual(utils.setCharset('text/html'), 'text/html');
-  });
-
-  it('should keep charset if not given charset', function () {
-    assert.strictEqual(utils.setCharset('text/html; charset=utf-8'), 'text/html; charset=utf-8');
-  });
-
-  it('should set charset', function () {
-    assert.strictEqual(utils.setCharset('text/html', 'utf-8'), 'text/html; charset=utf-8');
-  });
-
-  it('should override charset', function () {
-    assert.strictEqual(utils.setCharset('text/html; charset=iso-8859-1', 'utf-8'), 'text/html; charset=utf-8');
-  });
-});
-
 describe('utils.wetag(body, encoding)', function(){
   it('should support strings', function(){
     utils.wetag('express!')
