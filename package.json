@@ -50,6 +50,7 @@
     "range-parser": "~1.2.0",
     "send": "0.14.2",
     "serve-static": "~1.11.2",
+    "statuses": "~1.3.1",
     "type-is": "~1.6.14",
     "utils-merge": "1.0.0",
     "vary": "~1.1.0"
