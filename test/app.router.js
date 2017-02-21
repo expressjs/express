@@ -1031,4 +1031,135 @@ describe('app.router', function(){
     var app = express();
     app.get('/', function(){}).should.equal(app);
   })
-})
+
+  it('should return 405 status on non implemented handlers for a router with automatic405 option set', function (done) {
+    var app = express();
+    var router = express.Router({ automatic405: true });
+
+    router.route('/foo')
+    .get(function (req, res) {
+      res.send('get');
+    });
+
+    app.use(router);
+
+    request(app)
+    .post('/foo')
+    .expect(405, done);
+  });
+
+  it('should return 405 status on non implemented handlers for a specific path in a router with automatic405 option set', function (done) {
+    var app = express();
+    var router = express.Router();
+
+    router.route('/foo', { automatic405: true })
+    .get(function (req, res) {
+      res.send('get');
+    });
+
+    app.use(router);
+
+    request(app)
+    .post('/foo')
+    .expect(405, done);
+  });
+
+  it('should override automatic405 option if specific path option is set.', function (done) {
+    var app = express();
+    var router = express.Router({ automatic405: true });
+    router.route('/foo', { automatic405: false })
+    .get(function (req, res) {
+      res.send('get');
+    });
+
+    app.use(router);
+
+    request(app)
+    .post('/foo')
+    .expect(404, done);
+  });
+
+  it('should return 405 for /bar', function (done) {
+    var app = express();
+    var router = express.Router();
+
+    router.route('/foo')
+    .get(function (req, res) {
+      return res.send('get foo');
+    });
+
+    router.route('/bar', { automatic405: true })
+    .get(function (req, res) {
+      return res.send('get bar');
+    });
+
+    app.use(router);
+
+    request(app)
+    .post('/bar')
+    .expect(405, done);
+  });
+
+  it('should return 404 for /foo', function (done) {
+    var app = express();
+    var router = express.Router();
+
+    router.route('/foo')
+    .get(function (req, res) {
+      return res.send('get foo');
+    });
+
+    router.route('/bar', { automatic405: true })
+    .get(function (req, res) {
+      return res.send('get bar');
+    });
+
+    app.use(router);
+
+    request(app)
+    .post('/foo')
+    .expect(404, done);
+  });
+
+  it('should return 500 if an error is thrown anywhere with 405 routing', function(done) {
+    var app = express();
+    var router = express.Router();
+
+    router.route('/bar', { automatic405: true })
+    .all(function(req, res, next) {
+      return next(new Error('Boom!'));
+    })
+    .get(function (req, res) {
+      return res.send('get bar');
+    });
+
+    app.use(router);
+
+    request(app)
+    .post('/bar')
+    .expect(500, done);
+
+  });
+
+  it('should always return OPTIONS response with proper status', function(done) {
+    var app = express();
+    var router = express.Router();
+
+    router.route('/bar', { automatic405: true })
+    .get(function(req, res, next) {
+      return res.send('get bar');
+    })
+    .post(function (req, res) {
+      return res.send('post bar');
+    });
+
+    app.use(router);
+
+    request(app)
+    .options('/bar')
+    .expect('Allow','GET,POST,HEAD')
+    .expect(200, done);
+
+  });
+
+});
