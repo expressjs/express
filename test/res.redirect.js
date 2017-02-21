@@ -1,5 +1,4 @@
 
-var http = require('http');
 var express = require('..');
 var request = require('supertest');
 var utils = require('./support/utils');
@@ -104,7 +103,7 @@ describe('res', function(){
       .set('Accept', 'text/html')
       .expect('Content-Type', /html/)
       .expect('Location', 'http://google.com')
-      .expect(302, '<p>' + http.STATUS_CODES[302] + '. Redirecting to <a href="http://google.com">http://google.com</a></p>', done);
+      .expect(302, '<p>Found. Redirecting to <a href="http://google.com">http://google.com</a></p>', done)
     })
 
     it('should escape the url', function(done){
@@ -120,7 +119,7 @@ describe('res', function(){
       .set('Accept', 'text/html')
       .expect('Content-Type', /html/)
       .expect('Location', '%3Cla\'me%3E')
-      .expect(302, '<p>' + http.STATUS_CODES[302] + '. Redirecting to <a href="%3Cla&#39;me%3E">%3Cla&#39;me%3E</a></p>', done)
+      .expect(302, '<p>Found. Redirecting to <a href="%3Cla&#39;me%3E">%3Cla&#39;me%3E</a></p>', done)
     })
 
     it('should include the redirect type', function(done){
@@ -152,7 +151,7 @@ describe('res', function(){
       .set('Accept', 'text/plain, */*')
       .expect('Content-Type', /plain/)
       .expect('Location', 'http://google.com')
-      .expect(302, http.STATUS_CODES[302] + '. Redirecting to http://google.com', done);
+      .expect(302, 'Found. Redirecting to http://google.com', done)
     })
 
     it('should encode the url', function(done){
@@ -168,7 +167,7 @@ describe('res', function(){
       .set('Accept', 'text/plain, */*')
       .expect('Content-Type', /plain/)
       .expect('Location', 'http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E')
-      .expect(302, http.STATUS_CODES[302] + '. Redirecting to http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E', done)
+      .expect(302, 'Found. Redirecting to http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E', done)
     })
 
     it('should include the redirect type', function(done){
