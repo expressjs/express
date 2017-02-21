@@ -9,7 +9,7 @@ describe('exports', function(){
   })
 
   it('should expose the application prototype', function(){
-    express.application.set.should.be.a.Function;
+    express.application.defaultConfiguration.should.be.a.Function;
   })
 
   it('should expose the request prototype', function(){

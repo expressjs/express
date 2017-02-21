@@ -20,7 +20,7 @@ describe('req', function(){
       it('should respect X-Forwarded-Proto', function(done){
         var app = express();
 
-        app.enable('trust proxy');
+        app.settings.enable('trust proxy');
 
         app.use(function(req, res){
           res.end(req.protocol);
@@ -35,7 +35,7 @@ describe('req', function(){
       it('should default to the socket addr if X-Forwarded-Proto not present', function(done){
         var app = express();
 
-        app.enable('trust proxy');
+        app.settings.enable('trust proxy');
 
         app.use(function(req, res){
           req.connection.encrypted = true;
@@ -50,7 +50,7 @@ describe('req', function(){
       it('should ignore X-Forwarded-Proto if socket addr not trusted', function(done){
         var app = express();
 
-        app.set('trust proxy', '10.0.0.1');
+        app.settings.set('trust proxy', '10.0.0.1');
 
         app.use(function(req, res){
           res.end(req.protocol);
@@ -65,7 +65,7 @@ describe('req', function(){
       it('should default to http', function(done){
         var app = express();
 
-        app.enable('trust proxy');
+        app.settings.enable('trust proxy');
 
         app.use(function(req, res){
           res.end(req.protocol);
@@ -80,7 +80,7 @@ describe('req', function(){
         it('should respect X-Forwarded-Proto', function (done) {
           var app = express();
 
-          app.set('trust proxy', 1);
+          app.settings.set('trust proxy', 1);
 
           app.use(function (req, res) {
             res.end(req.protocol);

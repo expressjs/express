@@ -15,7 +15,7 @@ describe('app', function(){
     it('should map a template engine', function(done){
       var app = express();
 
-      app.set('views', __dirname + '/fixtures');
+      app.settings.set('views', __dirname + '/fixtures');
       app.engine('.html', render);
       app.locals.user = { name: 'tobi' };
 
@@ -36,7 +36,7 @@ describe('app', function(){
     it('should work without leading "."', function(done){
       var app = express();
 
-      app.set('views', __dirname + '/fixtures');
+      app.settings.set('views', __dirname + '/fixtures');
       app.engine('html', render);
       app.locals.user = { name: 'tobi' };
 
@@ -50,9 +50,9 @@ describe('app', function(){
     it('should work "view engine" setting', function(done){
       var app = express();
 
-      app.set('views', __dirname + '/fixtures');
+      app.settings.set('views', __dirname + '/fixtures');
       app.engine('html', render);
-      app.set('view engine', 'html');
+      app.settings.set('view engine', 'html');
       app.locals.user = { name: 'tobi' };
 
       app.render('user', function(err, str){
@@ -65,9 +65,9 @@ describe('app', function(){
     it('should work "view engine" with leading "."', function(done){
       var app = express();
 
-      app.set('views', __dirname + '/fixtures');
+      app.settings.set('views', __dirname + '/fixtures');
       app.engine('.html', render);
-      app.set('view engine', '.html');
+      app.settings.set('view engine', '.html');
       app.locals.user = { name: 'tobi' };
 
       app.render('user', function(err, str){

@@ -9,7 +9,7 @@ describe('req', function(){
         it('should return the client addr', function(done){
           var app = express();
 
-          app.enable('trust proxy');
+          app.settings.enable('trust proxy');
 
           app.use(function(req, res, next){
             res.send(req.ip);
@@ -24,7 +24,7 @@ describe('req', function(){
         it('should return the addr after trusted proxy', function(done){
           var app = express();
 
-          app.set('trust proxy', 2);
+          app.settings.set('trust proxy', 2);
 
           app.use(function(req, res, next){
             res.send(req.ip);
@@ -40,7 +40,7 @@ describe('req', function(){
           var app = express();
           var sub = express();
 
-          app.set('trust proxy', 2);
+          app.settings.set('trust proxy', 2);
           app.use(sub);
 
           sub.use(function (req, res, next) {
@@ -73,7 +73,7 @@ describe('req', function(){
       it('should return the remote address', function(done){
         var app = express();
 
-        app.enable('trust proxy');
+        app.settings.enable('trust proxy');
 
         app.use(function(req, res, next){
           res.send(req.ip);

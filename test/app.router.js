@@ -213,7 +213,7 @@ describe('app.router', function(){
       it('should match identical casing', function(done){
         var app = express();
 
-        app.enable('case sensitive routing');
+        app.settings.enable('case sensitive routing');
 
         app.get('/uSer', function(req, res){
           res.end('tj');
@@ -227,7 +227,7 @@ describe('app.router', function(){
       it('should not match otherwise', function(done){
         var app = express();
 
-        app.enable('case sensitive routing');
+        app.settings.enable('case sensitive routing');
 
         app.get('/uSer', function(req, res){
           res.end('tj');
@@ -393,7 +393,7 @@ describe('app.router', function(){
       it('should match trailing slashes', function(done){
         var app = express();
 
-        app.enable('strict routing');
+        app.settings.enable('strict routing');
 
         app.get('/user/', function(req, res){
           res.end('tj');
@@ -407,7 +407,7 @@ describe('app.router', function(){
       it('should pass-though middleware', function(done){
         var app = express();
 
-        app.enable('strict routing');
+        app.settings.enable('strict routing');
 
         app.use(function (req, res, next) {
           res.setHeader('x-middleware', 'true');
@@ -427,7 +427,7 @@ describe('app.router', function(){
       it('should pass-though mounted middleware', function(done){
         var app = express();
 
-        app.enable('strict routing');
+        app.settings.enable('strict routing');
 
         app.use('/user/', function (req, res, next) {
           res.setHeader('x-middleware', 'true');
@@ -447,7 +447,7 @@ describe('app.router', function(){
       it('should match no slashes', function(done){
         var app = express();
 
-        app.enable('strict routing');
+        app.settings.enable('strict routing');
 
         app.get('/user', function(req, res){
           res.end('tj');
@@ -461,7 +461,7 @@ describe('app.router', function(){
       it('should match middleware when omitting the trailing slash', function(done){
         var app = express();
 
-        app.enable('strict routing');
+        app.settings.enable('strict routing');
 
         app.use('/user/', function(req, res){
           res.end('tj');
@@ -475,7 +475,7 @@ describe('app.router', function(){
       it('should match middleware', function(done){
         var app = express();
 
-        app.enable('strict routing');
+        app.settings.enable('strict routing');
 
         app.use('/user', function(req, res){
           res.end('tj');
@@ -489,7 +489,7 @@ describe('app.router', function(){
       it('should match middleware when adding the trailing slash', function(done){
         var app = express();
 
-        app.enable('strict routing');
+        app.settings.enable('strict routing');
 
         app.use('/user', function(req, res){
           res.end('tj');
@@ -503,7 +503,7 @@ describe('app.router', function(){
       it('should fail when omitting the trailing slash', function(done){
         var app = express();
 
-        app.enable('strict routing');
+        app.settings.enable('strict routing');
 
         app.get('/user/', function(req, res){
           res.end('tj');
@@ -517,7 +517,7 @@ describe('app.router', function(){
       it('should fail when adding the trailing slash', function(done){
         var app = express();
 
-        app.enable('strict routing');
+        app.settings.enable('strict routing');
 
         app.get('/user', function(req, res){
           res.end('tj');

@@ -16,8 +16,8 @@ module.exports = app;
 
 // Config
 
-app.set('view engine', 'jade');
-app.set('views', __dirname + '/views');
+app.settings.set('view engine', 'jade');
+app.settings.set('views', __dirname + '/views');
 
 /* istanbul ignore next */
 if (!module.parent) {

@@ -37,7 +37,7 @@ describe('req', function(){
       it('should return true when "trust proxy" is enabled', function(done){
         var app = express();
 
-        app.enable('trust proxy');
+        app.settings.enable('trust proxy');
 
         app.get('/', function(req, res){
           res.send(req.secure ? 'yes' : 'no');
@@ -52,7 +52,7 @@ describe('req', function(){
       it('should return false when initial proxy is http', function(done){
         var app = express();
 
-        app.enable('trust proxy');
+        app.settings.enable('trust proxy');
 
         app.get('/', function(req, res){
           res.send(req.secure ? 'yes' : 'no');
@@ -67,7 +67,7 @@ describe('req', function(){
       it('should return true when initial proxy is https', function(done){
         var app = express();
 
-        app.enable('trust proxy');
+        app.settings.enable('trust proxy');
 
         app.get('/', function(req, res){
           res.send(req.secure ? 'yes' : 'no');
@@ -83,7 +83,7 @@ describe('req', function(){
         it('should respect X-Forwarded-Proto', function (done) {
           var app = express();
 
-          app.set('trust proxy', 1);
+          app.settings.set('trust proxy', 1);
 
           app.get('/', function (req, res) {
             res.send(req.secure ? 'yes' : 'no');

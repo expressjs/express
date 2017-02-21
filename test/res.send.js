@@ -336,7 +336,7 @@ describe('res', function(){
           res.send('kajdslfkasdf');
         });
 
-        app.enable('etag');
+        app.settings.enable('etag');
 
         request(app)
         .get('/')
@@ -368,7 +368,7 @@ describe('res', function(){
           res.send('');
         });
 
-        app.enable('etag');
+        app.settings.enable('etag');
 
         request(app)
         .get('/')
@@ -384,7 +384,7 @@ describe('res', function(){
           res.send(str);
         });
 
-        app.enable('etag');
+        app.settings.enable('etag');
 
         request(app)
         .get('/')
@@ -400,7 +400,7 @@ describe('res', function(){
           res.send('hello!');
         });
 
-        app.enable('etag');
+        app.settings.enable('etag');
 
         request(app)
         .get('/')
@@ -415,7 +415,7 @@ describe('res', function(){
           res.send();
         });
 
-        app.enable('etag');
+        app.settings.enable('etag');
 
         request(app)
         .get('/')
@@ -433,7 +433,7 @@ describe('res', function(){
           res.send(str);
         });
 
-        app.disable('etag');
+        app.settings.disable('etag');
 
         request(app)
         .get('/')
@@ -444,7 +444,7 @@ describe('res', function(){
       it('should send ETag when manually set', function (done) {
         var app = express();
 
-        app.disable('etag');
+        app.settings.disable('etag');
 
         app.use(function (req, res) {
           res.set('etag', '"asdf"');
@@ -462,7 +462,7 @@ describe('res', function(){
       it('should send strong ETag', function (done) {
         var app = express();
 
-        app.set('etag', 'strong');
+        app.settings.set('etag', 'strong');
 
         app.use(function (req, res) {
           res.send('hello, world!');
@@ -479,7 +479,7 @@ describe('res', function(){
       it('should send weak ETag', function (done) {
         var app = express();
 
-        app.set('etag', 'weak');
+        app.settings.set('etag', 'weak');
 
         app.use(function (req, res) {
           res.send('hello, world!');
@@ -496,7 +496,7 @@ describe('res', function(){
       it('should send custom ETag', function (done) {
         var app = express();
 
-        app.set('etag', function (body, encoding) {
+        app.settings.set('etag', function (body, encoding) {
           var chunk = !Buffer.isBuffer(body)
             ? new Buffer(body, encoding)
             : body;
@@ -517,7 +517,7 @@ describe('res', function(){
       it('should not send falsy ETag', function (done) {
         var app = express();
 
-        app.set('etag', function (body, encoding) {
+        app.settings.set('etag', function (body, encoding) {
           return undefined;
         });
 

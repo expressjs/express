@@ -74,7 +74,7 @@ describe('in development', function(){
   it('should disable "view cache"', function(){
     process.env.NODE_ENV = 'development';
     var app = express();
-    app.enabled('view cache').should.be.false;
+    app.settings.enabled('view cache').should.be.false;
     process.env.NODE_ENV = 'test';
   })
 })
@@ -83,7 +83,7 @@ describe('in production', function(){
   it('should enable "view cache"', function(){
     process.env.NODE_ENV = 'production';
     var app = express();
-    app.enabled('view cache').should.be.true;
+    app.settings.enabled('view cache').should.be.true;
     process.env.NODE_ENV = 'test';
   })
 })
@@ -92,7 +92,7 @@ describe('without NODE_ENV', function(){
   it('should default to development', function(){
     process.env.NODE_ENV = '';
     var app = express();
-    app.get('env').should.equal('development');
+    app.settings.get('env').should.equal('development');
     process.env.NODE_ENV = 'test';
   })
 })

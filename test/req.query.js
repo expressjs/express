@@ -92,7 +92,7 @@ function createApp(setting) {
   var app = express();
 
   if (setting !== undefined) {
-    app.set('query parser', setting);
+    app.settings.set('query parser', setting);
   }
 
   app.use(function (req, res) {
