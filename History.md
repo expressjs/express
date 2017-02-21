@@ -3,6 +3,8 @@
 
 This incorporates all changes after 4.14.1 up to 4.15.0.
 
+  * remove:
+    - Remove Express 3.x middleware error stubs
   * deps: router@~1.3.0
     - Add `next("router")` to exit from router
     - Fix case where `router.use` skipped requests routes did not
