@@ -20,6 +20,18 @@ unreleased
     - Send complete HTML document
     - Set `Content-Security-Policy: default-src 'self'` header
     - deps: debug@2.6.1
+  * deps: fresh@0.5.0
+    - Fix false detection of `no-cache` request directive
+    - Fix incorrect result when `If-None-Match` has both `*` and ETags
+    - Fix weak `ETag` matching to match spec
+    - perf: delay reading header values until needed
+    - perf: enable strict mode
+    - perf: hoist regular expressions
+    - perf: remove duplicate conditional
+    - perf: remove unnecessary boolean coercions
+    - perf: skip checking modified time if ETag check failed
+    - perf: skip parsing `If-None-Match` when no `ETag` header
+    - perf: use `Date.parse` instead of `new Date`
   * deps: qs@6.3.1
     - Fix array parsing from skipping empty values
     - Fix compacting nested arrays
