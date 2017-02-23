@@ -13,6 +13,9 @@ var app1 = express()
 for (var i = 0; i < 20; i++) {
   app1.get('/' + i, reply)
 }
+app1.post('/1', reply)
+app1.delete('/1', reply)
+app1.put('/1', reply)
 var app2 = express()
 var router
 for (var i = 0; i < 20; i++) {
@@ -23,10 +26,38 @@ router.get('/20', reply)
 
 
 suite
-.add('/1', function() {
+.add('GET /1', function() {
   var sr = new IncomingMessage()
   sr.url = '/1'
   sr.method = 'GET'
+  var im = new ServerResponse(sr)
+  app1(sr, im)
+})
+.add('HEAD /1', function() {
+  var sr = new IncomingMessage()
+  sr.url = '/1'
+  sr.method = 'HEAD'
+  var im = new ServerResponse(sr)
+  app1(sr, im)
+})
+.add('POST /1', function() {
+  var sr = new IncomingMessage()
+  sr.url = '/1'
+  sr.method = 'POST'
+  var im = new ServerResponse(sr)
+  app1(sr, im)
+})
+.add('PUT /1', function() {
+  var sr = new IncomingMessage()
+  sr.url = '/1'
+  sr.method = 'POST'
+  var im = new ServerResponse(sr)
+  app1(sr, im)
+})
+.add('DELETE /1', function() {
+  var sr = new IncomingMessage()
+  sr.url = '/1'
+  sr.method = 'DELETE'
   var im = new ServerResponse(sr)
   app1(sr, im)
 })
