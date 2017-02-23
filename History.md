@@ -6,6 +6,7 @@ unreleased
     - Improves compatibility with Node.js 8 nightly
   * Skip routing when `req.url` is not set
   * Use `Object.create` to setup request & response prototypes
+  * Use `setprototypeof` module to replace `__proto__` setting
   * Use `statuses` instead of `http` module for status messages
   * deps: debug@2.6.1
     - Allow colors in workers
