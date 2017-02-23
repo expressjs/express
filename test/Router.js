@@ -53,6 +53,16 @@ describe('Router', function(){
     router.handle({ url: '', method: 'GET' }, {}, done);
   });
 
+  it('should handle missing URL', function (done) {
+    var router = new Router()
+
+    router.use(function (req, res) {
+      throw new Error('should not be called')
+    })
+
+    router.handle({ method: 'GET' }, {}, done)
+  })
+
   it('should not stack overflow with many registered routes', function(done){
     var handler = function(req, res){ res.end(new Error('wrong handler')) };
     var router = new Router();
