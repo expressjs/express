@@ -8,6 +8,8 @@ all:
 	@./run 30 middleware
 	@./run 50 middleware
 	@./run 100 middleware
+	@node init_middleware.js
+	@node router_dispatcher.js
 	@echo
 
 .PHONY: all
