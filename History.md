@@ -39,6 +39,18 @@ unreleased
   * deps: qs@6.3.1
     - Fix array parsing from skipping empty values
     - Fix compacting nested arrays
+  * deps: send@0.15.0
+    - Fix false detection of `no-cache` request directive
+    - Fix incorrect result when `If-None-Match` has both `*` and ETags
+    - Fix weak `ETag` matching to match spec
+    - Remove usage of `res._headers` private field
+    - Support `If-Match` and `If-Unmodified-Since` headers
+    - Use `res.getHeaderNames()` when available
+    - Use `res.headersSent` when available
+    - deps: debug@2.6.1
+    - deps: etag@~1.8.0
+    - deps: fresh@0.5.0
+    - deps: http-errors@~1.6.1
   * perf: improve `req.ips` performance
 
 4.14.1 / 2017-01-28
