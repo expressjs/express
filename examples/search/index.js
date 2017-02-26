@@ -15,8 +15,7 @@ var db = redis.createClient();
 
 var app = express();
 
-app.set('view engine', 'jade');
-app.set('views', __dirname);
+app.use(express.static(__dirname + '/public'));
 
 // populate search
 
@@ -25,14 +24,6 @@ db.sadd('ferret', 'loki');
 db.sadd('ferret', 'jane');
 db.sadd('cat', 'manny');
 db.sadd('cat', 'luna');
-
-/**
- * GET the search page.
- */
-
-app.get('/', function(req, res){
-  res.render('search');
-});
 
 /**
  * GET search for :query.
