@@ -347,6 +347,24 @@ describe('Router', function(){
       assert.equal(count, methods.length);
       done();
     })
+
+    it('should be called for any URL when "*"', function (done) {
+      var cb = after(4, done)
+      var router = new Router()
+
+      function no () {
+        throw new Error('should not be called')
+      }
+
+      router.all('*', function (req, res) {
+        res.end()
+      })
+
+      router.handle({ url: '/', method: 'GET' }, { end: cb }, no)
+      router.handle({ url: '/foo', method: 'GET' }, { end: cb }, no)
+      router.handle({ url: 'foo', method: 'GET' }, { end: cb }, no)
+      router.handle({ url: '*', method: 'GET' }, { end: cb }, no)
+    })
   })
 
   describe('.use', function() {
@@ -361,6 +379,24 @@ describe('Router', function(){
       router.use.bind(router, '/', 5).should.throw(/requires middleware function.*number/)
       router.use.bind(router, '/', null).should.throw(/requires middleware function.*Null/)
       router.use.bind(router, '/', new Date()).should.throw(/requires middleware function.*Date/)
+    })
+
+    it('should be called for any URL', function (done) {
+      var cb = after(4, done)
+      var router = new Router()
+
+      function no () {
+        throw new Error('should not be called')
+      }
+
+      router.use(function (req, res) {
+        res.end()
+      })
+
+      router.handle({ url: '/', method: 'GET' }, { end: cb }, no)
+      router.handle({ url: '/foo', method: 'GET' }, { end: cb }, no)
+      router.handle({ url: 'foo', method: 'GET' }, { end: cb }, no)
+      router.handle({ url: '*', method: 'GET' }, { end: cb }, no)
     })
 
     it('should accept array of middleware', function(done){

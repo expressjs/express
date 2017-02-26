@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Add debug message when loading view engine
+  * Fix case where `router.use` skipped requests routes did not
   * Remove usage of `res._headers` private field
     - Improves compatibility with Node.js 8 nightly
   * Skip routing when `req.url` is not set
