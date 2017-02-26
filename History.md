@@ -51,6 +51,17 @@ unreleased
     - deps: etag@~1.8.0
     - deps: fresh@0.5.0
     - deps: http-errors@~1.6.1
+  * deps: serve-static@1.12.0
+    - Fix false detection of `no-cache` request directive
+    - Fix incorrect result when `If-None-Match` has both `*` and ETags
+    - Fix weak `ETag` matching to match spec
+    - Remove usage of `res._headers` private field
+    - Send complete HTML document in redirect response
+    - Set default CSP header in redirect response
+    - Support `If-Match` and `If-Unmodified-Since` headers
+    - Use `res.getHeaderNames()` when available
+    - Use `res.headersSent` when available
+    - deps: send@0.15.0
   * perf: improve `req.ips` performance
 
 4.14.1 / 2017-01-28
