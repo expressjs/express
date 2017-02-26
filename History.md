@@ -62,6 +62,7 @@ unreleased
     - Use `res.getHeaderNames()` when available
     - Use `res.headersSent` when available
     - deps: send@0.15.0
+  * perf: add fast match path for `*` route
   * perf: improve `req.ips` performance
 
 4.14.1 / 2017-01-28
