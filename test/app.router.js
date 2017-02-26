@@ -563,6 +563,30 @@ describe('app.router', function(){
   })
 
   describe('*', function(){
+    it('should capture everything', function (done) {
+      var app = express()
+
+      app.get('*', function (req, res) {
+        res.end(req.params[0])
+      })
+
+      request(app)
+      .get('/user/tobi.json')
+      .expect('/user/tobi.json', done)
+    })
+
+    it('should decore the capture', function (done) {
+      var app = express()
+
+      app.get('*', function (req, res) {
+        res.end(req.params[0])
+      })
+
+      request(app)
+      .get('/user/tobi%20and%20loki.json')
+      .expect('/user/tobi and loki.json', done)
+    })
+
     it('should denote a greedy capture group', function(done){
       var app = express();
 
