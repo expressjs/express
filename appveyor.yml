@@ -8,7 +8,7 @@ environment:
     - nodejs_version: "4.8"
     - nodejs_version: "5.12"
     - nodejs_version: "6.10"
-    - nodejs_version: "7.5"
+    - nodejs_version: "7.7"
 cache:
   - node_modules
 install:
