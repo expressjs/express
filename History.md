@@ -1,7 +1,8 @@
-5.x
-===
+5.0.0-alpha.4 / 2017-03-01
+==========================
 
-This incorporates all changes after 4.14.1 up to 4.15.0.
+This is the fourth Express 5.0 alpha release, based off 4.15.0 and includes
+changes from 5.0.0-alpha.3.
 
   * remove:
     - Remove Express 3.x middleware error stubs
