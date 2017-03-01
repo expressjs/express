@@ -1,3 +1,17 @@
+5.x
+===
+
+This incorporates all changes after 4.14.1 up to 4.15.0.
+
+  * deps: router@~1.3.0
+    - Add `next("router")` to exit from router
+    - Fix case where `router.use` skipped requests routes did not
+    - Skip routing when `req.url` is not set
+    - Use `%o` in path debug to tell types apart
+    - deps: debug@2.6.1
+    - deps: setprototypeof@1.0.3
+    - perf: add fast match path for `*` route
+
 5.0.0-alpha.3 / 2017-01-28
 ==========================
 
@@ -52,6 +66,76 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.15.0 / 2017-03-01
+===================
+
+  * Add debug message when loading view engine
+  * Add `next("router")` to exit from router
+  * Fix case where `router.use` skipped requests routes did not
+  * Remove usage of `res._headers` private field
+    - Improves compatibility with Node.js 8 nightly
+  * Skip routing when `req.url` is not set
+  * Use `%o` in path debug to tell types apart
+  * Use `Object.create` to setup request & response prototypes
+  * Use `setprototypeof` module to replace `__proto__` setting
+  * Use `statuses` instead of `http` module for status messages
+  * deps: debug@2.6.1
+    - Allow colors in workers
+    - Deprecated `DEBUG_FD` environment variable set to `3` or higher
+    - Fix error when running under React Native
+    - Use same color for same namespace
+    - deps: ms@0.7.2
+  * deps: etag@~1.8.0
+    - Use SHA1 instead of MD5 for ETag hashing
+    - Works with FIPS 140-2 OpenSSL configuration
+  * deps: finalhandler@~1.0.0
+    - Fix exception when `err` cannot be converted to a string
+    - Fully URL-encode the pathname in the 404
+    - Only include the pathname in the 404 message
+    - Send complete HTML document
+    - Set `Content-Security-Policy: default-src 'self'` header
+    - deps: debug@2.6.1
+  * deps: fresh@0.5.0
+    - Fix false detection of `no-cache` request directive
+    - Fix incorrect result when `If-None-Match` has both `*` and ETags
+    - Fix weak `ETag` matching to match spec
+    - perf: delay reading header values until needed
+    - perf: enable strict mode
+    - perf: hoist regular expressions
+    - perf: remove duplicate conditional
+    - perf: remove unnecessary boolean coercions
+    - perf: skip checking modified time if ETag check failed
+    - perf: skip parsing `If-None-Match` when no `ETag` header
+    - perf: use `Date.parse` instead of `new Date`
+  * deps: qs@6.3.1
+    - Fix array parsing from skipping empty values
+    - Fix compacting nested arrays
+  * deps: send@0.15.0
+    - Fix false detection of `no-cache` request directive
+    - Fix incorrect result when `If-None-Match` has both `*` and ETags
+    - Fix weak `ETag` matching to match spec
+    - Remove usage of `res._headers` private field
+    - Support `If-Match` and `If-Unmodified-Since` headers
+    - Use `res.getHeaderNames()` when available
+    - Use `res.headersSent` when available
+    - deps: debug@2.6.1
+    - deps: etag@~1.8.0
+    - deps: fresh@0.5.0
+    - deps: http-errors@~1.6.1
+  * deps: serve-static@1.12.0
+    - Fix false detection of `no-cache` request directive
+    - Fix incorrect result when `If-None-Match` has both `*` and ETags
+    - Fix weak `ETag` matching to match spec
+    - Remove usage of `res._headers` private field
+    - Send complete HTML document in redirect response
+    - Set default CSP header in redirect response
+    - Support `If-Match` and `If-Unmodified-Since` headers
+    - Use `res.getHeaderNames()` when available
+    - Use `res.headersSent` when available
+    - deps: send@0.15.0
+  * perf: add fast match path for `*` route
+  * perf: improve `req.ips` performance
 
 4.14.1 / 2017-01-28
 ===================

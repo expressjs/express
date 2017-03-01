@@ -1,19 +1,12 @@
-# Node.js Community Contributing Guide 1.0
-
-This document describes a very simple process suitable for most projects
-in the Node.js ecosystem. Projects are encouraged to adopt this whether they
-are hosted in the Node.js Foundation or not.
+# Express.js Community Contributing Guide 1.0
 
 The goal of this document is to create a contribution process that:
 
 * Encourages new contributions.
 * Encourages contributors to remain involved.
 * Avoids unnecessary processes and bureaucracy whenever possible.
-* Creates a transparent decision making process which makes it clear how
+* Creates a transparent decision making process that makes it clear how
 contributors can be involved in decision making.
-
-This document is based on much prior art in the Node.js community, io.js,
-and the Node.js project.
 
 ## Vocabulary
 
@@ -24,7 +17,7 @@ expertise to resolve rare disputes.
 
 # Logging Issues
 
-Log an issue for any question or problem you might have. When in doubt, log an issue, 
+Log an issue for any question or problem you might have. When in doubt, log an issue, and
 any additional policies about what to include will be provided in the responses. The only
 exception is security dislosures which should be sent privately.
 

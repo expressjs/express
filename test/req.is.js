@@ -1,103 +1,168 @@
 
-var express = require('../')
-  , request = require('supertest');
+var express = require('..')
+var request = require('supertest')
 
-function req(ct) {
-  var req = {
-    headers: {
-      'content-type': ct,
-      'transfer-encoding': 'chunked'
-    },
-    __proto__: express.request
-  };
+describe('req.is()', function () {
+  describe('when given a mime type', function () {
+    it('should return the type when matching', function (done) {
+      var app = express()
 
-  return req;
-}
+      app.use(function (req, res) {
+        res.json(req.is('application/json'))
+      })
 
-describe('req.is()', function(){
-  it('should ignore charset', function(){
-    req('application/json')
-    .is('json')
-    .should.equal('json');
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, '"application/json"', done)
+    })
+
+    it('should return false when not matching', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is('image/jpeg'))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, 'false', done)
+    })
+
+    it('should ignore charset', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is('application/json'))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json; charset=UTF-8')
+      .send('{}')
+      .expect(200, '"application/json"', done)
+    })
   })
 
   describe('when content-type is not present', function(){
-    it('should return false', function(){
-      req('')
-      .is('json')
-      .should.be.false;
+    it('should return false', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is('application/json'))
+      })
+
+      request(app)
+      .post('/')
+      .send('{}')
+      .expect(200, 'false', done)
     })
   })
 
   describe('when given an extension', function(){
-    it('should lookup the mime type', function(){
-      req('application/json')
-      .is('json')
-      .should.equal('json');
+    it('should lookup the mime type', function (done) {
+      var app = express()
 
-      req('text/html')
-      .is('json')
-      .should.be.false;
-    })
-  })
+      app.use(function (req, res) {
+        res.json(req.is('json'))
+      })
 
-  describe('when given a mime type', function(){
-    it('should match', function(){
-      req('application/json')
-      .is('application/json')
-      .should.equal('application/json');
-
-      req('image/jpeg')
-      .is('application/json')
-      .should.be.false;
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, '"json"', done)
     })
   })
 
   describe('when given */subtype', function(){
-    it('should match', function(){
-      req('application/json')
-      .is('*/json')
-      .should.equal('application/json');
+    it('should return the full type when matching', function (done) {
+      var app = express()
 
-      req('image/jpeg')
-      .is('*/json')
-      .should.be.false;
+      app.use(function (req, res) {
+        res.json(req.is('*/json'))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, '"application/json"', done)
     })
 
-    describe('with a charset', function(){
-      it('should match', function(){
-        req('text/html; charset=utf-8')
-        .is('*/html')
-        .should.equal('text/html');
+    it('should return false when not matching', function (done) {
+      var app = express()
 
-        req('text/plain; charset=utf-8')
-        .is('*/html')
-        .should.be.false;
+      app.use(function (req, res) {
+        res.json(req.is('*/html'))
       })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, 'false', done)
+    })
+
+    it('should ignore charset', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is('*/json'))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json; charset=UTF-8')
+      .send('{}')
+      .expect(200, '"application/json"', done)
     })
   })
 
   describe('when given type/*', function(){
-    it('should match', function(){
-      req('image/png')
-      .is('image/*')
-      .should.equal('image/png');
+    it('should return the full type when matching', function (done) {
+      var app = express()
 
-      req('text/html')
-      .is('image/*')
-      .should.be.false;
+      app.use(function (req, res) {
+        res.json(req.is('application/*'))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, '"application/json"', done)
     })
 
-    describe('with a charset', function(){
-      it('should match', function(){
-        req('text/html; charset=utf-8')
-        .is('text/*')
-        .should.equal('text/html');
+    it('should return false when not matching', function (done) {
+      var app = express()
 
-        req('something/html; charset=utf-8')
-        .is('text/*')
-        .should.be.false;
+      app.use(function (req, res) {
+        res.json(req.is('text/*'))
       })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, 'false', done)
+    })
+
+    it('should ignore charset', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is('application/*'))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json; charset=UTF-8')
+      .send('{}')
+      .expect(200, '"application/json"', done)
     })
   })
 })

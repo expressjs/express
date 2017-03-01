@@ -77,7 +77,7 @@ describe('app.router', function(){
 
       request(app)
       .get('/')
-      .expect(404, 'Cannot GET /\n', cb);
+      .expect(404, cb)
 
       request(app)
       .delete('/')
@@ -90,7 +90,7 @@ describe('app.router', function(){
     });
   })
 
-  describe('decode querystring', function(){
+  describe('decode params', function () {
     it('should decode correct params', function(done){
       var app = express();
 
@@ -563,6 +563,30 @@ describe('app.router', function(){
   })
 
   describe('*', function(){
+    it('should capture everything', function (done) {
+      var app = express()
+
+      app.get('*', function (req, res) {
+        res.end(req.params[0])
+      })
+
+      request(app)
+      .get('/user/tobi.json')
+      .expect('/user/tobi.json', done)
+    })
+
+    it('should decore the capture', function (done) {
+      var app = express()
+
+      app.get('*', function (req, res) {
+        res.end(req.params[0])
+      })
+
+      request(app)
+      .get('/user/tobi%20and%20loki.json')
+      .expect('/user/tobi and loki.json', done)
+    })
+
     it('should denote a greedy capture group', function(done){
       var app = express();
 
@@ -898,6 +922,37 @@ describe('app.router', function(){
       });
 
       app.get('/foo', function(req, res){
+        res.end('success')
+      })
+
+      request(app)
+      .get('/foo')
+      .expect('X-Hit', '1')
+      .expect(200, 'success', done)
+    })
+  })
+
+  describe('when next("router") is called', function () {
+    it('should jump out of router', function (done) {
+      var app = express()
+      var router = express.Router()
+
+      function fn (req, res, next) {
+        res.set('X-Hit', '1')
+        next('router')
+      }
+
+      router.get('/foo', fn, function (req, res, next) {
+        res.end('failure')
+      })
+
+      router.get('/foo', function (req, res, next) {
+        res.end('failure')
+      })
+
+      app.use(router)
+
+      app.get('/foo', function (req, res) {
         res.end('success')
       })
 

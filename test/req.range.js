@@ -1,47 +1,103 @@
 
 var assert = require('assert');
 var express = require('..');
-
-function req(ret) {
-  return {
-      get: function(){ return ret }
-    , __proto__: express.request
-  };
-}
+var request = require('supertest')
 
 describe('req', function(){
   describe('.range(size)', function(){
-    it('should return parsed ranges', function(){
-      var ranges = [{ start: 0, end: 50 }, { start: 51, end: 100 }]
-      ranges.type = 'bytes'
-      assert.deepEqual(req('bytes=0-50,51-100').range(120), ranges)
+    it('should return parsed ranges', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.range(120))
+      })
+
+      request(app)
+      .get('/')
+      .set('Range', 'bytes=0-50,51-100')
+      .expect(200, '[{"start":0,"end":50},{"start":51,"end":100}]', done)
     })
 
-    it('should cap to the given size', function(){
-      var ret = [{ start: 0, end: 74 }];
-      ret.type = 'bytes';
-      req('bytes=0-100').range(75).should.eql(ret);
+    it('should cap to the given size', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.range(75))
+      })
+
+      request(app)
+      .get('/')
+      .set('Range', 'bytes=0-100')
+      .expect(200, '[{"start":0,"end":74}]', done)
     })
 
-    it('should have a .type', function(){
-      var ret = [{ start: 0, end: Infinity }];
-      ret.type = 'users';
-      req('users=0-').range(Infinity).should.eql(ret);
+    it('should cap to the given size when open-ended', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.range(75))
+      })
+
+      request(app)
+      .get('/')
+      .set('Range', 'bytes=0-')
+      .expect(200, '[{"start":0,"end":74}]', done)
     })
 
-    it('should return undefined if no range', function(){
-      var ret = [{ start: 0, end: 50 }, { start: 60, end: 100 }];
-      ret.type = 'bytes';
-      assert(req('').range(120) === undefined);
+    it('should have a .type', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.range(120).type)
+      })
+
+      request(app)
+      .get('/')
+      .set('Range', 'bytes=0-100')
+      .expect(200, '"bytes"', done)
+    })
+
+    it('should accept any type', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.range(120).type)
+      })
+
+      request(app)
+      .get('/')
+      .set('Range', 'users=0-2')
+      .expect(200, '"users"', done)
+    })
+
+    it('should return undefined if no range', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.send(String(req.range(120)))
+      })
+
+      request(app)
+      .get('/')
+      .expect(200, 'undefined', done)
     })
   })
 
   describe('.range(size, options)', function(){
     describe('with "combine: true" option', function(){
-      it('should return combined ranges', function(){
-        var ranges = [{ start: 0, end: 100 }]
-        ranges.type = 'bytes'
-        assert.deepEqual(req('bytes=0-50,51-100').range(120, { combine: true }), ranges)
+      it('should return combined ranges', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.json(req.range(120, {
+            combine: true
+          }))
+        })
+
+        request(app)
+        .get('/')
+        .set('Range', 'bytes=0-50,51-100')
+        .expect(200, '[{"start":0,"end":100}]', done)
       })
     })
   })

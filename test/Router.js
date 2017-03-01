@@ -53,6 +53,16 @@ describe('Router', function(){
     router.handle({ url: '', method: 'GET' }, {}, done);
   });
 
+  it('should handle missing URL', function (done) {
+    var router = new Router()
+
+    router.use(function (req, res) {
+      throw new Error('should not be called')
+    })
+
+    router.handle({ method: 'GET' }, {}, done)
+  })
+
   it('should not stack overflow with many registered routes', function(done){
     var handler = function(req, res){ res.end(new Error('wrong handler')) };
     var router = new Router();
@@ -337,6 +347,24 @@ describe('Router', function(){
       assert.equal(count, methods.length);
       done();
     })
+
+    it('should be called for any URL when "*"', function (done) {
+      var cb = after(4, done)
+      var router = new Router()
+
+      function no () {
+        throw new Error('should not be called')
+      }
+
+      router.all('*', function (req, res) {
+        res.end()
+      })
+
+      router.handle({ url: '/', method: 'GET' }, { end: cb }, no)
+      router.handle({ url: '/foo', method: 'GET' }, { end: cb }, no)
+      router.handle({ url: 'foo', method: 'GET' }, { end: cb }, no)
+      router.handle({ url: '*', method: 'GET' }, { end: cb }, no)
+    })
   })
 
   describe('.use', function() {
@@ -351,6 +379,24 @@ describe('Router', function(){
       assert.throws(router.use.bind(router, '/', 5), /argument handler must be a function/)
       assert.throws(router.use.bind(router, '/', null), /argument handler must be a function/)
       assert.throws(router.use.bind(router, '/', new Date()), /argument handler must be a function/)
+    })
+
+    it('should be called for any URL', function (done) {
+      var cb = after(4, done)
+      var router = new Router()
+
+      function no () {
+        throw new Error('should not be called')
+      }
+
+      router.use(function (req, res) {
+        res.end()
+      })
+
+      router.handle({ url: '/', method: 'GET' }, { end: cb }, no)
+      router.handle({ url: '/foo', method: 'GET' }, { end: cb }, no)
+      router.handle({ url: 'foo', method: 'GET' }, { end: cb }, no)
+      router.handle({ url: '*', method: 'GET' }, { end: cb }, no)
     })
 
     it('should accept array of middleware', function(done){

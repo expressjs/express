@@ -157,8 +157,8 @@ describe('res', function(){
     describe('with "headers" option', function () {
       it('should accept headers option', function (done) {
         var headers = {
-           'x-success': 'sent',
-           'x-other': 'done'
+          'x-success': 'sent',
+          'x-other': 'done'
         };
         var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), { headers: headers });
 
