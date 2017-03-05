@@ -4,6 +4,7 @@
 
 var express = require('../../');
 var app = module.exports = express();
+var path = require('path');
 
 app.get('/', function(req, res){
   res.send('<ul>'
@@ -17,9 +18,9 @@ app.get('/', function(req, res){
 // but here we name it :file
 app.get('/files/:file(*)', function(req, res, next){
   var file = req.params.file;
-  var path = __dirname + '/files/' + file;
+  var downloadPath = path.join(__dirname, '/files/', file);
 
-  res.download(path, function(err){
+  res.download(downloadPath, function(err){
     if (!err) return; // file sent
     if (err && err.status !== 404) return next(err); // non-404 error
     // file for download not found

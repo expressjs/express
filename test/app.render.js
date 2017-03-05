@@ -1,6 +1,7 @@
 
 var express = require('..');
 var tmpl = require('./support/tmpl');
+var path = require('path');
 
 describe('app', function(){
   describe('.render(name, fn)', function(){
@@ -9,7 +10,7 @@ describe('app', function(){
 
       app.locals.user = { name: 'tobi' };
 
-      app.render(__dirname + '/fixtures/user.tmpl', function (err, str) {
+      app.render(path.join(__dirname, '/fixtures/user.tmpl'), function (err, str) {
         if (err) return done(err);
         str.should.equal('<p>tobi</p>');
         done();
@@ -22,7 +23,7 @@ describe('app', function(){
       app.set('view engine', 'tmpl');
       app.locals.user = { name: 'tobi' };
 
-      app.render(__dirname + '/fixtures/user', function(err, str){
+      app.render(path.join(__dirname, '/fixtures/user'), function(err, str){
         if (err) return done(err);
         str.should.equal('<p>tobi</p>');
         done();
@@ -32,7 +33,7 @@ describe('app', function(){
     it('should expose app.locals', function(done){
       var app = createApp();
 
-      app.set('views', __dirname + '/fixtures');
+      app.set('views', path.join(__dirname, '/fixtures'));
       app.locals.user = { name: 'tobi' };
 
       app.render('user.tmpl', function (err, str) {
@@ -45,7 +46,7 @@ describe('app', function(){
     it('should support index.<engine>', function(done){
       var app = createApp();
 
-      app.set('views', __dirname + '/fixtures');
+      app.set('views', path.join(__dirname, '/fixtures'));
       app.set('view engine', 'tmpl');
 
       app.render('blog/post', function (err, str) {
@@ -80,9 +81,9 @@ describe('app', function(){
       it('should provide a helpful error', function(done){
         var app = createApp();
 
-        app.set('views', __dirname + '/fixtures');
+        app.set('views', path.join(__dirname, '/fixtures'));
         app.render('rawr.tmpl', function (err) {
-          err.message.should.equal('Failed to lookup view "rawr.tmpl" in views directory "' + __dirname + '/fixtures"');
+          err.message.should.equal('Failed to lookup view "rawr.tmpl" in views directory "' + path.join(__dirname, '/fixtures') + '"');
           done();
         });
       })
@@ -92,7 +93,7 @@ describe('app', function(){
       it('should invoke the callback', function(done){
         var app = createApp();
 
-        app.set('views', __dirname + '/fixtures');
+        app.set('views', path.join(__dirname, '/fixtures'));
 
         app.render('user.tmpl', function (err, str) {
           // nextTick to prevent cyclic
@@ -108,7 +109,7 @@ describe('app', function(){
       it('should render the template', function(done){
         var app = createApp();
 
-        app.set('views', __dirname + '/fixtures');
+        app.set('views', path.join(__dirname, '/fixtures'));
 
         app.render('email.tmpl', function (err, str) {
           if (err) return done(err);
@@ -123,7 +124,7 @@ describe('app', function(){
         var app = createApp();
 
         app.set('view engine', 'tmpl');
-        app.set('views', __dirname + '/fixtures');
+        app.set('views', path.join(__dirname, '/fixtures'));
 
         app.render('email', function(err, str){
           if (err) return done(err);
@@ -137,7 +138,7 @@ describe('app', function(){
       it('should lookup the file in the path', function(done){
         var app = createApp();
 
-        app.set('views', __dirname + '/fixtures/default_layout');
+        app.set('views',  path.join(__dirname, '/fixtures/default_layout'));
         app.locals.user = { name: 'tobi' };
 
         app.render('user.tmpl', function (err, str) {
@@ -150,7 +151,7 @@ describe('app', function(){
       describe('when array of paths', function(){
         it('should lookup the file in the path', function(done){
           var app = createApp();
-          var views = [__dirname + '/fixtures/local_layout', __dirname + '/fixtures/default_layout'];
+          var views = [path.join(__dirname, '/fixtures/local_layout'), path.join(__dirname, '/fixtures/default_layout')];
 
           app.set('views', views);
           app.locals.user = { name: 'tobi' };
@@ -164,7 +165,7 @@ describe('app', function(){
 
         it('should lookup in later paths until found', function(done){
           var app = createApp();
-          var views = [__dirname + '/fixtures/local_layout', __dirname + '/fixtures/default_layout'];
+          var views = [path.join(__dirname, '/fixtures/local_layout'), path.join(__dirname, '/fixtures/default_layout')];
 
           app.set('views', views);
           app.locals.name = 'tobi';
@@ -178,13 +179,13 @@ describe('app', function(){
 
         it('should error if file does not exist', function(done){
           var app = createApp();
-          var views = [__dirname + '/fixtures/local_layout', __dirname + '/fixtures/default_layout'];
+          var views = [path.join(__dirname, '/fixtures/local_layout'), path.join(__dirname, '/fixtures/default_layout')];
 
           app.set('views', views);
           app.locals.name = 'tobi';
 
           app.render('pet.tmpl', function (err, str) {
-            err.message.should.equal('Failed to lookup view "pet.tmpl" in views directories "' + __dirname + '/fixtures/local_layout" or "' + __dirname + '/fixtures/default_layout"');
+            err.message.should.equal('Failed to lookup view "pet.tmpl" in views directories "' + path.join(__dirname, '/fixtures/local_layout') + '" or "' + path.join(__dirname, '/fixtures/default_layout') + '"');
             done();
           })
         })
@@ -281,7 +282,7 @@ describe('app', function(){
     it('should render the template', function(done){
       var app = createApp();
 
-      app.set('views', __dirname + '/fixtures');
+      app.set('views', path.join(__dirname, '/fixtures'));
 
       var user = { name: 'tobi' };
 
@@ -295,7 +296,7 @@ describe('app', function(){
     it('should expose app.locals', function(done){
       var app = createApp();
 
-      app.set('views', __dirname + '/fixtures');
+      app.set('views', path.join(__dirname, '/fixtures'));
       app.locals.user = { name: 'tobi' };
 
       app.render('user.tmpl', {}, function (err, str) {
@@ -308,7 +309,7 @@ describe('app', function(){
     it('should give precedence to app.render() locals', function(done){
       var app = createApp();
 
-      app.set('views', __dirname + '/fixtures');
+      app.set('views', path.join(__dirname, '/fixtures'));
       app.locals.user = { name: 'tobi' };
       var jane = { name: 'jane' };
 
