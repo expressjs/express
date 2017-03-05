@@ -539,8 +539,8 @@ describe('app.router', function(){
 
     request(app)
     .get('/user/10')
-    .end(function(err, res){
-      res.statusCode.should.equal(200);
+    .expect(200, function (err) {
+      if (err) return done(err)
       request(app)
       .get('/user/tj')
       .expect(404, done);
