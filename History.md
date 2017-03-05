@@ -1,3 +1,10 @@
+unreleased
+==========
+
+  * deps: send@0.15.1
+    - Fix issue when `Date.parse` does not return `NaN` on invalid date
+    - Fix strict violation in broken environments
+
 4.15.0 / 2017-03-01
 ===================
 
