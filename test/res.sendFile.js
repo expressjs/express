@@ -613,7 +613,7 @@ describe('res', function(){
         var app = express();
 
         app.use(function(req, res){
-          res.sendfile(__dirname + '/fixtures/user.html');
+          res.sendfile(path.join(__dirname, '/fixtures/user.html'))
         });
 
         request(app)
@@ -718,7 +718,7 @@ describe('res', function(){
             , calls = 0;
 
           app.use(function(req, res){
-            res.sendfile(__dirname + '/fixtures/name.txt');
+            res.sendfile(path.join(__dirname, '/fixtures/name.txt'))
           });
 
           request(app)
