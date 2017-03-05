@@ -5,6 +5,7 @@
 var express = require('../../');
 
 var app = module.exports = express();
+var path = require('path');
 
 // Register ejs as .html. If we did
 // not call this, we would need to
@@ -21,7 +22,7 @@ app.engine('.html', require('ejs').__express);
 
 // Optional since express defaults to CWD/views
 
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname, '/views'));
 
 // Without this you would need to
 // supply the extension to res.render()

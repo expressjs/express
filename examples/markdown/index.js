@@ -4,6 +4,7 @@
 
 var escapeHtml = require('escape-html');
 var express = require('../..');
+var path = require('path');
 var fs = require('fs');
 var marked = require('marked');
 
@@ -21,7 +22,7 @@ app.engine('md', function(path, options, fn){
   });
 });
 
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname, '/views'));
 
 // make it the default so we dont need .md
 app.set('view engine', 'md');
