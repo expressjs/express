@@ -5,6 +5,7 @@
 var express = require('../..');
 var bodyParser = require('body-parser');
 var hash = require('pbkdf2-password')()
+var path = require('path');
 var session = require('express-session');
 
 var app = module.exports = express();
@@ -12,7 +13,7 @@ var app = module.exports = express();
 // config
 
 app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname, 'views'));
 
 // middleware
 

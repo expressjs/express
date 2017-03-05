@@ -3,10 +3,11 @@
  */
 
 var express = require('../../lib/express');
+var path = require('path');
 
 // Path to our public directory
 
-var pub = __dirname + '/public';
+var pub = path.join(__dirname, 'public');
 
 // setup middleware
 
@@ -15,7 +16,7 @@ app.use(express.static(pub));
 
 // Optional since express defaults to CWD/views
 
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname, 'views'));
 
 // Set our default template engine to "jade"
 // which prevents the need for extensions

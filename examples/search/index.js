@@ -7,6 +7,7 @@
  */
 
 var express = require('../..');
+var path = require('path');
 var redis = require('redis');
 
 var db = redis.createClient();
@@ -15,7 +16,7 @@ var db = redis.createClient();
 
 var app = express();
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // populate search
 
@@ -45,7 +46,7 @@ app.get('/search/:query?', function(req, res){
  */
 
 app.get('/client.js', function(req, res){
-  res.sendFile(__dirname + '/client.js');
+  res.sendFile(path.join(__dirname, 'client.js'));
 });
 
 /* istanbul ignore next */

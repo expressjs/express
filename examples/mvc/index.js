@@ -4,6 +4,7 @@
 
 var express = require('../..');
 var logger = require('morgan');
+var path = require('path');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
@@ -17,7 +18,7 @@ var app = module.exports = express();
 app.set('view engine', 'jade');
 
 // set views for error and 404 pages
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname, 'views'));
 
 // define a custom res.message() method
 // which stores messages in the session
@@ -34,7 +35,7 @@ app.response.message = function(msg){
 if (!module.parent) app.use(logger('dev'));
 
 // serve static files
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // session support
 app.use(session({
