@@ -13,11 +13,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        var val = 'sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
-        res.header['set-cookie'].should.eql([val]);
-        done();
-      })
+      .expect('Set-Cookie', 'sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
+      .expect(200, done)
     })
   })
 
@@ -31,11 +28,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        var val = 'sid=; Path=/admin; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
-        res.header['set-cookie'].should.eql([val]);
-        done();
-      })
+      .expect('Set-Cookie', 'sid=; Path=/admin; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
+      .expect(200, done)
     })
   })
 })

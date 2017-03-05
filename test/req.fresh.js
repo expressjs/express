@@ -36,8 +36,8 @@ describe('req', function(){
     it('should return false without response headers', function(done){
       var app = express();
 
+      app.disable('x-powered-by')
       app.use(function(req, res){
-        res._headers = null;
         res.send(req.fresh);
       });
 
