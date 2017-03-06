@@ -3,6 +3,21 @@ var express = require('../')
   , request = require('supertest');
 
 describe('req', function(){
+  it('should not reveal powered-by', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.send('hello world');
+    });
+
+    request(app)
+    .get('/')
+    .expect(function (res) {
+      res.header.should.not.have.property('x-powered-by');
+    })
+    .expect(200, done)
+  })
+
   describe('.secure', function(){
     describe('when X-Forwarded-Proto is missing', function(){
       it('should return false when http', function(done){
