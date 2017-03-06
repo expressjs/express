@@ -1,7 +1,8 @@
-5.x
-===
+5.0.0-alpha.5 / 2017-03-06
+==========================
 
-This incorporates all changes after 4.15.0 up to 4.15.2.
+This is the fifth Express 5.0 alpha release, based off 4.15.2 and includes
+changes from 5.0.0-alpha.4.
 
 5.0.0-alpha.4 / 2017-03-01
 ==========================
