@@ -28,9 +28,8 @@ describe('app', function(){
 
       request(app)
       .get('/user/123')
-      .end(function(err, res){
-        res.text.should.equal('123');
-
+      .expect(200, '123', function (err) {
+        if (err) return done(err)
         request(app)
         .get('/post/123')
         .expect('123', done);

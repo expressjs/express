@@ -7,6 +7,7 @@
  */
 
 var express = require('../..');
+var path = require('path');
 var redis = require('redis');
 
 var db = redis.createClient();
@@ -15,8 +16,7 @@ var db = redis.createClient();
 
 var app = express();
 
-app.set('view engine', 'jade');
-app.set('views', __dirname);
+app.use(express.static(path.join(__dirname, 'public')));
 
 // populate search
 
@@ -25,14 +25,6 @@ db.sadd('ferret', 'loki');
 db.sadd('ferret', 'jane');
 db.sadd('cat', 'manny');
 db.sadd('cat', 'luna');
-
-/**
- * GET the search page.
- */
-
-app.get('/', function(req, res){
-  res.render('search');
-});
 
 /**
  * GET search for :query.
@@ -54,7 +46,7 @@ app.get('/search/:query?', function(req, res, next){
  */
 
 app.get('/client.js', function(req, res){
-  res.sendFile(__dirname + '/client.js');
+  res.sendFile(path.join(__dirname, 'client.js'));
 });
 
 /* istanbul ignore next */

@@ -1,3 +1,8 @@
+5.x
+===
+
+This incorporates all changes after 4.15.0 up to 4.15.2.
+
 5.0.0-alpha.4 / 2017-03-01
 ==========================
 
@@ -69,6 +74,22 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.15.2 / 2017-03-06
+===================
+
+  * deps: qs@6.4.0
+    - Fix regression parsing keys starting with `[`
+
+4.15.1 / 2017-03-05
+===================
+
+  * deps: send@0.15.1
+    - Fix issue when `Date.parse` does not return `NaN` on invalid date
+    - Fix strict violation in broken environments
+  * deps: serve-static@1.12.1
+    - Fix issue when `Date.parse` does not return `NaN` on invalid date
+    - deps: send@0.15.1
 
 4.15.0 / 2017-03-01
 ===================
