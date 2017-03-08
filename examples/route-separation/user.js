@@ -6,7 +6,10 @@ var users = [
 ];
 
 exports.list = function(req, res){
-  res.render('users', { title: 'Users', users: users });
+  res.render('users', {
+    title: 'Users',
+    users: users
+  });
 };
 
 exports.load = function(req, res, next){
