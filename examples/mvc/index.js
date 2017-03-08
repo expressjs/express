@@ -13,9 +13,12 @@ var app = module.exports = express();
 
 // settings
 
-// set our default template engine to "jade"
-// which prevents the need for extensions
-app.set('view engine', 'jade');
+// set an engine for html files to use ejs
+app.engine('.html', require('ejs').__express);
+
+// set our default template engine to "html"
+// which prevents the need for using file extensions
+app.set('view engine', 'html');
 
 // set views for error and 404 pages
 app.set('views', path.join(__dirname, 'views'));

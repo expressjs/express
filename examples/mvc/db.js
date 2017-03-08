@@ -1,4 +1,4 @@
-// faux database
+// mock database
 
 var pets = exports.pets = [];
 
