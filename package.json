@@ -62,6 +62,7 @@
     "cookie-parser": "~1.4.3",
     "ejs": "2.5.6",
     "express-session": "1.15.1",
+    "hbs": "4.0.1",
     "istanbul": "0.4.5",
     "marked": "0.3.6",
     "method-override": "2.3.7",
@@ -73,7 +74,6 @@
     "supertest": "1.2.0",
     "connect-redis": "~2.4.1",
     "cookie-session": "~1.2.0",
-    "jade": "~1.11.0",
     "vhost": "~3.0.2"
   },
   "engines": {
