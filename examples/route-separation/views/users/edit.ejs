@@ -1,0 +1,23 @@
+<% include ../header %>
+
+<h1>Editing <%= user.name %></h1>
+
+<div id="user">
+  <form action="?_method=put", method="post">
+    <p>
+      Name:
+      <input type="text" value="<%= user.name %>" name="user[name]" />
+    </p>
+
+    <p>
+      Email:
+      <input type="email" value="<%= user.email %>" name="user[email]" />
+    </p>
+
+    <p>
+      <input type="submit" value="Save" />
+    </p>
+  </form>
+</div>
+
+<% include ../footer %>
