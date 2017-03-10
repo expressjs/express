@@ -59,7 +59,9 @@
   "devDependencies": {
     "after": "0.8.2",
     "body-parser": "1.17.1",
+    "connect-redis": "~2.4.1",
     "cookie-parser": "~1.4.3",
+    "cookie-session": "~1.2.0",
     "ejs": "2.5.6",
     "express-session": "1.15.1",
     "istanbul": "0.4.5",
@@ -71,9 +73,6 @@
     "pbkdf2-password": "1.2.1",
     "should": "11.2.0",
     "supertest": "1.2.0",
-    "connect-redis": "~2.4.1",
-    "cookie-session": "~1.2.0",
-    "jade": "~1.11.0",
     "vhost": "~3.0.2"
   },
   "engines": {
