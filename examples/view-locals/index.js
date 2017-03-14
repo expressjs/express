@@ -3,11 +3,12 @@
  */
 
 var express = require('../..');
+var path = require('path');
 var User = require('./user');
 var app = express();
 
-app.set('views', __dirname);
-app.set('view engine', 'jade');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 // filter ferrets only
 
@@ -25,7 +26,7 @@ app.get('/', function(req, res, next){
     if (err) return next(err);
     User.all(function(err, users){
       if (err) return next(err);
-      res.render('user', {
+      res.render('index', {
         title: 'Users',
         count: count,
         users: users.filter(ferrets)
@@ -59,7 +60,7 @@ function users(req, res, next) {
 }
 
 app.get('/middleware', count, users, function(req, res, next){
-  res.render('user', {
+  res.render('index', {
     title: 'Users',
     count: req.count,
     users: req.users.filter(ferrets)
@@ -101,7 +102,7 @@ app.get('/middleware-locals', count2, users2, function(req, res, next){
   // to pass to res.render(). If we have
   // several routes related to users this
   // can be a great productivity booster
-  res.render('user', { title: 'Users' });
+  res.render('index', { title: 'Users' });
 });
 
 // keep in mind that middleware may be placed anywhere
