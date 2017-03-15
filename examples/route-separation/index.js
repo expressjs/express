@@ -17,8 +17,7 @@ module.exports = app;
 
 // Config
 
-app.engine('.html', require('ejs').__express);
-app.set('view engine', 'html');
+app.engine('.html', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 /* istanbul ignore next */
