@@ -7,5 +7,8 @@ var posts = [
 ];
 
 exports.list = function(req, res){
-  res.render('posts', { title: 'Posts', posts: posts });
+  res.render('posts', {
+    title: 'Posts',
+    posts: posts
+  });
 };
