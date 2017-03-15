@@ -3,8 +3,23 @@ var assert = require('assert');
 var express = require('..');
 var methods = require('methods');
 var request = require('supertest');
+var utils = require('./support/utils');
 
 describe('res', function(){
+  describe('.send()', function(){
+    it('should set body to ""', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send();
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, '', done);
+    })
+  })
+
   describe('.send(null)', function(){
     it('should set body to ""', function(done){
       var app = express();
@@ -104,12 +119,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/html; charset=utf-8');
-        res.text.should.equal('<p>hey</p>');
-        res.statusCode.should.equal(200);
-        done();
-      })
+      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect(200, '<p>hey</p>', done);
     })
 
     it('should set ETag', function (done) {
@@ -122,7 +133,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('ETag', 'W/"3e7-VYgCBglFKiDVAcpzPNt4Sg"')
+      .expect('ETag', 'W/"3e7-qPnkJ3CVdVhFJQvUBfF10TmVA7g"')
       .expect(200, done);
     })
 
@@ -176,12 +187,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'application/octet-stream');
-        res.text.should.equal('hello');
-        res.statusCode.should.equal(200);
-        done();
-      })
+      .expect('Content-Type', 'application/octet-stream')
+      .expect(200, 'hello', done);
     })
 
     it('should set ETag', function (done) {
@@ -194,7 +201,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('ETag', 'W/"3e7-VYgCBglFKiDVAcpzPNt4Sg"')
+      .expect('ETag', 'W/"3e7-qPnkJ3CVdVhFJQvUBfF10TmVA7g"')
       .expect(200, done);
     })
 
@@ -207,12 +214,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.headers.should.have.property('content-type', 'text/plain; charset=utf-8');
-        res.text.should.equal('hey');
-        res.statusCode.should.equal(200);
-        done();
-      })
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect(200, 'hey', done);
     })
   })
 
@@ -255,13 +258,10 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.headers.should.not.have.property('content-type');
-        res.headers.should.not.have.property('content-length');
-        res.headers.should.not.have.property('transfer-encoding');
-        res.text.should.equal('');
-        done();
-      })
+      .expect(utils.shouldNotHaveHeader('Content-Type'))
+      .expect(utils.shouldNotHaveHeader('Content-Length'))
+      .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
+      .expect(204, '', done);
     })
   })
 
@@ -275,13 +275,10 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        res.headers.should.not.have.property('content-type');
-        res.headers.should.not.have.property('content-length');
-        res.headers.should.not.have.property('transfer-encoding');
-        res.text.should.equal('');
-        done();
-      })
+      .expect(utils.shouldNotHaveHeader('Content-Type'))
+      .expect(utils.shouldNotHaveHeader('Content-Length'))
+      .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
+      .expect(304, '', done);
     })
   })
 
@@ -358,7 +355,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', 'W/"c-ZUfd0NJ26qwjlKF4r8qb2g"')
+        .expect('ETag', 'W/"c-IgR/L5SF7CJQff4wxKGF/vfPuZ0"')
         .expect(200, done);
       });
 
@@ -374,7 +371,7 @@ describe('res', function(){
 
           request(app)
           [method]('/')
-          .expect('ETag', 'W/"c-ZUfd0NJ26qwjlKF4r8qb2g"')
+          .expect('ETag', 'W/"c-IgR/L5SF7CJQff4wxKGF/vfPuZ0"')
           .expect(200, done);
         })
       });
@@ -390,7 +387,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', 'W/"0-1B2M2Y8AsgTpgAmY7PhCfg"')
+        .expect('ETag', 'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
         .expect(200, done);
       })
 
@@ -406,7 +403,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', 'W/"3e7-VYgCBglFKiDVAcpzPNt4Sg"')
+        .expect('ETag', 'W/"3e7-qPnkJ3CVdVhFJQvUBfF10TmVA7g"')
         .expect(200, done);
       });
 
@@ -437,7 +434,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(shouldNotHaveHeader('ETag'))
+        .expect(utils.shouldNotHaveHeader('ETag'))
         .expect(200, done);
       })
     });
@@ -455,7 +452,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(shouldNotHaveHeader('ETag'))
+        .expect(utils.shouldNotHaveHeader('ETag'))
         .expect(200, done);
       });
 
@@ -488,7 +485,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', '"d-Otu60XkfuuPskIiUxJY4cA"')
+        .expect('ETag', '"d-HwnTDHB9U/PRbFMN1z1wps51lqk"')
         .expect(200, done);
       })
     })
@@ -505,7 +502,7 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('ETag', 'W/"d-Otu60XkfuuPskIiUxJY4cA"')
+        .expect('ETag', 'W/"d-HwnTDHB9U/PRbFMN1z1wps51lqk"')
         .expect(200, done)
       })
     })
@@ -545,15 +542,9 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(shouldNotHaveHeader('ETag'))
+        .expect(utils.shouldNotHaveHeader('ETag'))
         .expect(200, done);
       })
     })
   })
 })
-
-function shouldNotHaveHeader(header) {
-  return function (res) {
-    assert.ok(!(header.toLowerCase() in res.headers), 'should not have header ' + header)
-  }
-}

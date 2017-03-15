@@ -79,8 +79,8 @@ describe('req', function(){
           res.send(req.ip);
         });
 
-          var test = request(app).get('/')
-          test.expect(200, getExpectedClientAddress(test._server), done);
+        var test = request(app).get('/')
+        test.expect(200, getExpectedClientAddress(test._server), done)
       })
     })
   })

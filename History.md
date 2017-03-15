@@ -1,3 +1,232 @@
+unreleased
+==========
+
+  * deps: debug@2.6.3
+    - Fix: `DEBUG_MAX_ARRAY_LENGTH`
+
+4.15.2 / 2017-03-06
+===================
+
+  * deps: qs@6.4.0
+    - Fix regression parsing keys starting with `[`
+
+4.15.1 / 2017-03-05
+===================
+
+  * deps: send@0.15.1
+    - Fix issue when `Date.parse` does not return `NaN` on invalid date
+    - Fix strict violation in broken environments
+  * deps: serve-static@1.12.1
+    - Fix issue when `Date.parse` does not return `NaN` on invalid date
+    - deps: send@0.15.1
+
+4.15.0 / 2017-03-01
+===================
+
+  * Add debug message when loading view engine
+  * Add `next("router")` to exit from router
+  * Fix case where `router.use` skipped requests routes did not
+  * Remove usage of `res._headers` private field
+    - Improves compatibility with Node.js 8 nightly
+  * Skip routing when `req.url` is not set
+  * Use `%o` in path debug to tell types apart
+  * Use `Object.create` to setup request & response prototypes
+  * Use `setprototypeof` module to replace `__proto__` setting
+  * Use `statuses` instead of `http` module for status messages
+  * deps: debug@2.6.1
+    - Allow colors in workers
+    - Deprecated `DEBUG_FD` environment variable set to `3` or higher
+    - Fix error when running under React Native
+    - Use same color for same namespace
+    - deps: ms@0.7.2
+  * deps: etag@~1.8.0
+    - Use SHA1 instead of MD5 for ETag hashing
+    - Works with FIPS 140-2 OpenSSL configuration
+  * deps: finalhandler@~1.0.0
+    - Fix exception when `err` cannot be converted to a string
+    - Fully URL-encode the pathname in the 404
+    - Only include the pathname in the 404 message
+    - Send complete HTML document
+    - Set `Content-Security-Policy: default-src 'self'` header
+    - deps: debug@2.6.1
+  * deps: fresh@0.5.0
+    - Fix false detection of `no-cache` request directive
+    - Fix incorrect result when `If-None-Match` has both `*` and ETags
+    - Fix weak `ETag` matching to match spec
+    - perf: delay reading header values until needed
+    - perf: enable strict mode
+    - perf: hoist regular expressions
+    - perf: remove duplicate conditional
+    - perf: remove unnecessary boolean coercions
+    - perf: skip checking modified time if ETag check failed
+    - perf: skip parsing `If-None-Match` when no `ETag` header
+    - perf: use `Date.parse` instead of `new Date`
+  * deps: qs@6.3.1
+    - Fix array parsing from skipping empty values
+    - Fix compacting nested arrays
+  * deps: send@0.15.0
+    - Fix false detection of `no-cache` request directive
+    - Fix incorrect result when `If-None-Match` has both `*` and ETags
+    - Fix weak `ETag` matching to match spec
+    - Remove usage of `res._headers` private field
+    - Support `If-Match` and `If-Unmodified-Since` headers
+    - Use `res.getHeaderNames()` when available
+    - Use `res.headersSent` when available
+    - deps: debug@2.6.1
+    - deps: etag@~1.8.0
+    - deps: fresh@0.5.0
+    - deps: http-errors@~1.6.1
+  * deps: serve-static@1.12.0
+    - Fix false detection of `no-cache` request directive
+    - Fix incorrect result when `If-None-Match` has both `*` and ETags
+    - Fix weak `ETag` matching to match spec
+    - Remove usage of `res._headers` private field
+    - Send complete HTML document in redirect response
+    - Set default CSP header in redirect response
+    - Support `If-Match` and `If-Unmodified-Since` headers
+    - Use `res.getHeaderNames()` when available
+    - Use `res.headersSent` when available
+    - deps: send@0.15.0
+  * perf: add fast match path for `*` route
+  * perf: improve `req.ips` performance
+
+4.14.1 / 2017-01-28
+===================
+
+  * deps: content-disposition@0.5.2
+  * deps: finalhandler@0.5.1
+    - Fix exception when `err.headers` is not an object
+    - deps: statuses@~1.3.1
+    - perf: hoist regular expressions
+    - perf: remove duplicate validation path
+  * deps: proxy-addr@~1.1.3
+    - deps: ipaddr.js@1.2.0
+  * deps: send@0.14.2
+    - deps: http-errors@~1.5.1
+    - deps: ms@0.7.2
+    - deps: statuses@~1.3.1
+  * deps: serve-static@~1.11.2
+    - deps: send@0.14.2
+  * deps: type-is@~1.6.14
+    - deps: mime-types@~2.1.13
+
+4.14.0 / 2016-06-16
+===================
+
+  * Add `acceptRanges` option to `res.sendFile`/`res.sendfile`
+  * Add `cacheControl` option to `res.sendFile`/`res.sendfile`
+  * Add `options` argument to `req.range`
+    - Includes the `combine` option
+  * Encode URL in `res.location`/`res.redirect` if not already encoded
+  * Fix some redirect handling in `res.sendFile`/`res.sendfile`
+  * Fix Windows absolute path check using forward slashes
+  * Improve error with invalid arguments to `req.get()`
+  * Improve performance for `res.json`/`res.jsonp` in most cases
+  * Improve `Range` header handling in `res.sendFile`/`res.sendfile`
+  * deps: accepts@~1.3.3
+    - Fix including type extensions in parameters in `Accept` parsing
+    - Fix parsing `Accept` parameters with quoted equals
+    - Fix parsing `Accept` parameters with quoted semicolons
+    - Many performance improvments
+    - deps: mime-types@~2.1.11
+    - deps: negotiator@0.6.1
+  * deps: content-type@~1.0.2
+    - perf: enable strict mode
+  * deps: cookie@0.3.1
+    - Add `sameSite` option
+    - Fix cookie `Max-Age` to never be a floating point number
+    - Improve error message when `encode` is not a function
+    - Improve error message when `expires` is not a `Date`
+    - Throw better error for invalid argument to parse
+    - Throw on invalid values provided to `serialize`
+    - perf: enable strict mode
+    - perf: hoist regular expression
+    - perf: use for loop in parse
+    - perf: use string concatination for serialization
+  * deps: finalhandler@0.5.0
+    - Change invalid or non-numeric status code to 500
+    - Overwrite status message to match set status code
+    - Prefer `err.statusCode` if `err.status` is invalid
+    - Set response headers from `err.headers` object
+    - Use `statuses` instead of `http` module for status messages
+  * deps: proxy-addr@~1.1.2
+    - Fix accepting various invalid netmasks
+    - Fix IPv6-mapped IPv4 validation edge cases
+    - IPv4 netmasks must be contingous
+    - IPv6 addresses cannot be used as a netmask
+    - deps: ipaddr.js@1.1.1
+  * deps: qs@6.2.0
+    - Add `decoder` option in `parse` function
+  * deps: range-parser@~1.2.0
+    - Add `combine` option to combine overlapping ranges
+    - Fix incorrectly returning -1 when there is at least one valid range
+    - perf: remove internal function
+  * deps: send@0.14.1
+    - Add `acceptRanges` option
+    - Add `cacheControl` option
+    - Attempt to combine multiple ranges into single range
+    - Correctly inherit from `Stream` class
+    - Fix `Content-Range` header in 416 responses when using `start`/`end` options
+    - Fix `Content-Range` header missing from default 416 responses
+    - Fix redirect error when `path` contains raw non-URL characters
+    - Fix redirect when `path` starts with multiple forward slashes
+    - Ignore non-byte `Range` headers
+    - deps: http-errors@~1.5.0
+    - deps: range-parser@~1.2.0
+    - deps: statuses@~1.3.0
+    - perf: remove argument reassignment
+  * deps: serve-static@~1.11.1
+    - Add `acceptRanges` option
+    - Add `cacheControl` option
+    - Attempt to combine multiple ranges into single range
+    - Fix redirect error when `req.url` contains raw non-URL characters
+    - Ignore non-byte `Range` headers
+    - Use status code 301 for redirects
+    - deps: send@0.14.1
+  * deps: type-is@~1.6.13
+    - Fix type error when given invalid type to match against
+    - deps: mime-types@~2.1.11
+  * deps: vary@~1.1.0
+    - Only accept valid field names in the `field` argument
+  * perf: use strict equality when possible
+
+4.13.4 / 2016-01-21
+===================
+
+  * deps: content-disposition@0.5.1
+    - perf: enable strict mode
+  * deps: cookie@0.1.5
+    - Throw on invalid values provided to `serialize`
+  * deps: depd@~1.1.0
+    - Support web browser loading
+    - perf: enable strict mode
+  * deps: escape-html@~1.0.3
+    - perf: enable strict mode
+    - perf: optimize string replacement
+    - perf: use faster string coercion
+  * deps: finalhandler@0.4.1
+    - deps: escape-html@~1.0.3
+  * deps: merge-descriptors@1.0.1
+    - perf: enable strict mode
+  * deps: methods@~1.1.2
+    - perf: enable strict mode
+  * deps: parseurl@~1.3.1
+    - perf: enable strict mode
+  * deps: proxy-addr@~1.0.10
+    - deps: ipaddr.js@1.0.5
+    - perf: enable strict mode
+  * deps: range-parser@~1.0.3
+    - perf: enable strict mode
+  * deps: send@0.13.1
+    - deps: depd@~1.1.0
+    - deps: destroy@~1.0.4
+    - deps: escape-html@~1.0.3
+    - deps: range-parser@~1.0.3
+  * deps: serve-static@~1.10.2
+    - deps: escape-html@~1.0.3
+    - deps: parseurl@~1.3.0
+    - deps: send@0.13.1
+
 4.13.3 / 2015-08-02
 ===================
 

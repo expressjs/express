@@ -2,9 +2,11 @@
  * Module dependencies.
  */
 
+var escapeHtml = require('escape-html');
 var express = require('../..');
 var fs = require('fs');
-var md = require('marked').parse;
+var marked = require('marked');
+var path = require('path');
 
 var app = module.exports = express();
 
@@ -13,19 +15,14 @@ var app = module.exports = express();
 app.engine('md', function(path, options, fn){
   fs.readFile(path, 'utf8', function(err, str){
     if (err) return fn(err);
-    try {
-      var html = md(str);
-      html = html.replace(/\{([^}]+)\}/g, function(_, name){
-        return options[name] || '';
-      });
-      fn(null, html);
-    } catch(err) {
-      fn(err);
-    }
+    var html = marked.parse(str).replace(/\{([^}]+)\}/g, function(_, name){
+      return escapeHtml(options[name] || '');
+    });
+    fn(null, html);
   });
 });
 
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname, 'views'));
 
 // make it the default so we dont need .md
 app.set('view engine', 'md');

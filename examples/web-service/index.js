@@ -49,7 +49,7 @@ var apiKeys = ['foo', 'bar', 'baz'];
 // these two objects will serve as our faux database
 
 var repos = [
-    { name: 'express', url: 'http://github.com/strongloop/express' }
+    { name: 'express', url: 'http://github.com/expressjs/express' }
   , { name: 'stylus', url: 'http://github.com/learnboost/stylus' }
   , { name: 'cluster', url: 'http://github.com/learnboost/cluster' }
 ];

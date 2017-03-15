@@ -53,7 +53,7 @@ describe('web-service', function(){
         .get('/api/repos?api-key=foo')
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(/"name":"express"/)
-        .expect(/"url":"http:\/\/github.com\/strongloop\/express"/)
+        .expect(/"url":"http:\/\/github.com\/expressjs\/express"/)
         .expect(200, done)
       })
     })
