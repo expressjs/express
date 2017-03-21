@@ -3,6 +3,7 @@ var assert = require('assert')
 var express = require('..');
 var path = require('path')
 var tmpl = require('./support/tmpl');
+var jsEngine = require('./support/jsEngine');
 
 describe('app', function(){
   describe('.render(name, fn)', function(){
@@ -100,7 +101,10 @@ describe('app', function(){
         app.render('user.tmpl', function (err, str) {
           // nextTick to prevent cyclic
           process.nextTick(function(){
-            err.message.should.match(/Cannot read property '[^']+' of undefined/);
+            err.message.should.match(jsEngine.engineSpecificMessage({
+              v8: /Cannot read property '[^']+' of undefined/,
+              chakracore: /Unable to get property '[^']+' of undefined or null reference/
+            }));
             done();
           });
         })
