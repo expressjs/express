@@ -13,6 +13,7 @@ module.exports = function renderFile(fileName, options, callback) {
       str = str.replace(variableRegExp, generateVariableLookup(options));
     } catch (e) {
       err = e;
+      err.name = 'RenderError'
     }
 
     callback(err, str);
