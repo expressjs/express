@@ -3,6 +3,9 @@ unreleased
 
   * deps: debug@2.6.3
     - Fix: `DEBUG_MAX_ARRAY_LENGTH`
+  * deps: finalhandler@~1.0.1
+    - Fix missing `</html>` in HTML document
+    - deps: debug@2.6.3
   * deps: vary@~1.1.1
     - perf: hoist regular expression
 
