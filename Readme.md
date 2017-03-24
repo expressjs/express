@@ -46,7 +46,7 @@ $ npm install express
 
 **PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/expressjs/express/wiki/New-features-in-4.x).
 
-###Security Issues
+### Security Issues
 
 If you discover a security vulnerability in Express, please see [Security Policies and Procedures](Security.md).
 
