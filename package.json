@@ -29,6 +29,7 @@
   "dependencies": {
     "accepts": "~1.3.3",
     "array-flatten": "2.1.1",
+    "compile-query-parser": "~1.0.1",
     "content-disposition": "0.5.2",
     "content-type": "~1.0.2",
     "cookie": "0.3.1",
