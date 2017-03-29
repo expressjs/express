@@ -6,6 +6,8 @@ unreleased
   * deps: finalhandler@~1.0.1
     - Fix missing `</html>` in HTML document
     - deps: debug@2.6.3
+  * deps: proxy-addr@~1.1.4
+    - deps: ipaddr.js@1.3.0
   * deps: vary@~1.1.1
     - perf: hoist regular expression
 
