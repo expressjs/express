@@ -144,6 +144,28 @@ describe('res', function(){
         .expect(200, '{\n  "name": "tobi",\n  "age": 2\n}', done)
       })
     })
+
+    describe('"json escape" setting', function(){
+      it('should be undefined by default', function(){
+        var app = express();
+        assert(undefined === app.get('json escape'));
+      })
+
+      it('should unicode escape after JSON.stringify()', function(done){
+        var app = express();
+
+        app.set('json escape', true);
+
+        app.use(function(req, res){
+          res.json({ '&': '<script>' });
+        });
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{"\\u0026":"\\u003cscript\\u003e"}', done)
+      })
+    })
   })
 
   describe('.json(status, object)', function(){
