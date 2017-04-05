@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Add `"json escape"` setting for `res.json` and `res.jsonp`
   * Improve error message when autoloading invalid view engine
   * Improve error messages when non-function provided as middleware
   * Skip `Buffer` encoding when not generating ETag for small response
