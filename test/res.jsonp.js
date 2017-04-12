@@ -112,6 +112,21 @@ describe('res', function(){
       .expect(200, '{"str":"\u2028 \u2029 woot"}', done);
     });
 
+    it('should escape <, >, and & when "json escape" is true', function(done){
+      var app = express();
+
+      app.set('json escape', true);
+
+      app.use(function(req, res){
+        res.jsonp({ str: '&<script>' });
+      });
+
+      request(app)
+      .get('/?callback=foo')
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect(200, /foo\(\{"str":"\\u0026\\u003cscript\\u003e"\}\);/, done);
+    });
+
     it('should include security header and prologue', function (done) {
       var app = express();
 
