@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/style.css">
+  <title>Users</title>
+</head>
+<body>
+  <h1>Users</h1>
+  <p>Click a user below to view their pets.</p>
+  <ul>
+    {{#each users}}
+      <li><a href="/user/{{id}}">{{name}}</a></li>
+    {{/each}}
+  </ul>
+</body>
+</html>

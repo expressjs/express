@@ -16,11 +16,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        var val = ['user=' + encodeURIComponent('j:{"name":"tobi"}') + '; Path=/'];
-        res.headers['set-cookie'].should.eql(val);
-        done();
-      })
+      .expect('Set-Cookie', 'user=j%3A%7B%22name%22%3A%22tobi%22%7D; Path=/')
+      .expect(200, done)
     })
   })
 
@@ -34,11 +31,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        var val = ['name=tobi; Path=/'];
-        res.headers['set-cookie'].should.eql(val);
-        done();
-      })
+      .expect('Set-Cookie', 'name=tobi; Path=/')
+      .expect(200, done)
     })
 
     it('should allow multiple calls', function(done){
@@ -72,11 +66,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .end(function(err, res){
-        var val = ['name=tobi; Path=/; HttpOnly; Secure'];
-        res.headers['set-cookie'].should.eql(val);
-        done();
-      })
+      .expect('Set-Cookie', 'name=tobi; Path=/; HttpOnly; Secure')
+      .expect(200, done)
     })
 
     describe('maxAge', function(){
@@ -150,6 +141,22 @@ describe('res', function(){
       })
     })
 
+    describe('signed without secret', function(){
+      it('should throw an error', function(done){
+        var app = express();
+
+        app.use(cookieParser());
+
+        app.use(function(req, res){
+          res.cookie('name', 'tobi', { signed: true }).end();
+        });
+
+        request(app)
+        .get('/')
+        .expect(500, /secret\S+ required for signed cookies/, done);
+      })
+    })
+
     describe('.signedCookie(name, string)', function(){
       it('should set a signed cookie', function(done){
         var app = express();
@@ -162,11 +169,8 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          var val = ['name=s%3Atobi.xJjV2iZ6EI7C8E5kzwbfA9PVLl1ZR07UTnuTgQQ4EnQ; Path=/'];
-          res.headers['set-cookie'].should.eql(val);
-          done();
-        })
+        .expect('Set-Cookie', 'name=s%3Atobi.xJjV2iZ6EI7C8E5kzwbfA9PVLl1ZR07UTnuTgQQ4EnQ; Path=/')
+        .expect(200, done)
       })
     })
   })

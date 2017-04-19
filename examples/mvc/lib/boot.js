@@ -4,22 +4,26 @@
 
 var express = require('../../..');
 var fs = require('fs');
+var path = require('path');
 
 module.exports = function(parent, options){
+  var dir = path.join(__dirname, '..', 'controllers');
   var verbose = options.verbose;
-  fs.readdirSync(__dirname + '/../controllers').forEach(function(name){
+  fs.readdirSync(dir).forEach(function(name){
+    var file = path.join(dir, name)
+    if (!fs.statSync(file).isDirectory()) return;
     verbose && console.log('\n   %s:', name);
-    var obj = require('./../controllers/' + name);
+    var obj = require(file);
     var name = obj.name || name;
     var prefix = obj.prefix || '';
     var app = express();
     var handler;
     var method;
-    var path;
+    var url;
 
     // allow specifying the view engine
     if (obj.engine) app.set('view engine', obj.engine);
-    app.set('views', __dirname + '/../controllers/' + name + '/views');
+    app.set('views', path.join(__dirname, '..', 'controllers', name, 'views'));
 
     // generate routes based
     // on the exported methods
@@ -30,27 +34,27 @@ module.exports = function(parent, options){
       switch (key) {
         case 'show':
           method = 'get';
-          path = '/' + name + '/:' + name + '_id';
+          url = '/' + name + '/:' + name + '_id';
           break;
         case 'list':
           method = 'get';
-          path = '/' + name + 's';
+          url = '/' + name + 's';
           break;
         case 'edit':
           method = 'get';
-          path = '/' + name + '/:' + name + '_id/edit';
+          url = '/' + name + '/:' + name + '_id/edit';
           break;
         case 'update':
           method = 'put';
-          path = '/' + name + '/:' + name + '_id';
+          url = '/' + name + '/:' + name + '_id';
           break;
         case 'create':
           method = 'post';
-          path = '/' + name;
+          url = '/' + name;
           break;
         case 'index':
           method = 'get';
-          path = '/';
+          url = '/';
           break;
         default:
           /* istanbul ignore next */
@@ -59,15 +63,15 @@ module.exports = function(parent, options){
 
       // setup
       handler = obj[key];
-      path = prefix + path;
+      url = prefix + url;
 
       // before middleware support
       if (obj.before) {
-        app[method](path, obj.before, handler);
-        verbose && console.log('     %s %s -> before -> %s', method.toUpperCase(), path, key);
+        app[method](url, obj.before, handler);
+        verbose && console.log('     %s %s -> before -> %s', method.toUpperCase(), url, key);
       } else {
-        app[method](path, handler);
-        verbose && console.log('     %s %s -> %s', method.toUpperCase(), path, key);
+        app[method](url, handler);
+        verbose && console.log('     %s %s -> %s', method.toUpperCase(), url, key);
       }
     }
 

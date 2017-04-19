@@ -3,8 +3,9 @@
  */
 
 var express = require('../..');
-var hash = require('./pass').hash;
 var bodyParser = require('body-parser');
+var hash = require('pbkdf2-password')()
+var path = require('path');
 var session = require('express-session');
 
 var app = module.exports = express();
@@ -12,7 +13,7 @@ var app = module.exports = express();
 // config
 
 app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname, 'views'));
 
 // middleware
 
@@ -45,7 +46,7 @@ var users = {
 // when you create a user, generate a salt
 // and hash the password ('foobar' is the pass here)
 
-hash('foobar', function(err, salt, hash){
+hash({ password: 'foobar' }, function (err, pass, salt, hash) {
   if (err) throw err;
   // store the salt & hash in the "db"
   users.tj.salt = salt;
@@ -63,7 +64,7 @@ function authenticate(name, pass, fn) {
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user
-  hash(pass, user.salt, function(err, hash){
+  hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
     if (err) return fn(err);
     if (hash == user.hash) return fn(null, user);
     fn(new Error('invalid password'));
