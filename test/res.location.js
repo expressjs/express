@@ -42,5 +42,32 @@ describe('res', function(){
       .expect('Location', 'https://google.com?q=%A710')
       .expect(200, done)
     })
+
+    it('should set the header to "/" on back', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.location('back').end()
+      })
+
+      request(app)
+      .get('/')
+      .expect('Location', '/')
+      .expect(200, done)
+    })
+
+    it('should set the header to "next" on back', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.location('back').end()
+      })
+
+      request(app)
+      .get('/')
+      .set('Referrer', '/next')
+      .expect('Location', '/next')
+      .expect(200, done)
+    })
   })
 })
