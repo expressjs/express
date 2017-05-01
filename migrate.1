@@ -1,0 +1,272 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "MIGRATE" "" "March 2011" "" ""
+.
+.SH "NAME"
+\fBmigrate\fR
+.
+.SS "Express 1\.x to 2\.x Migration"
+.
+.SS "HTTPS"
+Creating an HTTPS server is simply, simply pass the TLS options to \fIexpress\.createServer()\fR:
+.
+.IP "" 4
+.
+.nf
+
+ var app = express\.createServer({
+     key: \.\.\.
+   , cert: \.\.\.
+ });
+
+ app\.listen(443);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "req\.header() Referrer"
+Previously if anyone was doing something similar to:
+.
+.IP "" 4
+.
+.nf
+
+ req\.headers\.referrer || req\.headers\.referer
+ req\.header(\'Referrer\') || req\.header(\'Referer\')
+.
+.fi
+.
+.IP "" 0
+.
+.P
+With the new special\-case we may now simply use \fIReferrer\fR which will return either if defined:
+.
+.IP "" 4
+.
+.nf
+
+ req\.header(\'Referrer\')
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.local(name, val)"
+Previously all local variables had to be passed to \fIres\.render()\fR, or either \fIapp\.helpers()\fR or \fIapp\.dynamicHelpers()\fR, now we may do this at the request\-level progressively\. The \fIres\.local()\fR method accepts a \fIname\fR and \fIval\fR, however the locals passed to \fIres\.render()\fR will take precedence\.
+.
+.P
+For example we may utilize this feature to create locals in middleware:
+.
+.IP "" 4
+.
+.nf
+
+ function loadUser(req, res, next) {
+   User\.get(req\.params\.id, function(err, user){
+     res\.local(\'user\', user);
+     next();
+   });
+ }
+
+ app\.get(\'/user/:id\', loadUser, function(req, res){
+   res\.render(\'user\');
+ });
+.
+.fi
+.
+.IP "" 0
+.
+.SS "req\.param(name[, defaultValue])"
+Previously only \fIname\fR was accepted, so some of you may have been doing the following:
+.
+.IP "" 4
+.
+.nf
+
+ var id = req\.param(\'id\') || req\.user\.id;
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The new \fIdefaultValue\fR argument can handle this nicely:
+.
+.IP "" 4
+.
+.nf
+
+ var id = req\.param(\'id\', req\.user\.id);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "app\.helpers() / app\.locals()"
+\fIapp\.locals()\fR is now an alias of \fIapp\.helpers()\fR, as helpers makes more sense for functions\.
+.
+.SS "req\.accepts(type)"
+\fIreq\.accepts()\fR now accepts extensions:
+.
+.IP "" 4
+.
+.nf
+
+  // Accept: text/html
+  req\.accepts(\'html\');
+  req\.accepts(\'\.html\');
+  // => true
+
+  // Accept: text/*; application/json
+  req\.accepts(\'html\');
+  req\.accepts(\'text/*\');
+  req\.accepts(\'text/plain\');
+  req\.accepts(\'application/json\');
+  // => true
+
+  req\.accepts(\'image/png\');
+  req\.accepts(\'png\');
+  // => false
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.cookie()"
+Previously only directly values could be passed, so for example:
+.
+.IP "" 4
+.
+.nf
+
+res\.cookie(\'rememberme\', \'yes\', { expires: new Date(Date\.now() + 900000) });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+However now we have the alternative \fImaxAge\fR property which may be used to set \fIexpires\fR relative to \fIDate\.now()\fR in milliseconds, so our example above can now become:
+.
+.IP "" 4
+.
+.nf
+
+res\.cookie(\'rememberme\', \'yes\', { maxAge: 900000 });
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.download() / res\.sendfile()"
+Both of these methods now utilize Connect\'s static file server behind the scenes (actually the previous Express code was ported to Connect 1\.0)\. With this change comes a change to the callback as well\. Previously the \fIpath\fR and \fIstream\fR were passed, however now only an \fIerror\fR is passed, when no error has occurred the callback will be invoked indicating that the file transfer is complete\. The callback remains optional:
+.
+.IP "" 4
+.
+.nf
+
+ res\.download(\'/path/to/file\');
+
+ res\.download(\'/path/to/file\', function(err){
+   if (err) {
+     console\.error(err);
+   } else {
+     console\.log(\'transferred\');
+   }
+ });
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The \fIstream threshold\fR setting was removed\.
+.
+.SS "res\.render()"
+Previously locals were passed as a separate key:
+.
+.IP "" 4
+.
+.nf
+
+ res\.render(\'user\', { layout: false, locals: { user: user }});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+In Express 2\.0 both the locals and the options are one in the same, meaning you cannot have a local variable named \fIlayout\fR as it is reserved for express, however this cleans up the API:
+.
+.IP "" 4
+.
+.nf
+
+ res\.render(\'user\', { layout: false, user: user });
+.
+.fi
+.
+.IP "" 0
+.
+.SS "res\.partial()"
+Express 2\.0 adds the \fIres\.partial()\fR method, helpful for rendering partial fragments over WebSockets or Ajax requests etc\. The API is identical to the \fIpartial()\fR calls within views\.
+.
+.IP "" 4
+.
+.nf
+
+ // render a collection of comments
+ res\.partial(\'comment\', [comment1, comment2]);
+
+ // render a single comment
+ res\.partial(\'comment\', comment);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Template Engine Compliance"
+To comply with Express previously engines needed the following signature:
+.
+.IP "" 4
+.
+.nf
+
+ engine\.render(str, options, function(err){});
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Now they must export a \fIcompile()\fR function, returning a function which when called with local variables will render the template\. This allows Express to cache the compiled function in memory during production\.
+.
+.IP "" 4
+.
+.nf
+
+ var fn = engine\.compile(str, options);
+ fn(locals);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "View Partial Lookup"
+Previously partials were loaded relative to the now removed \fIview partials\fR directory setting, or by default \fIviews/partials\fR, now they are relative to the view calling them, read more on view lookup \fIguide\.html#View\-Lookup\fR\.
+.
+.SS "Mime Types"
+Express and Connect now utilize the \fImime\fR module in npm, so to add more use:
+.
+.IP "" 4
+.
+.nf
+
+ require(\'mime\')\.define({ \'foo/bar\': [\'foo\', \'bar\'] });
+.
+.fi
+.
+.IP "" 0
+
