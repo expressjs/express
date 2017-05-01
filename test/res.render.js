@@ -338,6 +338,21 @@ describe('res', function(){
         .expect(/Cannot read property '[^']+' of undefined/, done);
       })
     })
+
+    it('supports locals.variable', function(done){
+      var app = express();
+  
+      app.locals.user = { name: 'tobi' };
+
+      app.use(function(req, res){
+        res.render(__dirname + '/fixtures/locals_user.jade');
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>tobi</p>', done);
+    })
+
   })
 })
 
