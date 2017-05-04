@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  h1 Users
+  #users
+    for user, i in users
+      li
+        a(href="/user/#{i}")= user.name
+        a.edit(href="/user/#{i}/edit") edit

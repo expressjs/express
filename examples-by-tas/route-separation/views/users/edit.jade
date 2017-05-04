@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+  h1 Editing #{user.name}
+  #user
+    form(action="?_method=put", method="post")
+      p Name: 
+        input(type="text", value= user.name, name="user[name]")
+      p Email: 
+        input(type="text", value= user.email, name="user[email]")
+      p 
+        input(type="submit", value="Save")
