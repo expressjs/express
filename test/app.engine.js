@@ -1,7 +1,7 @@
 
-var express = require('../')
-  , fs = require('fs');
-var path = require('path')
+const express = require('../');
+const fs = require('fs');
+const path = require('path')
 
 function render(path, options, fn) {
   fs.readFile(path, 'utf8', function(err, str){
@@ -14,7 +14,7 @@ function render(path, options, fn) {
 describe('app', function(){
   describe('.engine(ext, fn)', function(){
     it('should map a template engine', function(done){
-      var app = express();
+      const app = express();
 
       app.set('views', path.join(__dirname, 'fixtures'))
       app.engine('.html', render);
@@ -28,14 +28,14 @@ describe('app', function(){
     })
 
     it('should throw when the callback is missing', function(){
-      var app = express();
+      const app = express();
       (function(){
         app.engine('.html', null);
       }).should.throw('callback function required');
     })
 
     it('should work without leading "."', function(done){
-      var app = express();
+      const app = express();
 
       app.set('views', path.join(__dirname, 'fixtures'))
       app.engine('html', render);
@@ -49,7 +49,7 @@ describe('app', function(){
     })
 
     it('should work "view engine" setting', function(done){
-      var app = express();
+      const app = express();
 
       app.set('views', path.join(__dirname, 'fixtures'))
       app.engine('html', render);
@@ -64,7 +64,7 @@ describe('app', function(){
     })
 
     it('should work "view engine" with leading "."', function(done){
-      var app = express();
+      const app = express();
 
       app.set('views', path.join(__dirname, 'fixtures'))
       app.engine('.html', render);

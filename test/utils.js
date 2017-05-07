@@ -1,6 +1,6 @@
 
-var assert = require('assert');
-var utils = require('../lib/utils');
+const assert = require('assert');
+const utils = require('../lib/utils');
 
 describe('utils.etag(body, encoding)', function(){
   it('should support strings', function(){

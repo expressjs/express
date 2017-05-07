@@ -1,12 +1,12 @@
 
-var express = require('..');
-var request = require('supertest');
-var utils = require('./support/utils');
+const express = require('..');
+const request = require('supertest');
+const utils = require('./support/utils');
 
 describe('res.vary()', function(){
   describe('with no arguments', function(){
     it('should not set Vary', function (done) {
-      var app = express();
+      const app = express();
 
       app.use(function (req, res) {
         res.vary();
@@ -22,7 +22,7 @@ describe('res.vary()', function(){
 
   describe('with an empty array', function(){
     it('should not set Vary', function (done) {
-      var app = express();
+      const app = express();
 
       app.use(function (req, res) {
         res.vary([]);
@@ -38,7 +38,7 @@ describe('res.vary()', function(){
 
   describe('with an array', function(){
     it('should set the values', function (done) {
-      var app = express();
+      const app = express();
 
       app.use(function (req, res) {
         res.vary(['Accept', 'Accept-Language', 'Accept-Encoding']);
@@ -54,7 +54,7 @@ describe('res.vary()', function(){
 
   describe('with a string', function(){
     it('should set the value', function (done) {
-      var app = express();
+      const app = express();
 
       app.use(function (req, res) {
         res.vary('Accept');
@@ -70,7 +70,7 @@ describe('res.vary()', function(){
 
   describe('when the value is present', function(){
     it('should not add it again', function (done) {
-      var app = express();
+      const app = express();
 
       app.use(function (req, res) {
         res.vary('Accept');

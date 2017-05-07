@@ -1,11 +1,10 @@
-
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('res', function(){
   describe('.type(str)', function(){
     it('should set the Content-Type based on a filename', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.type('foo.js').end('var name = "tj";');
@@ -17,7 +16,7 @@ describe('res', function(){
     })
 
     it('should default to application/octet-stream', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.type('rawr').end('var name = "tj";');
@@ -29,7 +28,7 @@ describe('res', function(){
     })
 
     it('should set the Content-Type with type/subtype', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.type('application/vnd.amazon.ebook')
