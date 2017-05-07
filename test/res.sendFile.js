@@ -712,13 +712,21 @@ describe('res', function(){
       describe('with non-GET', function(){
         it('should still serve', function(done){
 <<<<<<< HEAD
+<<<<<<< HEAD
           const app = express()
 =======
+=======
+>>>>>>> more var to const changes
 <<<<<<< HEAD
           var app = express()
 =======
           const app = express()
           var calls = 0;
+>>>>>>> more var to const changes
+<<<<<<< HEAD
+=======
+=======
+          const app = express()
 >>>>>>> more var to const changes
 >>>>>>> more var to const changes
 
