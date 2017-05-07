@@ -1,11 +1,11 @@
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('req', function(){
   describe('.route', function(){
     it('should be the executed Route', function(done){
-      var app = express();
+      const app = express();
 
       app.get('/user/:id/:op?', function(req, res, next){
         req.route.path.should.equal('/user/:id/:op?');

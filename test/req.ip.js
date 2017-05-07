@@ -1,13 +1,13 @@
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('req', function(){
   describe('.ip', function(){
     describe('when X-Forwarded-For is present', function(){
       describe('when "trust proxy" is enabled', function(){
         it('should return the client addr', function(done){
-          var app = express();
+          const app = express();
 
           app.enable('trust proxy');
 
@@ -22,7 +22,7 @@ describe('req', function(){
         })
 
         it('should return the addr after trusted proxy', function(done){
-          var app = express();
+          const app = express();
 
           app.set('trust proxy', 2);
 
@@ -37,7 +37,7 @@ describe('req', function(){
         })
 
         it('should return the addr after trusted proxy, from sub app', function (done) {
-          var app = express();
+          const app = express();
           var sub = express();
 
           app.set('trust proxy', 2);
@@ -56,7 +56,7 @@ describe('req', function(){
 
       describe('when "trust proxy" is disabled', function(){
         it('should return the remote address', function(done){
-          var app = express();
+          const app = express();
 
           app.use(function(req, res, next){
             res.send(req.ip);
@@ -71,7 +71,7 @@ describe('req', function(){
 
     describe('when X-Forwarded-For is not present', function(){
       it('should return the remote address', function(done){
-        var app = express();
+        const app = express();
 
         app.enable('trust proxy');
 

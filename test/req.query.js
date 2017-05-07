@@ -1,11 +1,11 @@
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('req', function(){
   describe('.query', function(){
     it('should default to {}', function(done){
-      var app = createApp();
+      const app = createApp();
 
       request(app)
       .get('/')
@@ -13,7 +13,7 @@ describe('req', function(){
     });
 
     it('should default to parse complex keys', function (done) {
-      var app = createApp();
+      const app = createApp();
 
       request(app)
       .get('/?user[name]=tj')
@@ -22,7 +22,7 @@ describe('req', function(){
 
     describe('when "query parser" is extended', function () {
       it('should parse complex keys', function (done) {
-        var app = createApp('extended');
+        const app = createApp('extended');
 
         request(app)
         .get('/?user[name]=tj')
@@ -30,7 +30,7 @@ describe('req', function(){
       });
 
       it('should parse parameters with dots', function (done) {
-        var app = createApp('extended');
+        const app = createApp('extended');
 
         request(app)
         .get('/?user.name=tj')
@@ -40,7 +40,7 @@ describe('req', function(){
 
     describe('when "query parser" is simple', function () {
       it('should not parse complex keys', function (done) {
-        var app = createApp('simple');
+        const app = createApp('simple');
 
         request(app)
         .get('/?user%5Bname%5D=tj')
@@ -50,7 +50,7 @@ describe('req', function(){
 
     describe('when "query parser" is a function', function () {
       it('should parse using function', function (done) {
-        var app = createApp(function (str) {
+        const app = createApp(function (str) {
           return {'length': (str || '').length};
         });
 
@@ -62,7 +62,7 @@ describe('req', function(){
 
     describe('when "query parser" disabled', function () {
       it('should not parse query', function (done) {
-        var app = createApp(false);
+        const app = createApp(false);
 
         request(app)
         .get('/?user%5Bname%5D=tj')
@@ -72,7 +72,7 @@ describe('req', function(){
 
     describe('when "query parser" disabled', function () {
       it('should not parse complex keys', function (done) {
-        var app = createApp(true);
+        const app = createApp(true);
 
         request(app)
         .get('/?user%5Bname%5D=tj')
@@ -82,7 +82,7 @@ describe('req', function(){
 
     describe('when "query parser fn" is missing', function () {
       it('should act like "extended"', function (done) {
-        var app = express();
+        const app = express();
 
         delete app.settings['query parser'];
         delete app.settings['query parser fn'];
@@ -106,7 +106,7 @@ describe('req', function(){
 })
 
 function createApp(setting) {
-  var app = express();
+  const app = express();
 
   if (setting !== undefined) {
     app.set('query parser', setting);

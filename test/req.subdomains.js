@@ -1,12 +1,12 @@
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('req', function(){
   describe('.subdomains', function(){
     describe('when present', function(){
       it('should return an array', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           res.send(req.subdomains);
@@ -19,7 +19,7 @@ describe('req', function(){
       })
 
       it('should work with IPv4 address', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           res.send(req.subdomains);
@@ -32,7 +32,7 @@ describe('req', function(){
       })
 
       it('should work with IPv6 address', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           res.send(req.subdomains);
@@ -47,7 +47,7 @@ describe('req', function(){
 
     describe('otherwise', function(){
       it('should return an empty array', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           res.send(req.subdomains);
@@ -62,7 +62,7 @@ describe('req', function(){
 
     describe('with no host', function(){
       it('should return an empty array', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           req.headers.host = null;
@@ -77,7 +77,7 @@ describe('req', function(){
 
     describe('with trusted X-Forwarded-Host', function () {
       it('should return an array', function (done) {
-        var app = express();
+        const app = express();
 
         app.set('trust proxy', true);
         app.use(function (req, res) {
@@ -94,7 +94,7 @@ describe('req', function(){
     describe('when subdomain offset is set', function(){
       describe('when subdomain offset is zero', function(){
         it('should return an array with the whole domain', function(done){
-          var app = express();
+          const app = express();
           app.set('subdomain offset', 0);
 
           app.use(function(req, res){
@@ -108,7 +108,7 @@ describe('req', function(){
         })
 
         it('should return an array with the whole IPv4', function (done) {
-          var app = express();
+          const app = express();
           app.set('subdomain offset', 0);
 
           app.use(function(req, res){
@@ -122,7 +122,7 @@ describe('req', function(){
         })
 
         it('should return an array with the whole IPv6', function (done) {
-          var app = express();
+          const app = express();
           app.set('subdomain offset', 0);
 
           app.use(function(req, res){
@@ -138,7 +138,7 @@ describe('req', function(){
 
       describe('when present', function(){
         it('should return an array', function(done){
-          var app = express();
+          const app = express();
           app.set('subdomain offset', 3);
 
           app.use(function(req, res){
@@ -154,7 +154,7 @@ describe('req', function(){
 
       describe('otherwise', function(){
         it('should return an empty array', function(done){
-          var app = express();
+          const app = express();
           app.set('subdomain offset', 3);
 
           app.use(function(req, res){

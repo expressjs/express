@@ -1,11 +1,11 @@
 
-var express = require('..')
-var request = require('supertest')
+const express = require('..')
+const request = require('supertest')
 
 describe('req.is()', function () {
   describe('when given a mime type', function () {
     it('should return the type when matching', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.is('application/json'))
@@ -19,7 +19,7 @@ describe('req.is()', function () {
     })
 
     it('should return false when not matching', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.is('image/jpeg'))
@@ -33,7 +33,7 @@ describe('req.is()', function () {
     })
 
     it('should ignore charset', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.is('application/json'))
@@ -49,7 +49,7 @@ describe('req.is()', function () {
 
   describe('when content-type is not present', function(){
     it('should return false', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.is('application/json'))
@@ -64,7 +64,7 @@ describe('req.is()', function () {
 
   describe('when given an extension', function(){
     it('should lookup the mime type', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.is('json'))
@@ -80,7 +80,7 @@ describe('req.is()', function () {
 
   describe('when given */subtype', function(){
     it('should return the full type when matching', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.is('*/json'))
@@ -94,7 +94,7 @@ describe('req.is()', function () {
     })
 
     it('should return false when not matching', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.is('*/html'))
@@ -108,7 +108,7 @@ describe('req.is()', function () {
     })
 
     it('should ignore charset', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.is('*/json'))
@@ -124,7 +124,7 @@ describe('req.is()', function () {
 
   describe('when given type/*', function(){
     it('should return the full type when matching', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.is('application/*'))
@@ -138,7 +138,7 @@ describe('req.is()', function () {
     })
 
     it('should return false when not matching', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.is('text/*'))
@@ -152,7 +152,7 @@ describe('req.is()', function () {
     })
 
     it('should ignore charset', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.is('application/*'))

@@ -1,11 +1,11 @@
 
-var express = require('..');
-var request = require('supertest')
+const express = require('..');
+const request = require('supertest')
 
 describe('req', function(){
   describe('.range(size)', function(){
     it('should return parsed ranges', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.range(120))
@@ -18,7 +18,7 @@ describe('req', function(){
     })
 
     it('should cap to the given size', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.range(75))
@@ -31,7 +31,7 @@ describe('req', function(){
     })
 
     it('should cap to the given size when open-ended', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.range(75))
@@ -44,7 +44,7 @@ describe('req', function(){
     })
 
     it('should have a .type', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.range(120).type)
@@ -57,7 +57,7 @@ describe('req', function(){
     })
 
     it('should accept any type', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.json(req.range(120).type)
@@ -70,7 +70,7 @@ describe('req', function(){
     })
 
     it('should return undefined if no range', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.send(String(req.range(120)))
@@ -85,7 +85,7 @@ describe('req', function(){
   describe('.range(size, options)', function(){
     describe('with "combine: true" option', function(){
       it('should return combined ranges', function (done) {
-        var app = express()
+        const app = express()
 
         app.use(function (req, res) {
           res.json(req.range(120, {

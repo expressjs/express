@@ -1,13 +1,13 @@
 
-var express = require('..');
-var path = require('path')
-var request = require('supertest');
-var tmpl = require('./support/tmpl');
+const express = require('..');
+const path = require('path')
+const request = require('supertest');
+const tmpl = require('./support/tmpl');
 
 describe('res', function(){
   describe('.render(name)', function(){
     it('should support absolute paths', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.locals.user = { name: 'tobi' };
 
@@ -21,7 +21,7 @@ describe('res', function(){
     })
 
     it('should support absolute paths with "view engine"', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.locals.user = { name: 'tobi' };
       app.set('view engine', 'tmpl');
@@ -36,7 +36,7 @@ describe('res', function(){
     })
 
     it('should error without "view engine" set and no file extension', function (done) {
-      var app = createApp();
+      const app = createApp();
 
       app.locals.user = { name: 'tobi' };
 
@@ -50,7 +50,7 @@ describe('res', function(){
     })
 
     it('should expose app.locals', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.set('views', path.join(__dirname, 'fixtures'))
       app.locals.user = { name: 'tobi' };
@@ -65,7 +65,7 @@ describe('res', function(){
     })
 
     it('should expose app.locals with `name` property', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.set('views', path.join(__dirname, 'fixtures'))
       app.locals.name = 'tobi';
@@ -80,7 +80,7 @@ describe('res', function(){
     })
 
     it('should support index.<engine>', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.set('views', path.join(__dirname, 'fixtures'))
       app.set('view engine', 'tmpl');
@@ -96,7 +96,7 @@ describe('res', function(){
 
     describe('when an error occurs', function(){
       it('should next(err)', function(done){
-        var app = createApp();
+        const app = createApp();
 
         app.set('views', path.join(__dirname, 'fixtures'))
 
@@ -116,7 +116,7 @@ describe('res', function(){
 
     describe('when "view engine" is given', function(){
       it('should render the template', function(done){
-        var app = createApp();
+        const app = createApp();
 
         app.set('view engine', 'tmpl');
         app.set('views', path.join(__dirname, 'fixtures'))
@@ -133,7 +133,7 @@ describe('res', function(){
 
     describe('when "views" is given', function(){
       it('should lookup the file in the path', function(done){
-        var app = createApp();
+        const app = createApp();
 
         app.set('views', path.join(__dirname, 'fixtures', 'default_layout'))
 
@@ -148,8 +148,8 @@ describe('res', function(){
 
       describe('when array of paths', function(){
         it('should lookup the file in the path', function(done){
-          var app = createApp();
-          var views = [
+          const app = createApp();
+          const views = [
             path.join(__dirname, 'fixtures', 'local_layout'),
             path.join(__dirname, 'fixtures', 'default_layout')
           ]
@@ -166,8 +166,8 @@ describe('res', function(){
         })
 
         it('should lookup in later paths until found', function(done){
-          var app = createApp();
-          var views = [
+          const app = createApp();
+          const views = [
             path.join(__dirname, 'fixtures', 'local_layout'),
             path.join(__dirname, 'fixtures', 'default_layout')
           ]
@@ -188,11 +188,11 @@ describe('res', function(){
 
   describe('.render(name, option)', function(){
     it('should render the template', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.set('views', path.join(__dirname, 'fixtures'))
 
-      var user = { name: 'tobi' };
+      const user = { name: 'tobi' };
 
       app.use(function(req, res){
         res.render('user.tmpl', { user: user });
@@ -204,7 +204,7 @@ describe('res', function(){
     })
 
     it('should expose app.locals', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.set('views', path.join(__dirname, 'fixtures'))
       app.locals.user = { name: 'tobi' };
@@ -219,7 +219,7 @@ describe('res', function(){
     })
 
     it('should expose res.locals', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.set('views', path.join(__dirname, 'fixtures'))
 
@@ -234,7 +234,7 @@ describe('res', function(){
     })
 
     it('should give precedence to res.locals over app.locals', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.set('views', path.join(__dirname, 'fixtures'))
       app.locals.user = { name: 'tobi' };
@@ -250,10 +250,10 @@ describe('res', function(){
     })
 
     it('should give precedence to res.render() locals over res.locals', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.set('views', path.join(__dirname, 'fixtures'))
-      var jane = { name: 'jane' };
+      const jane = { name: 'jane' };
 
       app.use(function(req, res){
         res.locals.user = { name: 'tobi' };
@@ -266,11 +266,11 @@ describe('res', function(){
     })
 
     it('should give precedence to res.render() locals over app.locals', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.set('views', path.join(__dirname, 'fixtures'))
       app.locals.user = { name: 'tobi' };
-      var jane = { name: 'jane' };
+      const jane = { name: 'jane' };
 
       app.use(function(req, res){
         res.render('user.tmpl', { user: jane });
@@ -284,7 +284,7 @@ describe('res', function(){
 
   describe('.render(name, options, fn)', function(){
     it('should pass the resulting string', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.set('views', path.join(__dirname, 'fixtures'))
 
@@ -304,7 +304,7 @@ describe('res', function(){
 
   describe('.render(name, fn)', function(){
     it('should pass the resulting string', function(done){
-      var app = createApp();
+      const app = createApp();
 
       app.set('views', path.join(__dirname, 'fixtures'))
 
@@ -323,7 +323,7 @@ describe('res', function(){
 
     describe('when an error occurs', function(){
       it('should pass it to the callback', function(done){
-        var app = createApp();
+        const app = createApp();
 
         app.set('views', path.join(__dirname, 'fixtures'))
 
@@ -342,7 +342,7 @@ describe('res', function(){
 })
 
 function createApp() {
-  var app = express();
+  const app = express();
 
   app.engine('.tmpl', tmpl);
 

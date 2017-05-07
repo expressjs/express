@@ -1,9 +1,9 @@
 
-var express = require('../')
-  , request = require('supertest')
-  , assert = require('assert');
+const express = require('../')
+const request = require('supertest')
+const assert = require('assert');
 
-var app1 = express();
+const app1 = express();
 
 app1.use(function(req, res, next){
   res.format({
@@ -29,7 +29,7 @@ app1.use(function(err, req, res, next){
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
-var app2 = express();
+const app2 = express();
 
 app2.use(function(req, res, next){
   res.format({
@@ -43,7 +43,7 @@ app2.use(function(err, req, res, next){
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
-var app3 = express();
+const app3 = express();
 
 app3.use(function(req, res, next){
   res.format({
@@ -52,7 +52,7 @@ app3.use(function(req, res, next){
   })
 });
 
-var app4 = express();
+const app4 = express();
 
 app4.get('/', function(req, res, next){
   res.format({
@@ -66,7 +66,7 @@ app4.use(function(err, req, res, next){
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
-var app5 = express();
+const app5 = express();
 
 app5.use(function (req, res, next) {
   res.format({
@@ -85,7 +85,7 @@ describe('res', function(){
     })
 
     describe('with parameters', function(){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res, next){
         res.format({
@@ -123,8 +123,8 @@ describe('res', function(){
     })
 
     describe('in router', function(){
-      var app = express();
-      var router = express.Router();
+      const app = express();
+      const router = express.Router();
 
       router.get('/', function(req, res, next){
         res.format({

@@ -1,13 +1,13 @@
 
-var express = require('../')
-  , request = require('supertest')
-  , assert = require('assert');
-var utils = require('./support/utils');
+const express = require('../')
+const request = require('supertest')
+const assert = require('assert');
+const utils = require('./support/utils');
 
 describe('res', function(){
   describe('.jsonp(object)', function(){
     it('should respond with jsonp', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.jsonp({ count: 1 });
@@ -20,7 +20,7 @@ describe('res', function(){
     })
 
     it('should use first callback parameter with jsonp', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.jsonp({ count: 1 });
@@ -33,7 +33,7 @@ describe('res', function(){
     })
 
     it('should ignore object callback parameter with jsonp', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.jsonp({ count: 1 });
@@ -46,7 +46,7 @@ describe('res', function(){
     })
 
     it('should allow renaming callback', function(done){
-      var app = express();
+      const app = express();
 
       app.set('jsonp callback name', 'clb');
 
@@ -61,7 +61,7 @@ describe('res', function(){
     })
 
     it('should allow []', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.jsonp({ count: 1 });
@@ -74,7 +74,7 @@ describe('res', function(){
     })
 
     it('should disallow arbitrary js', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.jsonp({});
@@ -87,7 +87,7 @@ describe('res', function(){
     })
 
     it('should escape utf whitespace', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.jsonp({ str: '\u2028 \u2029 woot' });
@@ -100,7 +100,7 @@ describe('res', function(){
     });
 
     it('should not escape utf whitespace for json fallback', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.jsonp({ str: '\u2028 \u2029 woot' });
@@ -113,7 +113,7 @@ describe('res', function(){
     });
 
     it('should include security header and prologue', function (done) {
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.jsonp({ count: 1 });
@@ -127,7 +127,7 @@ describe('res', function(){
     })
 
     it('should not override previous Content-Types with no callback', function(done){
-      var app = express();
+      const app = express();
 
       app.get('/', function(req, res){
         res.type('application/vnd.example+json');
@@ -142,7 +142,7 @@ describe('res', function(){
     })
 
     it('should override previous Content-Types with callback', function(done){
-      var app = express();
+      const app = express();
 
       app.get('/', function(req, res){
         res.type('application/vnd.example+json');
@@ -158,7 +158,7 @@ describe('res', function(){
 
     describe('when given primitives', function(){
       it('should respond with json', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           res.jsonp(null);
@@ -173,7 +173,7 @@ describe('res', function(){
 
     describe('when given an array', function(){
       it('should respond with json', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           res.jsonp(['foo', 'bar', 'baz']);
@@ -188,7 +188,7 @@ describe('res', function(){
 
     describe('when given an object', function(){
       it('should respond with json', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           res.jsonp({ name: 'tobi' });
@@ -203,7 +203,7 @@ describe('res', function(){
 
     describe('when given primitives', function(){
       it('should respond with json for null', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           res.jsonp(null);
@@ -216,7 +216,7 @@ describe('res', function(){
       })
 
       it('should respond with json for Number', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           res.jsonp(300);
@@ -229,7 +229,7 @@ describe('res', function(){
       })
 
       it('should respond with json for String', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           res.jsonp('str');
@@ -244,7 +244,7 @@ describe('res', function(){
 
     describe('"json replacer" setting', function(){
       it('should be passed to JSON.stringify()', function(done){
-        var app = express();
+        const app = express();
 
         app.set('json replacer', function(key, val){
           return '_' == key[0]
@@ -265,12 +265,12 @@ describe('res', function(){
 
     describe('"json spaces" setting', function(){
       it('should be undefined by default', function(){
-        var app = express();
+        const app = express();
         assert(undefined === app.get('json spaces'));
       })
 
       it('should be passed to JSON.stringify()', function(done){
-        var app = express();
+        const app = express();
 
         app.set('json spaces', 2);
 
@@ -288,7 +288,7 @@ describe('res', function(){
 
   describe('.jsonp(status, object)', function(){
     it('should respond with json and set the .statusCode', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.jsonp(201, { id: 1 });
@@ -303,7 +303,7 @@ describe('res', function(){
 
   describe('.jsonp(object, status)', function(){
     it('should respond with json and set the .statusCode for backwards compat', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.jsonp({ id: 1 }, 201);
@@ -316,7 +316,7 @@ describe('res', function(){
     })
 
     it('should use status as second number for backwards compat', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.jsonp(200, 201);
@@ -330,7 +330,7 @@ describe('res', function(){
   })
 
   it('should not override previous Content-Types', function(done){
-    var app = express();
+    const app = express();
 
     app.get('/', function(req, res){
       res.type('application/vnd.example+json');

@@ -1,11 +1,11 @@
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('res', function(){
   describe('.attachment()', function(){
     it('should Content-Disposition to attachment', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.attachment().send('foo');
@@ -19,7 +19,7 @@ describe('res', function(){
 
   describe('.attachment(filename)', function(){
     it('should add the filename param', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.attachment('/path/to/image.png');
@@ -32,7 +32,7 @@ describe('res', function(){
     })
 
     it('should set the Content-Type', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.attachment('/path/to/image.png');
@@ -47,7 +47,7 @@ describe('res', function(){
 
   describe('.attachment(utf8filename)', function(){
     it('should add the filename and filename* params', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.attachment('/locales/日本語.txt');
@@ -61,7 +61,7 @@ describe('res', function(){
     })
 
     it('should set the Content-Type', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.attachment('/locales/日本語.txt');

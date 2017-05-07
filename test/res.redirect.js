@@ -1,12 +1,12 @@
 
-var express = require('..');
-var request = require('supertest');
-var utils = require('./support/utils');
+const express = require('..');
+const request = require('supertest');
+const utils = require('./support/utils');
 
 describe('res', function(){
   describe('.redirect(url)', function(){
     it('should default to a 302 redirect', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.redirect('http://google.com');
@@ -19,7 +19,7 @@ describe('res', function(){
     })
 
     it('should encode "url"', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.redirect('https://google.com?q=\u2603 §10')
@@ -32,7 +32,7 @@ describe('res', function(){
     })
 
     it('should not touch already-encoded sequences in "url"', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.redirect('https://google.com?q=%A710')
@@ -47,7 +47,7 @@ describe('res', function(){
 
   describe('.redirect(status, url)', function(){
     it('should set the response status', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.redirect(303, 'http://google.com');
@@ -62,7 +62,7 @@ describe('res', function(){
 
   describe('.redirect(url, status)', function(){
     it('should set the response status', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.redirect('http://google.com', 303);
@@ -77,7 +77,7 @@ describe('res', function(){
 
   describe('when the request method is HEAD', function(){
     it('should ignore the body', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.redirect('http://google.com');
@@ -92,7 +92,7 @@ describe('res', function(){
 
   describe('when accepting html', function(){
     it('should respond with html', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.redirect('http://google.com');
@@ -107,7 +107,7 @@ describe('res', function(){
     })
 
     it('should escape the url', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.redirect('<la\'me>');
@@ -123,7 +123,7 @@ describe('res', function(){
     })
 
     it('should include the redirect type', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.redirect(301, 'http://google.com');
@@ -140,7 +140,7 @@ describe('res', function(){
 
   describe('when accepting text', function(){
     it('should respond with text', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.redirect('http://google.com');
@@ -155,7 +155,7 @@ describe('res', function(){
     })
 
     it('should encode the url', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.redirect('http://example.com/?param=<script>alert("hax");</script>');
@@ -171,7 +171,7 @@ describe('res', function(){
     })
 
     it('should include the redirect type', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.redirect(301, 'http://google.com');
@@ -188,7 +188,7 @@ describe('res', function(){
 
   describe('when accepting neither text or html', function(){
     it('should respond with an empty body', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.redirect('http://google.com');

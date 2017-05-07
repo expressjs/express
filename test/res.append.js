@@ -1,7 +1,7 @@
 
-var express = require('..')
-var request = require('supertest')
-var should = require('should')
+const express = require('..')
+const request = require('supertest')
+const should = require('should')
 
 describe('res', function () {
   // note about these tests: "Link" and "X-*" are chosen because
@@ -10,7 +10,7 @@ describe('res', function () {
   // for outgoing, though
   describe('.append(field, val)', function () {
     it('should append multiple headers', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res, next) {
         res.append('Link', '<http://localhost/>')
@@ -28,7 +28,7 @@ describe('res', function () {
     })
 
     it('should accept array of values', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res, next) {
         res.append('Set-Cookie', ['foo=bar', 'fizz=buzz'])
@@ -44,7 +44,7 @@ describe('res', function () {
     })
 
     it('should get reset by res.set(field, val)', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res, next) {
         res.append('Link', '<http://localhost/>')
@@ -63,7 +63,7 @@ describe('res', function () {
     })
 
     it('should work with res.set(field, val) first', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res, next) {
         res.set('Link', '<http://localhost/>')
@@ -81,7 +81,7 @@ describe('res', function () {
     })
 
     it('should work with cookies', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res, next) {
         res.cookie('foo', 'bar')

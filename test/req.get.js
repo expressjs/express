@@ -1,12 +1,12 @@
 
-var express = require('../')
-  , request = require('supertest')
-  , assert = require('assert');
+const express = require('../')
+const request = require('supertest')
+const assert = require('assert');
 
 describe('req', function(){
   describe('.get(field)', function(){
     it('should return the header field value', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         assert(req.get('Something-Else') === undefined);
@@ -20,7 +20,7 @@ describe('req', function(){
     })
 
     it('should special-case Referer', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.end(req.get('Referer'));
@@ -33,7 +33,7 @@ describe('req', function(){
     })
 
     it('should throw missing header name', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.end(req.get())
@@ -45,7 +45,7 @@ describe('req', function(){
     })
 
     it('should throw for non-string header name', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.end(req.get(42))

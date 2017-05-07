@@ -1,12 +1,12 @@
 
-var express = require('../')
-  , request = require('supertest')
-  , cookieParser = require('cookie-parser')
+const express = require('../')
+const request = require('supertest')
+const cookieParser = require('cookie-parser')
 
 describe('req', function(){
   describe('.signedCookies', function(){
     it('should return a signed JSON cookie', function(done){
-      var app = express();
+      const app = express();
 
       app.use(cookieParser('secret'));
 
@@ -23,7 +23,7 @@ describe('req', function(){
       .get('/set')
       .end(function(err, res){
         if (err) return done(err);
-        var cookie = res.header['set-cookie'];
+        const cookie = res.header['set-cookie'];
 
         request(app)
         .get('/')

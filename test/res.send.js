@@ -1,13 +1,13 @@
 
-var express = require('..');
-var methods = require('methods');
-var request = require('supertest');
-var utils = require('./support/utils');
+const express = require('..');
+const methods = require('methods');
+const request = require('supertest');
+const utils = require('./support/utils');
 
 describe('res', function(){
   describe('.send()', function(){
     it('should set body to ""', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.send();
@@ -21,7 +21,7 @@ describe('res', function(){
 
   describe('.send(null)', function(){
     it('should set body to ""', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.send(null);
@@ -36,7 +36,7 @@ describe('res', function(){
 
   describe('.send(undefined)', function(){
     it('should set body to ""', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.send(undefined);
@@ -50,7 +50,7 @@ describe('res', function(){
 
   describe('.send(code)', function(){
     it('should set .statusCode', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.send(201).should.equal(res);
@@ -65,7 +65,7 @@ describe('res', function(){
 
   describe('.send(code, body)', function(){
     it('should set .statusCode and body', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.send(201, 'Created :)');
@@ -80,7 +80,7 @@ describe('res', function(){
 
   describe('.send(body, code)', function(){
     it('should be supported for backwards compat', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.send('Bad!', 400);
@@ -95,7 +95,7 @@ describe('res', function(){
 
   describe('.send(code, number)', function(){
     it('should send number as json', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.send(200, 0.123);
@@ -110,7 +110,7 @@ describe('res', function(){
 
   describe('.send(String)', function(){
     it('should send as html', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.send('<p>hey</p>');
@@ -123,7 +123,7 @@ describe('res', function(){
     })
 
     it('should set ETag', function (done) {
-      var app = express();
+      const app = express();
 
       app.use(function (req, res) {
         var str = Array(1000).join('-');
@@ -137,7 +137,7 @@ describe('res', function(){
     })
 
     it('should not override Content-Type', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.set('Content-Type', 'text/plain').send('hey');
@@ -150,7 +150,7 @@ describe('res', function(){
     })
 
     it('should override charset in Content-Type', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.set('Content-Type', 'text/plain; charset=iso-8859-1').send('hey');
@@ -163,7 +163,7 @@ describe('res', function(){
     })
 
     it('should keep charset in Content-Type for Buffers', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.set('Content-Type', 'text/plain; charset=iso-8859-1').send(new Buffer('hi'));
@@ -178,7 +178,7 @@ describe('res', function(){
 
   describe('.send(Buffer)', function(){
     it('should send as octet-stream', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.send(new Buffer('hello'));
@@ -191,7 +191,7 @@ describe('res', function(){
     })
 
     it('should set ETag', function (done) {
-      var app = express();
+      const app = express();
 
       app.use(function (req, res) {
         var str = Array(1000).join('-');
@@ -205,7 +205,7 @@ describe('res', function(){
     })
 
     it('should not override Content-Type', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.set('Content-Type', 'text/plain').send(new Buffer('hey'));
@@ -220,7 +220,7 @@ describe('res', function(){
 
   describe('.send(Object)', function(){
     it('should send as application/json', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.send({ name: 'tobi' });
@@ -235,7 +235,7 @@ describe('res', function(){
 
   describe('when the request method is HEAD', function(){
     it('should ignore the body', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.send('yay');
@@ -249,7 +249,7 @@ describe('res', function(){
 
   describe('when .statusCode is 204', function(){
     it('should strip Content-* fields, Transfer-Encoding field, and body', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.status(204).set('Transfer-Encoding', 'chunked').send('foo');
@@ -266,7 +266,7 @@ describe('res', function(){
 
   describe('when .statusCode is 304', function(){
     it('should strip Content-* fields, Transfer-Encoding field, and body', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.status(304).set('Transfer-Encoding', 'chunked').send('foo');
@@ -282,7 +282,7 @@ describe('res', function(){
   })
 
   it('should always check regardless of length', function(done){
-    var app = express();
+    const app = express();
     var etag = '"asdf"';
 
     app.use(function(req, res, next){
@@ -297,7 +297,7 @@ describe('res', function(){
   })
 
   it('should respond with 304 Not Modified when fresh', function(done){
-    var app = express();
+    const app = express();
     var etag = '"asdf"';
 
     app.use(function(req, res){
@@ -313,7 +313,7 @@ describe('res', function(){
   })
 
   it('should not perform freshness check unless 2xx or 304', function(done){
-    var app = express();
+    const app = express();
     var etag = '"asdf"';
 
     app.use(function(req, res, next){
@@ -330,7 +330,7 @@ describe('res', function(){
   })
 
   it('should not support jsonp callbacks', function(done){
-    var app = express();
+    const app = express();
 
     app.use(function(req, res){
       res.send({ foo: 'bar' });
@@ -344,7 +344,7 @@ describe('res', function(){
   describe('"etag" setting', function () {
     describe('when enabled', function () {
       it('should send ETag', function (done) {
-        var app = express();
+        const app = express();
 
         app.use(function (req, res) {
           res.send('kajdslfkasdf');
@@ -362,7 +362,7 @@ describe('res', function(){
         if (method === 'connect') return;
 
         it('should send ETag in response to ' + method.toUpperCase() + ' request', function (done) {
-          var app = express();
+          const app = express();
 
           app[method]('/', function (req, res) {
             res.send('kajdslfkasdf');
@@ -376,7 +376,7 @@ describe('res', function(){
       });
 
       it('should send ETag for empty string response', function (done) {
-        var app = express();
+        const app = express();
 
         app.use(function (req, res) {
           res.send('');
@@ -391,7 +391,7 @@ describe('res', function(){
       })
 
       it('should send ETag for long response', function (done) {
-        var app = express();
+        const app = express();
 
         app.use(function (req, res) {
           var str = Array(1000).join('-');
@@ -407,7 +407,7 @@ describe('res', function(){
       });
 
       it('should not override ETag when manually set', function (done) {
-        var app = express();
+        const app = express();
 
         app.use(function (req, res) {
           res.set('etag', '"asdf"');
@@ -423,7 +423,7 @@ describe('res', function(){
       });
 
       it('should not send ETag for res.send()', function (done) {
-        var app = express();
+        const app = express();
 
         app.use(function (req, res) {
           res.send();
@@ -440,7 +440,7 @@ describe('res', function(){
 
     describe('when disabled', function () {
       it('should send no ETag', function (done) {
-        var app = express();
+        const app = express();
 
         app.use(function (req, res) {
           var str = Array(1000).join('-');
@@ -456,7 +456,7 @@ describe('res', function(){
       });
 
       it('should send ETag when manually set', function (done) {
-        var app = express();
+        const app = express();
 
         app.disable('etag');
 
@@ -474,7 +474,7 @@ describe('res', function(){
 
     describe('when "strong"', function () {
       it('should send strong ETag', function (done) {
-        var app = express();
+        const app = express();
 
         app.set('etag', 'strong');
 
@@ -491,7 +491,7 @@ describe('res', function(){
 
     describe('when "weak"', function () {
       it('should send weak ETag', function (done) {
-        var app = express();
+        const app = express();
 
         app.set('etag', 'weak');
 
@@ -508,7 +508,7 @@ describe('res', function(){
 
     describe('when a function', function () {
       it('should send custom ETag', function (done) {
-        var app = express();
+        const app = express();
 
         app.set('etag', function (body, encoding) {
           var chunk = !Buffer.isBuffer(body)
@@ -529,7 +529,7 @@ describe('res', function(){
       })
 
       it('should not send falsy ETag', function (done) {
-        var app = express();
+        const app = express();
 
         app.set('etag', function (body, encoding) {
           return undefined;

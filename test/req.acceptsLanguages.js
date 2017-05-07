@@ -1,11 +1,11 @@
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('req', function(){
   describe('.acceptsLanguages', function(){
     it('should be true if language accepted', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         req.acceptsLanguages('en-us').should.be.ok()
@@ -20,7 +20,7 @@ describe('req', function(){
     })
 
     it('should be false if language not accepted', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         req.acceptsLanguages('es').should.not.be.ok()
@@ -35,7 +35,7 @@ describe('req', function(){
 
     describe('when Accept-Language is not present', function(){
       it('should always return true', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           req.acceptsLanguages('en').should.be.ok()

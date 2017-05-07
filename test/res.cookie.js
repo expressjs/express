@@ -1,14 +1,14 @@
 
-var express = require('../')
-  , request = require('supertest')
-  , cookie = require('cookie')
-  , cookieParser = require('cookie-parser')
-var merge = require('utils-merge');
+const express = require('../')
+const request = require('supertest')
+const cookie = require('cookie')
+const cookieParser = require('cookie-parser')
+const merge = require('utils-merge');
 
 describe('res', function(){
   describe('.cookie(name, object)', function(){
     it('should generate a JSON cookie', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.cookie('user', { name: 'tobi' }).end();
@@ -23,7 +23,7 @@ describe('res', function(){
 
   describe('.cookie(name, string)', function(){
     it('should set a cookie', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.cookie('name', 'tobi').end();
@@ -36,7 +36,7 @@ describe('res', function(){
     })
 
     it('should allow multiple calls', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.cookie('name', 'tobi');
@@ -57,7 +57,7 @@ describe('res', function(){
 
   describe('.cookie(name, string, options)', function(){
     it('should set params', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.cookie('name', 'tobi', { httpOnly: true, secure: true });
@@ -72,7 +72,7 @@ describe('res', function(){
 
     describe('maxAge', function(){
       it('should set relative expires', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           res.cookie('name', 'tobi', { maxAge: 1000 });
@@ -88,7 +88,7 @@ describe('res', function(){
       })
 
       it('should set max-age', function(done){
-        var app = express();
+        const app = express();
 
         app.use(function(req, res){
           res.cookie('name', 'tobi', { maxAge: 1000 });
@@ -101,7 +101,7 @@ describe('res', function(){
       })
 
       it('should not mutate the options object', function(done){
-        var app = express();
+        const app = express();
 
         var options = { maxAge: 1000 };
         var optionsCopy = merge({}, options);
@@ -122,7 +122,7 @@ describe('res', function(){
 
     describe('signed', function(){
       it('should generate a signed JSON cookie', function(done){
-        var app = express();
+        const app = express();
 
         app.use(cookieParser('foo bar baz'));
 
@@ -143,7 +143,7 @@ describe('res', function(){
 
     describe('signed without secret', function(){
       it('should throw an error', function(done){
-        var app = express();
+        const app = express();
 
         app.use(cookieParser());
 
@@ -159,7 +159,7 @@ describe('res', function(){
 
     describe('.signedCookie(name, string)', function(){
       it('should set a signed cookie', function(done){
-        var app = express();
+        const app = express();
 
         app.use(cookieParser('foo bar baz'));
 
