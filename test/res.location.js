@@ -1,11 +1,11 @@
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('res', function(){
   describe('.location(url)', function(){
     it('should set the header', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.location('http://google.com').end();
@@ -18,7 +18,7 @@ describe('res', function(){
     })
 
     it('should encode "url"', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.location('https://google.com?q=\u2603 §10').end()
@@ -31,7 +31,7 @@ describe('res', function(){
     })
 
     it('should not touch already-encoded sequences in "url"', function (done) {
-      var app = express()
+      const app = express()
 
       app.use(function (req, res) {
         res.location('https://google.com?q=%A710').end()

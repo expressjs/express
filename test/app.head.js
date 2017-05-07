@@ -1,11 +1,11 @@
 
-var express = require('../');
-var request = require('supertest');
-var assert = require('assert');
+const express = require('../');
+const request = require('supertest');
+const assert = require('assert');
 
 describe('HEAD', function(){
   it('should default to GET', function(done){
-    var app = express();
+    const app = express();
 
     app.get('/tobi', function(req, res){
       // send() detects HEAD
@@ -45,8 +45,8 @@ describe('HEAD', function(){
 
 describe('app.head()', function(){
   it('should override', function(done){
-    var app = express()
-      , called;
+    const app = express()
+    var called;
 
     app.head('/tobi', function(req, res){
       called = true;

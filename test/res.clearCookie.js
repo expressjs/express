@@ -1,11 +1,11 @@
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('res', function(){
   describe('.clearCookie(name)', function(){
     it('should set a cookie passed expiry', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.clearCookie('sid').end();
@@ -20,7 +20,7 @@ describe('res', function(){
 
   describe('.clearCookie(name, options)', function(){
     it('should set the given params', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.clearCookie('sid', { path: '/admin' }).end();

@@ -1,11 +1,11 @@
 
-var express = require('..');
-var request = require('supertest');
+const express = require('..');
+const request = require('supertest');
 
 describe('res', function(){
   describe('.get(field)', function(){
     it('should get the response header field', function (done) {
-      var app = express();
+      const app = express();
 
       app.use(function (req, res) {
         res.setHeader('Content-Type', 'text/x-foo');

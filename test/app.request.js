@@ -1,6 +1,6 @@
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('app', function(){
   describe('.request', function(){
