@@ -1,11 +1,11 @@
 
-var express = require('..')
-var request = require('supertest')
+const express = require('..')
+const request = require('supertest')
 
 describe('res', function () {
   describe('.sendStatus(statusCode)', function () {
     it('should send the status code and message as body', function (done) {
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.sendStatus(201);
@@ -17,7 +17,7 @@ describe('res', function () {
     })
 
     it('should work with unknown code', function (done) {
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.sendStatus(599);

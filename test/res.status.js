@@ -1,11 +1,11 @@
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('res', function(){
   describe('.status(code)', function(){
     it('should set the response .statusCode', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         res.status(201).end('Created');

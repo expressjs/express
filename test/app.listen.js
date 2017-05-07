@@ -1,15 +1,15 @@
 
-var express = require('../')
+const express = require('../')
 
 describe('app.listen()', function(){
   it('should wrap with an HTTP server', function(done){
-    var app = express();
+    const app = express();
 
     app.del('/tobi', function(req, res){
       res.end('deleted tobi!');
     });
 
-    var server = app.listen(9999, function(){
+    const server = app.listen(9999, function(){
       server.close();
       done();
     });

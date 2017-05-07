@@ -1,6 +1,6 @@
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('throw after .end()', function(){
   it('should fail gracefully', function(done){

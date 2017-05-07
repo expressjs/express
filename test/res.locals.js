@@ -1,11 +1,11 @@
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest');
 
 describe('res', function(){
   describe('.locals', function(){
     it('should be empty by default', function(done){
-      var app = express();
+      const app = express();
 
       app.use(function(req, res){
         Object.keys(res.locals).should.eql([]);
@@ -19,8 +19,8 @@ describe('res', function(){
   })
 
   it('should work when mounted', function(done){
-    var app = express();
-    var blog = express();
+    const app = express();
+    const blog = express();
 
     app.use(blog);
 
