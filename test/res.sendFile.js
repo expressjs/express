@@ -711,7 +711,16 @@ describe('res', function(){
 
       describe('with non-GET', function(){
         it('should still serve', function(done){
+<<<<<<< HEAD
           const app = express()
+=======
+<<<<<<< HEAD
+          var app = express()
+=======
+          const app = express()
+          var calls = 0;
+>>>>>>> more var to const changes
+>>>>>>> more var to const changes
 
           app.use(function(req, res){
             res.sendfile(path.join(__dirname, '/fixtures/name.txt'))

@@ -1,6 +1,11 @@
 
+<<<<<<< HEAD
 const express = require('../')
 const request = require('supertest')
+=======
+const express = require('../');
+const request = require('supertest');
+>>>>>>> more var to const changes
 const assert = require('assert');
 
 const app1 = express();
