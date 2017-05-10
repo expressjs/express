@@ -14,6 +14,7 @@
   ],
   "license": "MIT",
   "repository": "expressjs/express",
+  "bugs": "https://github.com/expressjs/express/issues",
   "homepage": "http://expressjs.com/",
   "keywords": [
     "express",
