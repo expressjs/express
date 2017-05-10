@@ -21,7 +21,7 @@ app.listen(3000)
 
 ## Installation
 
-```bash
+```bash''
 $ npm install express
 ```
 
