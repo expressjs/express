@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix error when `res.set` cannot add charset to `Content-Type`
   * deps: debug@2.6.3
     - Fix: `DEBUG_MAX_ARRAY_LENGTH`
   * deps: finalhandler@~1.0.1
