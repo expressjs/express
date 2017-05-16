@@ -14,6 +14,7 @@ var boot = {
 		var dir = path.join(__dirname, '..', 'controllers');
 		var app;
 		var fileName;
+        var fileIndex;
 
 		tas(function(){
 
@@ -29,14 +30,15 @@ var boot = {
 		});
 
 		tas.forEach("files", {
-			init: function(file){
+			init: function(file, index){
 				fileName = file;
+                fileIndex = index;
 				app = express();
 			},
 
 			loadFile: function(){
 				var file = path.join(dir, fileName);
-				if (!fs.statSync(file).isDirectory()) return "break";
+				if (!fs.statSync(file).isDirectory()) return "continue";
 
 				verbose && console.log('\n	 %s:', fileName);
 				return [require(file)];
@@ -65,7 +67,7 @@ var boot = {
 			},
 
 			mountTheApp: function(){
-				parent.use(app);
+ 				parent.use(app);
 			}
 		});
 	}

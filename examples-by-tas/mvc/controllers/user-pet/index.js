@@ -4,6 +4,7 @@
 
 var db = require('../../db');
 var userPet = {
+
 	name: 'pet',
 	prefix: '/user/:user_id',
 

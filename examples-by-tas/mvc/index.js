@@ -1,7 +1,4 @@
 
-// first:
-// $ npm install tas --save
-
 var tas = require('tas');
 var app = require('../express')();
 
@@ -10,9 +7,9 @@ tas({
 		view: function(){
 			var path = require('path');
 
-			// set our default template engine to "jade"
+			// set our default template engine to "ejs"
 			// which prevents the need for extensions
-			app.set('view engine', 'jade');
+			app.set('view engine', 'ejs');
 
 			// set views for error and 404 pages
 			app.set('views', path.join(__dirname, 'views'));
@@ -46,36 +43,6 @@ tas({
 			// parse request bodies (req.body)
 			var bodyParser = require('body-parser');
 			app.use(bodyParser.urlencoded({ extended: true }));
-		}
-	},
-
-	controllers: {
-		overrideMethod: function(){
-
-			// allow overriding methods in query (?_method=put)
-			var methodOverride = require('method-override');
-			app.use(methodOverride('_method'));
-		},
-
-		load: function(){
-			var boot = require('./lib/boot');
-			boot.do(app, { verbose: !module.parent });
-		}
-	},
-
-	onError: {
-		500: function(){
-			app.use(function(err, req, res, next){
-				if (!module.parent) console.error(err.stack); // log it
-				res.status(500).render('5xx'); // error page
-			});
-		},
-
-		404: function(){
-			// assume 404 since no middleware responded
-			app.use(function(req, res, next){
-				res.status(404).render('404', { url: req.originalUrl });
-			});
 		}
 	},
 
@@ -120,6 +87,37 @@ tas({
 				// empty or "flush" the messages so they
 				// don't build up
 				req.session.messages = [];
+			});
+		}
+	},
+
+	controllers: {
+		overrideMethod: function(){
+
+			// allow overriding methods in query (?_method=put)
+			var methodOverride = require('method-override');
+			app.use(methodOverride('_method'));
+		},
+
+		load: function(){
+			// load controllers
+			var boot = require('./lib/boot');
+			boot.do(app, { verbose: !module.parent });
+		}
+	},
+
+	onError: {
+		500: function(){
+			app.use(function(err, req, res, next){
+				if (!module.parent) console.error(err.stack); // log it
+				res.status(500).render('5xx'); // error page
+			});
+		},
+
+		404: function(){
+			// assume 404 since no middleware responded
+			app.use(function(req, res, next){
+				res.status(404).render('404', { url: req.originalUrl });
 			});
 		}
 	},
