@@ -1,7 +1,4 @@
 
-// first:
-// $ npm install tas fac --save
-
 // faux model
 
 var fac = require('fac');

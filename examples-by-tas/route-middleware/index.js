@@ -1,8 +1,4 @@
 
-// first:
-// $ npm install tas --save
-
-
 var tas = require('tas');
 var app = require('../express')();
 
