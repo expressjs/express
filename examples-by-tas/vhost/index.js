@@ -1,7 +1,4 @@
 
-// first:
-// $ npm install tas --save
-
 /*
  edit /etc/hosts:
 
@@ -51,6 +48,13 @@ tas({
 		if (!module.parent) {
 			app.listen(3000);
 			console.log('Express started on port 3000');
+            console.log();
+
+            console.log('try:');
+            console.log('  GET http://example.com:3000');
+            console.log('  GET http://foo.example.com:3000');
+            console.log('  GET http://bar.example.com:3000');
+            console.log('  GET http://blog.example.com:3000');
 		}
 	}
 });

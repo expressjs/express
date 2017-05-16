@@ -1,7 +1,4 @@
 
-// first:
-// $ npm install tas --save
-
 var tas = require('tas');
 var app = require('../express')();
 
@@ -40,6 +37,12 @@ tas({
 		if (!module.parent) {
 			app.listen(3000);
 			console.log('Express started on port 3000');
+            console.log();
+
+			console.log('try:');
+            console.log('  GET /api/users?api-key=foo');
+            console.log('  GET /api/repos?api-key=bar');
+            console.log('  GET /api/user/tobi/repos?api-key=baz');
 		}
 	}
 });
