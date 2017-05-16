@@ -218,6 +218,21 @@ describe('res', function(){
       .expect('<p>tobi</p>', done);
     })
 
+    it('should expose req.session', function(done){
+      var app = createApp();
+
+      app.set('views', __dirname + '/fixtures');
+
+      app.use(function(req, res){
+        req.session = { user: { name: 'tobi' } };
+        res.render('user.tmpl');
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>tobi</p>', done);
+    })
+
     it('should expose res.locals', function(done){
       var app = createApp();
 
@@ -231,6 +246,38 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('<p>tobi</p>', done);
+    })
+
+    it('should give precedence to req.session over app.locals', function(done){
+      var app = createApp();
+
+      app.set('views', __dirname + '/fixtures');
+      app.locals.user = { name: 'tobi' };
+
+      app.use(function(req, res){
+        req.session = { user: { name: 'jane' } };
+        res.render('user.tmpl', {});
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>jane</p>', done);
+    })
+
+    it('should give precedence to res.locals over req.session', function(done){
+      var app = createApp();
+
+      app.set('views', __dirname + '/fixtures');
+
+      app.use(function(req, res){
+        req.session = { user: { name: 'tobi' } };
+        res.locals.user = { name: 'jane' };
+        res.render('user.tmpl', {});
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>jane</p>', done);
     })
 
     it('should give precedence to res.locals over app.locals', function(done){
@@ -265,6 +312,22 @@ describe('res', function(){
       .expect('<p>jane</p>', done);
     })
 
+    it('should give precedence to res.render() locals over req.session', function(done){
+      var app = createApp();
+
+      app.set('views', __dirname + '/fixtures');
+      var jane = { name: 'jane' };
+
+      app.use(function(req, res){
+        req.session = { user: { name: 'tobi' } };
+        res.render('user.tmpl', { user: jane });
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>jane</p>', done);
+    })
+
     it('should give precedence to res.render() locals over app.locals', function(done){
       var app = createApp();
 
@@ -279,6 +342,22 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('<p>jane</p>', done);
+    })
+
+    it('should make all scopes explicitly available', function(done){
+      var app = createApp();
+      app.set('views', __dirname + '/fixtures');
+      app.locals.count = 1;
+
+      app.use(function(req, res){
+        req.session = { count: 2 };
+        res.locals.count = 3;
+        res.render('scope.tmpl', { count: 4 });
+      });
+
+      request(app)
+      .get('/')
+      .expect('<p>4,1,2,3,4</p>', done);
     })
   })
 
