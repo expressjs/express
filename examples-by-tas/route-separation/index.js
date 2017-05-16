@@ -1,14 +1,11 @@
 
-// first:
-// $ npm install tas --save
-
 var tas = require('tas');
 var app = require('../express')();
 
 tas({
 	views: function(){
 		var path = require('path');
-		app.set('view engine', 'jade');
+		app.set('view engine', 'ejs');
 		app.set('views', path.join(__dirname, 'views'));
 	},
 
