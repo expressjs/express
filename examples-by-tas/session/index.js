@@ -1,7 +1,7 @@
 
-// first:
-// $ npm install tas --save
+// first (if you have not done it yes):
 // $ npm install redis
+// $ brew install redis
 // $ redis-server
 
 var tas = require('tas');

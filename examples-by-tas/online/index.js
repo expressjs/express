@@ -1,8 +1,11 @@
 
-// first:
-// $ npm install tas --save
-// $ npm install redis online
+// first (if you have not done it yet):
+// $ npm install redis
+// $ brew install redis
 // $ redis-server
+
+// then :
+// $ npm install online
 
 var tas = require('tas');
 var app = require('../express')();
