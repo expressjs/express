@@ -2,8 +2,9 @@ unreleased
 ==========
 
   * Fix error when `res.set` cannot add charset to `Content-Type`
-  * deps: debug@2.6.3
-    - Fix: `DEBUG_MAX_ARRAY_LENGTH`
+  * deps: debug@2.6.7
+    - Fix `DEBUG_MAX_ARRAY_LENGTH`
+    - deps: ms@2.0.0
   * deps: finalhandler@~1.0.3
     - Fix missing `</html>` in HTML document
     - deps: debug@2.6.7
