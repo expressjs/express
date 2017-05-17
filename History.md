@@ -4,9 +4,9 @@ unreleased
   * Fix error when `res.set` cannot add charset to `Content-Type`
   * deps: debug@2.6.3
     - Fix: `DEBUG_MAX_ARRAY_LENGTH`
-  * deps: finalhandler@~1.0.1
+  * deps: finalhandler@~1.0.3
     - Fix missing `</html>` in HTML document
-    - deps: debug@2.6.3
+    - deps: debug@2.6.7
   * deps: proxy-addr@~1.1.4
     - deps: ipaddr.js@1.3.0
   * deps: send@0.15.3
