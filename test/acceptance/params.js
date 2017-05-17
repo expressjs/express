@@ -29,8 +29,8 @@ describe('params', function(){
   describe('GET /users/0-2', function(){
     it('should respond with three users', function(done){
       request(app)
-        .get('/users/0-2')
-        .expect(/users tj, tobi/,done)
+      .get('/users/0-2')
+      .expect(/users tj, tobi, loki/, done)
     })
   })
 
