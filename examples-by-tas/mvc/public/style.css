@@ -1,0 +1,14 @@
+body {
+  padding: 50px;
+  font: 16px "Helvetica Neue", Helvetica, Arial;
+}
+a {
+  color: #107aff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+h1 a {
+  font-size: 16px;
+}
