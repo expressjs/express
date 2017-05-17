@@ -1,4 +1,4 @@
-// first (if you have not done it yes):
+// first (if you have not done it yet):
 // $ npm install redis
 // $ brew install redis
 // $ redis-server
