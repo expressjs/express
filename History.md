@@ -9,9 +9,9 @@ unreleased
     - deps: debug@2.6.3
   * deps: proxy-addr@~1.1.4
     - deps: ipaddr.js@1.3.0
-  * deps: send@0.15.2
-    - deps: debug@2.6.4
-    - deps: ms@1.0.0
+  * deps: send@0.15.3
+    - deps: debug@2.6.7
+    - deps: ms@2.0.0
   * deps: serve-static@1.12.2
     - deps: send@0.15.2
   * deps: type-is@~1.6.15
