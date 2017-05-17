@@ -1,6 +1,10 @@
-// first:
-// $ npm install redis online
+// first (if you have not done it yes):
+// $ npm install redis
+// $ brew install redis
 // $ redis-server
+
+// then:
+// $ npm install online
 
 /**
  * Module dependencies.
