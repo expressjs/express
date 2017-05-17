@@ -1,5 +1,5 @@
-unreleased
-==========
+4.15.3 / 2017-05-16
+===================
 
   * Fix error when `res.set` cannot add charset to `Content-Type`
   * deps: debug@2.6.7
