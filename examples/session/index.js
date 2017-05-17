@@ -1,6 +1,9 @@
-// first (if you have not done it yet):
+
+// install redis first:
+// https://redis.io/
+
+// then:
 // $ npm install redis
-// $ brew install redis
 // $ redis-server
 
 var express = require('../..');
