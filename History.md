@@ -12,8 +12,8 @@ unreleased
   * deps: send@0.15.3
     - deps: debug@2.6.7
     - deps: ms@2.0.0
-  * deps: serve-static@1.12.2
-    - deps: send@0.15.2
+  * deps: serve-static@1.12.3
+    - deps: send@0.15.3
   * deps: type-is@~1.6.15
     - deps: mime-types@~2.1.15
   * deps: vary@~1.1.1
