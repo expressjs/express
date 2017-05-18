@@ -246,6 +246,23 @@ describe('res', function(){
       .head('/')
       .expect('', done);
     })
+
+    it('should send a content-length of 0', function(done) {
+      var app = express();
+
+      app.use(function(req, res){
+        res.send('yay');
+      });
+
+      request(app)
+      .head('/')
+      .end(function(err, res) {
+        res.text.should.equal('');
+        res.headers['content-length'].should.equal('0');
+
+        done();
+      })
+    })
   })
 
   describe('when .statusCode is 204', function(){
@@ -361,6 +378,7 @@ describe('res', function(){
 
       methods.forEach(function (method) {
         if (method === 'connect') return;
+        if (method === 'head') return;
 
         it('should send ETag in response to ' + method.toUpperCase() + ' request', function (done) {
           var app = express();
@@ -375,6 +393,19 @@ describe('res', function(){
           .expect(200, done);
         })
       });
+
+      it('should send ETag in response to HEAD request', function (done) {
+        var app = express();
+
+        app.head('/', function (req, res) {
+          res.send('kajdslfkasdf');
+        });
+
+        request(app)
+        .head('/')
+        .expect('ETag', 'W/"0-1B2M2Y8AsgTpgAmY7PhCfg"')
+        .expect(200, done);
+      })
 
       it('should send ETag for empty string response', function (done) {
         var app = express();
