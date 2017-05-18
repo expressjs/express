@@ -4,6 +4,13 @@ var express = require('..')
 var request = require('supertest')
 
 describe('app', function(){
+  it('should disabled x-powered-by by default', function(done){
+    var app = express();
+    app.on('foo', done);
+    app.enabled('x-powered-by').should.be.false;
+    done()
+  })
+
   it('should inherit from event emitter', function(done){
     var app = express();
     app.on('foo', done);
