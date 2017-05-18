@@ -7,7 +7,7 @@ describe('cookie-sessions', function () {
     it('should display no views', function (done) {
       request(app)
       .get('/')
-      .expect(200, 'viewed 0 times\n', done)
+      .expect(200, 'viewed 1 times\n', done)
     })
 
     it('should set a session cookie', function (done) {
@@ -20,12 +20,12 @@ describe('cookie-sessions', function () {
     it('should display 1 view on revisit', function (done) {
       request(app)
       .get('/')
-      .expect(200, 'viewed 0 times\n', function (err, res) {
+      .expect(200, 'viewed 1 times\n', function (err, res) {
         if (err) return done(err)
         request(app)
         .get('/')
         .set('Cookie', getCookies(res))
-        .expect(200, 'viewed 1 times\n', done)
+        .expect(200, 'viewed 2 times\n', done)
       })
     })
   })
