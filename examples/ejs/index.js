@@ -7,6 +7,10 @@ var path = require('path');
 
 var app = module.exports = express();
 
+// Path to our public directory
+
+app.use(express.static(__dirname + '/public'));
+
 // Register ejs as .html. If we did
 // not call this, we would need to
 // name our views foo.ejs instead
