@@ -105,6 +105,8 @@ describe('app.router', function(){
 
     it('should not accept params in malformed paths', function(done) {
       var app = express();
+      // hide decode_param error from console
+      app.set('env', 'test');
 
       app.get('/:name', function(req, res, next){
         res.send(req.params.name);
