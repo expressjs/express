@@ -548,4 +548,18 @@ describe('Router', function(){
       });
     });
   });
+
+  describe('layer', function() {
+    it('should export the current layer', function(done){
+      var router = new Router();
+
+      var layer;
+      router.get('/foo', function(req){ layer = req.layer; });
+
+      router.handle({ url: '/foo', method: 'GET' }, {}, function() {});
+
+      assert.ok(layer);
+      done();
+    });
+  })
 })
