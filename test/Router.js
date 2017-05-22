@@ -207,6 +207,26 @@ describe('Router', function(){
 
       router.handle({ url: '/', method: 'GET' }, {}, done);
     });
+    
+    it('should handle rejected promises', function (done) {
+      var router = new Router();
+      
+      router.get('/foo', function(req, res, next){
+        // fake a rejected promise
+        return {
+          then: function (resolve, reject) {
+            process.nextTick(reject.bind(null, new Error('foo')));
+          }
+        };
+      });
+      
+      router.use(function(err, req, res, next) {
+        assert.equal(err.message, 'foo');
+        done();
+      });
+      
+      router.handle({ url: '/foo', method: 'GET' }, {}, function() {});
+    });
   })
 
   describe('FQDN', function () {
