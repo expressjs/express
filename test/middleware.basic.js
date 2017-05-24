@@ -36,4 +36,24 @@ describe('middleware', function(){
       .expect(200, '{"foo":"bar"}', done)
     })
   })
+
+  describe('.next()', function(){
+    it('next can return value', function(done){
+      var app = express();
+
+      app.use(function(req, res, next){
+        var value = next();
+        res.send(value);
+      });
+
+      app.use(function(req, res, next){
+        return '42';
+      });
+
+      request(app.listen())
+        .get('/')
+        .set('Content-Type', 'application/json')
+        .expect(200, '42', done)
+    })
+  })
 })
