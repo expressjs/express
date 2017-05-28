@@ -1086,4 +1086,15 @@ describe('app.router', function(){
     var app = express();
     app.get('/', function(){}).should.equal(app);
   })
+
+  it('should check for Later pathOriginal', function(){
+    var app = express();
+    var router = new express.Router();
+    app.use("/users", router);
+    app._router.stack.forEach(function(middleware){
+      if(middleware.name === 'router'){
+        assert.equal(middleware.pathOriginal, "/users");
+      }
+    });
+  })
 })
