@@ -313,6 +313,23 @@ describe('res', function(){
     .expect(304, done);
   })
 
+  it('should not respond with 304 Not Modified when etag is disabled', function(done){
+    var app = express();
+    var etag = '"asdf"';
+
+    app.set('etag', false);
+    app.use(function(req, res){
+      var str = Array(1000).join('-');
+      res.set('ETag', etag);
+      res.send(str);
+    });
+
+    request(app)
+    .get('/')
+    .set('If-None-Match', etag)
+    .expect(200, done);
+  })
+
   it('should not perform freshness check unless 2xx or 304', function(done){
     var app = express();
     var etag = '"asdf"';
