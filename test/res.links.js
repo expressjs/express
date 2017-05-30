@@ -8,16 +8,24 @@ describe('res', function(){
       var app = express();
 
       app.use(function (req, res) {
-        res.links({
-          next: 'http://api.example.com/users?page=2',
-          last: 'http://api.example.com/users?page=5'
-        });
+        res.links([{
+            href: 'http://api.example.com/users?page=2',
+            rel: 'next',
+            title: 'next chapter',
+            type: 'text/plain;charset=UTF-8'
+        }, {
+            href: 'http://api.example.com/users?page=5',
+            rel: 'last',
+            title: 'last chapter',
+            type: 'text/plain;charset=UTF-8'
+        }]);
+        
         res.end();
       });
 
       request(app)
       .get('/')
-      .expect('Link', '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last"')
+      .expect('Link', '<http://api.example.com/users?page=2>; rel="next"; title="next chapter"; type="text/plain;charset=UTF-8", <http://api.example.com/users?page=5>; rel="last"; title="last chapter"; type="text/plain;charset=UTF-8"')
       .expect(200, done);
     })
 
@@ -25,21 +33,31 @@ describe('res', function(){
       var app = express();
 
       app.use(function (req, res) {
-        res.links({
-          next: 'http://api.example.com/users?page=2',
-          last: 'http://api.example.com/users?page=5'
-        });
+        res.links([{
+            href: 'http://api.example.com/users?page=2',
+            rel: 'next',
+            title: 'next chapter',
+            type: 'text/plain;charset=UTF-8'
+        }, {
+            href: 'http://api.example.com/users?page=5',
+            rel: 'last',
+            title: 'last chapter',
+            type: 'text/plain;charset=UTF-8'
+        }]);
 
-        res.links({
-          prev: 'http://api.example.com/users?page=1'
-        });
+        res.links([{
+                href: 'http://api.example.com/users?page=1',
+                rel: 'prev',
+                title: 'previous',
+                type: 'text/plain;charset=UTF-8'
+        }]);
 
         res.end();
       });
 
       request(app)
       .get('/')
-      .expect('Link', '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last", <http://api.example.com/users?page=1>; rel="prev"')
+      .expect('Link', '<http://api.example.com/users?page=2>; rel="next"; title="next chapter"; type="text/plain;charset=UTF-8", <http://api.example.com/users?page=5>; rel="last"; title="last chapter"; type="text/plain;charset=UTF-8", <http://api.example.com/users?page=1>; rel="prev"; title="previous"; type="text/plain;charset=UTF-8"')
       .expect(200, done);
     })
   })
