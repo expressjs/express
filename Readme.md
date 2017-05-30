@@ -24,6 +24,11 @@ app.listen(3000)
 ```bash
 $ npm install express
 ```
+or
+
+```bash
+$ yarn add express
+```
 
 ## Features
 
