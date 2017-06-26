@@ -1,26 +1,37 @@
 language: node_js
-node_js:
-  - "0.10"
-  - "0.12"
-  - "1.8"
-  - "2.5"
-  - "3.3"
-  - "4.8"
-  - "5.12"
-  - "6.10"
-  - "7.9"
-matrix:
-  include:
-    - node_js: "8.0"
-      env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
+env:
+  global:
+  # https://github.com/jasongin/nvs/blob/master/doc/CI.md
+  - NVS_VERSION=1.3.0
+  matrix:
+  - NODEJS_VERSION=node/0.10
+  - NODEJS_VERSION=node/0.12
+  - NODEJS_VERSION=iojs/1.8
+  - NODEJS_VERSION=iojs/2.5
+  - NODEJS_VERSION=iojs/3.3
+  - NODEJS_VERSION=node/4.8
+  - NODEJS_VERSION=node/5.12
+  - NODEJS_VERSION=node/6.10
+  - NODEJS_VERSION=node/7.9
+  - NODEJS_VERSION=chakracore/latest
   allow_failures:
-    # Allow the nightly installs to fail
-    - env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
+    - NODEJS_VERSION=nightly/8.0
 sudo: false
 cache:
   directories:
     - node_modules
 before_install:
+  # Install NVS.
+  - git clone --branch v$NVS_VERSION --depth 1 https://github.com/jasongin/nvs ~/.nvs
+  - . ~/.nvs/nvs.sh
+  - nvs --version
+install:
+  # Install selected version of Node.js using NVS
+  - nvs add $NODEJS_VERSION
+  - nvs use $NODEJS_VERSION
+  - node --version
+  - npm --version
+
   # Remove all non-test dependencies
   - "npm rm --save-dev connect-redis"
 
