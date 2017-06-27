@@ -39,7 +39,7 @@ $ npm install express
 
   * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
   * [#express](https://webchat.freenode.net/?channels=express) on freenode IRC
-  * [Github Organization](https://github.com/expressjs) for Official Middleware & Modules
+  * [GitHub Organization](https://github.com/expressjs) for Official Middleware & Modules
   * Visit the [Wiki](https://github.com/expressjs/express/wiki)
   * [Google Group](https://groups.google.com/group/express-js) for discussion
   * [Gitter](https://gitter.im/expressjs/express) for support and discussion
