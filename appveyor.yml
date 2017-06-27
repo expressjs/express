@@ -7,7 +7,7 @@ environment:
     - NODEJS_VERSION: iojs/1.8
     - NODEJS_VERSION: iojs/2.5
     - NODEJS_VERSION: iojs/3.3
-    - NODEJS_VERSION: iojs/4.8
+    - NODEJS_VERSION: node/4.8
     - NODEJS_VERSION: node/5.12
     - NODEJS_VERSION: node/6.10
     - NODEJS_VERSION: node/7.9
