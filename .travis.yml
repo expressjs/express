@@ -25,7 +25,7 @@ before_install:
   - git clone --branch v$NVS_VERSION --depth 1 https://github.com/jasongin/nvs ~/.nvs
   - . ~/.nvs/nvs.sh
   - nvs --version
-install:
+
   # Install selected version of Node.js using NVS
   - nvs add $NODEJS_VERSION
   - nvs use $NODEJS_VERSION
