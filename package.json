@@ -46,7 +46,7 @@
     "parseurl": "~1.3.1",
     "path-to-regexp": "0.1.7",
     "proxy-addr": "~1.1.4",
-    "qs": "6.4.0",
+    "qs": "6.5.0",
     "range-parser": "~1.2.0",
     "send": "0.15.3",
     "serve-static": "1.12.3",
