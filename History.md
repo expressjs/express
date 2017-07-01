@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * deps: debug@2.6.8
   * deps: qs@6.5.0
 
 4.15.3 / 2017-05-16
