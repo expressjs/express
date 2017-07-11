@@ -3,6 +3,7 @@ var express = require('..');
 var path = require('path')
 var request = require('supertest');
 var tmpl = require('./support/tmpl');
+var jsEngine = require('./support/jsEngine');
 
 describe('res', function(){
   describe('.render(name)', function(){
@@ -110,7 +111,10 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(/Cannot read property '[^']+' of undefined/, done);
+        .expect(jsEngine.engineSpecificMessage({
+          v8: /Cannot read property '[^']+' of undefined/,
+          chakracore: /Unable to get property '[^']+' of undefined or null reference/
+        }), done);
       })
     })
 
@@ -335,7 +339,10 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(/Cannot read property '[^']+' of undefined/, done);
+        .expect(jsEngine.engineSpecificMessage({
+          v8: /Cannot read property '[^']+' of undefined/,
+          chakracore: /Unable to get property '[^']+' of undefined or null reference/
+        }), done);
       })
     })
   })
