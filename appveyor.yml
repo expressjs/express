@@ -11,7 +11,7 @@ environment:
     - NODEJS_VERSION: node/5.12
     - NODEJS_VERSION: node/6.10
     - NODEJS_VERSION: node/7.9
-    - NODEJS_VERSION: chakracore/latest
+    - NODEJS_VERSION: chakracore/8.1.2
 cache:
   - node_modules
 install:
