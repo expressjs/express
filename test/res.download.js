@@ -90,10 +90,15 @@ describe('res', function(){
   })
 
   describe('.download(path, filename, options, fn)', function(){
-    it('should allow options in addition to default header', function(done){
+    it('should allow options in to merge with the default header', function(done){
       var app = express();
       var cb = after(2, done);
-      var options = { dotfiles: 'allow' };
+      var options = {
+        dotfiles: 'allow',
+        headers: {
+          'X-Express': 'merged'
+        }
+    };
 
       app.use(function(req, res){
         res.download('test/fixtures/.name', 'document', options, done);
@@ -101,6 +106,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
+      .expect('X-Express', 'merged')
       .expect('Content-Disposition', 'attachment; filename="document"')
       .expect(200, 'tobi', cb);
     })
