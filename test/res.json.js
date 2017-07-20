@@ -147,11 +147,11 @@ describe('res', function(){
 
     describe('"json escape" setting', function(){
       it('should default to not escaping JSON', function(done){
-        var app = express();
+        var app = express()
 
         app.use(function(req, res){
-          res.json({ '&': '<script>' });
-        });
+          res.json({ '&': '<script>' })
+        })
 
         request(app)
         .get('/')
@@ -160,13 +160,13 @@ describe('res', function(){
       })
 
       it('should unicode escape after JSON.stringify()', function(done){
-        var app = express();
+        var app = express()
 
-        app.set('json escape', true);
+        app.set('json escape', true)
 
         app.use(function(req, res){
-          res.json({ '&': '<script>' });
-        });
+          res.json({ '&': '<script>' })
+        })
 
         request(app)
         .get('/')
