@@ -146,9 +146,17 @@ describe('res', function(){
     })
 
     describe('"json escape" setting', function(){
-      it('should be undefined by default', function(){
+      it('should default to not escaping JSON', function(done){
         var app = express();
-        assert(undefined === app.get('json escape'));
+
+        app.use(function(req, res){
+          res.json({ '&': '<script>' });
+        });
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{"&":"<script>"}', done)
       })
 
       it('should unicode escape after JSON.stringify()', function(done){
