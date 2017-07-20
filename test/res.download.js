@@ -113,7 +113,7 @@ describe('res', function(){
   })
 
   describe('.download(path, filename, options, fn)', function(){
-    it('should allow the default header to be overwritten', function(done){
+    it('should not allow the default header to be overwritten', function(done){
       var app = express();
       var cb = after(2, done);
       var options = {
@@ -129,7 +129,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('Content-Type', 'text/html; charset=UTF-8')
-      .expect('Content-Disposition', 'attachment; filename="customFilename"')
+      .expect('Content-Disposition', 'attachment; filename="document"')
       .expect(200, cb);
     })
   })
