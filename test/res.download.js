@@ -71,6 +71,63 @@ describe('res', function(){
     })
   })
 
+  describe('.download(path, filename, options, fn)', function(){
+    it('should invoke the callback with the default header', function(done){
+      var app = express();
+      var cb = after(2, done);
+      var options = {};
+
+      app.use(function(req, res){
+        res.download('test/fixtures/user.html', 'document', options, done);
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/html; charset=UTF-8')
+      .expect('Content-Disposition', 'attachment; filename="document"')
+      .expect(200, cb);
+    })
+  })
+
+  describe('.download(path, filename, options, fn)', function(){
+    it('should allow options in addition to default header', function(done){
+      var app = express();
+      var cb = after(2, done);
+      var options = { dotfiles: 'allow' };
+
+      app.use(function(req, res){
+        res.download('test/fixtures/.name', 'document', options, done);
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Disposition', 'attachment; filename="document"')
+      .expect(200, 'tobi', cb);
+    })
+  })
+
+  describe('.download(path, filename, options, fn)', function(){
+    it('should allow the default header to be overwritten', function(done){
+      var app = express();
+      var cb = after(2, done);
+      var options = {
+        headers: {
+          'Content-Disposition': 'attachment; filename="customFilename"'
+        }
+    };
+
+      app.use(function(req, res){
+        res.download('test/fixtures/user.html', 'document', options, done);
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/html; charset=UTF-8')
+      .expect('Content-Disposition', 'attachment; filename="customFilename"')
+      .expect(200, cb);
+    })
+  })
+
   describe('on failure', function(){
     it('should invoke the callback', function(done){
       var app = express();
