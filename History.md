@@ -2,6 +2,9 @@ unreleased
 ==========
 
   * deps: debug@2.6.8
+  * deps: proxy-addr@~1.1.5
+    - Fix array argument being altered
+    - deps: ipaddr.js@1.4.0
   * deps: qs@6.5.0
 
 4.15.3 / 2017-05-16
