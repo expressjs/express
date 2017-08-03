@@ -2,6 +2,8 @@ unreleased
 ==========
 
   * deps: debug@2.6.8
+  * deps: depd@~1.1.1
+    - Remove unnecessary `Buffer` loading
   * deps: proxy-addr@~1.1.5
     - Fix array argument being altered
     - deps: ipaddr.js@1.4.0
