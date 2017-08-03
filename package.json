@@ -60,7 +60,7 @@
     "after": "0.8.2",
     "body-parser": "1.17.2",
     "cookie-parser": "~1.4.3",
-    "ejs": "2.5.6",
+    "ejs": "2.5.7",
     "express-session": "1.15.3",
     "hbs": "4.0.1",
     "istanbul": "0.4.5",
