@@ -25,7 +25,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.ok;
+        should(req.called).be.ok();
         done();
       });
     })
@@ -84,7 +84,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.ok;
+        should(req.called).be.ok();
         done();
       });
     })
@@ -156,7 +156,7 @@ describe('Route', function(){
       });
 
       route.dispatch(req, {}, function (err) {
-        should(err).be.ok;
+        should(err).be.ok();
         should(err.message).equal('foobar');
         req.order.should.equal('a');
         done();
@@ -182,7 +182,7 @@ describe('Route', function(){
       });
 
       route.dispatch(req, {}, function (err) {
-        should(err).be.ok;
+        should(err).be.ok();
         should(err.message).equal('foobar');
         req.order.should.equal('a');
         done();
@@ -222,7 +222,7 @@ describe('Route', function(){
       });
 
       route.dispatch(req, {}, function(err){
-        should(err).be.ok;
+        should(err).be.ok();
         err.message.should.equal('boom!');
         done();
       });
