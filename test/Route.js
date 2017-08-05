@@ -104,7 +104,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.true;
+        should(req.called).be.true();
         done();
       });
     })
@@ -234,7 +234,7 @@ describe('Route', function(){
 
       route.all(function(err, req, res, next){
         // this should not execute
-        true.should.be.false;
+        true.should.be.false();
       });
 
       route.dispatch(req, {}, done);

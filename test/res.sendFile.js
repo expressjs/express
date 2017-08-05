@@ -108,7 +108,7 @@ describe('res', function(){
       });
 
       app.use(function (err, req, res, next) {
-        err.code.should.be.empty;
+        err.code.should.be.empty();
         cb();
       });
 
@@ -600,7 +600,7 @@ describe('res', function(){
       });
 
       app.use(function (err, req, res, next) {
-        err.code.should.be.empty;
+        err.code.should.be.empty();
         cb();
       });
 
