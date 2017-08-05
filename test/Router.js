@@ -47,7 +47,7 @@ describe('Router', function(){
     var router = new Router();
 
     router.use(function (req, res) {
-      false.should.be.true;
+      false.should.be.true()
     });
 
     router.handle({ url: '', method: 'GET' }, {}, done);

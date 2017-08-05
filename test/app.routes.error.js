@@ -44,10 +44,10 @@ describe('app', function(){
         d = true;
         next();
       }, function(req, res){
-        a.should.be.false;
-        b.should.be.true;
-        c.should.be.true;
-        d.should.be.false;
+        a.should.be.false()
+        b.should.be.true()
+        c.should.be.true()
+        d.should.be.false()
         res.send(204);
       });
 

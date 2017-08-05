@@ -8,7 +8,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        req.xhr.should.be.true;
+        req.xhr.should.be.true()
         res.end();
       });
 
@@ -25,7 +25,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        req.xhr.should.be.true;
+        req.xhr.should.be.true()
         res.end();
       });
 
@@ -42,7 +42,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        req.xhr.should.be.false;
+        req.xhr.should.be.false()
         res.end();
       });
 
@@ -59,7 +59,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        req.xhr.should.be.false;
+        req.xhr.should.be.false()
         res.end();
       });
 

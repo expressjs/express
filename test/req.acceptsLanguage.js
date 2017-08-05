@@ -8,8 +8,8 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        req.acceptsLanguage('en-us').should.be.ok;
-        req.acceptsLanguage('en').should.be.ok;
+        req.acceptsLanguage('en-us').should.be.ok()
+        req.acceptsLanguage('en').should.be.ok()
         res.end();
       });
 
@@ -23,7 +23,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        req.acceptsLanguage('es').should.not.be.ok;
+        req.acceptsLanguage('es').should.not.be.ok()
         res.end();
       });
 
@@ -38,9 +38,9 @@ describe('req', function(){
         var app = express();
 
         app.use(function(req, res){
-          req.acceptsLanguage('en').should.be.ok;
-          req.acceptsLanguage('es').should.be.ok;
-          req.acceptsLanguage('jp').should.be.ok;
+          req.acceptsLanguage('en').should.be.ok()
+          req.acceptsLanguage('es').should.be.ok()
+          req.acceptsLanguage('jp').should.be.ok()
           res.end();
         });
 
