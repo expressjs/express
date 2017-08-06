@@ -10,6 +10,10 @@ unreleased
     - Fix array argument being altered
     - deps: ipaddr.js@1.4.0
   * deps: qs@6.5.0
+  * deps: send@0.15.4
+    - deps: debug@2.6.8
+    - deps: depd@~1.1.1
+    - deps: http-errors@~1.6.2
 
 4.15.3 / 2017-05-16
 ===================
