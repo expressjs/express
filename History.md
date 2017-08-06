@@ -14,6 +14,8 @@ unreleased
     - deps: debug@2.6.8
     - deps: depd@~1.1.1
     - deps: http-errors@~1.6.2
+  * deps: serve-static@1.12.4
+    - deps: send@0.15.4
 
 4.15.3 / 2017-05-16
 ===================
