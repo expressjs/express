@@ -6,7 +6,7 @@ Open issues for the expressjs.com website in https://github.com/expressjs/expres
 ## PRs and Code contributions
 
 * Tests must pass.
-* Follow the [JavaScript Standard Style](http://standardjs.com/).
+* Follow the [JavaScript Standard Style](http://standardjs.com/) and `npm run lint`.
 * If you fix a bug, add a test.
 
 ## Branches
@@ -27,7 +27,9 @@ a future release of Express.
    each new issue you work on, although not compulsory.
 4. To run the test suite, first install the dependencies by running `npm install`,
    then run `npm test`.
-5. If the tests pass, you can commit your changes to your fork and then create
+5. Ensure your code is linted by running `npm run lint` -- fix any issue you
+   see listed.
+6. If the tests pass, you can commit your changes to your fork and then create
    a pull request from there. Make sure to reference your issue from the pull
    request comments by including the issue number e.g. `#123`.
 
