@@ -61,6 +61,7 @@
     "body-parser": "1.17.2",
     "cookie-parser": "~1.4.3",
     "ejs": "2.5.7",
+    "eslint": "2.13.1",
     "express-session": "1.15.3",
     "hbs": "4.0.1",
     "istanbul": "0.4.5",
@@ -87,6 +88,7 @@
     "lib/"
   ],
   "scripts": {
+    "lint": "eslint .",
     "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/ test/acceptance/",
     "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",

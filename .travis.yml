@@ -27,5 +27,7 @@ before_install:
   # Update Node.js modules
   - "test ! -d node_modules || npm prune"
   - "test ! -d node_modules || npm rebuild"
-script: "npm run-script test-ci"
+script:
+  - "npm run test-ci"
+  - "npm run lint"
 after_script: "npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"

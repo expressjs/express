@@ -22,4 +22,5 @@ test_script:
   - node --version
   - npm --version
   - npm run test-ci
+  - npm run lint
 version: "{build}"
