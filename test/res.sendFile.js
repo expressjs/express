@@ -446,12 +446,10 @@ describe('res', function(){
 
     it('should invoke the callback on 403', function(done){
       var app = express()
-        , calls = 0;
 
       app.use(function(req, res){
         res.sendfile('test/fixtures/foo/../user.html', function(err){
           assert(!res.headersSent);
-          ++calls;
           res.send(err.message);
         });
       });
@@ -464,7 +462,6 @@ describe('res', function(){
 
     it('should invoke the callback on socket error', function(done){
       var app = express()
-        , calls = 0;
 
       app.use(function(req, res){
         res.sendfile('test/fixtures/user.html', function(err){
@@ -715,7 +712,6 @@ describe('res', function(){
       describe('with non-GET', function(){
         it('should still serve', function(done){
           var app = express()
-            , calls = 0;
 
           app.use(function(req, res){
             res.sendfile(path.join(__dirname, '/fixtures/name.txt'))

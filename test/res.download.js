@@ -89,7 +89,6 @@ describe('res', function(){
 
     it('should remove Content-Disposition', function(done){
       var app = express()
-        , calls = 0;
 
       app.use(function (req, res, next) {
         res.download('test/fixtures/foobar.html', function(err){

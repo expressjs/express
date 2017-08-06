@@ -1,7 +1,6 @@
 
 var express = require('../')
   , request = require('supertest')
-  , utils = require('../lib/utils')
   , assert = require('assert');
 
 var app1 = express();

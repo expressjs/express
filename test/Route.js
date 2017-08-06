@@ -4,7 +4,6 @@ var should = require('should');
 var express = require('../')
   , Route = express.Route
   , methods = require('methods')
-  , assert = require('assert');
 
 describe('Route', function(){
   it('should work without handlers', function(done) {

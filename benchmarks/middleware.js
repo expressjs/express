@@ -1,5 +1,4 @@
 
-var http = require('http');
 var express = require('..');
 var app = express();
 
