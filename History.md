@@ -47,6 +47,9 @@ changes from 5.0.0-alpha.2.
     - deps: parseurl@~1.3.1
     - deps: setprototypeof@1.0.2
 
+  * remove:
+    - `res.send(status, body)` signature - use `res.status(status).send(body)`
+
 5.0.0-alpha.2 / 2015-07-06
 ==========================
 
