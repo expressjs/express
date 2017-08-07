@@ -7,8 +7,8 @@ node_js:
   - "3.3"
   - "4.8"
   - "5.12"
-  - "6.10"
-  - "7.6"
+  - "6.11"
+  - "7.10"
 matrix:
   include:
     - node_js: "8.0"
@@ -27,5 +27,7 @@ before_install:
   # Update Node.js modules
   - "test ! -d node_modules || npm prune"
   - "test ! -d node_modules || npm rebuild"
-script: "npm run-script test-ci"
+script:
+  - "npm run test-ci"
+  - "npm run lint"
 after_script: "npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"

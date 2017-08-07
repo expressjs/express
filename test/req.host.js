@@ -1,7 +1,6 @@
 
 var express = require('../')
   , request = require('supertest')
-  , assert = require('assert');
 
 describe('req', function(){
   describe('.host', function(){

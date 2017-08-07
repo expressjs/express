@@ -1,5 +1,4 @@
 
-var assert = require('assert');
 var express = require('..');
 var methods = require('methods');
 var request = require('supertest');

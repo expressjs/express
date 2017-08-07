@@ -39,7 +39,6 @@ describe('app.router', function(){
 
       it('should include ' + method.toUpperCase(), function(done){
         var app = express();
-        var calls = [];
 
         app[method]('/foo', function(req, res){
           if ('head' == method) {

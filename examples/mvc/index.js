@@ -11,11 +11,9 @@ var methodOverride = require('method-override');
 
 var app = module.exports = express();
 
-// settings
-
-// set our default template engine to "jade"
-// which prevents the need for extensions
-app.set('view engine', 'jade');
+// set our default template engine to "ejs"
+// which prevents the need for using file extensions
+app.set('view engine', 'ejs');
 
 // set views for error and 404 pages
 app.set('views', path.join(__dirname, 'views'));

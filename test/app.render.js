@@ -72,7 +72,7 @@ describe('app', function(){
       app.set('view', View);
 
       app.render('something', function(err, str){
-        err.should.be.ok;
+        err.should.be.ok()
         err.message.should.equal('err!');
         done();
       })

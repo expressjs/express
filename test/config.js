@@ -49,7 +49,7 @@ describe('config', function () {
       var app = express();
       assert.strictEqual(app.get('foo'), undefined);
     })
-    
+
     it('should otherwise return the value', function(){
       var app = express();
       app.set('foo', 'bar');
@@ -125,7 +125,7 @@ describe('config', function () {
       assert.strictEqual(app.get('tobi'), true);
     })
   })
-  
+
   describe('.disable()', function(){
     it('should set the value to false', function(){
       var app = express();
@@ -133,26 +133,26 @@ describe('config', function () {
       assert.strictEqual(app.get('tobi'), false);
     })
   })
-  
+
   describe('.enabled()', function(){
     it('should default to false', function(){
       var app = express();
       assert.strictEqual(app.enabled('foo'), false);
     })
-    
+
     it('should return true when set', function(){
       var app = express();
       app.set('foo', 'bar');
       assert.strictEqual(app.enabled('foo'), true);
     })
   })
-  
+
   describe('.disabled()', function(){
     it('should default to true', function(){
       var app = express();
       assert.strictEqual(app.disabled('foo'), true);
     })
-    
+
     it('should return false when set', function(){
       var app = express();
       app.set('foo', 'bar');

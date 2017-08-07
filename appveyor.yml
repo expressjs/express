@@ -7,8 +7,8 @@ environment:
     - nodejs_version: "3.3"
     - nodejs_version: "4.8"
     - nodejs_version: "5.12"
-    - nodejs_version: "6.10"
-    - nodejs_version: "7.6"
+    - nodejs_version: "6.11"
+    - nodejs_version: "7.10"
 cache:
   - node_modules
 install:
@@ -22,4 +22,5 @@ test_script:
   - node --version
   - npm --version
   - npm run test-ci
+  - npm run lint
 version: "{build}"

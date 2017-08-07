@@ -16,13 +16,13 @@ describe('app', function(){
 
       app.get('/post/:id', function(req, res){
         var id = req.params.id;
-        id.should.be.a.Number;
+        id.should.be.a.Number()
         res.send('' + id);
       });
 
       app.get('/user/:uid', function(req, res){
         var id = req.params.id;
-        id.should.be.a.Number;
+        id.should.be.a.Number()
         res.send('' + id);
       });
 
@@ -50,7 +50,7 @@ describe('app', function(){
 
       app.get('/user/:id', function(req, res){
         var id = req.params.id;
-        id.should.be.a.Number;
+        id.should.be.a.Number()
         res.send('' + id);
       });
 

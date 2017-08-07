@@ -73,6 +73,19 @@ describe('res', function(){
       .expect('Content-Type', 'text/html; charset=lol')
       .expect(200, done);
     })
+
+    it('should throw when Content-Type is an array', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.set('Content-Type', ['text/html'])
+        res.end()
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, /TypeError: Content-Type cannot be set to an Array/, done)
+    })
   })
 
   describe('.set(object)', function(){

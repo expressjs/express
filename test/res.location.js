@@ -42,5 +42,63 @@ describe('res', function(){
       .expect('Location', 'https://google.com?q=%A710')
       .expect(200, done)
     })
+
+    describe('when url is "back"', function () {
+      it('should set location from "Referer" header', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.location('back').end()
+        })
+
+        request(app)
+        .get('/')
+        .set('Referer', '/some/page.html')
+        .expect('Location', '/some/page.html')
+        .expect(200, done)
+      })
+
+      it('should set location from "Referrer" header', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.location('back').end()
+        })
+
+        request(app)
+        .get('/')
+        .set('Referrer', '/some/page.html')
+        .expect('Location', '/some/page.html')
+        .expect(200, done)
+      })
+
+      it('should prefer "Referrer" header', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.location('back').end()
+        })
+
+        request(app)
+        .get('/')
+        .set('Referer', '/some/page1.html')
+        .set('Referrer', '/some/page2.html')
+        .expect('Location', '/some/page2.html')
+        .expect(200, done)
+      })
+
+      it('should set the header to "/" without referrer', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.location('back').end()
+        })
+
+        request(app)
+        .get('/')
+        .expect('Location', '/')
+        .expect(200, done)
+      })
+    })
   })
 })

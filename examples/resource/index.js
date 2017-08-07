@@ -75,7 +75,7 @@ app.resource('/users', User);
 
 app.get('/', function(req, res){
   res.send([
-      '<h1>Examples:</h1> <ul>'
+    '<h1>Examples:</h1> <ul>'
     , '<li>GET /users</li>'
     , '<li>GET /users/1</li>'
     , '<li>GET /users/3</li>'

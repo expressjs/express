@@ -1,3 +1,11 @@
+5.x
+===
+
+This incorporates all changes after 4.15.2 up to 4.15.4.
+
+  * deps: router@~1.3.1
+    - deps: debug@2.6.8
+
 5.0.0-alpha.5 / 2017-03-06
 ==========================
 
@@ -75,6 +83,47 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.15.4 / 2017-08-06
+===================
+
+  * deps: debug@2.6.8
+  * deps: depd@~1.1.1
+    - Remove unnecessary `Buffer` loading
+  * deps: finalhandler@~1.0.4
+    - deps: debug@2.6.8
+  * deps: proxy-addr@~1.1.5
+    - Fix array argument being altered
+    - deps: ipaddr.js@1.4.0
+  * deps: qs@6.5.0
+  * deps: send@0.15.4
+    - deps: debug@2.6.8
+    - deps: depd@~1.1.1
+    - deps: http-errors@~1.6.2
+  * deps: serve-static@1.12.4
+    - deps: send@0.15.4
+
+4.15.3 / 2017-05-16
+===================
+
+  * Fix error when `res.set` cannot add charset to `Content-Type`
+  * deps: debug@2.6.7
+    - Fix `DEBUG_MAX_ARRAY_LENGTH`
+    - deps: ms@2.0.0
+  * deps: finalhandler@~1.0.3
+    - Fix missing `</html>` in HTML document
+    - deps: debug@2.6.7
+  * deps: proxy-addr@~1.1.4
+    - deps: ipaddr.js@1.3.0
+  * deps: send@0.15.3
+    - deps: debug@2.6.7
+    - deps: ms@2.0.0
+  * deps: serve-static@1.12.3
+    - deps: send@0.15.3
+  * deps: type-is@~1.6.15
+    - deps: mime-types@~2.1.15
+  * deps: vary@~1.1.1
+    - perf: hoist regular expression
 
 4.15.2 / 2017-03-06
 ===================

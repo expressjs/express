@@ -1,4 +1,8 @@
-// first:
+
+// install redis first:
+// https://redis.io/
+
+// then:
 // $ npm install redis online
 // $ redis-server
 

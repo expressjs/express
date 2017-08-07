@@ -39,15 +39,14 @@ $ npm install express
 
   * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
   * [#express](https://webchat.freenode.net/?channels=express) on freenode IRC
-  * [Github Organization](https://github.com/expressjs) for Official Middleware & Modules
+  * [GitHub Organization](https://github.com/expressjs) for Official Middleware & Modules
   * Visit the [Wiki](https://github.com/expressjs/express/wiki)
   * [Google Group](https://groups.google.com/group/express-js) for discussion
   * [Gitter](https://gitter.im/expressjs/express) for support and discussion
-  * [Русскоязычная документация](http://jsman.ru/express/)
 
 **PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/expressjs/express/wiki/New-features-in-4.x).
 
-###Security Issues
+### Security Issues
 
 If you discover a security vulnerability in Express, please see [Security Policies and Procedures](Security.md).
 
