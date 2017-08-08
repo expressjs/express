@@ -60,21 +60,6 @@ describe('res', function(){
     })
   })
 
-  describe('.redirect(url, status)', function(){
-    it('should set the response status', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.redirect('http://google.com', 303);
-      });
-
-      request(app)
-      .get('/')
-      .expect('Location', 'http://google.com')
-      .expect(303, done)
-    })
-  })
-
   describe('when the request method is HEAD', function(){
     it('should ignore the body', function(done){
       var app = express();
