@@ -33,6 +33,27 @@ describe('app.router', function(){
     .expect(200, '1', done);
   })
 
+  describe('group', function(){
+    it('should accept group of routes and return different results', function() {
+      var app = express();
+
+      app.group('/api/v1', function(v1) {
+        v1.get('/ping', function(res, req, next) {
+          res.end('v1');
+        });
+      });
+
+      app.group('/api/v2', function(v2) {
+        v2.get('/ping', function(res, req, next) {
+          res.end('v2');
+        });
+      });
+
+      request(app).get('/api/v1/ping').expect(200, 'v1');
+      request(app).get('/api/v2/ping').expect(200, 'v2');
+    })
+  })
+
   describe('methods', function(){
     methods.concat('del').forEach(function(method){
       if (method === 'connect') return;
@@ -86,7 +107,7 @@ describe('app.router', function(){
       .post('/')
       .expect('X-Method-Altered', '1')
       .expect(200, 'deleted everything', cb);
-    });
+    })
   })
 
   describe('decode params', function () {
