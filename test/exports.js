@@ -13,11 +13,11 @@ describe('exports', function(){
   })
 
   it('should expose the request prototype', function(){
-    express.request.req.accepts.should.be.a.Function()
+    express.request.accepts.should.be.a.Function()
   })
 
   it('should expose the response prototype', function(){
-    express.response.res.send.should.be.a.Function()
+    express.response.send.should.be.a.Function()
   })
 
   it('should permit modifying the .application prototype', function(){
@@ -26,7 +26,7 @@ describe('exports', function(){
   })
 
   it('should permit modifying the .request prototype', function(done){
-    express.request.req.foo = function(){ return 'bar'; };
+    express.request.foo = function(){ return 'bar'; };
     var app = express();
 
     app.use(function(req, res, next){
@@ -39,7 +39,7 @@ describe('exports', function(){
   })
 
   it('should permit modifying the .response prototype', function(done){
-    express.response.res.foo = function(){ this.send('bar'); };
+    express.response.foo = function(){ this.send('bar'); };
     var app = express();
 
     app.use(function(req, res, next){
