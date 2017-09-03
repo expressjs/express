@@ -1,38 +1,34 @@
-try {
-  var http2 = require('http2');
-  var fs = require('fs');
-  var path = require('path');
-  var express = require('../../');
-  var keys = path.join(__dirname, 'keys');
-  var app = express();
-  var style = fs.readFileSync(path.resolve(__dirname, './static/style.css'), 'utf8');
-  function pushStyle(res) {
-    res.createPushResponse({
-      ':path': '/style.css',
-      ':status': 200,
-      'content-type': 'text/css'
-    }, function(err, newResponse) {
-      newResponse.setHeader('content-type', 'text/css');
-      newResponse.end(style);
-    });
+var http2 = require('http2');
+var fs = require('fs');
+var path = require('path');
+var express = require('../../');
+var keys = path.join(__dirname, 'keys');
+var app = express();
+var style = fs.readFileSync(path.resolve(__dirname, './static/style.css'), 'utf8');
+function pushStyle(res) {
+  res.createPushResponse({
+    ':path': '/style.css',
+    ':status': 200,
+    'content-type': 'text/css'
+  }, function(err, newResponse) {
+    newResponse.setHeader('content-type', 'text/css');
+    newResponse.end(style);
+  });
+}
+
+app.use(express.static('static', {setHeaders: function(res, file) {
+  if (file.indexOf('index.html') > -1) {
+    pushStyle(res);
   }
+}}));
 
-  app.use(express.static('static', {setHeaders: function(res, file) {
-    if (file.indexOf('index.html') > -1) {
-      pushStyle(res);
-    }
-  }}));
+var server = http2.createSecureServer({
+  key: fs.readFileSync(path.join(keys, 'test_key.pem')),
+  cert: fs.readFileSync(path.join(keys, 'test_cert.pem'))
+}, app);
 
-  var server = http2.createSecureServer({
-    key: fs.readFileSync(path.join(keys, 'test_key.pem')),
-    cert: fs.readFileSync(path.join(keys, 'test_cert.pem'))
-  }, app);
-
-  /* istanbul ignore next */
-  if (!module.parent) {
-    server.listen(3000);
-    console.log('Express started on port 3000');
-  }
-} catch (_) {
-  console.log('Http2 is not supported');
+/* istanbul ignore next */
+if (!module.parent) {
+  server.listen(3000);
+  console.log('Express started on port 3000');
 }
