@@ -283,11 +283,7 @@ describe('res', function(){
 
   it('should always check regardless of length', function(done){
     const app = express();
-<<<<<<< HEAD
     const etag = '"asdf"';
-=======
-    var etag = '"asdf"';
->>>>>>> more var to const changes
 
     app.use(function(req, res, next){
       res.set('ETag', etag);
@@ -302,11 +298,7 @@ describe('res', function(){
 
   it('should respond with 304 Not Modified when fresh', function(done){
     const app = express();
-<<<<<<< HEAD
     const etag = '"asdf"';
-=======
-    var etag = '"asdf"';
->>>>>>> more var to const changes
 
     app.use(function(req, res){
       var str = Array(1000).join('-');
@@ -322,11 +314,7 @@ describe('res', function(){
 
   it('should not perform freshness check unless 2xx or 304', function(done){
     const app = express();
-<<<<<<< HEAD
     const etag = '"asdf"';
-=======
-    var etag = '"asdf"';
->>>>>>> more var to const changes
 
     app.use(function(req, res, next){
       res.status(500);

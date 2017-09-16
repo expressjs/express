@@ -445,7 +445,7 @@ describe('res', function(){
     })
 
     it('should invoke the callback on 403', function(done){
-      const app = express()
+      const app = express();
 
       app.use(function(req, res){
         res.sendfile('test/fixtures/foo/../user.html', function(err){
@@ -461,7 +461,7 @@ describe('res', function(){
     })
 
     it('should invoke the callback on socket error', function(done){
-      const app = express()
+      const app = express();
 
       app.use(function(req, res){
         res.sendfile('test/fixtures/user.html', function(err){
@@ -684,7 +684,7 @@ describe('res', function(){
       })
 
       it('should next(404) when not found', function(done){
-        const app = express()
+        const app = express();
         var calls = 0;
 
         app.use(function(req, res){
@@ -711,24 +711,7 @@ describe('res', function(){
 
       describe('with non-GET', function(){
         it('should still serve', function(done){
-<<<<<<< HEAD
-<<<<<<< HEAD
-          const app = express()
-=======
-=======
->>>>>>> more var to const changes
-<<<<<<< HEAD
-          var app = express()
-=======
-          const app = express()
-          var calls = 0;
->>>>>>> more var to const changes
-<<<<<<< HEAD
-=======
-=======
-          const app = express()
->>>>>>> more var to const changes
->>>>>>> more var to const changes
+          const app = express();
 
           app.use(function(req, res){
             res.sendfile(path.join(__dirname, '/fixtures/name.txt'))
@@ -745,7 +728,7 @@ describe('res', function(){
 
 describe('.sendfile(path, options)', function () {
   it('should pass options to send module', function (done) {
-    const app = express()
+    const app = express();
 
     app.use(function (req, res) {
       res.sendfile(path.resolve(fixtures, 'name.txt'), { start: 0, end: 1 })
