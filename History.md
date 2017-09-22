@@ -9,6 +9,9 @@ unreleased
     - Fix handling of modified headers with invalid dates
     - deps: etag@~1.8.1
     - deps: fresh@0.5.2
+  * deps: serve-static@1.12.5
+    - deps: parseurl@~1.3.2
+    - deps: send@0.15.5
 
 4.15.4 / 2017-08-06
 ===================
