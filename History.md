@@ -1,3 +1,11 @@
+unreleased
+==========
+
+  * deps: fresh@0.5.2
+    - Fix handling of modified headers with invalid dates
+    - perf: improve ETag match loop
+    - perf: improve `If-None-Match` token parsing
+
 4.15.4 / 2017-08-06
 ===================
 
