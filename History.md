@@ -5,6 +5,10 @@ unreleased
     - Fix handling of modified headers with invalid dates
     - perf: improve ETag match loop
     - perf: improve `If-None-Match` token parsing
+  * deps: send@0.15.5
+    - Fix handling of modified headers with invalid dates
+    - deps: etag@~1.8.1
+    - deps: fresh@0.5.2
 
 4.15.4 / 2017-08-06
 ===================
