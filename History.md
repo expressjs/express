@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * deps: debug@2.6.9
   * deps: fresh@0.5.2
     - Fix handling of modified headers with invalid dates
     - perf: improve ETag match loop
