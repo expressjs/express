@@ -2,6 +2,9 @@ unreleased
 ==========
 
   * deps: debug@2.6.9
+  * deps: finalhandler@~1.0.6
+    - deps: debug@2.6.9
+    - deps: parseurl@~1.3.2
   * deps: fresh@0.5.2
     - Fix handling of modified headers with invalid dates
     - perf: improve ETag match loop
