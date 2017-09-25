@@ -11,7 +11,7 @@ node_js:
   - "7.10"
 matrix:
   include:
-    - node_js: "8.0"
+    - node_js: "8"
       env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
   allow_failures:
     # Allow the nightly installs to fail

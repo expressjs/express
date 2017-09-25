@@ -105,12 +105,12 @@ describe('res', function(){
         });
 
         app.use(function(err, req, res, next){
-          res.end(err.message);
+          res.status(500).send('got error: ' + err.name)
         });
 
         request(app)
         .get('/')
-        .expect(/Cannot read property '[^']+' of undefined/, done);
+        .expect(500, 'got error: RenderError', done)
       })
     })
 
@@ -329,13 +329,15 @@ describe('res', function(){
 
         app.use(function(req, res){
           res.render('user.tmpl', function (err) {
-            res.end(err.message);
+            if (err) {
+              res.status(500).send('got error: ' + err.name)
+            }
           });
         });
 
         request(app)
         .get('/')
-        .expect(/Cannot read property '[^']+' of undefined/, done);
+        .expect(500, 'got error: RenderError', done)
       })
     })
   })

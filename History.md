@@ -1,7 +1,7 @@
 5.x
 ===
 
-This incorporates all changes after 4.15.2 up to 4.15.4.
+This incorporates all changes after 4.15.2 up to 4.15.5.
 
   * remove:
     - `res.redirect(url, status)` signature - use `res.redirect(status, url)`
@@ -86,6 +86,28 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.15.5 / 2017-09-24
+===================
+
+  * deps: debug@2.6.9
+  * deps: finalhandler@~1.0.6
+    - deps: debug@2.6.9
+    - deps: parseurl@~1.3.2
+  * deps: fresh@0.5.2
+    - Fix handling of modified headers with invalid dates
+    - perf: improve ETag match loop
+    - perf: improve `If-None-Match` token parsing
+  * deps: send@0.15.6
+    - Fix handling of modified headers with invalid dates
+    - deps: debug@2.6.9
+    - deps: etag@~1.8.1
+    - deps: fresh@0.5.2
+    - perf: improve `If-Match` token parsing
+  * deps: serve-static@1.12.6
+    - deps: parseurl@~1.3.2
+    - deps: send@0.15.6
+    - perf: improve slash collapsing
 
 4.15.4 / 2017-08-06
 ===================
