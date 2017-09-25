@@ -1,7 +1,8 @@
-5.x
-===
+5.0.0-alpha.6 / 2017-09-24
+==========================
 
-This incorporates all changes after 4.15.2 up to 4.15.5.
+This is the sixth Express 5.0 alpha release, based off 4.15.5 and includes
+changes from 5.0.0-alpha.5.
 
   * remove:
     - `res.redirect(url, status)` signature - use `res.redirect(status, url)`
