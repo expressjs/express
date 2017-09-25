@@ -100,16 +100,44 @@ describe('res', function(){
     });
 
     it('should not escape utf whitespace for json fallback', function(done){
-      var app = express();
+      var app = express()
 
       app.use(function(req, res){
-        res.jsonp({ str: '\u2028 \u2029 woot' });
-      });
+        res.jsonp({ str: '\u2028 \u2029 woot' })
+      })
 
       request(app)
       .get('/')
       .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(200, '{"str":"\u2028 \u2029 woot"}', done);
+      .expect(200, '{"str":"\u2028 \u2029 woot"}', done)
+    })
+
+    it('should default to not escaping <, >, and &', function(done){
+      var app = express()
+
+      app.use(function(req, res){
+        res.jsonp({ str: '&<script> \u2028 \u2029 woot' })
+      })
+
+      request(app)
+      .get('/?callback=foo')
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect(200, /foo\(\{"str":"&<script> \\u2028 \\u2029 woot"\}\);/, done)
+    })
+
+    it('should escape <, >, and & when "json escape" is true', function(done){
+      var app = express();
+
+      app.set('json escape', true);
+
+      app.use(function(req, res){
+        res.jsonp({ str: '&<script> \u2028 \u2029 woot' });
+      });
+
+      request(app)
+      .get('/?callback=foo')
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect(200, /foo\(\{"str":"\\u0026\\u003cscript\\u003e \\u2028 \\u2029 woot"\}\);/, done);
     });
 
     it('should include security header and prologue', function (done) {
