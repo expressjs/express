@@ -9,6 +9,7 @@ node_js:
   - "5.12"
   - "6.11"
   - "7.10"
+  - "8.4"
 matrix:
   include:
     - node_js: "8"
@@ -21,6 +22,9 @@ cache:
   directories:
     - node_modules
 before_install:
+  # Skip updating shrinkwrap / lock
+  - "npm config set shrinkwrap false"
+
   # Remove all non-test dependencies
   - "npm rm --save-dev connect-redis"
 
