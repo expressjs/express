@@ -2,13 +2,13 @@
  * Module dependencies.
  */
 
-var express = require('../..');
-var bodyParser = require('body-parser');
-var hash = require('pbkdf2-password')()
-var path = require('path');
-var session = require('express-session');
+const express = require('../..');
+const bodyParser = require('body-parser');
+const hash = require('pbkdf2-password')()
+const path = require('path');
+const session = require('express-session');
 
-var app = module.exports = express();
+const app = module.exports = express();
 
 // config
 
@@ -26,7 +26,7 @@ app.use(session({
 
 // Session-persisted message middleware
 
-app.use(function(req, res, next){
+app.use((req, res, next) => {
   var err = req.session.error;
   var msg = req.session.success;
   delete req.session.error;
@@ -39,14 +39,14 @@ app.use(function(req, res, next){
 
 // dummy database
 
-var users = {
+const users = {
   tj: { name: 'tj' }
 };
 
 // when you create a user, generate a salt
 // and hash the password ('foobar' is the pass here)
 
-hash({ password: 'foobar' }, function (err, pass, salt, hash) {
+hash({ password: 'foobar' },(err, pass, salt, hash) => {
   if (err) throw err;
   // store the salt & hash in the "db"
   users.tj.salt = salt;
@@ -80,32 +80,32 @@ function restrict(req, res, next) {
   }
 }
 
-app.get('/', function(req, res){
+app.get('/',(req, res) => {
   res.redirect('/login');
 });
 
-app.get('/restricted', restrict, function(req, res){
+app.get('/restricted', restrict,(req, res) => {
   res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
 });
 
-app.get('/logout', function(req, res){
+app.get('/logout',(req, res) => {
   // destroy the user's session to log them out
   // will be re-created next request
-  req.session.destroy(function(){
+  req.session.destroy(() => {
     res.redirect('/');
   });
 });
 
-app.get('/login', function(req, res){
+app.get('/login',(req, res) => {
   res.render('login');
 });
 
-app.post('/login', function(req, res){
-  authenticate(req.body.username, req.body.password, function(err, user){
+app.post('/login',(req, res) => {
+  authenticate(req.body.username, req.body.password, (err, user) => {
     if (user) {
       // Regenerate session when signing in
       // to prevent fixation
-      req.session.regenerate(function(){
+      req.session.regenerate(() => {
         // Store the user's primary key
         // in the session store to be retrieved,
         // or in this case the entire user object

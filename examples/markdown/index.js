@@ -2,17 +2,17 @@
  * Module dependencies.
  */
 
-var escapeHtml = require('escape-html');
-var express = require('../..');
-var fs = require('fs');
-var marked = require('marked');
-var path = require('path');
+const escapeHtml = require('escape-html');
+const express = require('../..');
+const fs = require('fs');
+const marked = require('marked');
+const path = require('path');
 
-var app = module.exports = express();
+const app = module.exports = express();
 
 // register .md as an engine in express view system
 
-app.engine('md', function(path, options, fn){
+app.engine('md',(path, options, fn) => {
   fs.readFile(path, 'utf8', function(err, str){
     if (err) return fn(err);
     var html = marked.parse(str).replace(/\{([^}]+)\}/g, function(_, name){
@@ -27,11 +27,11 @@ app.set('views', path.join(__dirname, 'views'));
 // make it the default so we dont need .md
 app.set('view engine', 'md');
 
-app.get('/', function(req, res){
+app.get('/',(req, res) => {
   res.render('index', { title: 'Markdown Example' });
 });
 
-app.get('/fail', function(req, res){
+app.get('/fail',(req, res) => {
   res.render('missing', { title: 'Markdown Example' });
 });
 

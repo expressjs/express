@@ -10,15 +10,15 @@
  * Module dependencies.
  */
 
-var express = require('../..');
-var path = require('path');
-var redis = require('redis');
+const express = require('../..');
+const path = require('path');
+const redis = require('redis');
 
-var db = redis.createClient();
+const db = redis.createClient();
 
 // npm install redis
 
-var app = express();
+const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -34,9 +34,9 @@ db.sadd('cat', 'luna');
  * GET search for :query.
  */
 
-app.get('/search/:query?', function(req, res){
+app.get('/search/:query?',(req, res) => {
   var query = req.params.query;
-  db.smembers(query, function(err, vals){
+  db.smembers(query, (err, vals) => {
     if (err) return res.send(500);
     res.send(vals);
   });
@@ -49,7 +49,7 @@ app.get('/search/:query?', function(req, res){
  * template.
  */
 
-app.get('/client.js', function(req, res){
+app.get('/client.js',(req, res) => {
   res.sendFile(path.join(__dirname, 'client.js'));
 });
 
