@@ -3,6 +3,7 @@ unreleased
 
   * Improve error message when autoloading invalid view engine
   * Skip `Buffer` encoding when not generating ETag for small response
+  * deps: setprototypeof@1.1.0
 
 4.15.5 / 2017-09-24
 ===================
