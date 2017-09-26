@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Improve error message when autoloading invalid view engine
+  * Improve error messages when non-function provided as middleware
   * Skip `Buffer` encoding when not generating ETag for small response
   * Use `safe-buffer` for improved Buffer API
   * deps: accepts@~1.3.4

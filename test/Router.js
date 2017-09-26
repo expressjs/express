@@ -368,17 +368,29 @@ describe('Router', function(){
   })
 
   describe('.use', function() {
-    it('should require arguments', function(){
-      var router = new Router();
-      router.use.bind(router).should.throw(/requires middleware function/)
+    it('should require middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/') }, /requires a middleware function/)
     })
 
-    it('should not accept non-functions', function(){
-      var router = new Router();
-      router.use.bind(router, '/', 'hello').should.throw(/requires middleware function.*string/)
-      router.use.bind(router, '/', 5).should.throw(/requires middleware function.*number/)
-      router.use.bind(router, '/', null).should.throw(/requires middleware function.*Null/)
-      router.use.bind(router, '/', new Date()).should.throw(/requires middleware function.*Date/)
+    it('should reject string as middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/', 'foo') }, /requires a middleware function but got a string/)
+    })
+
+    it('should reject number as middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/', 42) }, /requires a middleware function but got a number/)
+    })
+
+    it('should reject null as middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/', null) }, /requires a middleware function but got a Null/)
+    })
+
+    it('should reject Date as middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/', new Date()) }, /requires a middleware function but got a Date/)
     })
 
     it('should be called for any URL', function (done) {
