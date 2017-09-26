@@ -4,13 +4,13 @@
  * Module dependencies.
  */
 
-var express = require('../..');
-var logger = require('morgan');
-var path = require('path');
-var session = require('express-session');
-var methodOverride = require('method-override');
+const express = require('../..')
+const logger = require('morgan')
+const methodOverride = require('method-override')
+const path = require('path')
+const session = require('express-session')
 
-var app = module.exports = express();
+const app = module.exports = express()
 
 // set our default template engine to "ejs"
 // which prevents the need for using file extensions
@@ -23,7 +23,7 @@ app.set('views', path.join(__dirname, 'views'));
 // which stores messages in the session
 app.response.message = function(msg){
   // reference `req.session` via the `this.req` reference
-  var sess = this.req.session;
+  const sess = this.req.session
   // simply add the msg to an array for later
   sess.messages = sess.messages || [];
   sess.messages.push(msg);
@@ -51,7 +51,7 @@ app.use(methodOverride('_method'));
 
 // expose the "messages" local variable when views are rendered
 app.use(function(req, res, next){
-  var msgs = req.session.messages || [];
+  const msgs = req.session.messages || []
 
   // expose "messages" local variable
   res.locals.messages = msgs;

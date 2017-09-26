@@ -4,17 +4,16 @@
  * Module dependencies.
  */
 
-var express = require('../../');
-var GithubView = require('./github-view');
-var md = require('marked').parse;
+const express = require('../../')
+const GithubView = require('./github-view')
+const md = require('marked').parse
 
-var app = module.exports = express();
+const app = module.exports = express()
 
 // register .md as an engine in express view system
 app.engine('md', function(str, options, fn){
   try {
-    var html = md(str);
-    html = html.replace(/\{([^}]+)\}/g, function(_, name){
+    const html = md(str).replace(/\{([^}]+)\}/g, function (_, name) {
       return options[name] || '';
     });
     fn(null, html);

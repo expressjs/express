@@ -11,15 +11,15 @@
  * Module dependencies.
  */
 
-var express = require('../..');
-var path = require('path');
-var redis = require('redis');
+const express = require('../..')
+const path = require('path')
+const redis = require('redis')
 
-var db = redis.createClient();
+const db = redis.createClient()
 
 // npm install redis
 
-var app = express();
+const app = module.exports = express()
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -36,7 +36,7 @@ db.sadd('cat', 'luna');
  */
 
 app.get('/search/:query?', function(req, res){
-  var query = req.params.query;
+  const query = req.params.query
   db.smembers(query, function(err, vals){
     if (err) return res.send(500);
     res.send(vals);

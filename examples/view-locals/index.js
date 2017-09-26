@@ -4,10 +4,11 @@
  * Module dependencies.
  */
 
-var express = require('../..');
-var path = require('path');
-var User = require('./user');
-var app = express();
+const express = require('../..')
+const path = require('path')
+const User = require('./user')
+
+const app = module.exports = express()
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

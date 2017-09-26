@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-var express = require('../../lib/express');
+const express = require('../../lib/express')
 
-var app = express();
+const app = module.exports = express()
 
 // Example requests:
 //     curl http://localhost:3000/user/0
@@ -16,7 +16,7 @@ var app = express();
 //     curl -X DELETE http://localhost:3000/user/0 (unauthorized since you are not an admin)
 
 // Dummy users
-var users = [
+const users = [
   { id: 0, name: 'tj', email: 'tj@vision-media.ca', role: 'member' }
   , { id: 1, name: 'ciaran', email: 'ciaranj@gmail.com', role: 'member' }
   , { id: 2, name: 'aaron', email: 'aaron.heckmann+github@gmail.com', role: 'admin' }
@@ -24,7 +24,7 @@ var users = [
 
 function loadUser(req, res, next) {
   // You would fetch your user from the db
-  var user = users[req.params.id];
+  const user = users[req.params.id]
   if (user) {
     req.user = user;
     next();

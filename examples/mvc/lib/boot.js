@@ -4,24 +4,27 @@
  * Module dependencies.
  */
 
-var express = require('../../..');
-var fs = require('fs');
-var path = require('path');
+const express = require('../../..')
+const fs = require('fs')
+const path = require('path')
 
 module.exports = function(parent, options){
-  var dir = path.join(__dirname, '..', 'controllers');
-  var verbose = options.verbose;
+  const dir = path.join(__dirname, '..', 'controllers')
+  const verbose = options.verbose
+
   fs.readdirSync(dir).forEach(function(name){
-    var file = path.join(dir, name)
+    const file = path.join(dir, name)
     if (!fs.statSync(file).isDirectory()) return;
     verbose && console.log('\n   %s:', name);
-    var obj = require(file);
-    var name = obj.name || name;
-    var prefix = obj.prefix || '';
-    var app = express();
-    var handler;
-    var method;
-    var url;
+    const obj = require(file)
+    const prefix = obj.prefix || ''
+    const app = express()
+
+    let handler
+    let method
+    let url
+
+    name = obj.name || name
 
     // allow specifying the view engine
     if (obj.engine) app.set('view engine', obj.engine);
@@ -29,7 +32,7 @@ module.exports = function(parent, options){
 
     // generate routes based
     // on the exported methods
-    for (var key in obj) {
+    for (const key in obj) {
       // "reserved" exports
       if (~['name', 'prefix', 'engine', 'before'].indexOf(key)) continue;
       // route exports

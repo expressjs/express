@@ -11,10 +11,10 @@
  * Module dependencies.
  */
 
-var express = require('../..');
-var online = require('online');
-var redis = require('redis');
-var db = redis.createClient();
+const express = require('../..')
+const online = require('online')
+const redis = require('redis')
+const db = redis.createClient()
 
 // online
 
@@ -22,7 +22,7 @@ online = online(db);
 
 // app
 
-var app = express();
+const app = module.exports = express()
 
 // activity tracking, in this case using
 // the UA string, you would use req.user.id etc

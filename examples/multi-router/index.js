@@ -1,8 +1,8 @@
 'use strict'
 
-var express = require('../..');
+const express = require('../..')
 
-var app = module.exports = express();
+const app = module.exports = express()
 
 app.use('/api/v1', require('./controllers/api_v1'));
 app.use('/api/v2', require('./controllers/api_v2'));

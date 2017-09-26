@@ -4,10 +4,11 @@
  * Module dependencies.
  */
 
-var express = require('../../');
-var logger = require('morgan');
-var app = module.exports = express();
-var test = app.get('env') === 'test'
+const express = require('../../')
+const logger = require('morgan')
+
+const app = module.exports = express()
+const test = app.get('env') === 'test'
 
 if (!test) app.use(logger('dev'));
 

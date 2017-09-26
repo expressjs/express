@@ -4,11 +4,11 @@
  * Module dependencies.
  */
 
-var express = require('../..');
-var multiparty = require('multiparty');
-var format = require('util').format;
+const express = require('../..')
+const format = require('util').format
+const multiparty = require('multiparty')
 
-var app = module.exports = express();
+const app = module.exports = express()
 
 app.get('/', function(req, res){
   res.send('<form method="post" enctype="multipart/form-data">'
@@ -20,9 +20,9 @@ app.get('/', function(req, res){
 
 app.post('/', function(req, res, next){
   // create a form to begin parsing
-  var form = new multiparty.Form();
-  var image;
-  var title;
+  const form = new multiparty.Form()
+  let image
+  let title
 
   form.on('error', next);
   form.on('close', function(){

@@ -7,10 +7,10 @@
 // $ npm install redis
 // $ redis-server
 
-var express = require('../..');
-var session = require('express-session');
+const express = require('../..')
+const session = require('express-session')
 
-var app = express();
+const app = module.exports = express()
 
 // Populates req.session
 app.use(session({
@@ -20,7 +20,7 @@ app.use(session({
 }));
 
 app.get('/', function(req, res){
-  var body = '';
+  let body = ''
   if (req.session.views) {
     ++req.session.views;
   } else {

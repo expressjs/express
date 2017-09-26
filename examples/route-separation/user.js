@@ -2,7 +2,7 @@
 
 // Fake user database
 
-var users = [
+const users = [
   { name: 'TJ', email: 'tj@vision-media.ca' },
   { name: 'Tobi', email: 'tobi@vision-media.ca' }
 ];
@@ -12,12 +12,12 @@ exports.list = function(req, res){
 };
 
 exports.load = function(req, res, next){
-  var id = req.params.id;
+  const id = req.params.id
   req.user = users[id];
   if (req.user) {
     next();
   } else {
-    var err = new Error('cannot find user ' + id);
+    const err = new Error('cannot find user ' + id)
     err.status = 404;
     next(err);
   }
@@ -40,7 +40,7 @@ exports.edit = function(req, res){
 exports.update = function(req, res){
   // Normally you would handle all kinds of
   // validation and save back to the db
-  var user = req.body.user;
+  const user = req.body.user
   req.user.name = user.name;
   req.user.email = user.email;
   res.redirect('back');

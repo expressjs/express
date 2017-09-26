@@ -4,12 +4,13 @@
  * Module dependencies.
  */
 
-var express = require('../../');
-var app = module.exports = express();
+const express = require('../../')
+
+const app = module.exports = express()
 
 // Faux database
 
-var users = [
+const users = [
   { name: 'tj' }
   , { name: 'tobi' }
   , { name: 'loki' }
@@ -20,7 +21,7 @@ var users = [
 // Create HTTP error
 
 function createError(status, message) {
-  var err = new Error(message);
+  const err = new Error(message)
   err.status = status;
   return err;
 }
@@ -67,9 +68,9 @@ app.get('/user/:user', function(req, res, next){
  */
 
 app.get('/users/:from-:to', function(req, res, next){
-  var from = req.params.from;
-  var to = req.params.to;
-  var names = users.map(function(user){ return user.name; });
+  const from = req.params.from
+  const to = req.params.to
+  const names = users.map(function (user) { return user.name })
   res.send('users ' + names.slice(from, to + 1).join(', '));
 });
 
