@@ -1,3 +1,9 @@
+unreleased
+===================
+
+  * deps: send@0.16.0
+    - Set charset as "UTF-8" for .js and .json files
+
 4.15.5 / 2017-09-24
 ===================
 
