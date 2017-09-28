@@ -29,6 +29,7 @@ unreleased
   * deps: vary@~1.1.2
     - perf: improve header token parsing speed
   * perf: re-use options object when generating ETags
+  * perf: remove dead `.charset` set in `res.jsonp`
 
 4.15.5 / 2017-09-24
 ===================
