@@ -33,6 +33,11 @@ unreleased
     - Use instance methods on steam to check for listeners
     - deps: mime@1.4.1
     - perf: improve path validation speed
+  * deps: serve-static@1.13.0
+    - Add 70 new types for file extensions
+    - Add `immutable` option
+    - Set charset as "UTF-8" for .js and .json
+    - deps: send@0.16.0
   * deps: setprototypeof@1.1.0
   * deps: utils-merge@1.0.1
   * deps: vary@~1.1.2
