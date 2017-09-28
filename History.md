@@ -8,6 +8,8 @@ unreleased
   * deps: content-type@~1.0.4
     - perf: remove argument reassignment
     - perf: skip parameter parsing when no parameters
+  * deps: etag@~1.8.1
+    - perf: replace regular expression with substring
   * deps: setprototypeof@1.1.0
 
 4.15.5 / 2017-09-24

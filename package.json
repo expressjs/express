@@ -37,7 +37,7 @@
     "depd": "~1.1.1",
     "encodeurl": "~1.0.1",
     "escape-html": "~1.0.3",
-    "etag": "~1.8.0",
+    "etag": "~1.8.1",
     "finalhandler": "~1.0.6",
     "fresh": "0.5.2",
     "merge-descriptors": "1.0.1",
