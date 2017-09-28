@@ -19,6 +19,10 @@
     - deps: parseurl@~1.3.2
     - deps: send@0.15.6
     - perf: improve slash collapsing
+  * deps: vary@~1.1.2
+    - perf: improve header token parsing speed
+    - bench: add simple benchmarks
+    - lint: apply standard 10 style
 
 4.15.4 / 2017-08-06
 ===================
