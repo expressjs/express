@@ -1,5 +1,5 @@
-unreleased
-==========
+4.16.0 / 2017-09-28
+===================
 
   * Add `"json escape"` setting for `res.json` and `res.jsonp`
   * Add `express.json` and `express.urlencoded` to parse bodies
