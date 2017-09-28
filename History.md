@@ -15,6 +15,11 @@ unreleased
   * deps: parseurl@~1.3.2
     - perf: reduce overhead for full URLs
     - perf: unroll the "fast-path" `RegExp`
+  * deps: proxy-addr@~2.0.2
+    - Fix trimming leading / trailing OWS in `X-Forwarded-For`
+    - deps: forwarded@~0.1.2
+    - deps: ipaddr.js@1.5.2
+    - perf: reduce overhead when no `X-Forwarded-For` header
   * deps: qs@6.5.1
     - Fix parsing & compacting very deep objects
   * deps: setprototypeof@1.1.0
