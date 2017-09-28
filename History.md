@@ -26,6 +26,8 @@ unreleased
     - Fix parsing & compacting very deep objects
   * deps: setprototypeof@1.1.0
   * deps: utils-merge@1.0.1
+  * deps: vary@~1.1.2
+    - perf: improve header token parsing speed
   * perf: re-use options object when generating ETags
 
 4.15.5 / 2017-09-24
