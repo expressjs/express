@@ -180,6 +180,30 @@ describe('res', function(){
       });
     });
 
+    describe('with "maxAge" option', function () {
+      it('should set cache-control max-age from number', function (done) {
+        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), {
+          maxAge: 14400000
+        })
+
+        request(app)
+        .get('/')
+        .expect('Cache-Control', 'public, max-age=14400')
+        .expect(200, done)
+      })
+
+      it('should set cache-control max-age from string', function (done) {
+        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), {
+          maxAge: '4h'
+        })
+
+        request(app)
+        .get('/')
+        .expect('Cache-Control', 'public, max-age=14400')
+        .expect(200, done)
+      })
+    })
+
     describe('with "root" option', function () {
       it('should not transfer relative with without', function (done) {
         var app = createApp('test/fixtures/name.txt');
