@@ -1,4 +1,5 @@
 
+var Buffer = require('safe-buffer').Buffer
 var express = require('../')
   , request = require('supertest');
 
@@ -36,7 +37,7 @@ describe('res', function(){
 
       app.use(function(req, res){
         res.attachment('/path/to/image.png');
-        res.send(new Buffer(4));
+        res.send(Buffer.alloc(4, '.'))
       });
 
       request(app)
