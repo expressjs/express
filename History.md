@@ -10,6 +10,9 @@ unreleased
     - perf: skip parameter parsing when no parameters
   * deps: etag@~1.8.1
     - perf: replace regular expression with substring
+  * deps: parseurl@~1.3.2
+    - perf: reduce overhead for full URLs
+    - perf: unroll the "fast-path" `RegExp`
   * deps: qs@6.5.1
     - Fix parsing & compacting very deep objects
   * deps: setprototypeof@1.1.0

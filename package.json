@@ -43,7 +43,7 @@
     "merge-descriptors": "1.0.1",
     "methods": "~1.1.2",
     "on-finished": "~2.3.0",
-    "parseurl": "~1.3.1",
+    "parseurl": "~1.3.2",
     "path-to-regexp": "0.1.7",
     "proxy-addr": "~1.1.5",
     "qs": "6.5.1",
