@@ -16,6 +16,7 @@ unreleased
   * deps: qs@6.5.1
     - Fix parsing & compacting very deep objects
   * deps: setprototypeof@1.1.0
+  * deps: utils-merge@1.0.1
 
 4.15.5 / 2017-09-24
 ===================
