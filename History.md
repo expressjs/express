@@ -1,3 +1,15 @@
+unreleased
+===================
+
+  * deps: send@0.16.0
+    - Add immutable option
+    - Fix missing </html> in default error & redirects
+    - Use instance methods on steam to check for listeners
+    - deps: mime@1.4.1
+      - Add 70 new types for file extensions
+      - Set charset as "UTF-8" for .js and .json
+    - perf: improve path validation speed
+
 4.15.5 / 2017-09-24
 ===================
 
