@@ -25,6 +25,14 @@ unreleased
     - perf: reduce overhead when no `X-Forwarded-For` header
   * deps: qs@6.5.1
     - Fix parsing & compacting very deep objects
+  * deps: send@0.16.0
+    - Add 70 new types for file extensions
+    - Add `immutable` option
+    - Fix missing `</html>` in default error & redirects
+    - Set charset as "UTF-8" for .js and .json
+    - Use instance methods on steam to check for listeners
+    - deps: mime@1.4.1
+    - perf: improve path validation speed
   * deps: setprototypeof@1.1.0
   * deps: utils-merge@1.0.1
   * deps: vary@~1.1.2

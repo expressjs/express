@@ -180,6 +180,20 @@ describe('res', function(){
       });
     });
 
+    describe('with "immutable" option', function () {
+      it('should add immutable cache-control directive', function (done) {
+        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), {
+          immutable: true,
+          maxAge: '4h'
+        })
+
+        request(app)
+        .get('/')
+        .expect('Cache-Control', 'public, max-age=14400, immutable')
+        .expect(200, done)
+      })
+    })
+
     describe('with "maxAge" option', function () {
       it('should set cache-control max-age from number', function (done) {
         var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), {
