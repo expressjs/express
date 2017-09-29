@@ -2,6 +2,9 @@ unreleased
 ==========
 
   * deps: send@0.16.1
+  * deps: serve-static@1.13.1
+    - Fix regression when `root` is incorrectly set to a file
+    - deps: send@0.16.1
 
 4.16.0 / 2017-09-28
 ===================
