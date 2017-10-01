@@ -102,7 +102,7 @@ describe('res', function(){
       app.use(function (req, res) {
         setImmediate(function () {
           res.sendFile(path.resolve(fixtures, 'name.txt'));
-          cb();
+          server.close(cb)
         });
         test.abort();
       });
@@ -112,7 +112,8 @@ describe('res', function(){
         cb();
       });
 
-      var test = request(app).get('/');
+      var server = app.listen()
+      var test = request(server).get('/')
       test.expect(200, cb);
     })
 
@@ -264,13 +265,14 @@ describe('res', function(){
           res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
             should(err).be.ok()
             err.code.should.equal('ECONNABORTED');
-            cb();
+            server.close(cb)
           });
         });
         test.abort();
       });
 
-      var test = request(app).get('/');
+      var server = app.listen()
+      var test = request(server).get('/')
       test.expect(200, cb);
     })
 
@@ -283,13 +285,14 @@ describe('res', function(){
           res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
             should(err).be.ok()
             err.code.should.equal('ECONNABORTED');
-            cb();
+            server.close(cb)
           });
         });
         test.abort();
       });
 
-      var test = request(app).get('/');
+      var server = app.listen()
+      var test = request(server).get('/')
       test.expect(200, cb);
     })
 
@@ -388,13 +391,14 @@ describe('res', function(){
           res.sendfile('test/fixtures/name.txt', function (err) {
             should(err).be.ok()
             err.code.should.equal('ECONNABORTED');
-            cb();
+            server.close(cb)
           });
         });
         test.abort();
       });
 
-      var test = request(app).get('/');
+      var server = app.listen()
+      var test = request(server).get('/')
       test.expect(200, cb);
     })
 
@@ -407,13 +411,14 @@ describe('res', function(){
           res.sendfile('test/fixtures/name.txt', function (err) {
             should(err).be.ok()
             err.code.should.equal('ECONNABORTED');
-            cb();
+            server.close(cb)
           });
         });
         test.abort();
       });
 
-      var test = request(app).get('/');
+      var server = app.listen()
+      var test = request(server).get('/')
       test.expect(200, cb);
     })
 
@@ -629,7 +634,7 @@ describe('res', function(){
       app.use(function (req, res) {
         setImmediate(function () {
           res.sendfile(path.resolve(fixtures, 'name.txt'));
-          cb();
+          server.close(cb)
         });
         test.abort();
       });
@@ -639,7 +644,8 @@ describe('res', function(){
         cb();
       });
 
-      var test = request(app).get('/');
+      var server = app.listen()
+      var test = request(server).get('/')
       test.expect(200, cb);
     })
 
