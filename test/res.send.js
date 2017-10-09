@@ -216,6 +216,21 @@ describe('res', function(){
       .expect('Content-Type', 'text/plain; charset=utf-8')
       .expect(200, 'hey', done);
     })
+
+    it('should set the content length if the ETag is already set', function(done) {
+      var app = express();
+
+      app.use(function(req, res) {
+        res.type('text/plain').set('ETag', 'test123').send(Buffer.from('hey'))
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect('ETag', 'test123')
+      .expect('Content-Length', 3)
+      .expect(200, 'hey', done);
+    })
   })
 
   describe('.send(Object)', function(){
