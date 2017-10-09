@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix `TypeError` in `res.send` when given `Buffer` and `ETag` header set
+
 4.16.1 / 2017-09-29
 ===================
 

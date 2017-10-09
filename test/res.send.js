@@ -216,6 +216,19 @@ describe('res', function(){
       .expect('Content-Type', 'text/plain; charset=utf-8')
       .expect(200, 'hey', done);
     })
+
+    it('should not override ETag', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.type('text/plain').set('ETag', '"foo"').send(Buffer.from('hey'))
+      })
+
+      request(app)
+      .get('/')
+      .expect('ETag', '"foo"')
+      .expect(200, 'hey', done)
+    })
   })
 
   describe('.send(Object)', function(){
