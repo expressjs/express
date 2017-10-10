@@ -1,5 +1,5 @@
-unreleased
-==========
+4.16.2 / 2017-10-09
+===================
 
   * Fix `TypeError` in `res.send` when given `Buffer` and `ETag` header set
   * perf: skip parsing of entire `X-Forwarded-Proto` header
