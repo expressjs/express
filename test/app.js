@@ -101,10 +101,10 @@ describe('in production', function(){
 })
 
 describe('without NODE_ENV', function(){
-  it('should default to development', function(){
+  it('should default to production', function(){
     process.env.NODE_ENV = '';
     var app = express();
-    app.get('env').should.equal('development');
+    app.get('env').should.equal('production');
     process.env.NODE_ENV = 'test';
   })
 })
