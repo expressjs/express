@@ -54,7 +54,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.send(201).should.equal(res);
+        res.send(201);
       });
 
       request(app)
