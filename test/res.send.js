@@ -1,4 +1,5 @@
 
+var assert = require('assert')
 var Buffer = require('safe-buffer').Buffer
 var express = require('..');
 var methods = require('methods');
@@ -54,7 +55,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.send(201).should.equal(res);
+        res.send(201)
       });
 
       request(app)
@@ -352,6 +353,18 @@ describe('res', function(){
     request(app)
     .get('/?callback=foo')
     .expect('{"foo":"bar"}', done);
+  })
+
+  it('should be chainable', function (done) {
+    var app = express()
+
+    app.use(function (req, res) {
+      assert.equal(res.send('hey'), res)
+    })
+
+    request(app)
+    .get('/')
+    .expect(200, 'hey', done)
   })
 
   describe('"etag" setting', function () {
