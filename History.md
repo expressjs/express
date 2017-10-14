@@ -11,6 +11,11 @@ This incorporates all changes after 4.15.5 up to 4.16.2.
     - Change non-TTY date format
     - Remove `DEBUG_FD` environment variable support
     - Support 256 namespace colors
+  * deps: router@~1.3.2
+    - deps: debug@2.6.9
+    - deps: parseurl@~1.3.2
+    - deps: setprototypeof@1.1.0
+    - deps: utils-merge@1.0.1
 
 5.0.0-alpha.6 / 2017-09-24
 ==========================
