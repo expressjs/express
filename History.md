@@ -5,6 +5,12 @@ This incorporates all changes after 4.15.5 up to 4.16.2.
 
   * remove:
     - `path-to-regexp` dependency
+  * deps: debug@3.1.0
+    - Add `DEBUG_HIDE_DATE` environment variable
+    - Change timer to per-namespace instead of global
+    - Change non-TTY date format
+    - Remove `DEBUG_FD` environment variable support
+    - Support 256 namespace colors
 
 5.0.0-alpha.6 / 2017-09-24
 ==========================
