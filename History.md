@@ -1,3 +1,9 @@
+5.x
+===
+
+  * remove:
+    - `path-to-regexp` dependency
+
 5.0.0-alpha.6 / 2017-09-24
 ==========================
 
