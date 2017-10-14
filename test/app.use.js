@@ -1,6 +1,6 @@
 
 var after = require('after');
-var assert = require('assert');
+var assert = require('assert')
 var express = require('..');
 var request = require('supertest');
 
@@ -254,17 +254,29 @@ describe('app', function(){
   })
 
   describe('.use(path, middleware)', function(){
-    it('should reject missing functions', function () {
-      var app = express();
-      assert.throws(app.use.bind(app, '/'), /requires middleware function/);
+    it('should require middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/') }, 'TypeError: app.use() requires a middleware function')
     })
 
-    it('should reject non-functions as middleware', function () {
-      var app = express();
-      assert.throws(app.use.bind(app, '/', 'hi'), /argument handler must be a function/);
-      assert.throws(app.use.bind(app, '/', 5), /argument handler must be a function/);
-      assert.throws(app.use.bind(app, '/', null), /argument handler must be a function/);
-      assert.throws(app.use.bind(app, '/', new Date()), /argument handler must be a function/);
+    it('should reject string as middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/', 'foo') }, /argument handler must be a function/)
+    })
+
+    it('should reject number as middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/', 42) }, /argument handler must be a function/)
+    })
+
+    it('should reject null as middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/', null) }, /argument handler must be a function/)
+    })
+
+    it('should reject Date as middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/', new Date()) }, /argument handler must be a function/)
     })
 
     it('should strip path from req.url', function (done) {

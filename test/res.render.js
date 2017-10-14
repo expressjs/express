@@ -35,6 +35,20 @@ describe('res', function(){
       .expect('<p>tobi</p>', done);
     })
 
+    it('should error without "view engine" set and file extension to a non-engine module', function (done) {
+      var app = createApp()
+
+      app.locals.user = { name: 'tobi' }
+
+      app.use(function (req, res) {
+        res.render(path.join(__dirname, 'fixtures', 'broken.send'))
+      })
+
+      request(app)
+      .get('/')
+      .expect(500, /does not provide a view engine/, done)
+    })
+
     it('should error without "view engine" set and no file extension', function (done) {
       var app = createApp();
 

@@ -9,9 +9,12 @@ node_js:
   - "5.12"
   - "6.11"
   - "7.10"
+  - "8.4"
 matrix:
   include:
     - node_js: "8"
+      env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
+    - node_js: "9"
       env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
   allow_failures:
     # Allow the nightly installs to fail
@@ -21,6 +24,9 @@ cache:
   directories:
     - node_modules
 before_install:
+  # Skip updating shrinkwrap / lock
+  - "npm config set shrinkwrap false"
+
   # Remove all non-test dependencies
   - "npm rm --save-dev connect-redis"
 

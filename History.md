@@ -1,6 +1,8 @@
 5.x
 ===
 
+This incorporates all changes after 4.15.5 up to 4.16.2.
+
   * remove:
     - `path-to-regexp` dependency
 
@@ -93,6 +95,69 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.16.2 / 2017-10-09
+===================
+
+  * Fix `TypeError` in `res.send` when given `Buffer` and `ETag` header set
+  * perf: skip parsing of entire `X-Forwarded-Proto` header
+
+4.16.1 / 2017-09-29
+===================
+
+  * deps: send@0.16.1
+  * deps: serve-static@1.13.1
+    - Fix regression when `root` is incorrectly set to a file
+    - deps: send@0.16.1
+
+4.16.0 / 2017-09-28
+===================
+
+  * Add `"json escape"` setting for `res.json` and `res.jsonp`
+  * Add `express.json` and `express.urlencoded` to parse bodies
+  * Add `options` argument to `res.download`
+  * Improve error message when autoloading invalid view engine
+  * Improve error messages when non-function provided as middleware
+  * Skip `Buffer` encoding when not generating ETag for small response
+  * Use `safe-buffer` for improved Buffer API
+  * deps: accepts@~1.3.4
+    - deps: mime-types@~2.1.16
+  * deps: content-type@~1.0.4
+    - perf: remove argument reassignment
+    - perf: skip parameter parsing when no parameters
+  * deps: etag@~1.8.1
+    - perf: replace regular expression with substring
+  * deps: finalhandler@1.1.0
+    - Use `res.headersSent` when available
+  * deps: parseurl@~1.3.2
+    - perf: reduce overhead for full URLs
+    - perf: unroll the "fast-path" `RegExp`
+  * deps: proxy-addr@~2.0.2
+    - Fix trimming leading / trailing OWS in `X-Forwarded-For`
+    - deps: forwarded@~0.1.2
+    - deps: ipaddr.js@1.5.2
+    - perf: reduce overhead when no `X-Forwarded-For` header
+  * deps: qs@6.5.1
+    - Fix parsing & compacting very deep objects
+  * deps: send@0.16.0
+    - Add 70 new types for file extensions
+    - Add `immutable` option
+    - Fix missing `</html>` in default error & redirects
+    - Set charset as "UTF-8" for .js and .json
+    - Use instance methods on steam to check for listeners
+    - deps: mime@1.4.1
+    - perf: improve path validation speed
+  * deps: serve-static@1.13.0
+    - Add 70 new types for file extensions
+    - Add `immutable` option
+    - Set charset as "UTF-8" for .js and .json
+    - deps: send@0.16.0
+  * deps: setprototypeof@1.1.0
+  * deps: utils-merge@1.0.1
+  * deps: vary@~1.1.2
+    - perf: improve header token parsing speed
+  * perf: re-use options object when generating ETags
+  * perf: remove dead `.charset` set in `res.jsonp`
 
 4.15.5 / 2017-09-24
 ===================

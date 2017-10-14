@@ -28,7 +28,7 @@ describe('middleware', function(){
         });
       });
 
-      request(app.listen())
+      request(app)
       .get('/')
       .set('Content-Type', 'application/json')
       .send('{"foo":"bar"}')

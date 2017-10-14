@@ -368,17 +368,29 @@ describe('Router', function(){
   })
 
   describe('.use', function() {
-    it('should require arguments', function(){
-      var router = new Router();
-      assert.throws(router.use.bind(router), /argument handler is required/)
+    it('should require middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/') }, /argument handler is required/)
     })
 
-    it('should not accept non-functions', function(){
-      var router = new Router();
-      assert.throws(router.use.bind(router, '/', 'hello'), /argument handler must be a function/)
-      assert.throws(router.use.bind(router, '/', 5), /argument handler must be a function/)
-      assert.throws(router.use.bind(router, '/', null), /argument handler must be a function/)
-      assert.throws(router.use.bind(router, '/', new Date()), /argument handler must be a function/)
+    it('should reject string as middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/', 'foo') }, /argument handler must be a function/)
+    })
+
+    it('should reject number as middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/', 42) }, /argument handler must be a function/)
+    })
+
+    it('should reject null as middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/', null) }, /argument handler must be a function/)
+    })
+
+    it('should reject Date as middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/', new Date()) }, /argument handler must be a function/)
     })
 
     it('should be called for any URL', function (done) {

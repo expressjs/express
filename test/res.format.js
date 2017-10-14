@@ -1,4 +1,5 @@
 
+var after = require('after')
 var express = require('../')
   , request = require('supertest')
   , assert = require('assert');
@@ -173,21 +174,23 @@ function test(app) {
     .expect('hey', done);
   })
 
-  it('should set the correct  charset for the Content-Type', function() {
+  it('should set the correct charset for the Content-Type', function (done) {
+    var cb = after(3, done)
+
     request(app)
     .get('/')
     .set('Accept', 'text/html')
-    .expect('Content-Type', 'text/html; charset=utf-8');
+    .expect('Content-Type', 'text/html; charset=utf-8', cb)
 
     request(app)
     .get('/')
     .set('Accept', 'text/plain')
-    .expect('Content-Type', 'text/plain; charset=utf-8');
+    .expect('Content-Type', 'text/plain; charset=utf-8', cb)
 
     request(app)
     .get('/')
     .set('Accept', 'application/json')
-    .expect('Content-Type', 'application/json');
+    .expect('Content-Type', 'application/json; charset=utf-8', cb)
   })
 
   it('should Vary: Accept', function(done){
