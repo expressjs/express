@@ -24,6 +24,11 @@ describe('exports', function(){
     assert.equal(express.static.length, 2)
   })
 
+  it('should expose text middleware', function () {
+    assert.equal(typeof express.text, 'function')
+    assert.equal(express.text.length, 1)
+  })
+
   it('should expose urlencoded middleware', function () {
     assert.equal(typeof express.urlencoded, 'function')
     assert.equal(express.urlencoded.length, 1)
