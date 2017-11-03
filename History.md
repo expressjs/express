@@ -2995,7 +2995,7 @@ Shaw]
 ==================
 
   * Added _NODE_ENV_ support, _EXPRESS_ENV_ is deprecated and will be removed in 1.0.0
-  * Added route-middleware support (very helpful, see the [docs](http://expressjs.com/guide.html#Route-Middleware))
+  * Added route-middleware support (very helpful, see the [docs](https://expressjs.com/guide.html#Route-Middleware))
   * Added _jsonp callback_ setting to enable/disable jsonp autowrapping [Dav Glass]
   * Added callback query check on response.send to autowrap JSON objects for simple webservice implementations [Dav Glass]
   * Added `partial()` support for array-like collections. Closes #434
@@ -3089,7 +3089,7 @@ Shaw]
   * Re-write
     - much faster
     - much lighter
-    - Check [ExpressJS.com](http://expressjs.com) for migration guide and updated docs
+    - Check [ExpressJS.com](https://expressjs.com) for migration guide and updated docs
 
 0.14.0 / 2010-06-15
 ==================

@@ -1,6 +1,6 @@
-[![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](http://expressjs.com/)
+[![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](https://expressjs.com/)
 
-  Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
+  Fast, unopinionated, minimalist web framework for [node](https://nodejs.org).
 
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
@@ -34,7 +34,7 @@ Installation is done using the
 $ npm install express
 ```
 
-Follow [our installing guide](http://expressjs.com/en/starter/installing.html)
+Follow [our installing guide](https://expressjs.com/en/starter/installing.html)
 for more information.
 
 ## Features
@@ -49,7 +49,7 @@ for more information.
 
 ## Docs & Community
 
-  * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
+  * [Website and Documentation](https://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
   * [#express](https://webchat.freenode.net/?channels=express) on freenode IRC
   * [GitHub Organization](https://github.com/expressjs) for Official Middleware & Modules
   * Visit the [Wiki](https://github.com/expressjs/express/wiki)

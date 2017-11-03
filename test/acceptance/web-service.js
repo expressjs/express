@@ -1,4 +1,3 @@
-
 var request = require('supertest')
   , app = require('../../examples/web-service');
 
@@ -53,7 +52,7 @@ describe('web-service', function(){
         .get('/api/repos?api-key=foo')
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(/"name":"express"/)
-        .expect(/"url":"http:\/\/github.com\/expressjs\/express"/)
+        .expect(/"url":"https:\/\/github.com\/expressjs\/express"/)
         .expect(200, done)
       })
     })
@@ -82,7 +81,7 @@ describe('web-service', function(){
         .get('/api/user/loki/repos?api-key=foo')
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(/"name":"stylus"/)
-        .expect(/"url":"http:\/\/github.com\/learnboost\/stylus"/)
+        .expect(/"url":"https:\/\/github.com\/learnboost\/stylus"/)
         .expect(200, done)
       })
 
