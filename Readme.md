@@ -69,7 +69,7 @@ If you discover a security vulnerability in Express, please see [Security Polici
   Install the executable. The executable's major version will match Express's:
 
 ```bash
-$ npm install -g express-generator@4
+$ npm install -g express-generator
 ```
 
   Create the app:
