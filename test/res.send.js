@@ -64,6 +64,20 @@ describe('res', function(){
     })
   })
 
+  describe('.send(number)', function () {
+    it('should not set statusCode if already set by .status(code)', function (done) {
+      var app = express();
+
+      app.use(function(req, res){
+        res.status(200).send(400);
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, '400', done);
+    })
+  })
+
   describe('.send(code, body)', function(){
     it('should set .statusCode and body', function(done){
       var app = express();
