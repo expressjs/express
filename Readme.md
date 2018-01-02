@@ -127,9 +127,9 @@ $ npm test
 
 ## People
 
-The original author of Express is [TJ Holowaychuk](https://github.com/tj) [![TJ's Gratipay][gratipay-image-visionmedia]][gratipay-url-visionmedia]
+The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 
-The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson) [![Doug's Gratipay][gratipay-image-dougwilson]][gratipay-url-dougwilson]
+The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson)
 
 [List of all contributors](https://github.com/expressjs/express/graphs/contributors)
 
