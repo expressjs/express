@@ -54,7 +54,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.send(201).should.equal(res);
+        res.send(201);
       });
 
       request(app)
@@ -292,6 +292,18 @@ describe('res', function(){
       .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
       .expect(304, '', done);
     })
+  })
+
+  it('should be chainable', function(done){
+    var app = express();
+
+    app.use(function (req, res) {
+      res.send().should.equal(res);
+    });
+
+    request(app)
+      .get('/')
+      .expect('', done);
   })
 
   it('should always check regardless of length', function(done){
