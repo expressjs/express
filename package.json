@@ -67,7 +67,7 @@
     "express-session": "1.15.6",
     "hbs": "4.0.1",
     "istanbul": "0.4.5",
-    "marked": "0.3.6",
+    "marked": "0.3.9",
     "method-override": "2.3.10",
     "mocha": "3.5.3",
     "morgan": "1.9.0",
