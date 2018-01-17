@@ -15,10 +15,7 @@ describe('req', function(){
       request(app)
       .get('/')
       .set('X-Requested-With', 'xmlhttprequest')
-      .expect(200)
-      .end(function(err, res){
-        done(err);
-      })
+      .expect(200, done)
     })
 
     it('should case-insensitive', function(done){
@@ -32,10 +29,7 @@ describe('req', function(){
       request(app)
       .get('/')
       .set('X-Requested-With', 'XMLHttpRequest')
-      .expect(200)
-      .end(function(err, res){
-        done(err);
-      })
+      .expect(200, done)
     })
 
     it('should return false otherwise', function(done){
@@ -49,10 +43,7 @@ describe('req', function(){
       request(app)
       .get('/')
       .set('X-Requested-With', 'blahblah')
-      .expect(200)
-      .end(function(err, res){
-        done(err);
-      })
+      .expect(200, done)
     })
 
     it('should return false when not present', function(done){
@@ -65,10 +56,7 @@ describe('req', function(){
 
       request(app)
       .get('/')
-      .expect(200)
-      .end(function(err, res){
-        done(err);
-      })
+      .expect(200, done)
     })
   })
 })
