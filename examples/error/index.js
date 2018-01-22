@@ -5,7 +5,7 @@
 var express = require('../../');
 var logger = require('morgan');
 var app = module.exports = express();
-var test = app.get('env') == 'test';
+var test = app.get('env') === 'test'
 
 if (!test) app.use(logger('dev'));
 

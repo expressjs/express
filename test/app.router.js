@@ -41,7 +41,7 @@ describe('app.router', function(){
         var app = express();
 
         app[method]('/foo', function(req, res){
-          if ('head' == method) {
+          if (method === 'head') {
             res.end();
           } else {
             res.end(method);
@@ -50,7 +50,7 @@ describe('app.router', function(){
 
         request(app)
         [method]('/foo')
-        .expect('head' == method ? '' : method, done);
+        .expect(method === 'head' ? '' : method, done)
       })
 
       it('should reject numbers for app.' + method, function(){

@@ -13,7 +13,7 @@ app.set('view engine', 'ejs');
 // filter ferrets only
 
 function ferrets(user) {
-  return user.species == 'ferret';
+  return user.species === 'ferret'
 }
 
 // naive nesting approach,
