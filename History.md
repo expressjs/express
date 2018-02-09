@@ -10,6 +10,10 @@ unreleased
     - deps: depd@~1.1.2
     - deps: encodeurl@~1.0.2
     - deps: statuses@~1.4.0
+  * deps: serve-static@1.13.2
+    - Fix incorrect end tag in redirects
+    - deps: encodeurl@~1.0.2
+    - deps: send@0.16.2
   * deps: statuses@~1.4.0
 
 4.16.2 / 2017-10-09
