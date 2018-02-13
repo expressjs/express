@@ -22,7 +22,7 @@ describe('middleware', function(){
         var buf = '';
         res.setHeader('Content-Type', 'application/json');
         req.setEncoding('utf8');
-        req.on('data', function(chunk){ buf += chunk });
+        req.on('data', function(chunk){ buf += chunk; });
         req.on('end', function(){
           res.end(buf);
         });
@@ -33,7 +33,7 @@ describe('middleware', function(){
       .set('Content-Type', 'application/json')
       .send('{"foo":"bar"}')
       .expect('Content-Type', 'application/json')
-      .expect(200, '{"foo":"bar"}', done)
-    })
-  })
-})
+      .expect(200, '{"foo":"bar"}', done);
+    });
+  });
+});

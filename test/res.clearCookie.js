@@ -14,9 +14,9 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('Set-Cookie', 'sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
-      .expect(200, done)
-    })
-  })
+      .expect(200, done);
+    });
+  });
 
   describe('.clearCookie(name, options)', function(){
     it('should set the given params', function(done){
@@ -29,7 +29,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('Set-Cookie', 'sid=; Path=/admin; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
-      .expect(200, done)
-    })
-  })
-})
+      .expect(200, done);
+    });
+  });
+});

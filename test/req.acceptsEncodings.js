@@ -8,8 +8,8 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        req.acceptsEncodings('gzip').should.be.ok()
-        req.acceptsEncodings('deflate').should.be.ok()
+        req.acceptsEncodings('gzip').should.be.ok();
+        req.acceptsEncodings('deflate').should.be.ok();
         res.end();
       });
 
@@ -17,13 +17,13 @@ describe('req', function(){
       .get('/')
       .set('Accept-Encoding', ' gzip, deflate')
       .expect(200, done);
-    })
+    });
 
     it('should be false if encoding not accepted', function(done){
       var app = express();
 
       app.use(function(req, res){
-        req.acceptsEncodings('bogus').should.not.be.ok()
+        req.acceptsEncodings('bogus').should.not.be.ok();
         res.end();
       });
 
@@ -31,6 +31,6 @@ describe('req', function(){
       .get('/')
       .set('Accept-Encoding', ' gzip, deflate')
       .expect(200, done);
-    })
-  })
-})
+    });
+  });
+});

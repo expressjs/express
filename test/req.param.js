@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('supertest')
+  , request = require('supertest');
 
 describe('req', function(){
   describe('.param(name, default)', function(){
@@ -14,8 +14,8 @@ describe('req', function(){
       request(app)
       .get('/')
       .expect('tj', done);
-    })
-  })
+    });
+  });
 
   describe('.param(name)', function(){
     it('should check req.query', function(done){
@@ -28,12 +28,12 @@ describe('req', function(){
       request(app)
       .get('/?name=tj')
       .expect('tj', done);
-    })
+    });
 
     it('should check req.body', function(done){
       var app = express();
 
-      app.use(express.json())
+      app.use(express.json());
 
       app.use(function(req, res){
         res.end(req.param('name'));
@@ -43,7 +43,7 @@ describe('req', function(){
       .post('/')
       .send({ name: 'tj' })
       .expect('tj', done);
-    })
+    });
 
     it('should check req.params', function(done){
       var app = express();
@@ -55,6 +55,6 @@ describe('req', function(){
       request(app)
       .get('/user/tj')
       .expect('undefinedtj', done);
-    })
-  })
-})
+    });
+  });
+});

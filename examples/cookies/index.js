@@ -17,7 +17,7 @@ if ('test' != process.env.NODE_ENV) app.use(logger(':method :url'));
 app.use(cookieParser('my secret here'));
 
 // parses x-www-form-urlencoded
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 
 app.get('/', function(req, res){
   if (req.cookies.remember) {

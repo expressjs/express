@@ -17,8 +17,8 @@ describe('res.vary()', function(){
       .get('/')
       .expect(utils.shouldNotHaveHeader('Vary'))
       .expect(200, done);
-    })
-  })
+    });
+  });
 
   describe('with an empty array', function(){
     it('should not set Vary', function (done) {
@@ -33,8 +33,8 @@ describe('res.vary()', function(){
       .get('/')
       .expect(utils.shouldNotHaveHeader('Vary'))
       .expect(200, done);
-    })
-  })
+    });
+  });
 
   describe('with an array', function(){
     it('should set the values', function (done) {
@@ -49,8 +49,8 @@ describe('res.vary()', function(){
       .get('/')
       .expect('Vary', 'Accept, Accept-Language, Accept-Encoding')
       .expect(200, done);
-    })
-  })
+    });
+  });
 
   describe('with a string', function(){
     it('should set the value', function (done) {
@@ -65,8 +65,8 @@ describe('res.vary()', function(){
       .get('/')
       .expect('Vary', 'Accept')
       .expect(200, done);
-    })
-  })
+    });
+  });
 
   describe('when the value is present', function(){
     it('should not add it again', function (done) {
@@ -85,6 +85,6 @@ describe('res.vary()', function(){
       .get('/')
       .expect('Vary', 'Accept, Accept-Encoding')
       .expect(200, done);
-    })
-  })
-})
+    });
+  });
+});

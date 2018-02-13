@@ -63,15 +63,15 @@ app.use(function(req, res, next){
 
   res.format({
     html: function () {
-      res.render('404', { url: req.url })
+      res.render('404', { url: req.url });
     },
     json: function () {
-      res.json({ error: 'Not found' })
+      res.json({ error: 'Not found' });
     },
     default: function () {
-      res.type('txt').send('Not found')
+      res.type('txt').send('Not found');
     }
-  })
+  });
 });
 
 // error-handling middleware, take the same form

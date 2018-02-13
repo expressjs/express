@@ -1,5 +1,5 @@
 
-var express = require('../')
+var express = require('../');
 
 describe('app', function(){
   describe('.locals(obj)', function(){
@@ -11,8 +11,8 @@ describe('app', function(){
       Object.keys(app.locals).should.eql(['settings', 'user', 'age']);
       app.locals.user.should.equal('tobi');
       app.locals.age.should.equal(2);
-    })
-  })
+    });
+  });
 
   describe('.locals.settings', function(){
     it('should expose app settings', function(){
@@ -21,6 +21,6 @@ describe('app', function(){
       var obj = app.locals.settings;
       obj.should.have.property('env', 'test');
       obj.should.have.property('title', 'House of Manny');
-    })
-  })
-})
+    });
+  });
+});

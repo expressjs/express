@@ -15,6 +15,6 @@ describe('res', function(){
       .get('/')
       .expect('Created')
       .expect(201, done);
-    })
-  })
-})
+    });
+  });
+});

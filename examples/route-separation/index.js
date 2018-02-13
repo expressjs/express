@@ -26,7 +26,7 @@ if (!module.parent) {
 
 app.use(methodOverride('_method'));
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // General

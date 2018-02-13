@@ -11,7 +11,7 @@ describe('ejs', function(){
       .expect(/<li>tobi &lt;tobi@learnboost\.com&gt;<\/li>/)
       .expect(/<li>loki &lt;loki@learnboost\.com&gt;<\/li>/)
       .expect(/<li>jane &lt;jane@learnboost\.com&gt;<\/li>/)
-      .expect(200, done)
-    })
-  })
-})
+      .expect(200, done);
+    });
+  });
+});

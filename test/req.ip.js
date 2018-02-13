@@ -19,7 +19,7 @@ describe('req', function(){
           .get('/')
           .set('X-Forwarded-For', 'client, p1, p2')
           .expect('client', done);
-        })
+        });
 
         it('should return the addr after trusted proxy', function(done){
           var app = express();
@@ -34,7 +34,7 @@ describe('req', function(){
           .get('/')
           .set('X-Forwarded-For', 'client, p1, p2')
           .expect('p1', done);
-        })
+        });
 
         it('should return the addr after trusted proxy, from sub app', function (done) {
           var app = express();
@@ -51,8 +51,8 @@ describe('req', function(){
           .get('/')
           .set('X-Forwarded-For', 'client, p1, p2')
           .expect(200, 'p1', done);
-        })
-      })
+        });
+      });
 
       describe('when "trust proxy" is disabled', function(){
         it('should return the remote address', function(done){
@@ -62,12 +62,12 @@ describe('req', function(){
             res.send(req.ip);
           });
 
-          var test = request(app).get('/')
-          test.set('X-Forwarded-For', 'client, p1, p2')
+          var test = request(app).get('/');
+          test.set('X-Forwarded-For', 'client, p1, p2');
           test.expect(200, getExpectedClientAddress(test._server), done);
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe('when X-Forwarded-For is not present', function(){
       it('should return the remote address', function(done){
@@ -79,12 +79,12 @@ describe('req', function(){
           res.send(req.ip);
         });
 
-        var test = request(app).get('/')
-        test.expect(200, getExpectedClientAddress(test._server), done)
-      })
-    })
-  })
-})
+        var test = request(app).get('/');
+        test.expect(200, getExpectedClientAddress(test._server), done);
+      });
+    });
+  });
+});
 
 /**
  * Get the local client address depending on AF_NET of server

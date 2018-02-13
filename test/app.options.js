@@ -14,7 +14,7 @@ describe('OPTIONS', function(){
     .options('/users')
     .expect('Allow', 'GET,HEAD,PUT')
     .expect(200, 'GET,HEAD,PUT', done);
-  })
+  });
 
   it('should only include each method once', function(done){
     var app = express();
@@ -28,7 +28,7 @@ describe('OPTIONS', function(){
     .options('/users')
     .expect('Allow', 'GET,HEAD,PUT')
     .expect(200, 'GET,HEAD,PUT', done);
-  })
+  });
 
   it('should not be affected by app.all', function(done){
     var app = express();
@@ -46,7 +46,7 @@ describe('OPTIONS', function(){
     .expect('x-hit', '1')
     .expect('Allow', 'GET,HEAD,PUT')
     .expect(200, 'GET,HEAD,PUT', done);
-  })
+  });
 
   it('should not respond if the path is not defined', function(done){
     var app = express();
@@ -56,7 +56,7 @@ describe('OPTIONS', function(){
     request(app)
     .options('/other')
     .expect(404, done);
-  })
+  });
 
   it('should forward requests down the middleware chain', function(done){
     var app = express();
@@ -70,7 +70,7 @@ describe('OPTIONS', function(){
     .options('/other')
     .expect('Allow', 'GET,HEAD')
     .expect(200, 'GET,HEAD', done);
-  })
+  });
 
   describe('when error occurs in response handler', function () {
     it('should pass error to callback', function (done) {
@@ -90,10 +90,10 @@ describe('OPTIONS', function(){
 
       request(app)
       .options('/users')
-      .expect(200, 'true', done)
-    })
-  })
-})
+      .expect(200, 'true', done);
+    });
+  });
+});
 
 describe('app.options()', function(){
   it('should override the default behavior', function(done){
@@ -111,5 +111,5 @@ describe('app.options()', function(){
     .options('/users')
     .expect('GET')
     .expect('Allow', 'GET', done);
-  })
-})
+  });
+});

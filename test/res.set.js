@@ -15,7 +15,7 @@ describe('res', function(){
       .get('/')
       .expect('Content-Type', 'text/x-foo; charset=utf-8')
       .end(done);
-    })
+    });
 
     it('should coerce to a string', function (done) {
       var app = express();
@@ -29,8 +29,8 @@ describe('res', function(){
       .get('/')
       .expect('X-Number', '123')
       .expect(200, 'string', done);
-    })
-  })
+    });
+  });
 
   describe('.set(field, values)', function(){
     it('should set multiple response header fields', function(done){
@@ -44,7 +44,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('["type=ninja","language=javascript"]', done);
-    })
+    });
 
     it('should coerce to an array of strings', function (done) {
       var app = express();
@@ -58,7 +58,7 @@ describe('res', function(){
       .get('/')
       .expect('X-Numbers', '123, 456')
       .expect(200, '["123","456"]', done);
-    })
+    });
 
     it('should not set a charset of one is already set', function (done) {
       var app = express();
@@ -72,21 +72,21 @@ describe('res', function(){
       .get('/')
       .expect('Content-Type', 'text/html; charset=lol')
       .expect(200, done);
-    })
+    });
 
     it('should throw when Content-Type is an array', function (done) {
-      var app = express()
+      var app = express();
 
       app.use(function (req, res) {
-        res.set('Content-Type', ['text/html'])
-        res.end()
+        res.set('Content-Type', ['text/html']);
+        res.end();
       });
 
       request(app)
       .get('/')
-      .expect(500, /TypeError: Content-Type cannot be set to an Array/, done)
-    })
-  })
+      .expect(500, /TypeError: Content-Type cannot be set to an Array/, done);
+    });
+  });
 
   describe('.set(object)', function(){
     it('should set multiple fields', function(done){
@@ -104,7 +104,7 @@ describe('res', function(){
       .expect('X-Foo', 'bar')
       .expect('X-Bar', 'baz')
       .end(done);
-    })
+    });
 
     it('should coerce to a string', function (done) {
       var app = express();
@@ -118,6 +118,6 @@ describe('res', function(){
       .get('/')
       .expect('X-Number', '123')
       .expect(200, 'string', done);
-    })
-  })
-})
+    });
+  });
+});

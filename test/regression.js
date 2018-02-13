@@ -15,5 +15,5 @@ describe('throw after .end()', function(){
     .get('/')
     .expect('yay')
     .expect(200, done);
-  })
-})
+  });
+});

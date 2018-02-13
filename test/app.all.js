@@ -17,7 +17,7 @@ describe('app.all()', function(){
       .get('/tobi')
       .expect('GET', done);
     });
-  })
+  });
 
   it('should run the callback for a method just once', function(done){
     var app = express()
@@ -31,5 +31,5 @@ describe('app.all()', function(){
     request(app)
     .del('/tobi')
     .expect(404, done);
-  })
-})
+  });
+});

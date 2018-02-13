@@ -102,8 +102,8 @@ describe('req', function(){
         createApp.bind(null, 'bogus').should.throw(/unknown value.*query parser/);
       });
     });
-  })
-})
+  });
+});
 
 function createApp(setting) {
   var app = express();

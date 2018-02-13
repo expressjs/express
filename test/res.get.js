@@ -15,6 +15,6 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect(200, 'text/x-foo', done);
-    })
-  })
-})
+    });
+  });
+});
