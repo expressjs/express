@@ -43,7 +43,7 @@ GithubView.prototype.render = function(options, fn){
   https.request(opts, function(res) {
     var buf = '';
     res.setEncoding('utf8');
-    res.on('data', function(str){ buf += str });
+    res.on('data', function(str){ buf += str; });
     res.on('end', function(){
       self.engine(buf, options, fn);
     });

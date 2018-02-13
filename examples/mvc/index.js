@@ -42,7 +42,7 @@ app.use(session({
 }));
 
 // parse request bodies (req.body)
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 
 // allow overriding methods in query (?_method=put)
 app.use(methodOverride('_method'));

@@ -8,7 +8,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        req.xhr.should.be.true()
+        req.xhr.should.be.true();
         res.end();
       });
 
@@ -18,14 +18,14 @@ describe('req', function(){
       .expect(200)
       .end(function(err, res){
         done(err);
-      })
-    })
+      });
+    });
 
     it('should case-insensitive', function(done){
       var app = express();
 
       app.use(function(req, res){
-        req.xhr.should.be.true()
+        req.xhr.should.be.true();
         res.end();
       });
 
@@ -35,14 +35,14 @@ describe('req', function(){
       .expect(200)
       .end(function(err, res){
         done(err);
-      })
-    })
+      });
+    });
 
     it('should return false otherwise', function(done){
       var app = express();
 
       app.use(function(req, res){
-        req.xhr.should.be.false()
+        req.xhr.should.be.false();
         res.end();
       });
 
@@ -52,14 +52,14 @@ describe('req', function(){
       .expect(200)
       .end(function(err, res){
         done(err);
-      })
-    })
+      });
+    });
 
     it('should return false when not present', function(done){
       var app = express();
 
       app.use(function(req, res){
-        req.xhr.should.be.false()
+        req.xhr.should.be.false();
         res.end();
       });
 
@@ -68,7 +68,7 @@ describe('req', function(){
       .expect(200)
       .end(function(err, res){
         done(err);
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});

@@ -15,7 +15,7 @@ describe('res', function(){
       request(app)
       .get('/?callback=foo')
       .expect('{"foo":"bar"}', done);
-    })
+    });
 
     it('should not override previous Content-Types', function(done){
       var app = express();
@@ -29,7 +29,7 @@ describe('res', function(){
       .get('/')
       .expect('Content-Type', 'application/vnd.example+json; charset=utf-8')
       .expect(200, '{"hello":"world"}', done);
-    })
+    });
 
     describe('when given primitives', function(){
       it('should respond with json for null', function(done){
@@ -42,8 +42,8 @@ describe('res', function(){
         request(app)
         .get('/')
         .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, 'null', done)
-      })
+        .expect(200, 'null', done);
+      });
 
       it('should respond with json for Number', function(done){
         var app = express();
@@ -55,8 +55,8 @@ describe('res', function(){
         request(app)
         .get('/')
         .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '300', done)
-      })
+        .expect(200, '300', done);
+      });
 
       it('should respond with json for String', function(done){
         var app = express();
@@ -68,9 +68,9 @@ describe('res', function(){
         request(app)
         .get('/')
         .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '"str"', done)
-      })
-    })
+        .expect(200, '"str"', done);
+      });
+    });
 
     describe('when given an array', function(){
       it('should respond with json', function(done){
@@ -83,9 +83,9 @@ describe('res', function(){
         request(app)
         .get('/')
         .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '["foo","bar","baz"]', done)
-      })
-    })
+        .expect(200, '["foo","bar","baz"]', done);
+      });
+    });
 
     describe('when given an object', function(){
       it('should respond with json', function(done){
@@ -98,31 +98,31 @@ describe('res', function(){
         request(app)
         .get('/')
         .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '{"name":"tobi"}', done)
-      })
-    })
+        .expect(200, '{"name":"tobi"}', done);
+      });
+    });
 
     describe('"json escape" setting', function () {
       it('should be undefined by default', function () {
-        var app = express()
-        assert.strictEqual(app.get('json escape'), undefined)
-      })
+        var app = express();
+        assert.strictEqual(app.get('json escape'), undefined);
+      });
 
       it('should unicode escape HTML-sniffing characters', function (done) {
-        var app = express()
+        var app = express();
 
-        app.enable('json escape')
+        app.enable('json escape');
 
         app.use(function (req, res) {
-          res.json({ '&': '<script>' })
-        })
+          res.json({ '&': '<script>' });
+        });
 
         request(app)
         .get('/')
         .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '{"\\u0026":"\\u003cscript\\u003e"}', done)
-      })
-    })
+        .expect(200, '{"\\u0026":"\\u003cscript\\u003e"}', done);
+      });
+    });
 
     describe('"json replacer" setting', function(){
       it('should be passed to JSON.stringify()', function(done){
@@ -141,15 +141,15 @@ describe('res', function(){
         request(app)
         .get('/')
         .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '{"name":"tobi"}', done)
-      })
-    })
+        .expect(200, '{"name":"tobi"}', done);
+      });
+    });
 
     describe('"json spaces" setting', function(){
       it('should be undefined by default', function(){
         var app = express();
         assert(undefined === app.get('json spaces'));
-      })
+      });
 
       it('should be passed to JSON.stringify()', function(done){
         var app = express();
@@ -163,10 +163,10 @@ describe('res', function(){
         request(app)
         .get('/')
         .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '{\n  "name": "tobi",\n  "age": 2\n}', done)
-      })
-    })
-  })
+        .expect(200, '{\n  "name": "tobi",\n  "age": 2\n}', done);
+      });
+    });
+  });
 
   describe('.json(status, object)', function(){
     it('should respond with json and set the .statusCode', function(done){
@@ -179,9 +179,9 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(201, '{"id":1}', done)
-    })
-  })
+      .expect(201, '{"id":1}', done);
+    });
+  });
 
   describe('.json(object, status)', function(){
     it('should respond with json and set the .statusCode for backwards compat', function(done){
@@ -194,8 +194,8 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(201, '{"id":1}', done)
-    })
+      .expect(201, '{"id":1}', done);
+    });
 
     it('should use status as second number for backwards compat', function(done){
       var app = express();
@@ -207,7 +207,7 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(201, '200', done)
-    })
-  })
-})
+      .expect(201, '200', done);
+    });
+  });
+});

@@ -14,7 +14,7 @@ describe('req', function(){
       request(app)
       .get('/')
       .expect('http', done);
-    })
+    });
 
     describe('when "trust proxy" is enabled', function(){
       it('should respect X-Forwarded-Proto', function(done){
@@ -30,7 +30,7 @@ describe('req', function(){
         .get('/')
         .set('X-Forwarded-Proto', 'https')
         .expect('https', done);
-      })
+      });
 
       it('should default to the socket addr if X-Forwarded-Proto not present', function(done){
         var app = express();
@@ -45,7 +45,7 @@ describe('req', function(){
         request(app)
         .get('/')
         .expect('https', done);
-      })
+      });
 
       it('should ignore X-Forwarded-Proto if socket addr not trusted', function(done){
         var app = express();
@@ -60,7 +60,7 @@ describe('req', function(){
         .get('/')
         .set('X-Forwarded-Proto', 'https')
         .expect('http', done);
-      })
+      });
 
       it('should default to http', function(done){
         var app = express();
@@ -74,7 +74,7 @@ describe('req', function(){
         request(app)
         .get('/')
         .expect('http', done);
-      })
+      });
 
       describe('when trusting hop count', function () {
         it('should respect X-Forwarded-Proto', function (done) {
@@ -90,9 +90,9 @@ describe('req', function(){
           .get('/')
           .set('X-Forwarded-Proto', 'https')
           .expect('https', done);
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe('when "trust proxy" is disabled', function(){
       it('should ignore X-Forwarded-Proto', function(done){
@@ -106,7 +106,7 @@ describe('req', function(){
         .get('/')
         .set('X-Forwarded-Proto', 'https')
         .expect('http', done);
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});

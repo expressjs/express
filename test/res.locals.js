@@ -15,8 +15,8 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect(200, done);
-    })
-  })
+    });
+  });
 
   it('should work when mounted', function(done){
     var app = express();
@@ -37,5 +37,5 @@ describe('res', function(){
     request(app)
     .get('/')
     .expect(200, done);
-  })
-})
+  });
+});

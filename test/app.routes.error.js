@@ -7,7 +7,7 @@ describe('app', function(){
       var app = express();
 
       app.use(function(req, res, next){
-        next(new Error('boom!'))
+        next(new Error('boom!'));
       });
 
       app.get('/bar', function(req, res){
@@ -44,16 +44,16 @@ describe('app', function(){
         d = true;
         next();
       }, function(req, res){
-        a.should.be.false()
-        b.should.be.true()
-        c.should.be.true()
-        d.should.be.false()
+        a.should.be.false();
+        b.should.be.true();
+        c.should.be.true();
+        d.should.be.false();
         res.send(204);
       });
 
       request(app)
       .get('/')
       .expect(204, done);
-    })
-  })
-})
+    });
+  });
+});

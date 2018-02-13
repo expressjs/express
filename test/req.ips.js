@@ -19,7 +19,7 @@ describe('req', function(){
           .get('/')
           .set('X-Forwarded-For', 'client, p1, p2')
           .expect('["client","p1","p2"]', done);
-        })
+        });
 
         it('should stop at first untrusted', function(done){
           var app = express();
@@ -34,8 +34,8 @@ describe('req', function(){
           .get('/')
           .set('X-Forwarded-For', 'client, p1, p2')
           .expect('["p1","p2"]', done);
-        })
-      })
+        });
+      });
 
       describe('when "trust proxy" is disabled', function(){
         it('should return an empty array', function(done){
@@ -49,9 +49,9 @@ describe('req', function(){
           .get('/')
           .set('X-Forwarded-For', 'client, p1, p2')
           .expect('[]', done);
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe('when X-Forwarded-For is not present', function(){
       it('should return []', function(done){
@@ -64,7 +64,7 @@ describe('req', function(){
         request(app)
         .get('/')
         .expect('[]', done);
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});

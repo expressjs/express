@@ -1,7 +1,7 @@
 
 var express = require('../')
   , request = require('supertest')
-  , cookieParser = require('cookie-parser')
+  , cookieParser = require('cookie-parser');
 
 describe('req', function(){
   describe('.signedCookies', function(){
@@ -28,9 +28,9 @@ describe('req', function(){
         request(app)
         .get('/')
         .set('Cookie', cookie)
-        .expect(200, { obj: { foo: 'bar' } }, done)
+        .expect(200, { obj: { foo: 'bar' } }, done);
       });
-    })
-  })
-})
+    });
+  });
+});
 

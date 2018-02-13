@@ -3,7 +3,7 @@
  */
 
 var express = require('../..');
-var hash = require('pbkdf2-password')()
+var hash = require('pbkdf2-password')();
 var path = require('path');
 var session = require('express-session');
 
@@ -16,7 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // middleware
 
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored

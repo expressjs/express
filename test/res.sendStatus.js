@@ -1,6 +1,6 @@
 
-var express = require('..')
-var request = require('supertest')
+var express = require('..');
+var request = require('supertest');
 
 describe('res', function () {
   describe('.sendStatus(statusCode)', function () {
@@ -14,7 +14,7 @@ describe('res', function () {
       request(app)
       .get('/')
       .expect(201, 'Created', done);
-    })
+    });
 
     it('should work with unknown code', function (done) {
       var app = express();
@@ -26,6 +26,6 @@ describe('res', function () {
       request(app)
       .get('/')
       .expect(599, '599', done);
-    })
-  })
-})
+    });
+  });
+});

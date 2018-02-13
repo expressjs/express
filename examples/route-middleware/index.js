@@ -52,7 +52,7 @@ function andRestrictTo(role) {
     } else {
       next(new Error('Unauthorized'));
     }
-  }
+  };
 }
 
 // Middleware for faux authentication

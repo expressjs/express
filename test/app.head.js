@@ -15,7 +15,7 @@ describe('HEAD', function(){
     request(app)
     .head('/tobi')
     .expect(200, done);
-  })
+  });
 
   it('should output the same headers as GET requests', function(done){
     var app = express();
@@ -40,8 +40,8 @@ describe('HEAD', function(){
         done();
       });
     });
-  })
-})
+  });
+});
 
 describe('app.head()', function(){
   it('should override', function(done){
@@ -64,5 +64,5 @@ describe('app.head()', function(){
       assert(called);
       done();
     });
-  })
-})
+  });
+});

@@ -14,7 +14,7 @@ while (n--) {
 }
 
 app.use(function(req, res, next){
-  res.send('Hello World')
+  res.send('Hello World');
 });
 
 app.listen(3333);

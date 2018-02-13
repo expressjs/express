@@ -1,5 +1,5 @@
 
-var express = require('../')
+var express = require('../');
 
 describe('app.listen()', function(){
   it('should wrap with an HTTP server', function(done){
@@ -13,5 +13,5 @@ describe('app.listen()', function(){
       server.close();
       done();
     });
-  })
-})
+  });
+});
