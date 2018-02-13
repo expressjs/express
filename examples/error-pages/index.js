@@ -6,7 +6,7 @@ var express = require('../../');
 var path = require('path');
 var app = module.exports = express();
 var logger = require('morgan');
-var silent = 'test' == process.env.NODE_ENV;
+var silent = process.env.NODE_ENV === 'test'
 
 // general config
 app.set('views', path.join(__dirname, 'views'));
@@ -19,7 +19,7 @@ app.enable('verbose errors');
 
 // disable them in production
 // use $ NODE_ENV=production node examples/error-pages
-if ('production' == app.settings.env) app.disable('verbose errors');
+if (app.settings.env === 'production') app.disable('verbose errors')
 
 silent || app.use(logger('dev'));
 

@@ -269,9 +269,7 @@ describe('res', function(){
         var app = express();
 
         app.set('json replacer', function(key, val){
-          return '_' == key[0]
-            ? undefined
-            : val;
+          return key[0] === '_' ? undefined : val
         });
 
         app.use(function(req, res){

@@ -4,7 +4,7 @@
 
 var express = require('../../lib/express');
 
-var verbose = process.env.NODE_ENV != 'test';
+var verbose = process.env.NODE_ENV !== 'test'
 
 var app = module.exports = express();
 

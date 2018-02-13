@@ -8,7 +8,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 
 // custom log format
-if ('test' != process.env.NODE_ENV) app.use(logger(':method :url'));
+if (process.env.NODE_ENV !== 'test') app.use(logger(':method :url'))
 
 // parses request cookies, populating
 // req.cookies and req.signedCookies

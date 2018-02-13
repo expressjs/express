@@ -34,7 +34,7 @@ function loadUser(req, res, next) {
 function andRestrictToSelf(req, res, next) {
   // If our authenticated user is the user we are viewing
   // then everything is fine :)
-  if (req.authenticatedUser.id == req.user.id) {
+  if (req.authenticatedUser.id === req.user.id) {
     next();
   } else {
     // You may want to implement specific exceptions
@@ -47,7 +47,7 @@ function andRestrictToSelf(req, res, next) {
 
 function andRestrictTo(role) {
   return function(req, res, next) {
-    if (req.authenticatedUser.role == role) {
+    if (req.authenticatedUser.role === role) {
       next();
     } else {
       next(new Error('Unauthorized'));
