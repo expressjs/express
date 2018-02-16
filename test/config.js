@@ -118,6 +118,38 @@ describe('config', function () {
     })
   })
 
+  describe('.extend()', function () {
+    it('should set if value is nonexistent', function () {
+      var app = express();
+      app.extend('foo', { 'bar' : 1 });
+      assert.deepEqual(app.get('foo'), { 'bar' : 1 });
+    })
+
+    it('should extend an object', function () {
+      var app = express();
+      app.extend('foo', { 'bar' : 1 });
+      app.extend('foo', { 'baz' : 1 });
+      assert.deepEqual(app.get('foo'), { 'bar' : 1, 'baz' : 1 });
+    })
+
+    it('should return the app', function () {
+      var app = express();
+      assert.equal(app.extend('foo', { 'bar' : 1 }), app);
+    })
+
+    it('should return the app when undefined', function () {
+      var app = express();
+      assert.equal(app.extend('foo', undefined), app);
+    })
+
+    it('should thorw on bad value', function () {
+      var app = express();
+      (function(){
+        app.extend('foo', null);
+      }).should.throw('value needs to be an object');
+    })
+  })
+
   describe('.enable()', function(){
     it('should set the value to true', function(){
       var app = express();
