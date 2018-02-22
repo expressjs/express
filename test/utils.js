@@ -93,3 +93,51 @@ describe('utils.flatten(arr)', function(){
       .should.eql(['one', 'two', 'three', 'four', 'five']);
   })
 })
+
+describe('utils.extendObject', function(){
+  var result;
+
+  it('can extend an object with the attributes of another', function(){
+    assert.strictEqual(utils.extendObject({}, {a: 'b'}).a, 'b');
+  })
+
+  it('properties in source override destination', function(){
+    assert.strictEqual(utils.extendObject({a: 'x'}, {a: 'b'}).a, 'b');
+  })
+
+  it('properties not in source don\'t get overridden', function(){
+    assert.strictEqual(utils.extendObject({x: 'x'}, {a: 'b'}).x, 'x');
+  })
+
+  it('can extend from multiple source objects', function(){
+    result = utils.extendObject({x: 'x'}, {a: 'a'}, {b: 'b'});
+    assert.deepEqual(result, {x: 'x', a: 'a', b: 'b'});
+  })
+
+  it('extending from multiple source objects last property trumps', function(){
+    result = utils.extendObject({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
+    assert.deepEqual(result, {x: 2, a: 'b'});
+  })
+
+  it('extend copies undefined values', function(){
+    result = utils.extendObject({}, {a: void 0, b: null});
+    assert.equal(result.hasOwnProperty('a'), true);
+    assert.equal(result.hasOwnProperty('b'), true);
+  })
+
+  it('extend copies all properties from source', function(){
+    var F = function(){};
+    F.prototype = {a: 'b'};
+    var subObj = new F();
+    subObj.c = 'd';
+    assert.deepEqual(utils.extendObject({}, subObj), {a: 'b', c: 'd'});
+  })
+
+  it('should not error on `null` or `undefined` sources', function(){
+    try {
+      result = {};
+      utils.extendObject(result, null, void 0, {a: 1});
+    } catch (e) { /* ignored */ }
+    assert.strictEqual(result.a, 1);
+  })
+})

@@ -164,6 +164,9 @@ describe('config', function () {
       (function(){
         app.extend('foo', null);
       }).should.throw('value needs to be an object');
+      (function(){
+        app.extend('foo', []);
+      }).should.throw('value needs to be an object');
     })
   })
 
