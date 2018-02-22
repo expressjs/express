@@ -132,6 +132,23 @@ describe('config', function () {
       assert.deepEqual(app.get('foo'), { 'bar' : 1, 'baz' : 1 });
     })
 
+    it('should not extend by reference', function () {
+      var app1 = express();
+      var app2 = express();
+
+      app1.set('foo', { active: false });
+      assert.equal(app1.get('foo').active, false);
+      assert.equal(app2.get('foo'), undefined);
+
+      app1.use(app2);
+      assert.equal(app1.get('foo').active, false);
+      assert.equal(app2.get('foo').active, false);
+
+      app2.extend('foo', { active: true });
+      assert.deepEqual(app1.get('foo'), { active: false });
+      assert.deepEqual(app2.get('foo'), { active: true });
+    })
+
     it('should return the app', function () {
       var app = express();
       assert.equal(app.extend('foo', { 'bar' : 1 }), app);
@@ -142,7 +159,7 @@ describe('config', function () {
       assert.equal(app.extend('foo', undefined), app);
     })
 
-    it('should thorw on bad value', function () {
+    it('should throw on a bad value', function () {
       var app = express();
       (function(){
         app.extend('foo', null);
