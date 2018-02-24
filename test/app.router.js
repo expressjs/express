@@ -962,6 +962,71 @@ describe('app.router', function(){
     })
   })
 
+  describe('when automatic405 property is set on router', function(){
+    it('should respond with status 405 if request method is not present on route', function(done){
+      var app = express();
+      var router = new express.Router({ automatic405: true });
+
+      router.route('/')
+      .get(function(req, res) {
+        res.send('get');
+      })
+      .put(function(req, res) {
+        res.send('put');
+      });
+
+      app.use(router);
+
+      request(app)
+      .post('/')
+      .expect(405, done);
+    })
+
+    it('can be overridden by route', function(done){
+      var app = express();
+      var router = new express.Router({ automatic405: true });
+
+      router.route('/')
+      .get(function(req, res) {
+        res.send('get');
+      });
+
+      router.route('/foo', { automatic405: false })
+      .post(function(req, res) {
+        res.send('post');
+      });
+
+      app.use(router);
+
+      request(app)
+      .put('/foo')
+      .expect(404, done);
+    })
+
+    it('should respond according to request handler when request method matches', function(done){
+      var app = express();
+      var router = new express.Router({ automatic405: true });
+
+      router.route('/')
+      .get(function(req, res) {
+        res.send('get');
+      })
+      .put(function(req, res) {
+        res.send('put');
+      });
+
+      router.post('/foo', function(req, res) {
+        res.send('post');
+      });
+
+      app.use(router);
+
+      request(app)
+      .post('/foo')
+      .expect('post', done);
+    })
+  })
+
   describe('when next(err) is called', function(){
     it('should break out of app.router', function(done){
       var app = express()
