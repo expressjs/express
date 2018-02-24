@@ -59,4 +59,20 @@ describe('app.route', function(){
     .get('/test')
     .expect(404, done);
   });
+
+  it('should respond with status 405 if request method is not present on route and route is configured for auto 405', function(done){
+    var app = express();
+
+    app.route('/', { automatic405: true })
+    .get(function(req, res) {
+      res.send('get');
+    })
+    .post(function(req, res) {
+      res.send('post');
+    });
+
+    request(app)
+    .put('/')
+    .expect(405, done);
+  });
 });
