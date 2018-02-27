@@ -5,6 +5,8 @@ unreleased
     - perf: remove argument reassignment
   * deps: encodeurl@~1.0.2
     - Fix encoding `%` as last character
+  * deps: proxy-addr@~2.0.3
+    - deps: ipaddr.js@1.6.0
   * deps: send@0.16.2
     - Fix incorrect end tag in default error & redirects
     - deps: depd@~1.1.2
