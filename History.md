@@ -17,6 +17,8 @@ unreleased
     - deps: encodeurl@~1.0.2
     - deps: send@0.16.2
   * deps: statuses@~1.4.0
+  * deps: type-is@~1.6.16
+    - deps: mime-types@~2.1.18
 
 4.16.2 / 2017-10-09
 ===================

@@ -54,7 +54,7 @@
     "serve-static": "1.13.2",
     "setprototypeof": "1.1.0",
     "statuses": "~1.4.0",
-    "type-is": "~1.6.15",
+    "type-is": "~1.6.16",
     "utils-merge": "1.0.1",
     "vary": "~1.1.2"
   },
