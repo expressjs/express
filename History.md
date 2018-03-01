@@ -1,6 +1,8 @@
 unreleased
 ==========
 
+  * deps: accepts@~1.3.5
+    - deps: mime-types@~2.1.18
   * deps: depd@~1.1.2
     - perf: remove argument reassignment
   * deps: encodeurl@~1.0.2
