@@ -146,7 +146,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [npm-image]: https://img.shields.io/npm/v/express.svg
 [npm-url]: https://npmjs.org/package/express
 [downloads-image]: https://img.shields.io/npm/dm/express.svg
-[downloads-url]: https://npmjs.org/package/express
+[downloads-url]: https://npmcharts.com/compare/express?minimal=true
 [travis-image]: https://img.shields.io/travis/expressjs/express/master.svg?label=linux
 [travis-url]: https://travis-ci.org/expressjs/express
 [appveyor-image]: https://img.shields.io/appveyor/ci/dougwilson/express/master.svg?label=windows
