@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Improve error message for non-strings to `res.sendFile`
+
 4.16.4 / 2018-10-10
 ===================
 
