@@ -7,6 +7,10 @@ unreleased
     - perf: remove argument reassignment
   * deps: encodeurl@~1.0.2
     - Fix encoding `%` as last character
+  * deps: finalhandler@1.1.1
+    - Fix 404 output for bad / missing pathnames
+    - deps: encodeurl@~1.0.2
+    - deps: statuses@~1.4.0
   * deps: proxy-addr@~2.0.3
     - deps: ipaddr.js@1.6.0
   * deps: send@0.16.2
