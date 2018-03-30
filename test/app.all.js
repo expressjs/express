@@ -32,4 +32,41 @@ describe('app.all()', function(){
     .del('/tobi')
     .expect(404, done);
   })
+
+  it('should resolve the promise correctly and return 200', function(done){
+    var app = express();
+
+    app.all('/*', function(req, res, next){
+      return new Promise(function (resolve) {
+        setTimeout(function () {
+          resolve();
+          res.end(req.method);
+        }, 200);
+      });
+    });
+
+    request(app)
+    .get('/tobi')
+    .expect(200, done);
+  });
+
+  it('should catch the promise error and return 500', function(done){
+    var app = express();
+
+    app.all('/*', function (req, res, next){
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          reject(new Error('async request failed'));
+        }, 200);
+      });
+    });
+
+    app.use(function (err, req, res, next) {
+      res.sendStatus(500)
+    });
+
+    request(app)
+    .get('/tobi')
+    .expect(500, done);
+  });
 })
