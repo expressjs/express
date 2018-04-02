@@ -44,6 +44,32 @@ describe('app', function(){
       })
     })
 
+    it('should use view options', function(done){
+      var app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.locals.user = { name: 'tobi' };
+      app.set('view options', {
+        uppercase: true,
+      });
+
+      app.render('user.tmpl', function (err, str) {
+        if (err) return done(err);
+        str.should.equal('<P>TOBI</P>');
+      })
+
+      app.set('view options', {
+        uppercase: false,
+      });
+
+      app.render('user.tmpl', function (err, str) {
+        if (err) return done(err);
+        str.should.equal('<p>tobi</p>');
+        done();
+      })
+    })
+
+
     it('should support index.<engine>', function(done){
       var app = createApp();
 
