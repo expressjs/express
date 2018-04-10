@@ -10,10 +10,9 @@ node_js:
   - "6.14"
   - "7.10"
   - "8.12"
+  - "9.11"
 matrix:
   include:
-    - node_js: "9"
-      env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
     - node_js: "10"
       env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
     - node_js: "11"
