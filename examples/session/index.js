@@ -6,10 +6,10 @@
 // $ npm install redis
 // $ redis-server
 
-var express = require('../..');
-var session = require('express-session');
+const express = require('../..');
+const session = require('express-session');
 
-var app = express();
+const app = express();
 
 // Populates req.session
 app.use(session({
@@ -18,15 +18,15 @@ app.use(session({
   secret: 'keyboard cat'
 }));
 
-app.get('/', function(req, res){
-  var body = '';
+app.get('/', (req, res) => {
+  let body = '';
   if (req.session.views) {
     ++req.session.views;
   } else {
     req.session.views = 1;
-    body += '<p>First time visiting? view this page in several browsers :)</p>';
+    body += `<p>First time visiting? view this page in several browsers :)</p>`;
   }
-  res.send(body + '<p>viewed <strong>' + req.session.views + '</strong> times.</p>');
+  res.send( `${body} <p>viewed <strong> ${req.session.views } </strong> times.</p>`);
 });
 
 /* istanbul ignore next */
