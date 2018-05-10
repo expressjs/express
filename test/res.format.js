@@ -1,7 +1,7 @@
 
+var after = require('after')
 var express = require('../')
   , request = require('supertest')
-  , utils = require('../lib/utils')
   , assert = require('assert');
 
 var app1 = express();
@@ -17,9 +17,9 @@ app1.use(function(req, res, next){
     },
 
     'application/json': function(a, b, c){
-      assert(req == a);
-      assert(res == b);
-      assert(next == c);
+      assert(req === a)
+      assert(res === b)
+      assert(next === c)
       res.send({ message: 'hey' });
     }
   });
@@ -169,21 +169,23 @@ function test(app) {
     .expect('hey', done);
   })
 
-  it('should set the correct  charset for the Content-Type', function() {
+  it('should set the correct charset for the Content-Type', function (done) {
+    var cb = after(3, done)
+
     request(app)
     .get('/')
     .set('Accept', 'text/html')
-    .expect('Content-Type', 'text/html; charset=utf-8');
+    .expect('Content-Type', 'text/html; charset=utf-8', cb)
 
     request(app)
     .get('/')
     .set('Accept', 'text/plain')
-    .expect('Content-Type', 'text/plain; charset=utf-8');
+    .expect('Content-Type', 'text/plain; charset=utf-8', cb)
 
     request(app)
     .get('/')
     .set('Accept', 'application/json')
-    .expect('Content-Type', 'application/json');
+    .expect('Content-Type', 'application/json; charset=utf-8', cb)
   })
 
   it('should Vary: Accept', function(done){

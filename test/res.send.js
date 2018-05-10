@@ -1,5 +1,6 @@
 
-var assert = require('assert');
+var assert = require('assert')
+var Buffer = require('safe-buffer').Buffer
 var express = require('..');
 var methods = require('methods');
 var request = require('supertest');
@@ -54,7 +55,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.send(201).should.equal(res);
+        res.send(201)
       });
 
       request(app)
@@ -167,7 +168,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.set('Content-Type', 'text/plain; charset=iso-8859-1').send(new Buffer('hi'));
+        res.set('Content-Type', 'text/plain; charset=iso-8859-1').send(Buffer.from('hi'))
       });
 
       request(app)
@@ -182,7 +183,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.send(new Buffer('hello'));
+        res.send(Buffer.from('hello'))
       });
 
       request(app)
@@ -195,8 +196,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function (req, res) {
-        var str = Array(1000).join('-');
-        res.send(new Buffer(str));
+        res.send(Buffer.alloc(999, '-'))
       });
 
       request(app)
@@ -209,13 +209,26 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.set('Content-Type', 'text/plain').send(new Buffer('hey'));
+        res.set('Content-Type', 'text/plain').send(Buffer.from('hey'))
       });
 
       request(app)
       .get('/')
       .expect('Content-Type', 'text/plain; charset=utf-8')
       .expect(200, 'hey', done);
+    })
+
+    it('should not override ETag', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.type('text/plain').set('ETag', '"foo"').send(Buffer.from('hey'))
+      })
+
+      request(app)
+      .get('/')
+      .expect('ETag', '"foo"')
+      .expect(200, 'hey', done)
     })
   })
 
@@ -340,6 +353,18 @@ describe('res', function(){
     request(app)
     .get('/?callback=foo')
     .expect('{"foo":"bar"}', done);
+  })
+
+  it('should be chainable', function (done) {
+    var app = express()
+
+    app.use(function (req, res) {
+      assert.equal(res.send('hey'), res)
+    })
+
+    request(app)
+    .get('/')
+    .expect(200, 'hey', done)
   })
 
   describe('"etag" setting', function () {
@@ -513,7 +538,7 @@ describe('res', function(){
 
         app.set('etag', function (body, encoding) {
           var chunk = !Buffer.isBuffer(body)
-            ? new Buffer(body, encoding)
+            ? Buffer.from(body, encoding)
             : body;
           chunk.toString().should.equal('hello, world!');
           return '"custom"';

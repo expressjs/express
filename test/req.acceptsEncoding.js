@@ -8,8 +8,8 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        req.acceptsEncoding('gzip').should.be.ok;
-        req.acceptsEncoding('deflate').should.be.ok;
+        req.acceptsEncoding('gzip').should.be.ok()
+        req.acceptsEncoding('deflate').should.be.ok()
         res.end();
       });
 
@@ -23,7 +23,7 @@ describe('req', function(){
       var app = express();
 
       app.use(function(req, res){
-        req.acceptsEncoding('bogus').should.not.be.ok;
+        req.acceptsEncoding('bogus').should.not.be.ok()
         res.end();
       });
 

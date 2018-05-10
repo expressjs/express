@@ -1,5 +1,6 @@
 
 var assert = require('assert');
+var Buffer = require('safe-buffer').Buffer
 var utils = require('../lib/utils');
 
 describe('utils.etag(body, encoding)', function(){
@@ -14,8 +15,7 @@ describe('utils.etag(body, encoding)', function(){
   })
 
   it('should support buffer', function(){
-    var buf = new Buffer('express!')
-    utils.etag(buf)
+    utils.etag(Buffer.from('express!'))
     .should.eql('"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"')
   })
 
@@ -59,8 +59,7 @@ describe('utils.wetag(body, encoding)', function(){
   })
 
   it('should support buffer', function(){
-    var buf = new Buffer('express!')
-    utils.wetag(buf)
+    utils.wetag(Buffer.from('express!'))
     .should.eql('W/"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"')
   })
 

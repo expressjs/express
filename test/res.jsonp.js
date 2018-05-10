@@ -242,12 +242,34 @@ describe('res', function(){
       })
     })
 
+    describe('"json escape" setting', function () {
+      it('should be undefined by default', function () {
+        var app = express()
+        assert.strictEqual(app.get('json escape'), undefined)
+      })
+
+      it('should unicode escape HTML-sniffing characters', function (done) {
+        var app = express()
+
+        app.enable('json escape')
+
+        app.use(function (req, res) {
+          res.jsonp({ '&': '\u2028<script>\u2029' })
+        })
+
+        request(app)
+        .get('/?callback=foo')
+        .expect('Content-Type', 'text/javascript; charset=utf-8')
+        .expect(200, /foo\({"\\u0026":"\\u2028\\u003cscript\\u003e\\u2029"}\)/, done)
+      })
+    })
+
     describe('"json replacer" setting', function(){
       it('should be passed to JSON.stringify()', function(done){
         var app = express();
 
         app.set('json replacer', function(key, val){
-          return '_' == key[0]
+          return key[0] === '_'
             ? undefined
             : val;
         });

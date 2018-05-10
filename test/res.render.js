@@ -35,6 +35,20 @@ describe('res', function(){
       .expect('<p>tobi</p>', done);
     })
 
+    it('should error without "view engine" set and file extension to a non-engine module', function (done) {
+      var app = createApp()
+
+      app.locals.user = { name: 'tobi' }
+
+      app.use(function (req, res) {
+        res.render(path.join(__dirname, 'fixtures', 'broken.send'))
+      })
+
+      request(app)
+      .get('/')
+      .expect(500, /does not provide a view engine/, done)
+    })
+
     it('should error without "view engine" set and no file extension', function (done) {
       var app = createApp();
 
@@ -105,12 +119,12 @@ describe('res', function(){
         });
 
         app.use(function(err, req, res, next){
-          res.end(err.message);
+          res.status(500).send('got error: ' + err.name)
         });
 
         request(app)
         .get('/')
-        .expect(/Cannot read property '[^']+' of undefined/, done);
+        .expect(500, 'got error: RenderError', done)
       })
     })
 
@@ -329,13 +343,15 @@ describe('res', function(){
 
         app.use(function(req, res){
           res.render('user.tmpl', function (err) {
-            res.end(err.message);
+            if (err) {
+              res.status(500).send('got error: ' + err.name)
+            }
           });
         });
 
         request(app)
         .get('/')
-        .expect(/Cannot read property '[^']+' of undefined/, done);
+        .expect(500, 'got error: RenderError', done)
       })
     })
   })

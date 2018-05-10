@@ -72,7 +72,7 @@ describe('app', function(){
       app.set('view', View);
 
       app.render('something', function(err, str){
-        err.should.be.ok;
+        err.should.be.ok()
         err.message.should.equal('err!');
         done();
       })
@@ -97,12 +97,10 @@ describe('app', function(){
 
         app.set('views', path.join(__dirname, 'fixtures'))
 
-        app.render('user.tmpl', function (err, str) {
-          // nextTick to prevent cyclic
-          process.nextTick(function(){
-            err.message.should.match(/Cannot read property '[^']+' of undefined/);
-            done();
-          });
+        app.render('user.tmpl', function (err) {
+          assert.ok(err)
+          assert.equal(err.name, 'RenderError')
+          done()
         })
       })
     })

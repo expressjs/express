@@ -1,6 +1,5 @@
 
 var express = require('../')
-  , request = require('supertest');
 
 describe('app', function(){
   describe('.locals(obj)', function(){

@@ -1,18 +1,152 @@
-unreleased
-==========
+4.16.3 / 2018-03-12
+===================
 
-  * deps: debug@2.6.3
-    - Fix: `DEBUG_MAX_ARRAY_LENGTH`
-  * deps: finalhandler@~1.0.1
+  * deps: accepts@~1.3.5
+    - deps: mime-types@~2.1.18
+  * deps: depd@~1.1.2
+    - perf: remove argument reassignment
+  * deps: encodeurl@~1.0.2
+    - Fix encoding `%` as last character
+  * deps: finalhandler@1.1.1
+    - Fix 404 output for bad / missing pathnames
+    - deps: encodeurl@~1.0.2
+    - deps: statuses@~1.4.0
+  * deps: proxy-addr@~2.0.3
+    - deps: ipaddr.js@1.6.0
+  * deps: send@0.16.2
+    - Fix incorrect end tag in default error & redirects
+    - deps: depd@~1.1.2
+    - deps: encodeurl@~1.0.2
+    - deps: statuses@~1.4.0
+  * deps: serve-static@1.13.2
+    - Fix incorrect end tag in redirects
+    - deps: encodeurl@~1.0.2
+    - deps: send@0.16.2
+  * deps: statuses@~1.4.0
+  * deps: type-is@~1.6.16
+    - deps: mime-types@~2.1.18
+
+4.16.2 / 2017-10-09
+===================
+
+  * Fix `TypeError` in `res.send` when given `Buffer` and `ETag` header set
+  * perf: skip parsing of entire `X-Forwarded-Proto` header
+
+4.16.1 / 2017-09-29
+===================
+
+  * deps: send@0.16.1
+  * deps: serve-static@1.13.1
+    - Fix regression when `root` is incorrectly set to a file
+    - deps: send@0.16.1
+
+4.16.0 / 2017-09-28
+===================
+
+  * Add `"json escape"` setting for `res.json` and `res.jsonp`
+  * Add `express.json` and `express.urlencoded` to parse bodies
+  * Add `options` argument to `res.download`
+  * Improve error message when autoloading invalid view engine
+  * Improve error messages when non-function provided as middleware
+  * Skip `Buffer` encoding when not generating ETag for small response
+  * Use `safe-buffer` for improved Buffer API
+  * deps: accepts@~1.3.4
+    - deps: mime-types@~2.1.16
+  * deps: content-type@~1.0.4
+    - perf: remove argument reassignment
+    - perf: skip parameter parsing when no parameters
+  * deps: etag@~1.8.1
+    - perf: replace regular expression with substring
+  * deps: finalhandler@1.1.0
+    - Use `res.headersSent` when available
+  * deps: parseurl@~1.3.2
+    - perf: reduce overhead for full URLs
+    - perf: unroll the "fast-path" `RegExp`
+  * deps: proxy-addr@~2.0.2
+    - Fix trimming leading / trailing OWS in `X-Forwarded-For`
+    - deps: forwarded@~0.1.2
+    - deps: ipaddr.js@1.5.2
+    - perf: reduce overhead when no `X-Forwarded-For` header
+  * deps: qs@6.5.1
+    - Fix parsing & compacting very deep objects
+  * deps: send@0.16.0
+    - Add 70 new types for file extensions
+    - Add `immutable` option
+    - Fix missing `</html>` in default error & redirects
+    - Set charset as "UTF-8" for .js and .json
+    - Use instance methods on steam to check for listeners
+    - deps: mime@1.4.1
+    - perf: improve path validation speed
+  * deps: serve-static@1.13.0
+    - Add 70 new types for file extensions
+    - Add `immutable` option
+    - Set charset as "UTF-8" for .js and .json
+    - deps: send@0.16.0
+  * deps: setprototypeof@1.1.0
+  * deps: utils-merge@1.0.1
+  * deps: vary@~1.1.2
+    - perf: improve header token parsing speed
+  * perf: re-use options object when generating ETags
+  * perf: remove dead `.charset` set in `res.jsonp`
+
+4.15.5 / 2017-09-24
+===================
+
+  * deps: debug@2.6.9
+  * deps: finalhandler@~1.0.6
+    - deps: debug@2.6.9
+    - deps: parseurl@~1.3.2
+  * deps: fresh@0.5.2
+    - Fix handling of modified headers with invalid dates
+    - perf: improve ETag match loop
+    - perf: improve `If-None-Match` token parsing
+  * deps: send@0.15.6
+    - Fix handling of modified headers with invalid dates
+    - deps: debug@2.6.9
+    - deps: etag@~1.8.1
+    - deps: fresh@0.5.2
+    - perf: improve `If-Match` token parsing
+  * deps: serve-static@1.12.6
+    - deps: parseurl@~1.3.2
+    - deps: send@0.15.6
+    - perf: improve slash collapsing
+
+4.15.4 / 2017-08-06
+===================
+
+  * deps: debug@2.6.8
+  * deps: depd@~1.1.1
+    - Remove unnecessary `Buffer` loading
+  * deps: finalhandler@~1.0.4
+    - deps: debug@2.6.8
+  * deps: proxy-addr@~1.1.5
+    - Fix array argument being altered
+    - deps: ipaddr.js@1.4.0
+  * deps: qs@6.5.0
+  * deps: send@0.15.4
+    - deps: debug@2.6.8
+    - deps: depd@~1.1.1
+    - deps: http-errors@~1.6.2
+  * deps: serve-static@1.12.4
+    - deps: send@0.15.4
+
+4.15.3 / 2017-05-16
+===================
+
+  * Fix error when `res.set` cannot add charset to `Content-Type`
+  * deps: debug@2.6.7
+    - Fix `DEBUG_MAX_ARRAY_LENGTH`
+    - deps: ms@2.0.0
+  * deps: finalhandler@~1.0.3
     - Fix missing `</html>` in HTML document
-    - deps: debug@2.6.3
+    - deps: debug@2.6.7
   * deps: proxy-addr@~1.1.4
     - deps: ipaddr.js@1.3.0
-  * deps: send@0.15.2
-    - deps: debug@2.6.4
-    - deps: ms@1.0.0
-  * deps: serve-static@1.12.2
-    - deps: send@0.15.2
+  * deps: send@0.15.3
+    - deps: debug@2.6.7
+    - deps: ms@2.0.0
+  * deps: serve-static@1.12.3
+    - deps: send@0.15.3
   * deps: type-is@~1.6.15
     - deps: mime-types@~2.1.15
   * deps: vary@~1.1.1

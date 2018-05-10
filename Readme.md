@@ -21,9 +21,21 @@ app.listen(3000)
 
 ## Installation
 
+This is a [Node.js](https://nodejs.org/en/) module available through the
+[npm registry](https://www.npmjs.com/).
+
+Before installing, [download and install Node.js](https://nodejs.org/en/download/).
+Node.js 0.10 or higher is required.
+
+Installation is done using the
+[`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
+
 ```bash
 $ npm install express
 ```
+
+Follow [our installing guide](http://expressjs.com/en/starter/installing.html)
+for more information.
 
 ## Features
 
@@ -39,7 +51,7 @@ $ npm install express
 
   * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
   * [#express](https://webchat.freenode.net/?channels=express) on freenode IRC
-  * [Github Organization](https://github.com/expressjs) for Official Middleware & Modules
+  * [GitHub Organization](https://github.com/expressjs) for Official Middleware & Modules
   * Visit the [Wiki](https://github.com/expressjs/express/wiki)
   * [Google Group](https://groups.google.com/group/express-js) for discussion
   * [Gitter](https://gitter.im/expressjs/express) for support and discussion
@@ -115,9 +127,9 @@ $ npm test
 
 ## People
 
-The original author of Express is [TJ Holowaychuk](https://github.com/tj) [![TJ's Gratipay][gratipay-image-visionmedia]][gratipay-url-visionmedia]
+The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 
-The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson) [![Doug's Gratipay][gratipay-image-dougwilson]][gratipay-url-dougwilson]
+The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson)
 
 [List of all contributors](https://github.com/expressjs/express/graphs/contributors)
 

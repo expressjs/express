@@ -1,5 +1,6 @@
 
 var after = require('after');
+var assert = require('assert')
 var express = require('..');
 var request = require('supertest');
 
@@ -253,17 +254,29 @@ describe('app', function(){
   })
 
   describe('.use(path, middleware)', function(){
-    it('should reject missing functions', function () {
-      var app = express();
-      app.use.bind(app, '/').should.throw(/requires middleware function/);
+    it('should require middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/') }, /requires a middleware function/)
     })
 
-    it('should reject non-functions as middleware', function () {
-      var app = express();
-      app.use.bind(app, '/', 'hi').should.throw(/requires middleware function.*string/);
-      app.use.bind(app, '/', 5).should.throw(/requires middleware function.*number/);
-      app.use.bind(app, '/', null).should.throw(/requires middleware function.*Null/);
-      app.use.bind(app, '/', new Date()).should.throw(/requires middleware function.*Date/);
+    it('should reject string as middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/', 'foo') }, /requires a middleware function but got a string/)
+    })
+
+    it('should reject number as middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/', 42) }, /requires a middleware function but got a number/)
+    })
+
+    it('should reject null as middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/', null) }, /requires a middleware function but got a Null/)
+    })
+
+    it('should reject Date as middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/', new Date()) }, /requires a middleware function but got a Date/)
     })
 
     it('should strip path from req.url', function (done) {

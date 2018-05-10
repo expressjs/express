@@ -4,7 +4,6 @@ var should = require('should');
 var express = require('../')
   , Route = express.Route
   , methods = require('methods')
-  , assert = require('assert');
 
 describe('Route', function(){
   it('should work without handlers', function(done) {
@@ -25,7 +24,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.ok;
+        should(req.called).be.ok()
         done();
       });
     })
@@ -84,7 +83,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.ok;
+        should(req.called).be.ok()
         done();
       });
     })
@@ -104,7 +103,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.true;
+        should(req.called).be.true()
         done();
       });
     })
@@ -156,7 +155,7 @@ describe('Route', function(){
       });
 
       route.dispatch(req, {}, function (err) {
-        should(err).be.ok;
+        should(err).be.ok()
         should(err.message).equal('foobar');
         req.order.should.equal('a');
         done();
@@ -182,7 +181,7 @@ describe('Route', function(){
       });
 
       route.dispatch(req, {}, function (err) {
-        should(err).be.ok;
+        should(err).be.ok()
         should(err.message).equal('foobar');
         req.order.should.equal('a');
         done();
@@ -222,7 +221,7 @@ describe('Route', function(){
       });
 
       route.dispatch(req, {}, function(err){
-        should(err).be.ok;
+        should(err).be.ok()
         err.message.should.equal('boom!');
         done();
       });
@@ -234,7 +233,7 @@ describe('Route', function(){
 
       route.all(function(err, req, res, next){
         // this should not execute
-        true.should.be.false;
+        true.should.be.false()
       });
 
       route.dispatch(req, {}, done);

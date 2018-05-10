@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var http = require('http');
+var https = require('https');
 var path = require('path');
 var extname = path.extname;
 

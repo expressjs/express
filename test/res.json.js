@@ -102,12 +102,34 @@ describe('res', function(){
       })
     })
 
+    describe('"json escape" setting', function () {
+      it('should be undefined by default', function () {
+        var app = express()
+        assert.strictEqual(app.get('json escape'), undefined)
+      })
+
+      it('should unicode escape HTML-sniffing characters', function (done) {
+        var app = express()
+
+        app.enable('json escape')
+
+        app.use(function (req, res) {
+          res.json({ '&': '<script>' })
+        })
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{"\\u0026":"\\u003cscript\\u003e"}', done)
+      })
+    })
+
     describe('"json replacer" setting', function(){
       it('should be passed to JSON.stringify()', function(done){
         var app = express();
 
         app.set('json replacer', function(key, val){
-          return '_' == key[0]
+          return key[0] === '_'
             ? undefined
             : val;
         });

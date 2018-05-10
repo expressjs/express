@@ -3,7 +3,6 @@
  */
 
 var express = require('../..');
-var bodyParser = require('body-parser');
 var hash = require('pbkdf2-password')()
 var path = require('path');
 var session = require('express-session');
@@ -17,7 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // middleware
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }))
 app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
@@ -66,7 +65,7 @@ function authenticate(name, pass, fn) {
   // found the user
   hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
     if (err) return fn(err);
-    if (hash == user.hash) return fn(null, user);
+    if (hash === user.hash) return fn(null, user)
     fn(new Error('invalid password'));
   });
 }

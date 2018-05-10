@@ -1,5 +1,4 @@
 
-var http = require('http');
 var express = require('..');
 var app = express();
 
@@ -14,10 +13,8 @@ while (n--) {
   });
 }
 
-var body = new Buffer('Hello World');
-
 app.use(function(req, res, next){
-  res.send(body);
+  res.send('Hello World')
 });
 
 app.listen(3333);

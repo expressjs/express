@@ -71,6 +71,86 @@ describe('res', function(){
     })
   })
 
+  describe('.download(path, filename, options, fn)', function () {
+    it('should invoke the callback', function (done) {
+      var app = express()
+      var cb = after(2, done)
+      var options = {}
+
+      app.use(function (req, res) {
+        res.download('test/fixtures/user.html', 'document', options, done)
+      })
+
+      request(app)
+      .get('/')
+      .expect(200)
+      .expect('Content-Type', 'text/html; charset=UTF-8')
+      .expect('Content-Disposition', 'attachment; filename="document"')
+      .end(cb)
+    })
+
+    it('should allow options to res.sendFile()', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.download('test/fixtures/.name', 'document', {
+          dotfiles: 'allow',
+          maxAge: '4h'
+        })
+      })
+
+      request(app)
+      .get('/')
+      .expect(200)
+      .expect('Content-Disposition', 'attachment; filename="document"')
+      .expect('Cache-Control', 'public, max-age=14400')
+      .expect('tobi')
+      .end(done)
+    })
+
+    describe('when options.headers contains Content-Disposition', function () {
+      it('should should be ignored', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.download('test/fixtures/user.html', 'document', {
+            headers: {
+              'Content-Type': 'text/x-custom',
+              'Content-Disposition': 'inline'
+            }
+          })
+        })
+
+        request(app)
+        .get('/')
+        .expect(200)
+        .expect('Content-Type', 'text/x-custom')
+        .expect('Content-Disposition', 'attachment; filename="document"')
+        .end(done)
+      })
+
+      it('should should be ignored case-insensitively', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.download('test/fixtures/user.html', 'document', {
+            headers: {
+              'content-type': 'text/x-custom',
+              'content-disposition': 'inline'
+            }
+          })
+        })
+
+        request(app)
+        .get('/')
+        .expect(200)
+        .expect('Content-Type', 'text/x-custom')
+        .expect('Content-Disposition', 'attachment; filename="document"')
+        .end(done)
+      })
+    })
+  })
+
   describe('on failure', function(){
     it('should invoke the callback', function(done){
       var app = express();
@@ -89,7 +169,6 @@ describe('res', function(){
 
     it('should remove Content-Disposition', function(done){
       var app = express()
-        , calls = 0;
 
       app.use(function (req, res, next) {
         res.download('test/fixtures/foobar.html', function(err){

@@ -102,17 +102,18 @@ describe('res', function(){
       app.use(function (req, res) {
         setImmediate(function () {
           res.sendFile(path.resolve(fixtures, 'name.txt'));
-          cb();
+          server.close(cb)
         });
         test.abort();
       });
 
       app.use(function (err, req, res, next) {
-        err.code.should.be.empty;
+        err.code.should.be.empty()
         cb();
       });
 
-      var test = request(app).get('/');
+      var server = app.listen()
+      var test = request(server).get('/')
       test.expect(200, cb);
     })
 
@@ -180,6 +181,44 @@ describe('res', function(){
       });
     });
 
+    describe('with "immutable" option', function () {
+      it('should add immutable cache-control directive', function (done) {
+        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), {
+          immutable: true,
+          maxAge: '4h'
+        })
+
+        request(app)
+        .get('/')
+        .expect('Cache-Control', 'public, max-age=14400, immutable')
+        .expect(200, done)
+      })
+    })
+
+    describe('with "maxAge" option', function () {
+      it('should set cache-control max-age from number', function (done) {
+        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), {
+          maxAge: 14400000
+        })
+
+        request(app)
+        .get('/')
+        .expect('Cache-Control', 'public, max-age=14400')
+        .expect(200, done)
+      })
+
+      it('should set cache-control max-age from string', function (done) {
+        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), {
+          maxAge: '4h'
+        })
+
+        request(app)
+        .get('/')
+        .expect('Cache-Control', 'public, max-age=14400')
+        .expect(200, done)
+      })
+    })
+
     describe('with "root" option', function () {
       it('should not transfer relative with without', function (done) {
         var app = createApp('test/fixtures/name.txt');
@@ -224,15 +263,16 @@ describe('res', function(){
       app.use(function (req, res) {
         setImmediate(function () {
           res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
-            should(err).be.ok;
+            should(err).be.ok()
             err.code.should.equal('ECONNABORTED');
-            cb();
+            server.close(cb)
           });
         });
         test.abort();
       });
 
-      var test = request(app).get('/');
+      var server = app.listen()
+      var test = request(server).get('/')
       test.expect(200, cb);
     })
 
@@ -243,15 +283,16 @@ describe('res', function(){
       app.use(function (req, res) {
         onFinished(res, function () {
           res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
-            should(err).be.ok;
+            should(err).be.ok()
             err.code.should.equal('ECONNABORTED');
-            cb();
+            server.close(cb)
           });
         });
         test.abort();
       });
 
-      var test = request(app).get('/');
+      var server = app.listen()
+      var test = request(server).get('/')
       test.expect(200, cb);
     })
 
@@ -294,7 +335,7 @@ describe('res', function(){
 
       app.use(function (req, res) {
         res.sendFile(path.resolve(fixtures, 'does-not-exist'), function (err) {
-          should(err).be.ok;
+          should(err).be.ok()
           err.status.should.equal(404);
           res.send('got it');
         });
@@ -348,15 +389,16 @@ describe('res', function(){
       app.use(function (req, res) {
         setImmediate(function () {
           res.sendfile('test/fixtures/name.txt', function (err) {
-            should(err).be.ok;
+            should(err).be.ok()
             err.code.should.equal('ECONNABORTED');
-            cb();
+            server.close(cb)
           });
         });
         test.abort();
       });
 
-      var test = request(app).get('/');
+      var server = app.listen()
+      var test = request(server).get('/')
       test.expect(200, cb);
     })
 
@@ -367,15 +409,16 @@ describe('res', function(){
       app.use(function (req, res) {
         onFinished(res, function () {
           res.sendfile('test/fixtures/name.txt', function (err) {
-            should(err).be.ok;
+            should(err).be.ok()
             err.code.should.equal('ECONNABORTED');
-            cb();
+            server.close(cb)
           });
         });
         test.abort();
       });
 
-      var test = request(app).get('/');
+      var server = app.listen()
+      var test = request(server).get('/')
       test.expect(200, cb);
     })
 
@@ -446,12 +489,10 @@ describe('res', function(){
 
     it('should invoke the callback on 403', function(done){
       var app = express()
-        , calls = 0;
 
       app.use(function(req, res){
         res.sendfile('test/fixtures/foo/../user.html', function(err){
           assert(!res.headersSent);
-          ++calls;
           res.send(err.message);
         });
       });
@@ -464,7 +505,6 @@ describe('res', function(){
 
     it('should invoke the callback on socket error', function(done){
       var app = express()
-        , calls = 0;
 
       app.use(function(req, res){
         res.sendfile('test/fixtures/user.html', function(err){
@@ -594,17 +634,18 @@ describe('res', function(){
       app.use(function (req, res) {
         setImmediate(function () {
           res.sendfile(path.resolve(fixtures, 'name.txt'));
-          cb();
+          server.close(cb)
         });
         test.abort();
       });
 
       app.use(function (err, req, res, next) {
-        err.code.should.be.empty;
+        err.code.should.be.empty()
         cb();
       });
 
-      var test = request(app).get('/');
+      var server = app.listen()
+      var test = request(server).get('/')
       test.expect(200, cb);
     })
 
@@ -715,7 +756,6 @@ describe('res', function(){
       describe('with non-GET', function(){
         it('should still serve', function(done){
           var app = express()
-            , calls = 0;
 
           app.use(function(req, res){
             res.sendfile(path.join(__dirname, '/fixtures/name.txt'))

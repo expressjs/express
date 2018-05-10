@@ -52,10 +52,7 @@ describe('error-pages', function(){
         request(app)
         .get('/404')
         .set('Accept','application/json')
-        .end(function(err, res){
-          res.body.should.eql({ error: 'Not found' });
-          done()
-        })
+        .expect(404, { error: 'Not found' }, done)
       })
     })
 

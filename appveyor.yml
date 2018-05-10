@@ -7,12 +7,14 @@ environment:
     - nodejs_version: "3.3"
     - nodejs_version: "4.8"
     - nodejs_version: "5.12"
-    - nodejs_version: "6.10"
-    - nodejs_version: "7.6"
+    - nodejs_version: "6.12"
+    - nodejs_version: "7.10"
+    - nodejs_version: "8.9"
 cache:
   - node_modules
 install:
   - ps: Install-Product node $env:nodejs_version
+  - npm config set shrinkwrap false
   - npm rm --save-dev connect-redis
   - if exist node_modules npm prune
   - if exist node_modules npm rebuild
@@ -22,4 +24,5 @@ test_script:
   - node --version
   - npm --version
   - npm run test-ci
+  - npm run lint
 version: "{build}"

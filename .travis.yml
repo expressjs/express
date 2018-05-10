@@ -7,11 +7,14 @@ node_js:
   - "3.3"
   - "4.8"
   - "5.12"
-  - "6.10"
-  - "7.6"
+  - "6.12"
+  - "7.10"
+  - "8.9"
 matrix:
   include:
-    - node_js: "8.0"
+    - node_js: "9"
+      env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
+    - node_js: "10"
       env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
   allow_failures:
     # Allow the nightly installs to fail
@@ -21,11 +24,16 @@ cache:
   directories:
     - node_modules
 before_install:
+  # Skip updating shrinkwrap / lock
+  - "npm config set shrinkwrap false"
+
   # Remove all non-test dependencies
   - "npm rm --save-dev connect-redis"
 
   # Update Node.js modules
   - "test ! -d node_modules || npm prune"
   - "test ! -d node_modules || npm rebuild"
-script: "npm run-script test-ci"
+script:
+  - "npm run test-ci"
+  - "npm run lint"
 after_script: "npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"

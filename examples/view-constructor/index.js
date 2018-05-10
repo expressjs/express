@@ -3,7 +3,6 @@
  */
 
 var express = require('../../');
-var http = require('http');
 var GithubView = require('./github-view');
 var md = require('marked').parse;
 
