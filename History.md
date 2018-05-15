@@ -2,6 +2,15 @@ unreleased
 ==========
 
   * Fix JSDoc for `Router` constructor
+  * deps: body-parser@1.18.3
+    - Fix deprecation warnings on Node.js 10+
+    - Fix stack trace for strict json parse error
+    - deps: depd@~1.1.2
+    - deps: http-errors@~1.6.3
+    - deps: iconv-lite@0.4.23
+    - deps: qs@6.5.2
+    - deps: raw-body@2.3.3
+    - deps: type-is@~1.6.16
   * deps: qs@6.5.2
 
 4.16.3 / 2018-03-12
