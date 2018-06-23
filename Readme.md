@@ -7,6 +7,7 @@
   [![Linux Build][travis-image]][travis-url]
   [![Windows Build][appveyor-image]][appveyor-url]
   [![Test Coverage][coveralls-image]][coveralls-url]
+  [![SemVer Stability][semver-image]][semver-url]
 
 ```js
 var express = require('express')
@@ -151,3 +152,5 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [gratipay-url-visionmedia]: https://gratipay.com/visionmedia/
 [gratipay-image-dougwilson]: https://img.shields.io/gratipay/dougwilson.svg
 [gratipay-url-dougwilson]: https://gratipay.com/dougwilson/
+[semver-image]: https://api.dependabot.com/badges/compatibility_score?dependency-name=express&package-manager=npm_and_yarn&version-scheme=semver
+[semver-url]: https://dependabot.com/compatibility-score.html?dependency-name=express&package-manager=npm_and_yarn&version-scheme=semver
