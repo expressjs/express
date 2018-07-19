@@ -1,6 +1,7 @@
 
 var after = require('after');
 var should = require('should');
+var asyncFunctionsSupported = require('./support/utils').asyncFunctionsSupported;
 var express = require('../')
   , Route = express.Route
   , methods = require('methods')
@@ -187,6 +188,53 @@ describe('Route', function(){
         done();
       });
     });
+    if (asyncFunctionsSupported()) {
+      it('should handle throws in asyncFunction', function (done) {
+        var req = {order: '', method: 'GET', url: '/'};
+        var route = new Route('');
+
+        route.all(new Function([], "return async function(req, res, next) { throw new Error('foobar') }")());
+
+        route.all(function (req, res, next) {
+          req.order += '0';
+          next();
+        });
+
+        route.all(function (err, req, res, next) {
+          req.order += 'a';
+          next(err);
+        });
+
+        route.dispatch(req, {}, function (err) {
+          should(err).be.ok()
+          should(err.message).equal('foobar');
+          req.order.should.equal('a');
+          done();
+        });
+      });
+
+      it('should handle throwing inside async error handlers', function (done) {
+        var req = {method: 'GET', url: '/'};
+        var route = new Route('');
+
+        route.get(function (req, res, next) {
+          throw new Error('boom!');
+        });
+
+        route.get(new Function([], "return async function(err, req, res, next) { throw new Error('oops') }")());
+
+        route.get(function (err, req, res, next) {
+          req.message = err.message;
+          next();
+        });
+
+        route.dispatch(req, {}, function (err) {
+          if (err) return done(err);
+          should(req.message).equal('oops');
+          done();
+        });
+      });
+    }
 
     it('should handle throwing inside error handlers', function(done) {
       var req = { method: 'GET', url: '/' };
