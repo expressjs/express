@@ -1,6 +1,6 @@
 
 var express = require('..');
-var request = require('supertest');
+var request = require('./support/supertest');
 
 describe('res', function(){
   describe('.links(obj)', function(){

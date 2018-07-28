@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('supertest');
+  , request = require('./support/supertest');
 
 describe('req', function(){
   describe('.ips', function(){

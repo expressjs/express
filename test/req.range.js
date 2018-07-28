@@ -1,6 +1,6 @@
 
 var express = require('..');
-var request = require('supertest')
+var request = require('./support/supertest')
 
 describe('req', function(){
   describe('.range(size)', function(){

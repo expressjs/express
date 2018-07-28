@@ -1,5 +1,5 @@
 var express = require('../');
-var request = require('supertest');
+var request = require('./support/supertest');
 
 describe('app.route', function(){
   it('should return a new route', function(done){

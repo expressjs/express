@@ -1,6 +1,6 @@
 
 var app = require('../../examples/cookie-sessions')
-var request = require('supertest')
+var request = require('../support/supertest')
 
 describe('cookie-sessions', function () {
   describe('GET /', function () {
@@ -10,24 +10,28 @@ describe('cookie-sessions', function () {
       .expect(200, 'viewed 1 times\n', done)
     })
 
-    it('should set a session cookie', function (done) {
-      request(app)
-      .get('/')
-      .expect('Set-Cookie', /express:sess=/)
-      .expect(200, done)
-    })
-
-    it('should display 1 view on revisit', function (done) {
-      request(app)
-      .get('/')
-      .expect(200, 'viewed 1 times\n', function (err, res) {
-        if (err) return done(err)
+    // cookies with http2 has an issue.
+    // See also https://github.com/pillarjs/cookies/pull/99
+    if (!process.env.HTTP2_TEST) {
+      it('should set a session cookie', function (done) {
         request(app)
         .get('/')
-        .set('Cookie', getCookies(res))
-        .expect(200, 'viewed 2 times\n', done)
+        .expect('Set-Cookie', /express:sess=/)
+        .expect(200, done)
       })
-    })
+
+      it('should display 1 view on revisit', function (done) {
+        request(app)
+        .get('/')
+        .expect(200, 'viewed 1 times\n', function (err, res) {
+          if (err) return done(err)
+          request(app)
+          .get('/')
+          .set('Cookie', getCookies(res))
+          .expect(200, 'viewed 2 times\n', done)
+        })
+      })
+    }
   })
 })
 

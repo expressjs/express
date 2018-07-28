@@ -1,5 +1,5 @@
 var app = require('../../examples/multi-router')
-var request = require('supertest')
+var request = require('../support/supertest')
 
 describe('multi-router', function(){
   describe('GET /',function(){

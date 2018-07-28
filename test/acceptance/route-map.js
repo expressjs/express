@@ -1,5 +1,5 @@
 
-var request = require('supertest')
+var request = require('../support/supertest')
   , app = require('../../examples/route-map');
 
 describe('route-map', function(){

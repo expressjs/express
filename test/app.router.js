@@ -1,7 +1,7 @@
 
 var after = require('after');
 var express = require('../')
-  , request = require('supertest')
+  , request = require('./support/supertest')
   , assert = require('assert')
   , methods = require('methods');
 
@@ -50,7 +50,7 @@ describe('app.router', function(){
 
         request(app)
         [method]('/foo')
-        .expect('head' == method ? '' : method, done);
+        .expect('head' == method ? undefined : method, done);
       })
 
       it('should reject numbers for app.' + method, function(){

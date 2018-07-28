@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('supertest');
+  , request = require('./support/supertest');
 
 describe('app', function(){
   describe('.request', function(){
@@ -10,6 +10,9 @@ describe('app', function(){
       app.request.querystring = function(){
         return require('url').parse(this.url).query;
       };
+      if(app.isHttp2Supported){
+        app.http2Request.querystring = app.request.querystring;
+      }
 
       app.use(function(req, res){
         res.end(req.querystring());

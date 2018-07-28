@@ -1,6 +1,6 @@
 
 var express = require('../');
-var request = require('supertest');
+var request = require('./support/supertest');
 
 describe('middleware', function(){
   describe('.next()', function(){
@@ -29,7 +29,7 @@ describe('middleware', function(){
       });
 
       request(app)
-      .get('/')
+      .put('/')
       .set('Content-Type', 'application/json')
       .send('{"foo":"bar"}')
       .expect('Content-Type', 'application/json')

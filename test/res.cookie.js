@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('supertest')
+  , request = require('./support/supertest')
   , cookie = require('cookie')
   , cookieParser = require('cookie-parser')
 var merge = require('utils-merge');

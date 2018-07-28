@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('supertest')
+  , request = require('./support/supertest')
 
 describe('req', function(){
   describe('.hostname', function(){
@@ -35,6 +35,7 @@ describe('req', function(){
 
       app.use(function(req, res){
         req.headers.host = null;
+        req.headers[':authority'] = null;
         res.end(String(req.hostname));
       });
 
