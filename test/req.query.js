@@ -12,12 +12,12 @@ describe('req', function(){
       .expect(200, '{}', done);
     });
 
-    it('should default to parse complex keys', function (done) {
+    it('should default to parse simple keys', function (done) {
       var app = createApp();
 
       request(app)
       .get('/?user[name]=tj')
-      .expect(200, '{"user":{"name":"tj"}}', done);
+      .expect(200, '{"user[name]":"tj"}', done);
     });
 
     describe('when "query parser" is extended', function () {
