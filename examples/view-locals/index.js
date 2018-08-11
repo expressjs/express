@@ -9,8 +9,8 @@ var path = require('node:path');
 var User = require('./user');
 var app = express();
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.settings.set('views', path.join(__dirname, 'views'));
+app.settings.set('view engine', 'ejs');
 
 // filter ferrets only
 

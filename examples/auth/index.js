@@ -13,8 +13,8 @@ var app = module.exports = express();
 
 // config
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.settings.set('view engine', 'ejs');
+app.settings.set('views', path.join(__dirname, 'views'));
 
 // middleware
 

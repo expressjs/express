@@ -1,6 +1,8 @@
 unreleased
 ========================
 
+* Deprecate `.get(setting)`, `.set()`, `.disable()`, `.enable()`, `.enabled()`, `.disabled()` in favor of new
+`.settings` api
 * Remove `utils-merge` dependency - use spread syntax instead
 * Remove `Object.setPrototypeOf` polyfill
 * cleanup: remove AsyncLocalStorage check from tests

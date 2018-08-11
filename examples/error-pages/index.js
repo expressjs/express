@@ -11,17 +11,17 @@ var logger = require('morgan');
 var silent = process.env.NODE_ENV === 'test'
 
 // general config
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.settings.set('views', path.join(__dirname, 'views'));
+app.settings.set('view engine', 'ejs');
 
 // our custom "verbose errors" setting
 // which we can use in the templates
 // via settings['verbose errors']
-app.enable('verbose errors');
+app.settings.enable('verbose errors');
 
 // disable them in production
 // use $ NODE_ENV=production node examples/error-pages
-if (app.settings.env === 'production') app.disable('verbose errors')
+if (app.settings.env === 'production') app.settings.disable('verbose errors')
 
 silent || app.use(logger('dev'));
 
