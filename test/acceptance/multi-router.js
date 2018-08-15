@@ -6,7 +6,7 @@ describe('multi-router', function(){
     it('should respond with root handler', function(done){
       request(app)
       .get('/')
-      .expect(200, 'Hello form root route.', done)
+      .expect(200, 'Hello from root route.', done)
     })
   })
 
