@@ -19,7 +19,7 @@ app.use(cookieParser('my secret here'));
 // parses x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }))
 
-app.get('/', function(req, res){
+/*app.get('/', function(req, res){
   if (req.cookies.remember) {
     res.send('Remembered :). Click to <a href="/forget">forget</a>!.');
   } else {
@@ -27,6 +27,16 @@ app.get('/', function(req, res){
       + '<input type="checkbox" name="remember"/> remember me</label> '
       + '<input type="submit" value="Submit"/>.</p></form>');
   }
+});*/
+
+app.get('/', function(req, res) {
+	if(req.cookies.remember) {
+		res.send('Remenberd :). Click to <a href="/forget">forget</a>!.');
+	} else {
+		res.send('<form method="post"><p>Check to <label>'
+				+ '<input type="checkbox" name="remember" /> remember me</label> '
+				+ '<input type="submit" value="submit"/>.</p></form>');
+	}
 });
 
 app.get('/forget', function(req, res){
