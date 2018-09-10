@@ -292,21 +292,18 @@ describe('res', function(){
       test.expect(200, cb);
     })
 
-    // HEAD with http2 does not support response body.
-    if (!process.env.HTTP2_TEST) {
-      it('should invoke the callback without error when HEAD', function (done) {
-        var app = express();
-        var cb = after(2, done);
+    it('should invoke the callback without error when HEAD', function (done) {
+      var app = express();
+      var cb = after(2, done);
 
-        app.use(function (req, res) {
-          res.sendFile(path.resolve(fixtures, 'name.txt'), cb);
-        });
-
-        request(app)
-        .head('/')
-        .expect(200, cb);
+      app.use(function (req, res) {
+        res.sendFile(path.resolve(fixtures, 'name.txt'), cb);
       });
-    }
+
+      request(app)
+      .head('/')
+      .expect(200, cb);
+    });
 
     it('should invoke the callback without error when 304', function (done) {
       var app = express();
