@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('supertest');
+  , request = require('./support/supertest');
 
 describe('app.all()', function(){
   it('should add a router per method', function(done){

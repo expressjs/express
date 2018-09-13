@@ -1,6 +1,6 @@
 
 var express = require('..');
-var request = require('supertest');
+var request = require('./support/supertest');
 var utils = require('./support/utils');
 
 describe('res', function(){
@@ -71,7 +71,7 @@ describe('res', function(){
       request(app)
       .head('/')
       .expect('Location', 'http://google.com')
-      .expect(302, '', done)
+      .expect(302, undefined, done)
     })
   })
 

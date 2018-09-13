@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('supertest')
+  , request = require('./support/supertest')
   , assert = require('assert');
 var utils = require('./support/utils');
 

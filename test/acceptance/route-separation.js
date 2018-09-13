@@ -1,6 +1,6 @@
 
 var app = require('../../examples/route-separation')
-var request = require('supertest')
+var request = require('../support/supertest')
 
 describe('route-separation', function () {
   describe('GET /', function () {

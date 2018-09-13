@@ -1,5 +1,5 @@
 
-var request = require('supertest')
+var request = require('../support/supertest')
   , app = require('../../examples/content-negotiation');
 
 describe('content-negotiation', function(){

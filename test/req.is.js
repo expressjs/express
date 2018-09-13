@@ -1,6 +1,6 @@
 
 var express = require('..')
-var request = require('supertest')
+var request = require('./support/supertest')
 
 describe('req.is()', function () {
   describe('when given a mime type', function () {

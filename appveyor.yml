@@ -10,6 +10,8 @@ environment:
     - nodejs_version: "6.11"
     - nodejs_version: "7.10"
     - nodejs_version: "8.4"
+    - nodejs_version: "10"
+      HTTP2_TEST: 1
 cache:
   - node_modules
 install:

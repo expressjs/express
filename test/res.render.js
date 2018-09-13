@@ -1,7 +1,7 @@
 
 var express = require('..');
 var path = require('path')
-var request = require('supertest');
+var request = require('./support/supertest');
 var tmpl = require('./support/tmpl');
 
 describe('res', function(){

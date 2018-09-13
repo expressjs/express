@@ -27,6 +27,9 @@ app.response.message = function(msg){
   sess.messages.push(msg);
   return this;
 };
+if(app.isHttp2Supported){
+  app.http2Response.message = app.response.message;
+}
 
 // log
 if (!module.parent) app.use(logger('dev'));

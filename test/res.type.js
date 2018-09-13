@@ -1,6 +1,6 @@
 
 var express = require('../')
-  , request = require('supertest');
+  , request = require('./support/supertest');
 
 describe('res', function(){
   describe('.type(str)', function(){

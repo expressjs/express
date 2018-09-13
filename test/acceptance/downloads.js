@@ -1,6 +1,6 @@
 
 var app = require('../../examples/downloads')
-  , request = require('supertest');
+  , request = require('../support/supertest');
 
 describe('downloads', function(){
   describe('GET /', function(){

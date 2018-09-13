@@ -1,5 +1,5 @@
 var express = require('../')
-  , request = require('supertest');
+  , request = require('./support/supertest');
 
 describe('app', function(){
   describe('.VERB()', function(){

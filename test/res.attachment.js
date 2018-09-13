@@ -1,7 +1,7 @@
 
 var Buffer = require('safe-buffer').Buffer
 var express = require('../')
-  , request = require('supertest');
+  , request = require('./support/supertest');
 
 describe('res', function(){
   describe('.attachment()', function(){

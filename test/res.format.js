@@ -1,7 +1,7 @@
 
 var after = require('after')
 var express = require('../')
-  , request = require('supertest')
+  , request = require('./support/supertest')
   , assert = require('assert');
 
 var app1 = express();

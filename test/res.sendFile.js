@@ -1,7 +1,7 @@
 
 var after = require('after');
 var express = require('../')
-  , request = require('supertest')
+  , request = require('./support/supertest')
 var onFinished = require('on-finished');
 var path = require('path');
 var should = require('should');
@@ -101,7 +101,7 @@ describe('res', function(){
       app.use(function (req, res) {
         setImmediate(function () {
           res.sendFile(path.resolve(fixtures, 'name.txt'));
-          server.close(cb)
+          test.app.close(cb);
         });
         test.abort();
       });
@@ -111,8 +111,7 @@ describe('res', function(){
         cb();
       });
 
-      var server = app.listen()
-      var test = request(server).get('/')
+      var test = request(app).get('/');
       test.expect(200, cb);
     })
 
@@ -264,14 +263,13 @@ describe('res', function(){
           res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
             should(err).be.ok()
             err.code.should.equal('ECONNABORTED');
-            server.close(cb)
+            test.app.close(cb);
           });
         });
         test.abort();
       });
 
-      var server = app.listen()
-      var test = request(server).get('/')
+      var test = request(app).get('/')
       test.expect(200, cb);
     })
 
@@ -284,14 +282,13 @@ describe('res', function(){
           res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
             should(err).be.ok()
             err.code.should.equal('ECONNABORTED');
-            server.close(cb)
+            test.app.close(cb);
           });
         });
         test.abort();
       });
 
-      var server = app.listen()
-      var test = request(server).get('/')
+      var test = request(app).get('/')
       test.expect(200, cb);
     })
 
