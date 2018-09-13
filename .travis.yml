@@ -14,12 +14,8 @@ matrix:
   include:
     - node_js: "8"
       env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
-    - node_js: "8"
-      env: HTTP2_TEST=1
     - node_js: "9"
       env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
-    - node_js: "9"
-      env: HTTP2_TEST=1
     - node_js: "10"
       env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
     - node_js: "10"
