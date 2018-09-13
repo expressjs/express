@@ -80,7 +80,9 @@ Request.prototype.createUnixConnection = function (authority, options) {
 }
 
 Request.prototype.setNoDelay = function (bool) {
-  this.session.socket.setNoDelay(bool);
+  // We can not use setNoDelay with HTTP/2.
+  // Node 10 limits http2session.socket methods to ones safe to use with HTTP/2.
+  // See also https://nodejs.org/api/http2.html#http2_http2session_socket
 }
 
 Request.prototype.getFrame = function () {
