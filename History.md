@@ -11,6 +11,8 @@ unreleased
     - deps: qs@6.5.2
     - deps: raw-body@2.3.3
     - deps: type-is@~1.6.16
+  * deps: proxy-addr@~2.0.4
+    - deps: ipaddr.js@1.8.0
   * deps: qs@6.5.2
 
 4.16.3 / 2018-03-12
