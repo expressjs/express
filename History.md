@@ -14,6 +14,7 @@ unreleased
   * deps: proxy-addr@~2.0.4
     - deps: ipaddr.js@1.8.0
   * deps: qs@6.5.2
+  * deps: safe-buffer@5.1.2
 
 4.16.3 / 2018-03-12
 ===================

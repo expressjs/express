@@ -49,7 +49,7 @@
     "proxy-addr": "~2.0.4",
     "qs": "6.5.2",
     "range-parser": "~1.2.0",
-    "safe-buffer": "5.1.1",
+    "safe-buffer": "5.1.2",
     "send": "0.16.2",
     "serve-static": "1.13.2",
     "setprototypeof": "1.1.0",
