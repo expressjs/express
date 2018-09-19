@@ -74,7 +74,7 @@
     "multiparty": "4.2.1",
     "pbkdf2-password": "1.2.1",
     "should": "13.2.3",
-    "supertest": "1.2.0",
+    "supertest": "2.0.0",
     "connect-redis": "~2.4.1",
     "vhost": "~3.0.2"
   },
