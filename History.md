@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Fix JSDoc for `Router` constructor
+  * deps: qs@6.5.2
 
 4.16.3 / 2018-03-12
 ===================
