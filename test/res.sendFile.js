@@ -96,25 +96,29 @@ describe('res', function(){
     })
 
     it('should not error if the client aborts', function (done) {
-      var cb = after(1, done);
       var app = express();
+      var cb = after(2, done)
+      var error = null
 
       app.use(function (req, res) {
         setImmediate(function () {
           res.sendFile(path.resolve(fixtures, 'name.txt'));
           server.close(cb)
-        });
+          setTimeout(function () {
+            cb(error)
+          }, 10)
+        })
         test.abort();
       });
 
       app.use(function (err, req, res, next) {
-        err.code.should.be.empty()
-        cb();
+        error = err
+        next(err)
       });
 
       var server = app.listen()
       var test = request(server).get('/')
-      test.expect(200, cb);
+      test.end()
     })
 
     describe('with "cacheControl" option', function () {
@@ -628,25 +632,29 @@ describe('res', function(){
     });
 
     it('should not error if the client aborts', function (done) {
-      var cb = after(1, done);
       var app = express();
+      var cb = after(2, done)
+      var error = null
 
       app.use(function (req, res) {
         setImmediate(function () {
           res.sendfile(path.resolve(fixtures, 'name.txt'));
           server.close(cb)
+          setTimeout(function () {
+            cb(error)
+          }, 10)
         });
         test.abort();
       });
 
       app.use(function (err, req, res, next) {
-        err.code.should.be.empty()
-        cb();
+        error = err
+        next(err)
       });
 
       var server = app.listen()
       var test = request(server).get('/')
-      test.expect(200, cb);
+      test.end()
     })
 
     describe('with an absolute path', function(){
