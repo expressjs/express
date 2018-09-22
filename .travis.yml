@@ -32,6 +32,13 @@ before_install:
   - |
     # Remove example dependencies
     npm rm --silent --save-dev connect-redis
+  # Setup Node.js version-specific dependencies
+  - |
+    # mocha for testing
+    # - use 3.x for Node.js < 6
+    if [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 6 ]]; then
+      npm install --silent --save-dev mocha@3.5.3
+    fi
   # Update Node.js modules
   - |
     # Prune and rebuild node_modules

@@ -25,6 +25,13 @@ install:
   - ps: |
       # Remove example dependencies
       npm rm --silent --save-dev connect-redis
+  # Setup Node.js version-specific dependencies
+  - ps: |
+      # mocha for testing
+      # - use 3.x for Node.js < 6
+      if ($env:nodejs_version.split(".")[0] -lt 6) {
+        npm install --silent --save-dev mocha@3.5.3
+      }
   # Update Node.js modules
   - ps: |
       # Prune & rebuild node_modules
