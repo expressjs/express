@@ -24,16 +24,28 @@ cache:
   directories:
     - node_modules
 before_install:
-  # Skip updating shrinkwrap / lock
-  - "npm config set shrinkwrap false"
-
+  # Configure npm
+  - |
+    # Skip updating shrinkwrap / lock
+    npm config set shrinkwrap false
   # Remove all non-test dependencies
-  - "npm rm --save-dev connect-redis"
-
+  - |
+    # Remove example dependencies
+    npm rm --silent --save-dev connect-redis
   # Update Node.js modules
-  - "test ! -d node_modules || npm prune"
-  - "test ! -d node_modules || npm rebuild"
+  - |
+    # Prune and rebuild node_modules
+    if [[ -d node_modules ]]; then
+      npm prune
+      npm rebuild
+    fi
 script:
-  - "npm run test-ci"
-  - "npm run lint"
-after_script: "npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
+  # Run test script
+  - npm run test-ci
+  # Run linting
+  - npm run lint
+after_script:
+  - |
+    # Upload coverage to coveralls
+    npm install --save-dev coveralls@2.10.0
+    coveralls < ./coverage/lcov.info

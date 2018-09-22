@@ -13,18 +13,35 @@ environment:
 cache:
   - node_modules
 install:
+  # Install Node.js
   - ps: >-
       try { Install-Product node $env:nodejs_version -ErrorAction Stop }
       catch { Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) }
-  - npm config set shrinkwrap false
-  - npm rm --save-dev connect-redis
-  - if exist node_modules npm prune
-  - if exist node_modules npm rebuild
+  # Configure npm
+  - ps: |
+      # Skip updating shrinkwrap / lock
+      npm config set shrinkwrap false
+  # Remove all non-test dependencies
+  - ps: |
+      # Remove example dependencies
+      npm rm --silent --save-dev connect-redis
+  # Update Node.js modules
+  - ps: |
+      # Prune & rebuild node_modules
+      if (Test-Path -Path node_modules) {
+        npm prune
+        npm rebuild
+      }
+  # Install Node.js modules
   - npm install
 build: off
 test_script:
-  - node --version
-  - npm --version
+  # Output version data
+  - ps: |
+      node --version
+      npm --version
+  # Run test script
   - npm run test-ci
+  # Run linting
   - npm run lint
 version: "{build}"
