@@ -45,7 +45,7 @@ for more information.
   * HTTP helpers (redirection, caching, etc)
   * View system supporting 14+ template engines
   * Content negotiation
-  * Executable for generating applications quickly
+  * Executable for generating applications very quickly
 
 ## Docs & Community
 
