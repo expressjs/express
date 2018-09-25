@@ -1,6 +1,7 @@
 
 var after = require('after');
 var assert = require('assert');
+var Buffer = require('safe-buffer').Buffer
 var express = require('..');
 var request = require('supertest');
 
@@ -104,7 +105,7 @@ describe('res', function(){
       .expect(200)
       .expect('Content-Disposition', 'attachment; filename="document"')
       .expect('Cache-Control', 'public, max-age=14400')
-      .expect('tobi')
+      .expect(shouldHaveBody(Buffer.from('tobi')))
       .end(done)
     })
 
@@ -184,6 +185,16 @@ describe('res', function(){
     })
   })
 })
+
+function shouldHaveBody (buf) {
+  return function (res) {
+    var body = !Buffer.isBuffer(res.body)
+      ? Buffer.from(res.text)
+      : res.body
+    assert.ok(body, 'response has body')
+    assert.strictEqual(body.toString('hex'), buf.toString('hex'))
+  }
+}
 
 function shouldNotHaveHeader(header) {
   return function (res) {

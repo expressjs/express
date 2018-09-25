@@ -1,4 +1,5 @@
 
+var assert = require('assert')
 var express = require('..');
 var request = require('supertest');
 var utils = require('./support/utils');
@@ -85,8 +86,10 @@ describe('res', function(){
 
       request(app)
       .head('/')
+      .expect(302)
       .expect('Location', 'http://google.com')
-      .expect(302, '', done)
+      .expect(shouldNotHaveBody())
+      .end(done)
     })
   })
 
@@ -197,10 +200,18 @@ describe('res', function(){
       request(app)
       .get('/')
       .set('Accept', 'application/octet-stream')
+      .expect(302)
       .expect('location', 'http://google.com')
       .expect('content-length', '0')
       .expect(utils.shouldNotHaveHeader('Content-Type'))
-      .expect(302, '', done)
+      .expect(shouldNotHaveBody())
+      .end(done)
     })
   })
 })
+
+function shouldNotHaveBody () {
+  return function (res) {
+    assert.ok(res.text === '' || res.text === undefined)
+  }
+}
