@@ -11,8 +11,10 @@ This incorporates all changes after 4.15.5 up to 4.16.4.
     - Change non-TTY date format
     - Remove `DEBUG_FD` environment variable support
     - Support 256 namespace colors
-  * deps: router@~1.3.2
-    - deps: debug@2.6.9
+  * deps: router@2.0.0-alpha.1
+    - Add basic support for returned, rejected Promises
+    - Fix JSDoc for `Router` constructor
+    - deps: debug@3.1.0
     - deps: parseurl@~1.3.2
     - deps: setprototypeof@1.1.0
     - deps: utils-merge@1.0.1
