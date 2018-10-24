@@ -65,7 +65,7 @@ function authenticate(name, pass, fn) {
   // found the user
   hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
     if (err) return fn(err);
-    if (hash == user.hash) return fn(null, user);
+    if (hash === user.hash) return fn(null, user)
     fn(new Error('invalid password'));
   });
 }

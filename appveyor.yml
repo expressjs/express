@@ -5,24 +5,56 @@ environment:
     - nodejs_version: "1.8"
     - nodejs_version: "2.5"
     - nodejs_version: "3.3"
-    - nodejs_version: "4.8"
+    - nodejs_version: "4.9"
     - nodejs_version: "5.12"
-    - nodejs_version: "6.11"
+    - nodejs_version: "6.14"
     - nodejs_version: "7.10"
-    - nodejs_version: "8.4"
+    - nodejs_version: "8.12"
 cache:
   - node_modules
 install:
-  - ps: Install-Product node $env:nodejs_version
-  - npm config set shrinkwrap false
-  - npm rm --save-dev connect-redis
-  - if exist node_modules npm prune
-  - if exist node_modules npm rebuild
+  # Install Node.js
+  - ps: >-
+      try { Install-Product node $env:nodejs_version -ErrorAction Stop }
+      catch { Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) }
+  # Configure npm
+  - ps: |
+      # Skip updating shrinkwrap / lock
+      npm config set shrinkwrap false
+  # Remove all non-test dependencies
+  - ps: |
+      # Remove example dependencies
+      npm rm --silent --save-dev connect-redis
+  # Setup Node.js version-specific dependencies
+  - ps: |
+      # mocha for testing
+      # - use 3.x for Node.js < 6
+      if ($env:nodejs_version.split(".")[0] -lt 6) {
+        npm install --silent --save-dev mocha@3.5.3
+      }
+  - ps: |
+      # supertest for http calls
+      # - use 2.0.0 for Node.js < 4
+      if ($env:nodejs_version.split(".")[0] -lt 4) {
+        npm install --silent --save-dev supertest@2.0.0
+      }
+  # Update Node.js modules
+  - ps: |
+      # Prune & rebuild node_modules
+      if (Test-Path -Path node_modules) {
+        npm prune
+        npm rebuild
+      }
+  # Install Node.js modules
   - npm install
 build: off
 test_script:
-  - node --version
-  - npm --version
+  # Output version data
+  - ps: |
+      node --version
+      npm --version
+  # Run test script
   - npm run test-ci
+  # Run linting
   - npm run lint
 version: "{build}"

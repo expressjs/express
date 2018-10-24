@@ -1,7 +1,7 @@
 5.x
 ===
 
-This incorporates all changes after 4.15.5 up to 4.16.2.
+This incorporates all changes after 4.15.5 up to 4.16.4.
 
   * remove:
     - `path-to-regexp` dependency
@@ -106,6 +106,53 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.16.4 / 2018-10-10
+===================
+
+  * Fix issue where `"Request aborted"` may be logged in `res.sendfile`
+  * Fix JSDoc for `Router` constructor
+  * deps: body-parser@1.18.3
+    - Fix deprecation warnings on Node.js 10+
+    - Fix stack trace for strict json parse error
+    - deps: depd@~1.1.2
+    - deps: http-errors@~1.6.3
+    - deps: iconv-lite@0.4.23
+    - deps: qs@6.5.2
+    - deps: raw-body@2.3.3
+    - deps: type-is@~1.6.16
+  * deps: proxy-addr@~2.0.4
+    - deps: ipaddr.js@1.8.0
+  * deps: qs@6.5.2
+  * deps: safe-buffer@5.1.2
+
+4.16.3 / 2018-03-12
+===================
+
+  * deps: accepts@~1.3.5
+    - deps: mime-types@~2.1.18
+  * deps: depd@~1.1.2
+    - perf: remove argument reassignment
+  * deps: encodeurl@~1.0.2
+    - Fix encoding `%` as last character
+  * deps: finalhandler@1.1.1
+    - Fix 404 output for bad / missing pathnames
+    - deps: encodeurl@~1.0.2
+    - deps: statuses@~1.4.0
+  * deps: proxy-addr@~2.0.3
+    - deps: ipaddr.js@1.6.0
+  * deps: send@0.16.2
+    - Fix incorrect end tag in default error & redirects
+    - deps: depd@~1.1.2
+    - deps: encodeurl@~1.0.2
+    - deps: statuses@~1.4.0
+  * deps: serve-static@1.13.2
+    - Fix incorrect end tag in redirects
+    - deps: encodeurl@~1.0.2
+    - deps: send@0.16.2
+  * deps: statuses@~1.4.0
+  * deps: type-is@~1.6.16
+    - deps: mime-types@~2.1.18
 
 4.16.2 / 2017-10-09
 ===================

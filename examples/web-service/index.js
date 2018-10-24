@@ -49,9 +49,9 @@ var apiKeys = ['foo', 'bar', 'baz'];
 // these two objects will serve as our faux database
 
 var repos = [
-    { name: 'express', url: 'http://github.com/expressjs/express' }
-  , { name: 'stylus', url: 'http://github.com/learnboost/stylus' }
-  , { name: 'cluster', url: 'http://github.com/learnboost/cluster' }
+  { name: 'express', url: 'https://github.com/expressjs/express' },
+  { name: 'stylus', url: 'https://github.com/learnboost/stylus' },
+  { name: 'cluster', url: 'https://github.com/learnboost/cluster' }
 ];
 
 var users = [
@@ -69,14 +69,17 @@ var userRepos = {
 // we now can assume the api key is valid,
 // and simply expose the data
 
+// example: http://localhost:3000/api/users/?api-key=foo
 app.get('/api/users', function(req, res, next){
   res.send(users);
 });
 
+// example: http://localhost:3000/api/repos/?api-key=foo
 app.get('/api/repos', function(req, res, next){
   res.send(repos);
 });
 
+// example: http://localhost:3000/api/user/tobi/repos/?api-key=foo
 app.get('/api/user/:name/repos', function(req, res, next){
   var name = req.params.name;
   var user = userRepos[name];

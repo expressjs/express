@@ -1,4 +1,5 @@
 
+var assert = require('assert')
 var Buffer = require('safe-buffer').Buffer
 var express = require('..');
 var methods = require('methods');
@@ -142,8 +143,10 @@ describe('res', function(){
 
       request(app)
       .get('/')
+      .expect(200)
       .expect('Content-Type', 'application/octet-stream')
-      .expect(200, 'hello', done);
+      .expect(shouldHaveBody(Buffer.from('hello')))
+      .end(done)
     })
 
     it('should set ETag', function (done) {
@@ -211,7 +214,9 @@ describe('res', function(){
 
       request(app)
       .head('/')
-      .expect('', done);
+      .expect(200)
+      .expect(shouldNotHaveBody())
+      .end(done)
     })
   })
 
@@ -307,6 +312,18 @@ describe('res', function(){
     request(app)
     .get('/?callback=foo')
     .expect('{"foo":"bar"}', done);
+  })
+
+  it('should be chainable', function (done) {
+    var app = express()
+
+    app.use(function (req, res) {
+      assert.equal(res.send('hey'), res)
+    })
+
+    request(app)
+    .get('/')
+    .expect(200, 'hey', done)
   })
 
   describe('"etag" setting', function () {
@@ -515,3 +532,19 @@ describe('res', function(){
     })
   })
 })
+
+function shouldHaveBody (buf) {
+  return function (res) {
+    var body = !Buffer.isBuffer(res.body)
+      ? Buffer.from(res.text)
+      : res.body
+    assert.ok(body, 'response has body')
+    assert.strictEqual(body.toString('hex'), buf.toString('hex'))
+  }
+}
+
+function shouldNotHaveBody () {
+  return function (res) {
+    assert.ok(res.text === '' || res.text === undefined)
+  }
+}

@@ -41,16 +41,12 @@ describe('app.router', function(){
         var app = express();
 
         app[method]('/foo', function(req, res){
-          if ('head' == method) {
-            res.end();
-          } else {
-            res.end(method);
-          }
+          res.send(method)
         });
 
         request(app)
         [method]('/foo')
-        .expect('head' == method ? '' : method, done);
+        .expect(200, done)
       })
 
       it('should reject numbers for app.' + method, function(){

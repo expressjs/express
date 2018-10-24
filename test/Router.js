@@ -7,15 +7,12 @@ var express = require('../')
 
 describe('Router', function(){
   it('should return a function with router methods', function() {
-    var router = Router();
-    assert(typeof router == 'function');
-
     var router = new Router();
-    assert(typeof router == 'function');
+    assert(typeof router === 'function')
 
-    assert(typeof router.get == 'function');
-    assert(typeof router.handle == 'function');
-    assert(typeof router.use == 'function');
+    assert(typeof router.get === 'function')
+    assert(typeof router.handle === 'function')
+    assert(typeof router.use === 'function')
   });
 
   it('should support .use of other routers', function(done){
