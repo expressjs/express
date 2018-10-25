@@ -1,3 +1,6 @@
+os:
+  - linux
+  - linux-ppc64le
 language: node_js
 node_js:
   - "0.10"
@@ -16,6 +19,17 @@ matrix:
       env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
     - node_js: "10"
       env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
+  exclude:
+    - os: linux-ppc64le
+      node_js: "0.10"
+    - os: linux-ppc64le
+      node_js: "0.12"
+    - os: linux-ppc64le
+      node_js: "1.8"
+    - os: linux-ppc64le
+      node_js: "2.5"
+    - os: linux-ppc64le
+      node_js: "3.3"
   allow_failures:
     # Allow the nightly installs to fail
     - env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
