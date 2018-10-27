@@ -152,15 +152,12 @@ describe('app.router', function(){
 
     app.use(function(req, res, next){
       calls.push('after');
-      res.end();
+      res.json(calls)
     });
 
     request(app)
     .get('/')
-    .end(function(res){
-      calls.should.eql(['before', 'GET /', 'after'])
-      done();
-    })
+    .expect(200, ['before', 'GET /', 'after'], done)
   })
 
   describe('when given a regexp', function(){
@@ -891,15 +888,12 @@ describe('app.router', function(){
 
       app.get('/foo', function(req, res, next){
         calls.push('/foo 2');
-        res.end('done');
+        res.json(calls)
       });
 
       request(app)
       .get('/foo')
-      .expect('done', function(){
-        calls.should.eql(['/foo/:bar?', '/foo', '/foo 2']);
-        done();
-      })
+      .expect(200, ['/foo/:bar?', '/foo', '/foo 2'], done)
     })
   })
 
@@ -982,15 +976,15 @@ describe('app.router', function(){
       });
 
       app.use(function(err, req, res, next){
-        res.end(err.message);
+        res.json({
+          calls: calls,
+          error: err.message
+        })
       })
 
       request(app)
       .get('/foo')
-      .expect('fail', function(){
-        calls.should.eql(['/foo/:bar?', '/foo']);
-        done();
-      })
+      .expect(200, { calls: ['/foo/:bar?', '/foo'], error: 'fail' }, done)
     })
 
     it('should call handler in same route, if exists', function(done){
