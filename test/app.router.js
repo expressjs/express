@@ -5,6 +5,8 @@ var express = require('../')
   , assert = require('assert')
   , methods = require('methods');
 
+var describePromises = global.Promise ? describe : describe.skip
+
 describe('app.router', function(){
   it('should restore req.params after leaving router', function(done){
     var app = express();
@@ -1017,6 +1019,138 @@ describe('app.router', function(){
       request(app)
       .get('/foo')
       .expect('route go boom!', done)
+    })
+  })
+
+  describePromises('promise support', function () {
+    it('should pass rejected promise value', function (done) {
+      var app = express()
+      var router = new express.Router()
+
+      router.use(function createError (req, res, next) {
+        return Promise.reject(new Error('boom!'))
+      })
+
+      router.use(function sawError (err, req, res, next) {
+        res.send('saw ' + err.name + ': ' + err.message)
+      })
+
+      app.use(router)
+
+      request(app)
+      .get('/')
+      .expect(200, 'saw Error: boom!', done)
+    })
+
+    it('should pass rejected promise without value', function (done) {
+      var app = express()
+      var router = new express.Router()
+
+      router.use(function createError (req, res, next) {
+        return Promise.reject()
+      })
+
+      router.use(function sawError (err, req, res, next) {
+        res.send('saw ' + err.name + ': ' + err.message)
+      })
+
+      app.use(router)
+
+      request(app)
+      .get('/')
+      .expect(200, 'saw Error: Rejected promise', done)
+    })
+
+    it('should ignore resolved promise', function (done) {
+      var app = express()
+      var router = new express.Router()
+
+      router.use(function createError (req, res, next) {
+        res.send('saw GET /foo')
+        return Promise.resolve('foo')
+      })
+
+      router.use(function () {
+        done(new Error('Unexpected middleware invoke'))
+      })
+
+      app.use(router)
+
+      request(app)
+      .get('/foo')
+      .expect(200, 'saw GET /foo', done)
+    })
+
+    describe('error handling', function () {
+      it('should pass rejected promise value', function (done) {
+        var app = express()
+        var router = new express.Router()
+
+        router.use(function createError (req, res, next) {
+          return Promise.reject(new Error('boom!'))
+        })
+
+        router.use(function handleError (err, req, res, next) {
+          return Promise.reject(new Error('caught: ' + err.message))
+        })
+
+        router.use(function sawError (err, req, res, next) {
+          res.send('saw ' + err.name + ': ' + err.message)
+        })
+
+        app.use(router)
+
+        request(app)
+        .get('/')
+        .expect(200, 'saw Error: caught: boom!', done)
+      })
+
+      it('should pass rejected promise without value', function (done) {
+        var app = express()
+        var router = new express.Router()
+
+        router.use(function createError (req, res, next) {
+          return Promise.reject()
+        })
+
+        router.use(function handleError (err, req, res, next) {
+          return Promise.reject(new Error('caught: ' + err.message))
+        })
+
+        router.use(function sawError (err, req, res, next) {
+          res.send('saw ' + err.name + ': ' + err.message)
+        })
+
+        app.use(router)
+
+        request(app)
+        .get('/')
+        .expect(200, 'saw Error: caught: Rejected promise', done)
+      })
+
+      it('should ignore resolved promise', function (done) {
+        var app = express()
+        var router = new express.Router()
+
+        router.use(function createError (req, res, next) {
+          return Promise.reject(new Error('boom!'))
+        })
+
+        router.use(function handleError (err, req, res, next) {
+          res.send('saw ' + err.name + ': ' + err.message)
+          return Promise.resolve('foo')
+        })
+
+        router.use(function () {
+          done(new Error('Unexpected middleware invoke'))
+        })
+
+        app.use(router)
+
+        request(app)
+        .get('/foo')
+        .expect(200, 'saw Error: boom!', done)
+      })
     })
   })
 
