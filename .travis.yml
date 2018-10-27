@@ -16,6 +16,8 @@ matrix:
       env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
     - node_js: "10"
       env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
+    - node_js: "11"
+      env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
   allow_failures:
     # Allow the nightly installs to fail
     - env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
