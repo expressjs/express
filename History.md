@@ -1,7 +1,11 @@
-5.x
-===
+5.0.0-alpha.7 / 2018-10-26
+==========================
 
-This incorporates all changes after 4.15.5 up to 4.16.4.
+This is the seventh Express 5.0 alpha release, based off 4.16.4 and includes
+changes from 5.0.0-alpha.6.
+
+The major change with this alpha is the basic support for returned, rejected
+Promises in the router.
 
   * remove:
     - `path-to-regexp` dependency
