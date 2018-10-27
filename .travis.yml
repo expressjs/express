@@ -60,5 +60,5 @@ script:
 after_script:
   - |
     # Upload coverage to coveralls
-    npm install --save-dev coveralls@2.10.0
+    npm install --save-dev coveralls@2.12.0
     coveralls < ./coverage/lcov.info
