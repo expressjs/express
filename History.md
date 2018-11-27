@@ -301,7 +301,7 @@ unreleased
     - Fix including type extensions in parameters in `Accept` parsing
     - Fix parsing `Accept` parameters with quoted equals
     - Fix parsing `Accept` parameters with quoted semicolons
-    - Many performance improvments
+    - Many performance improvements
     - deps: mime-types@~2.1.11
     - deps: negotiator@0.6.1
   * deps: content-type@~1.0.2
@@ -316,7 +316,7 @@ unreleased
     - perf: enable strict mode
     - perf: hoist regular expression
     - perf: use for loop in parse
-    - perf: use string concatination for serialization
+    - perf: use string concatenation for serialization
   * deps: finalhandler@0.5.0
     - Change invalid or non-numeric status code to 500
     - Overwrite status message to match set status code
@@ -326,7 +326,7 @@ unreleased
   * deps: proxy-addr@~1.1.2
     - Fix accepting various invalid netmasks
     - Fix IPv6-mapped IPv4 validation edge cases
-    - IPv4 netmasks must be contingous
+    - IPv4 netmasks must be contiguous
     - IPv6 addresses cannot be used as a netmask
     - deps: ipaddr.js@1.1.1
   * deps: qs@6.2.0
@@ -1104,13 +1104,13 @@ unreleased
    - deps: negotiator@0.4.6
  * deps: debug@1.0.2
  * deps: send@0.4.3
-   - Do not throw un-catchable error on file open race condition
+   - Do not throw uncatchable error on file open race condition
    - Use `escape-html` for HTML escaping
    - deps: debug@1.0.2
    - deps: finished@1.2.2
    - deps: fresh@0.2.2
  * deps: serve-static@1.2.3
-   - Do not throw un-catchable error on file open race condition
+   - Do not throw uncatchable error on file open race condition
    - deps: send@0.4.3
 
 4.4.2 / 2014-06-09
@@ -1990,7 +1990,7 @@ unreleased
    - deps: serve-static@1.2.3
  * deps: debug@1.0.2
  * deps: send@0.4.3
-   - Do not throw un-catchable error on file open race condition
+   - Do not throw uncatchable error on file open race condition
    - Use `escape-html` for HTML escaping
    - deps: debug@1.0.2
    - deps: finished@1.2.2
@@ -3175,7 +3175,7 @@ Shaw]
   * Updated haml submodule
   * Changed ETag; removed inode, modified time only
   * Fixed LF to CRLF for setting multiple cookies
-  * Fixed cookie complation; values are now urlencoded
+  * Fixed cookie compilation; values are now urlencoded
   * Fixed cookies parsing; accepts quoted values and url escaped cookies
 
 0.11.0 / 2010-05-06
@@ -3370,7 +3370,7 @@ Shaw]
 
   * Added "plot" format option for Profiler (for gnuplot processing)
   * Added request number to Profiler plugin
-  * Fixed binary encoding for multi-part file uploads, was previously defaulting to UTF8
+  * Fixed binary encoding for multipart file uploads, was previously defaulting to UTF8
   * Fixed issue with routes not firing when not files are present. Closes #184
   * Fixed process.Promise -> events.Promise
 
@@ -3416,7 +3416,7 @@ Shaw]
   * Updated sample chat app to show messages on load
   * Updated libxmljs parseString -> parseHtmlString
   * Fixed `make init` to work with older versions of git
-  * Fixed specs can now run independent specs for those who cant build deps. Closes #127
+  * Fixed specs can now run independent specs for those who can't build deps. Closes #127
   * Fixed issues introduced by the node url module changes. Closes 126.
   * Fixed two assertions failing due to Collection#keys() returning strings
   * Fixed faulty Collection#toArray() spec due to keys() returning strings
