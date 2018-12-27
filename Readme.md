@@ -7,7 +7,7 @@
   [![Linux Build][travis-image]][travis-url]
   [![Windows Build][appveyor-image]][appveyor-url]
   [![Test Coverage][coveralls-image]][coveralls-url]
-  [![PR's Welcome][https://img.shields.io/badge/PRs%20-welcome-brightgreen.svg]][https://github.com/expressjs/express/blob/master/Contributing.md]
+  [![PR's Welcome](https://img.shields.io/badge/PRs%20-welcome-brightgreen.svg)](https://github.com/expressjs/express/blob/master/Contributing.md)
 
 ```js
 var express = require('express')
