@@ -127,6 +127,10 @@ $ npm install
 $ npm test
 ```
 
+## Contributing
+
+[Contributing Guide](Contributing.md)
+
 ## People
 
 The original author of Express is [TJ Holowaychuk](https://github.com/tj)
