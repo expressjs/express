@@ -9,3 +9,6 @@
 'use strict';
 
 module.exports = require('./lib/express');
+
+let maVariable;
+maVariable = 'Tom'
