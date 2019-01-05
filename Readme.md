@@ -91,6 +91,10 @@ $ npm install
 $ npm start
 ```
 
+## Contributing
+
+Please see the [contributing guidelines](https://github.com/expressjs/express/blob/master/Contributing.md)
+
 ## Philosophy
 
   The Express philosophy is to provide small, robust tooling for HTTP servers, making
