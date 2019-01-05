@@ -7,7 +7,6 @@
   [![Linux Build][travis-image]][travis-url]
   [![Windows Build][appveyor-image]][appveyor-url]
   [![Test Coverage][coveralls-image]][coveralls-url]
-  [![PR's Welcome][pr-welcoming-image]][pr-welcoming-url]
 
 ```js
 var express = require('express')
@@ -156,5 +155,3 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [gratipay-url-visionmedia]: https://gratipay.com/visionmedia/
 [gratipay-image-dougwilson]: https://img.shields.io/gratipay/dougwilson.svg
 [gratipay-url-dougwilson]: https://gratipay.com/dougwilson/
-[pr-welcoming-image]: https://img.shields.io/badge/PRs%20-welcome-brightgreen.svg 
-[pr-welcoming-url]: https://github.com/expressjs/express/blob/master/Contributing.md
