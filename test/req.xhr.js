@@ -1,5 +1,5 @@
 
-var express = require('../')
+var express = require('../');
   , request = require('supertest');
 
 describe('req', function(){
