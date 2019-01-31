@@ -227,29 +227,15 @@ describe('app', function(){
 
     describe('caching', function(){
       it('should always lookup view without cache', function(done){
-        var app = express();
-        var count = 0;
-
-        function View(name, options){
-          this.name = name;
-          this.path = 'fake';
-          count++;
-        }
-
-        View.prototype.render = function(options, fn){
-          fn(null, 'abstract engine');
-        };
-
-        app.set('view cache', false);
-        app.set('view', View);
+        var app = createAppForCaching(false);
 
         app.render('something', function(err, str){
           if (err) return done(err);
-          count.should.equal(1);
+          app.count.should.equal(1);
           str.should.equal('abstract engine');
           app.render('something', function(err, str){
             if (err) return done(err);
-            count.should.equal(2);
+            app.count.should.equal(2);
             str.should.equal('abstract engine');
             done();
           })
@@ -257,29 +243,15 @@ describe('app', function(){
       })
 
       it('should cache with "view cache" setting', function(done){
-        var app = express();
-        var count = 0;
-
-        function View(name, options){
-          this.name = name;
-          this.path = 'fake';
-          count++;
-        }
-
-        View.prototype.render = function(options, fn){
-          fn(null, 'abstract engine');
-        };
-
-        app.set('view cache', true);
-        app.set('view', View);
+        var app = createAppForCaching(true);
 
         app.render('something', function(err, str){
           if (err) return done(err);
-          count.should.equal(1);
+          app.count.should.equal(1);
           str.should.equal('abstract engine');
           app.render('something', function(err, str){
             if (err) return done(err);
-            count.should.equal(1);
+            app.count.should.equal(1);
             str.should.equal('abstract engine');
             done();
           })
@@ -332,31 +304,51 @@ describe('app', function(){
 
     describe('caching', function(){
       it('should cache with cache option', function(done){
-        var app = express();
-        var count = 0;
-
-        function View(name, options){
-          this.name = name;
-          this.path = 'fake';
-          count++;
-        }
-
-        View.prototype.render = function(options, fn){
-          fn(null, 'abstract engine');
-        };
-
-        app.set('view cache', false);
-        app.set('view', View);
+        var app = createAppForCaching(false);
 
         app.render('something', {cache: true}, function(err, str){
           if (err) return done(err);
-          count.should.equal(1);
+          app.count.should.equal(1);
           str.should.equal('abstract engine');
           app.render('something', {cache: true}, function(err, str){
             if (err) return done(err);
-            count.should.equal(1);
+            app.count.should.equal(1);
             str.should.equal('abstract engine');
             done();
+          })
+        })
+      })
+
+      describe('when "cacheKey" option is given', function(){
+        it('should render the template twice with different keys', function(done){
+          var app = createAppForCaching(true);
+
+          app.render('something', {cacheKey: 'key1'}, function(err, str){
+            if (err) return done(err);
+            app.count.should.equal(1);
+            str.should.equal('abstract engine');
+            app.render('something', {cacheKey: 'key2'}, function(err, str){
+              if (err) return done(err);
+              app.count.should.equal(2);
+              str.should.equal('abstract engine');
+              done();
+            })
+          })
+        })
+
+        it('should render the template once with the same keys', function(done){
+          var app = createAppForCaching(true);
+
+          app.render('something', {cacheKey: 'key'}, function(err, str){
+            if (err) return done(err);
+            app.count.should.equal(1);
+            str.should.equal('abstract engine');
+            app.render('something', {cacheKey: 'key'}, function(err, str){
+              if (err) return done(err);
+              app.count.should.equal(1);
+              str.should.equal('abstract engine');
+              done();
+            })
           })
         })
       })
@@ -368,6 +360,26 @@ function createApp() {
   var app = express();
 
   app.engine('.tmpl', tmpl);
+
+  return app;
+}
+
+function createAppForCaching(cache) {
+  var app = express();
+  app.count = 0;
+
+  function View(name, options){
+    this.name = name;
+    this.path = 'fake';
+    app.count++;
+  }
+
+  View.prototype.render = function(options, fn){
+    fn(null, 'abstract engine');
+  };
+
+  app.set('view cache', !!cache);
+  app.set('view', View);
 
   return app;
 }
