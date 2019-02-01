@@ -3,7 +3,7 @@ var express = require('../')
   , request = require('supertest');
 
 describe('req', function(){
-  describe('.acceptsEncodingss', function(){
+  describe('.acceptsEncodings', function () {
     it('should be true if encoding accepted', function(done){
       var app = express();
 

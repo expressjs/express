@@ -567,7 +567,7 @@ describe('app.router', function(){
       .expect('/user/tobi.json', done)
     })
 
-    it('should decore the capture', function (done) {
+    it('should decode the capture', function (done) {
       var app = express()
 
       app.get('*', function (req, res) {

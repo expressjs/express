@@ -70,7 +70,7 @@ describe('req', function(){
       });
     });
 
-    describe('when "query parser" disabled', function () {
+    describe('when "query parser" enabled', function () {
       it('should not parse complex keys', function (done) {
         var app = createApp(true);
 
