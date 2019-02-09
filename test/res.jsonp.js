@@ -141,18 +141,18 @@ describe('res', function(){
       .expect(200, '{"hello":"world"}', done);
     })
 
-    it('should override previous Content-Types with callback', function(done){
+    it('should not override previous Content-Types with callback', function(done){
       var app = express();
 
       app.get('/', function(req, res){
-        res.type('application/vnd.example+json');
+        res.type('application/javascript');
         res.jsonp({ hello: 'world' });
       });
 
       request(app)
       .get('/?callback=cb')
-      .expect('Content-Type', 'text/javascript; charset=utf-8')
-      .expect('X-Content-Type-Options', 'nosniff')
+      .expect('Content-Type', 'application/javascript; charset=utf-8')
+      .expect(utils.shouldNotHaveHeader('X-Content-Type-Options'))
       .expect(200, /cb\(\{"hello":"world"\}\);$/, done);
     })
 
