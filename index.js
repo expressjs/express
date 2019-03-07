@@ -6,6 +6,7 @@
  * MIT Licensed
  */
 
-'use strict';
+"use strict";
 
-module.exports = require('./lib/express');
+// express模块的入口
+module.exports = require("./lib/express");
