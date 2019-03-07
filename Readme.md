@@ -55,31 +55,31 @@ $ npm install express
 
 ### 安全报告
 
-If you discover a security vulnerability in Express, please see [Security Policies and Procedures](Security.md).
+如果发现 express 存在安全漏洞，请查阅 [安全策略和处理过程](Security.md).
 
-## Quick Start
+## 快速启动
 
-The quickest way to get started with express is to utilize the executable [`express(1)`](https://github.com/expressjs/generator) to generate an application as shown below:
+基于 [`express(1)`](https://github.com/expressjs/generator)快速启动一个可用的 Web 服务器，其操作流程如下:
 
-Install the executable. The executable's major version will match Express's:
+安装下面模块，该模块的版本需要匹配 express 模块:
 
 ```bash
 $ npm install -g express-generator@4
 ```
 
-Create the app:
+创建应用:
 
 ```bash
 $ express /tmp/foo && cd /tmp/foo
 ```
 
-Install dependencies:
+安装依赖:
 
 ```bash
 $ npm install
 ```
 
-Start the server:
+启动服务器:
 
 ```bash
 $ npm start
@@ -87,17 +87,12 @@ $ npm start
 
 ## 设计哲学
 
-The Express philosophy is to provide small, robust tooling for HTTP servers, making
-it a great solution for single page applications, web sites, hybrids, or public
-HTTP APIs.
+express 的设计哲学是提供一个简约健壮的 HTTP 服务器，使得开发 SPA、Web 站点服务、混合应用和 Restful APis 服务器变得非常容易。
+express 并不强制安装和使用特定的视图模板引擎，事实上 express 内置了超过 14 个模板引擎。通过 [Consolidate.js](https://github.com/tj/consolidate.js)，可以帮助开发者快速打磨自己的模板.
 
-Express does not force you to use any specific ORM or template engine. With support for over
-14 template engines via [Consolidate.js](https://github.com/tj/consolidate.js),
-you can quickly craft your perfect framework.
+## 例子
 
-## Examples
-
-To view the examples, clone the Express repo and install the dependencies:
+克隆 express 代码仓库，并执行下面操作:
 
 ```bash
 $ git clone git://github.com/expressjs/express.git --depth 1
@@ -105,28 +100,28 @@ $ cd express
 $ npm install
 ```
 
-Then run whichever example you want:
+运行项目中提供的例子:
 
 ```bash
 $ node examples/content-negotiation
 ```
 
-## Tests
+## 测试
 
-To run the test suite, first install the dependencies, then run `npm test`:
+为了运行 express 框架，请执行 `npm test`:
 
 ```bash
 $ npm install
 $ npm test
 ```
 
-## People
+## 主要作者
 
-The original author of Express is [TJ Holowaychuk](https://github.com/tj)
+express 最开始的作者是 [TJ Holowaychuk](https://github.com/tj)
 
-The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson)
+目前主要维护者为 [Douglas Christopher Wilson](https://github.com/dougwilson)
 
-[List of all contributors](https://github.com/expressjs/express/graphs/contributors)
+[贡献者列表](https://github.com/expressjs/express/graphs/contributors)
 
 ## License
 
