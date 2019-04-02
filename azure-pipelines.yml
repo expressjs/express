@@ -1,0 +1,72 @@
+jobs:
+- job: Linux 
+  strategy:
+    matrix:
+      Node.js 0.10:
+        NODE_VERSION: '0.10'
+      Node.js 0.12:
+        NODE_VERSION: '0.12'
+      Node.js 1.8:
+        NODE_VERSION: '1.8'
+      Node.js 2.5:
+        NODE_VERSION: '2.5'
+      Node.js 3.3:
+        NODE_VERSION: '3.3'
+      Node.js 4.9:
+        NODE_VERSION: '4.9'
+      Node.js 5.12:
+        NODE_VERSION: '5.12'
+      Node.js 6.14:
+        NODE_VERSION: '6.14'
+      Node.js 7.10:
+        NODE_VERSION: '7.10'
+      Node.js 8.12:
+        NODE_VERSION: '8.12'
+      Node.js 9:
+        NODE_VERSION: '9'
+      Node.js 10:
+        NODE_VERSION: '10'
+  continueOnError: false
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+  steps:
+  - template: "azure-pipelines-steps.yml"
+    parameters:
+      NODE_VERSION: $(NODE_VERSION)
+
+- job: Windows 
+  strategy:
+    matrix:
+      Node.js 0.10:
+        NODE_VERSION: '0.10'
+      Node.js 0.12:
+        NODE_VERSION: '0.12'
+      Node.js 1.8:
+        NODE_VERSION: '1.8'
+      Node.js 2.5:
+        NODE_VERSION: '2.5'
+      Node.js 3.3:
+        NODE_VERSION: '3.3'
+      Node.js 4.9:
+        NODE_VERSION: '4.9'
+      Node.js 5.12:
+        NODE_VERSION: '5.12'
+      Node.js 6.14:
+        NODE_VERSION: '6.14'
+      Node.js 7.10:
+        NODE_VERSION: '7.10'
+      Node.js 8.12:
+        NODE_VERSION: '8.12'
+      Node.js 9:
+        NODE_VERSION: '9'
+      Node.js 10:
+        NODE_VERSION: '10'
+  continueOnError: false
+  pool:
+    vmImage: 'vs2017-win2016'
+
+  steps:
+  - template: "azure-pipelines-steps.yml"
+    parameters:
+      NODE_VERSION: $(NODE_VERSION)

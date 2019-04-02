@@ -1,0 +1,64 @@
+steps:
+- powershell: |
+    $nodeVersion = "$(NODE_VERSION)"
+    $nodeMajorVersion = $nodeVersion.split(".")[0]
+    Write-Output ("##vso[task.setvariable variable=NodeMajorVersion;]$nodeMajorVersion")
+  displayName: "Get Major Version Number of NodeJS Using PowerShell"
+
+- template: azure-pipelines-install-node.yml
+  parameters:
+    NODE_VERSION : $(NODE_VERSION)
+
+#Start The Before Install Tasks 
+- script: |
+    node --version
+    npm config set shrinkwrap false
+  displayName: 'Skip updating shrinkwrap / lock'
+
+- script: |
+    npm rm --silent --save-dev connect-redis
+  displayName: 'Remove all non-test dependencies'
+
+- script: |
+    npm install --silent --save-dev mocha@3.5.3
+  displayName: 'Setup Node.js version-specific dependencies: mocha for testing: use 3.x for Node.js < 6'
+  condition: lt(variables['NodeMajorVersion'], 6)
+
+- script: |
+    npm install --silent --save-dev supertest@2.0.0
+  displayName: 'Setup Node.js version-specific dependencies: supertest for http calls: use 2.0.0 for Node.js < 4'
+  condition: lt(variables['NodeMajorVersion'], 4)
+  
+- powershell: |
+    # Prune & rebuild node_modules
+    if (Test-Path -Path node_modules) {
+        npm prune
+        npm rebuild
+      }
+  displayName: 'Update Node.js modules'
+
+#Finish With Before Install Tasks. Time to install dependencies
+- script: |
+    npm install
+  displayName: 'npm install'
+  
+#Testing
+- script: |
+    npm run test-ci
+  displayName: 'Run test script'
+
+- script: |
+    npm run lint
+  displayName: 'Run linting'
+
+- template: azure-pipelines-install-node.yml
+  parameters:
+    NODE_VERSION : 9.x
+
+- script: |
+    npm install --save-dev coveralls@2.10.0
+    node_modules/.bin/coveralls < ./coverage/lcov.info
+  displayName: 'Upload coverage to coveralls'
+  env:
+    COVERALLS_REPO_TOKEN: $(coveralls.key.mickey)
+    COVERALLS_SERVICE_NAME: 'AzureDevOps'
