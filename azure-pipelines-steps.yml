@@ -60,5 +60,5 @@ steps:
     node_modules/.bin/coveralls < ./coverage/lcov.info
   displayName: 'Upload coverage to coveralls'
   env:
-    COVERALLS_REPO_TOKEN: $(coveralls.key.mickey)
+    COVERALLS_REPO_TOKEN: $(coveralls.key.express)
     COVERALLS_SERVICE_NAME: 'AzureDevOps'
