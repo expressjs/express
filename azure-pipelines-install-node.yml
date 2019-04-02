@@ -1,5 +1,6 @@
 # Template file to install node using NVM on linux and manual install on windows
 steps:
+- ${{ if eq(parameters.OS, 'unix')  }}:
   - script: |
       curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh -o install.sh
       bash install.sh
@@ -15,8 +16,7 @@ steps:
       # make the new set path to be available in subsequent steps
       echo "##vso[task.setvariable variable=PATH;]$PATH"
     displayName: " [Unix] Install Node $(NODE_VERSION)"
-    condition: eq(variables['AGENT.OS'], 'Linux')
-
+- ${{ if eq(parameters.OS, 'windows')  }}:
   - powershell: |
       $nodeVersion = "$(NODE_VERSION)"
       if($nodeVersion.ToLower().EndsWith(".x")) {
@@ -85,4 +85,8 @@ steps:
       Write-Output ("##vso[task.setvariable variable=NPM_CONFIG_PREFIX;]$installPath")
       
     displayName: "[Windows] Install Node $(NODE_VERSION)"
-    condition: eq(variables['AGENT.OS'], 'Windows_NT')
+- ${{ if or(ne(parameters.OS, 'windows'),ne(parameters.OS, 'unix'))  }}:
+  - script: |
+      echo ##vso[task.logissue type=error;]Invalid OS. Allowed values unix or windows.
+      exit 1
+    displayName: Invalid operating system

@@ -8,6 +8,8 @@ steps:
 - template: azure-pipelines-install-node.yml
   parameters:
     NODE_VERSION : $(NODE_VERSION)
+    OS: ${{ parameters.OS }}
+
 
 #Start The Before Install Tasks 
 - script: |
@@ -54,6 +56,7 @@ steps:
 - template: azure-pipelines-install-node.yml
   parameters:
     NODE_VERSION : 9.x
+    OS: ${{ parameters.OS }}
 
 - script: |
     npm install --save-dev coveralls@2.10.0
