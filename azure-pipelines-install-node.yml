@@ -15,7 +15,7 @@ steps:
 
       # make the new set path to be available in subsequent steps
       echo "##vso[task.setvariable variable=PATH;]$PATH"
-    displayName: " [Unix] Install Node $(NODE_VERSION)"
+    displayName: "Install Node $(NODE_VERSION)"
 - ${{ if eq(parameters.OS, 'windows')  }}:
   - powershell: |
       $nodeVersion = "$(NODE_VERSION)"
@@ -84,7 +84,7 @@ steps:
       Write-Output ("##vso[task.setvariable variable=NPM_CONFIG_CACHE;]$installPath")
       Write-Output ("##vso[task.setvariable variable=NPM_CONFIG_PREFIX;]$installPath")
       
-    displayName: "[Windows] Install Node $(NODE_VERSION)"
+    displayName: "Install Node $(NODE_VERSION)"
 - ${{ if and(ne(parameters.OS, 'windows'),ne(parameters.OS, 'unix'))  }}:
   - script: |
       echo ##vso[task.logissue type=error;]Invalid OS. Allowed values unix or windows.
