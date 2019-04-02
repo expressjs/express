@@ -1,0 +1,92 @@
+# Template file to install node using NVM on linux and manual install on windows
+steps:
+- ${{ if eq(parameters.OS, 'unix')  }}:
+  - script: |
+      curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh -o install.sh
+      bash install.sh
+      export NVM_DIR="$HOME/.nvm"
+      
+      # crude version selector since nvm doesn't support it
+      nodeVersion=`echo ${{ parameters.NODE_VERSION }} | sed -e 's/\.x$//g'`
+
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
+      nvm install "$nodeVersion" || (echo "npm install failed"; exit 1)
+      nvm use "$nodeVersion"
+
+      # make the new set path to be available in subsequent steps
+      echo "##vso[task.setvariable variable=PATH;]$PATH"
+    displayName: "Install Node ${{ parameters.NODE_VERSION }}"
+- ${{ if eq(parameters.OS, 'windows')  }}:
+  - powershell: |
+      $nodeVersion = "${{ parameters.NODE_VERSION }}"
+      if($nodeVersion.ToLower().EndsWith(".x")) {
+        $nodeVersion = $nodeVersion.Substring(0, $nodeVersion.Length -1)
+      }
+      $targetDir = "c:\myiojs"
+      $iojsValues = '1.8','2.5','3.3'
+      if ("$nodeVersion" -In $iojsValues)
+      {
+        $distJsonUrl = "https://iojs.org/dist/index.json"
+        $baseName = "iojs"
+        $baseURL = "https://iojs.org/dist/"
+        $folderName = "iojs"
+        $isIOJS = $true
+      } else {
+        $distJsonUrl = "https://nodejs.org/dist/index.json"
+        $baseName = "node"
+        $baseURL = "https://nodejs.org/dist"
+        $folderName = "nodejs"
+      }
+
+      # Get Latest Version
+      $versionsList = Invoke-WebRequest -Uri $distJsonUrl
+      $versionsListObject = ConvertFrom-Json -InputObject $versionsList
+
+      $matchValues = $versionsListObject | Where-Object {$_.version -match "v$nodeVersion"}
+      $ver = $matchValues[0].version
+
+      Write-Output "Using version $ver"
+
+      if ("$ver".StartsWith("v0.10`.") -or "$ver".StartsWith("v0.12`."))
+      {
+        $msi = "$baseName-$ver-x86.msi"
+      }
+      else
+      {
+        $msi = "$baseName-$ver-x64.msi"
+      }
+
+      # Download MSI
+      $file = Join-Path "$(agent.tempDirectory)" "$msi"
+
+      $nodeUrl = "$baseURL/$ver/$msi"
+
+      Write-Output "Downloading $nodeUrl to $file"
+
+      Invoke-WebRequest -Uri $nodeUrl -OutFile $file
+      
+      # extract files from MSI
+      $MSIArguments = @("/a", "$file", "/qn", "TARGETDIR=$targetDir")
+      Start-Process "msiexec.exe" -ArgumentList $MSIArguments -Wait -NoNewWindow
+
+      $nodejsDir = Join-Path "$targetDir" "$folderName"
+      $newPath = "$nodejsDir;$env:Path"
+      $installPath = $nodejsDir
+
+      # copy the file from iojs.exe to node.exe since everybody expects node to exist
+      if($isIOJS) {
+        $oldexe = Join-Path "$nodejsDir" "iojs.exe"
+        $newexe = Join-Path "$nodejsDir" "node.exe"
+        copy "$oldexe" "$newexe"
+      }
+
+      Write-Host "##vso[task.setvariable variable=PATH;]$newPath";
+      Write-Output ("##vso[task.setvariable variable=NPM_CONFIG_CACHE;]$installPath")
+      Write-Output ("##vso[task.setvariable variable=NPM_CONFIG_PREFIX;]$installPath")
+      
+    displayName: "Install Node ${{ parameters.NODE_VERSION }}"
+- ${{ if and(ne(parameters.OS, 'windows'),ne(parameters.OS, 'unix'))  }}:
+  - script: |
+      echo ##vso[task.logissue type=error;]Invalid OS. Allowed values unix or windows.
+      exit 1
+    displayName: Invalid operating system
