@@ -85,7 +85,7 @@ steps:
       Write-Output ("##vso[task.setvariable variable=NPM_CONFIG_PREFIX;]$installPath")
       
     displayName: "[Windows] Install Node $(NODE_VERSION)"
-- ${{ if or(ne(parameters.OS, 'windows'),ne(parameters.OS, 'unix'))  }}:
+- ${{ if and(ne(parameters.OS, 'windows'),ne(parameters.OS, 'unix'))  }}:
   - script: |
       echo ##vso[task.logissue type=error;]Invalid OS. Allowed values unix or windows.
       exit 1
