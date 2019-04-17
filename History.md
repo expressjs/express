@@ -5,6 +5,7 @@ unreleased
   * Improve error message for `null`/`undefined` to `res.status`
   * Support multiple hosts in `X-Forwarded-Host`
   * deps: content-disposition@0.5.3
+  * deps: parseurl@~1.3.3
   * deps: proxy-addr@~2.0.5
     - deps: ipaddr.js@1.9.0
 
