@@ -1,4 +1,5 @@
 
+var assert = require('assert')
 var express = require('../')
 
 describe('app', function(){
@@ -19,8 +20,8 @@ describe('app', function(){
       var app = express();
       app.set('title', 'House of Manny');
       var obj = app.locals.settings;
-      obj.should.have.property('env', 'test');
-      obj.should.have.property('title', 'House of Manny');
+      assert.equal(obj.env, 'test')
+      assert.equal(obj.title, 'House of Manny')
     })
   })
 })
