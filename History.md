@@ -4,6 +4,7 @@ unreleased
   * Add "root" option to `res.download`
   * Allow `options` without `filename` in `res.download`
   * Deprecate string and non-integer arguments to `res.status`
+  * Fix behavior of `null`/`undefined` as `maxAge` in `res.cookie`
   * Ignore `Object.prototype` values in settings through `app.set`/`app.get`
   * Invoke `default` with same arguments as types in `res.format`
   * Support proper 205 responses using `res.send`

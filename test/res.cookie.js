@@ -111,6 +111,36 @@ describe('res', function(){
         .expect(200, optionsCopy, done)
       })
 
+      it('should not throw on null', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { maxAge: null })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Set-Cookie', 'name=tobi; Path=/')
+          .end(done)
+      })
+
+      it('should not throw on undefined', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { maxAge: undefined })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Set-Cookie', 'name=tobi; Path=/')
+          .end(done)
+      })
+
       it('should throw an error with invalid maxAge', function (done) {
         var app = express()
 
