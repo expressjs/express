@@ -5,6 +5,16 @@ unreleased
   * Improve error message for `null`/`undefined` to `res.status`
   * Support multiple hosts in `X-Forwarded-Host`
   * deps: accepts@~1.3.7
+  * deps: body-parser@1.19.0
+    - Add encoding MIK
+    - Add petabyte (`pb`) support
+    - Fix parsing array brackets after index
+    - deps: bytes@3.1.0
+    - deps: http-errors@1.7.2
+    - deps: iconv-lite@0.4.24
+    - deps: qs@6.7.0
+    - deps: raw-body@2.4.0
+    - deps: type-is@~1.6.17
   * deps: content-disposition@0.5.3
   * deps: parseurl@~1.3.3
   * deps: proxy-addr@~2.0.5
