@@ -9,6 +9,8 @@ unreleased
   * deps: parseurl@~1.3.3
   * deps: proxy-addr@~2.0.5
     - deps: ipaddr.js@1.9.0
+  * deps: qs@6.7.0
+    - Fix parsing array brackets after index
   * deps: setprototypeof@1.1.1
   * deps: statuses@~1.5.0
     - Add `103 Early Hints`
