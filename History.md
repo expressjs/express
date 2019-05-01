@@ -9,6 +9,8 @@ unreleased
   * deps: proxy-addr@~2.0.5
     - deps: ipaddr.js@1.9.0
   * deps: setprototypeof@1.1.1
+  * deps: statuses@~1.5.0
+    - Add `103 Early Hints`
 
 4.16.4 / 2018-10-10
 ===================
