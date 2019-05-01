@@ -4,6 +4,7 @@ unreleased
   * Improve error message for non-strings to `res.sendFile`
   * Improve error message for `null`/`undefined` to `res.status`
   * Support multiple hosts in `X-Forwarded-Host`
+  * deps: accepts@~1.3.7
   * deps: content-disposition@0.5.3
   * deps: parseurl@~1.3.3
   * deps: proxy-addr@~2.0.5
