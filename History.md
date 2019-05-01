@@ -12,6 +12,9 @@ unreleased
   * deps: setprototypeof@1.1.1
   * deps: statuses@~1.5.0
     - Add `103 Early Hints`
+  * deps: type-is@~1.6.18
+    - deps: mime-types@~2.1.24
+    - perf: prevent internal `throw` on invalid type
 
 4.16.4 / 2018-10-10
 ===================
