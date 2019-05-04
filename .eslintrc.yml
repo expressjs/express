@@ -1,5 +1,8 @@
 root: true
 
+parserOptions:
+  ecmaVersion: 6
+
 rules:
   eol-last: error
   eqeqeq: [error, allow-null]
