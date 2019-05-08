@@ -21,6 +21,12 @@ unreleased
     - deps: ipaddr.js@1.9.0
   * deps: qs@6.7.0
     - Fix parsing array brackets after index
+  * deps: send@0.17.0
+    - deps: http-errors@~1.7.2
+    - deps: mime@1.6.0
+    - deps: ms@2.1.1
+    - deps: statuses@~1.5.0
+    - perf: remove redundant `path.normalize` call
   * deps: setprototypeof@1.1.1
   * deps: statuses@~1.5.0
     - Add `103 Early Hints`
