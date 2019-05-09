@@ -7,7 +7,7 @@ environment:
     - nodejs_version: "3.3"
     - nodejs_version: "4.9"
     - nodejs_version: "5.12"
-    - nodejs_version: "6.14"
+    - nodejs_version: "6.17"
     - nodejs_version: "7.10"
     - nodejs_version: "8.12"
     - nodejs_version: "9.11"
