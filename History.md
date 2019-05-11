@@ -35,9 +35,10 @@ unreleased
     - deps: range-parser@~1.2.1
     - deps: statuses@~1.5.0
     - perf: remove redundant `path.normalize` call
-  * deps: serve-static@1.14.0
+  * deps: serve-static@1.14.1
+    - Set stricter CSP header in redirect response
     - deps: parseurl@~1.3.3
-    - deps: send@0.17.0
+    - deps: send@0.17.1
   * deps: setprototypeof@1.1.1
   * deps: statuses@~1.5.0
     - Add `103 Early Hints`

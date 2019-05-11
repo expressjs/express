@@ -513,7 +513,7 @@ describe('express.static()', function () {
     it('should respond with default Content-Security-Policy', function (done) {
       request(this.app)
         .get('/users')
-        .expect('Content-Security-Policy', "default-src 'self'")
+        .expect('Content-Security-Policy', "default-src 'none'")
         .expect(301, done)
     })
 
