@@ -50,7 +50,7 @@
     "qs": "6.7.0",
     "range-parser": "~1.2.0",
     "safe-buffer": "5.1.2",
-    "send": "0.17.0",
+    "send": "0.17.1",
     "serve-static": "1.14.0",
     "setprototypeof": "1.1.1",
     "statuses": "~1.5.0",

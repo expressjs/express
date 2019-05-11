@@ -27,10 +27,12 @@ unreleased
     - deps: ipaddr.js@1.9.0
   * deps: qs@6.7.0
     - Fix parsing array brackets after index
-  * deps: send@0.17.0
+  * deps: send@0.17.1
+    - Set stricter CSP header in redirect & error responses
     - deps: http-errors@~1.7.2
     - deps: mime@1.6.0
     - deps: ms@2.1.1
+    - deps: range-parser@~1.2.1
     - deps: statuses@~1.5.0
     - perf: remove redundant `path.normalize` call
   * deps: serve-static@1.14.0
