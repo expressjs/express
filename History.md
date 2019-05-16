@@ -18,6 +18,8 @@ unreleased
     - deps: raw-body@2.4.0
     - deps: type-is@~1.6.17
   * deps: content-disposition@0.5.3
+  * deps: cookie@0.4.0
+    - Add `SameSite=None` support
   * deps: finalhandler@~1.1.2
     - Set stricter `Content-Security-Policy` header
     - deps: parseurl@~1.3.3
