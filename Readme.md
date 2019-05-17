@@ -153,7 +153,3 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [appveyor-url]: https://ci.appveyor.com/project/dougwilson/express
 [coveralls-image]: https://img.shields.io/coveralls/expressjs/express/master.svg
 [coveralls-url]: https://coveralls.io/r/expressjs/express?branch=master
-[gratipay-image-visionmedia]: https://img.shields.io/gratipay/visionmedia.svg
-[gratipay-url-visionmedia]: https://gratipay.com/visionmedia/
-[gratipay-image-dougwilson]: https://img.shields.io/gratipay/dougwilson.svg
-[gratipay-url-dougwilson]: https://gratipay.com/dougwilson/
