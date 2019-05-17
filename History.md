@@ -1,5 +1,5 @@
-unreleased
-==========
+4.17.0 / 2019-05-16
+===================
 
   * Add `express.raw` to parse bodies into `Buffer`
   * Add `express.text` to parse bodies into string
