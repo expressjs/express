@@ -1,5 +1,5 @@
-unreleased
-==========
+4.17.1 / 2019-05-25
+===================
 
   * Revert "Improve error message for `null`/`undefined` to `res.status`"
 
