@@ -20,6 +20,14 @@ describe('res', function(){
       .expect(500, /path.*required/, done);
     });
 
+    it('should error for non-string path', function (done) {
+      var app = createApp(42)
+
+      request(app)
+      .get('/')
+      .expect(500, /TypeError: path must be a string to res.sendFile/, done)
+    })
+
     it('should transfer a file', function (done) {
       var app = createApp(path.resolve(fixtures, 'name.txt'));
 

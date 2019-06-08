@@ -1,3 +1,8 @@
+5.x
+===
+
+This incorporates all changes after 4.16.4 up to 4.17.1.
+
 5.0.0-alpha.7 / 2018-10-26
 ==========================
 
@@ -112,6 +117,62 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.17.1 / 2019-05-25
+===================
+
+  * Revert "Improve error message for `null`/`undefined` to `res.status`"
+
+4.17.0 / 2019-05-16
+===================
+
+  * Add `express.raw` to parse bodies into `Buffer`
+  * Add `express.text` to parse bodies into string
+  * Improve error message for non-strings to `res.sendFile`
+  * Improve error message for `null`/`undefined` to `res.status`
+  * Support multiple hosts in `X-Forwarded-Host`
+  * deps: accepts@~1.3.7
+  * deps: body-parser@1.19.0
+    - Add encoding MIK
+    - Add petabyte (`pb`) support
+    - Fix parsing array brackets after index
+    - deps: bytes@3.1.0
+    - deps: http-errors@1.7.2
+    - deps: iconv-lite@0.4.24
+    - deps: qs@6.7.0
+    - deps: raw-body@2.4.0
+    - deps: type-is@~1.6.17
+  * deps: content-disposition@0.5.3
+  * deps: cookie@0.4.0
+    - Add `SameSite=None` support
+  * deps: finalhandler@~1.1.2
+    - Set stricter `Content-Security-Policy` header
+    - deps: parseurl@~1.3.3
+    - deps: statuses@~1.5.0
+  * deps: parseurl@~1.3.3
+  * deps: proxy-addr@~2.0.5
+    - deps: ipaddr.js@1.9.0
+  * deps: qs@6.7.0
+    - Fix parsing array brackets after index
+  * deps: range-parser@~1.2.1
+  * deps: send@0.17.1
+    - Set stricter CSP header in redirect & error responses
+    - deps: http-errors@~1.7.2
+    - deps: mime@1.6.0
+    - deps: ms@2.1.1
+    - deps: range-parser@~1.2.1
+    - deps: statuses@~1.5.0
+    - perf: remove redundant `path.normalize` call
+  * deps: serve-static@1.14.1
+    - Set stricter CSP header in redirect response
+    - deps: parseurl@~1.3.3
+    - deps: send@0.17.1
+  * deps: setprototypeof@1.1.1
+  * deps: statuses@~1.5.0
+    - Add `103 Early Hints`
+  * deps: type-is@~1.6.18
+    - deps: mime-types@~2.1.24
+    - perf: prevent internal `throw` on invalid type
 
 4.16.4 / 2018-10-10
 ===================
@@ -409,7 +470,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - Fix including type extensions in parameters in `Accept` parsing
     - Fix parsing `Accept` parameters with quoted equals
     - Fix parsing `Accept` parameters with quoted semicolons
-    - Many performance improvments
+    - Many performance improvements
     - deps: mime-types@~2.1.11
     - deps: negotiator@0.6.1
   * deps: content-type@~1.0.2
@@ -424,7 +485,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - perf: enable strict mode
     - perf: hoist regular expression
     - perf: use for loop in parse
-    - perf: use string concatination for serialization
+    - perf: use string concatenation for serialization
   * deps: finalhandler@0.5.0
     - Change invalid or non-numeric status code to 500
     - Overwrite status message to match set status code
@@ -434,7 +495,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * deps: proxy-addr@~1.1.2
     - Fix accepting various invalid netmasks
     - Fix IPv6-mapped IPv4 validation edge cases
-    - IPv4 netmasks must be contingous
+    - IPv4 netmasks must be contiguous
     - IPv6 addresses cannot be used as a netmask
     - deps: ipaddr.js@1.1.1
   * deps: qs@6.2.0
@@ -1212,13 +1273,13 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
    - deps: negotiator@0.4.6
  * deps: debug@1.0.2
  * deps: send@0.4.3
-   - Do not throw un-catchable error on file open race condition
+   - Do not throw uncatchable error on file open race condition
    - Use `escape-html` for HTML escaping
    - deps: debug@1.0.2
    - deps: finished@1.2.2
    - deps: fresh@0.2.2
  * deps: serve-static@1.2.3
-   - Do not throw un-catchable error on file open race condition
+   - Do not throw uncatchable error on file open race condition
    - deps: send@0.4.3
 
 4.4.2 / 2014-06-09
@@ -2098,7 +2159,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
    - deps: serve-static@1.2.3
  * deps: debug@1.0.2
  * deps: send@0.4.3
-   - Do not throw un-catchable error on file open race condition
+   - Do not throw uncatchable error on file open race condition
    - Use `escape-html` for HTML escaping
    - deps: debug@1.0.2
    - deps: finished@1.2.2
@@ -3283,7 +3344,7 @@ Shaw]
   * Updated haml submodule
   * Changed ETag; removed inode, modified time only
   * Fixed LF to CRLF for setting multiple cookies
-  * Fixed cookie complation; values are now urlencoded
+  * Fixed cookie compilation; values are now urlencoded
   * Fixed cookies parsing; accepts quoted values and url escaped cookies
 
 0.11.0 / 2010-05-06
@@ -3478,7 +3539,7 @@ Shaw]
 
   * Added "plot" format option for Profiler (for gnuplot processing)
   * Added request number to Profiler plugin
-  * Fixed binary encoding for multi-part file uploads, was previously defaulting to UTF8
+  * Fixed binary encoding for multipart file uploads, was previously defaulting to UTF8
   * Fixed issue with routes not firing when not files are present. Closes #184
   * Fixed process.Promise -> events.Promise
 
@@ -3524,7 +3585,7 @@ Shaw]
   * Updated sample chat app to show messages on load
   * Updated libxmljs parseString -> parseHtmlString
   * Fixed `make init` to work with older versions of git
-  * Fixed specs can now run independent specs for those who cant build deps. Closes #127
+  * Fixed specs can now run independent specs for those who can't build deps. Closes #127
   * Fixed issues introduced by the node url module changes. Closes 126.
   * Fixed two assertions failing due to Collection#keys() returning strings
   * Fixed faulty Collection#toArray() spec due to keys() returning strings

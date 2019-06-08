@@ -25,8 +25,8 @@ describe('req', function(){
         var app = createApp('extended');
 
         request(app)
-        .get('/?user[name]=tj')
-        .expect(200, '{"user":{"name":"tj"}}', done);
+        .get('/?foo[0][bar]=baz&foo[0][fizz]=buzz&foo[]=done!')
+        .expect(200, '{"foo":[{"bar":"baz","fizz":"buzz"},"done!"]}', done);
       });
 
       it('should parse parameters with dots', function (done) {
@@ -70,7 +70,7 @@ describe('req', function(){
       });
     });
 
-    describe('when "query parser" disabled', function () {
+    describe('when "query parser" enabled', function () {
       it('should not parse complex keys', function (done) {
         var app = createApp(true);
 

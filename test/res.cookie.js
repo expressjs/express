@@ -108,15 +108,12 @@ describe('res', function(){
 
         app.use(function(req, res){
           res.cookie('name', 'tobi', options)
-          res.end();
+          res.json(options)
         });
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          options.should.eql(optionsCopy);
-          done();
-        })
+        .expect(200, optionsCopy, done)
       })
     })
 

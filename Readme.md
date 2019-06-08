@@ -9,8 +9,8 @@
   [![Test Coverage][coveralls-image]][coveralls-url]
 
 ```js
-var express = require('express')
-var app = express()
+const express = require('express')
+const app = express()
 
 app.get('/', function (req, res) {
   res.send('Hello World')
@@ -90,6 +90,8 @@ $ npm install
 $ npm start
 ```
 
+  View the website at: http://localhost:3000
+
 ## Philosophy
 
   The Express philosophy is to provide small, robust tooling for HTTP servers, making
@@ -125,6 +127,10 @@ $ npm install
 $ npm test
 ```
 
+## Contributing
+
+[Contributing Guide](Contributing.md)
+
 ## People
 
 The original author of Express is [TJ Holowaychuk](https://github.com/tj)
@@ -147,7 +153,3 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [appveyor-url]: https://ci.appveyor.com/project/dougwilson/express
 [coveralls-image]: https://img.shields.io/coveralls/expressjs/express/master.svg
 [coveralls-url]: https://coveralls.io/r/expressjs/express?branch=master
-[gratipay-image-visionmedia]: https://img.shields.io/gratipay/visionmedia.svg
-[gratipay-url-visionmedia]: https://gratipay.com/visionmedia/
-[gratipay-image-dougwilson]: https://img.shields.io/gratipay/dougwilson.svg
-[gratipay-url-dougwilson]: https://gratipay.com/dougwilson/
