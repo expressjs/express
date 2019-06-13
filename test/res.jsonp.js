@@ -285,6 +285,30 @@ describe('res', function(){
       })
     })
 
+    describe('"json replacer" setting as object and reqRes = true', function(){
+      it('should be invoked with with req, res and result passed to JSON.stringify', function(done){
+        var app = express();
+
+        app.set('json replacer', {
+          fn: function(key, val, {req, res}){
+            return key[0] === '_'
+              ? undefined
+              : val + (req.query.n || 0);
+          },
+          reqRes: true
+        });
+
+        app.use(function(req, res){
+          res.jsonp({ name: 'tobi', _id: 12345 });
+        });
+
+        request(app)
+        .get('/?n=100')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{"name":"tobi100"}', done)
+      })
+    })
+
     describe('"json spaces" setting', function(){
       it('should be undefined by default', function(){
         var app = express();
