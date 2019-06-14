@@ -150,7 +150,8 @@ describe('res', function(){
         var app = express();
 
         app.set('json replacer', {
-          fn: function(key, val, {req, res}){
+          fn: function(key, val, options){
+            var req = options.req;
             return key[0] === '_'
               ? undefined
               : val + (req.query.n || 0);
