@@ -53,7 +53,7 @@
     "safe-buffer": "5.2.1",
     "send": "0.17.2",
     "serve-static": "1.14.1",
-    "setprototypeof": "1.1.1",
+    "setprototypeof": "1.2.0",
     "statuses": "~1.5.0",
     "type-is": "~1.6.18",
     "utils-merge": "1.0.1",
