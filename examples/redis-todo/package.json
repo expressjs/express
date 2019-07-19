@@ -1,0 +1,38 @@
+{
+  "name": "redis-todo",
+  "version": "1.0.0",
+  "description": "todo app build with express redis mongoose",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev:start": "nodemon server.js",
+    "fix": "standard --fix || snazzy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/usama-asfar/redis-todo.git"
+  },
+  "keywords": [
+    "express",
+    "redis",
+    "mongoose"
+  ],
+  "author": "@usama__asfar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/usama-asfar/redis-todo/issues"
+  },
+  "homepage": "https://github.com/usama-asfar/redis-todo#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.5",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1",
+    "snazzy": "^8.0.0",
+    "standard": "^13.0.2"
+  }
+}
