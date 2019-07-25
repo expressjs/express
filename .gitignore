@@ -26,4 +26,5 @@ coverage
 # Benchmarking
 benchmarks/graphs
 
+#IntelliJ
 .idea
