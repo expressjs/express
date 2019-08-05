@@ -37,9 +37,12 @@ before_install:
   # Setup Node.js version-specific dependencies
   - |
     # mocha for testing
-    # - use 3.x for Node.js < 6
-    if [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 6 ]]; then
+    # - use 3.x for Node.js < 4
+    # - use 5.x for Node.js < 6
+    if [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 4 ]]; then
       npm install --silent --save-dev mocha@3.5.3
+    elif [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 6 ]]; then
+      npm install --silent --save-dev mocha@5.2.0
     fi
   - |
     # supertest for http calls
