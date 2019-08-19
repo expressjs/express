@@ -25,6 +25,11 @@ app.map = function(a, route){
   }
 };
 
+/*
+  Directly rendering user content is bad as it enables XSS in your application whereby an attacker can inject 
+  some harmful code. So it is often advise to escape the user input
+*/
+
 var users = {
   list: function(req, res){
     res.send('user list');
