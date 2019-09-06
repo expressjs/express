@@ -1,0 +1,26 @@
+name: Run Codehawk
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: [12]
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v1
+        with:
+          version: ${{ matrix.node_version }}
+
+      - uses: actions/checkout@v1
+      - name: Run codehawk
+        run: |
+          npm install -g codehawk
+          npm install
+          npm install nyc
+          npm run test-codehawk
+          EMAIL=sam@sgb.io AUTH_TOKEN=a6b07038-e956-4c54-88af-1d71a0dabd53 codehawk

@@ -1,0 +1,7 @@
+{
+  "uploadToken": "4495a404-4c04-45e5-aff4-5a987543918a",
+  "excludeDirectories": [
+    "/benchmarks",
+    "/examples"
+  ]
+}
