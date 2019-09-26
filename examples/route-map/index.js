@@ -50,7 +50,7 @@ var pets = {
   },
 
   delete: function(req, res){
-    res.send('delete ' + escape(req.params.uid) + '\'s pet ' + escape(req.params.pid));
+    res.send('delete ' + escape(req.params.uid) + '\'s pet ' + escape(req.params.uid));
   }
 };
 
