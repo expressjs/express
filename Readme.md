@@ -28,10 +28,14 @@ Before installing, [download and install Node.js](https://nodejs.org/en/download
 Node.js 0.10 or higher is required.
 
 Installation is done using the
-[`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
+[`npm install`](https://docs.npmjs.com/getting-started/installing-npm-packages-locally) or [`yarn add`](https://yarnpkg.com/lang/en/docs/cli/add/) commands:
 
 ```bash
 $ npm install express
+```
+or
+```bash
+$ yarn add express
 ```
 
 Follow [our installing guide](http://expressjs.com/en/starter/installing.html)
@@ -71,6 +75,10 @@ If you discover a security vulnerability in Express, please see [Security Polici
 ```bash
 $ npm install -g express-generator@4
 ```
+or
+```bash
+$ yarn global add express-generator@4
+```
 
   Create the app:
 
@@ -83,11 +91,19 @@ $ express /tmp/foo && cd /tmp/foo
 ```bash
 $ npm install
 ```
+or
+```bash
+$ yarn install
+```
 
   Start the server:
 
 ```bash
 $ npm start
+```
+or
+```bash
+$ yarn start
 ```
 
   View the website at: http://localhost:3000
@@ -109,7 +125,13 @@ $ npm start
 ```bash
 $ git clone git://github.com/expressjs/express.git --depth 1
 $ cd express
+```
+```bash
 $ npm install
+```
+or
+```bash
+$ yarn install
 ```
 
   Then run whichever example you want:
@@ -120,11 +142,16 @@ $ node examples/content-negotiation
 
 ## Tests
 
-  To run the test suite, first install the dependencies, then run `npm test`:
+  To run the test suite, first install the dependencies, then run `npm test` or `yarn test`:
 
 ```bash
 $ npm install
 $ npm test
+```
+or
+```bash
+$ yarn install
+$ yarn test
 ```
 
 ## Contributing
