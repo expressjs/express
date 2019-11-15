@@ -20,6 +20,7 @@
     "framework",
     "sinatra",
     "web",
+    "http",
     "rest",
     "restful",
     "router",
