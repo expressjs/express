@@ -42,4 +42,34 @@ describe('route-map', function(){
       .expect('delete 12\'s pet 2', done);
     })
   })
+
+  describe('Defend XSS on GET /users/:id', function() {
+    it('should escape id', function(done){
+      request(app)
+      .get('/users/<div%20onload%3D"alert(\'xss\')%3B"><%2Fdiv>')
+      .expect('user &lt;div onload=&quot;alert(&#39;xss&#39;);&quot;&gt;&lt;/div&gt;', done);
+    })
+  })
+
+  describe('Defend XSS on GET /users/:id/pets', function() {
+    it('should escape id', function(done){
+      request(app)
+      .get('/users/<div%20onload%3D"alert(\'xss\')%3B"><%2Fdiv>/pets')
+      .expect('user &lt;div onload=&quot;alert(&#39;xss&#39;);&quot;&gt;&lt;/div&gt;\'s pets', done);
+    })
+  })
+
+  describe('Defend XSS on GET /users/:id/pets/:pid', function() {
+    it('should escape id', function(done){
+      request(app)
+      .delete('/users/<div%20onload%3D"alert(\'xss\')%3B"><%2Fdiv>/pets/1')
+      .expect('delete &lt;div onload=&quot;alert(&#39;xss&#39;);&quot;&gt;&lt;/div&gt;\'s pet 1', done);
+    })
+
+    it('should escape pid', function(done){
+      request(app)
+      .delete('/users/1/pets/<div%20onload%3D"alert(\'xss\')%3B"><%2Fdiv>')
+      .expect('delete 1\'s pet &lt;div onload=&quot;alert(&#39;xss&#39;);&quot;&gt;&lt;/div&gt;', done);
+    })
+  })
 })

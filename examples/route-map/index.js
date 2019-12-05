@@ -25,13 +25,22 @@ app.map = function(a, route){
   }
 };
 
+function sanitize(str) {
+  str = str.replace(/&/g,'&amp;');
+  str = str.replace(/</g,'&lt;');
+  str = str.replace(/>/g,'&gt;');
+  str = str.replace(/"/g,'&quot;');
+  str = str.replace(/'/g,'&#39;');
+  return str;
+}
+
 var users = {
   list: function(req, res){
     res.send('user list');
   },
 
   get: function(req, res){
-    res.send('user ' + req.params.uid);
+    res.send('user ' + sanitize(req.params.uid));
   },
 
   delete: function(req, res){
@@ -41,11 +50,11 @@ var users = {
 
 var pets = {
   list: function(req, res){
-    res.send('user ' + req.params.uid + '\'s pets');
+    res.send('user ' + sanitize(req.params.uid) + '\'s pets');
   },
 
   delete: function(req, res){
-    res.send('delete ' + req.params.uid + '\'s pet ' + req.params.pid);
+    res.send('delete ' + sanitize(req.params.uid)+ '\'s pet ' + sanitize(req.params.pid));
   }
 };
 
