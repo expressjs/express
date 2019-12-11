@@ -1,2 +1,2 @@
 language = "nodejs"
-run = "node examples/hello-world/index.js"
+run = "npm install && node examples/hello-world/index.js"
