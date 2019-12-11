@@ -1,0 +1,2 @@
+language = "nodejs"
+run = "node examples/hello-world/index.js"
