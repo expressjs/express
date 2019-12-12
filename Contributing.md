@@ -59,6 +59,7 @@ compromise among committers be the default resolution mechanism.
 ### List of Triagers
 
 * [gireeshpunathil](https://github.com/gireeshpunathil) - **Gireesh Punathil** &lt;gpunathi@in.ibm.com&gt; (he/him)
+* [jake32321](https://github.com/jake32321) - **Jake Reed** &lt;jacob.reed2017@gmail.com&gt; (he/him)
 
 
 # Becoming a Committer
