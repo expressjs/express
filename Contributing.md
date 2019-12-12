@@ -56,12 +56,10 @@ discuss pending contributions in order to find a resolution. It is expected that
 small minority of issues be brought to the TC for resolution and that discussion and
 compromise among committers be the default resolution mechanism.
 
-
 ### List of Triagers
 
 * [gireeshpunathil](https://github.com/gireeshpunathil) - **Gireesh Punathil** &lt;gpunathi@in.ibm.com&gt; (he/him)
-
-* [sushmeet](https://github.com/sushmeet) - **Sushmeet Sunger** &lt;ssunger@shutterstock.com&gt; sushmeet.sunger@gmail.com(he/him)
+* [sushmeet](https://github.com/sushmeet) - **Sushmeet Sunger** &lt;ssunger@shutterstock.com&gt;sushmeet.sunger@gmail.com&gt; (he/him)
 
 
 # Becoming a Committer
