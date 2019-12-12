@@ -55,7 +55,7 @@ or if it should land then it should be escalated to the TC. TC members should re
 discuss pending contributions in order to find a resolution. It is expected that only a
 small minority of issues be brought to the TC for resolution and that discussion and
 compromise among committers be the default resolution mechanism.
-
+[sushmeet](https://github.com/sushmeet) - **Sushmeet Sunger** &lt; ssunger@shutterstock.com, sushmeet.sunger@gmail.com
 # Becoming a Committer
 
 All contributors who land a non-trivial contribution should be on-boarded in a timely manner,
