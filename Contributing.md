@@ -60,6 +60,7 @@ compromise among committers be the default resolution mechanism.
 
 * [gireeshpunathil](https://github.com/gireeshpunathil) - **Gireesh Punathil** &lt;gpunathi@in.ibm.com&gt; (he/him)
 * [maxakuru](https://github.com/maxakuru) - **Max Edell** &lt;mgedell@gmail.com&gt; (he/him)
+* [digitaIfabric](https://github.com/digitaIfabric) - **David Wawryko** &lt;david@digitalfabric.ca&gt; (he/him)
 
 # Becoming a Committer
 
