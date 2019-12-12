@@ -14,6 +14,7 @@ contributors can be involved in decision making.
 * A **Committer** is a subset of contributors who have been given write access to the repository.
 * A **TC (Technical Committee)** is a group of committers representing the required technical
 expertise to resolve rare disputes.
+* A **Triager** is a subset of contributors who have been given triage access to the repository.
 
 ## Logging Issues
 
@@ -55,6 +56,35 @@ or if it should land then it should be escalated to the TC. TC members should re
 discuss pending contributions in order to find a resolution. It is expected that only a
 small minority of issues be brought to the TC for resolution and that discussion and
 compromise among committers be the default resolution mechanism.
+
+## Becoming a Triager
+
+Anyone can become a triager! Read more about the process of being a triager in
+(the triage process document)[Triager-Guide.md].
+
+(Open an issue in `expressjs/express` repo)[https://github.com/expressjs/express/issues/new]
+to request the triage role. State that you have read and agree to the
+(Code of Conduct)[Code-of-Conduct.md] and details of the role.
+
+Here is an example issue content you can copy and paste:
+
+```
+Title: Request triager role for <your github username>
+
+I have read and understood the project's Code of Conduct.
+I also have read and understood the process and best practices around Express triaging.
+
+I request for a triager role for the following GitHub organizations:
+
+jshttp
+pillarjs
+express
+```
+
+Once you have opened your issue, a member of the TC will add you to the `triage` team in
+the organizations requested. They will then close the issue.
+
+Happy triaging!
 
 ## Becoming a Committer
 
