@@ -63,6 +63,7 @@ compromise among committers be the default resolution mechanism.
 * [digitaIfabric](https://github.com/digitaIfabric) - **David Wawryko** &lt;david@digitalfabric.ca&gt; (he/him)
 * [sushmeet](https://github.com/sushmeet) - **Sushmeet Sunger** &lt;sushmeet.sunger@gmail.com&gt; (he/him)
 * [AuggieH](https://github.com/auggieh) - **Auggie Hudak** &lt;hudakjerome@gmail.com&gt; (he/him)
+* [jake32321](https://github.com/jake32321) - **Jake Reed** &lt;jacob.reed2017@gmail.com&gt; (he/him)
 
 # Becoming a Committer
 
