@@ -56,6 +56,10 @@ discuss pending contributions in order to find a resolution. It is expected that
 small minority of issues be brought to the TC for resolution and that discussion and
 compromise among committers be the default resolution mechanism.
 
+### List of Triagers
+
+* [HarshithaKP](https://github.com/HarshithaKP) - **Harshitha K P** &lt;harshi46@in.ibm.com&gt; (she/her)
+
 # Becoming a Committer
 
 All contributors who land a non-trivial contribution should be on-boarded in a timely manner,
