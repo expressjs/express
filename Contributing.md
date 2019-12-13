@@ -67,6 +67,7 @@ compromise among committers be the default resolution mechanism.
 * [ghinks](https://github.com/ghinks) - **Glenn Hinks** &lt;ghinks@yahoo.com&gt; (he/him)
 * [daprahamian](https://github.com/daprahamian) - **Dan Aprahamian** (he/him)
 * [fed135](https://github.com/fed135) - **Frederic Charette** &lt;fredericcharette@gmail.com&gt; (he/him)
+* [HarshithaKP](https://github.com/HarshithaKP) - **Harshitha K P** &lt;harshi46@in.ibm.com&gt; (she/her)
 
 # Becoming a Committer
 
