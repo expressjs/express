@@ -2,6 +2,7 @@
  * Module dependencies.
  */
 
+var escapeHtml = require('escape-html')
 var express = require('../../lib/express');
 
 var verbose = process.env.NODE_ENV !== 'test'
@@ -31,7 +32,7 @@ var users = {
   },
 
   get: function(req, res){
-    res.send('user ' + req.params.uid);
+    res.send('user ' +  escapeHtml(req.params.uid))
   },
 
   delete: function(req, res){
@@ -41,11 +42,11 @@ var users = {
 
 var pets = {
   list: function(req, res){
-    res.send('user ' + req.params.uid + '\'s pets');
+    res.send('user ' + escapeHtml(req.params.uid) + '\'s pets')
   },
 
   delete: function(req, res){
-    res.send('delete ' + req.params.uid + '\'s pet ' + req.params.pid);
+    res.send('delete ' + escapeHtml(req.params.uid) + '\'s pet ' + escapeHtml(req.params.pid))
   }
 };
 
