@@ -68,6 +68,7 @@ compromise among committers be the default resolution mechanism.
 * [daprahamian](https://github.com/daprahamian) - **Dan Aprahamian** (he/him)
 * [fed135](https://github.com/fed135) - **Frederic Charette** &lt;fredericcharette@gmail.com&gt; (he/him)
 * [HarshithaKP](https://github.com/HarshithaKP) - **Harshitha K P** &lt;harshi46@in.ibm.com&gt; (she/her)
+* [jonchurch](https://github.com/jonchurch) - **Jon Church** &lt;jon@osiolabs.com&gt; (he/him)
 
 # Becoming a Committer
 
