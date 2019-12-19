@@ -59,7 +59,7 @@ compromise among committers be the default resolution mechanism.
 ### List of Triagers
 
 * [gireeshpunathil](https://github.com/gireeshpunathil) - **Gireesh Punathil** &lt;gpunathi@in.ibm.com&gt; (he/him)
-
+* [helio-frota](https://github.com/helio-frota) - **Helio Frota** &lt;hesilva@redhat.com&gt; (he/him)
 
 # Becoming a Committer
 
