@@ -70,6 +70,7 @@ compromise among committers be the default resolution mechanism.
 * [HarshithaKP](https://github.com/HarshithaKP) - **Harshitha K P** &lt;harshi46@in.ibm.com&gt; (she/her)
 * [jonchurch](https://github.com/jonchurch) - **Jon Church** &lt;jon@osiolabs.com&gt; (he/him)
 * [mirawlings](https://github.com/mirawlings) - **Michael Rawlings** &lt;mlrawlings@gmail.com&gt; (he/him)
+* [helio-frota](https://github.com/helio-frota) - **Helio Frota** &lt;hesilva@redhat.com&gt; (he/him)
 
 # Becoming a Committer
 
