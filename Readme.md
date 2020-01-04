@@ -27,6 +27,13 @@ This is a [Node.js](https://nodejs.org/en/) module available through the
 Before installing, [download and install Node.js](https://nodejs.org/en/download/).
 Node.js 0.10 or higher is required.
 
+If this is a brand new project, make sure to create a package.json before installing express.
+This can be done using the [`npm init` command](https://docs.npmjs.com/cli/init):
+
+```bash
+$ npm init
+```
+
 Installation is done using the
 [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
