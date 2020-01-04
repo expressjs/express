@@ -10,7 +10,7 @@ a README file named `README.md`. The purpose of the README is to:
 - Encourage community contributions and participation.
 
 Use the [README template](https://github.com/expressjs/express/wiki/README-template)
-to quickly create a new README file.
+to quickly create a new README file........
 
 ## Top-level items
 
