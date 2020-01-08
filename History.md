@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix `res.jsonp(obj, status)` deprecation message
   * Fix typo in `res.is` JSDoc
   * deps: proxy-addr@~2.0.6
     - deps: ipaddr.js@1.9.1
