@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix `res.jsonp(obj, status)` deprecation message
   * Fix typo in `res.is` JSDoc
 
 4.17.1 / 2019-05-25
