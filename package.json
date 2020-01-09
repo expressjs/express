@@ -70,7 +70,7 @@
     "istanbul": "0.4.5",
     "marked": "0.6.2",
     "method-override": "3.0.0",
-    "mocha": "6.2.2",
+    "mocha": "7.0.0",
     "morgan": "1.9.1",
     "multiparty": "4.2.1",
     "pbkdf2-password": "1.2.1",

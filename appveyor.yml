@@ -34,10 +34,13 @@ install:
       # mocha for testing
       # - use 3.x for Node.js < 4
       # - use 5.x for Node.js < 6
+      # - use 6.x for Node.js < 8
       if ($env:nodejs_version.split(".")[0] -lt 4) {
         npm install --silent --save-dev mocha@3.5.3
       } elseif ($env:nodejs_version.split(".")[0] -lt 6) {
         npm install --silent --save-dev mocha@5.2.0
+      } elseif ($env:nodejs_version.split(".")[0] -lt 8) {
+        npm install --silent --save-dev mocha@6.2.2
       }
   - ps: |
       # supertest for http calls
