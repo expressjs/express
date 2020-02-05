@@ -7,6 +7,9 @@ unreleased
   * Ignore `Object.prototype` values in settings through `app.set`/`app.get`
   * Invoke `default` with same arguments as types in `res.format`
   * Support proper 205 responses using `res.send`
+  * deps: depd@2.0.0
+    - Replace internal `eval` usage with `Function` constructor
+    - Use instance methods on `process` to check for listeners
   * deps: finalhandler@1.2.0
     - Remove set content headers that break response
     - deps: on-finished@2.4.1
