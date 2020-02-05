@@ -33,7 +33,7 @@
     "content-disposition": "0.5.3",
     "content-type": "~1.0.4",
     "cookie": "0.4.0",
-    "cookie-signature": "1.0.6",
+    "cookie-signature": "1.1.0",
     "debug": "2.6.9",
     "depd": "~2.0.0",
     "encodeurl": "~1.0.2",
