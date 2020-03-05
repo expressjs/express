@@ -186,6 +186,35 @@ describe('app.router', function(){
       .get('/user/10/edit')
       .expect('editing user 10', done);
     })
+
+    it('should ensure regexp matches path prefix', function (done) {
+      var app = express()
+      var p = []
+
+      app.use(/\/api.*/, function (req, res, next) {
+        p.push('a')
+        next()
+      })
+      app.use(/api/, function (req, res, next) {
+        p.push('b')
+        next()
+      })
+      app.use(/\/test/, function (req, res, next) {
+        p.push('c')
+        next()
+      })
+      app.use(function (req, res) {
+        res.end()
+      })
+
+      request(app)
+        .get('/test/api/1234')
+        .expect(200, function (err) {
+          if (err) return done(err)
+          assert.deepEqual(p, ['c'])
+          done()
+        })
+    })
   })
 
   describe('case sensitivity', function(){
