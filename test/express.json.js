@@ -12,6 +12,14 @@ describe('express.json()', function () {
       .send('{"user":"tobi"}')
       .expect(200, '{"user":"tobi"}', done)
   })
+  
+  it('should parse complex JSON', function (done) {
+    request(createApp())
+      .post('/')
+      .set('Content-Type', 'application/json')
+      .send('{"user":{"name":"toby"}}')
+      .expect(200, '{"user":{"name":"toby"}}', done)
+  })
 
   it('should handle Content-Length: 0', function (done) {
     request(createApp())
