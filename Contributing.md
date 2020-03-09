@@ -12,6 +12,7 @@ contributors can be involved in decision making.
 
 * A **Contributor** is any individual creating or commenting on an issue or pull request.
 * A **Committer** is a subset of contributors who have been given write access to the repository.
+* A **Project Captain** is the lead maintainer of a repository.
 * A **TC (Technical Committee)** is a group of committers representing the required technical
 expertise to resolve rare disputes.
 * A **Triager** is a subset of contributors who have been given triage access to the repository.
@@ -102,10 +103,10 @@ If a consensus cannot be reached that has no objections then a majority wins vot
 is called. It is also expected that the majority of decisions made by the TC are via
 a consensus seeking process and that voting is only used as a last-resort.
 
-Resolution may involve returning the issue to committers with suggestions on how to
-move forward towards a consensus. It is not expected that a meeting of the TC
+Resolution may involve returning the issue to project captains with suggestions on
+how to move forward towards a consensus. It is not expected that a meeting of the TC
 will resolve all issues on its agenda during that meeting and may prefer to continue
-the discussion happening among the committers.
+the discussion happening among the project captains.
 
 Members can be added to the TC at any time. Any TC member can nominate another committer
 to the TC and the TC uses its standard consensus seeking process to evaluate whether or
@@ -126,3 +127,34 @@ into inactive status.
 Inactive status members can become active members by self nomination if the TC is not already
 larger than the maximum of 10. They will also be given preference if, while at max size, an
 active member steps down.
+
+## Project Captains
+
+The Express TC can designate captains for individual projects/repos in the
+organizations. These captains are responsible for being the primary
+day-to-day maintainers of the repo on a technical and community front.
+Repo captains are empowered with repo ownership and package publication rights.
+When there are conflicts, especially on topics that effect the Express project
+at large, captains are responsible to raise it up to the TC and drive
+those conflicts to resolution. Captains are also responsible for making sure
+community members follow the community guidelines, maintaining the repo
+and the published package, as well as in providing user support.
+
+Like TC members, Repo captains are a subset of committers.
+
+To become a captain for a project the candidate is expected to participate in that
+project for at least 6 months as a committer prior to the request. They should have
+helped with code contributions as well as triaging issues. They are also required to
+have 2FA enabled on both their GitHub and npm accounts. Any TC member or existing
+captain on the repo can nominate another committer to the captain role, submit a PR to
+this doc, under `Current Project Captains` section (maintaining the sort order) with
+the project, their GitHub handle and npm username (if different). The PR will require
+at least 2 approvals from TC members and 2 weeks hold time to allow for comment and/or
+dissent.  When the PR is merged, a TC member will add them to the proper GitHub/npm groups.
+
+### Current Project Captains
+
+- `expressjs.com`: @crandmck
+- `multer`: @LinusU
+- `path-to-regexp`: @blakeembrey
+- `router`: @dougwilson
