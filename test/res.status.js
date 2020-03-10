@@ -1,8 +1,6 @@
 
 var express = require('../')
-  , res = require('../lib/response')
   , request = require('supertest')
-  , assert = require('assert');
 
 describe('res', function(){
   describe('.status(code)', function(){
@@ -19,41 +17,88 @@ describe('res', function(){
       .expect(201, done);
     })
 
-    describe('should throw', function() {
-      var InvalidStatusError = new TypeError('Invalid status code')
+    describe('invalid status codes', function() {
 
-      it('if status code is < 100 || > 999', function(done) {
-        assert.throws(function() {
-          res.status(99)
-        }, InvalidStatusError, "for value 99")
-        assert.throws(function() {
-          res.status(1000)
-        }, InvalidStatusError, "for value 1000")
-        done()
-      })
-      it('if status code is not an integer', function (done) {
-        var cases = [
-          200.1,
-          '200.1',
-          NaN,
-          Infinity,
-          -Infinity,
-          undefined,
-          null,
-          function () {},
-          true,
-          false,
-        {},
-        [],
-        ]
-        cases.forEach(function (item) {
-          assert.throws(function () {
-            res.status(item)
-          }, InvalidStatusError)
-        })
-        done()
+      it('should throw if status code is < 100', function(done) {
+        var app = express();
+        app.use(function(req, res){
+          res.status(99).end();
+        });
+
+        request(app)
+        .get('/')
+        .expect(500, /TypeError: Invalid status code/, done)
+
       })
 
+      it('should throw if status code is > 999', function(done) {
+        var app = express();
+        app.use(function(req, res){
+          res.status(1000).end();
+        });
+
+        request(app)
+        .get('/')
+        .expect(500, /TypeError: Invalid status code/, done)
+
+      })
+
+      it('should throw if status code is undefined', function(done) {
+        var app = express();
+        app.use(function(req, res){
+          res.status(undefined).end();
+        });
+
+        request(app)
+        .get('/')
+        .expect(500, /TypeError: Invalid status code/, done)
+
+      })
+
+      it('should throw if status code is null', function(done) {
+        var app = express();
+        app.use(function(req, res){
+          res.status(null).end();
+        });
+
+        request(app)
+        .get('/')
+        .expect(500, /TypeError: Invalid status code/, done)
+
+      })
+
+      it('should throw if status code is a float', function(done) {
+        var app = express();
+        app.use(function(req, res){
+          res.status(200.1).end();
+        });
+
+        request(app)
+        .get('/')
+        .expect(500, /TypeError: Invalid status code/, done)
+      })
+
+      it('should throw if status code is a string float', function(done) {
+        var app = express();
+        app.use(function(req, res){
+          res.status('200.1').end();
+        });
+
+        request(app)
+        .get('/')
+        .expect(500, /TypeError: Invalid status code/, done)
+      })
+
+      it('should throw if status code is NaN', function(done) {
+        var app = express();
+        app.use(function(req, res){
+          res.status(NaN).end();
+        });
+
+        request(app)
+        .get('/')
+        .expect(500, /TypeError: Invalid status code/, done)
+      })
     })
   })
 })
