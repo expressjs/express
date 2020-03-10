@@ -78,10 +78,10 @@ describe('res', function(){
         .expect(500, /TypeError: Invalid status code/, done)
       })
 
-      it('should throw if status code is a string float', function(done) {
+      it('should throw if status code is a string', function(done) {
         var app = express();
         app.use(function(req, res){
-          res.status('200.1').end();
+          res.status('200').end();
         });
 
         request(app)
