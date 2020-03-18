@@ -50,8 +50,11 @@ before_install:
   - |
     # supertest for http calls
     # - use 2.0.0 for Node.js < 4
+    # - use 3.4.2 for Node.js < 6
     if [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 4 ]]; then
       npm install --silent --save-dev supertest@2.0.0
+    elif [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 6 ]]; then
+      npm install --silent --save-dev supertest@3.4.2
     fi
   # Update Node.js modules
   - |

@@ -45,8 +45,11 @@ install:
   - ps: |
       # supertest for http calls
       # - use 2.0.0 for Node.js < 4
+      # - use 3.4.2 for Node.js < 6
       if ($env:nodejs_version.split(".")[0] -lt 4) {
         npm install --silent --save-dev supertest@2.0.0
+      } elseif ($env:nodejs_version.split(".")[0] -lt 6) {
+        npm install --silent --save-dev supertest@3.4.2
       }
   # Update Node.js modules
   - ps: |
