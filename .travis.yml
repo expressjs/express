@@ -21,7 +21,6 @@ matrix:
   allow_failures:
     # Allow the nightly installs to fail
     - env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
-sudo: false
 cache:
   directories:
     - node_modules
