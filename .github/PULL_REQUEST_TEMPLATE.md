@@ -1,7 +1,12 @@
 ## PR Checklist
 Please check if your PR fulfills the following requirements:
 
-- [ ] The commit message follows our guidelines: 
+- [ ] The PR follows our guidelines: 
+
+    - [Collaborator-Guide](https://github.com/expressjs/express/blob/master/Collaborator-Guide.md)
+    - [Contributing](https://github.com/expressjs/express/blob/master/Contributing.md)  
+    - [Release-Process](https://github.com/expressjs/express/blob/master/Release-Process.md)
+    
 - [ ] Tests for the changes have been added (for bug fixes / features)
 - [ ] Docs have been added / updated (for bug fixes / features)
 
