@@ -1,4 +1,4 @@
-## PR Checklist
+## Pull Request Checklist
 Please check if your PR fulfills the following requirements:
 
 - [ ] The PR follows our guidelines: 
