@@ -1,6 +1,6 @@
 # GitHub Action Workflow for building on Linux and Windows
 
-name: ExpressJS Express Build
+name: Test
 
 on:
   push:
