@@ -13,7 +13,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('Set-Cookie', 'sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
+      .expect('Set-Cookie', 'sid=; Max-Age=0; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
       .expect(200, done)
     })
   })
@@ -28,8 +28,34 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('Set-Cookie', 'sid=; Path=/admin; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
+      .expect('Set-Cookie', 'sid=; Max-Age=0; Path=/admin; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
       .expect(200, done)
     })
+
+    it('should override \'expires\' property', function(done) {
+      var app = express();
+
+      app.use(function(req, res) {
+        res.clearCookie('sid', {expires: new Date()}).end();
+      });
+
+      request(app)
+        .get('/')
+        .expect('Set-Cookie', 'sid=; Max-Age=0; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
+        .expect(200, done)
+    });
+
+    it('should override \'maxAge\' property', function(done) {
+      var app = express();
+
+      app.use(function(req, res) {
+        res.clearCookie('sid', {maxAge: 10000}).end();
+      });
+
+      request(app)
+        .get('/')
+        .expect('Set-Cookie', 'sid=; Max-Age=0; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
+        .expect(200, done)
+    });
   })
 })
