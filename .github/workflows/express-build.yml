@@ -1,0 +1,110 @@
+# GitHub Action Workflow for building on Linux and Windows
+
+name: ExpressJS Express Build
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  
+  build:
+    name: Express Build
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ["0.10", "0.12", "1.8", "2.5", "3.3", "4.9", "5.12", "6.17", "7.10", "8.17", "9.11", "10.19", "11.15", "12.16"]
+        os: [ubuntu-latest, windows-latest]
+        experimental: [false]
+        node-mirror: ["https://nodejs.org/dist/"]
+        include:
+          - node-version: 13
+            os: ubuntu-latest
+            node-mirror: "https://nodejs.org/download/nightly"
+            experimental: true
+          - node-version: 13
+            os: windows-latest
+            node-mirror: "https://nodejs.org/download/nightly"
+            experimental: true
+            
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Set up node using nvm
+      uses: dcodeIO/setup-node-nvm@v4.0.0
+      with:
+        node-version: ${{ matrix.node-version }}
+        node-mirror: ${{ matrix.node-mirror }}
+      
+    # Configure npm
+    # Skip updating shrinkwrap / lock
+    - run: npm config set shrinkwrap false
+      
+    # Remove all non-test dependencies
+    # Remove example dependencies
+    - run: npm rm --silent --save-dev connect-redis
+    
+    - name: Get Major Version Number of NodeJs Using Powershell
+      run: |
+        echo ${{ matrix.node-version }}
+        $mynodeVersion = "${{ matrix.node-version }}"
+        $mynodeMajorVersion = $mynodeVersion.split(".")[0]
+        echo "::set-env name=NodeMajorVersion::$mynodeMajorVersion"
+      shell: pwsh
+      
+      # Setup Node.js version-specific dependencies
+        
+      # mocha for testing
+      # - use 3.x for Node.js < 4
+      # - use 5.x for Node.js < 6
+      # - use 6.x for Node.js < 8
+    - name: Setup Node.js version-specific dependencies - mocha for testing - use 3.5.3 for Node.js < 4
+      run: npm install --silent --save-dev mocha@3.5.3
+      if: env.NodeMajorVersion < 4
+      
+    - name: Setup Node.js version-specific dependencies - mocha for testing - use 5.2.0 for Node.js < 6
+      run: npm install --silent --save-dev mocha@5.2.0
+      if: env.NodeMajorVersion < 6 && env.NodeMajorVersion >= 4
+        
+    - name: Setup Node.js version-specific dependencies - mocha for testing - use 6.2.2 for Node.js < 8
+      run: npm install --silent --save-dev mocha@6.2.2
+      if: env.NodeMajorVersion < 8 && env.NodeMajorVersion >= 6
+
+    # supertest for http calls
+    # - use 2.0.0 for Node.js < 4
+    # - use 3.4.2 for Node.js < 6
+    - name: Setup Node.js version-specific dependencies - supertest for http calls - use 2.0.0 for Node.js < 4
+      run: npm install --silent --save-dev supertest@2.0.0
+      if: env.NodeMajorVersion < 4
+      
+    - name: Setup Node.js version-specific dependencies - supertest for http calls  - use 3.4.2 for Node.js < 6
+      run: npm install --silent --save-dev supertest@3.4.2
+      if: env.NodeMajorVersion < 6 && env.NodeMajorVersion >= 4
+    
+        
+    # Update Node.js modules
+    # Prune and rebuild node_modules
+    - name: prune and rebuild node_modules
+      run: |
+        if (Test-Path -Path node_modules) {
+        npm prune
+        npm rebuild
+        }
+      shell: pwsh
+    
+    - name: npm install
+      run: |
+        npm install
+  
+    # Run test script
+    - run: npm run test-ci
+    # Run linting
+    - run: npm run lint
+    
+    # Upload coverage to coveralls
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
