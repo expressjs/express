@@ -1,10 +1,16 @@
 # GitHub Action Workflow for building on Linux and Windows
 
+#Name of the workflow.
 name: Test
 
+# Workflow Trigger
+# Trigger the workflow on a pull request to any branch, including master
 on:
+  pull_request:
+  #This triggers the workflow in the event there is a push directly to master
   push:
-    branches: [ master ]
+    branches: 
+      - master
 
 jobs:
   
