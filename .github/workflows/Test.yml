@@ -45,8 +45,11 @@ jobs:
         #    experimental: true
             
     steps:
+    # Check out the repository so the workflow can access it
     - uses: actions/checkout@v2
       
+    # Using this action instead of the setup-node action from GitHub, because the setup-node action currently doesn't support 
+    # versions of Node <= 3.3.  Also, the setup-node action does not support using the nightly Node build. 
     - name: Set up node using nvm
       uses: dcodeIO/setup-node-nvm@v4.0.0
       with:
@@ -61,13 +64,15 @@ jobs:
     # Remove example dependencies
     - run: npm rm --silent --save-dev connect-redis
     
-    - name: Get Major Version Number of NodeJs Using Powershell
+    # This step gets the major version number off the node version being run.  It is used in later steps as a 
+    # conditional to setup different aspects of the workflow.
+    - name: Get Major Version Number of NodeJs
       run: |
         echo ${{ matrix.node-version }}
-        $mynodeVersion = "${{ matrix.node-version }}"
-        $mynodeMajorVersion = $mynodeVersion.split(".")[0]
-        echo "::set-env name=NodeMajorVersion::$mynodeMajorVersion"
-      shell: pwsh
+        nodeMajorVersion=$( cut -d. -f1 <<< "${{ matrix.node-version }}" )
+        echo "::set-env name=NodeMajorVersion::$nodeMajorVersion"
+        echo $nodeMajorVersion
+      shell: bash
       
       # Setup Node.js version-specific dependencies
         
@@ -103,11 +108,9 @@ jobs:
     # Prune and rebuild node_modules
     - name: prune and rebuild node_modules
       run: |
-        if (Test-Path -Path node_modules) {
         npm prune
         npm rebuild
-        }
-      shell: pwsh
+      shell: bash
     
     - name: npm install
       run: |
