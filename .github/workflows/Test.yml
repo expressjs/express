@@ -1,39 +1,48 @@
 # GitHub Action Workflow for building on Linux and Windows
 
-#Name of the workflow.
+# Displaye name of the workflow.
 name: Test
 
 # Workflow Trigger
 # Trigger the workflow on a pull request to any branch, including master
 on:
   pull_request:
-  #This triggers the workflow in the event there is a push directly to master
+  # This triggers the workflow in the event there is a push directly to master
   push:
     branches: 
       - master
 
 jobs:
-  
+  # This workflow file defines only one job, "build". The steps have been made generic to run on Linux, Windows, and Mac.
   build:
+    # Display name of the job
     name: Express Build
+    # The OS to run the job steps on. We are using a matrix definition that defines the node versions and the OS to use, so
+    # here we just specify use the OS defined in the matrix.
     runs-on: ${{ matrix.os }}
+    # This prevents a workflow from failing just because a specific job fails. In this case it checks the experimental tag in 
+    # the matrix
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
-        node-version: ["0.10", "0.12", "1.8", "2.5", "3.3", "4.9", "5.12", "6.17", "7.10", "8.17", "9.11", "10.19", "11.15", "12.16"]
+        # Added node version 13 and 14 based off feedback from the group.
+        node-version: ["0.10", "0.12", "1.8", "2.5", "3.3", "4.9", "5.12", "6.17", "7.10", "8.17", "9.11", "10.19", "11.15", "12.16", "13.0", "14.0"]
         os: [ubuntu-latest, windows-latest]
         experimental: [false]
         node-mirror: ["https://nodejs.org/dist/"]
-        include:
-          - node-version: 13
-            os: ubuntu-latest
-            node-mirror: "https://nodejs.org/download/nightly"
-            experimental: true
-          - node-version: 13
-            os: windows-latest
-            node-mirror: "https://nodejs.org/download/nightly"
-            experimental: true
+        # The following include is commented out, but kept for now in case it is decided to add it back.  This include is how you would add
+        # a nightly build to the matrix, but not allow the nightly build from Node to fail the workflow. It was decided, for now, to add 
+        # Node versions 13 and 14 to the matrix, and eliminate the use of the nightly build.
+        #include:
+        #  - node-version: 13
+        #    os: ubuntu-latest
+        #    node-mirror: "https://nodejs.org/download/nightly"
+        #    experimental: true
+        #  - node-version: 13
+        #    os: windows-latest
+        #    node-mirror: "https://nodejs.org/download/nightly"
+        #    experimental: true
             
     steps:
     - uses: actions/checkout@v2
