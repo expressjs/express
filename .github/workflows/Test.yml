@@ -27,22 +27,37 @@ jobs:
       fail-fast: false
       matrix:
         # Added node version 13 and 14 based off feedback from the group.
-        node-version: ["0.10", "0.12", "1.8", "2.5", "3.3", "4.9", "5.12", "6.17", "7.10", "8.17", "9.11", "10.19", "11.15", "12.16", "13.0", "14.0"]
-        os: [ubuntu-latest, windows-latest]
+        node-version: 
+          - "0.10"
+          - "0.12"
+          - "1.8"
+          - "2.5"
+          - "3.3"
+          - "4.9"
+          - "5.12"
+          - "6.17"
+          - "7.10"
+          - "8.17"
+          - "9.11"
+          - "10.19"
+          - "11.15"
+          - "12.16"
+        os: 
+          - ubuntu-latest
+          - windows-latest
         experimental: [false]
         node-mirror: ["https://nodejs.org/dist/"]
         # The following include is commented out, but kept for now in case it is decided to add it back.  This include is how you would add
-        # a nightly build to the matrix, but not allow the nightly build from Node to fail the workflow. It was decided, for now, to add 
-        # Node versions 13 and 14 to the matrix, and eliminate the use of the nightly build.
-        #include:
-        #  - node-version: 13
-        #    os: ubuntu-latest
-        #    node-mirror: "https://nodejs.org/download/nightly"
-        #    experimental: true
-        #  - node-version: 13
-        #    os: windows-latest
-        #    node-mirror: "https://nodejs.org/download/nightly"
-        #    experimental: true
+        # a nightly build to the matrix, but not allow the nightly build from Node to fail the workflow. 
+        include:
+          - node-version: 13
+            os: ubuntu-latest
+            node-mirror: "https://nodejs.org/download/nightly"
+            experimental: true
+          - node-version: 13
+            os: windows-latest
+            node-mirror: "https://nodejs.org/download/nightly"
+            experimental: true
             
     steps:
     # Check out the repository so the workflow can access it
