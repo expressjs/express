@@ -25,3 +25,6 @@ coverage
 
 # Benchmarking
 benchmarks/graphs
+
+# nyc test coverage
+.nyc_output
