@@ -64,7 +64,7 @@
     "connect-redis": "4.0.4",
     "cookie-parser": "~1.4.4",
     "cookie-session": "1.4.0",
-    "ejs": "2.6.1",
+    "ejs": "2.7.4",
     "eslint": "7.0.0",
     "express-session": "1.16.1",
     "hbs": "4.0.4",
