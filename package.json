@@ -67,7 +67,7 @@
     "ejs": "2.7.4",
     "eslint": "7.0.0",
     "express-session": "1.17.1",
-    "hbs": "4.0.4",
+    "hbs": "4.1.1",
     "istanbul": "0.4.5",
     "marked": "0.6.2",
     "method-override": "3.0.0",
