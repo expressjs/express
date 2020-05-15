@@ -29,10 +29,10 @@ describe('app.router', function(){
     app.get('/user/:id', handler1, router, handler2);
 
     request(app)
-    .get('/user/1')
-    .expect('x-router', 'undefined')
-    .expect('x-user-id', '1')
-    .expect(200, '1', done);
+      .get('/user/1')
+      .expect('x-router', 'undefined')
+      .expect('x-user-id', '1')
+      .expect(200, '1', done);
   })
 
   describe('methods', function(){
@@ -47,8 +47,8 @@ describe('app.router', function(){
         });
 
         request(app)
-        [method]('/foo')
-        .expect(200, done)
+          [method]('/foo')
+          .expect(200, done)
       })
 
       it('should reject numbers for app.' + method, function(){
@@ -73,17 +73,17 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(404, cb)
+        .get('/')
+        .expect(404, cb)
 
       request(app)
-      .delete('/')
-      .expect(200, 'deleted everything', cb);
+        .delete('/')
+        .expect(200, 'deleted everything', cb);
 
       request(app)
-      .post('/')
-      .expect('X-Method-Altered', '1')
-      .expect(200, 'deleted everything', cb);
+        .post('/')
+        .expect('X-Method-Altered', '1')
+        .expect(200, 'deleted everything', cb);
     });
   })
 
@@ -96,8 +96,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/foo%2Fbar')
-      .expect('foo/bar', done);
+        .get('/foo%2Fbar')
+        .expect('foo/bar', done);
     })
 
     it('should not accept params in malformed paths', function(done) {
@@ -108,8 +108,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/%foobar')
-      .expect(400, done);
+        .get('/%foobar')
+        .expect(400, done);
     })
 
     it('should not decode spaces', function(done) {
@@ -120,8 +120,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/foo+bar')
-      .expect('foo+bar', done);
+        .get('/foo+bar')
+        .expect('foo+bar', done);
     })
 
     it('should work with unicode', function(done) {
@@ -132,8 +132,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/%ce%b1')
-      .expect('\u03b1', done);
+        .get('/%ce%b1')
+        .expect('\u03b1', done);
     })
   })
 
@@ -158,8 +158,8 @@ describe('app.router', function(){
     });
 
     request(app)
-    .get('/')
-    .expect(200, ['before', 'GET /', 'after'], done)
+      .get('/')
+      .expect(200, ['before', 'GET /', 'after'], done)
   })
 
   describe('when given a regexp', function(){
@@ -171,8 +171,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/12?foo=bar')
-      .expect('user', done);
+        .get('/user/12?foo=bar')
+        .expect('user', done);
     })
 
     it('should populate req.params with the captures', function(done){
@@ -185,8 +185,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/10/edit')
-      .expect('editing user 10', done);
+        .get('/user/10/edit')
+        .expect('editing user 10', done);
     })
   })
 
@@ -199,8 +199,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/USER')
-      .expect('tj', done);
+        .get('/USER')
+        .expect('tj', done);
     })
 
     describe('when "case sensitive routing" is enabled', function(){
@@ -214,8 +214,8 @@ describe('app.router', function(){
         });
 
         request(app)
-        .get('/uSer')
-        .expect('tj', done);
+          .get('/uSer')
+          .expect('tj', done);
       })
 
       it('should not match otherwise', function(done){
@@ -228,8 +228,8 @@ describe('app.router', function(){
         });
 
         request(app)
-        .get('/user')
-        .expect(404, done);
+          .get('/user')
+          .expect(404, done);
       })
     })
   })
@@ -246,8 +246,8 @@ describe('app.router', function(){
       app.use('/user/:user', router);
 
       request(app)
-      .get('/user/1/get')
-      .expect(200, '{"action":"get"}', done);
+        .get('/user/1/get')
+        .expect(200, '{"action":"get"}', done);
     })
 
     it('should allow merging existing req.params', function(done){
@@ -262,8 +262,8 @@ describe('app.router', function(){
       app.use('/user/:user', router);
 
       request(app)
-      .get('/user/tj/get')
-      .expect(200, '[["action","get"],["user","tj"]]', done);
+        .get('/user/tj/get')
+        .expect(200, '[["action","get"],["user","tj"]]', done);
     })
 
     it('should use params from router', function(done){
@@ -278,8 +278,8 @@ describe('app.router', function(){
       app.use('/user/:thing', router);
 
       request(app)
-      .get('/user/tj/get')
-      .expect(200, '[["thing","get"]]', done);
+        .get('/user/tj/get')
+        .expect(200, '[["thing","get"]]', done);
     })
 
     it('should merge numeric indices req.params', function(done){
@@ -294,8 +294,8 @@ describe('app.router', function(){
       app.use('/user/id:(\\d+)', router);
 
       request(app)
-      .get('/user/id:10/profile.json')
-      .expect(200, '[["0","10"],["1","profile"],["2","json"]]', done);
+        .get('/user/id:10/profile.json')
+        .expect(200, '[["0","10"],["1","profile"],["2","json"]]', done);
     })
 
     it('should merge numeric indices req.params when more in parent', function(done){
@@ -310,8 +310,8 @@ describe('app.router', function(){
       app.use('/user/id:(\\d+)/name:(\\w+)', router);
 
       request(app)
-      .get('/user/id:10/name:tj/profile')
-      .expect(200, '[["0","10"],["1","tj"],["2","profile"]]', done);
+        .get('/user/id:10/name:tj/profile')
+        .expect(200, '[["0","10"],["1","tj"],["2","profile"]]', done);
     })
 
     it('should merge numeric indices req.params when parent has same number', function(done){
@@ -326,8 +326,8 @@ describe('app.router', function(){
       app.use('/user/id:(\\d+)', router);
 
       request(app)
-      .get('/user/id:10/name:tj')
-      .expect(200, '[["0","10"],["1","tj"]]', done);
+        .get('/user/id:10/name:tj')
+        .expect(200, '[["0","10"],["1","tj"]]', done);
     })
 
     it('should ignore invalid incoming req.params', function(done){
@@ -345,8 +345,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/tj')
-      .expect(200, '[["name","tj"]]', done);
+        .get('/user/tj')
+        .expect(200, '[["name","tj"]]', done);
     })
 
     it('should restore req.params', function(done){
@@ -365,8 +365,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/id:42/user:tj/profile')
-      .expect(200, '[["0","42"]]', done);
+        .get('/user/id:42/user:tj/profile')
+        .expect(200, '[["0","42"]]', done);
     })
   })
 
@@ -379,8 +379,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/')
-      .expect('tj', done);
+        .get('/user/')
+        .expect('tj', done);
     })
 
     describe('when "strict routing" is enabled', function(){
@@ -394,8 +394,8 @@ describe('app.router', function(){
         });
 
         request(app)
-        .get('/user/')
-        .expect('tj', done);
+          .get('/user/')
+          .expect('tj', done);
       })
 
       it('should pass-though middleware', function(done){
@@ -413,9 +413,9 @@ describe('app.router', function(){
         });
 
         request(app)
-        .get('/user/')
-        .expect('x-middleware', 'true')
-        .expect(200, 'tj', done);
+          .get('/user/')
+          .expect('x-middleware', 'true')
+          .expect(200, 'tj', done);
       })
 
       it('should pass-though mounted middleware', function(done){
@@ -433,9 +433,9 @@ describe('app.router', function(){
         });
 
         request(app)
-        .get('/user/test/')
-        .expect('x-middleware', 'true')
-        .expect(200, 'tj', done);
+          .get('/user/test/')
+          .expect('x-middleware', 'true')
+          .expect(200, 'tj', done);
       })
 
       it('should match no slashes', function(done){
@@ -448,8 +448,8 @@ describe('app.router', function(){
         });
 
         request(app)
-        .get('/user')
-        .expect('tj', done);
+          .get('/user')
+          .expect('tj', done);
       })
 
       it('should match middleware when omitting the trailing slash', function(done){
@@ -462,8 +462,8 @@ describe('app.router', function(){
         });
 
         request(app)
-        .get('/user')
-        .expect(200, 'tj', done);
+          .get('/user')
+          .expect(200, 'tj', done);
       })
 
       it('should match middleware', function(done){
@@ -476,8 +476,8 @@ describe('app.router', function(){
         });
 
         request(app)
-        .get('/user')
-        .expect(200, 'tj', done);
+          .get('/user')
+          .expect(200, 'tj', done);
       })
 
       it('should match middleware when adding the trailing slash', function(done){
@@ -490,8 +490,8 @@ describe('app.router', function(){
         });
 
         request(app)
-        .get('/user/')
-        .expect(200, 'tj', done);
+          .get('/user/')
+          .expect(200, 'tj', done);
       })
 
       it('should fail when omitting the trailing slash', function(done){
@@ -504,8 +504,8 @@ describe('app.router', function(){
         });
 
         request(app)
-        .get('/user')
-        .expect(404, done);
+          .get('/user')
+          .expect(404, done);
       })
 
       it('should fail when adding the trailing slash', function(done){
@@ -518,8 +518,8 @@ describe('app.router', function(){
         });
 
         request(app)
-        .get('/user/')
-        .expect(404, done);
+          .get('/user/')
+          .expect(404, done);
       })
     })
   })
@@ -532,13 +532,13 @@ describe('app.router', function(){
     });
 
     request(app)
-    .get('/user/10')
-    .expect(200, function (err) {
-      if (err) return done(err)
-      request(app)
-      .get('/user/tj')
-      .expect(404, done);
-    });
+      .get('/user/10')
+      .expect(200, function (err) {
+        if (err) return done(err)
+        request(app)
+          .get('/user/tj')
+          .expect(404, done);
+      });
   })
 
   it('should allow literal "."', function(done){
@@ -552,8 +552,8 @@ describe('app.router', function(){
     });
 
     request(app)
-    .get('/api/users/1..50')
-    .expect('users from 1 to 50', done);
+      .get('/api/users/1..50')
+      .expect('users from 1 to 50', done);
   })
 
   describe('*', function(){
@@ -565,8 +565,8 @@ describe('app.router', function(){
       })
 
       request(app)
-      .get('/user/tobi.json')
-      .expect('/user/tobi.json', done)
+        .get('/user/tobi.json')
+        .expect('/user/tobi.json', done)
     })
 
     it('should decode the capture', function (done) {
@@ -577,8 +577,8 @@ describe('app.router', function(){
       })
 
       request(app)
-      .get('/user/tobi%20and%20loki.json')
-      .expect('/user/tobi and loki.json', done)
+        .get('/user/tobi%20and%20loki.json')
+        .expect('/user/tobi and loki.json', done)
     })
 
     it('should denote a greedy capture group', function(done){
@@ -589,8 +589,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/tj.json')
-      .expect('tj', done);
+        .get('/user/tj.json')
+        .expect('tj', done);
     })
 
     it('should work with several', function(done){
@@ -603,8 +603,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/api/users/foo.bar.json')
-      .expect('users/foo.bar as json', done);
+        .get('/api/users/foo.bar.json')
+        .expect('users/foo.bar as json', done);
     })
 
     it('should work cross-segment', function(done){
@@ -615,12 +615,12 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/api')
-      .expect('', function(){
-        request(app)
-        .get('/api/hey')
-        .expect('/hey', done);
-      });
+        .get('/api')
+        .expect('', function(){
+          request(app)
+            .get('/api/hey')
+            .expect('/hey', done);
+        });
     })
 
     it('should allow naming', function(done){
@@ -632,8 +632,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/api/users/0.json')
-      .expect('users/0.json', done);
+        .get('/api/users/0.json')
+        .expect('users/0.json', done);
     })
 
     it('should not be greedy immediately after param', function(done){
@@ -644,8 +644,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/122')
-      .expect('122', done);
+        .get('/user/122')
+        .expect('122', done);
     })
 
     it('should eat everything after /', function(done){
@@ -656,8 +656,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/122/aaa')
-      .expect('122', done);
+        .get('/user/122/aaa')
+        .expect('122', done);
     })
 
     it('should span multiple segments', function(done){
@@ -668,8 +668,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/file/javascripts/jquery.js')
-      .expect('javascripts/jquery.js', done);
+        .get('/file/javascripts/jquery.js')
+        .expect('javascripts/jquery.js', done);
     })
 
     it('should be optional', function(done){
@@ -680,8 +680,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/file/')
-      .expect('', done);
+        .get('/file/')
+        .expect('', done);
     })
 
     it('should require a preceding /', function(done){
@@ -692,8 +692,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/file')
-      .expect(404, done);
+        .get('/file')
+        .expect(404, done);
     })
 
     it('should keep correct parameter indexes', function(done){
@@ -704,8 +704,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/1/user/2')
-      .expect(200, '{"0":"1","id":"2"}', done);
+        .get('/1/user/2')
+        .expect(200, '{"0":"1","id":"2"}', done);
     })
 
     it('should work within arrays', function(done){
@@ -716,8 +716,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/test')
-      .expect(200, 'test', done);
+        .get('/test')
+        .expect(200, 'test', done);
     })
   })
 
@@ -730,8 +730,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/tj')
-      .expect('tj', done);
+        .get('/user/tj')
+        .expect('tj', done);
     })
 
     it('should match a single segment only', function(done){
@@ -742,8 +742,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/tj/edit')
-      .expect(404, done);
+        .get('/user/tj/edit')
+        .expect(404, done);
     })
 
     it('should allow several capture groups', function(done){
@@ -754,8 +754,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/tj/edit')
-      .expect('editing tj', done);
+        .get('/user/tj/edit')
+        .expect('editing tj', done);
     })
 
     it('should work following a partial capture group', function(done){
@@ -767,12 +767,12 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/tj/edit')
-      .expect('editing tj', cb);
+        .get('/user/tj/edit')
+        .expect('editing tj', cb);
 
       request(app)
-      .get('/users/tj/edit')
-      .expect('editing tj (old)', cb);
+        .get('/users/tj/edit')
+        .expect('editing tj (old)', cb);
     })
 
     it('should work inside literal parenthesis', function(done){
@@ -783,8 +783,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/tj(edit)')
-      .expect('editing tj', done);
+        .get('/tj(edit)')
+        .expect('editing tj', done);
     })
 
     it('should work in array of paths', function(done){
@@ -796,12 +796,12 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/tj/poke')
-      .expect('poking tj', cb);
+        .get('/user/tj/poke')
+        .expect('poking tj', cb);
 
       request(app)
-      .get('/user/tj/pokes')
-      .expect('poking tj', cb);
+        .get('/user/tj/pokes')
+        .expect('poking tj', cb);
     })
   })
 
@@ -815,8 +815,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/tj')
-      .expect('viewing tj', done);
+        .get('/user/tj')
+        .expect('viewing tj', done);
     })
 
     it('should populate the capture group', function(done){
@@ -828,8 +828,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/user/tj/edit')
-      .expect('editing tj', done);
+        .get('/user/tj/edit')
+        .expect('editing tj', done);
     })
   })
 
@@ -842,12 +842,12 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/foo.json')
-      .expect('foo as json', function(){
-        request(app)
-        .get('/foo')
-        .expect(404, done);
-      });
+        .get('/foo.json')
+        .expect('foo as json', function(){
+          request(app)
+            .get('/foo')
+            .expect(404, done);
+        });
     })
   })
 
@@ -860,12 +860,12 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/foo')
-      .expect('foo as html', function(){
-        request(app)
-        .get('/foo.json')
-        .expect('foo as json', done);
-      });
+        .get('/foo')
+        .expect('foo as html', function(){
+          request(app)
+            .get('/foo.json')
+            .expect('foo as json', done);
+        });
     })
   })
 
@@ -894,8 +894,8 @@ describe('app.router', function(){
       });
 
       request(app)
-      .get('/foo')
-      .expect(200, ['/foo/:bar?', '/foo', '/foo 2'], done)
+        .get('/foo')
+        .expect(200, ['/foo/:bar?', '/foo', '/foo 2'], done)
     })
   })
 
@@ -917,9 +917,9 @@ describe('app.router', function(){
       })
 
       request(app)
-      .get('/foo')
-      .expect('X-Hit', '1')
-      .expect(200, 'success', done)
+        .get('/foo')
+        .expect('X-Hit', '1')
+        .expect(200, 'success', done)
     })
   })
 
@@ -948,9 +948,9 @@ describe('app.router', function(){
       })
 
       request(app)
-      .get('/foo')
-      .expect('X-Hit', '1')
-      .expect(200, 'success', done)
+        .get('/foo')
+        .expect('X-Hit', '1')
+        .expect(200, 'success', done)
     })
   })
 
@@ -985,8 +985,8 @@ describe('app.router', function(){
       })
 
       request(app)
-      .get('/foo')
-      .expect(200, { calls: ['/foo/:bar?', '/foo'], error: 'fail' }, done)
+        .get('/foo')
+        .expect(200, { calls: ['/foo/:bar?', '/foo'], error: 'fail' }, done)
     })
 
     it('should call handler in same route, if exists', function(done){
@@ -1011,8 +1011,8 @@ describe('app.router', function(){
       })
 
       request(app)
-      .get('/foo')
-      .expect('route go boom!', done)
+        .get('/foo')
+        .expect('route go boom!', done)
     })
   })
 
@@ -1032,8 +1032,8 @@ describe('app.router', function(){
       app.use(router)
 
       request(app)
-      .get('/')
-      .expect(200, 'saw Error: boom!', done)
+        .get('/')
+        .expect(200, 'saw Error: boom!', done)
     })
 
     it('should pass rejected promise without value', function (done) {
@@ -1051,8 +1051,8 @@ describe('app.router', function(){
       app.use(router)
 
       request(app)
-      .get('/')
-      .expect(200, 'saw Error: Rejected promise', done)
+        .get('/')
+        .expect(200, 'saw Error: Rejected promise', done)
     })
 
     it('should ignore resolved promise', function (done) {
@@ -1071,8 +1071,8 @@ describe('app.router', function(){
       app.use(router)
 
       request(app)
-      .get('/foo')
-      .expect(200, 'saw GET /foo', done)
+        .get('/foo')
+        .expect(200, 'saw GET /foo', done)
     })
 
     describe('error handling', function () {
@@ -1095,8 +1095,8 @@ describe('app.router', function(){
         app.use(router)
 
         request(app)
-        .get('/')
-        .expect(200, 'saw Error: caught: boom!', done)
+          .get('/')
+          .expect(200, 'saw Error: caught: boom!', done)
       })
 
       it('should pass rejected promise without value', function (done) {
@@ -1118,8 +1118,8 @@ describe('app.router', function(){
         app.use(router)
 
         request(app)
-        .get('/')
-        .expect(200, 'saw Error: caught: Rejected promise', done)
+          .get('/')
+          .expect(200, 'saw Error: caught: Rejected promise', done)
       })
 
       it('should ignore resolved promise', function (done) {
@@ -1142,8 +1142,8 @@ describe('app.router', function(){
         app.use(router)
 
         request(app)
-        .get('/foo')
-        .expect(200, 'saw Error: boom!', done)
+          .get('/foo')
+          .expect(200, 'saw Error: boom!', done)
       })
     })
   })
@@ -1162,8 +1162,8 @@ describe('app.router', function(){
     });
 
     request(app)
-    .get('/account/edit')
-    .expect('editing user 12', done);
+      .get('/account/edit')
+      .expect('editing user 12', done);
   })
 
   it('should run in order added', function(done){
@@ -1201,8 +1201,8 @@ describe('app.router', function(){
     });
 
     request(app)
-    .get('/user/1')
-    .expect(200, '0,1,2,3,4,5', done);
+      .get('/user/1')
+      .expect(200, '0,1,2,3,4,5', done);
   })
 
   it('should be chainable', function(){

@@ -12,9 +12,9 @@ describe('req', function(){
       });
 
       request(app)
-      .post('/')
-      .set('Host', 'example.com')
-      .expect('example.com', done);
+        .post('/')
+        .set('Host', 'example.com')
+        .expect('example.com', done);
     })
 
     it('should strip port number', function(done){
@@ -25,9 +25,9 @@ describe('req', function(){
       });
 
       request(app)
-      .post('/')
-      .set('Host', 'example.com:3000')
-      .expect(200, 'example.com:3000', done);
+        .post('/')
+        .set('Host', 'example.com:3000')
+        .expect(200, 'example.com:3000', done);
     })
 
     it('should return undefined otherwise', function(done){
@@ -39,8 +39,8 @@ describe('req', function(){
       });
 
       request(app)
-      .post('/')
-      .expect('undefined', done);
+        .post('/')
+        .expect('undefined', done);
     })
 
     it('should work with IPv6 Host', function(done){
@@ -51,9 +51,9 @@ describe('req', function(){
       });
 
       request(app)
-      .post('/')
-      .set('Host', '[::1]')
-      .expect('[::1]', done);
+        .post('/')
+        .set('Host', '[::1]')
+        .expect('[::1]', done);
     })
 
     it('should work with IPv6 Host and port', function(done){
@@ -64,9 +64,9 @@ describe('req', function(){
       });
 
       request(app)
-      .post('/')
-      .set('Host', '[::1]:3000')
-      .expect(200, '[::1]:3000', done);
+        .post('/')
+        .set('Host', '[::1]:3000')
+        .expect(200, '[::1]:3000', done);
     })
 
     describe('when "trust proxy" is enabled', function(){
@@ -80,10 +80,10 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('Host', 'localhost')
-        .set('X-Forwarded-Host', 'example.com')
-        .expect('example.com', done);
+          .get('/')
+          .set('Host', 'localhost')
+          .set('X-Forwarded-Host', 'example.com')
+          .expect('example.com', done);
       })
 
       it('should ignore X-Forwarded-Host if socket addr not trusted', function(done){
@@ -96,10 +96,10 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('Host', 'localhost')
-        .set('X-Forwarded-Host', 'example.com')
-        .expect('localhost', done);
+          .get('/')
+          .set('Host', 'localhost')
+          .set('X-Forwarded-Host', 'example.com')
+          .expect('localhost', done);
       })
 
       it('should default to Host', function(done){
@@ -112,9 +112,9 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('Host', 'example.com')
-        .expect('example.com', done);
+          .get('/')
+          .set('Host', 'example.com')
+          .expect('example.com', done);
       })
 
       describe('when trusting hop count', function () {
@@ -128,10 +128,10 @@ describe('req', function(){
           });
 
           request(app)
-          .get('/')
-          .set('Host', 'localhost')
-          .set('X-Forwarded-Host', 'example.com')
-          .expect('example.com', done);
+            .get('/')
+            .set('Host', 'localhost')
+            .set('X-Forwarded-Host', 'example.com')
+            .expect('example.com', done);
         })
       })
     })
@@ -145,10 +145,10 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('Host', 'localhost')
-        .set('X-Forwarded-Host', 'evil')
-        .expect('localhost', done);
+          .get('/')
+          .set('Host', 'localhost')
+          .set('X-Forwarded-Host', 'evil')
+          .expect('localhost', done);
       })
     })
   })

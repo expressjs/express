@@ -13,8 +13,8 @@ describe('HEAD', function(){
     });
 
     request(app)
-    .head('/tobi')
-    .expect(200, done);
+      .head('/tobi')
+      .expect(200, done);
   })
 
   it('should output the same headers as GET requests', function(done){
@@ -26,20 +26,20 @@ describe('HEAD', function(){
     });
 
     request(app)
-    .get('/tobi')
-    .expect(200, function(err, res){
-      if (err) return done(err);
-      var headers = res.headers;
-      request(app)
       .get('/tobi')
       .expect(200, function(err, res){
         if (err) return done(err);
-        delete headers.date;
-        delete res.headers.date;
-        assert.deepEqual(res.headers, headers);
-        done();
+        var headers = res.headers;
+        request(app)
+          .get('/tobi')
+          .expect(200, function(err, res){
+            if (err) return done(err);
+            delete headers.date;
+            delete res.headers.date;
+            assert.deepEqual(res.headers, headers);
+            done();
+          });
       });
-    });
   })
 })
 
@@ -59,10 +59,10 @@ describe('app.head()', function(){
     });
 
     request(app)
-    .head('/tobi')
-    .expect(200, function(){
-      assert(called);
-      done();
-    });
+      .head('/tobi')
+      .expect(200, function(){
+        assert(called);
+        done();
+      });
   })
 })

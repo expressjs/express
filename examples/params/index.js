@@ -8,7 +8,7 @@ var app = module.exports = express();
 // Faux database
 
 var users = [
-    { name: 'tj' }
+  { name: 'tj' }
   , { name: 'tobi' }
   , { name: 'loki' }
   , { name: 'jane' }

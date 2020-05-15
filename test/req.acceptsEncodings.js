@@ -14,9 +14,9 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept-Encoding', ' gzip, deflate')
-      .expect(200, done);
+        .get('/')
+        .set('Accept-Encoding', ' gzip, deflate')
+        .expect(200, done);
     })
 
     it('should be false if encoding not accepted', function(done){
@@ -28,9 +28,9 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept-Encoding', ' gzip, deflate')
-      .expect(200, done);
+        .get('/')
+        .set('Accept-Encoding', ' gzip, deflate')
+        .expect(200, done);
     })
   })
 })

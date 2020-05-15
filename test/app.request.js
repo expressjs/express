@@ -16,8 +16,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/foo?name=tobi')
-      .expect('name=tobi', done);
+        .get('/foo?name=tobi')
+        .expect('name=tobi', done);
     })
   })
 })

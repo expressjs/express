@@ -11,12 +11,12 @@ describe('app.all()', function(){
     });
 
     request(app)
-    .put('/tobi')
-    .expect('PUT', function(){
-      request(app)
-      .get('/tobi')
-      .expect('GET', done);
-    });
+      .put('/tobi')
+      .expect('PUT', function(){
+        request(app)
+          .get('/tobi')
+          .expect('GET', done);
+      });
   })
 
   it('should run the callback for a method just once', function(done){
@@ -29,7 +29,7 @@ describe('app.all()', function(){
     });
 
     request(app)
-    .del('/tobi')
-    .expect(404, done);
+      .del('/tobi')
+      .expect(404, done);
   })
 })

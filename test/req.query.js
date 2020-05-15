@@ -8,16 +8,16 @@ describe('req', function(){
       var app = createApp();
 
       request(app)
-      .get('/')
-      .expect(200, '{}', done);
+        .get('/')
+        .expect(200, '{}', done);
     });
 
     it('should default to parse complex keys', function (done) {
       var app = createApp();
 
       request(app)
-      .get('/?user[name]=tj')
-      .expect(200, '{"user":{"name":"tj"}}', done);
+        .get('/?user[name]=tj')
+        .expect(200, '{"user":{"name":"tj"}}', done);
     });
 
     describe('when "query parser" is extended', function () {
@@ -25,16 +25,16 @@ describe('req', function(){
         var app = createApp('extended');
 
         request(app)
-        .get('/?foo[0][bar]=baz&foo[0][fizz]=buzz&foo[]=done!')
-        .expect(200, '{"foo":[{"bar":"baz","fizz":"buzz"},"done!"]}', done);
+          .get('/?foo[0][bar]=baz&foo[0][fizz]=buzz&foo[]=done!')
+          .expect(200, '{"foo":[{"bar":"baz","fizz":"buzz"},"done!"]}', done);
       });
 
       it('should parse parameters with dots', function (done) {
         var app = createApp('extended');
 
         request(app)
-        .get('/?user.name=tj')
-        .expect(200, '{"user.name":"tj"}', done);
+          .get('/?user.name=tj')
+          .expect(200, '{"user.name":"tj"}', done);
       });
     });
 
@@ -43,8 +43,8 @@ describe('req', function(){
         var app = createApp('simple');
 
         request(app)
-        .get('/?user%5Bname%5D=tj')
-        .expect(200, '{"user[name]":"tj"}', done);
+          .get('/?user%5Bname%5D=tj')
+          .expect(200, '{"user[name]":"tj"}', done);
       });
     });
 
@@ -55,8 +55,8 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/?user%5Bname%5D=tj')
-        .expect(200, '{"length":17}', done);
+          .get('/?user%5Bname%5D=tj')
+          .expect(200, '{"length":17}', done);
       });
     });
 
@@ -65,8 +65,8 @@ describe('req', function(){
         var app = createApp(false);
 
         request(app)
-        .get('/?user%5Bname%5D=tj')
-        .expect(200, '{}', done);
+          .get('/?user%5Bname%5D=tj')
+          .expect(200, '{}', done);
       });
     });
 
@@ -75,8 +75,8 @@ describe('req', function(){
         var app = createApp(true);
 
         request(app)
-        .get('/?user%5Bname%5D=tj')
-        .expect(200, '{"user[name]":"tj"}', done);
+          .get('/?user%5Bname%5D=tj')
+          .expect(200, '{"user[name]":"tj"}', done);
       });
     });
 

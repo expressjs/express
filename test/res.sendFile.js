@@ -16,65 +16,65 @@ describe('res', function(){
       var app = createApp();
 
       request(app)
-      .get('/')
-      .expect(500, /path.*required/, done);
+        .get('/')
+        .expect(500, /path.*required/, done);
     });
 
     it('should error for non-string path', function (done) {
       var app = createApp(42)
 
       request(app)
-      .get('/')
-      .expect(500, /TypeError: path must be a string to res.sendFile/, done)
+        .get('/')
+        .expect(500, /TypeError: path must be a string to res.sendFile/, done)
     })
 
     it('should transfer a file', function (done) {
       var app = createApp(path.resolve(fixtures, 'name.txt'));
 
       request(app)
-      .get('/')
-      .expect(200, 'tobi', done);
+        .get('/')
+        .expect(200, 'tobi', done);
     });
 
     it('should transfer a file with special characters in string', function (done) {
       var app = createApp(path.resolve(fixtures, '% of dogs.txt'));
 
       request(app)
-      .get('/')
-      .expect(200, '20%', done);
+        .get('/')
+        .expect(200, '20%', done);
     });
 
     it('should include ETag', function (done) {
       var app = createApp(path.resolve(fixtures, 'name.txt'));
 
       request(app)
-      .get('/')
-      .expect('ETag', /^(?:W\/)?"[^"]+"$/)
-      .expect(200, 'tobi', done);
+        .get('/')
+        .expect('ETag', /^(?:W\/)?"[^"]+"$/)
+        .expect(200, 'tobi', done);
     });
 
     it('should 304 when ETag matches', function (done) {
       var app = createApp(path.resolve(fixtures, 'name.txt'));
 
       request(app)
-      .get('/')
-      .expect('ETag', /^(?:W\/)?"[^"]+"$/)
-      .expect(200, 'tobi', function (err, res) {
-        if (err) return done(err);
-        var etag = res.headers.etag;
-        request(app)
         .get('/')
-        .set('If-None-Match', etag)
-        .expect(304, done);
-      });
+        .expect('ETag', /^(?:W\/)?"[^"]+"$/)
+        .expect(200, 'tobi', function (err, res) {
+          if (err) return done(err);
+          var etag = res.headers.etag;
+          request(app)
+            .get('/')
+            .set('If-None-Match', etag)
+            .expect(304, done);
+        });
     });
 
     it('should 404 for directory', function (done) {
       var app = createApp(path.resolve(fixtures, 'blog'));
 
       request(app)
-      .get('/')
-      .expect(404, done);
+        .get('/')
+        .expect(404, done);
     });
 
     it('should 404 when not found', function (done) {
@@ -86,8 +86,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(404, done);
+        .get('/')
+        .expect(404, done);
     });
 
     it('should not override manual content-types', function (done) {
@@ -99,9 +99,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'application/x-bogus')
-      .end(done);
+        .get('/')
+        .expect('Content-Type', 'application/x-bogus')
+        .end(done);
     })
 
     it('should not error if the client aborts', function (done) {
@@ -135,18 +135,18 @@ describe('res', function(){
         var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'))
 
         request(app)
-        .get('/')
-        .expect('Cache-Control', 'public, max-age=0')
-        .expect(200, done)
+          .get('/')
+          .expect('Cache-Control', 'public, max-age=0')
+          .expect(200, done)
       })
 
       it('should accept cacheControl option', function (done) {
         var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), { cacheControl: false })
 
         request(app)
-        .get('/')
-        .expect(utils.shouldNotHaveHeader('Cache-Control'))
-        .expect(200, done)
+          .get('/')
+          .expect(utils.shouldNotHaveHeader('Cache-Control'))
+          .expect(200, done)
       })
     })
 
@@ -155,18 +155,18 @@ describe('res', function(){
         var app = createApp(path.resolve(__dirname, 'fixtures/.name'));
 
         request(app)
-        .get('/')
-        .expect(404, done);
+          .get('/')
+          .expect(404, done);
       });
 
       it('should accept dotfiles option', function(done){
         var app = createApp(path.resolve(__dirname, 'fixtures/.name'), { dotfiles: 'allow' });
 
         request(app)
-        .get('/')
-        .expect(200)
-        .expect(shouldHaveBody(Buffer.from('tobi')))
-        .end(done)
+          .get('/')
+          .expect(200)
+          .expect(shouldHaveBody(Buffer.from('tobi')))
+          .end(done)
       });
     });
 
@@ -179,10 +179,10 @@ describe('res', function(){
         var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), { headers: headers });
 
         request(app)
-        .get('/')
-        .expect('x-success', 'sent')
-        .expect('x-other', 'done')
-        .expect(200, done);
+          .get('/')
+          .expect('x-success', 'sent')
+          .expect('x-other', 'done')
+          .expect(200, done);
       });
 
       it('should ignore headers option on 404', function (done) {
@@ -190,9 +190,9 @@ describe('res', function(){
         var app = createApp(path.resolve(__dirname, 'fixtures/does-not-exist'), { headers: headers });
 
         request(app)
-        .get('/')
-        .expect(utils.shouldNotHaveHeader('X-Success'))
-        .expect(404, done);
+          .get('/')
+          .expect(utils.shouldNotHaveHeader('X-Success'))
+          .expect(404, done);
       });
     });
 
@@ -204,9 +204,9 @@ describe('res', function(){
         })
 
         request(app)
-        .get('/')
-        .expect('Cache-Control', 'public, max-age=14400, immutable')
-        .expect(200, done)
+          .get('/')
+          .expect('Cache-Control', 'public, max-age=14400, immutable')
+          .expect(200, done)
       })
     })
 
@@ -217,9 +217,9 @@ describe('res', function(){
         })
 
         request(app)
-        .get('/')
-        .expect('Cache-Control', 'public, max-age=14400')
-        .expect(200, done)
+          .get('/')
+          .expect('Cache-Control', 'public, max-age=14400')
+          .expect(200, done)
       })
 
       it('should set cache-control max-age from string', function (done) {
@@ -228,9 +228,9 @@ describe('res', function(){
         })
 
         request(app)
-        .get('/')
-        .expect('Cache-Control', 'public, max-age=14400')
-        .expect(200, done)
+          .get('/')
+          .expect('Cache-Control', 'public, max-age=14400')
+          .expect(200, done)
       })
     })
 
@@ -239,24 +239,24 @@ describe('res', function(){
         var app = createApp('test/fixtures/name.txt');
 
         request(app)
-        .get('/')
-        .expect(500, /must be absolute/, done);
+          .get('/')
+          .expect(500, /must be absolute/, done);
       })
 
       it('should serve relative to "root"', function (done) {
         var app = createApp('name.txt', {root: fixtures});
 
         request(app)
-        .get('/')
-        .expect(200, 'tobi', done);
+          .get('/')
+          .expect(200, 'tobi', done);
       })
 
       it('should disallow requesting out of "root"', function (done) {
         var app = createApp('foo/../../user.html', {root: fixtures});
 
         request(app)
-        .get('/')
-        .expect(403, done);
+          .get('/')
+          .expect(403, done);
       })
     })
   })
@@ -267,8 +267,8 @@ describe('res', function(){
       var app = createApp(path.resolve(fixtures, 'name.txt'), cb);
 
       request(app)
-      .get('/')
-      .expect(200, cb);
+        .get('/')
+        .expect(200, cb);
     })
 
     it('should invoke the callback when client aborts', function (done) {
@@ -320,8 +320,8 @@ describe('res', function(){
       });
 
       request(app)
-      .head('/')
-      .expect(200, cb);
+        .head('/')
+        .expect(200, cb);
     });
 
     it('should invoke the callback without error when 304', function (done) {
@@ -333,16 +333,16 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('ETag', /^(?:W\/)?"[^"]+"$/)
-      .expect(200, 'tobi', function (err, res) {
-        if (err) return cb(err);
-        var etag = res.headers.etag;
-        request(app)
         .get('/')
-        .set('If-None-Match', etag)
-        .expect(304, cb);
-      });
+        .expect('ETag', /^(?:W\/)?"[^"]+"$/)
+        .expect(200, 'tobi', function (err, res) {
+          if (err) return cb(err);
+          var etag = res.headers.etag;
+          request(app)
+            .get('/')
+            .set('If-None-Match', etag)
+            .expect(304, cb);
+        });
     });
 
     it('should invoke the callback on 404', function(done){
@@ -357,16 +357,16 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200, 'got it', done);
+        .get('/')
+        .expect(200, 'got it', done);
     })
   })
 
   describe('.sendFile(path, options)', function () {
     it('should pass options to send module', function (done) {
       request(createApp(path.resolve(fixtures, 'name.txt'), { start: 0, end: 1 }))
-      .get('/')
-      .expect(200, 'to', done)
+        .get('/')
+        .expect(200, 'to', done)
     })
   })
 })

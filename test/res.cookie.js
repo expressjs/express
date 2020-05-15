@@ -15,9 +15,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Set-Cookie', 'user=j%3A%7B%22name%22%3A%22tobi%22%7D; Path=/')
-      .expect(200, done)
+        .get('/')
+        .expect('Set-Cookie', 'user=j%3A%7B%22name%22%3A%22tobi%22%7D; Path=/')
+        .expect(200, done)
     })
   })
 
@@ -30,9 +30,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Set-Cookie', 'name=tobi; Path=/')
-      .expect(200, done)
+        .get('/')
+        .expect('Set-Cookie', 'name=tobi; Path=/')
+        .expect(200, done)
     })
 
     it('should allow multiple calls', function(done){
@@ -46,12 +46,12 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .end(function(err, res){
-        var val = ['name=tobi; Path=/', 'age=1; Path=/', 'gender=%3F; Path=/'];
-        res.headers['set-cookie'].should.eql(val);
-        done();
-      })
+        .get('/')
+        .end(function(err, res){
+          var val = ['name=tobi; Path=/', 'age=1; Path=/', 'gender=%3F; Path=/'];
+          res.headers['set-cookie'].should.eql(val);
+          done();
+        })
     })
   })
 
@@ -65,9 +65,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Set-Cookie', 'name=tobi; Path=/; HttpOnly; Secure')
-      .expect(200, done)
+        .get('/')
+        .expect('Set-Cookie', 'name=tobi; Path=/; HttpOnly; Secure')
+        .expect(200, done)
     })
 
     describe('maxAge', function(){
@@ -80,11 +80,11 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .end(function(err, res){
-          res.headers['set-cookie'][0].should.not.containEql('Thu, 01 Jan 1970 00:00:01 GMT');
-          done();
-        })
+          .get('/')
+          .end(function(err, res){
+            res.headers['set-cookie'][0].should.not.containEql('Thu, 01 Jan 1970 00:00:01 GMT');
+            done();
+          })
       })
 
       it('should set max-age', function(done){
@@ -96,8 +96,8 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('Set-Cookie', /Max-Age=1/, done)
+          .get('/')
+          .expect('Set-Cookie', /Max-Age=1/, done)
       })
 
       it('should not mutate the options object', function(done){
@@ -112,8 +112,8 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect(200, optionsCopy, done)
+          .get('/')
+          .expect(200, optionsCopy, done)
       })
     })
 
@@ -128,13 +128,13 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .end(function(err, res){
-          var val = res.headers['set-cookie'][0];
-          val = cookie.parse(val.split('.')[0]);
-          val.user.should.equal('s:j:{"name":"tobi"}');
-          done();
-        })
+          .get('/')
+          .end(function(err, res){
+            var val = res.headers['set-cookie'][0];
+            val = cookie.parse(val.split('.')[0]);
+            val.user.should.equal('s:j:{"name":"tobi"}');
+            done();
+          })
       })
     })
 
@@ -149,8 +149,8 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect(500, /secret\S+ required for signed cookies/, done);
+          .get('/')
+          .expect(500, /secret\S+ required for signed cookies/, done);
       })
     })
 
@@ -165,9 +165,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('Set-Cookie', 'name=s%3Atobi.xJjV2iZ6EI7C8E5kzwbfA9PVLl1ZR07UTnuTgQQ4EnQ; Path=/')
-        .expect(200, done)
+          .get('/')
+          .expect('Set-Cookie', 'name=s%3Atobi.xJjV2iZ6EI7C8E5kzwbfA9PVLl1ZR07UTnuTgQQ4EnQ; Path=/')
+          .expect(200, done)
       })
     })
   })

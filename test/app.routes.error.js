@@ -15,8 +15,8 @@ describe('app', function(){
       });
 
       request(app)
-      .post('/bar')
-      .expect(500, /Error: boom!/, done);
+        .post('/bar')
+        .expect(500, /Error: boom!/, done);
     });
 
     it('should only call an error handling routing callback when an error is propagated', function(done){
@@ -52,8 +52,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(204, done);
+        .get('/')
+        .expect(204, done);
     })
   })
 })

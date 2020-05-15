@@ -16,8 +16,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<p>tobi</p>', done);
+        .get('/')
+        .expect('<p>tobi</p>', done);
     })
 
     it('should support absolute paths with "view engine"', function(done){
@@ -31,8 +31,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<p>tobi</p>', done);
+        .get('/')
+        .expect('<p>tobi</p>', done);
     })
 
     it('should error without "view engine" set and file extension to a non-engine module', function (done) {
@@ -45,8 +45,8 @@ describe('res', function(){
       })
 
       request(app)
-      .get('/')
-      .expect(500, /does not provide a view engine/, done)
+        .get('/')
+        .expect(500, /does not provide a view engine/, done)
     })
 
     it('should error without "view engine" set and no file extension', function (done) {
@@ -59,8 +59,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(500, /No default engine was specified/, done);
+        .get('/')
+        .expect(500, /No default engine was specified/, done);
     })
 
     it('should expose app.locals', function(done){
@@ -74,8 +74,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<p>tobi</p>', done);
+        .get('/')
+        .expect('<p>tobi</p>', done);
     })
 
     it('should expose app.locals with `name` property', function(done){
@@ -89,8 +89,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<p>tobi</p>', done);
+        .get('/')
+        .expect('<p>tobi</p>', done);
     })
 
     it('should support index.<engine>', function(done){
@@ -104,8 +104,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<h1>blog post</h1>', done);
+        .get('/')
+        .expect('<h1>blog post</h1>', done);
     })
 
     describe('when an error occurs', function(){
@@ -123,8 +123,8 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect(500, 'got error: RenderError', done)
+          .get('/')
+          .expect(500, 'got error: RenderError', done)
       })
     })
 
@@ -140,8 +140,8 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('<p>This is an email</p>', done);
+          .get('/')
+          .expect('<p>This is an email</p>', done);
       })
     })
 
@@ -156,8 +156,8 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('<p>tobi</p>', done);
+          .get('/')
+          .expect('<p>tobi</p>', done);
       })
 
       describe('when array of paths', function(){
@@ -175,8 +175,8 @@ describe('res', function(){
           });
 
           request(app)
-          .get('/')
-          .expect('<span>tobi</span>', done);
+            .get('/')
+            .expect('<span>tobi</span>', done);
         })
 
         it('should lookup in later paths until found', function(done){
@@ -193,8 +193,8 @@ describe('res', function(){
           });
 
           request(app)
-          .get('/')
-          .expect('<p>tobi</p>', done);
+            .get('/')
+            .expect('<p>tobi</p>', done);
         })
       })
     })
@@ -213,8 +213,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<p>tobi</p>', done);
+        .get('/')
+        .expect('<p>tobi</p>', done);
     })
 
     it('should expose app.locals', function(done){
@@ -228,8 +228,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<p>tobi</p>', done);
+        .get('/')
+        .expect('<p>tobi</p>', done);
     })
 
     it('should expose res.locals', function(done){
@@ -243,8 +243,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<p>tobi</p>', done);
+        .get('/')
+        .expect('<p>tobi</p>', done);
     })
 
     it('should give precedence to res.locals over app.locals', function(done){
@@ -259,8 +259,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<p>jane</p>', done);
+        .get('/')
+        .expect('<p>jane</p>', done);
     })
 
     it('should give precedence to res.render() locals over res.locals', function(done){
@@ -275,8 +275,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<p>jane</p>', done);
+        .get('/')
+        .expect('<p>jane</p>', done);
     })
 
     it('should give precedence to res.render() locals over app.locals', function(done){
@@ -291,8 +291,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<p>jane</p>', done);
+        .get('/')
+        .expect('<p>jane</p>', done);
     })
   })
 
@@ -311,8 +311,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<p>loki</p>', done);
+        .get('/')
+        .expect('<p>loki</p>', done);
     })
   })
 
@@ -331,8 +331,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('<p>loki</p>', done);
+        .get('/')
+        .expect('<p>loki</p>', done);
     })
 
     describe('when an error occurs', function(){
@@ -350,8 +350,8 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect(500, 'got error: RenderError', done)
+          .get('/')
+          .expect(500, 'got error: RenderError', done)
       })
     })
   })

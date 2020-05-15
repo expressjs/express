@@ -12,8 +12,8 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('http', done);
+        .get('/')
+        .expect('http', done);
     })
 
     describe('when "trust proxy" is enabled', function(){
@@ -27,9 +27,9 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('X-Forwarded-Proto', 'https')
-        .expect('https', done);
+          .get('/')
+          .set('X-Forwarded-Proto', 'https')
+          .expect('https', done);
       })
 
       it('should default to the socket addr if X-Forwarded-Proto not present', function(done){
@@ -43,8 +43,8 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('https', done);
+          .get('/')
+          .expect('https', done);
       })
 
       it('should ignore X-Forwarded-Proto if socket addr not trusted', function(done){
@@ -57,9 +57,9 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('X-Forwarded-Proto', 'https')
-        .expect('http', done);
+          .get('/')
+          .set('X-Forwarded-Proto', 'https')
+          .expect('http', done);
       })
 
       it('should default to http', function(done){
@@ -72,8 +72,8 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('http', done);
+          .get('/')
+          .expect('http', done);
       })
 
       describe('when trusting hop count', function () {
@@ -87,9 +87,9 @@ describe('req', function(){
           });
 
           request(app)
-          .get('/')
-          .set('X-Forwarded-Proto', 'https')
-          .expect('https', done);
+            .get('/')
+            .set('X-Forwarded-Proto', 'https')
+            .expect('https', done);
         })
       })
     })
@@ -103,9 +103,9 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('X-Forwarded-Proto', 'https')
-        .expect('http', done);
+          .get('/')
+          .set('X-Forwarded-Proto', 'https')
+          .expect('http', done);
       })
     })
   })

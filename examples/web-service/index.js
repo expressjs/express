@@ -55,7 +55,7 @@ var repos = [
 ];
 
 var users = [
-    { name: 'tobi' }
+  { name: 'tobi' }
   , { name: 'loki' }
   , { name: 'jane' }
 ];

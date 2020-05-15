@@ -12,8 +12,8 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/login?redirect=/post/1/comments')
-      .expect('/login', done);
+        .get('/login?redirect=/post/1/comments')
+        .expect('/login', done);
     })
   })
 })

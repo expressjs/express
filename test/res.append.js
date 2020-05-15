@@ -23,8 +23,8 @@ describe('res', function () {
       })
 
       request(app)
-      .get('/')
-      .expect('Link', '<http://localhost/>, <http://localhost:80/>', done)
+        .get('/')
+        .expect('Link', '<http://localhost/>, <http://localhost:80/>', done)
     })
 
     it('should accept array of values', function (done) {
@@ -36,11 +36,11 @@ describe('res', function () {
       })
 
       request(app)
-      .get('/')
-      .expect(function (res) {
-        should(res.headers['set-cookie']).eql(['foo=bar', 'fizz=buzz'])
-      })
-      .expect(200, done)
+        .get('/')
+        .expect(function (res) {
+          should(res.headers['set-cookie']).eql(['foo=bar', 'fizz=buzz'])
+        })
+        .expect(200, done)
     })
 
     it('should get reset by res.set(field, val)', function (done) {
@@ -58,8 +58,8 @@ describe('res', function () {
       });
 
       request(app)
-      .get('/')
-      .expect('Link', '<http://127.0.0.1/>', done)
+        .get('/')
+        .expect('Link', '<http://127.0.0.1/>', done)
     })
 
     it('should work with res.set(field, val) first', function (done) {
@@ -76,8 +76,8 @@ describe('res', function () {
       })
 
       request(app)
-      .get('/')
-      .expect('Link', '<http://localhost/>, <http://localhost:80/>', done)
+        .get('/')
+        .expect('Link', '<http://localhost/>, <http://localhost:80/>', done)
     })
 
     it('should work with cookies', function (done) {
@@ -94,11 +94,11 @@ describe('res', function () {
       })
 
       request(app)
-      .get('/')
-      .expect(function (res) {
-        should(res.headers['set-cookie']).eql(['foo=bar; Path=/', 'bar=baz'])
-      })
-      .expect(200, done)
+        .get('/')
+        .expect(function (res) {
+          should(res.headers['set-cookie']).eql(['foo=bar; Path=/', 'bar=baz'])
+        })
+        .expect(200, done)
     })
   })
 })

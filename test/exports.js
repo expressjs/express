@@ -59,8 +59,8 @@ describe('exports', function(){
     });
 
     request(app)
-    .get('/')
-    .expect('bar', done);
+      .get('/')
+      .expect('bar', done);
   })
 
   it('should permit modifying the .response prototype', function(done){
@@ -72,7 +72,7 @@ describe('exports', function(){
     });
 
     request(app)
-    .get('/')
-    .expect('bar', done);
+      .get('/')
+      .expect('bar', done);
   })
 })

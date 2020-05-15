@@ -18,8 +18,8 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/user/12/edit')
-      .expect(200, done);
+        .get('/user/12/edit')
+        .expect(200, done);
     })
   })
 })

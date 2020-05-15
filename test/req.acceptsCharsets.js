@@ -13,8 +13,8 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('yes', done);
+          .get('/')
+          .expect('yes', done);
       })
     })
 
@@ -27,9 +27,9 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('Accept-Charset', 'foo, bar, utf-8')
-        .expect('yes', done);
+          .get('/')
+          .set('Accept-Charset', 'foo, bar, utf-8')
+          .expect('yes', done);
       })
 
       it('should return false otherwise', function(done){
@@ -40,9 +40,9 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('Accept-Charset', 'foo, bar')
-        .expect('no', done);
+          .get('/')
+          .set('Accept-Charset', 'foo, bar')
+          .expect('no', done);
       })
     })
   })

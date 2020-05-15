@@ -29,8 +29,8 @@ describe('app', function(){
       app.use(blog);
 
       request(app)
-      .get('/blog')
-      .expect('blog', done);
+        .get('/blog')
+        .expect('blog', done);
     })
 
     it('should support mount-points', function(done){
@@ -50,12 +50,12 @@ describe('app', function(){
       app.use('/forum', forum);
 
       request(app)
-      .get('/blog')
-      .expect('blog', function(){
-        request(app)
-        .get('/forum')
-        .expect('forum', done);
-      });
+        .get('/blog')
+        .expect('blog', function(){
+          request(app)
+            .get('/forum')
+            .expect('forum', done);
+        });
     })
 
     it('should set the child\'s .parent', function(){
@@ -77,8 +77,8 @@ describe('app', function(){
       app.use('/post/:article', blog);
 
       request(app)
-      .get('/post/once-upon-a-time')
-      .expect('success', done);
+        .get('/post/once-upon-a-time')
+        .expect('success', done);
     })
 
     it('should support mounted app anywhere', function(done){
@@ -113,10 +113,10 @@ describe('app', function(){
       app.use('/post/:article', fn1, other, fn2, blog);
 
       request(app)
-      .get('/post/once-upon-a-time')
-      .expect('x-fn-1', 'hit')
-      .expect('x-fn-2', 'hit')
-      .expect('success', cb);
+        .get('/post/once-upon-a-time')
+        .expect('x-fn-1', 'hit')
+        .expect('x-fn-2', 'hit')
+        .expect('success', cb);
     })
   })
 
@@ -140,11 +140,11 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('x-fn-1', 'hit')
-      .expect('x-fn-2', 'hit')
-      .expect('x-fn-3', 'hit')
-      .expect(200, done);
+        .get('/')
+        .expect('x-fn-1', 'hit')
+        .expect('x-fn-2', 'hit')
+        .expect('x-fn-3', 'hit')
+        .expect(200, done);
     })
 
     it('should invoke middleware for all requests', function (done) {
@@ -156,16 +156,16 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200, 'saw GET /', cb);
+        .get('/')
+        .expect(200, 'saw GET /', cb);
 
       request(app)
-      .options('/')
-      .expect(200, 'saw OPTIONS /', cb);
+        .options('/')
+        .expect(200, 'saw OPTIONS /', cb);
 
       request(app)
-      .post('/foo')
-      .expect(200, 'saw POST /foo', cb);
+        .post('/foo')
+        .expect(200, 'saw POST /foo', cb);
     })
 
     it('should accept array of middleware', function (done) {
@@ -189,11 +189,11 @@ describe('app', function(){
       app.use([fn1, fn2, fn3]);
 
       request(app)
-      .get('/')
-      .expect('x-fn-1', 'hit')
-      .expect('x-fn-2', 'hit')
-      .expect('x-fn-3', 'hit')
-      .expect(200, done);
+        .get('/')
+        .expect('x-fn-1', 'hit')
+        .expect('x-fn-2', 'hit')
+        .expect('x-fn-3', 'hit')
+        .expect(200, done);
     })
 
     it('should accept multiple arrays of middleware', function (done) {
@@ -217,11 +217,11 @@ describe('app', function(){
       app.use([fn1, fn2], [fn3]);
 
       request(app)
-      .get('/')
-      .expect('x-fn-1', 'hit')
-      .expect('x-fn-2', 'hit')
-      .expect('x-fn-3', 'hit')
-      .expect(200, done);
+        .get('/')
+        .expect('x-fn-1', 'hit')
+        .expect('x-fn-2', 'hit')
+        .expect('x-fn-3', 'hit')
+        .expect(200, done);
     })
 
     it('should accept nested arrays of middleware', function (done) {
@@ -245,11 +245,11 @@ describe('app', function(){
       app.use([[fn1], fn2], [fn3]);
 
       request(app)
-      .get('/')
-      .expect('x-fn-1', 'hit')
-      .expect('x-fn-2', 'hit')
-      .expect('x-fn-3', 'hit')
-      .expect(200, done);
+        .get('/')
+        .expect('x-fn-1', 'hit')
+        .expect('x-fn-2', 'hit')
+        .expect('x-fn-3', 'hit')
+        .expect(200, done);
     })
   })
 
@@ -287,8 +287,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/foo/bar')
-      .expect(200, 'saw GET /bar', done);
+        .get('/foo/bar')
+        .expect(200, 'saw GET /bar', done);
     })
 
     it('should accept multiple arguments', function (done) {
@@ -310,11 +310,11 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/foo')
-      .expect('x-fn-1', 'hit')
-      .expect('x-fn-2', 'hit')
-      .expect('x-fn-3', 'hit')
-      .expect(200, done);
+        .get('/foo')
+        .expect('x-fn-1', 'hit')
+        .expect('x-fn-2', 'hit')
+        .expect('x-fn-3', 'hit')
+        .expect(200, done);
     })
 
     it('should invoke middleware for all requests starting with path', function (done) {
@@ -326,16 +326,16 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(404, cb);
+        .get('/')
+        .expect(404, cb);
 
       request(app)
-      .post('/foo')
-      .expect(200, 'saw POST /', cb);
+        .post('/foo')
+        .expect(200, 'saw POST /', cb);
 
       request(app)
-      .post('/foo/bar')
-      .expect(200, 'saw POST /bar', cb);
+        .post('/foo/bar')
+        .expect(200, 'saw POST /bar', cb);
     })
 
     it('should work if path has trailing slash', function (done) {
@@ -347,16 +347,16 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(404, cb);
+        .get('/')
+        .expect(404, cb);
 
       request(app)
-      .post('/foo')
-      .expect(200, 'saw POST /', cb);
+        .post('/foo')
+        .expect(200, 'saw POST /', cb);
 
       request(app)
-      .post('/foo/bar')
-      .expect(200, 'saw POST /bar', cb);
+        .post('/foo/bar')
+        .expect(200, 'saw POST /bar', cb);
     })
 
     it('should accept array of middleware', function (done) {
@@ -380,11 +380,11 @@ describe('app', function(){
       app.use('/foo', [fn1, fn2, fn3]);
 
       request(app)
-      .get('/foo')
-      .expect('x-fn-1', 'hit')
-      .expect('x-fn-2', 'hit')
-      .expect('x-fn-3', 'hit')
-      .expect(200, done);
+        .get('/foo')
+        .expect('x-fn-1', 'hit')
+        .expect('x-fn-2', 'hit')
+        .expect('x-fn-3', 'hit')
+        .expect(200, done);
     })
 
     it('should accept multiple arrays of middleware', function (done) {
@@ -408,11 +408,11 @@ describe('app', function(){
       app.use('/foo', [fn1, fn2], [fn3]);
 
       request(app)
-      .get('/foo')
-      .expect('x-fn-1', 'hit')
-      .expect('x-fn-2', 'hit')
-      .expect('x-fn-3', 'hit')
-      .expect(200, done);
+        .get('/foo')
+        .expect('x-fn-1', 'hit')
+        .expect('x-fn-2', 'hit')
+        .expect('x-fn-3', 'hit')
+        .expect(200, done);
     })
 
     it('should accept nested arrays of middleware', function (done) {
@@ -436,11 +436,11 @@ describe('app', function(){
       app.use('/foo', [fn1, [fn2]], [fn3]);
 
       request(app)
-      .get('/foo')
-      .expect('x-fn-1', 'hit')
-      .expect('x-fn-2', 'hit')
-      .expect('x-fn-3', 'hit')
-      .expect(200, done);
+        .get('/foo')
+        .expect('x-fn-1', 'hit')
+        .expect('x-fn-2', 'hit')
+        .expect('x-fn-3', 'hit')
+        .expect(200, done);
     })
 
     it('should support array of paths', function (done) {
@@ -452,16 +452,16 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(404, cb);
+        .get('/')
+        .expect(404, cb);
 
       request(app)
-      .get('/foo')
-      .expect(200, 'saw GET / through /foo', cb);
+        .get('/foo')
+        .expect(200, 'saw GET / through /foo', cb);
 
       request(app)
-      .get('/bar')
-      .expect(200, 'saw GET / through /bar', cb);
+        .get('/bar')
+        .expect(200, 'saw GET / through /bar', cb);
     })
 
     it('should support array of paths with middleware array', function (done) {
@@ -486,18 +486,18 @@ describe('app', function(){
       app.use(['/foo/', '/bar'], [[fn1], fn2], [fn3]);
 
       request(app)
-      .get('/foo')
-      .expect('x-fn-1', 'hit')
-      .expect('x-fn-2', 'hit')
-      .expect('x-fn-3', 'hit')
-      .expect(200, 'saw GET / through /foo', cb);
+        .get('/foo')
+        .expect('x-fn-1', 'hit')
+        .expect('x-fn-2', 'hit')
+        .expect('x-fn-3', 'hit')
+        .expect(200, 'saw GET / through /foo', cb);
 
       request(app)
-      .get('/bar')
-      .expect('x-fn-1', 'hit')
-      .expect('x-fn-2', 'hit')
-      .expect('x-fn-3', 'hit')
-      .expect(200, 'saw GET / through /bar', cb);
+        .get('/bar')
+        .expect('x-fn-1', 'hit')
+        .expect('x-fn-2', 'hit')
+        .expect('x-fn-3', 'hit')
+        .expect(200, 'saw GET / through /bar', cb);
     })
 
     it('should support regexp path', function (done) {
@@ -509,20 +509,20 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(404, cb);
+        .get('/')
+        .expect(404, cb);
 
       request(app)
-      .get('/foo')
-      .expect(200, 'saw GET / through /foo', cb);
+        .get('/foo')
+        .expect(200, 'saw GET / through /foo', cb);
 
       request(app)
-      .get('/zoo/bear')
-      .expect(200, 'saw GET /bear through /zoo/bear', cb);
+        .get('/zoo/bear')
+        .expect(200, 'saw GET /bear through /zoo/bear', cb);
 
       request(app)
-      .get('/get/zoo')
-      .expect(404, cb);
+        .get('/get/zoo')
+        .expect(404, cb);
     })
 
     it('should support empty string path', function (done) {
@@ -533,8 +533,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200, 'saw GET / through /', done);
+        .get('/')
+        .expect(200, 'saw GET / through /', done);
     })
   })
 })

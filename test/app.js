@@ -17,8 +17,8 @@ describe('app', function(){
 
   it('should 404 without routes', function(done){
     request(express())
-    .get('/')
-    .expect(404, done);
+      .get('/')
+      .expect(404, done);
   })
 })
 

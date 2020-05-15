@@ -16,9 +16,9 @@ describe('req', function(){
           });
 
           request(app)
-          .get('/')
-          .set('X-Forwarded-For', 'client, p1, p2')
-          .expect('client', done);
+            .get('/')
+            .set('X-Forwarded-For', 'client, p1, p2')
+            .expect('client', done);
         })
 
         it('should return the addr after trusted proxy', function(done){
@@ -31,9 +31,9 @@ describe('req', function(){
           });
 
           request(app)
-          .get('/')
-          .set('X-Forwarded-For', 'client, p1, p2')
-          .expect('p1', done);
+            .get('/')
+            .set('X-Forwarded-For', 'client, p1, p2')
+            .expect('p1', done);
         })
 
         it('should return the addr after trusted proxy, from sub app', function (done) {
@@ -48,9 +48,9 @@ describe('req', function(){
           });
 
           request(app)
-          .get('/')
-          .set('X-Forwarded-For', 'client, p1, p2')
-          .expect(200, 'p1', done);
+            .get('/')
+            .set('X-Forwarded-For', 'client, p1, p2')
+            .expect(200, 'p1', done);
         })
       })
 

@@ -12,8 +12,8 @@ describe('throw after .end()', function(){
     });
 
     request(app)
-    .get('/')
-    .expect('yay')
-    .expect(200, done);
+      .get('/')
+      .expect('yay')
+      .expect(200, done);
   })
 })

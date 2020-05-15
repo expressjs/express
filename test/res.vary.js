@@ -14,8 +14,8 @@ describe('res.vary()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(500, /field.*required/, done)
+        .get('/')
+        .expect(500, /field.*required/, done)
     })
   })
 
@@ -29,9 +29,9 @@ describe('res.vary()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(utils.shouldNotHaveHeader('Vary'))
-      .expect(200, done);
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('Vary'))
+        .expect(200, done);
     })
   })
 
@@ -45,9 +45,9 @@ describe('res.vary()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Vary', 'Accept, Accept-Language, Accept-Encoding')
-      .expect(200, done);
+        .get('/')
+        .expect('Vary', 'Accept, Accept-Language, Accept-Encoding')
+        .expect(200, done);
     })
   })
 
@@ -61,9 +61,9 @@ describe('res.vary()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Vary', 'Accept')
-      .expect(200, done);
+        .get('/')
+        .expect('Vary', 'Accept')
+        .expect(200, done);
     })
   })
 
@@ -81,9 +81,9 @@ describe('res.vary()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Vary', 'Accept, Accept-Encoding')
-      .expect(200, done);
+        .get('/')
+        .expect('Vary', 'Accept, Accept-Encoding')
+        .expect(200, done);
     })
   })
 })

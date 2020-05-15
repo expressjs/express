@@ -12,8 +12,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200, {}, done)
+        .get('/')
+        .expect(200, {}, done)
     })
   })
 
@@ -33,7 +33,7 @@ describe('res', function(){
     });
 
     request(app)
-    .get('/')
-    .expect(200, { foo: 'bar' }, done)
+      .get('/')
+      .expect(200, { foo: 'bar' }, done)
   })
 })

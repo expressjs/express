@@ -13,8 +13,8 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('no', done)
+          .get('/')
+          .expect('no', done)
       })
     })
   })
@@ -29,9 +29,9 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('X-Forwarded-Proto', 'https')
-        .expect('no', done)
+          .get('/')
+          .set('X-Forwarded-Proto', 'https')
+          .expect('no', done)
       })
 
       it('should return true when "trust proxy" is enabled', function(done){
@@ -44,9 +44,9 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('X-Forwarded-Proto', 'https')
-        .expect('yes', done)
+          .get('/')
+          .set('X-Forwarded-Proto', 'https')
+          .expect('yes', done)
       })
 
       it('should return false when initial proxy is http', function(done){
@@ -59,9 +59,9 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('X-Forwarded-Proto', 'http, https')
-        .expect('no', done)
+          .get('/')
+          .set('X-Forwarded-Proto', 'http, https')
+          .expect('no', done)
       })
 
       it('should return true when initial proxy is https', function(done){
@@ -74,9 +74,9 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .set('X-Forwarded-Proto', 'https, http')
-        .expect('yes', done)
+          .get('/')
+          .set('X-Forwarded-Proto', 'https, http')
+          .expect('yes', done)
       })
 
       describe('when "trust proxy" trusting hop count', function () {
@@ -90,9 +90,9 @@ describe('req', function(){
           });
 
           request(app)
-          .get('/')
-          .set('X-Forwarded-Proto', 'https')
-          .expect('yes', done)
+            .get('/')
+            .set('X-Forwarded-Proto', 'https')
+            .expect('yes', done)
         })
       })
     })

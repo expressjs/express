@@ -12,9 +12,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Created')
-      .expect(201, done);
+        .get('/')
+        .expect('Created')
+        .expect(201, done);
     })
   })
 })

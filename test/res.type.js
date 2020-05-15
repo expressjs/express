@@ -12,9 +12,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'application/javascript; charset=utf-8')
-      .end(done)
+        .get('/')
+        .expect('Content-Type', 'application/javascript; charset=utf-8')
+        .end(done)
     })
 
     it('should default to application/octet-stream', function(done){
@@ -25,8 +25,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'application/octet-stream', done);
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream', done);
     })
 
     it('should set the Content-Type with type/subtype', function(done){
@@ -38,8 +38,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'application/vnd.amazon.ebook', done);
+        .get('/')
+        .expect('Content-Type', 'application/vnd.amazon.ebook', done);
     })
   })
 })

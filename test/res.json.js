@@ -13,8 +13,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/?callback=foo')
-      .expect('{"foo":"bar"}', done);
+        .get('/?callback=foo')
+        .expect('{"foo":"bar"}', done);
     })
 
     it('should not override previous Content-Types', function(done){
@@ -26,9 +26,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'application/vnd.example+json; charset=utf-8')
-      .expect(200, '{"hello":"world"}', done);
+        .get('/')
+        .expect('Content-Type', 'application/vnd.example+json; charset=utf-8')
+        .expect(200, '{"hello":"world"}', done);
     })
 
     describe('when given primitives', function(){
@@ -40,9 +40,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, 'null', done)
+          .get('/')
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect(200, 'null', done)
       })
 
       it('should respond with json for Number', function(done){
@@ -53,9 +53,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '300', done)
+          .get('/')
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect(200, '300', done)
       })
 
       it('should respond with json for String', function(done){
@@ -66,9 +66,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '"str"', done)
+          .get('/')
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect(200, '"str"', done)
       })
     })
 
@@ -81,9 +81,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '["foo","bar","baz"]', done)
+          .get('/')
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect(200, '["foo","bar","baz"]', done)
       })
     })
 
@@ -96,9 +96,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '{"name":"tobi"}', done)
+          .get('/')
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect(200, '{"name":"tobi"}', done)
       })
     })
 
@@ -118,9 +118,9 @@ describe('res', function(){
         })
 
         request(app)
-        .get('/')
-        .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '{"\\u0026":"\\u003cscript\\u003e"}', done)
+          .get('/')
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect(200, '{"\\u0026":"\\u003cscript\\u003e"}', done)
       })
     })
 
@@ -139,9 +139,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '{"name":"tobi"}', done)
+          .get('/')
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect(200, '{"name":"tobi"}', done)
       })
     })
 
@@ -161,9 +161,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('Content-Type', 'application/json; charset=utf-8')
-        .expect(200, '{\n  "name": "tobi",\n  "age": 2\n}', done)
+          .get('/')
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect(200, '{\n  "name": "tobi",\n  "age": 2\n}', done)
       })
     })
   })

@@ -20,16 +20,16 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/set')
-      .end(function(err, res){
-        if (err) return done(err);
-        var cookie = res.header['set-cookie'];
+        .get('/set')
+        .end(function(err, res){
+          if (err) return done(err);
+          var cookie = res.header['set-cookie'];
 
-        request(app)
-        .get('/')
-        .set('Cookie', cookie)
-        .expect(200, { obj: { foo: 'bar' } }, done)
-      });
+          request(app)
+            .get('/')
+            .set('Cookie', cookie)
+            .expect(200, { obj: { foo: 'bar' } }, done)
+        });
     })
   })
 })

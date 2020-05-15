@@ -30,12 +30,12 @@ describe('middleware', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Content-Type', 'application/json')
-      .send('{"foo":"bar"}')
-      .expect('Content-Type', 'application/json')
-      .expect(function () { assert.deepEqual(calls, ['one', 'two']) })
-      .expect(200, '{"foo":"bar"}', done)
+        .get('/')
+        .set('Content-Type', 'application/json')
+        .send('{"foo":"bar"}')
+        .expect('Content-Type', 'application/json')
+        .expect(function () { assert.deepEqual(calls, ['one', 'two']) })
+        .expect(200, '{"foo":"bar"}', done)
     })
   })
 })

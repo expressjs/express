@@ -12,8 +12,8 @@ describe('res', function () {
       });
 
       request(app)
-      .get('/')
-      .expect(201, 'Created', done);
+        .get('/')
+        .expect(201, 'Created', done);
     })
 
     it('should work with unknown code', function (done) {
@@ -24,8 +24,8 @@ describe('res', function () {
       });
 
       request(app)
-      .get('/')
-      .expect(599, '599', done);
+        .get('/')
+        .expect(599, '599', done);
     })
   })
 })

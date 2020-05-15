@@ -12,8 +12,8 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('yes', done);
+        .get('/')
+        .expect('yes', done);
     })
 
     it('should return true when present', function(done){
@@ -24,9 +24,9 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept', 'application/json')
-      .expect('yes', done);
+        .get('/')
+        .set('Accept', 'application/json')
+        .expect('yes', done);
     })
 
     it('should return false otherwise', function(done){
@@ -37,9 +37,9 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept', 'text/html')
-      .expect('no', done);
+        .get('/')
+        .set('Accept', 'text/html')
+        .expect('no', done);
     })
   })
 
@@ -51,9 +51,9 @@ describe('req', function(){
     });
 
     request(app)
-    .get('/')
-    .set('Accept', 'application/json')
-    .expect('json', done);
+      .get('/')
+      .set('Accept', 'application/json')
+      .expect('json', done);
   })
 
   describe('.accepts(types)', function(){
@@ -65,8 +65,8 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('json', done);
+        .get('/')
+        .expect('json', done);
     })
 
     it('should return the first acceptable type', function(done){
@@ -77,9 +77,9 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept', 'text/html')
-      .expect('html', done);
+        .get('/')
+        .set('Accept', 'text/html')
+        .expect('html', done);
     })
 
     it('should return false when no match is made', function(done){
@@ -90,9 +90,9 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept', 'foo/bar, bar/baz')
-      .expect('nope', done);
+        .get('/')
+        .set('Accept', 'foo/bar, bar/baz')
+        .expect('nope', done);
     })
 
     it('should take quality into account', function(done){
@@ -103,9 +103,9 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept', '*/html; q=.5, application/json')
-      .expect('application/json', done);
+        .get('/')
+        .set('Accept', '*/html; q=.5, application/json')
+        .expect('application/json', done);
     })
 
     it('should return the first acceptable type with canonical mime types', function(done){
@@ -116,9 +116,9 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept', '*/html')
-      .expect('text/html', done);
+        .get('/')
+        .set('Accept', '*/html')
+        .expect('text/html', done);
     })
   })
 })

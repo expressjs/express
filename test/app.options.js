@@ -11,9 +11,9 @@ describe('OPTIONS', function(){
     app.put('/users', function(req, res){});
 
     request(app)
-    .options('/users')
-    .expect('Allow', 'GET, HEAD, PUT')
-    .expect(200, 'GET, HEAD, PUT', done);
+      .options('/users')
+      .expect('Allow', 'GET, HEAD, PUT')
+      .expect(200, 'GET, HEAD, PUT', done);
   })
 
   it('should only include each method once', function(done){
@@ -25,9 +25,9 @@ describe('OPTIONS', function(){
     app.get('/users', function(req, res){});
 
     request(app)
-    .options('/users')
-    .expect('Allow', 'GET, HEAD, PUT')
-    .expect(200, 'GET, HEAD, PUT', done);
+      .options('/users')
+      .expect('Allow', 'GET, HEAD, PUT')
+      .expect(200, 'GET, HEAD, PUT', done);
   })
 
   it('should not be affected by app.all', function(done){
@@ -42,10 +42,10 @@ describe('OPTIONS', function(){
     });
 
     request(app)
-    .options('/users')
-    .expect('x-hit', '1')
-    .expect('Allow', 'GET, HEAD, PUT')
-    .expect(200, 'GET, HEAD, PUT', done);
+      .options('/users')
+      .expect('x-hit', '1')
+      .expect('Allow', 'GET, HEAD, PUT')
+      .expect(200, 'GET, HEAD, PUT', done);
   })
 
   it('should not respond if the path is not defined', function(done){
@@ -54,8 +54,8 @@ describe('OPTIONS', function(){
     app.get('/users', function(req, res){});
 
     request(app)
-    .options('/other')
-    .expect(404, done);
+      .options('/other')
+      .expect(404, done);
   })
 
   it('should forward requests down the middleware chain', function(done){
@@ -67,9 +67,9 @@ describe('OPTIONS', function(){
     app.get('/other', function(req, res){});
 
     request(app)
-    .options('/other')
-    .expect('Allow', 'GET, HEAD')
-    .expect(200, 'GET, HEAD', done);
+      .options('/other')
+      .expect('Allow', 'GET, HEAD')
+      .expect(200, 'GET, HEAD', done);
   })
 
   describe('when error occurs in response handler', function () {
@@ -89,8 +89,8 @@ describe('OPTIONS', function(){
       });
 
       request(app)
-      .options('/users')
-      .expect(200, 'true', done)
+        .options('/users')
+        .expect(200, 'true', done)
     })
   })
 })
@@ -108,8 +108,8 @@ describe('app.options()', function(){
     app.put('/users', function(req, res){});
 
     request(app)
-    .options('/users')
-    .expect('GET')
-    .expect('Allow', 'GET', done);
+      .options('/users')
+      .expect('GET')
+      .expect('Allow', 'GET', done);
   })
 })

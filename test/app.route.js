@@ -8,48 +8,48 @@ describe('app.route', function(){
     var app = express();
 
     app.route('/foo')
-    .get(function(req, res) {
-      res.send('get');
-    })
-    .post(function(req, res) {
-      res.send('post');
-    });
+      .get(function(req, res) {
+        res.send('get');
+      })
+      .post(function(req, res) {
+        res.send('post');
+      });
 
     request(app)
-    .post('/foo')
-    .expect('post', done);
+      .post('/foo')
+      .expect('post', done);
   });
 
   it('should all .VERB after .all', function(done){
     var app = express();
 
     app.route('/foo')
-    .all(function(req, res, next) {
-      next();
-    })
-    .get(function(req, res) {
-      res.send('get');
-    })
-    .post(function(req, res) {
-      res.send('post');
-    });
+      .all(function(req, res, next) {
+        next();
+      })
+      .get(function(req, res) {
+        res.send('get');
+      })
+      .post(function(req, res) {
+        res.send('post');
+      });
 
     request(app)
-    .post('/foo')
-    .expect('post', done);
+      .post('/foo')
+      .expect('post', done);
   });
 
   it('should support dynamic routes', function(done){
     var app = express();
 
     app.route('/:foo')
-    .get(function(req, res) {
-      res.send(req.params.foo);
-    });
+      .get(function(req, res) {
+        res.send(req.params.foo);
+      });
 
     request(app)
-    .get('/test')
-    .expect('test', done);
+      .get('/test')
+      .expect('test', done);
   });
 
   it('should not error on empty routes', function(done){
@@ -58,8 +58,8 @@ describe('app.route', function(){
     app.route('/:foo');
 
     request(app)
-    .get('/test')
-    .expect(404, done);
+      .get('/test')
+      .expect(404, done);
   });
 
   describePromises('promise support', function () {
@@ -81,8 +81,8 @@ describe('app.route', function(){
       })
 
       request(app)
-      .get('/foo')
-      .expect(500, 'caught: boom!', done)
+        .get('/foo')
+        .expect(500, 'caught: boom!', done)
     })
 
     it('should pass rejected promise without value', function (done) {
@@ -103,8 +103,8 @@ describe('app.route', function(){
       })
 
       request(app)
-      .get('/foo')
-      .expect(500, 'caught: Rejected promise', done)
+        .get('/foo')
+        .expect(500, 'caught: Rejected promise', done)
     })
 
     it('should ignore resolved promise', function (done) {
@@ -121,8 +121,8 @@ describe('app.route', function(){
       })
 
       request(app)
-      .get('/foo')
-      .expect(200, 'saw GET /foo', done)
+        .get('/foo')
+        .expect(200, 'saw GET /foo', done)
     })
 
     describe('error handling', function () {
@@ -144,8 +144,8 @@ describe('app.route', function(){
         })
 
         request(app)
-        .get('/foo')
-        .expect(500, 'caught again: caught: boom!', done)
+          .get('/foo')
+          .expect(500, 'caught again: caught: boom!', done)
       })
 
       it('should pass rejected promise without value', function (done) {
@@ -166,8 +166,8 @@ describe('app.route', function(){
         })
 
         request(app)
-        .get('/foo')
-        .expect(500, 'caught again: Rejected promise', done)
+          .get('/foo')
+          .expect(500, 'caught again: Rejected promise', done)
       })
 
       it('should ignore resolved promise', function (done) {
@@ -189,8 +189,8 @@ describe('app.route', function(){
         })
 
         request(app)
-        .get('/foo')
-        .expect(500, 'caught: boom!', done)
+          .get('/foo')
+          .expect(500, 'caught: boom!', done)
       })
     })
   })

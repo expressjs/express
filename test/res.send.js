@@ -16,8 +16,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200, '', done);
+        .get('/')
+        .expect(200, '', done);
     })
   })
 
@@ -30,9 +30,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Length', '0')
-      .expect(200, '', done);
+        .get('/')
+        .expect('Content-Length', '0')
+        .expect(200, '', done);
     })
   })
 
@@ -45,8 +45,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200, '', done);
+        .get('/')
+        .expect(200, '', done);
     })
   })
 
@@ -59,9 +59,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(200, '1000', done)
+        .get('/')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '1000', done)
     })
   })
 
@@ -74,9 +74,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/html; charset=utf-8')
-      .expect(200, '<p>hey</p>', done);
+        .get('/')
+        .expect('Content-Type', 'text/html; charset=utf-8')
+        .expect(200, '<p>hey</p>', done);
     })
 
     it('should set ETag', function (done) {
@@ -88,9 +88,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('ETag', 'W/"3e7-qPnkJ3CVdVhFJQvUBfF10TmVA7g"')
-      .expect(200, done);
+        .get('/')
+        .expect('ETag', 'W/"3e7-qPnkJ3CVdVhFJQvUBfF10TmVA7g"')
+        .expect(200, done);
     })
 
     it('should not override Content-Type', function(done){
@@ -101,9 +101,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/plain; charset=utf-8')
-      .expect(200, 'hey', done);
+        .get('/')
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect(200, 'hey', done);
     })
 
     it('should override charset in Content-Type', function(done){
@@ -114,9 +114,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/plain; charset=utf-8')
-      .expect(200, 'hey', done);
+        .get('/')
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect(200, 'hey', done);
     })
 
     it('should keep charset in Content-Type for Buffers', function(done){
@@ -127,9 +127,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/plain; charset=iso-8859-1')
-      .expect(200, 'hi', done);
+        .get('/')
+        .expect('Content-Type', 'text/plain; charset=iso-8859-1')
+        .expect(200, 'hi', done);
     })
   })
 
@@ -142,11 +142,11 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200)
-      .expect('Content-Type', 'application/octet-stream')
-      .expect(shouldHaveBody(Buffer.from('hello')))
-      .end(done)
+        .get('/')
+        .expect(200)
+        .expect('Content-Type', 'application/octet-stream')
+        .expect(shouldHaveBody(Buffer.from('hello')))
+        .end(done)
     })
 
     it('should set ETag', function (done) {
@@ -157,9 +157,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('ETag', 'W/"3e7-qPnkJ3CVdVhFJQvUBfF10TmVA7g"')
-      .expect(200, done);
+        .get('/')
+        .expect('ETag', 'W/"3e7-qPnkJ3CVdVhFJQvUBfF10TmVA7g"')
+        .expect(200, done);
     })
 
     it('should not override Content-Type', function(done){
@@ -170,9 +170,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/plain; charset=utf-8')
-      .expect(200, 'hey', done);
+        .get('/')
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect(200, 'hey', done);
     })
 
     it('should not override ETag', function (done) {
@@ -183,9 +183,9 @@ describe('res', function(){
       })
 
       request(app)
-      .get('/')
-      .expect('ETag', '"foo"')
-      .expect(200, 'hey', done)
+        .get('/')
+        .expect('ETag', '"foo"')
+        .expect(200, 'hey', done)
     })
   })
 
@@ -198,9 +198,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(200, '{"name":"tobi"}', done)
+        .get('/')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{"name":"tobi"}', done)
     })
   })
 
@@ -213,10 +213,10 @@ describe('res', function(){
       });
 
       request(app)
-      .head('/')
-      .expect(200)
-      .expect(shouldNotHaveBody())
-      .end(done)
+        .head('/')
+        .expect(200)
+        .expect(shouldNotHaveBody())
+        .end(done)
     })
   })
 
@@ -229,11 +229,11 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(utils.shouldNotHaveHeader('Content-Type'))
-      .expect(utils.shouldNotHaveHeader('Content-Length'))
-      .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
-      .expect(204, '', done);
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('Content-Type'))
+        .expect(utils.shouldNotHaveHeader('Content-Length'))
+        .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
+        .expect(204, '', done);
     })
   })
 
@@ -246,11 +246,11 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(utils.shouldNotHaveHeader('Content-Type'))
-      .expect(utils.shouldNotHaveHeader('Content-Length'))
-      .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
-      .expect(304, '', done);
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('Content-Type'))
+        .expect(utils.shouldNotHaveHeader('Content-Length'))
+        .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
+        .expect(304, '', done);
     })
   })
 
@@ -264,9 +264,9 @@ describe('res', function(){
     });
 
     request(app)
-    .get('/')
-    .set('If-None-Match', etag)
-    .expect(304, done);
+      .get('/')
+      .set('If-None-Match', etag)
+      .expect(304, done);
   })
 
   it('should respond with 304 Not Modified when fresh', function(done){
@@ -280,9 +280,9 @@ describe('res', function(){
     });
 
     request(app)
-    .get('/')
-    .set('If-None-Match', etag)
-    .expect(304, done);
+      .get('/')
+      .set('If-None-Match', etag)
+      .expect(304, done);
   })
 
   it('should not perform freshness check unless 2xx or 304', function(done){
@@ -296,10 +296,10 @@ describe('res', function(){
     });
 
     request(app)
-    .get('/')
-    .set('If-None-Match', etag)
-    .expect('hey')
-    .expect(500, done);
+      .get('/')
+      .set('If-None-Match', etag)
+      .expect('hey')
+      .expect(500, done);
   })
 
   it('should not support jsonp callbacks', function(done){
@@ -310,8 +310,8 @@ describe('res', function(){
     });
 
     request(app)
-    .get('/?callback=foo')
-    .expect('{"foo":"bar"}', done);
+      .get('/?callback=foo')
+      .expect('{"foo":"bar"}', done);
   })
 
   it('should be chainable', function (done) {
@@ -322,8 +322,8 @@ describe('res', function(){
     })
 
     request(app)
-    .get('/')
-    .expect(200, 'hey', done)
+      .get('/')
+      .expect(200, 'hey', done)
   })
 
   describe('"etag" setting', function () {
@@ -338,9 +338,9 @@ describe('res', function(){
         app.enable('etag');
 
         request(app)
-        .get('/')
-        .expect('ETag', 'W/"c-IgR/L5SF7CJQff4wxKGF/vfPuZ0"')
-        .expect(200, done);
+          .get('/')
+          .expect('ETag', 'W/"c-IgR/L5SF7CJQff4wxKGF/vfPuZ0"')
+          .expect(200, done);
       });
 
       methods.forEach(function (method) {
@@ -354,9 +354,9 @@ describe('res', function(){
           });
 
           request(app)
-          [method]('/')
-          .expect('ETag', 'W/"c-IgR/L5SF7CJQff4wxKGF/vfPuZ0"')
-          .expect(200, done);
+            [method]('/')
+            .expect('ETag', 'W/"c-IgR/L5SF7CJQff4wxKGF/vfPuZ0"')
+            .expect(200, done);
         })
       });
 
@@ -370,9 +370,9 @@ describe('res', function(){
         app.enable('etag');
 
         request(app)
-        .get('/')
-        .expect('ETag', 'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
-        .expect(200, done);
+          .get('/')
+          .expect('ETag', 'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+          .expect(200, done);
       })
 
       it('should send ETag for long response', function (done) {
@@ -386,9 +386,9 @@ describe('res', function(){
         app.enable('etag');
 
         request(app)
-        .get('/')
-        .expect('ETag', 'W/"3e7-qPnkJ3CVdVhFJQvUBfF10TmVA7g"')
-        .expect(200, done);
+          .get('/')
+          .expect('ETag', 'W/"3e7-qPnkJ3CVdVhFJQvUBfF10TmVA7g"')
+          .expect(200, done);
       });
 
       it('should not override ETag when manually set', function (done) {
@@ -402,9 +402,9 @@ describe('res', function(){
         app.enable('etag');
 
         request(app)
-        .get('/')
-        .expect('ETag', '"asdf"')
-        .expect(200, done);
+          .get('/')
+          .expect('ETag', '"asdf"')
+          .expect(200, done);
       });
 
       it('should not send ETag for res.send()', function (done) {
@@ -417,9 +417,9 @@ describe('res', function(){
         app.enable('etag');
 
         request(app)
-        .get('/')
-        .expect(utils.shouldNotHaveHeader('ETag'))
-        .expect(200, done);
+          .get('/')
+          .expect(utils.shouldNotHaveHeader('ETag'))
+          .expect(200, done);
       })
     });
 
@@ -435,9 +435,9 @@ describe('res', function(){
         app.disable('etag');
 
         request(app)
-        .get('/')
-        .expect(utils.shouldNotHaveHeader('ETag'))
-        .expect(200, done);
+          .get('/')
+          .expect(utils.shouldNotHaveHeader('ETag'))
+          .expect(200, done);
       });
 
       it('should send ETag when manually set', function (done) {
@@ -451,9 +451,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('ETag', '"asdf"')
-        .expect(200, done);
+          .get('/')
+          .expect('ETag', '"asdf"')
+          .expect(200, done);
       });
     });
 
@@ -468,9 +468,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('ETag', '"d-HwnTDHB9U/PRbFMN1z1wps51lqk"')
-        .expect(200, done);
+          .get('/')
+          .expect('ETag', '"d-HwnTDHB9U/PRbFMN1z1wps51lqk"')
+          .expect(200, done);
       })
     })
 
@@ -485,9 +485,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('ETag', 'W/"d-HwnTDHB9U/PRbFMN1z1wps51lqk"')
-        .expect(200, done)
+          .get('/')
+          .expect('ETag', 'W/"d-HwnTDHB9U/PRbFMN1z1wps51lqk"')
+          .expect(200, done)
       })
     })
 
@@ -508,9 +508,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('ETag', '"custom"')
-        .expect(200, done);
+          .get('/')
+          .expect('ETag', '"custom"')
+          .expect(200, done);
       })
 
       it('should not send falsy ETag', function (done) {
@@ -525,9 +525,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .expect(utils.shouldNotHaveHeader('ETag'))
-        .expect(200, done);
+          .get('/')
+          .expect(utils.shouldNotHaveHeader('ETag'))
+          .expect(200, done);
       })
     })
   })

@@ -16,8 +16,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('HEY', done);
+        .get('/')
+        .expect('HEY', done);
     })
 
     it('should not be influenced by other app protos', function(done){
@@ -37,8 +37,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('HEY', done);
+        .get('/')
+        .expect('HEY', done);
     })
   })
 })

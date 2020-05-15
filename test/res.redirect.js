@@ -14,9 +14,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('location', 'http://google.com')
-      .expect(302, done)
+        .get('/')
+        .expect('location', 'http://google.com')
+        .expect(302, done)
     })
 
     it('should encode "url"', function (done) {
@@ -27,9 +27,9 @@ describe('res', function(){
       })
 
       request(app)
-      .get('/')
-      .expect('Location', 'https://google.com?q=%E2%98%83%20%C2%A710')
-      .expect(302, done)
+        .get('/')
+        .expect('Location', 'https://google.com?q=%E2%98%83%20%C2%A710')
+        .expect(302, done)
     })
 
     it('should not touch already-encoded sequences in "url"', function (done) {
@@ -40,9 +40,9 @@ describe('res', function(){
       })
 
       request(app)
-      .get('/')
-      .expect('Location', 'https://google.com?q=%A710')
-      .expect(302, done)
+        .get('/')
+        .expect('Location', 'https://google.com?q=%A710')
+        .expect(302, done)
     })
   })
 
@@ -55,9 +55,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Location', 'http://google.com')
-      .expect(303, done)
+        .get('/')
+        .expect('Location', 'http://google.com')
+        .expect(303, done)
     })
   })
 
@@ -70,11 +70,11 @@ describe('res', function(){
       });
 
       request(app)
-      .head('/')
-      .expect(302)
-      .expect('Location', 'http://google.com')
-      .expect(shouldNotHaveBody())
-      .end(done)
+        .head('/')
+        .expect(302)
+        .expect('Location', 'http://google.com')
+        .expect(shouldNotHaveBody())
+        .end(done)
     })
   })
 
@@ -87,11 +87,11 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept', 'text/html')
-      .expect('Content-Type', /html/)
-      .expect('Location', 'http://google.com')
-      .expect(302, '<p>Found. Redirecting to <a href="http://google.com">http://google.com</a></p>', done)
+        .get('/')
+        .set('Accept', 'text/html')
+        .expect('Content-Type', /html/)
+        .expect('Location', 'http://google.com')
+        .expect(302, '<p>Found. Redirecting to <a href="http://google.com">http://google.com</a></p>', done)
     })
 
     it('should escape the url', function(done){
@@ -102,12 +102,12 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Host', 'http://example.com')
-      .set('Accept', 'text/html')
-      .expect('Content-Type', /html/)
-      .expect('Location', '%3Cla\'me%3E')
-      .expect(302, '<p>Found. Redirecting to <a href="%3Cla&#39;me%3E">%3Cla&#39;me%3E</a></p>', done)
+        .get('/')
+        .set('Host', 'http://example.com')
+        .set('Accept', 'text/html')
+        .expect('Content-Type', /html/)
+        .expect('Location', '%3Cla\'me%3E')
+        .expect(302, '<p>Found. Redirecting to <a href="%3Cla&#39;me%3E">%3Cla&#39;me%3E</a></p>', done)
     })
 
     it('should include the redirect type', function(done){
@@ -118,11 +118,11 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept', 'text/html')
-      .expect('Content-Type', /html/)
-      .expect('Location', 'http://google.com')
-      .expect(301, '<p>Moved Permanently. Redirecting to <a href="http://google.com">http://google.com</a></p>', done);
+        .get('/')
+        .set('Accept', 'text/html')
+        .expect('Content-Type', /html/)
+        .expect('Location', 'http://google.com')
+        .expect(301, '<p>Moved Permanently. Redirecting to <a href="http://google.com">http://google.com</a></p>', done);
     })
   })
 
@@ -135,11 +135,11 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept', 'text/plain, */*')
-      .expect('Content-Type', /plain/)
-      .expect('Location', 'http://google.com')
-      .expect(302, 'Found. Redirecting to http://google.com', done)
+        .get('/')
+        .set('Accept', 'text/plain, */*')
+        .expect('Content-Type', /plain/)
+        .expect('Location', 'http://google.com')
+        .expect(302, 'Found. Redirecting to http://google.com', done)
     })
 
     it('should encode the url', function(done){
@@ -150,12 +150,12 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Host', 'http://example.com')
-      .set('Accept', 'text/plain, */*')
-      .expect('Content-Type', /plain/)
-      .expect('Location', 'http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E')
-      .expect(302, 'Found. Redirecting to http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E', done)
+        .get('/')
+        .set('Host', 'http://example.com')
+        .set('Accept', 'text/plain, */*')
+        .expect('Content-Type', /plain/)
+        .expect('Location', 'http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E')
+        .expect(302, 'Found. Redirecting to http://example.com/?param=%3Cscript%3Ealert(%22hax%22);%3C/script%3E', done)
     })
 
     it('should include the redirect type', function(done){
@@ -166,11 +166,11 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept', 'text/plain, */*')
-      .expect('Content-Type', /plain/)
-      .expect('Location', 'http://google.com')
-      .expect(301, 'Moved Permanently. Redirecting to http://google.com', done);
+        .get('/')
+        .set('Accept', 'text/plain, */*')
+        .expect('Content-Type', /plain/)
+        .expect('Location', 'http://google.com')
+        .expect(301, 'Moved Permanently. Redirecting to http://google.com', done);
     })
   })
 
@@ -183,14 +183,14 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept', 'application/octet-stream')
-      .expect(302)
-      .expect('location', 'http://google.com')
-      .expect('content-length', '0')
-      .expect(utils.shouldNotHaveHeader('Content-Type'))
-      .expect(shouldNotHaveBody())
-      .end(done)
+        .get('/')
+        .set('Accept', 'application/octet-stream')
+        .expect(302)
+        .expect('location', 'http://google.com')
+        .expect('content-length', '0')
+        .expect(utils.shouldNotHaveHeader('Content-Type'))
+        .expect(shouldNotHaveBody())
+        .end(done)
     })
   })
 })

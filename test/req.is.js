@@ -12,10 +12,10 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .type('application/json')
-      .send('{}')
-      .expect(200, '"application/json"', done)
+        .post('/')
+        .type('application/json')
+        .send('{}')
+        .expect(200, '"application/json"', done)
     })
 
     it('should return false when not matching', function (done) {
@@ -26,10 +26,10 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .type('application/json')
-      .send('{}')
-      .expect(200, 'false', done)
+        .post('/')
+        .type('application/json')
+        .send('{}')
+        .expect(200, 'false', done)
     })
 
     it('should ignore charset', function (done) {
@@ -40,10 +40,10 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .type('application/json; charset=UTF-8')
-      .send('{}')
-      .expect(200, '"application/json"', done)
+        .post('/')
+        .type('application/json; charset=UTF-8')
+        .send('{}')
+        .expect(200, '"application/json"', done)
     })
   })
 
@@ -56,9 +56,9 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .send('{}')
-      .expect(200, 'false', done)
+        .post('/')
+        .send('{}')
+        .expect(200, 'false', done)
     })
   })
 
@@ -71,10 +71,10 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .type('application/json')
-      .send('{}')
-      .expect(200, '"json"', done)
+        .post('/')
+        .type('application/json')
+        .send('{}')
+        .expect(200, '"json"', done)
     })
   })
 
@@ -87,10 +87,10 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .type('application/json')
-      .send('{}')
-      .expect(200, '"application/json"', done)
+        .post('/')
+        .type('application/json')
+        .send('{}')
+        .expect(200, '"application/json"', done)
     })
 
     it('should return false when not matching', function (done) {
@@ -101,10 +101,10 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .type('application/json')
-      .send('{}')
-      .expect(200, 'false', done)
+        .post('/')
+        .type('application/json')
+        .send('{}')
+        .expect(200, 'false', done)
     })
 
     it('should ignore charset', function (done) {
@@ -115,10 +115,10 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .type('application/json; charset=UTF-8')
-      .send('{}')
-      .expect(200, '"application/json"', done)
+        .post('/')
+        .type('application/json; charset=UTF-8')
+        .send('{}')
+        .expect(200, '"application/json"', done)
     })
   })
 
@@ -131,10 +131,10 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .type('application/json')
-      .send('{}')
-      .expect(200, '"application/json"', done)
+        .post('/')
+        .type('application/json')
+        .send('{}')
+        .expect(200, '"application/json"', done)
     })
 
     it('should return false when not matching', function (done) {
@@ -145,10 +145,10 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .type('application/json')
-      .send('{}')
-      .expect(200, 'false', done)
+        .post('/')
+        .type('application/json')
+        .send('{}')
+        .expect(200, 'false', done)
     })
 
     it('should ignore charset', function (done) {
@@ -159,10 +159,10 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .type('application/json; charset=UTF-8')
-      .send('{}')
-      .expect(200, '"application/json"', done)
+        .post('/')
+        .type('application/json; charset=UTF-8')
+        .send('{}')
+        .expect(200, '"application/json"', done)
     })
   })
 })

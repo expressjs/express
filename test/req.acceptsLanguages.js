@@ -14,9 +14,9 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept-Language', 'en;q=.5, en-us')
-      .expect(200, done);
+        .get('/')
+        .set('Accept-Language', 'en;q=.5, en-us')
+        .expect(200, done);
     })
 
     it('should be false if language not accepted', function(done){
@@ -28,9 +28,9 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept-Language', 'en;q=.5, en-us')
-      .expect(200, done);
+        .get('/')
+        .set('Accept-Language', 'en;q=.5, en-us')
+        .expect(200, done);
     })
 
     describe('when Accept-Language is not present', function(){
@@ -45,8 +45,8 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .expect(200, done);
+          .get('/')
+          .expect(200, done);
       })
     })
   })

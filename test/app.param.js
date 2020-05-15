@@ -27,13 +27,13 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/user/123')
-      .expect(200, '123', function (err) {
-        if (err) return done(err)
-        request(app)
-        .get('/post/123')
-        .expect('123', done);
-      })
+        .get('/user/123')
+        .expect(200, '123', function (err) {
+          if (err) return done(err)
+          request(app)
+            .get('/post/123')
+            .expect('123', done);
+        })
     })
   })
 
@@ -55,8 +55,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/user/123')
-      .expect('123', done);
+        .get('/user/123')
+        .expect('123', done);
     })
 
     it('should only call once per request', function(done) {
@@ -83,8 +83,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/foo/bob')
-      .expect('2 1 bob', done);
+        .get('/foo/bob')
+        .expect('2 1 bob', done);
     })
 
     it('should call when values differ', function(done) {
@@ -111,8 +111,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/foo/bob')
-      .expect('2 2 foo,bob', done);
+        .get('/foo/bob')
+        .expect('2 2 foo,bob', done);
     })
 
     it('should support altering req.params across routes', function(done) {
@@ -131,8 +131,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/bob')
-      .expect('loki', done);
+        .get('/bob')
+        .expect('loki', done);
     })
 
     it('should not invoke without route handler', function(done) {
@@ -156,8 +156,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/bob')
-      .expect(200, 'bob', done);
+        .get('/bob')
+        .expect(200, 'bob', done);
     })
 
     it('should work with encoded values', function(done){
@@ -174,8 +174,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/user/foo%25bar')
-      .expect('foo%bar', done);
+        .get('/user/foo%25bar')
+        .expect('foo%bar', done);
     })
 
     it('should catch thrown error', function(done){
@@ -191,8 +191,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/user/123')
-      .expect(500, done);
+        .get('/user/123')
+        .expect(500, done);
     })
 
     it('should catch thrown secondary error', function(done){
@@ -212,8 +212,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/user/123')
-      .expect(500, done);
+        .get('/user/123')
+        .expect(500, done);
     })
 
     it('should defer to next route', function(done){
@@ -233,8 +233,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/user/123')
-      .expect('name', done);
+        .get('/user/123')
+        .expect('name', done);
     })
 
     it('should defer all the param routes', function(done){
@@ -258,8 +258,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/user/new')
-      .expect('get.new', done);
+        .get('/user/new')
+        .expect('get.new', done);
     })
 
     it('should not call when values differ on error', function(done) {
@@ -289,8 +289,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/foo/bob')
-      .expect(500, '0 1 err!', done)
+        .get('/foo/bob')
+        .expect(500, '0 1 err!', done)
     });
 
     it('should call when values differ when using "next"', function(done) {
@@ -318,8 +318,8 @@ describe('app', function(){
       });
 
       request(app)
-      .get('/foo/bob')
-      .expect('1 2 bob', done);
+        .get('/foo/bob')
+        .expect('1 2 bob', done);
     })
   })
 })

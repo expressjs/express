@@ -13,8 +13,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Disposition', 'attachment', done);
+        .get('/')
+        .expect('Content-Disposition', 'attachment', done);
     })
   })
 
@@ -28,8 +28,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Disposition', 'attachment; filename="image.png"', done);
+        .get('/')
+        .expect('Content-Disposition', 'attachment; filename="image.png"', done);
     })
 
     it('should set the Content-Type', function(done){
@@ -41,8 +41,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'image/png', done);
+        .get('/')
+        .expect('Content-Type', 'image/png', done);
     })
   })
 
@@ -56,9 +56,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Disposition', 'attachment; filename="???.txt"; filename*=UTF-8\'\'%E6%97%A5%E6%9C%AC%E8%AA%9E.txt')
-      .expect(200, done);
+        .get('/')
+        .expect('Content-Disposition', 'attachment; filename="???.txt"; filename*=UTF-8\'\'%E6%97%A5%E6%9C%AC%E8%AA%9E.txt')
+        .expect(200, done);
     })
 
     it('should set the Content-Type', function(done){
@@ -70,8 +70,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/plain; charset=utf-8', done);
+        .get('/')
+        .expect('Content-Type', 'text/plain; charset=utf-8', done);
     })
   })
 })

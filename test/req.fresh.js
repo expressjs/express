@@ -14,9 +14,9 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .set('If-None-Match', etag)
-      .expect(304, done);
+        .get('/')
+        .set('If-None-Match', etag)
+        .expect(304, done);
     })
 
     it('should return false when the resource is modified', function(done){
@@ -28,9 +28,9 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .set('If-None-Match', '"12345"')
-      .expect(200, 'false', done);
+        .get('/')
+        .set('If-None-Match', '"12345"')
+        .expect(200, 'false', done);
     })
 
     it('should return false without response headers', function(done){
@@ -42,8 +42,8 @@ describe('req', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200, 'false', done);
+        .get('/')
+        .expect(200, 'false', done);
     })
   })
 })

@@ -14,9 +14,9 @@ describe('req', function(){
       });
 
       request(app)
-      .post('/')
-      .set('Content-Type', 'application/json')
-      .expect('application/json', done);
+        .post('/')
+        .set('Content-Type', 'application/json')
+        .expect('application/json', done);
     })
 
     it('should special-case Referer', function(done){
@@ -27,9 +27,9 @@ describe('req', function(){
       });
 
       request(app)
-      .post('/')
-      .set('Referrer', 'http://foobar.com')
-      .expect('http://foobar.com', done);
+        .post('/')
+        .set('Referrer', 'http://foobar.com')
+        .expect('http://foobar.com', done);
     })
 
     it('should throw missing header name', function (done) {
@@ -40,8 +40,8 @@ describe('req', function(){
       })
 
       request(app)
-      .get('/')
-      .expect(500, /TypeError: name argument is required to req.get/, done)
+        .get('/')
+        .expect(500, /TypeError: name argument is required to req.get/, done)
     })
 
     it('should throw for non-string header name', function (done) {
@@ -52,8 +52,8 @@ describe('req', function(){
       })
 
       request(app)
-      .get('/')
-      .expect(500, /TypeError: name must be a string to req.get/, done)
+        .get('/')
+        .expect(500, /TypeError: name must be a string to req.get/, done)
     })
   })
 })

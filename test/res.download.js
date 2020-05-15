@@ -15,10 +15,10 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/html; charset=UTF-8')
-      .expect('Content-Disposition', 'attachment; filename="user.html"')
-      .expect(200, '<p>{{user.name}}</p>', done)
+        .get('/')
+        .expect('Content-Type', 'text/html; charset=UTF-8')
+        .expect('Content-Disposition', 'attachment; filename="user.html"')
+        .expect(200, '<p>{{user.name}}</p>', done)
     })
   })
 
@@ -31,10 +31,10 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/html; charset=UTF-8')
-      .expect('Content-Disposition', 'attachment; filename="document"')
-      .expect(200, done)
+        .get('/')
+        .expect('Content-Type', 'text/html; charset=UTF-8')
+        .expect('Content-Disposition', 'attachment; filename="document"')
+        .expect(200, done)
     })
   })
 
@@ -48,10 +48,10 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/html; charset=UTF-8')
-      .expect('Content-Disposition', 'attachment; filename="user.html"')
-      .expect(200, cb);
+        .get('/')
+        .expect('Content-Type', 'text/html; charset=UTF-8')
+        .expect('Content-Disposition', 'attachment; filename="user.html"')
+        .expect(200, cb);
     })
   })
 
@@ -65,10 +65,10 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/html; charset=UTF-8')
-      .expect('Content-Disposition', 'attachment; filename="document"')
-      .expect(200, cb);
+        .get('/')
+        .expect('Content-Type', 'text/html; charset=UTF-8')
+        .expect('Content-Disposition', 'attachment; filename="document"')
+        .expect(200, cb);
     })
   })
 
@@ -83,11 +83,11 @@ describe('res', function(){
       })
 
       request(app)
-      .get('/')
-      .expect(200)
-      .expect('Content-Type', 'text/html; charset=UTF-8')
-      .expect('Content-Disposition', 'attachment; filename="document"')
-      .end(cb)
+        .get('/')
+        .expect(200)
+        .expect('Content-Type', 'text/html; charset=UTF-8')
+        .expect('Content-Disposition', 'attachment; filename="document"')
+        .end(cb)
     })
 
     it('should allow options to res.sendFile()', function (done) {
@@ -101,12 +101,12 @@ describe('res', function(){
       })
 
       request(app)
-      .get('/')
-      .expect(200)
-      .expect('Content-Disposition', 'attachment; filename="document"')
-      .expect('Cache-Control', 'public, max-age=14400')
-      .expect(shouldHaveBody(Buffer.from('tobi')))
-      .end(done)
+        .get('/')
+        .expect(200)
+        .expect('Content-Disposition', 'attachment; filename="document"')
+        .expect('Cache-Control', 'public, max-age=14400')
+        .expect(shouldHaveBody(Buffer.from('tobi')))
+        .end(done)
     })
 
     describe('when options.headers contains Content-Disposition', function () {
@@ -123,11 +123,11 @@ describe('res', function(){
         })
 
         request(app)
-        .get('/')
-        .expect(200)
-        .expect('Content-Type', 'text/x-custom')
-        .expect('Content-Disposition', 'attachment; filename="document"')
-        .end(done)
+          .get('/')
+          .expect(200)
+          .expect('Content-Type', 'text/x-custom')
+          .expect('Content-Disposition', 'attachment; filename="document"')
+          .end(done)
       })
 
       it('should be ignored case-insensitively', function (done) {
@@ -143,11 +143,11 @@ describe('res', function(){
         })
 
         request(app)
-        .get('/')
-        .expect(200)
-        .expect('Content-Type', 'text/x-custom')
-        .expect('Content-Disposition', 'attachment; filename="document"')
-        .end(done)
+          .get('/')
+          .expect(200)
+          .expect('Content-Type', 'text/x-custom')
+          .expect('Content-Disposition', 'attachment; filename="document"')
+          .end(done)
       })
     })
   })
@@ -164,8 +164,8 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200, 'got 404 ENOENT', done);
+        .get('/')
+        .expect(200, 'got 404 ENOENT', done);
     })
 
     it('should remove Content-Disposition', function(done){
@@ -179,9 +179,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(shouldNotHaveHeader('Content-Disposition'))
-      .expect(200, 'failed', done);
+        .get('/')
+        .expect(shouldNotHaveHeader('Content-Disposition'))
+        .expect(200, 'failed', done);
     })
   })
 })

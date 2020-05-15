@@ -12,8 +12,8 @@ describe('req', function(){
       })
 
       request(app)
-      .get('/foo')
-      .expect(200, '', done)
+        .get('/foo')
+        .expect(200, '', done)
     })
 
     it('should contain lower path', function(done){
@@ -26,8 +26,8 @@ describe('req', function(){
       app.use('/:a', sub)
 
       request(app)
-      .get('/foo/bar')
-      .expect(200, '/foo', done);
+        .get('/foo/bar')
+        .expect(200, '/foo', done);
     })
 
     it('should contain full lower path', function(done){
@@ -44,8 +44,8 @@ describe('req', function(){
       app.use('/:a', sub1)
 
       request(app)
-      .get('/foo/bar/baz/zed')
-      .expect(200, '/foo/bar/baz', done);
+        .get('/foo/bar/baz/zed')
+        .expect(200, '/foo/bar/baz', done);
     })
 
     it('should travel through routers correctly', function(done){
@@ -80,8 +80,8 @@ describe('req', function(){
       })
 
       request(app)
-      .get('/foo/bar/baz/zed')
-      .expect(200, '3@,1@/foo,0@/foo/bar/baz,2@/foo/bar,4@', done);
+        .get('/foo/bar/baz/zed')
+        .expect(200, '3@,1@/foo,0@/foo/bar/baz,2@/foo/bar,4@', done);
     })
   })
 })

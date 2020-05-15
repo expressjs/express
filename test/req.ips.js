@@ -16,9 +16,9 @@ describe('req', function(){
           });
 
           request(app)
-          .get('/')
-          .set('X-Forwarded-For', 'client, p1, p2')
-          .expect('["client","p1","p2"]', done);
+            .get('/')
+            .set('X-Forwarded-For', 'client, p1, p2')
+            .expect('["client","p1","p2"]', done);
         })
 
         it('should stop at first untrusted', function(done){
@@ -31,9 +31,9 @@ describe('req', function(){
           });
 
           request(app)
-          .get('/')
-          .set('X-Forwarded-For', 'client, p1, p2')
-          .expect('["p1","p2"]', done);
+            .get('/')
+            .set('X-Forwarded-For', 'client, p1, p2')
+            .expect('["p1","p2"]', done);
         })
       })
 
@@ -46,9 +46,9 @@ describe('req', function(){
           });
 
           request(app)
-          .get('/')
-          .set('X-Forwarded-For', 'client, p1, p2')
-          .expect('[]', done);
+            .get('/')
+            .set('X-Forwarded-For', 'client, p1, p2')
+            .expect('[]', done);
         })
       })
     })
@@ -62,8 +62,8 @@ describe('req', function(){
         });
 
         request(app)
-        .get('/')
-        .expect('[]', done);
+          .get('/')
+          .expect('[]', done);
       })
     })
   })
