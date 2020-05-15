@@ -1,26 +1,10 @@
 language: node_js
 node_js:
-  - "0.10"
-  - "0.12"
-  - "1.8"
-  - "2.5"
-  - "3.3"
-  - "4.9"
-  - "5.12"
-  - "6.17"
-  - "7.10"
-  - "8.16"
-  - "9.11"
-  - "10.15"
-  - "11.15"
-  - "12.3"
-matrix:
-  include:
-    - node_js: "13"
-      env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
-  allow_failures:
-    # Allow the nightly installs to fail
-    - env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
 sudo: false
 script:
   # Run test script
