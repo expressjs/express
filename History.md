@@ -1,7 +1,7 @@
 5.0.0-alpha.8 / 2020-03-25
 ==========================
 
-This is the sixth Express 5.0 alpha release, based off 4.17.1 and includes
+This is the eighth Express 5.0 alpha release, based off 4.17.1 and includes
 changes from 5.0.0-alpha.7.
 
 5.0.0-alpha.7 / 2018-10-26
