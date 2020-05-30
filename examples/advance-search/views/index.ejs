@@ -7,10 +7,30 @@
 </head>
 <body>
     <div>
-        <form action="/search" method="get">
+        <form action="/" method="get">
             <input type="search" name="search" id="search" placeholder="search...">
             <input type="submit" value="submit">
         </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>SL</th>
+                    <th>name</th>
+                    <th>Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i < countries.length; i++) { %>
+                    <tr>
+                      <td><%=i+1 %></td>
+                      <td><%= countries[i].name %></td>
+                      <td><%= countries[i].code %></td>
+                    </tr>
+                 <% } %>
+            </tbody>
+            
+            </table>
     </div>
 </body>
 </html>
