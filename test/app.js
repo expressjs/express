@@ -8,6 +8,7 @@ describe('app', function(){
     var app = express();
     assert.equal(app.name, 'express');
   })
+ 
   it('should inherit from event emitter', function(done){
     var app = express();
     app.on('foo', done);
