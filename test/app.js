@@ -6,7 +6,7 @@ var request = require('supertest')
 describe('app', function(){
   it('should have the name "express"', function(){
     var app = express();
-    assert.equal(app.name, 'express');
+    assert.equal(app.framework, 'express');
   })
 
   it('should inherit from event emitter', function(done){
