@@ -60,11 +60,11 @@ compromise among committers be the default resolution mechanism.
 ## Becoming a Triager
 
 Anyone can become a triager! Read more about the process of being a triager in
-(the triage process document)[Triager-Guide.md].
+[the triage process document](Triager-Guide.md).
 
-(Open an issue in `expressjs/express` repo)[https://github.com/expressjs/express/issues/new]
+[Open an issue in `expressjs/express` repo](https://github.com/expressjs/express/issues/new)
 to request the triage role. State that you have read and agree to the
-(Code of Conduct)[Code-of-Conduct.md] and details of the role.
+[Code of Conduct](Code-of-Conduct.md) and details of the role.
 
 Here is an example issue content you can copy and paste:
 
