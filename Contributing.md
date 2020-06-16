@@ -42,7 +42,7 @@ weekends and other holiday periods to ensure active committers all have reasonab
 become involved in the discussion and review process if they wish.
 
 The default for each contribution is that it is accepted once no committer has an objection.
-During review committers may also request that a specific contributor who is most versed in a
+During a review, committers may also request that a specific contributor who is most versed in a
 particular area gives a "LGTM" before the PR can be merged. There is no additional "sign off"
 process for contributions to land. Once all issues brought by committers are addressed it can
 be landed by any committer.
@@ -69,7 +69,7 @@ to request the triage role. State that you have read and agree to the
 Here is an example issue content you can copy and paste:
 
 ```
-Title: Request triager role for <your github username>
+Title: Request triager role for <your GitHub username>
 
 I have read and understood the project's Code of Conduct.
 I also have read and understood the process and best practices around Express triaging.
