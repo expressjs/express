@@ -107,6 +107,19 @@ describe('req', function(){
       .set('Accept', '*/html; q=.5, application/json')
       .expect('application/json', done);
     })
+    
+    it('should ignore charset', function(done){
+      var app = express();
+
+      app.use(function(req, res, next){
+        res.end(req.accepts(['text/html', 'application/json']));
+      });
+
+      request(app)
+      .get('/')
+      .set('Accept', 'application/json;charset=UTF-8')
+      .expect('application/json', done);
+    })
 
     it('should return the first acceptable type with canonical mime types', function(done){
       var app = express();
