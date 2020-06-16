@@ -10,8 +10,8 @@ also easily visible to outsiders.
 ## Section 1: Scope
 
 Express is a http web server framework with a simple and expressive API
-which is highly aligned with Node.js core. We aim to be be the best in
-class for writing performant, spec compliant and powerful web servers
+which is highly aligned with Node.js core. We aim to be the best in
+class for writing performant, spec compliant, and powerful web servers
 in Node.js. As one of the oldest and most popular web frameworks in
 the ecosystem, we have an important place for new users and experts
 alike.
@@ -38,11 +38,11 @@ Cross Project Council (CPC). In the case of the Express project, it is
 delegated to the Express Technical Committee ("TC").
 
 This Technical Committee is in charge of both the day-to-day operations
-of the project, as well as its techincal management. This charter can
-be amended by the TC requiring atleast two approvals and minium two
+of the project, as well as its technical management. This charter can
+be amended by the TC requiring at least two approvals and a minimum two
 week comment period for other TC members or CPC members to object. Any
 changes the CPC wishes to propose will be considered a priority but
-follow the same process.
+will follow the same process.
 
 ### 2.1 Other Formal Project Relationships
 
@@ -59,7 +59,7 @@ of the other members are expected to resign.
 
 ## Section 4: Roles & Responsibilities
 
-The Express TC manages all aspects both the technical and community
+The Express TC manages all aspects of both the technical and community
 parts of the project. Members of the TC should attend the regular
 meetings when possible, and be available for discussion of time
 sensitive or important issues.
