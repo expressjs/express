@@ -1,7 +1,7 @@
 ## Pull Request Checklist
 Please check if your PR fulfills the following requirements:
 
-- [ ] The PR follows our guidelines: 
+- [ ] This PR follows our guidelines:
 
     - [Collaborator-Guide](https://github.com/expressjs/express/blob/master/Collaborator-Guide.md)
     - [Contributing](https://github.com/expressjs/express/blob/master/Contributing.md)  
