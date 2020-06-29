@@ -1,3 +1,180 @@
+5.0.0-alpha.8 / 2020-03-25
+==========================
+
+This is the eighth Express 5.0 alpha release, based off 4.17.1 and includes
+changes from 5.0.0-alpha.7.
+
+5.0.0-alpha.7 / 2018-10-26
+==========================
+
+This is the seventh Express 5.0 alpha release, based off 4.16.4 and includes
+changes from 5.0.0-alpha.6.
+
+The major change with this alpha is the basic support for returned, rejected
+Promises in the router.
+
+  * remove:
+    - `path-to-regexp` dependency
+  * deps: debug@3.1.0
+    - Add `DEBUG_HIDE_DATE` environment variable
+    - Change timer to per-namespace instead of global
+    - Change non-TTY date format
+    - Remove `DEBUG_FD` environment variable support
+    - Support 256 namespace colors
+  * deps: router@2.0.0-alpha.1
+    - Add basic support for returned, rejected Promises
+    - Fix JSDoc for `Router` constructor
+    - deps: debug@3.1.0
+    - deps: parseurl@~1.3.2
+    - deps: setprototypeof@1.1.0
+    - deps: utils-merge@1.0.1
+
+5.0.0-alpha.6 / 2017-09-24
+==========================
+
+This is the sixth Express 5.0 alpha release, based off 4.15.5 and includes
+changes from 5.0.0-alpha.5.
+
+  * remove:
+    - `res.redirect(url, status)` signature - use `res.redirect(status, url)`
+    - `res.send(status, body)` signature - use `res.status(status).send(body)`
+  * deps: router@~1.3.1
+    - deps: debug@2.6.8
+
+5.0.0-alpha.5 / 2017-03-06
+==========================
+
+This is the fifth Express 5.0 alpha release, based off 4.15.2 and includes
+changes from 5.0.0-alpha.4.
+
+5.0.0-alpha.4 / 2017-03-01
+==========================
+
+This is the fourth Express 5.0 alpha release, based off 4.15.0 and includes
+changes from 5.0.0-alpha.3.
+
+  * remove:
+    - Remove Express 3.x middleware error stubs
+  * deps: router@~1.3.0
+    - Add `next("router")` to exit from router
+    - Fix case where `router.use` skipped requests routes did not
+    - Skip routing when `req.url` is not set
+    - Use `%o` in path debug to tell types apart
+    - deps: debug@2.6.1
+    - deps: setprototypeof@1.0.3
+    - perf: add fast match path for `*` route
+
+5.0.0-alpha.3 / 2017-01-28
+==========================
+
+This is the third Express 5.0 alpha release, based off 4.14.1 and includes
+changes from 5.0.0-alpha.2.
+
+  * remove:
+    - `res.json(status, obj)` signature - use `res.status(status).json(obj)`
+    - `res.jsonp(status, obj)` signature - use `res.status(status).jsonp(obj)`
+    - `res.vary()` (no arguments) -- provide a field name as an argument
+  * deps: array-flatten@2.1.1
+  * deps: path-is-absolute@1.0.1
+  * deps: router@~1.1.5
+    - deps: array-flatten@2.0.1
+    - deps: methods@~1.1.2
+    - deps: parseurl@~1.3.1
+    - deps: setprototypeof@1.0.2
+
+5.0.0-alpha.2 / 2015-07-06
+==========================
+
+This is the second Express 5.0 alpha release, based off 4.13.1 and includes
+changes from 5.0.0-alpha.1.
+
+  * remove:
+    - `app.param(fn)`
+    - `req.param()` -- use `req.params`, `req.body`, or `req.query` instead
+  * change:
+    - `res.render` callback is always async, even for sync view engines
+    - The leading `:` character in `name` for `app.param(name, fn)` is no longer removed
+    - Use `router` module for routing
+    - Use `path-is-absolute` module for absolute path detection
+
+5.0.0-alpha.1 / 2014-11-06
+==========================
+
+This is the first Express 5.0 alpha release, based off 4.10.1.
+
+  * remove:
+    - `app.del` - use `app.delete`
+    - `req.acceptsCharset` - use `req.acceptsCharsets`
+    - `req.acceptsEncoding` - use `req.acceptsEncodings`
+    - `req.acceptsLanguage` - use `req.acceptsLanguages`
+    - `res.json(obj, status)` signature - use `res.json(status, obj)`
+    - `res.jsonp(obj, status)` signature - use `res.jsonp(status, obj)`
+    - `res.send(body, status)` signature - use `res.send(status, body)`
+    - `res.send(status)` signature - use `res.sendStatus(status)`
+    - `res.sendfile` - use `res.sendFile` instead
+    - `express.query` middleware
+  * change:
+    - `req.host` now returns host (`hostname:port`) - use `req.hostname` for only hostname
+    - `req.query` is now a getter instead of a plain property
+  * add:
+    - `app.router` is a reference to the base router
+
+4.17.1 / 2019-05-25
+===================
+
+  * Revert "Improve error message for `null`/`undefined` to `res.status`"
+
+4.17.0 / 2019-05-16
+===================
+
+  * Add `express.raw` to parse bodies into `Buffer`
+  * Add `express.text` to parse bodies into string
+  * Improve error message for non-strings to `res.sendFile`
+  * Improve error message for `null`/`undefined` to `res.status`
+  * Support multiple hosts in `X-Forwarded-Host`
+  * deps: accepts@~1.3.7
+  * deps: body-parser@1.19.0
+    - Add encoding MIK
+    - Add petabyte (`pb`) support
+    - Fix parsing array brackets after index
+    - deps: bytes@3.1.0
+    - deps: http-errors@1.7.2
+    - deps: iconv-lite@0.4.24
+    - deps: qs@6.7.0
+    - deps: raw-body@2.4.0
+    - deps: type-is@~1.6.17
+  * deps: content-disposition@0.5.3
+  * deps: cookie@0.4.0
+    - Add `SameSite=None` support
+  * deps: finalhandler@~1.1.2
+    - Set stricter `Content-Security-Policy` header
+    - deps: parseurl@~1.3.3
+    - deps: statuses@~1.5.0
+  * deps: parseurl@~1.3.3
+  * deps: proxy-addr@~2.0.5
+    - deps: ipaddr.js@1.9.0
+  * deps: qs@6.7.0
+    - Fix parsing array brackets after index
+  * deps: range-parser@~1.2.1
+  * deps: send@0.17.1
+    - Set stricter CSP header in redirect & error responses
+    - deps: http-errors@~1.7.2
+    - deps: mime@1.6.0
+    - deps: ms@2.1.1
+    - deps: range-parser@~1.2.1
+    - deps: statuses@~1.5.0
+    - perf: remove redundant `path.normalize` call
+  * deps: serve-static@1.14.1
+    - Set stricter CSP header in redirect response
+    - deps: parseurl@~1.3.3
+    - deps: send@0.17.1
+  * deps: setprototypeof@1.1.1
+  * deps: statuses@~1.5.0
+    - Add `103 Early Hints`
+  * deps: type-is@~1.6.18
+    - deps: mime-types@~2.1.24
+    - perf: prevent internal `throw` on invalid type
+
 4.16.4 / 2018-10-10
 ===================
 
@@ -294,7 +471,7 @@
     - Fix including type extensions in parameters in `Accept` parsing
     - Fix parsing `Accept` parameters with quoted equals
     - Fix parsing `Accept` parameters with quoted semicolons
-    - Many performance improvments
+    - Many performance improvements
     - deps: mime-types@~2.1.11
     - deps: negotiator@0.6.1
   * deps: content-type@~1.0.2
@@ -309,7 +486,7 @@
     - perf: enable strict mode
     - perf: hoist regular expression
     - perf: use for loop in parse
-    - perf: use string concatination for serialization
+    - perf: use string concatenation for serialization
   * deps: finalhandler@0.5.0
     - Change invalid or non-numeric status code to 500
     - Overwrite status message to match set status code
@@ -319,7 +496,7 @@
   * deps: proxy-addr@~1.1.2
     - Fix accepting various invalid netmasks
     - Fix IPv6-mapped IPv4 validation edge cases
-    - IPv4 netmasks must be contingous
+    - IPv4 netmasks must be contiguous
     - IPv6 addresses cannot be used as a netmask
     - deps: ipaddr.js@1.1.1
   * deps: qs@6.2.0
@@ -1097,13 +1274,13 @@
    - deps: negotiator@0.4.6
  * deps: debug@1.0.2
  * deps: send@0.4.3
-   - Do not throw un-catchable error on file open race condition
+   - Do not throw uncatchable error on file open race condition
    - Use `escape-html` for HTML escaping
    - deps: debug@1.0.2
    - deps: finished@1.2.2
    - deps: fresh@0.2.2
  * deps: serve-static@1.2.3
-   - Do not throw un-catchable error on file open race condition
+   - Do not throw uncatchable error on file open race condition
    - deps: send@0.4.3
 
 4.4.2 / 2014-06-09
@@ -1983,7 +2160,7 @@
    - deps: serve-static@1.2.3
  * deps: debug@1.0.2
  * deps: send@0.4.3
-   - Do not throw un-catchable error on file open race condition
+   - Do not throw uncatchable error on file open race condition
    - Use `escape-html` for HTML escaping
    - deps: debug@1.0.2
    - deps: finished@1.2.2
@@ -3168,7 +3345,7 @@ Shaw]
   * Updated haml submodule
   * Changed ETag; removed inode, modified time only
   * Fixed LF to CRLF for setting multiple cookies
-  * Fixed cookie complation; values are now urlencoded
+  * Fixed cookie compilation; values are now urlencoded
   * Fixed cookies parsing; accepts quoted values and url escaped cookies
 
 0.11.0 / 2010-05-06
@@ -3363,7 +3540,7 @@ Shaw]
 
   * Added "plot" format option for Profiler (for gnuplot processing)
   * Added request number to Profiler plugin
-  * Fixed binary encoding for multi-part file uploads, was previously defaulting to UTF8
+  * Fixed binary encoding for multipart file uploads, was previously defaulting to UTF8
   * Fixed issue with routes not firing when not files are present. Closes #184
   * Fixed process.Promise -> events.Promise
 
@@ -3409,7 +3586,7 @@ Shaw]
   * Updated sample chat app to show messages on load
   * Updated libxmljs parseString -> parseHtmlString
   * Fixed `make init` to work with older versions of git
-  * Fixed specs can now run independent specs for those who cant build deps. Closes #127
+  * Fixed specs can now run independent specs for those who can't build deps. Closes #127
   * Fixed issues introduced by the node url module changes. Closes 126.
   * Fixed two assertions failing due to Collection#keys() returning strings
   * Fixed faulty Collection#toArray() spec due to keys() returning strings

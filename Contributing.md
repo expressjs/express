@@ -19,7 +19,7 @@ expertise to resolve rare disputes.
 
 Log an issue for any question or problem you might have. When in doubt, log an issue, and
 any additional policies about what to include will be provided in the responses. The only
-exception is security dislosures which should be sent privately.
+exception is security disclosures which should be sent privately.
 
 Committers may direct you to another repository, ask for additional clarifications, and
 add appropriate metadata before the issue is addressed.

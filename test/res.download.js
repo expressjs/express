@@ -110,7 +110,7 @@ describe('res', function(){
     })
 
     describe('when options.headers contains Content-Disposition', function () {
-      it('should should be ignored', function (done) {
+      it('should be ignored', function (done) {
         var app = express()
 
         app.use(function (req, res) {
@@ -130,7 +130,7 @@ describe('res', function(){
         .end(done)
       })
 
-      it('should should be ignored case-insensitively', function (done) {
+      it('should be ignored case-insensitively', function (done) {
         var app = express()
 
         app.use(function (req, res) {

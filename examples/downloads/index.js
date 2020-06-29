@@ -21,7 +21,7 @@ app.get('/files/:file(*)', function(req, res, next){
 
   res.download(filePath, function (err) {
     if (!err) return; // file sent
-    if (err && err.status !== 404) return next(err); // non-404 error
+    if (err.status !== 404) return next(err); // non-404 error
     // file for download not found
     res.statusCode = 404;
     res.send('Cant find that file, sorry!');

@@ -18,8 +18,8 @@ describe('req', function(){
       })
     })
 
-    describe('when Accept-Charset is not present', function(){
-      it('should return true when present', function(done){
+    describe('when Accept-Charset is present', function () {
+      it('should return true', function (done) {
         var app = express();
 
         app.use(function(req, res, next){

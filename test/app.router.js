@@ -5,6 +5,8 @@ var express = require('../')
   , assert = require('assert')
   , methods = require('methods');
 
+var describePromises = global.Promise ? describe : describe.skip
+
 describe('app.router', function(){
   it('should restore req.params after leaving router', function(done){
     var app = express();
@@ -34,7 +36,7 @@ describe('app.router', function(){
   })
 
   describe('methods', function(){
-    methods.concat('del').forEach(function(method){
+    methods.forEach(function(method){
       if (method === 'connect') return;
 
       it('should include ' + method.toUpperCase(), function(done){
@@ -51,7 +53,7 @@ describe('app.router', function(){
 
       it('should reject numbers for app.' + method, function(){
         var app = express();
-        app[method].bind(app, '/', 3).should.throw(/Number/);
+        assert.throws(app[method].bind(app, '/', 3), /argument handler must be a function/);
       })
     });
 
@@ -152,15 +154,12 @@ describe('app.router', function(){
 
     app.use(function(req, res, next){
       calls.push('after');
-      res.end();
+      res.json(calls)
     });
 
     request(app)
     .get('/')
-    .end(function(res){
-      calls.should.eql(['before', 'GET /', 'after'])
-      done();
-    })
+    .expect(200, ['before', 'GET /', 'after'], done)
   })
 
   describe('when given a regexp', function(){
@@ -570,7 +569,7 @@ describe('app.router', function(){
       .expect('/user/tobi.json', done)
     })
 
-    it('should decore the capture', function (done) {
+    it('should decode the capture', function (done) {
       var app = express()
 
       app.get('*', function (req, res) {
@@ -891,15 +890,12 @@ describe('app.router', function(){
 
       app.get('/foo', function(req, res, next){
         calls.push('/foo 2');
-        res.end('done');
+        res.json(calls)
       });
 
       request(app)
       .get('/foo')
-      .expect('done', function(){
-        calls.should.eql(['/foo/:bar?', '/foo', '/foo 2']);
-        done();
-      })
+      .expect(200, ['/foo/:bar?', '/foo', '/foo 2'], done)
     })
   })
 
@@ -982,15 +978,15 @@ describe('app.router', function(){
       });
 
       app.use(function(err, req, res, next){
-        res.end(err.message);
+        res.json({
+          calls: calls,
+          error: err.message
+        })
       })
 
       request(app)
       .get('/foo')
-      .expect('fail', function(){
-        calls.should.eql(['/foo/:bar?', '/foo']);
-        done();
-      })
+      .expect(200, { calls: ['/foo/:bar?', '/foo'], error: 'fail' }, done)
     })
 
     it('should call handler in same route, if exists', function(done){
@@ -1017,6 +1013,138 @@ describe('app.router', function(){
       request(app)
       .get('/foo')
       .expect('route go boom!', done)
+    })
+  })
+
+  describePromises('promise support', function () {
+    it('should pass rejected promise value', function (done) {
+      var app = express()
+      var router = new express.Router()
+
+      router.use(function createError (req, res, next) {
+        return Promise.reject(new Error('boom!'))
+      })
+
+      router.use(function sawError (err, req, res, next) {
+        res.send('saw ' + err.name + ': ' + err.message)
+      })
+
+      app.use(router)
+
+      request(app)
+      .get('/')
+      .expect(200, 'saw Error: boom!', done)
+    })
+
+    it('should pass rejected promise without value', function (done) {
+      var app = express()
+      var router = new express.Router()
+
+      router.use(function createError (req, res, next) {
+        return Promise.reject()
+      })
+
+      router.use(function sawError (err, req, res, next) {
+        res.send('saw ' + err.name + ': ' + err.message)
+      })
+
+      app.use(router)
+
+      request(app)
+      .get('/')
+      .expect(200, 'saw Error: Rejected promise', done)
+    })
+
+    it('should ignore resolved promise', function (done) {
+      var app = express()
+      var router = new express.Router()
+
+      router.use(function createError (req, res, next) {
+        res.send('saw GET /foo')
+        return Promise.resolve('foo')
+      })
+
+      router.use(function () {
+        done(new Error('Unexpected middleware invoke'))
+      })
+
+      app.use(router)
+
+      request(app)
+      .get('/foo')
+      .expect(200, 'saw GET /foo', done)
+    })
+
+    describe('error handling', function () {
+      it('should pass rejected promise value', function (done) {
+        var app = express()
+        var router = new express.Router()
+
+        router.use(function createError (req, res, next) {
+          return Promise.reject(new Error('boom!'))
+        })
+
+        router.use(function handleError (err, req, res, next) {
+          return Promise.reject(new Error('caught: ' + err.message))
+        })
+
+        router.use(function sawError (err, req, res, next) {
+          res.send('saw ' + err.name + ': ' + err.message)
+        })
+
+        app.use(router)
+
+        request(app)
+        .get('/')
+        .expect(200, 'saw Error: caught: boom!', done)
+      })
+
+      it('should pass rejected promise without value', function (done) {
+        var app = express()
+        var router = new express.Router()
+
+        router.use(function createError (req, res, next) {
+          return Promise.reject()
+        })
+
+        router.use(function handleError (err, req, res, next) {
+          return Promise.reject(new Error('caught: ' + err.message))
+        })
+
+        router.use(function sawError (err, req, res, next) {
+          res.send('saw ' + err.name + ': ' + err.message)
+        })
+
+        app.use(router)
+
+        request(app)
+        .get('/')
+        .expect(200, 'saw Error: caught: Rejected promise', done)
+      })
+
+      it('should ignore resolved promise', function (done) {
+        var app = express()
+        var router = new express.Router()
+
+        router.use(function createError (req, res, next) {
+          return Promise.reject(new Error('boom!'))
+        })
+
+        router.use(function handleError (err, req, res, next) {
+          res.send('saw ' + err.name + ': ' + err.message)
+          return Promise.resolve('foo')
+        })
+
+        router.use(function () {
+          done(new Error('Unexpected middleware invoke'))
+        })
+
+        app.use(router)
+
+        request(app)
+        .get('/foo')
+        .expect(200, 'saw Error: boom!', done)
+      })
     })
   })
 

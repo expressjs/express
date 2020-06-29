@@ -116,6 +116,56 @@ describe('req', function(){
         .set('Host', 'example.com')
         .expect('example.com', done);
       })
+
+      describe('when multiple X-Forwarded-Host', function () {
+        it('should use the first value', function (done) {
+          var app = express()
+
+          app.enable('trust proxy')
+
+          app.use(function (req, res) {
+            res.send(req.hostname)
+          })
+
+          request(app)
+          .get('/')
+          .set('Host', 'localhost')
+          .set('X-Forwarded-Host', 'example.com, foobar.com')
+          .expect(200, 'example.com', done)
+        })
+
+        it('should remove OWS around comma', function (done) {
+          var app = express()
+
+          app.enable('trust proxy')
+
+          app.use(function (req, res) {
+            res.send(req.hostname)
+          })
+
+          request(app)
+          .get('/')
+          .set('Host', 'localhost')
+          .set('X-Forwarded-Host', 'example.com , foobar.com')
+          .expect(200, 'example.com', done)
+        })
+
+        it('should strip port number', function (done) {
+          var app = express()
+
+          app.enable('trust proxy')
+
+          app.use(function (req, res) {
+            res.send(req.hostname)
+          })
+
+          request(app)
+          .get('/')
+          .set('Host', 'localhost')
+          .set('X-Forwarded-Host', 'example.com:8080 , foobar.com:8888')
+          .expect(200, 'example.com', done)
+        })
+      })
     })
 
     describe('when "trust proxy" is disabled', function(){

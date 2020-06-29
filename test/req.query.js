@@ -25,8 +25,8 @@ describe('req', function(){
         var app = createApp('extended');
 
         request(app)
-        .get('/?user[name]=tj')
-        .expect(200, '{"user":{"name":"tj"}}', done);
+        .get('/?foo[0][bar]=baz&foo[0][fizz]=buzz&foo[]=done!')
+        .expect(200, '{"foo":[{"bar":"baz","fizz":"buzz"},"done!"]}', done);
       });
 
       it('should parse parameters with dots', function (done) {
@@ -70,30 +70,13 @@ describe('req', function(){
       });
     });
 
-    describe('when "query parser" disabled', function () {
+    describe('when "query parser" enabled', function () {
       it('should not parse complex keys', function (done) {
         var app = createApp(true);
 
         request(app)
         .get('/?user%5Bname%5D=tj')
         .expect(200, '{"user[name]":"tj"}', done);
-      });
-    });
-
-    describe('when "query parser fn" is missing', function () {
-      it('should act like "extended"', function (done) {
-        var app = express();
-
-        delete app.settings['query parser'];
-        delete app.settings['query parser fn'];
-
-        app.use(function (req, res) {
-          res.send(req.query);
-        });
-
-        request(app)
-        .get('/?user[name]=tj&user.name=tj')
-        .expect(200, '{"user":{"name":"tj"},"user.name":"tj"}', done);
       });
     });
 
