@@ -18,7 +18,7 @@ What kind of change does this PR introduce?
 ```
 [ ] Bugfix
 [ ] Feature
-[ ] Refactoring (no functional changes, no api changes)
+[ ] Refactoring (no functional changes, no API changes)
 [ ] Build related changes
 [ ] CI related changes
 [ ] Other... Please describe:
