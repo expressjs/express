@@ -8,7 +8,7 @@ Open issues for the expressjs.com website in https://github.com/expressjs/expres
 * Tests must pass.
 * Follow the [JavaScript Standard Style](http://standardjs.com/) and `npm run lint`.
 * If you fix a bug, add a test.
-* Fill out the [pull request template](.github/PULL_REQUEST_TEMPLATE.md)
+When making a [PR](https://github.com/expressjs/express/pulls) follow the (Pull Request Template)[.github/PULL_REQUEST_TEMPLATE.md]
 
 ## Branches
 
