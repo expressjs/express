@@ -37,6 +37,9 @@ unreleased
     - deps: statuses@2.0.1
   * deps: serve-static@1.15.0
     - deps: send@0.18.0
+  * deps: statuses@2.0.1
+    - Remove code 306
+    - Rename `425 Unordered Collection` to standard `425 Too Early`
 
 4.17.3 / 2022-02-16
 ===================
