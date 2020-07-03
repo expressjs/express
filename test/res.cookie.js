@@ -115,6 +115,19 @@ describe('res', function(){
         .get('/')
         .expect(200, optionsCopy, done)
       })
+
+      it('should throw an error with invalid maxAge', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { maxAge: 'foobar' })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(500, /option maxAge is invalid/, done)
+      })
     })
 
     describe('signed', function(){
