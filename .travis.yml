@@ -9,11 +9,11 @@ node_js:
   - "5.12"
   - "6.17"
   - "7.10"
-  - "8.16"
+  - "8.17"
   - "9.11"
-  - "10.15"
+  - "10.19"
   - "11.15"
-  - "12.3"
+  - "12.16"
 matrix:
   include:
     - node_js: "13"
@@ -21,7 +21,6 @@ matrix:
   allow_failures:
     # Allow the nightly installs to fail
     - env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
-sudo: false
 cache:
   directories:
     - node_modules
@@ -37,15 +36,24 @@ before_install:
   # Setup Node.js version-specific dependencies
   - |
     # mocha for testing
-    # - use 3.x for Node.js < 6
-    if [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 6 ]]; then
+    # - use 3.x for Node.js < 4
+    # - use 5.x for Node.js < 6
+    # - use 6.x for Node.js < 8
+    if [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 4 ]]; then
       npm install --silent --save-dev mocha@3.5.3
+    elif [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 6 ]]; then
+      npm install --silent --save-dev mocha@5.2.0
+    elif [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 8 ]]; then
+      npm install --silent --save-dev mocha@6.2.2
     fi
   - |
     # supertest for http calls
     # - use 2.0.0 for Node.js < 4
+    # - use 3.4.2 for Node.js < 6
     if [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 4 ]]; then
       npm install --silent --save-dev supertest@2.0.0
+    elif [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 6 ]]; then
+      npm install --silent --save-dev supertest@3.4.2
     fi
   # Update Node.js modules
   - |

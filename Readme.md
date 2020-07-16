@@ -27,6 +27,9 @@ This is a [Node.js](https://nodejs.org/en/) module available through the
 Before installing, [download and install Node.js](https://nodejs.org/en/download/).
 Node.js 0.10 or higher is required.
 
+If this is a brand new project, make sure to create a `package.json` first with
+the [`npm init` command](https://docs.npmjs.com/creating-a-package-json-file).
+
 Installation is done using the
 [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
@@ -146,7 +149,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [npm-image]: https://img.shields.io/npm/v/express.svg
 [npm-url]: https://npmjs.org/package/express
 [downloads-image]: https://img.shields.io/npm/dm/express.svg
-[downloads-url]: https://npmjs.org/package/express
+[downloads-url]: https://npmcharts.com/compare/express?minimal=true
 [travis-image]: https://img.shields.io/travis/expressjs/express/master.svg?label=linux
 [travis-url]: https://travis-ci.org/expressjs/express
 [appveyor-image]: https://img.shields.io/appveyor/ci/dougwilson/express/master.svg?label=windows
