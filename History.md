@@ -4,6 +4,8 @@ unreleased
   * Fix incorrect middleware execution with unanchored `RegExp`s
   * Fix `res.jsonp(obj, status)` deprecation message
   * Fix typo in `res.is` JSDoc
+  * deps: statuses@2.0.0
+    - Remove status[code] exports; use status.message[code]
 
 4.17.1 / 2019-05-25
 ===================
