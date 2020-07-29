@@ -43,7 +43,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
   npm install
 ```
 
-7. Run the full expressjs test suite , and ensure that all tests pass :
+7. Run the full expressjs test suite, and ensure that all tests pass:
 
 ```shell
  npm run test
