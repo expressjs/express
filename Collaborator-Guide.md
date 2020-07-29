@@ -37,7 +37,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 
 5. Create your patch, **including appropriate test cases**.
 
-6. Install the dependencies by running :
+6. Install the dependencies by running:
 
 ```shell
   npm install
