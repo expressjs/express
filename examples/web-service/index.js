@@ -32,7 +32,7 @@ app.use('/api', function(req, res, next){
   if (!key) return next(error(400, 'api key required'));
 
   // key is invalid
-  if (!~apiKeys.indexOf(key)) return next(error(401, 'invalid api key'));
+  if (!apiKeys.includes(key)) return next(error(401, 'invalid api key'));
 
   // all good, store req.key for route access
   req.key = key;
@@ -84,8 +84,8 @@ app.get('/api/user/:name/repos', function(req, res, next){
   var name = req.params.name;
   var user = userRepos[name];
 
-  if (user) res.send(user);
-  else next();
+  if (!user) return next();
+  res.send(user);
 });
 
 // middleware with an arity of 4 are considered
@@ -96,16 +96,14 @@ app.get('/api/user/:name/repos', function(req, res, next){
 app.use(function(err, req, res, next){
   // whatever you want here, feel free to populate
   // properties on `err` to treat it differently in here.
-  res.status(err.status || 500);
-  res.send({ error: err.message });
+  res.status(err.status || 500).send({ error: err.message });
 });
 
 // our custom JSON 404 middleware. Since it's placed last
 // it will be the last middleware called, if all others
 // invoke next() and do not respond.
 app.use(function(req, res){
-  res.status(404);
-  res.send({ error: "Lame, can't find that" });
+  res.status(404).send({ error: "Lame, can't find that" });
 });
 
 /* istanbul ignore next */
