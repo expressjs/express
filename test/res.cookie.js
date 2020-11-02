@@ -19,6 +19,24 @@ describe('res', function(){
       .expect('Set-Cookie', 'user=j%3A%7B%22name%22%3A%22tobi%22%7D; Path=/')
       .expect(200, done)
     })
+
+    it('should generate a JSON cookie with a custom JSON stringifier', function(done){
+      var app = express();
+
+      app.set('json stringifier', function(value) {
+        value.name = 'asdf'
+        return JSON.stringify(value)
+      });
+
+      app.use(function(req, res){
+        res.cookie('user', { name: 'tobi' }).end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Set-Cookie', 'user=j%3A%7B%22name%22%3A%22asdf%22%7D; Path=/')
+      .expect(200, done)
+    })
   })
 
   describe('.cookie(name, string)', function(){
