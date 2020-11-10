@@ -76,7 +76,7 @@
     "multiparty": "4.2.1",
     "pbkdf2-password": "1.2.1",
     "should": "13.2.3",
-    "supertest": "4.0.2",
+    "supertest": "6.0.1",
     "vhost": "~3.0.2"
   },
   "engines": {
