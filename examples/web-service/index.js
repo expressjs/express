@@ -105,7 +105,7 @@ app.use(function(err, req, res, next){
 // invoke next() and do not respond.
 app.use(function(req, res){
   res.status(404);
-  res.send({ error: "Lame, can't find that" });
+  res.send({ error: "Sorry, can't find that" })
 });
 
 /* istanbul ignore next */
