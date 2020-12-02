@@ -2,9 +2,9 @@ var express = require('../../');
 
 var app = express();
 
-app.get('/', function(req, res){
-  res.send('Hello World');
-});
+app.get('/', (req, res) => { 
+  res.send('Hello World')
+})
 
 /* istanbul ignore next */
 if (!module.parent) {
