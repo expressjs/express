@@ -39,12 +39,15 @@ before_install:
     # - use 3.x for Node.js < 4
     # - use 5.x for Node.js < 6
     # - use 6.x for Node.js < 8
+    # - use 7.x for Node.js < 10
     if [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 4 ]]; then
       npm install --silent --save-dev mocha@3.5.3
     elif [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 6 ]]; then
       npm install --silent --save-dev mocha@5.2.0
     elif [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 8 ]]; then
       npm install --silent --save-dev mocha@6.2.2
+    elif [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 10 ]]; then
+      npm install --silent --save-dev mocha@7.2.0
     fi
   - |
     # supertest for http calls
