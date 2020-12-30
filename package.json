@@ -76,8 +76,12 @@
     "multiparty": "4.2.1",
     "pbkdf2-password": "1.2.1",
     "should": "13.2.3",
+    "shx": "^0.3.3",
     "supertest": "4.0.2",
-    "vhost": "~3.0.2"
+    "vhost": "~3.0.2",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.0",
+    "webpack-node-externals": "^2.5.2"
   },
   "engines": {
     "node": ">= 0.10.0"
@@ -86,14 +90,18 @@
     "LICENSE",
     "History.md",
     "Readme.md",
-    "index.js",
-    "lib/"
+    "bundled"
   ],
   "scripts": {
+    "clean": "rm -rf bundled",
+    "prebundle": "npm run clean",
+    "bundle": "WEBPACKING=true webpack",
     "lint": "eslint .",
     "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/ test/acceptance/",
     "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
-    "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
-  }
+    "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/",
+    "prepublishOnly": "npm test && npm run bundle"
+  },
+  "main": "bundled/index.js"
 }
