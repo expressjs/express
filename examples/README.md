@@ -24,6 +24,7 @@ This page contains list of examples using Express.
 - [search](./search) - Search API
 - [session](./session) - User sessions
 - [static-files](./static-files) - Serving static files
+- [typescript](./typescript) - Typescript with MVC
 - [vhost](./vhost) - Working with virtual hosts
 - [view-constructor](./view-constructor) - Rendering views dynamically
 - [view-locals](./view-locals) - Saving data in request object between middleware calls
