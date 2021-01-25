@@ -34,7 +34,11 @@ Installation is done using the
 [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
 ```bash
+# with npm
 $ npm install express
+
+# with yarn
+$ yarn add express
 ```
 
 Follow [our installing guide](http://expressjs.com/en/starter/installing.html)
