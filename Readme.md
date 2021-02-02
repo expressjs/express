@@ -58,7 +58,7 @@ for more information.
   * Visit the [Wiki](https://github.com/expressjs/express/wiki)
   * [Google Group](https://groups.google.com/group/express-js) for discussion
   * [Gitter](https://gitter.im/expressjs/express) for support and discussion
-  * [Discord Server](https://discord.gg/8RaNF6EX) for support and discussion
+  * [Discord Server](https://discord.gg/SeRjgQBMz5) for support and discussion
 
 **PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/expressjs/express/wiki/New-features-in-4.x).
 
