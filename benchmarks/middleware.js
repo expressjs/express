@@ -1,19 +1,19 @@
 
-var express = require('..');
-var app = express();
+const express = require('..');
+const app = express();
 
 // number of middleware
 
-var n = parseInt(process.env.MW || '1', 10);
+let n = parseInt(process.env.MW || '1', 10);
 console.log('  %s middleware', n);
 
 while (n--) {
-  app.use(function(req, res, next){
+  app.use((req, res, next) => {
     next();
   });
 }
 
-app.use(function(req, res, next){
+app.use((req, res, next) => {
   res.send('Hello World')
 });
 
