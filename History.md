@@ -2364,7 +2364,7 @@
 3.2.0 / 2013-04-15
 ==================
 
-  * add "view" constructor setting to override view behaviour
+  * add "view" constructor setting to override view behavior
   * add req.acceptsEncoding(name)
   * add req.acceptedEncodings
   * revert cookie signature change causing session race conditions
