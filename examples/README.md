@@ -32,6 +32,6 @@ This page contains list of examples using Express.
 The following list contains some ready-to-run examples that show how to use Express with a **SQL database** using [Prisma](https://github.com/prisma/prisma) as an ORM:
 
 - [fullstack](https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-nextjs-express) - Fullstack app with Next.js
-- [express-graphql](https://github.com/prisma/prisma-examples/tree/latest/typescript/graphql-express): GraphQL API with `express-graphql`
+- [express-graphql](https://github.com/prisma/prisma-examples/tree/latest/typescript/graphql-express) - GraphQL API with `express-graphql`
 - [rest-api-ts](https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-express) - REST API with Express in TypeScript
 - [rest-api-js](https://github.com/prisma/prisma-examples/tree/latest/javascript/rest-express): REST API with Express in JavaScript
