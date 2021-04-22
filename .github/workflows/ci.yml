@@ -72,7 +72,7 @@ jobs:
           npm-i: mocha@7.2.0
 
         - name: Node.js 10.x
-          node-version: "10.23"
+          node-version: "10.24"
 
         - name: Node.js 11.x
           node-version: "11.15"
