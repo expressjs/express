@@ -14,10 +14,9 @@ node_js:
   - "10.20"
   - "11.15"
   - "12.16"
+  - "13.14"
+  - "14.16"
 matrix:
-  include:
-    - node_js: "13"
-      env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
   allow_failures:
     # Allow the nightly installs to fail
     - env: "NVM_NODEJS_ORG_MIRROR=https://nodejs.org/download/nightly"
