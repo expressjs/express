@@ -2,12 +2,12 @@
  * Module dependencies.
  */
 
-var express = require('../..');
-var hash = require('pbkdf2-password')()
-var path = require('path');
-var session = require('express-session');
+const express = require('../..');
+const hash = require('pbkdf2-password')()
+const path = require('path');
+const session = require('express-session');
 
-var app = module.exports = express();
+const app = module.exports = express();
 
 // config
 
@@ -26,8 +26,8 @@ app.use(session({
 // Session-persisted message middleware
 
 app.use(function(req, res, next){
-  var err = req.session.error;
-  var msg = req.session.success;
+  const err = req.session.error;
+  const msg = req.session.success;
   delete req.session.error;
   delete req.session.success;
   res.locals.message = '';
@@ -38,7 +38,7 @@ app.use(function(req, res, next){
 
 // dummy database
 
-var users = {
+const users = {
   tj: { name: 'tj' }
 };
 
@@ -57,7 +57,7 @@ hash({ password: 'foobar' }, function (err, pass, salt, hash) {
 
 function authenticate(name, pass, fn) {
   if (!module.parent) console.log('authenticating %s:%s', name, pass);
-  var user = users[name];
+  const user = users[name];
   // query the db for the given username
   if (!user) return fn(new Error('cannot find user'));
   // apply the same algorithm to the POSTed password, applying
@@ -79,11 +79,11 @@ function restrict(req, res, next) {
   }
 }
 
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
   res.redirect('/login');
 });
 
-app.get('/restricted', restrict, function(req, res){
+app.get('/restricted', restrict, function(req, res) {
   res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
 });
 
@@ -95,11 +95,11 @@ app.get('/logout', function(req, res){
   });
 });
 
-app.get('/login', function(req, res){
+app.get('/login', function(req, res) {
   res.render('login');
 });
 
-app.post('/login', function(req, res){
+app.post('/login', function(req, res) {
   authenticate(req.body.username, req.body.password, function(err, user){
     if (user) {
       // Regenerate session when signing in
