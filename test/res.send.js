@@ -283,6 +283,22 @@ describe('res', function(){
     })
   })
 
+  describe('when .statusCode is 205', function () {
+    it('should strip Transfer-Encoding field and body, set Content-Length', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.status(205).set('Transfer-Encoding', 'chunked').send('foo')
+      })
+
+      request(app)
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
+        .expect('Content-Length', '0')
+        .expect(205, '', done)
+    })
+  })
+
   describe('when .statusCode is 304', function(){
     it('should strip Content-* fields, Transfer-Encoding field, and body', function(done){
       var app = express();

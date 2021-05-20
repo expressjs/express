@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Support proper 205 responses using `res.send`
+
 4.17.3 / 2022-02-16
 ===================
 
