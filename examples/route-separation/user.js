@@ -41,5 +41,5 @@ exports.update = function(req, res){
   var user = req.body.user;
   req.user.name = user.name;
   req.user.email = user.email;
-  res.redirect('back');
+  res.redirect(req.back);
 };
