@@ -99,7 +99,7 @@ describe('web-service', function(){
       request(app)
       .get('/api/something?api-key=bar')
       .expect('Content-Type', /json/)
-      .expect(404, '{"error":"Lame, can\'t find that"}', done)
+      .expect(404, '{"error":"Sorry, can\'t find that"}', done)
     })
   })
 })
