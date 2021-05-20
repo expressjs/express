@@ -16,6 +16,20 @@ describe('res', function(){
       .expect('Set-Cookie', 'sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
       .expect(200, done)
     })
+
+    it.only('should not only output one setCookie header per cookie name', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.cookie('sid', 'foo');
+        res.clearCookie('sid').end();
+      });
+
+      request(app)
+        .get("/")
+        .expect("Set-Cookie", "sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT")
+        .expect(200, done)
+    })
   })
 
   describe('.clearCookie(name, options)', function(){
