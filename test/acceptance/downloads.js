@@ -27,4 +27,12 @@ describe('downloads', function(){
       .expect(404, done)
     })
   })
+
+  describe('GET /files/../index.js', function () {
+    it('should respond with 403', function (done) {
+      request(app)
+        .get('/files/../index.js')
+        .expect(403, done)
+    })
+  })
 })
