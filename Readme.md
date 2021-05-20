@@ -3,6 +3,7 @@
   Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
 
   [![NPM Version][npm-image]][npm-url]
+  [![NPM Install Size][size-image]][size-url]
   [![NPM Downloads][downloads-image]][downloads-url]
   [![Linux Build][travis-image]][travis-url]
   [![Windows Build][appveyor-image]][appveyor-url]
@@ -148,6 +149,8 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 [npm-image]: https://img.shields.io/npm/v/express.svg
 [npm-url]: https://npmjs.org/package/express
+[size-image]: https://packagephobia.com/badge?p=express
+[size-url]: https://packagephobia.com/result?p=express
 [downloads-image]: https://img.shields.io/npm/dm/express.svg
 [downloads-url]: https://npmcharts.com/compare/express?minimal=true
 [travis-image]: https://img.shields.io/travis/expressjs/express/master.svg?label=linux
