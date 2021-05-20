@@ -100,6 +100,19 @@ describe('res', function(){
         .expect('Set-Cookie', /Max-Age=1/, done)
       })
 
+      it('should set max-age as 0', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.cookie('name', 'tobi', { maxAge: undefined });
+          res.end();
+        });
+
+        request(app)
+        .get('/')
+        .expect('Set-Cookie', /Max-Age=0/, done)
+      })
+
       it('should not mutate the options object', function(done){
         var app = express();
 
