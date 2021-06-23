@@ -1,6 +1,6 @@
-const express = require('../../');
+var express = require('../../');
 
-const app = express();
+var app = express();
 
 app.get('/', function(req, res) {
   res.send('Hello World');
