@@ -1,13 +1,13 @@
-var express = require('../../');
+const express = require('../../');
 
-var app = express();
+const app = express();
 
-app.get('/', function(req, res){
+app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
 /* istanbul ignore next */
-if (!module.parent) {
+if (module.children) {
   app.listen(3000);
   console.log('Express started on port 3000');
 }
