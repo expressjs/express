@@ -4,7 +4,7 @@
 
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
-  [![Linux Build][travis-image]][travis-url]
+  [![Linux Build][ci-image]][ci-url]
   [![Windows Build][appveyor-image]][appveyor-url]
   [![Test Coverage][coveralls-image]][coveralls-url]
 
@@ -146,12 +146,12 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
   [MIT](LICENSE)
 
+[ci-image]: https://img.shields.io/github/workflow/status/expressjs/express/ci/master.svg?label=linux
+[ci-url]: https://github.com/expressjs/express/actions?query=workflow%3Aci
 [npm-image]: https://img.shields.io/npm/v/express.svg
 [npm-url]: https://npmjs.org/package/express
 [downloads-image]: https://img.shields.io/npm/dm/express.svg
 [downloads-url]: https://npmcharts.com/compare/express?minimal=true
-[travis-image]: https://img.shields.io/travis/expressjs/express/master.svg?label=linux
-[travis-url]: https://travis-ci.org/expressjs/express
 [appveyor-image]: https://img.shields.io/appveyor/ci/dougwilson/express/master.svg?label=windows
 [appveyor-url]: https://ci.appveyor.com/project/dougwilson/express
 [coveralls-image]: https://img.shields.io/coveralls/expressjs/express/master.svg
