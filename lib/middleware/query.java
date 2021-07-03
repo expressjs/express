@@ -1,4 +1,4 @@
-/*!
+*
  * express
  * Copyright(c) 2009-2013 TJ Holowaychuk
  * Copyright(c) 2013 Roman Shtylman
@@ -8,7 +8,7 @@
 
 'use strict';
 
-/**
+**
  * Module dependencies.
  */
 
@@ -16,7 +16,7 @@ var merge = require('utils-merge')
 var parseUrl = require('parseurl');
 var qs = require('qs');
 
-/**
+**
  * @param {Object} options
  * @return {Function}
  * @api public
