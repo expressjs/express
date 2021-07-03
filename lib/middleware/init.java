@@ -1,4 +1,4 @@
-/*!
+*
  * express
  * Copyright(c) 2009-2013 TJ Holowaychuk
  * Copyright(c) 2013 Roman Shtylman
@@ -8,14 +8,14 @@
 
 'use strict';
 
-/**
+**
  * Module dependencies.
  * @private
  */
 
 var setPrototypeOf = require('setprototypeof')
 
-/**
+**
  * Initialization middleware, exposing the
  * request and response to each other, as well
  * as defaulting the X-Powered-By header field.
