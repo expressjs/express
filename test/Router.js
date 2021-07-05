@@ -1,5 +1,6 @@
 
 var after = require('after');
+var should = require('should');
 var express = require('../')
   , Router = express.Router
   , methods = require('methods')
