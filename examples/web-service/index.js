@@ -8,7 +8,7 @@ var app = module.exports = express();
 
 // create an error with .status. we
 // can then use the property in our
-// custom error handler (Connect repects this prop as well)
+// custom error handler (Connect respects this prop as well)
 
 function error(status, msg) {
   var err = new Error(msg);
