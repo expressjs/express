@@ -23,7 +23,7 @@ install:
       catch { Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) }
   # Configure npm
   - ps: |
-      # Skip updating shrinkwrap / lock
+      npm config set loglevel error
       npm config set shrinkwrap false
   # Remove all non-test dependencies
   - ps: |
