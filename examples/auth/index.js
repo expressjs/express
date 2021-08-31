@@ -47,14 +47,6 @@ var users = {
 // when you create a user, generate a salt
 // and hash the password ('foobar' is the pass here)
 
-  //  ------------------ Old Way  ----------------- 
-// hash({ password: 'foobar' }, function (err, pass, salt, hash) {
-//   if (err) throw err;
-//   // store the salt & hash in the "db"
-//   users.tj.salt = salt;
-//   users.tj.hash = hash;
-// });
-
 //  ------------------ A better Way to Hash Password without passing any salt using Bcrypt.Js----------------- 
 var encryPassword = bcrypt.hashSync({ password: 'foobar' },10) //password Encrypter , here '10' is the salt used for encryption
 
@@ -71,12 +63,6 @@ function authenticate(name, pass, fn) {
   // the hash against the pass / salt, if there is a match we
   // found the user
 
-  //  ------------------ Old Way  ----------------- 
-  // hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
-  //   if (err) return fn(err);
-  //   if (hash === user.hash) return fn(null, user)
-  //   fn(new Error('invalid password'));
-  // });
 
 //  ------------------ A better Way to Hash Password without passing any salt using Bcrypt.Js----------------- 
   if(pass){
