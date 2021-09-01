@@ -101,6 +101,18 @@ jobs:
     - name: Remove non-test dependencies
       run: npm rm --silent --save-dev connect-redis
 
+    - name: Setup Node.js version-specific dependencies
+      shell: bash
+      run: |
+        # eslint for linting
+        # - remove on Node.js < 4
+        if [[ "$(cut -d. -f1 <<< "${{ matrix.node-version }}")" -lt 4 ]]; then
+          node -pe 'Object.keys(require("./package").devDependencies).join("\n")' | \
+            grep -E '^eslint(-|$)' | \
+            sort -r | \
+            xargs -n1 npm rm --silent --save-dev
+        fi
+
     - name: Install Node.js dependencies
       run: npm install
 
@@ -117,6 +129,7 @@ jobs:
       run: npm run test-ci
 
     - name: Lint code
+      if: steps.list_env.outputs.eslint != ''
       run: npm run lint
 
     - name: Collect code coverage

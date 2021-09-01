@@ -29,6 +29,10 @@ install:
   - ps: |
       # Remove example dependencies
       npm rm --silent --save-dev connect-redis
+      # Remove lint dependencies
+      cmd.exe /c "node -pe `"Object.keys(require('./package').devDependencies).join('\n')`"" | `
+        sls "^eslint(-|$)" | `
+        %{ npm rm --silent --save-dev $_ }
   # Setup Node.js version-specific dependencies
   - ps: |
       # mocha for testing
@@ -71,6 +75,4 @@ test_script:
       npm --version
   # Run test script
   - npm run test-ci
-  # Run linting
-  - npm run lint
 version: "{build}"

@@ -26,7 +26,7 @@ app.resource = function(path, obj) {
 // Fake records
 
 var users = [
-    { name: 'tj' }
+  { name: 'tj' }
   , { name: 'ciaran' }
   , { name: 'aaron' }
   , { name: 'guillermo' }
