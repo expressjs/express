@@ -152,7 +152,9 @@ describe('res', function(){
         app.set('json replacer', {
           fn: function(key, val, options){
             var req = options.req;
-            return key[0] === '_'
+            return key === ''
+              ? val
+              : key[0] === '_'
               ? undefined
               : val + (req.query.n || 0);
           },
