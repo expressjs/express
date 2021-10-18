@@ -145,7 +145,7 @@ describe('res', function(){
       })
     })
 
-    describe('"json replacer" setting setting as object and reqRes = true', function(){
+    describe('"json replacer" setting as object and reqRes = true', function(){
       it('should be invoked with with req, res and result passed to JSON.stringify', function(done){
         var app = express();
 

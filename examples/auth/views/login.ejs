@@ -1,6 +1,5 @@
 
-<% var title = 'Authentication Example' %>
-<% include head %>
+<%- include('head', { title: 'Authentication Example' }) -%>
 
 <h1>Login</h1>
 <%- message %>
@@ -19,4 +18,4 @@ Try accessing <a href="/restricted">/restricted</a>, then authenticate with "tj"
   </p>
 </form>
 
-<% include foot %>
+<%- include('foot') -%>

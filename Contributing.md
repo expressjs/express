@@ -14,8 +14,9 @@ contributors can be involved in decision making.
 * A **Committer** is a subset of contributors who have been given write access to the repository.
 * A **TC (Technical Committee)** is a group of committers representing the required technical
 expertise to resolve rare disputes.
+* A **Triager** is a subset of contributors who have been given triage access to the repository.
 
-# Logging Issues
+## Logging Issues
 
 Log an issue for any question or problem you might have. When in doubt, log an issue, and
 any additional policies about what to include will be provided in the responses. The only
@@ -27,7 +28,7 @@ add appropriate metadata before the issue is addressed.
 Please be courteous and respectful. Every participant is expected to follow the
 project's Code of Conduct.
 
-# Contributions
+## Contributions
 
 Any change to resources in this repository must be through pull requests. This applies to all changes
 to documentation, code, binary files, etc. Even long term committers and TC members must use
@@ -41,7 +42,7 @@ weekends and other holiday periods to ensure active committers all have reasonab
 become involved in the discussion and review process if they wish.
 
 The default for each contribution is that it is accepted once no committer has an objection.
-During review committers may also request that a specific contributor who is most versed in a
+During a review, committers may also request that a specific contributor who is most versed in a
 particular area gives a "LGTM" before the PR can be merged. There is no additional "sign off"
 process for contributions to land. Once all issues brought by committers are addressed it can
 be landed by any committer.
@@ -56,7 +57,36 @@ discuss pending contributions in order to find a resolution. It is expected that
 small minority of issues be brought to the TC for resolution and that discussion and
 compromise among committers be the default resolution mechanism.
 
-# Becoming a Committer
+## Becoming a Triager
+
+Anyone can become a triager! Read more about the process of being a triager in
+[the triage process document](Triager-Guide.md).
+
+[Open an issue in `expressjs/express` repo](https://github.com/expressjs/express/issues/new)
+to request the triage role. State that you have read and agree to the
+[Code of Conduct](Code-Of-Conduct.md) and details of the role.
+
+Here is an example issue content you can copy and paste:
+
+```
+Title: Request triager role for <your GitHub username>
+
+I have read and understood the project's Code of Conduct.
+I also have read and understood the process and best practices around Express triaging.
+
+I request for a triager role for the following GitHub organizations:
+
+jshttp
+pillarjs
+express
+```
+
+Once you have opened your issue, a member of the TC will add you to the `triage` team in
+the organizations requested. They will then close the issue.
+
+Happy triaging!
+
+## Becoming a Committer
 
 All contributors who land a non-trivial contribution should be on-boarded in a timely manner,
 and added as a committer, and be given write access to the repository.
@@ -64,7 +94,7 @@ and added as a committer, and be given write access to the repository.
 Committers are expected to follow this policy and continue to send pull requests, go through
 proper review, and have other committers merge their pull requests.
 
-# TC Process
+## TC Process
 
 The TC uses a "consensus seeking" process for issues that are escalated to the TC.
 The group tries to find a resolution that has no open objections among TC members.
@@ -81,5 +111,3 @@ Members can be added to the TC at any time. Any committer can nominate another c
 to the TC and the TC uses its standard consensus seeking process to evaluate whether or
 not to add this new member. Members who do not participate consistently at the level of
 a majority of the other members are expected to resign.
-
-

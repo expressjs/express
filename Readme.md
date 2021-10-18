@@ -4,7 +4,7 @@
 
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
-  [![Linux Build][travis-image]][travis-url]
+  [![Linux Build][ci-image]][ci-url]
   [![Windows Build][appveyor-image]][appveyor-url]
   [![Test Coverage][coveralls-image]][coveralls-url]
 
@@ -26,6 +26,9 @@ This is a [Node.js](https://nodejs.org/en/) module available through the
 
 Before installing, [download and install Node.js](https://nodejs.org/en/download/).
 Node.js 0.10 or higher is required.
+
+If this is a brand new project, make sure to create a `package.json` first with
+the [`npm init` command](https://docs.npmjs.com/creating-a-package-json-file).
 
 Installation is done using the
 [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
@@ -95,7 +98,7 @@ $ npm start
 ## Philosophy
 
   The Express philosophy is to provide small, robust tooling for HTTP servers, making
-  it a great solution for single page applications, web sites, hybrids, or public
+  it a great solution for single page applications, websites, hybrids, or public
   HTTP APIs.
 
   Express does not force you to use any specific ORM or template engine. With support for over
@@ -143,12 +146,12 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
   [MIT](LICENSE)
 
+[ci-image]: https://img.shields.io/github/workflow/status/expressjs/express/ci/master.svg?label=linux
+[ci-url]: https://github.com/expressjs/express/actions?query=workflow%3Aci
 [npm-image]: https://img.shields.io/npm/v/express.svg
 [npm-url]: https://npmjs.org/package/express
 [downloads-image]: https://img.shields.io/npm/dm/express.svg
-[downloads-url]: https://npmjs.org/package/express
-[travis-image]: https://img.shields.io/travis/expressjs/express/master.svg?label=linux
-[travis-url]: https://travis-ci.org/expressjs/express
+[downloads-url]: https://npmcharts.com/compare/express?minimal=true
 [appveyor-image]: https://img.shields.io/appveyor/ci/dougwilson/express/master.svg?label=windows
 [appveyor-url]: https://ci.appveyor.com/project/dougwilson/express
 [coveralls-image]: https://img.shields.io/coveralls/expressjs/express/master.svg
