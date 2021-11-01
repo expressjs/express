@@ -33,7 +33,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect(200, 'tobi', done);
+      .expect(200, 'nada', done);
     });
 
     it('should transfer a file with special characters in string', function (done) {
