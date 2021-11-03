@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Fix handling of `undefined` in `res.jsonp`
+  * Fix handling of `undefined` when `"json escape"` is enabled
   * Fix incorrect middleware execution with unanchored `RegExp`s
   * Fix `res.jsonp(obj, status)` deprecation message
   * Fix typo in `res.is` JSDoc

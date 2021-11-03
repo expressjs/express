@@ -266,6 +266,21 @@ describe('res', function(){
         .expect('Content-Type', 'text/javascript; charset=utf-8')
         .expect(200, /foo\({"\\u0026":"\\u2028\\u003cscript\\u003e\\u2029"}\)/, done)
       })
+
+      it('should not break undefined escape', function (done) {
+        var app = express()
+
+        app.enable('json escape')
+
+        app.use(function (req, res) {
+          res.jsonp(undefined)
+        })
+
+        request(app)
+          .get('/?callback=cb')
+          .expect('Content-Type', 'text/javascript; charset=utf-8')
+          .expect(200, /cb\(\)/, done)
+      })
     })
 
     describe('"json replacer" setting', function(){

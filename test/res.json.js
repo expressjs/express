@@ -122,6 +122,21 @@ describe('res', function(){
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, '{"\\u0026":"\\u003cscript\\u003e"}', done)
       })
+
+      it('should not break undefined escape', function (done) {
+        var app = express()
+
+        app.enable('json escape')
+
+        app.use(function (req, res) {
+          res.json(undefined)
+        })
+
+        request(app)
+          .get('/')
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect(200, '', done)
+      })
     })
 
     describe('"json replacer" setting', function(){
