@@ -353,7 +353,7 @@ describe('Router', function(){
         throw new Error('should not be called')
       }
 
-      router.all('*', function (req, res) {
+      router.all('(.*)', function (req, res) {
         res.end()
       })
 
