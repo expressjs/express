@@ -156,6 +156,21 @@ describe('res', function(){
       .expect(200, /cb\(\{"hello":"world"\}\);$/, done);
     })
 
+    describe('when given undefined', function () {
+      it('should invoke callback with no arguments', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.jsonp(undefined)
+        })
+
+        request(app)
+          .get('/?callback=cb')
+          .expect('Content-Type', 'text/javascript; charset=utf-8')
+          .expect(200, /cb\(\)/, done)
+      })
+    })
+
     describe('when given null', function () {
       it('should invoke callback with null', function (done) {
         var app = express()
