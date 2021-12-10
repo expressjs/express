@@ -6,6 +6,8 @@ unreleased
   * Fix incorrect middleware execution with unanchored `RegExp`s
   * Fix `res.jsonp(obj, status)` deprecation message
   * Fix typo in `res.is` JSDoc
+  * deps: content-disposition@0.5.4
+    - deps: safe-buffer@5.2.1
   * deps: cookie@0.4.1
     - Fix `maxAge` option to reject invalid values
   * deps: proxy-addr@~2.0.7
