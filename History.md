@@ -12,6 +12,7 @@ unreleased
     - Use `req.socket` over deprecated `req.connection`
     - deps: forwarded@0.2.0
     - deps: ipaddr.js@1.9.1
+  * deps: safe-buffer@5.2.1
 
 4.17.1 / 2019-05-25
 ===================
