@@ -6,6 +6,13 @@ unreleased
   * Fix incorrect middleware execution with unanchored `RegExp`s
   * Fix `res.jsonp(obj, status)` deprecation message
   * Fix typo in `res.is` JSDoc
+  * deps: body-parser@1.19.1
+    - deps: bytes@3.1.1
+    - deps: http-errors@1.8.1
+    - deps: qs@6.9.6
+    - deps: raw-body@2.4.2
+    - deps: safe-buffer@5.2.1
+    - deps: type-is@~1.6.18
   * deps: content-disposition@0.5.4
     - deps: safe-buffer@5.2.1
   * deps: cookie@0.4.1

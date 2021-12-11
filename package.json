@@ -30,7 +30,7 @@
   "dependencies": {
     "accepts": "~1.3.7",
     "array-flatten": "1.1.1",
-    "body-parser": "1.19.0",
+    "body-parser": "1.19.1",
     "content-disposition": "0.5.4",
     "content-type": "~1.0.4",
     "cookie": "0.4.1",
