@@ -22,6 +22,10 @@ unreleased
     - deps: forwarded@0.2.0
     - deps: ipaddr.js@1.9.1
   * deps: safe-buffer@5.2.1
+  * deps: send@0.17.2
+    - deps: http-errors@1.8.1
+    - deps: ms@2.1.3
+    - pref: ignore empty http tokens
 
 4.17.1 / 2019-05-25
 ===================
