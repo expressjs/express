@@ -3,6 +3,19 @@
 
 This incorporates all changes after 4.17.1 up to 4.17.2.
 
+  * deps: router@2.0.0-beta.1
+    - Add new `?`, `*`, and `+` parameter modifiers
+    - Internalize private `router.process_params` method
+    - Matching group expressions are only RegExp syntax
+    - Named matching groups no longer available by position in `req.params`
+    - Regular expressions can only be used in a matching group
+    - Remove `debug` dependency
+    - Special `*` path segment behavior removed
+    - deps: array-flatten@3.0.0
+    - deps: parseurl@~1.3.3
+    - deps: path-to-regexp@3.2.0
+    - deps: setprototypeof@1.2.0
+
 5.0.0-alpha.8 / 2020-03-25
 ==========================
 
