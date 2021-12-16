@@ -27,6 +27,8 @@ unreleased
     - deps: http-errors@1.8.1
     - deps: ms@2.1.3
     - pref: ignore empty http tokens
+  * deps: serve-static@1.14.2
+    - deps: send@0.17.2
   * deps: setprototypeof@1.2.0
 
 4.17.1 / 2019-05-25
