@@ -1,3 +1,8 @@
+5.x
+===
+
+This incorporates all changes after 4.17.1 up to 4.17.2.
+
 5.0.0-alpha.8 / 2020-03-25
 ==========================
 
@@ -118,6 +123,39 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.17.2 / 2021-12-16
+===================
+
+  * Fix handling of `undefined` in `res.jsonp`
+  * Fix handling of `undefined` when `"json escape"` is enabled
+  * Fix incorrect middleware execution with unanchored `RegExp`s
+  * Fix `res.jsonp(obj, status)` deprecation message
+  * Fix typo in `res.is` JSDoc
+  * deps: body-parser@1.19.1
+    - deps: bytes@3.1.1
+    - deps: http-errors@1.8.1
+    - deps: qs@6.9.6
+    - deps: raw-body@2.4.2
+    - deps: safe-buffer@5.2.1
+    - deps: type-is@~1.6.18
+  * deps: content-disposition@0.5.4
+    - deps: safe-buffer@5.2.1
+  * deps: cookie@0.4.1
+    - Fix `maxAge` option to reject invalid values
+  * deps: proxy-addr@~2.0.7
+    - Use `req.socket` over deprecated `req.connection`
+    - deps: forwarded@0.2.0
+    - deps: ipaddr.js@1.9.1
+  * deps: qs@6.9.6
+  * deps: safe-buffer@5.2.1
+  * deps: send@0.17.2
+    - deps: http-errors@1.8.1
+    - deps: ms@2.1.3
+    - pref: ignore empty http tokens
+  * deps: serve-static@1.14.2
+    - deps: send@0.17.2
+  * deps: setprototypeof@1.2.0
 
 4.17.1 / 2019-05-25
 ===================

@@ -26,7 +26,7 @@ describe('HEAD', function(){
     });
 
     request(app)
-    .get('/tobi')
+    .head('/tobi')
     .expect(200, function(err, res){
       if (err) return done(err);
       var headers = res.headers;

@@ -13,7 +13,7 @@ describe('cookie-sessions', function () {
     it('should set a session cookie', function (done) {
       request(app)
       .get('/')
-      .expect('Set-Cookie', /express:sess=/)
+      .expect('Set-Cookie', /session=/)
       .expect(200, done)
     })
 

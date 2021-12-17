@@ -32,7 +32,7 @@ describe('Router', function(){
     var another = new Router();
 
     another.get('/:bar', function(req, res){
-      req.params.bar.should.equal('route');
+      assert.strictEqual(req.params.bar, 'route')
       res.end();
     });
     router.use('/:foo', another);
@@ -44,7 +44,7 @@ describe('Router', function(){
     var router = new Router();
 
     router.use(function (req, res) {
-      false.should.be.true()
+      throw new Error('should not be called')
     });
 
     router.handle({ url: '', method: 'GET' }, {}, done);
@@ -85,7 +85,7 @@ describe('Router', function(){
 
       var res = {
         send: function(val) {
-          val.should.equal('foo');
+          assert.strictEqual(val, 'foo')
           done();
         }
       }

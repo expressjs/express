@@ -8,7 +8,7 @@ var app = module.exports = express();
 
 // create an error with .status. we
 // can then use the property in our
-// custom error handler (Connect repects this prop as well)
+// custom error handler (Connect respects this prop as well)
 
 function error(status, msg) {
   var err = new Error(msg);
@@ -55,7 +55,7 @@ var repos = [
 ];
 
 var users = [
-    { name: 'tobi' }
+  { name: 'tobi' }
   , { name: 'loki' }
   , { name: 'jane' }
 ];
@@ -105,7 +105,7 @@ app.use(function(err, req, res, next){
 // invoke next() and do not respond.
 app.use(function(req, res){
   res.status(404);
-  res.send({ error: "Lame, can't find that" });
+  res.send({ error: "Sorry, can't find that" })
 });
 
 /* istanbul ignore next */

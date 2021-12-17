@@ -11,6 +11,15 @@ describe('downloads', function(){
     })
   })
 
+  describe('GET /files/notes/groceries.txt', function () {
+    it('should have a download header', function (done) {
+      request(app)
+        .get('/files/notes/groceries.txt')
+        .expect('Content-Disposition', 'attachment; filename="groceries.txt"')
+        .expect(200, done)
+    })
+  })
+
   describe('GET /files/amazing.txt', function(){
     it('should have a download header', function(done){
       request(app)

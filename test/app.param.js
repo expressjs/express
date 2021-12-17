@@ -144,7 +144,7 @@ describe('app', function(){
       });
 
       app.param('user', function(req, res, next, user) {
-        next(new Error('invalid invokation'));
+        next(new Error('invalid invocation'))
       });
 
       app.post('/:user', function(req, res, next) {

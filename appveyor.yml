@@ -9,11 +9,13 @@ environment:
     - nodejs_version: "5.12"
     - nodejs_version: "6.17"
     - nodejs_version: "7.10"
-    - nodejs_version: "8.16"
+    - nodejs_version: "8.17"
     - nodejs_version: "9.11"
-    - nodejs_version: "10.15"
+    - nodejs_version: "10.24"
     - nodejs_version: "11.15"
-    - nodejs_version: "12.3"
+    - nodejs_version: "12.22"
+    - nodejs_version: "13.14"
+    - nodejs_version: "14.18"
 cache:
   - node_modules
 install:
@@ -23,24 +25,43 @@ install:
       catch { Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) }
   # Configure npm
   - ps: |
-      # Skip updating shrinkwrap / lock
+      npm config set loglevel error
       npm config set shrinkwrap false
   # Remove all non-test dependencies
   - ps: |
       # Remove example dependencies
       npm rm --silent --save-dev connect-redis
+      # Remove lint dependencies
+      cmd.exe /c "node -pe `"Object.keys(require('./package').devDependencies).join('\n')`"" | `
+        sls "^eslint(-|$)" | `
+        %{ npm rm --silent --save-dev $_ }
   # Setup Node.js version-specific dependencies
   - ps: |
       # mocha for testing
-      # - use 3.x for Node.js < 6
-      if ($env:nodejs_version.split(".")[0] -lt 6) {
+      # - use 3.x for Node.js < 4
+      # - use 5.x for Node.js < 6
+      # - use 6.x for Node.js < 8
+      # - use 7.x for Node.js < 10
+      # - use 8.x for Node.js < 12
+      if ([int]$env:nodejs_version.split(".")[0] -lt 4) {
         npm install --silent --save-dev mocha@3.5.3
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 6) {
+        npm install --silent --save-dev mocha@5.2.0
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 8) {
+        npm install --silent --save-dev mocha@6.2.2
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 10) {
+        npm install --silent --save-dev mocha@7.2.0
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 12) {
+        npm install --silent --save-dev mocha@8.4.0
       }
   - ps: |
       # supertest for http calls
       # - use 2.0.0 for Node.js < 4
-      if ($env:nodejs_version.split(".")[0] -lt 4) {
+      # - use 3.4.2 for Node.js < 6
+      if ([int]$env:nodejs_version.split(".")[0] -lt 4) {
         npm install --silent --save-dev supertest@2.0.0
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 6) {
+        npm install --silent --save-dev supertest@3.4.2
       }
   # Update Node.js modules
   - ps: |
@@ -59,6 +80,4 @@ test_script:
       npm --version
   # Run test script
   - npm run test-ci
-  # Run linting
-  - npm run lint
 version: "{build}"
