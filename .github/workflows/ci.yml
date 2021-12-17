@@ -115,8 +115,8 @@ jobs:
       shell: bash
       run: |
         # eslint for linting
-        # - remove on Node.js < 4
-        if [[ "$(cut -d. -f1 <<< "${{ matrix.node-version }}")" -lt 4 ]]; then
+        # - remove on Node.js < 10
+        if [[ "$(cut -d. -f1 <<< "${{ matrix.node-version }}")" -lt 10 ]]; then
           node -pe 'Object.keys(require("./package").devDependencies).join("\n")' | \
             grep -E '^eslint(-|$)' | \
             sort -r | \
