@@ -1,5 +1,5 @@
-unreleased
-==========
+4.17.2 / 2021-12-16
+===================
 
   * Fix handling of `undefined` in `res.jsonp`
   * Fix handling of `undefined` when `"json escape"` is enabled
