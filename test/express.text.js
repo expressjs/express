@@ -195,7 +195,7 @@ describe('express.text()', function () {
           .post('/')
           .set('Content-Type', 'text/plain')
           .send('user is tobi')
-          .expect(200, '{}', done)
+          .expect(200, '', done)
       })
     })
 
@@ -225,7 +225,7 @@ describe('express.text()', function () {
           .post('/')
           .set('Content-Type', 'text/xml')
           .send('<user>tobi</user>')
-          .expect(200, '{}', done)
+          .expect(200, '', done)
       })
     })
 

@@ -16,7 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // middleware
 
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded())
 app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
@@ -100,6 +100,7 @@ app.get('/login', function(req, res){
 });
 
 app.post('/login', function(req, res){
+  if (!req.body) return res.sendStatus(400)
   authenticate(req.body.username, req.body.password, function(err, user){
     if (user) {
       // Regenerate session when signing in

@@ -312,7 +312,7 @@ describe('express.json()', function () {
           .post('/')
           .set('Content-Type', 'application/json')
           .send('{"user":"tobi"}')
-          .expect(200, '{}', done)
+          .expect(200, '', done)
       })
     })
 
@@ -344,7 +344,7 @@ describe('express.json()', function () {
           .post('/')
           .set('Content-Type', 'application/x-json')
           .send('{"user":"tobi"}')
-          .expect(200, '{}', done)
+          .expect(200, '', done)
       })
     })
 

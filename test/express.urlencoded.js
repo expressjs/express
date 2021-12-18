@@ -73,12 +73,12 @@ describe('express.urlencoded()', function () {
       .expect(200, '{"user":"tobi"}', done)
   })
 
-  it('should parse extended syntax', function (done) {
+  it('should not parse extended syntax', function (done) {
     request(this.app)
       .post('/')
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .send('user[name][first]=Tobi')
-      .expect(200, '{"user":{"name":{"first":"Tobi"}}}', done)
+      .expect(200, '{"user[name][first]":"Tobi"}', done)
   })
 
   describe('with extended option', function () {
@@ -441,7 +441,7 @@ describe('express.urlencoded()', function () {
           .post('/')
           .set('Content-Type', 'application/x-www-form-urlencoded')
           .send('user=tobi')
-          .expect(200, '{}', done)
+          .expect(200, '', done)
       })
     })
 
@@ -473,7 +473,7 @@ describe('express.urlencoded()', function () {
           .post('/')
           .set('Content-Type', 'application/x-foo')
           .send('user=tobi')
-          .expect(200, '{}', done)
+          .expect(200, '', done)
       })
     })
 

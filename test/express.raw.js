@@ -182,7 +182,7 @@ describe('express.raw()', function () {
         var test = request(this.app).post('/')
         test.set('Content-Type', 'application/octet-stream')
         test.write(Buffer.from('000102', 'hex'))
-        test.expect(200, '{}', done)
+        test.expect(200, '', done)
       })
     })
 
@@ -211,7 +211,7 @@ describe('express.raw()', function () {
         var test = request(this.app).post('/')
         test.set('Content-Type', 'application/x-foo')
         test.write(Buffer.from('000102', 'hex'))
-        test.expect(200, '{}', done)
+        test.expect(200, '', done)
       })
     })
 
