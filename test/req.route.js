@@ -8,18 +8,20 @@ describe('req', function(){
       var app = express();
 
       app.get('/user/:id/:op?', function(req, res, next){
-        req.route.path.should.equal('/user/:id/:op?');
+        res.header('path-1', req.route.path)
         next();
       });
 
       app.get('/user/:id/edit', function(req, res){
-        req.route.path.should.equal('/user/:id/edit');
+        res.header('path-2', req.route.path)
         res.end();
       });
 
       request(app)
-      .get('/user/12/edit')
-      .expect(200, done);
+        .get('/user/12/edit')
+        .expect('path-1', '/user/:id/:op?')
+        .expect('path-2', '/user/:id/edit')
+        .expect(200, done)
     })
   })
 })

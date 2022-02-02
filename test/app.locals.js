@@ -1,16 +1,18 @@
 
+var assert = require('assert')
 var express = require('../')
+var should = require('should')
 
 describe('app', function(){
   describe('.locals(obj)', function(){
     it('should merge locals', function(){
       var app = express();
-      Object.keys(app.locals).should.eql(['settings']);
+      should(Object.keys(app.locals)).eql(['settings'])
       app.locals.user = 'tobi';
       app.locals.age = 2;
-      Object.keys(app.locals).should.eql(['settings', 'user', 'age']);
-      app.locals.user.should.equal('tobi');
-      app.locals.age.should.equal(2);
+      should(Object.keys(app.locals)).eql(['settings', 'user', 'age'])
+      assert.strictEqual(app.locals.user, 'tobi')
+      assert.strictEqual(app.locals.age, 2)
     })
   })
 
@@ -19,8 +21,8 @@ describe('app', function(){
       var app = express();
       app.set('title', 'House of Manny');
       var obj = app.locals.settings;
-      obj.should.have.property('env', 'test');
-      obj.should.have.property('title', 'House of Manny');
+      should(obj).have.property('env', 'test')
+      should(obj).have.property('title', 'House of Manny')
     })
   })
 })

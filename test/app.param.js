@@ -1,4 +1,5 @@
 
+var assert = require('assert')
 var express = require('../')
   , request = require('supertest');
 
@@ -40,7 +41,7 @@ describe('app', function(){
 
     it('should fail if not given fn', function(){
       var app = express();
-      app.param.bind(app, ':name', 'bob').should.throw();
+      assert.throws(app.param.bind(app, ':name', 'bob'))
     })
   })
 
@@ -57,24 +58,22 @@ describe('app', function(){
 
       app.get('/post/:id', function(req, res){
         var id = req.params.id;
-        id.should.be.a.Number()
-        res.send('' + id);
+        res.send((typeof id) + ':' + id)
       });
 
       app.get('/user/:uid', function(req, res){
         var id = req.params.id;
-        id.should.be.a.Number()
-        res.send('' + id);
+        res.send((typeof id) + ':' + id)
       });
 
       request(app)
-      .get('/user/123')
-      .expect(200, '123', function (err) {
-        if (err) return done(err)
-        request(app)
-        .get('/post/123')
-        .expect('123', done);
-      })
+        .get('/user/123')
+        .expect(200, 'number:123', function (err) {
+          if (err) return done(err)
+          request(app)
+            .get('/post/123')
+            .expect('number:123', done)
+        })
     })
   })
 
@@ -91,13 +90,12 @@ describe('app', function(){
 
       app.get('/user/:id', function(req, res){
         var id = req.params.id;
-        id.should.be.a.Number()
-        res.send('' + id);
+        res.send((typeof id) + ':' + id)
       });
 
       request(app)
-      .get('/user/123')
-      .expect('123', done);
+        .get('/user/123')
+        .expect(200, 'number:123', done)
     })
 
     it('should only call once per request', function(done) {

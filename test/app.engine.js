@@ -1,4 +1,5 @@
 
+var assert = require('assert')
 var express = require('../')
   , fs = require('fs');
 var path = require('path')
@@ -22,16 +23,16 @@ describe('app', function(){
 
       app.render('user.html', function(err, str){
         if (err) return done(err);
-        str.should.equal('<p>tobi</p>');
+        assert.strictEqual(str, '<p>tobi</p>')
         done();
       })
     })
 
     it('should throw when the callback is missing', function(){
       var app = express();
-      (function(){
+      assert.throws(function () {
         app.engine('.html', null);
-      }).should.throw('callback function required');
+      }, /callback function required/)
     })
 
     it('should work without leading "."', function(done){
@@ -43,7 +44,7 @@ describe('app', function(){
 
       app.render('user.html', function(err, str){
         if (err) return done(err);
-        str.should.equal('<p>tobi</p>');
+        assert.strictEqual(str, '<p>tobi</p>')
         done();
       })
     })
@@ -58,7 +59,7 @@ describe('app', function(){
 
       app.render('user', function(err, str){
         if (err) return done(err);
-        str.should.equal('<p>tobi</p>');
+        assert.strictEqual(str, '<p>tobi</p>')
         done();
       })
     })
@@ -73,7 +74,7 @@ describe('app', function(){
 
       app.render('user', function(err, str){
         if (err) return done(err);
-        str.should.equal('<p>tobi</p>');
+        assert.strictEqual(str, '<p>tobi</p>')
         done();
       })
     })

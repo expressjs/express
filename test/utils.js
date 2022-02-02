@@ -1,27 +1,28 @@
 
 var assert = require('assert');
 var Buffer = require('safe-buffer').Buffer
+var should = require('should')
 var utils = require('../lib/utils');
 
 describe('utils.etag(body, encoding)', function(){
   it('should support strings', function(){
-    utils.etag('express!')
-    .should.eql('"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"')
+    assert.strictEqual(utils.etag('express!'),
+      '"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"')
   })
 
   it('should support utf8 strings', function(){
-    utils.etag('express❤', 'utf8')
-    .should.eql('"a-JBiXf7GyzxwcrxY4hVXUwa7tmks"')
+    assert.strictEqual(utils.etag('express❤', 'utf8'),
+      '"a-JBiXf7GyzxwcrxY4hVXUwa7tmks"')
   })
 
   it('should support buffer', function(){
-    utils.etag(Buffer.from('express!'))
-    .should.eql('"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"')
+    assert.strictEqual(utils.etag(Buffer.from('express!')),
+      '"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"')
   })
 
   it('should support empty string', function(){
-    utils.etag('')
-    .should.eql('"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+    assert.strictEqual(utils.etag(''),
+      '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
   })
 })
 
@@ -49,23 +50,23 @@ describe('utils.setCharset(type, charset)', function () {
 
 describe('utils.wetag(body, encoding)', function(){
   it('should support strings', function(){
-    utils.wetag('express!')
-    .should.eql('W/"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"')
+    assert.strictEqual(utils.wetag('express!'),
+      'W/"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"')
   })
 
   it('should support utf8 strings', function(){
-    utils.wetag('express❤', 'utf8')
-    .should.eql('W/"a-JBiXf7GyzxwcrxY4hVXUwa7tmks"')
+    assert.strictEqual(utils.wetag('express❤', 'utf8'),
+      'W/"a-JBiXf7GyzxwcrxY4hVXUwa7tmks"')
   })
 
   it('should support buffer', function(){
-    utils.wetag(Buffer.from('express!'))
-    .should.eql('W/"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"')
+    assert.strictEqual(utils.wetag(Buffer.from('express!')),
+      'W/"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"')
   })
 
   it('should support empty string', function(){
-    utils.wetag('')
-    .should.eql('W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+    assert.strictEqual(utils.wetag(''),
+      'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
   })
 })
 
@@ -89,7 +90,7 @@ describe('utils.isAbsolute()', function(){
 describe('utils.flatten(arr)', function(){
   it('should flatten an array', function(){
     var arr = ['one', ['two', ['three', 'four'], 'five']];
-    utils.flatten(arr)
-      .should.eql(['one', 'two', 'three', 'four', 'five']);
+    should(utils.flatten(arr))
+      .eql(['one', 'two', 'three', 'four', 'five'])
   })
 })
