@@ -4,33 +4,35 @@ var express = require('../')
 
 describe('req', function(){
   describe('.acceptsEncodings', function () {
-    it('should be true if encoding accepted', function(done){
+    it('should return encoding if accepted', function (done) {
       var app = express();
 
-      app.use(function(req, res){
-        req.acceptsEncodings('gzip').should.be.ok()
-        req.acceptsEncodings('deflate').should.be.ok()
-        res.end();
-      });
+      app.get('/', function (req, res) {
+        res.send({
+          gzip: req.acceptsEncoding('gzip'),
+          deflate: req.acceptsEncoding('deflate')
+        })
+      })
 
       request(app)
-      .get('/')
-      .set('Accept-Encoding', ' gzip, deflate')
-      .expect(200, done);
+        .get('/')
+        .set('Accept-Encoding', ' gzip, deflate')
+        .expect(200, { gzip: 'gzip', deflate: 'deflate' }, done)
     })
 
     it('should be false if encoding not accepted', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        req.acceptsEncodings('bogus').should.not.be.ok()
-        res.end();
-      });
+      app.get('/', function (req, res) {
+        res.send({
+          bogus: req.acceptsEncoding('bogus')
+        })
+      })
 
       request(app)
-      .get('/')
-      .set('Accept-Encoding', ' gzip, deflate')
-      .expect(200, done);
+        .get('/')
+        .set('Accept-Encoding', ' gzip, deflate')
+        .expect(200, { bogus: false }, done)
     })
   })
 })
