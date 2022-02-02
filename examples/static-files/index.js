@@ -4,10 +4,11 @@
  * Module dependencies.
  */
 
-var express = require('../..');
-var logger = require('morgan');
-var path = require('path');
-var app = express();
+const express = require('../..')
+const logger = require('morgan')
+const path = require('path')
+
+const app = express()
 
 // log requests
 app.use(logger('dev'));

@@ -2,6 +2,16 @@
 
 module.exports = User;
 
+// faux database
+
+const users = []
+
+users.push(new User('Tobi', 2, 'ferret'))
+users.push(new User('Loki', 1, 'ferret'))
+users.push(new User('Jane', 6, 'ferret'))
+users.push(new User('Luna', 1, 'cat'))
+users.push(new User('Manny', 1, 'cat'))
+
 // faux model
 
 function User(name, age, species) {
@@ -24,13 +34,3 @@ User.count = function(fn){
     fn(null, users.length);
   });
 };
-
-// faux database
-
-var users = [];
-
-users.push(new User('Tobi', 2, 'ferret'));
-users.push(new User('Loki', 1, 'ferret'));
-users.push(new User('Jane', 6, 'ferret'));
-users.push(new User('Luna', 1, 'cat'));
-users.push(new User('Manny', 1, 'cat'));

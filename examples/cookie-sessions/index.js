@@ -4,10 +4,10 @@
  * Module dependencies.
  */
 
-var cookieSession = require('cookie-session');
-var express = require('../../');
+const cookieSession = require('cookie-session')
+const express = require('../../')
 
-var app = module.exports = express();
+const app = module.exports = express()
 
 // add req.session cookie support
 app.use(cookieSession({ secret: 'manny is cool' }));

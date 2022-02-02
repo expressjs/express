@@ -4,20 +4,20 @@
  * Module dependencies.
  */
 
-var escapeHtml = require('escape-html');
-var express = require('../..');
-var fs = require('fs');
-var marked = require('marked');
-var path = require('path');
+const escapeHtml = require('escape-html')
+const express = require('../..')
+const fs = require('fs')
+const marked = require('marked')
+const path = require('path')
 
-var app = module.exports = express();
+const app = module.exports = express()
 
 // register .md as an engine in express view system
 
 app.engine('md', function(path, options, fn){
   fs.readFile(path, 'utf8', function(err, str){
     if (err) return fn(err);
-    var html = marked.parse(str).replace(/\{([^}]+)\}/g, function(_, name){
+    const html = marked.parse(str).replace(/\{([^}]+)\}/g, function (_, name) {
       return escapeHtml(options[name] || '');
     });
     fn(null, html);

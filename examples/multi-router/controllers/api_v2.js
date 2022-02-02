@@ -1,8 +1,8 @@
 'use strict'
 
-var express = require('../../..');
+const express = require('../../..')
 
-var apiv2 = express.Router();
+const apiv2 = express.Router()
 
 apiv2.get('/', function(req, res) {
   res.send('Hello from APIv2 root route.');

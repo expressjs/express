@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-var https = require('https');
-var path = require('path');
-var extname = path.extname;
+const https = require('https')
+const path = require('path')
+const extname = path.extname
 
 /**
  * Expose `GithubView`.
@@ -34,8 +34,8 @@ function GithubView(name, options){
  */
 
 GithubView.prototype.render = function(options, fn){
-  var self = this;
-  var opts = {
+  const self = this
+  const opts = {
     host: 'raw.githubusercontent.com',
     port: 443,
     path: this.path,
@@ -43,7 +43,7 @@ GithubView.prototype.render = function(options, fn){
   };
 
   https.request(opts, function(res) {
-    var buf = '';
+    let buf = ''
     res.setEncoding('utf8');
     res.on('data', function(str){ buf += str });
     res.on('end', function(){

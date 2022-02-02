@@ -4,11 +4,12 @@
  * Module dependencies.
  */
 
-var express = require('../../');
-var path = require('path');
-var app = module.exports = express();
-var logger = require('morgan');
-var silent = process.env.NODE_ENV === 'test'
+const express = require('../../')
+const logger = require('morgan')
+const path = require('path')
+
+const app = module.exports = express()
+const silent = process.env.NODE_ENV === 'test'
 
 // general config
 app.set('views', path.join(__dirname, 'views'));
@@ -40,7 +41,7 @@ app.get('/404', function(req, res, next){
 
 app.get('/403', function(req, res, next){
   // trigger a 403 error
-  var err = new Error('not allowed!');
+  const err = new Error('not allowed!')
   err.status = 403;
   next(err);
 });

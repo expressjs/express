@@ -4,19 +4,26 @@
  * Module dependencies.
  */
 
-var express = require('../../');
+const express = require('../../')
 
-var app = module.exports = express();
+const app = module.exports = express()
 
 // create an error with .status. we
 // can then use the property in our
 // custom error handler (Connect respects this prop as well)
 
 function error(status, msg) {
-  var err = new Error(msg);
+  const err = new Error(msg)
   err.status = status;
   return err;
 }
+
+// map of valid api keys, typically mapped to
+// account info with some sort of database like redis.
+// api keys do _not_ serve as authentication, merely to
+// track API usage or help prevent malicious behavior etc.
+
+const apiKeys = ['foo', 'bar', 'baz']
 
 // if we wanted to supply more than JSON, we could
 // use something similar to the content-negotiation
@@ -28,7 +35,7 @@ function error(status, msg) {
 // will cause this middleware to be invoked
 
 app.use('/api', function(req, res, next){
-  var key = req.query['api-key'];
+  const key = req.query['api-key']
 
   // key isn't present
   if (!key) return next(error(400, 'api key required'));
@@ -41,28 +48,21 @@ app.use('/api', function(req, res, next){
   next();
 });
 
-// map of valid api keys, typically mapped to
-// account info with some sort of database like redis.
-// api keys do _not_ serve as authentication, merely to
-// track API usage or help prevent malicious behavior etc.
-
-var apiKeys = ['foo', 'bar', 'baz'];
-
 // these two objects will serve as our faux database
 
-var repos = [
+const repos = [
   { name: 'express', url: 'https://github.com/expressjs/express' },
   { name: 'stylus', url: 'https://github.com/learnboost/stylus' },
   { name: 'cluster', url: 'https://github.com/learnboost/cluster' }
 ];
 
-var users = [
+const users = [
   { name: 'tobi' }
   , { name: 'loki' }
   , { name: 'jane' }
 ];
 
-var userRepos = {
+const userRepos = {
   tobi: [repos[0], repos[1]]
   , loki: [repos[1]]
   , jane: [repos[2]]
@@ -83,8 +83,8 @@ app.get('/api/repos', function(req, res, next){
 
 // example: http://localhost:3000/api/user/tobi/repos/?api-key=foo
 app.get('/api/user/:name/repos', function(req, res, next){
-  var name = req.params.name;
-  var user = userRepos[name];
+  const name = req.params.name
+  const user = userRepos[name]
 
   if (user) res.send(user);
   else next();

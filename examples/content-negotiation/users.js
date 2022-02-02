@@ -1,6 +1,6 @@
 'use strict'
  
-var users = require('./db');
+const users = require('./db')
 
 exports.html = function(req, res){
   res.send('<ul>' + users.map(function(user){

@@ -4,10 +4,10 @@
  * Module dependencies.
  */
 
-var express = require('../../');
-var path = require('path');
+const express = require('../../')
+const path = require('path')
 
-var app = module.exports = express();
+const app = module.exports = express()
 
 // Register ejs as .html. If we did
 // not call this, we would need to
@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'html');
 
 // Dummy users
-var users = [
+const users = [
   { name: 'tobi', email: 'tobi@learnboost.com' },
   { name: 'loki', email: 'loki@learnboost.com' },
   { name: 'jane', email: 'jane@learnboost.com' }

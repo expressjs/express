@@ -4,17 +4,16 @@
  * Module dependencies.
  */
 
-var express = require('../..');
-var path = require('path');
-var app = express();
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var methodOverride = require('method-override');
-var site = require('./site');
-var post = require('./post');
-var user = require('./user');
+const cookieParser = require('cookie-parser')
+const express = require('../..')
+const logger = require('morgan')
+const methodOverride = require('method-override')
+const path = require('path')
+const post = require('./post')
+const site = require('./site')
+const user = require('./user')
 
-module.exports = app;
+const app = module.exports = express()
 
 // Config
 

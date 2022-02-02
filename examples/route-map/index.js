@@ -4,16 +4,16 @@
  * Module dependencies.
  */
 
-var escapeHtml = require('escape-html')
-var express = require('../../lib/express');
+const escapeHtml = require('escape-html')
+const express = require('../../lib/express')
 
-var verbose = process.env.NODE_ENV !== 'test'
+const verbose = process.env.NODE_ENV !== 'test'
 
-var app = module.exports = express();
+const app = module.exports = express()
 
 app.map = function(a, route){
   route = route || '';
-  for (var key in a) {
+  for (const key in a) {
     switch (typeof a[key]) {
       // { '/path': { ... }}
       case 'object':
@@ -28,7 +28,7 @@ app.map = function(a, route){
   }
 };
 
-var users = {
+const users = {
   list: function(req, res){
     res.send('user list');
   },
@@ -42,7 +42,7 @@ var users = {
   }
 };
 
-var pets = {
+const pets = {
   list: function(req, res){
     res.send('user ' + escapeHtml(req.params.uid) + '\'s pets')
   },

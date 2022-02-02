@@ -4,10 +4,11 @@
  * Module dependencies.
  */
 
-var express = require('../../');
-var app = module.exports = express();
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser')
+const express = require('../../')
+const logger = require('morgan')
+
+const app = module.exports = express()
 
 // custom log format
 if (process.env.NODE_ENV !== 'test') app.use(logger(':method :url'))
@@ -37,7 +38,7 @@ app.get('/forget', function(req, res){
 });
 
 app.post('/', function(req, res){
-  var minute = 60000;
+  const minute = 60000
   if (req.body.remember) res.cookie('remember', 1, { maxAge: minute });
   res.redirect('back');
 });

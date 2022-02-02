@@ -1,8 +1,8 @@
 'use strict'
 
-var express = require('../../');
+const express = require('../../')
 
-var app = module.exports = express()
+const app = module.exports = express()
 
 app.get('/', function(req, res){
   res.send('Hello World');

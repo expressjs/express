@@ -1,10 +1,10 @@
 'use strict'
 
-var search = document.querySelector('[type=search]');
-var code = document.querySelector('pre');
+const code = document.querySelector('pre')
+const search = document.querySelector('[type=search]')
 
 search.addEventListener('keyup', function(){
-  var xhr = new XMLHttpRequest;
+  const xhr = new XMLHttpRequest()
   xhr.open('GET', '/search/' + search.value, true);
   xhr.onreadystatechange = function(){
     if (xhr.readyState === 4) {

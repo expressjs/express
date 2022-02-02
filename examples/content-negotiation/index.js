@@ -1,8 +1,9 @@
 'use strict'
 
-var express = require('../../');
-var app = module.exports = express();
-var users = require('./db');
+const express = require('../../')
+const users = require('./db')
+
+const app = module.exports = express()
 
 // so either you can deal with different types of formatting
 // for expected response in index.js
@@ -31,7 +32,7 @@ app.get('/', function(req, res){
 // and make things a bit more declarative:
 
 function format(path) {
-  var obj = require(path);
+  const obj = require(path)
   return function(req, res){
     res.format(obj);
   };

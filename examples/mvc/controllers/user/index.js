@@ -4,12 +4,12 @@
  * Module dependencies.
  */
 
-var db = require('../../db');
+const db = require('../../db')
 
 exports.engine = 'hbs';
 
 exports.before = function(req, res, next){
-  var id = req.params.user_id;
+  const id = req.params.user_id
   if (!id) return next();
   // pretend to query a database...
   process.nextTick(function(){
@@ -34,7 +34,7 @@ exports.show = function(req, res, next){
 };
 
 exports.update = function(req, res, next){
-  var body = req.body;
+  const body = req.body
   req.user.name = body.user.name;
   res.message('Information updated!');
   res.redirect('/user/' + req.user.id);

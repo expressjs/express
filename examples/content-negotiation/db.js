@@ -1,6 +1,6 @@
 'use strict'
 
-var users = [];
+const users = []
 
 users.push({ name: 'Tobi' });
 users.push({ name: 'Loki' });
