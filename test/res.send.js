@@ -544,7 +544,7 @@ describe('res', function(){
           var chunk = !Buffer.isBuffer(body)
             ? Buffer.from(body, encoding)
             : body;
-          chunk.toString().should.equal('hello, world!');
+          assert.strictEqual(chunk.toString(), 'hello, world!')
           return '"custom"';
         });
 

@@ -51,7 +51,7 @@ describe('app.router', function(){
 
       it('should reject numbers for app.' + method, function(){
         var app = express();
-        app[method].bind(app, '/', 3).should.throw(/Number/);
+        assert.throws(app[method].bind(app, '/', 3), /Number/)
       })
     });
 
@@ -1102,6 +1102,6 @@ describe('app.router', function(){
 
   it('should be chainable', function(){
     var app = express();
-    app.get('/', function(){}).should.equal(app);
+    assert.strictEqual(app.get('/', function () {}), app)
   })
 })

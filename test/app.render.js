@@ -13,7 +13,7 @@ describe('app', function(){
 
       app.render(path.join(__dirname, 'fixtures', 'user.tmpl'), function (err, str) {
         if (err) return done(err);
-        str.should.equal('<p>tobi</p>');
+        assert.strictEqual(str, '<p>tobi</p>')
         done();
       })
     })
@@ -26,7 +26,7 @@ describe('app', function(){
 
       app.render(path.join(__dirname, 'fixtures', 'user'), function (err, str) {
         if (err) return done(err);
-        str.should.equal('<p>tobi</p>');
+        assert.strictEqual(str, '<p>tobi</p>')
         done();
       })
     })
@@ -39,7 +39,7 @@ describe('app', function(){
 
       app.render('user.tmpl', function (err, str) {
         if (err) return done(err);
-        str.should.equal('<p>tobi</p>');
+        assert.strictEqual(str, '<p>tobi</p>')
         done();
       })
     })
@@ -52,7 +52,7 @@ describe('app', function(){
 
       app.render('blog/post', function (err, str) {
         if (err) return done(err);
-        str.should.equal('<h1>blog post</h1>');
+        assert.strictEqual(str, '<h1>blog post</h1>')
         done();
       })
     })
@@ -72,8 +72,8 @@ describe('app', function(){
       app.set('view', View);
 
       app.render('something', function(err, str){
-        err.should.be.ok()
-        err.message.should.equal('err!');
+        assert.ok(err)
+        assert.strictEqual(err.message, 'err!')
         done();
       })
     })
@@ -113,7 +113,7 @@ describe('app', function(){
 
         app.render('email.tmpl', function (err, str) {
           if (err) return done(err);
-          str.should.equal('<p>This is an email</p>');
+          assert.strictEqual(str, '<p>This is an email</p>')
           done();
         })
       })
@@ -128,7 +128,7 @@ describe('app', function(){
 
         app.render('email', function(err, str){
           if (err) return done(err);
-          str.should.equal('<p>This is an email</p>');
+          assert.strictEqual(str, '<p>This is an email</p>')
           done();
         })
       })
@@ -143,7 +143,7 @@ describe('app', function(){
 
         app.render('user.tmpl', function (err, str) {
           if (err) return done(err);
-          str.should.equal('<p>tobi</p>');
+          assert.strictEqual(str, '<p>tobi</p>')
           done();
         })
       })
@@ -161,7 +161,7 @@ describe('app', function(){
 
           app.render('user.tmpl', function (err, str) {
             if (err) return done(err);
-            str.should.equal('<span>tobi</span>');
+            assert.strictEqual(str, '<span>tobi</span>')
             done();
           })
         })
@@ -178,7 +178,7 @@ describe('app', function(){
 
           app.render('name.tmpl', function (err, str) {
             if (err) return done(err);
-            str.should.equal('<p>tobi</p>');
+            assert.strictEqual(str, '<p>tobi</p>')
             done();
           })
         })
@@ -219,7 +219,7 @@ describe('app', function(){
 
         app.render('something', function(err, str){
           if (err) return done(err);
-          str.should.equal('abstract engine');
+          assert.strictEqual(str, 'abstract engine')
           done();
         })
       })
@@ -245,12 +245,12 @@ describe('app', function(){
 
         app.render('something', function(err, str){
           if (err) return done(err);
-          count.should.equal(1);
-          str.should.equal('abstract engine');
+          assert.strictEqual(count, 1)
+          assert.strictEqual(str, 'abstract engine')
           app.render('something', function(err, str){
             if (err) return done(err);
-            count.should.equal(2);
-            str.should.equal('abstract engine');
+            assert.strictEqual(count, 2)
+            assert.strictEqual(str, 'abstract engine')
             done();
           })
         })
@@ -275,12 +275,12 @@ describe('app', function(){
 
         app.render('something', function(err, str){
           if (err) return done(err);
-          count.should.equal(1);
-          str.should.equal('abstract engine');
+          assert.strictEqual(count, 1)
+          assert.strictEqual(str, 'abstract engine')
           app.render('something', function(err, str){
             if (err) return done(err);
-            count.should.equal(1);
-            str.should.equal('abstract engine');
+            assert.strictEqual(count, 1)
+            assert.strictEqual(str, 'abstract engine')
             done();
           })
         })
@@ -298,7 +298,7 @@ describe('app', function(){
 
       app.render('user.tmpl', { user: user }, function (err, str) {
         if (err) return done(err);
-        str.should.equal('<p>tobi</p>');
+        assert.strictEqual(str, '<p>tobi</p>')
         done();
       })
     })
@@ -311,7 +311,7 @@ describe('app', function(){
 
       app.render('user.tmpl', {}, function (err, str) {
         if (err) return done(err);
-        str.should.equal('<p>tobi</p>');
+        assert.strictEqual(str, '<p>tobi</p>')
         done();
       })
     })
@@ -325,7 +325,7 @@ describe('app', function(){
 
       app.render('user.tmpl', { user: jane }, function (err, str) {
         if (err) return done(err);
-        str.should.equal('<p>jane</p>');
+        assert.strictEqual(str, '<p>jane</p>')
         done();
       })
     })
@@ -350,12 +350,12 @@ describe('app', function(){
 
         app.render('something', {cache: true}, function(err, str){
           if (err) return done(err);
-          count.should.equal(1);
-          str.should.equal('abstract engine');
+          assert.strictEqual(count, 1)
+          assert.strictEqual(str, 'abstract engine')
           app.render('something', {cache: true}, function(err, str){
             if (err) return done(err);
-            count.should.equal(1);
-            str.should.equal('abstract engine');
+            assert.strictEqual(count, 1)
+            assert.strictEqual(str, 'abstract engine')
             done();
           })
         })

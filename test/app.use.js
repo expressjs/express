@@ -10,7 +10,7 @@ describe('app', function(){
       , app = express();
 
     blog.on('mount', function(arg){
-      arg.should.equal(app);
+      assert.strictEqual(arg, app)
       done();
     });
 
@@ -63,7 +63,7 @@ describe('app', function(){
         , app = express();
 
       app.use('/blog', blog);
-      blog.parent.should.equal(app);
+      assert.strictEqual(blog.parent, app)
     })
 
     it('should support dynamic routes', function(done){
@@ -102,11 +102,11 @@ describe('app', function(){
       });
 
       blog.once('mount', function (parent) {
-        parent.should.equal(app);
+        assert.strictEqual(parent, app)
         cb();
       });
       other.once('mount', function (parent) {
-        parent.should.equal(app);
+        assert.strictEqual(parent, app)
         cb();
       });
 

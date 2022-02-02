@@ -32,8 +32,8 @@ describe('app.parent', function(){
     blog.use('/admin', blogAdmin);
 
     assert(!app.parent, 'app.parent');
-    blog.parent.should.equal(app);
-    blogAdmin.parent.should.equal(blog);
+    assert.strictEqual(blog.parent, app)
+    assert.strictEqual(blogAdmin.parent, blog)
   })
 })
 
@@ -48,10 +48,10 @@ describe('app.mountpath', function(){
     app.use(fallback);
     blog.use('/admin', admin);
 
-    admin.mountpath.should.equal('/admin');
-    app.mountpath.should.equal('/');
-    blog.mountpath.should.equal('/blog');
-    fallback.mountpath.should.equal('/');
+    assert.strictEqual(admin.mountpath, '/admin')
+    assert.strictEqual(app.mountpath, '/')
+    assert.strictEqual(blog.mountpath, '/blog')
+    assert.strictEqual(fallback.mountpath, '/')
   })
 })
 
@@ -76,9 +76,9 @@ describe('app.path()', function(){
     app.use('/blog', blog);
     blog.use('/admin', blogAdmin);
 
-    app.path().should.equal('');
-    blog.path().should.equal('/blog');
-    blogAdmin.path().should.equal('/blog/admin');
+    assert.strictEqual(app.path(), '')
+    assert.strictEqual(blog.path(), '/blog')
+    assert.strictEqual(blogAdmin.path(), '/blog/admin')
   })
 })
 
@@ -86,7 +86,7 @@ describe('in development', function(){
   it('should disable "view cache"', function(){
     process.env.NODE_ENV = 'development';
     var app = express();
-    app.enabled('view cache').should.be.false()
+    assert.ok(!app.enabled('view cache'))
     process.env.NODE_ENV = 'test';
   })
 })
@@ -95,7 +95,7 @@ describe('in production', function(){
   it('should enable "view cache"', function(){
     process.env.NODE_ENV = 'production';
     var app = express();
-    app.enabled('view cache').should.be.true()
+    assert.ok(app.enabled('view cache'))
     process.env.NODE_ENV = 'test';
   })
 })
@@ -104,7 +104,7 @@ describe('without NODE_ENV', function(){
   it('should default to development', function(){
     process.env.NODE_ENV = '';
     var app = express();
-    app.get('env').should.equal('development');
+    assert.strictEqual(app.get('env'), 'development')
     process.env.NODE_ENV = 'test';
   })
 })

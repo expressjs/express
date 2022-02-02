@@ -1,3 +1,5 @@
+
+var assert = require('assert')
 var express = require('../')
   , request = require('supertest');
 
@@ -34,20 +36,20 @@ describe('app', function(){
         next();
       }, function(err, req, res, next){
         b = true;
-        err.message.should.equal('fabricated error');
+        assert.strictEqual(err.message, 'fabricated error')
         next(err);
       }, function(err, req, res, next){
         c = true;
-        err.message.should.equal('fabricated error');
+        assert.strictEqual(err.message, 'fabricated error')
         next();
       }, function(err, req, res, next){
         d = true;
         next();
       }, function(req, res){
-        a.should.be.false()
-        b.should.be.true()
-        c.should.be.true()
-        d.should.be.false()
+        assert.ok(!a)
+        assert.ok(b)
+        assert.ok(c)
+        assert.ok(!d)
         res.send(204);
       });
 
