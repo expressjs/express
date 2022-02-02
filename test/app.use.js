@@ -37,6 +37,7 @@ describe('app', function(){
       var blog = express()
         , forum = express()
         , app = express();
+      var cb = after(2, done)
 
       blog.get('/', function(req, res){
         res.end('blog');
@@ -50,12 +51,12 @@ describe('app', function(){
       app.use('/forum', forum);
 
       request(app)
-      .get('/blog')
-      .expect('blog', function(){
-        request(app)
+        .get('/blog')
+        .expect(200, 'blog', cb)
+
+      request(app)
         .get('/forum')
-        .expect('forum', done);
-      });
+        .expect(200, 'forum', done)
     })
 
     it('should set the child\'s .parent', function(){
