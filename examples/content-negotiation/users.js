@@ -1,4 +1,5 @@
-
+'use strict'
+ 
 var users = require('./db');
 
 exports.html = function(req, res){
