@@ -11,6 +11,12 @@ describe('config', function () {
       assert.equal(app.get('foo'), 'bar');
     })
 
+    it('should set prototype values', function () {
+      var app = express()
+      app.set('hasOwnProperty', 42)
+      assert.strictEqual(app.get('hasOwnProperty'), 42)
+    })
+
     it('should return the app', function () {
       var app = express();
       assert.equal(app.set('foo', 'bar'), app);
@@ -19,6 +25,17 @@ describe('config', function () {
     it('should return the app when undefined', function () {
       var app = express();
       assert.equal(app.set('foo', undefined), app);
+    })
+
+    it('should return set value', function () {
+      var app = express()
+      app.set('foo', 'bar')
+      assert.strictEqual(app.set('foo'), 'bar')
+    })
+
+    it('should return undefined for prototype values', function () {
+      var app = express()
+      assert.strictEqual(app.set('hasOwnProperty'), undefined)
     })
 
     describe('"etag"', function(){
@@ -49,6 +66,11 @@ describe('config', function () {
     it('should return undefined when unset', function(){
       var app = express();
       assert.strictEqual(app.get('foo'), undefined);
+    })
+
+    it('should return undefined for prototype values', function () {
+      var app = express()
+      assert.strictEqual(app.get('hasOwnProperty'), undefined)
     })
 
     it('should otherwise return the value', function(){
@@ -125,6 +147,12 @@ describe('config', function () {
       assert.equal(app.enable('tobi'), app);
       assert.strictEqual(app.get('tobi'), true);
     })
+
+    it('should set prototype values', function () {
+      var app = express()
+      app.enable('hasOwnProperty')
+      assert.strictEqual(app.get('hasOwnProperty'), true)
+    })
   })
 
   describe('.disable()', function(){
@@ -132,6 +160,12 @@ describe('config', function () {
       var app = express();
       assert.equal(app.disable('tobi'), app);
       assert.strictEqual(app.get('tobi'), false);
+    })
+
+    it('should set prototype values', function () {
+      var app = express()
+      app.disable('hasOwnProperty')
+      assert.strictEqual(app.get('hasOwnProperty'), false)
     })
   })
 
@@ -146,6 +180,11 @@ describe('config', function () {
       app.set('foo', 'bar');
       assert.strictEqual(app.enabled('foo'), true);
     })
+
+    it('should default to false for prototype values', function () {
+      var app = express()
+      assert.strictEqual(app.enabled('hasOwnProperty'), false)
+    })
   })
 
   describe('.disabled()', function(){
@@ -158,6 +197,11 @@ describe('config', function () {
       var app = express();
       app.set('foo', 'bar');
       assert.strictEqual(app.disabled('foo'), false);
+    })
+
+    it('should default to true for prototype values', function () {
+      var app = express()
+      assert.strictEqual(app.disabled('hasOwnProperty'), true)
     })
   })
 })
