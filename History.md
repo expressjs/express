@@ -4,6 +4,7 @@ unreleased
   * deps: accepts@~1.3.8
     - deps: mime-types@~2.1.34
     - deps: negotiator@0.6.3
+  * pref: remove unnecessary regexp for trust proxy
 
 4.17.2 / 2021-12-16
 ===================
