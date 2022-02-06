@@ -5,6 +5,7 @@ This incorporates all changes after 4.17.1 up to 4.17.2.
 
   * change:
     - query parser setting defaults to `'simple'`
+    - Use `mime-types` for file to content type mapping
   * deps: array-flatten@3.0.0
   * deps: body-parser@2.0.0-beta.1
     - `req.body` is no longer always initialized to `{}`
