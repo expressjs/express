@@ -31,23 +31,23 @@ jobs:
         include:
         - name: Node.js 0.10
           node-version: "0.10"
-          npm-i: mocha@3.5.3 supertest@2.0.0
+          npm-i: minimatch@3.0.4 mocha@3.5.3 supertest@2.0.0
 
         - name: Node.js 0.12
           node-version: "0.12"
-          npm-i: mocha@3.5.3 supertest@2.0.0
+          npm-i: minimatch@3.0.4 mocha@3.5.3 supertest@2.0.0
 
         - name: io.js 1.x
           node-version: "1.8"
-          npm-i: mocha@3.5.3 supertest@2.0.0
+          npm-i: minimatch@3.0.4 mocha@3.5.3 supertest@2.0.0
 
         - name: io.js 2.x
           node-version: "2.5"
-          npm-i: mocha@3.5.3 supertest@2.0.0
+          npm-i: minimatch@3.0.4 mocha@3.5.3 supertest@2.0.0
 
         - name: io.js 3.x
           node-version: "3.3"
-          npm-i: mocha@3.5.3 supertest@2.0.0
+          npm-i: minimatch@3.0.4 mocha@3.5.3 supertest@2.0.0
 
         - name: Node.js 4.x
           node-version: "4.9"
