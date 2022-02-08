@@ -4,7 +4,7 @@
 This incorporates all changes after 4.17.1 up to 4.17.2.
 
   * change:
-    - query parser setting defaults to `'simple'`
+    - Default "query parser" setting to `'simple'`
     - Requires Node.js 4+
     - Use `mime-types` for file to content type mapping
   * deps: array-flatten@3.0.0
