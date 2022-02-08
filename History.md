@@ -24,6 +24,11 @@ This incorporates all changes after 4.17.1 up to 4.17.2.
     - deps: parseurl@~1.3.3
     - deps: path-to-regexp@3.2.0
     - deps: setprototypeof@1.2.0
+  * deps: send@1.0.0-beta.1
+    - Change `dotfiles` option default to `'ignore'`
+    - Remove `hidden` option; use `dotfiles` option instead
+    - Use `mime-types` for file to content type mapping
+    - deps: debug@3.1.0
   * deps: serve-static@2.0.0-beta.1
     - Change `dotfiles` option default to `'ignore'`
     - Remove `hidden` option; use `dotfiles` option instead
