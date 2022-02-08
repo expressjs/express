@@ -11,11 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         name:
-        - Node.js 0.10
-        - Node.js 0.12
-        - io.js 1.x
-        - io.js 2.x
-        - io.js 3.x
+        - Node.js 4.0
         - Node.js 4.x
         - Node.js 5.x
         - Node.js 6.x
@@ -29,25 +25,9 @@ jobs:
         - Node.js 14.x
 
         include:
-        - name: Node.js 0.10
-          node-version: "0.10"
-          npm-i: mocha@3.5.3 supertest@2.0.0
-
-        - name: Node.js 0.12
-          node-version: "0.12"
-          npm-i: mocha@3.5.3 supertest@2.0.0
-
-        - name: io.js 1.x
-          node-version: "1.8"
-          npm-i: mocha@3.5.3 supertest@2.0.0
-
-        - name: io.js 2.x
-          node-version: "2.5"
-          npm-i: mocha@3.5.3 supertest@2.0.0
-
-        - name: io.js 3.x
-          node-version: "3.3"
-          npm-i: mocha@3.5.3 supertest@2.0.0
+        - name: Node.js 4.0
+          node-version: "4.0"
+          npm-i: mocha@5.2.0 supertest@3.4.2
 
         - name: Node.js 4.x
           node-version: "4.9"

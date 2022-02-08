@@ -1,5 +1,7 @@
 root: true
-
+env:
+  es6: true
+  node: true
 rules:
   eol-last: error
   eqeqeq: [error, allow-null]
