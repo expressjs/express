@@ -83,28 +83,49 @@ describe('app.path()', function(){
 })
 
 describe('in development', function(){
+  before(function () {
+    this.env = process.env.NODE_ENV
+    process.env.NODE_ENV = 'development'
+  })
+
+  after(function () {
+    process.env.NODE_ENV = this.env
+  })
+
   it('should disable "view cache"', function(){
-    process.env.NODE_ENV = 'development';
     var app = express();
     assert.ok(!app.enabled('view cache'))
-    process.env.NODE_ENV = 'test';
   })
 })
 
 describe('in production', function(){
+  before(function () {
+    this.env = process.env.NODE_ENV
+    process.env.NODE_ENV = 'production'
+  })
+
+  after(function () {
+    process.env.NODE_ENV = this.env
+  })
+
   it('should enable "view cache"', function(){
-    process.env.NODE_ENV = 'production';
     var app = express();
     assert.ok(app.enabled('view cache'))
-    process.env.NODE_ENV = 'test';
   })
 })
 
 describe('without NODE_ENV', function(){
+  before(function () {
+    this.env = process.env.NODE_ENV
+    process.env.NODE_ENV = ''
+  })
+
+  after(function () {
+    process.env.NODE_ENV = this.env
+  })
+
   it('should default to development', function(){
-    process.env.NODE_ENV = '';
     var app = express();
     assert.strictEqual(app.get('env'), 'development')
-    process.env.NODE_ENV = 'test';
   })
 })
