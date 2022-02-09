@@ -1,3 +1,4 @@
+'use strict'
 
 var after = require('after');
 var Buffer = require('safe-buffer').Buffer
