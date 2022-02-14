@@ -37,11 +37,6 @@ install:
         %{ npm rm --silent --save-dev $_ }
   # Setup Node.js version-specific dependencies
   - ps: |
-      # minimatch for Node.js < 4
-      if ([int]$env:nodejs_version.split(".")[0] -lt 4) {
-        npm install --silent --save-dev minimatch@3.0.4
-      }
-  - ps: |
       # mocha for testing
       # - use 3.x for Node.js < 4
       # - use 5.x for Node.js < 6
