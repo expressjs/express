@@ -1,7 +1,8 @@
-5.x
-===
+5.0.0-beta.1 / 2022-02-14
+=========================
 
-This incorporates all changes after 4.17.1 up to 4.17.2.
+This is the first Express 5.0 beta release, based off 4.17.2 and includes
+changes from 5.0.0-alpha.8.
 
   * change:
     - Default "query parser" setting to `'simple'`
