@@ -9,6 +9,8 @@ unreleased
     - deps: qs@6.9.7
     - deps: raw-body@2.4.3
   * deps: cookie@0.4.2
+  * deps: qs@6.9.7
+    * Fix handling of `__proto__` keys
   * pref: remove unnecessary regexp for trust proxy
 
 4.17.2 / 2021-12-16
