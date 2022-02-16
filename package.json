@@ -72,7 +72,7 @@
     "method-override": "3.0.0",
     "mocha": "9.2.0",
     "morgan": "1.10.0",
-    "multiparty": "4.2.2",
+    "multiparty": "4.2.3",
     "nyc": "15.1.0",
     "pbkdf2-password": "1.2.1",
     "resolve-path": "1.4.0",
