@@ -97,5 +97,82 @@ describe('req', function(){
         })
       })
     })
+
+    describe('when CloudFront-Forwarded-Proto is present', function(){
+      it('should return false when http', function(done){
+        var app = express();
+
+        app.get('/', function(req, res){
+          res.send(req.secure ? 'yes' : 'no');
+        });
+
+        request(app)
+        .get('/')
+        .set('CloudFront-Forwarded-Proto', 'https')
+        .expect('no', done)
+      })
+
+      it('should return true when "trust proxy" is enabled', function(done){
+        var app = express();
+
+        app.enable('trust proxy');
+
+        app.get('/', function(req, res){
+          res.send(req.secure ? 'yes' : 'no');
+        });
+
+        request(app)
+        .get('/')
+        .set('CloudFront-Forwarded-Proto', 'https')
+        .expect('yes', done)
+      })
+
+      it('should return false when initial proxy is http', function(done){
+        var app = express();
+
+        app.enable('trust proxy');
+
+        app.get('/', function(req, res){
+          res.send(req.secure ? 'yes' : 'no');
+        });
+
+        request(app)
+        .get('/')
+        .set('CloudFront-Forwarded-Proto', 'http, https')
+        .expect('no', done)
+      })
+
+      it('should return true when initial proxy is https', function(done){
+        var app = express();
+
+        app.enable('trust proxy');
+
+        app.get('/', function(req, res){
+          res.send(req.secure ? 'yes' : 'no');
+        });
+
+        request(app)
+        .get('/')
+        .set('CloudFront-Forwarded-Proto', 'https, http')
+        .expect('yes', done)
+      })
+
+      describe('when "trust proxy" trusting hop count', function () {
+        it('should respect CloudFront-Forwarded-Proto', function (done) {
+          var app = express();
+
+          app.set('trust proxy', 1);
+
+          app.get('/', function (req, res) {
+            res.send(req.secure ? 'yes' : 'no');
+          });
+
+          request(app)
+          .get('/')
+          .set('CloudFront-Forwarded-Proto', 'https')
+          .expect('yes', done)
+        })
+      })
+    })
   })
 })
