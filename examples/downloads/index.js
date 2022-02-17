@@ -1,10 +1,17 @@
+'use strict'
+
 /**
  * Module dependencies.
  */
 
 var express = require('../../');
 var path = require('path');
+var resolvePath = require('resolve-path')
+
 var app = module.exports = express();
+
+// path to where the files are stored on disk
+var FILES_DIR = path.join(__dirname, 'files')
 
 app.get('/', function(req, res){
   res.send('<ul>' +
@@ -18,7 +25,7 @@ app.get('/', function(req, res){
 // /files/* is accessed via req.params[0]
 // but here we name it :file
 app.get('/files/:file+', function (req, res, next) {
-  var filePath = path.join(__dirname, 'files', req.params.file);
+  var filePath = resolvePath(FILES_DIR, req.params.file)
 
   res.download(filePath, function (err) {
     if (!err) return; // file sent

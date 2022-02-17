@@ -27,23 +27,23 @@ jobs:
         include:
         - name: Node.js 4.0
           node-version: "4.0"
-          npm-i: mocha@5.2.0 supertest@3.4.2
+          npm-i: mocha@5.2.0 nyc@11.9.0 supertest@3.4.2
 
         - name: Node.js 4.x
           node-version: "4.9"
-          npm-i: mocha@5.2.0 supertest@3.4.2
+          npm-i: mocha@5.2.0 nyc@11.9.0 supertest@3.4.2
 
         - name: Node.js 5.x
           node-version: "5.12"
-          npm-i: mocha@5.2.0 supertest@3.4.2
+          npm-i: mocha@5.2.0 nyc@11.9.0 supertest@3.4.2
 
         - name: Node.js 6.x
           node-version: "6.17"
-          npm-i: mocha@6.2.2
+          npm-i: mocha@6.2.2 nyc@14.1.1 supertest@6.1.6
 
         - name: Node.js 7.x
           node-version: "7.10"
-          npm-i: mocha@6.2.2
+          npm-i: mocha@6.2.2 nyc@14.1.1 supertest@6.1.6
 
         - name: Node.js 8.x
           node-version: "8.17"
@@ -68,7 +68,7 @@ jobs:
           node-version: "13.14"
 
         - name: Node.js 14.x
-          node-version: "14.18"
+          node-version: "14.19"
 
     steps:
     - uses: actions/checkout@v2
@@ -113,6 +113,7 @@ jobs:
         echo "node@$(node -v)"
         echo "npm@$(npm -v)"
         npm -s ls ||:
+        (npm -s ls --depth=0 ||:) | awk -F'[ @]' 'NR>1 && $2 { print "::set-output name=" $2 "::" $3 }'
 
     - name: Run tests
       shell: bash

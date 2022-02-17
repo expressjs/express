@@ -10,7 +10,7 @@ environment:
     - nodejs_version: "11.15"
     - nodejs_version: "12.22"
     - nodejs_version: "13.14"
-    - nodejs_version: "14.18"
+    - nodejs_version: "14.19"
 cache:
   - node_modules
 install:
@@ -47,10 +47,24 @@ install:
         npm install --silent --save-dev mocha@8.4.0
       }
   - ps: |
+      # nyc for test coverage
+      # - use 10.3.2 for Node.js < 4
+      # - use 11.9.0 for Node.js < 6
+      # - use 14.1.1 for Node.js < 8
+      if ([int]$env:nodejs_version.split(".")[0] -lt 4) {
+        npm install --silent --save-dev nyc@10.3.2
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 6) {
+        npm install --silent --save-dev nyc@11.9.0
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 8) {
+        npm install --silent --save-dev nyc@14.1.1
+      }
+  - ps: |
       # supertest for http calls
       # - use 3.4.2 for Node.js < 6
       if ([int]$env:nodejs_version.split(".")[0] -lt 6) {
         npm install --silent --save-dev supertest@3.4.2
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 8) {
+        npm install --silent --save-dev supertest@6.1.6
       }
   # Update Node.js modules
   - ps: |

@@ -1,3 +1,5 @@
+'use strict'
+
 /**
  * Module dependencies.
  */
@@ -59,14 +61,14 @@ function authenticate(name, pass, fn) {
   if (!module.parent) console.log('authenticating %s:%s', name, pass);
   var user = users[name];
   // query the db for the given username
-  if (!user) return fn(new Error('cannot find user'));
+  if (!user) return fn(null, null)
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user
   hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
     if (err) return fn(err);
     if (hash === user.hash) return fn(null, user)
-    fn(new Error('invalid password'));
+    fn(null, null)
   });
 }
 
@@ -99,9 +101,10 @@ app.get('/login', function(req, res){
   res.render('login');
 });
 
-app.post('/login', function(req, res){
+app.post('/login', function (req, res, next) {
   if (!req.body) return res.sendStatus(400)
   authenticate(req.body.username, req.body.password, function(err, user){
+    if (err) return next(err)
     if (user) {
       // Regenerate session when signing in
       // to prevent fixation

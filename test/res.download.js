@@ -1,3 +1,4 @@
+'use strict'
 
 var after = require('after');
 var assert = require('assert');
@@ -19,6 +20,33 @@ describe('res', function(){
       .expect('Content-Type', 'text/html; charset=utf-8')
       .expect('Content-Disposition', 'attachment; filename="user.html"')
       .expect(200, '<p>{{user.name}}</p>', done)
+    })
+
+    it('should accept range requests', function (done) {
+      var app = express()
+
+      app.get('/', function (req, res) {
+        res.download('test/fixtures/user.html')
+      })
+
+      request(app)
+        .get('/')
+        .expect('Accept-Ranges', 'bytes')
+        .expect(200, '<p>{{user.name}}</p>', done)
+    })
+
+    it('should respond with requested byte range', function (done) {
+      var app = express()
+
+      app.get('/', function (req, res) {
+        res.download('test/fixtures/user.html')
+      })
+
+      request(app)
+        .get('/')
+        .set('Range', 'bytes=0-2')
+        .expect('Content-Range', 'bytes 0-2/20')
+        .expect(206, '<p>', done)
     })
   })
 
@@ -61,7 +89,7 @@ describe('res', function(){
       var cb = after(2, done);
 
       app.use(function(req, res){
-        res.download('test/fixtures/user.html', 'document', done);
+        res.download('test/fixtures/user.html', 'document', cb)
       });
 
       request(app)

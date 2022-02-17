@@ -1,4 +1,6 @@
+'use strict'
 
+var assert = require('assert')
 var express = require('../')
   , request = require('supertest');
 
@@ -82,7 +84,8 @@ describe('req', function(){
 
     describe('when "query parser" an unknown value', function () {
       it('should throw', function () {
-        createApp.bind(null, 'bogus').should.throw(/unknown value.*query parser/);
+        assert.throws(createApp.bind(null, 'bogus'),
+          /unknown value.*query parser/)
       });
     });
   })

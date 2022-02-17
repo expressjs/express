@@ -1,3 +1,4 @@
+'use strict'
 
 var after = require('after');
 var express = require('../')
@@ -759,36 +760,38 @@ describe('app.router', function(){
   describe('.:name', function(){
     it('should denote a format', function(done){
       var app = express();
+      var cb = after(2, done)
 
       app.get('/:name.:format', function(req, res){
         res.end(req.params.name + ' as ' + req.params.format);
       });
 
       request(app)
-      .get('/foo.json')
-      .expect('foo as json', function(){
-        request(app)
+        .get('/foo.json')
+        .expect(200, 'foo as json', cb)
+
+      request(app)
         .get('/foo')
-        .expect(404, done);
-      });
+        .expect(404, cb)
     })
   })
 
   describe('.:name?', function(){
     it('should denote an optional format', function(done){
       var app = express();
+      var cb = after(2, done)
 
       app.get('/:name.:format?', function(req, res){
         res.end(req.params.name + ' as ' + (req.params.format || 'html'));
       });
 
       request(app)
-      .get('/foo')
-      .expect('foo as html', function(){
-        request(app)
+        .get('/foo')
+        .expect(200, 'foo as html', cb)
+
+      request(app)
         .get('/foo.json')
-        .expect('foo as json', done);
-      });
+        .expect(200, 'foo as json', done)
     })
   })
 
@@ -1130,6 +1133,6 @@ describe('app.router', function(){
 
   it('should be chainable', function(){
     var app = express();
-    app.get('/', function(){}).should.equal(app);
+    assert.strictEqual(app.get('/', function () {}), app)
   })
 })

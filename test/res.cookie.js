@@ -1,7 +1,7 @@
+'use strict'
 
 var express = require('../')
   , request = require('supertest')
-  , cookie = require('cookie')
   , cookieParser = require('cookie-parser')
 var merge = require('utils-merge');
 
@@ -46,12 +46,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .end(function(err, res){
-        var val = ['name=tobi; Path=/', 'age=1; Path=/', 'gender=%3F; Path=/'];
-        res.headers['set-cookie'].should.eql(val);
-        done();
-      })
+        .get('/')
+        .expect('Set-Cookie', 'name=tobi; Path=/,age=1; Path=/,gender=%3F; Path=/')
+        .expect(200, done)
     })
   })
 
@@ -80,11 +77,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .end(function(err, res){
-          res.headers['set-cookie'][0].should.not.containEql('Thu, 01 Jan 1970 00:00:01 GMT');
-          done();
-        })
+          .get('/')
+          .expect('Set-Cookie', /name=tobi; Max-Age=1; Path=\/; Expires=/)
+          .expect(200, done)
       })
 
       it('should set max-age', function(done){
@@ -141,13 +136,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .end(function(err, res){
-          var val = res.headers['set-cookie'][0];
-          val = cookie.parse(val.split('.')[0]);
-          val.user.should.equal('s:j:{"name":"tobi"}');
-          done();
-        })
+          .get('/')
+          .expect('Set-Cookie', 'user=s%3Aj%3A%7B%22name%22%3A%22tobi%22%7D.K20xcwmDS%2BPb1rsD95o5Jm5SqWs1KteqdnynnB7jkTE; Path=/')
+          .expect(200, done)
       })
     })
 

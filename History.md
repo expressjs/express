@@ -1,3 +1,8 @@
+5.x
+===
+
+This incorporates all changes after 4.17.2 up to 4.17.3.
+
 5.0.0-beta.1 / 2022-02-14
 =========================
 
@@ -156,6 +161,21 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.17.3 / 2022-02-16
+===================
+
+  * deps: accepts@~1.3.8
+    - deps: mime-types@~2.1.34
+    - deps: negotiator@0.6.3
+  * deps: body-parser@1.19.2
+    - deps: bytes@3.1.2
+    - deps: qs@6.9.7
+    - deps: raw-body@2.4.3
+  * deps: cookie@0.4.2
+  * deps: qs@6.9.7
+    * Fix handling of `__proto__` keys
+  * pref: remove unnecessary regexp for trust proxy
 
 4.17.2 / 2021-12-16
 ===================
