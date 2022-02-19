@@ -34,7 +34,7 @@ Installation is done using the
 [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
 ```bash
-$ npm install express
+npm install express
 ```
 
 Follow [our installing guide](http://expressjs.com/en/starter/installing.html)
@@ -72,25 +72,25 @@ If you discover a security vulnerability in Express, please see [Security Polici
   Install the executable. The executable's major version will match Express's:
 
 ```bash
-$ npm install -g express-generator@4
+npm install -g express-generator@4
 ```
 
   Create the app:
 
 ```bash
-$ express /tmp/foo && cd /tmp/foo
+express /tmp/foo && cd /tmp/foo
 ```
 
   Install dependencies:
 
 ```bash
-$ npm install
+npm install
 ```
 
   Start the server:
 
 ```bash
-$ npm start
+npm start
 ```
 
   View the website at: http://localhost:3000
@@ -110,15 +110,15 @@ $ npm start
   To view the examples, clone the Express repo and install the dependencies:
 
 ```bash
-$ git clone git://github.com/expressjs/express.git --depth 1
-$ cd express
-$ npm install
+git clone git://github.com/expressjs/express.git --depth 1
+cd express
+npm install
 ```
 
   Then run whichever example you want:
 
 ```bash
-$ node examples/content-negotiation
+node examples/content-negotiation
 ```
 
 ## Tests
@@ -126,8 +126,8 @@ $ node examples/content-negotiation
   To run the test suite, first install the dependencies, then run `npm test`:
 
 ```bash
-$ npm install
-$ npm test
+npm install
+npm test
 ```
 
 ## Contributing
