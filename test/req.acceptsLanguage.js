@@ -10,8 +10,8 @@ describe('req', function(){
 
       app.get('/', function (req, res) {
         res.send({
-          'en-us': req.acceptsLanguages('en-us'),
-          en: req.acceptsLanguages('en')
+          'en-us': req.acceptsLanguage('en-us'),
+          en: req.acceptsLanguage('en')
         })
       })
 
@@ -26,7 +26,7 @@ describe('req', function(){
 
       app.get('/', function (req, res) {
         res.send({
-          es: req.acceptsLanguages('es')
+          es: req.acceptsLanguage('es')
         })
       })
 
@@ -42,9 +42,9 @@ describe('req', function(){
 
         app.get('/', function (req, res) {
           res.send({
-            en: req.acceptsLanguages('en'),
-            es: req.acceptsLanguages('es'),
-            jp: req.acceptsLanguages('jp')
+            en: req.acceptsLanguage('en'),
+            es: req.acceptsLanguage('es'),
+            jp: req.acceptsLanguage('jp')
           })
         })
 
