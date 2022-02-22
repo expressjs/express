@@ -76,7 +76,6 @@
     "nyc": "15.1.0",
     "pbkdf2-password": "1.2.1",
     "resolve-path": "1.4.0",
-    "should": "13.2.3",
     "supertest": "6.2.2",
     "vhost": "~3.0.2"
   },

@@ -3,11 +3,10 @@
 var assert = require('assert')
 var express = require('../');
 var request = require('supertest');
-var should = require('should');
 
 describe('exports', function(){
   it('should expose Router', function(){
-    express.Router.should.be.a.Function()
+    assert.strictEqual(typeof express.Router, 'function')
   })
 
   it('should expose json middleware', function () {
@@ -36,20 +35,23 @@ describe('exports', function(){
   })
 
   it('should expose the application prototype', function(){
-    express.application.set.should.be.a.Function()
+    assert.strictEqual(typeof express.application, 'object')
+    assert.strictEqual(typeof express.application.set, 'function')
   })
 
   it('should expose the request prototype', function(){
-    express.request.accepts.should.be.a.Function()
+    assert.strictEqual(typeof express.request, 'object')
+    assert.strictEqual(typeof express.request.accepts, 'function')
   })
 
   it('should expose the response prototype', function(){
-    express.response.send.should.be.a.Function()
+    assert.strictEqual(typeof express.response, 'object')
+    assert.strictEqual(typeof express.response.send, 'function')
   })
 
   it('should permit modifying the .application prototype', function(){
     express.application.foo = function(){ return 'bar'; };
-    express().foo().should.equal('bar');
+    assert.strictEqual(express().foo(), 'bar')
   })
 
   it('should permit modifying the .request prototype', function(done){
@@ -79,10 +81,7 @@ describe('exports', function(){
   })
 
   it('should throw on old middlewares', function(){
-    var error;
-    try { express.bodyParser; } catch (e) { error = e; }
-    should(error).have.property('message');
-    error.message.should.containEql('middleware');
-    error.message.should.containEql('bodyParser');
+    assert.throws(function () { express.bodyParser() }, /Error:.*middleware.*bodyParser/)
+    assert.throws(function () { express.limit() }, /Error:.*middleware.*limit/)
   })
 })

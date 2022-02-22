@@ -1,7 +1,7 @@
 'use strict'
 
 var after = require('after');
-var should = require('should');
+var assert = require('assert')
 var express = require('../')
   , Route = express.Route
   , methods = require('methods')
@@ -25,7 +25,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.ok()
+        assert.ok(req.called)
         done();
       });
     })
@@ -35,7 +35,7 @@ describe('Route', function(){
       var route = new Route('/foo');
       var cb = after(methods.length, function (err) {
         if (err) return done(err);
-        count.should.equal(methods.length);
+        assert.strictEqual(count, methods.length)
         done();
       });
 
@@ -66,7 +66,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        req.count.should.equal(2);
+        assert.strictEqual(req.count, 2)
         done();
       });
     })
@@ -84,7 +84,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.ok()
+        assert.ok(req.called)
         done();
       });
     })
@@ -104,7 +104,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.true()
+        assert.ok(req.called)
         done();
       });
     })
@@ -130,7 +130,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        req.order.should.equal('abc');
+        assert.strictEqual(req.order, 'abc')
         done();
       });
     })
@@ -156,9 +156,9 @@ describe('Route', function(){
       });
 
       route.dispatch(req, {}, function (err) {
-        should(err).be.ok()
-        should(err.message).equal('foobar');
-        req.order.should.equal('a');
+        assert.ok(err)
+        assert.strictEqual(err.message, 'foobar')
+        assert.strictEqual(req.order, 'a')
         done();
       });
     })
@@ -182,9 +182,9 @@ describe('Route', function(){
       });
 
       route.dispatch(req, {}, function (err) {
-        should(err).be.ok()
-        should(err.message).equal('foobar');
-        req.order.should.equal('a');
+        assert.ok(err)
+        assert.strictEqual(err.message, 'foobar')
+        assert.strictEqual(req.order, 'a')
         done();
       });
     });
@@ -208,7 +208,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.message).equal('oops');
+        assert.strictEqual(req.message, 'oops')
         done();
       });
     });
@@ -222,8 +222,8 @@ describe('Route', function(){
       });
 
       route.dispatch(req, {}, function(err){
-        should(err).be.ok()
-        err.message.should.equal('boom!');
+        assert.ok(err)
+        assert.strictEqual(err.message, 'boom!')
         done();
       });
     });
@@ -234,7 +234,7 @@ describe('Route', function(){
 
       route.all(function(err, req, res, next){
         // this should not execute
-        true.should.be.false()
+        throw new Error('should not be called')
       });
 
       route.dispatch(req, {}, done);
