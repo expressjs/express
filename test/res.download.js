@@ -107,7 +107,7 @@ describe('res', function(){
       var options = {}
 
       app.use(function (req, res) {
-        res.download('test/fixtures/user.html', 'document', options, done)
+        res.download('test/fixtures/user.html', 'document', options, cb)
       })
 
       request(app)
