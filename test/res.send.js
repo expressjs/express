@@ -188,11 +188,11 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200)
-      .expect('Content-Type', 'application/octet-stream')
-      .expect(shouldHaveBody(Buffer.from('hello')))
-      .end(done)
+        .get('/')
+        .expect(200)
+        .expect('Content-Type', 'application/octet-stream')
+        .expect(utils.shouldHaveBody(Buffer.from('hello')))
+        .end(done)
     })
 
     it('should set ETag', function (done) {
@@ -259,10 +259,10 @@ describe('res', function(){
       });
 
       request(app)
-      .head('/')
-      .expect(200)
-      .expect(shouldNotHaveBody())
-      .end(done)
+        .head('/')
+        .expect(200)
+        .expect(utils.shouldNotHaveBody())
+        .end(done)
     })
   })
 
@@ -578,19 +578,3 @@ describe('res', function(){
     })
   })
 })
-
-function shouldHaveBody (buf) {
-  return function (res) {
-    var body = !Buffer.isBuffer(res.body)
-      ? Buffer.from(res.text)
-      : res.body
-    assert.ok(body, 'response has body')
-    assert.strictEqual(body.toString('hex'), buf.toString('hex'))
-  }
-}
-
-function shouldNotHaveBody () {
-  return function (res) {
-    assert.ok(res.text === '' || res.text === undefined)
-  }
-}

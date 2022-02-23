@@ -165,10 +165,10 @@ describe('res', function(){
         var app = createApp(path.resolve(__dirname, 'fixtures/.name'), { dotfiles: 'allow' });
 
         request(app)
-        .get('/')
-        .expect(200)
-        .expect(shouldHaveBody(Buffer.from('tobi')))
-        .end(done)
+          .get('/')
+          .expect(200)
+          .expect(utils.shouldHaveBody(Buffer.from('tobi')))
+          .end(done)
       });
     });
 
@@ -570,10 +570,10 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200)
-      .expect(shouldHaveBody(Buffer.from('tobi')))
-      .end(done)
+        .get('/')
+        .expect(200)
+        .expect(utils.shouldHaveBody(Buffer.from('tobi')))
+        .end(done)
     })
 
     it('should accept headers option', function(done){
@@ -827,14 +827,4 @@ function createApp(path, options, fn) {
   });
 
   return app;
-}
-
-function shouldHaveBody (buf) {
-  return function (res) {
-    var body = !Buffer.isBuffer(res.body)
-      ? Buffer.from(res.text)
-      : res.body
-    assert.ok(body, 'response has body')
-    assert.strictEqual(body.toString('hex'), buf.toString('hex'))
-  }
 }
