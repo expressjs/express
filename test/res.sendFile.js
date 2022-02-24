@@ -803,19 +803,19 @@ describe('res', function(){
       })
     })
   })
-})
 
-describe('.sendfile(path, options)', function () {
-  it('should pass options to send module', function (done) {
-    var app = express()
+  describe('.sendfile(path, options)', function () {
+    it('should pass options to send module', function (done) {
+      var app = express()
 
-    app.use(function (req, res) {
-      res.sendfile(path.resolve(fixtures, 'name.txt'), { start: 0, end: 1 })
+      app.use(function (req, res) {
+        res.sendfile(path.resolve(fixtures, 'name.txt'), { start: 0, end: 1 })
+      })
+
+      request(app)
+        .get('/')
+        .expect(200, 'to', done)
     })
-
-    request(app)
-      .get('/')
-      .expect(200, 'to', done)
   })
 })
 
