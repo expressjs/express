@@ -28,6 +28,14 @@ describe('res', function(){
       .expect(500, /TypeError: path must be a string to res.sendFile/, done)
     })
 
+    it('should error for non-absolute path', function (done) {
+      var app = createApp('name.txt')
+
+      request(app)
+        .get('/')
+        .expect(500, /TypeError: path must be absolute/, done)
+    })
+
     it('should transfer a file', function (done) {
       var app = createApp(path.resolve(fixtures, 'name.txt'));
 
@@ -90,6 +98,23 @@ describe('res', function(){
       .expect(404, done);
     });
 
+    it('should send cache-control by default', function (done) {
+      var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'))
+
+      request(app)
+        .get('/')
+        .expect('Cache-Control', 'public, max-age=0')
+        .expect(200, done)
+    })
+
+    it('should not serve dotfiles by default', function (done) {
+      var app = createApp(path.resolve(__dirname, 'fixtures/.name'))
+
+      request(app)
+        .get('/')
+        .expect(404, done)
+    })
+
     it('should not override manual content-types', function (done) {
       var app = express();
 
@@ -129,136 +154,6 @@ describe('res', function(){
       test.end(function (err) {
         assert.ok(err)
         server.close(cb)
-      })
-    })
-
-    describe('with "cacheControl" option', function () {
-      it('should enable cacheControl by default', function (done) {
-        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'))
-
-        request(app)
-        .get('/')
-        .expect('Cache-Control', 'public, max-age=0')
-        .expect(200, done)
-      })
-
-      it('should accept cacheControl option', function (done) {
-        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), { cacheControl: false })
-
-        request(app)
-        .get('/')
-        .expect(utils.shouldNotHaveHeader('Cache-Control'))
-        .expect(200, done)
-      })
-    })
-
-    describe('with "dotfiles" option', function () {
-      it('should not serve dotfiles by default', function (done) {
-        var app = createApp(path.resolve(__dirname, 'fixtures/.name'));
-
-        request(app)
-        .get('/')
-        .expect(404, done);
-      });
-
-      it('should accept dotfiles option', function(done){
-        var app = createApp(path.resolve(__dirname, 'fixtures/.name'), { dotfiles: 'allow' });
-
-        request(app)
-          .get('/')
-          .expect(200)
-          .expect(utils.shouldHaveBody(Buffer.from('tobi')))
-          .end(done)
-      });
-    });
-
-    describe('with "headers" option', function () {
-      it('should accept headers option', function (done) {
-        var headers = {
-          'x-success': 'sent',
-          'x-other': 'done'
-        };
-        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), { headers: headers });
-
-        request(app)
-        .get('/')
-        .expect('x-success', 'sent')
-        .expect('x-other', 'done')
-        .expect(200, done);
-      });
-
-      it('should ignore headers option on 404', function (done) {
-        var headers = { 'x-success': 'sent' };
-        var app = createApp(path.resolve(__dirname, 'fixtures/does-not-exist'), { headers: headers });
-
-        request(app)
-        .get('/')
-        .expect(utils.shouldNotHaveHeader('X-Success'))
-        .expect(404, done);
-      });
-    });
-
-    describe('with "immutable" option', function () {
-      it('should add immutable cache-control directive', function (done) {
-        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), {
-          immutable: true,
-          maxAge: '4h'
-        })
-
-        request(app)
-        .get('/')
-        .expect('Cache-Control', 'public, max-age=14400, immutable')
-        .expect(200, done)
-      })
-    })
-
-    describe('with "maxAge" option', function () {
-      it('should set cache-control max-age from number', function (done) {
-        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), {
-          maxAge: 14400000
-        })
-
-        request(app)
-        .get('/')
-        .expect('Cache-Control', 'public, max-age=14400')
-        .expect(200, done)
-      })
-
-      it('should set cache-control max-age from string', function (done) {
-        var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'), {
-          maxAge: '4h'
-        })
-
-        request(app)
-        .get('/')
-        .expect('Cache-Control', 'public, max-age=14400')
-        .expect(200, done)
-      })
-    })
-
-    describe('with "root" option', function () {
-      it('should not transfer relative with without', function (done) {
-        var app = createApp('test/fixtures/name.txt');
-
-        request(app)
-        .get('/')
-        .expect(500, /must be absolute/, done);
-      })
-
-      it('should serve relative to "root"', function (done) {
-        var app = createApp('name.txt', {root: fixtures});
-
-        request(app)
-        .get('/')
-        .expect(200, 'tobi', done);
-      })
-
-      it('should disallow requesting out of "root"', function (done) {
-        var app = createApp('foo/../../user.html', {root: fixtures});
-
-        request(app)
-        .get('/')
-        .expect(403, done);
       })
     })
   })
@@ -373,6 +268,563 @@ describe('res', function(){
       request(createApp(path.resolve(fixtures, 'name.txt'), { start: 0, end: 1 }))
       .get('/')
       .expect(200, 'to', done)
+    })
+
+    describe('with "acceptRanges" option', function () {
+      describe('when true', function () {
+        it('should advertise byte range accepted', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'nums.txt'), {
+              acceptRanges: true
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect('Accept-Ranges', 'bytes')
+            .expect('123456789')
+            .end(done)
+        })
+
+        it('should respond to range request', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'nums.txt'), {
+              acceptRanges: true
+            })
+          })
+
+          request(app)
+            .get('/')
+            .set('Range', 'bytes=0-4')
+            .expect(206, '12345', done)
+        })
+      })
+
+      describe('when false', function () {
+        it('should not advertise accept-ranges', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'nums.txt'), {
+              acceptRanges: false
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect(utils.shouldNotHaveHeader('Accept-Ranges'))
+            .end(done)
+        })
+
+        it('should not honor range requests', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'nums.txt'), {
+              acceptRanges: false
+            })
+          })
+
+          request(app)
+            .get('/')
+            .set('Range', 'bytes=0-4')
+            .expect(200, '123456789', done)
+        })
+      })
+    })
+
+    describe('with "cacheControl" option', function () {
+      describe('when true', function () {
+        it('should send cache-control header', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              cacheControl: true
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect('Cache-Control', 'public, max-age=0')
+            .end(done)
+        })
+      })
+
+      describe('when false', function () {
+        it('should not send cache-control header', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              cacheControl: false
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect(utils.shouldNotHaveHeader('Cache-Control'))
+            .end(done)
+        })
+      })
+    })
+
+    describe('with "dotfiles" option', function () {
+      describe('when "allow"', function () {
+        it('should allow dotfiles', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, '.name'), {
+              dotfiles: 'allow'
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect(utils.shouldHaveBody(Buffer.from('tobi')))
+            .end(done)
+        })
+      })
+
+      describe('when "deny"', function () {
+        it('should deny dotfiles', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, '.name'), {
+              dotfiles: 'deny'
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(403)
+            .expect(/Forbidden/)
+            .end(done)
+        })
+      })
+
+      describe('when "ignore"', function () {
+        it('should ignore dotfiles', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, '.name'), {
+              dotfiles: 'ignore'
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(404)
+            .expect(/Not Found/)
+            .end(done)
+        })
+      })
+    })
+
+    describe('with "headers" option', function () {
+      it('should set headers on response', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'user.html'), {
+            headers: {
+              'X-Foo': 'Bar',
+              'X-Bar': 'Foo'
+            }
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('X-Foo', 'Bar')
+          .expect('X-Bar', 'Foo')
+          .end(done)
+      })
+
+      it('should use last header when duplicated', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'user.html'), {
+            headers: {
+              'X-Foo': 'Bar',
+              'x-foo': 'bar'
+            }
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('X-Foo', 'bar')
+          .end(done)
+      })
+
+      it('should override Content-Type', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'user.html'), {
+            headers: {
+              'Content-Type': 'text/x-custom'
+            }
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Content-Type', 'text/x-custom')
+          .end(done)
+      })
+
+      it('should not set headers on 404', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'does-not-exist'), {
+            headers: {
+              'X-Foo': 'Bar'
+            }
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(404)
+          .expect(utils.shouldNotHaveHeader('X-Foo'))
+          .end(done)
+      })
+    })
+
+    describe('with "immutable" option', function () {
+      describe('when true', function () {
+        it('should send cache-control header with immutable', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              immutable: true
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect('Cache-Control', 'public, max-age=0, immutable')
+            .end(done)
+        })
+      })
+
+      describe('when false', function () {
+        it('should not send cache-control header with immutable', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              immutable: false
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect('Cache-Control', 'public, max-age=0')
+            .end(done)
+        })
+      })
+    })
+
+    describe('with "lastModified" option', function () {
+      describe('when true', function () {
+        it('should send last-modified header', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              lastModified: true
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect(utils.shouldHaveHeader('Last-Modified'))
+            .end(done)
+        })
+
+        it('should conditionally respond with if-modified-since', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              lastModified: true
+            })
+          })
+
+          request(app)
+            .get('/')
+            .set('If-Modified-Since', (new Date(Date.now() + 99999).toUTCString()))
+            .expect(304, done)
+        })
+      })
+
+      describe('when false', function () {
+        it('should not have last-modified header', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              lastModified: false
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect(utils.shouldNotHaveHeader('Last-Modified'))
+            .end(done)
+        })
+
+        it('should not honor if-modified-since', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              lastModified: false
+            })
+          })
+
+          request(app)
+            .get('/')
+            .set('If-Modified-Since', (new Date(Date.now() + 99999).toUTCString()))
+            .expect(200)
+            .expect(utils.shouldNotHaveHeader('Last-Modified'))
+            .end(done)
+        })
+      })
+    })
+
+    describe('with "maxAge" option', function () {
+      it('should set cache-control max-age to milliseconds', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'user.html'), {
+            maxAge: 20000
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Cache-Control', 'public, max-age=20')
+          .end(done)
+      })
+
+      it('should cap cache-control max-age to 1 year', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'user.html'), {
+            maxAge: 99999999999
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Cache-Control', 'public, max-age=31536000')
+          .end(done)
+      })
+
+      it('should min cache-control max-age to 0', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'user.html'), {
+            maxAge: -20000
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Cache-Control', 'public, max-age=0')
+          .end(done)
+      })
+
+      it('should floor cache-control max-age', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'user.html'), {
+            maxAge: 21911.23
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Cache-Control', 'public, max-age=21')
+          .end(done)
+      })
+
+      describe('when cacheControl: false', function () {
+        it('shold not send cache-control', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              cacheControl: false,
+              maxAge: 20000
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect(utils.shouldNotHaveHeader('Cache-Control'))
+            .end(done)
+        })
+      })
+
+      describe('when string', function () {
+        it('should accept plain number as milliseconds', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              maxAge: '20000'
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect('Cache-Control', 'public, max-age=20')
+            .end(done)
+        })
+
+        it('should accept suffix "s" for seconds', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              maxAge: '20s'
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect('Cache-Control', 'public, max-age=20')
+            .end(done)
+        })
+
+        it('should accept suffix "m" for minutes', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              maxAge: '20m'
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect('Cache-Control', 'public, max-age=1200')
+            .end(done)
+        })
+
+        it('should accept suffix "d" for days', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.sendFile(path.resolve(fixtures, 'user.html'), {
+              maxAge: '20d'
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect('Cache-Control', 'public, max-age=1728000')
+            .end(done)
+        })
+      })
+    })
+
+    describe('with "root" option', function () {
+      it('should allow relative path', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.sendFile('name.txt', {
+            root: fixtures
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200, 'tobi', done)
+      })
+
+      it('should allow up within root', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.sendFile('fake/../name.txt', {
+            root: fixtures
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200, 'tobi', done)
+      })
+
+      it('should reject up outside root', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.sendFile('..' + path.sep + path.relative(path.dirname(fixtures), path.join(fixtures, 'name.txt')), {
+            root: fixtures
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(403, done)
+      })
+
+      it('should reject reading outside root', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.sendFile('../name.txt', {
+            root: fixtures
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(403, done)
+      })
     })
   })
 
