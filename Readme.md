@@ -147,7 +147,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
   [MIT](LICENSE)
 
 [ci-image]: https://img.shields.io/github/workflow/status/expressjs/express/ci/master.svg?label=linux
-[ci-url]: https://github.com/expressjs/express/actions?query=workflow%3Aci
+[ci-url]: https://github.com/expressjs/express/actions/workflows/ci.yml
 [npm-image]: https://img.shields.io/npm/v/express.svg
 [npm-url]: https://npmjs.org/package/express
 [downloads-image]: https://img.shields.io/npm/dm/express.svg
