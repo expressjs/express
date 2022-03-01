@@ -2,9 +2,9 @@
 
   Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
 
-  [![NPM Version][npm-image]][npm-url]
-  [![NPM Downloads][downloads-image]][downloads-url]
-  [![Linux Build][ci-image]][ci-url]
+  [![NPM Version][npm-version-image]][npm-url]
+  [![NPM Downloads][npm-downloads-image]][npm-downloads-url]
+  [![Linux Build][github-actions-ci-image]][github-actions-ci-url]
   [![Windows Build][appveyor-image]][appveyor-url]
   [![Test Coverage][coveralls-image]][coveralls-url]
 
@@ -146,13 +146,13 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
   [MIT](LICENSE)
 
-[ci-image]: https://img.shields.io/github/workflow/status/expressjs/express/ci/master.svg?label=linux
-[ci-url]: https://github.com/expressjs/express/actions/workflows/ci.yml
-[npm-image]: https://img.shields.io/npm/v/express.svg
-[npm-url]: https://npmjs.org/package/express
-[downloads-image]: https://img.shields.io/npm/dm/express.svg
-[downloads-url]: https://npmcharts.com/compare/express?minimal=true
-[appveyor-image]: https://img.shields.io/appveyor/ci/dougwilson/express/master.svg?label=windows
+[appveyor-image]: https://badgen.net/appveyor/ci/dougwilson/express/master?label=windows
 [appveyor-url]: https://ci.appveyor.com/project/dougwilson/express
-[coveralls-image]: https://img.shields.io/coveralls/expressjs/express/master.svg
+[coveralls-image]: https://badgen.net/coveralls/c/github/expressjs/express/master
 [coveralls-url]: https://coveralls.io/r/expressjs/express?branch=master
+[github-actions-ci-image]: https://badgen.net/github/checks/expressjs/express/master?label=linux
+[github-actions-ci-url]: https://github.com/expressjs/express/actions/workflows/ci.yml
+[npm-downloads-image]: https://badgen.net/npm/dm/express
+[npm-downloads-url]: https://npmcharts.com/compare/express?minimal=true
+[npm-url]: https://npmjs.org/package/express
+[npm-version-image]: https://badgen.net/npm/v/express
