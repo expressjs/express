@@ -4,9 +4,6 @@
 
   [![NPM Version][npm-version-image]][npm-url]
   [![NPM Downloads][npm-downloads-image]][npm-downloads-url]
-  [![Linux Build][github-actions-ci-image]][github-actions-ci-url]
-  [![Windows Build][appveyor-image]][appveyor-url]
-  [![Test Coverage][coveralls-image]][coveralls-url]
 
 ```js
 const express = require('express')
@@ -33,7 +30,7 @@ the [`npm init` command](https://docs.npmjs.com/creating-a-package-json-file).
 Installation is done using the
 [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
-```bash
+```console
 $ npm install express
 ```
 
@@ -61,35 +58,31 @@ for more information.
 
 **PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/expressjs/express/wiki/New-features-in-4.x).
 
-### Security Issues
-
-If you discover a security vulnerability in Express, please see [Security Policies and Procedures](Security.md).
-
 ## Quick Start
 
   The quickest way to get started with express is to utilize the executable [`express(1)`](https://github.com/expressjs/generator) to generate an application as shown below:
 
   Install the executable. The executable's major version will match Express's:
 
-```bash
+```console
 $ npm install -g express-generator@4
 ```
 
   Create the app:
 
-```bash
+```console
 $ express /tmp/foo && cd /tmp/foo
 ```
 
   Install dependencies:
 
-```bash
+```console
 $ npm install
 ```
 
   Start the server:
 
-```bash
+```console
 $ npm start
 ```
 
@@ -109,7 +102,7 @@ $ npm start
 
   To view the examples, clone the Express repo and install the dependencies:
 
-```bash
+```console
 $ git clone git://github.com/expressjs/express.git --depth 1
 $ cd express
 $ npm install
@@ -117,22 +110,34 @@ $ npm install
 
   Then run whichever example you want:
 
-```bash
+```console
 $ node examples/content-negotiation
-```
-
-## Tests
-
-  To run the test suite, first install the dependencies, then run `npm test`:
-
-```bash
-$ npm install
-$ npm test
 ```
 
 ## Contributing
 
-[Contributing Guide](Contributing.md)
+  [![Linux Build][github-actions-ci-image]][github-actions-ci-url]
+  [![Windows Build][appveyor-image]][appveyor-url]
+  [![Test Coverage][coveralls-image]][coveralls-url]
+
+The Express.js project welcomes all constructive contributions. Contributions take many forms,
+from code for bug fixes and enhancements, to additions and fixes to documentation, additional
+tests, triaging incoming pull requests and issues, and more!
+
+See the [Contributing Guide](Contributing.md) for more technical details on contributing.
+
+### Security Issues
+
+If you discover a security vulnerability in Express, please see [Security Policies and Procedures](Security.md).
+
+### Running Tests
+
+To run the test suite, first install the dependencies, then run `npm test`:
+
+```console
+$ npm install
+$ npm test
+```
 
 ## People
 
