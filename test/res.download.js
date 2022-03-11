@@ -3,8 +3,11 @@
 var after = require('after');
 var Buffer = require('safe-buffer').Buffer
 var express = require('..');
+var path = require('path')
 var request = require('supertest');
 var utils = require('./support/utils')
+
+var FIXTURES_PATH = path.join(__dirname, 'fixtures')
 
 describe('res', function(){
   describe('.download(path)', function(){
@@ -176,6 +179,77 @@ describe('res', function(){
         .expect('Content-Type', 'text/x-custom')
         .expect('Content-Disposition', 'attachment; filename="document"')
         .end(done)
+      })
+    })
+
+    describe('with "root" option', function () {
+      it('should allow relative path', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.download('name.txt', 'document', {
+            root: FIXTURES_PATH
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Content-Disposition', 'attachment; filename="document"')
+          .expect(utils.shouldHaveBody(Buffer.from('tobi')))
+          .end(done)
+      })
+
+      it('should allow up within root', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.download('fake/../name.txt', 'document', {
+            root: FIXTURES_PATH
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Content-Disposition', 'attachment; filename="document"')
+          .expect(utils.shouldHaveBody(Buffer.from('tobi')))
+          .end(done)
+      })
+
+      it('should reject up outside root', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          var p = '..' + path.sep +
+            path.relative(path.dirname(FIXTURES_PATH), path.join(FIXTURES_PATH, 'name.txt'))
+
+          res.download(p, 'document', {
+            root: FIXTURES_PATH
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(403)
+          .expect(utils.shouldNotHaveHeader('Content-Disposition'))
+          .end(done)
+      })
+
+      it('should reject reading outside root', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.download('../name.txt', 'document', {
+            root: FIXTURES_PATH
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(403)
+          .expect(utils.shouldNotHaveHeader('Content-Disposition'))
+          .end(done)
       })
     })
   })

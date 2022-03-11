@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Add "root" option to `res.download`
   * Deprecate string and non-integer arguments to `res.status`
   * Ignore `Object.prototype` values in settings through `app.set`/`app.get`
   * Support proper 205 responses using `res.send`
