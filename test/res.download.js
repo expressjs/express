@@ -86,6 +86,213 @@ describe('res', function(){
     })
   })
 
+  describe('.download(path, options)', function () {
+    it('should allow options to res.sendFile()', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.download('test/fixtures/.name', {
+          dotfiles: 'allow',
+          maxAge: '4h'
+        })
+      })
+
+      request(app)
+        .get('/')
+        .expect(200)
+        .expect('Content-Disposition', 'attachment; filename=".name"')
+        .expect('Cache-Control', 'public, max-age=14400')
+        .expect(utils.shouldHaveBody(Buffer.from('tobi')))
+        .end(done)
+    })
+
+    describe('with "headers" option', function () {
+      it('should set headers on response', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.download('test/fixtures/user.html', {
+            headers: {
+              'X-Foo': 'Bar',
+              'X-Bar': 'Foo'
+            }
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('X-Foo', 'Bar')
+          .expect('X-Bar', 'Foo')
+          .end(done)
+      })
+
+      it('should use last header when duplicated', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.download('test/fixtures/user.html', {
+            headers: {
+              'X-Foo': 'Bar',
+              'x-foo': 'bar'
+            }
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('X-Foo', 'bar')
+          .end(done)
+      })
+
+      it('should override Content-Type', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.download('test/fixtures/user.html', {
+            headers: {
+              'Content-Type': 'text/x-custom'
+            }
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Content-Type', 'text/x-custom')
+          .end(done)
+      })
+
+      it('should not set headers on 404', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.download('test/fixtures/does-not-exist', {
+            headers: {
+              'X-Foo': 'Bar'
+            }
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(404)
+          .expect(utils.shouldNotHaveHeader('X-Foo'))
+          .end(done)
+      })
+
+      describe('when headers contains Content-Disposition', function () {
+        it('should be ignored', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.download('test/fixtures/user.html', {
+              headers: {
+                'Content-Disposition': 'inline'
+              }
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect('Content-Disposition', 'attachment; filename="user.html"')
+            .end(done)
+        })
+
+        it('should be ignored case-insensitively', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.download('test/fixtures/user.html', {
+              headers: {
+                'content-disposition': 'inline'
+              }
+            })
+          })
+
+          request(app)
+            .get('/')
+            .expect(200)
+            .expect('Content-Disposition', 'attachment; filename="user.html"')
+            .end(done)
+        })
+      })
+    })
+
+    describe('with "root" option', function () {
+      it('should allow relative path', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.download('name.txt', {
+            root: FIXTURES_PATH
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Content-Disposition', 'attachment; filename="name.txt"')
+          .expect(utils.shouldHaveBody(Buffer.from('tobi')))
+          .end(done)
+      })
+
+      it('should allow up within root', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.download('fake/../name.txt', {
+            root: FIXTURES_PATH
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Content-Disposition', 'attachment; filename="name.txt"')
+          .expect(utils.shouldHaveBody(Buffer.from('tobi')))
+          .end(done)
+      })
+
+      it('should reject up outside root', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          var p = '..' + path.sep +
+            path.relative(path.dirname(FIXTURES_PATH), path.join(FIXTURES_PATH, 'name.txt'))
+
+          res.download(p, {
+            root: FIXTURES_PATH
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(403)
+          .expect(utils.shouldNotHaveHeader('Content-Disposition'))
+          .end(done)
+      })
+
+      it('should reject reading outside root', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.download('../name.txt', {
+            root: FIXTURES_PATH
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(403)
+          .expect(utils.shouldNotHaveHeader('Content-Disposition'))
+          .end(done)
+      })
+    })
+  })
+
   describe('.download(path, filename, fn)', function(){
     it('should invoke the callback', function(done){
       var app = express();
@@ -179,77 +386,6 @@ describe('res', function(){
         .expect('Content-Type', 'text/x-custom')
         .expect('Content-Disposition', 'attachment; filename="document"')
         .end(done)
-      })
-    })
-
-    describe('with "root" option', function () {
-      it('should allow relative path', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.download('name.txt', 'document', {
-            root: FIXTURES_PATH
-          })
-        })
-
-        request(app)
-          .get('/')
-          .expect(200)
-          .expect('Content-Disposition', 'attachment; filename="document"')
-          .expect(utils.shouldHaveBody(Buffer.from('tobi')))
-          .end(done)
-      })
-
-      it('should allow up within root', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.download('fake/../name.txt', 'document', {
-            root: FIXTURES_PATH
-          })
-        })
-
-        request(app)
-          .get('/')
-          .expect(200)
-          .expect('Content-Disposition', 'attachment; filename="document"')
-          .expect(utils.shouldHaveBody(Buffer.from('tobi')))
-          .end(done)
-      })
-
-      it('should reject up outside root', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          var p = '..' + path.sep +
-            path.relative(path.dirname(FIXTURES_PATH), path.join(FIXTURES_PATH, 'name.txt'))
-
-          res.download(p, 'document', {
-            root: FIXTURES_PATH
-          })
-        })
-
-        request(app)
-          .get('/')
-          .expect(403)
-          .expect(utils.shouldNotHaveHeader('Content-Disposition'))
-          .end(done)
-      })
-
-      it('should reject reading outside root', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.download('../name.txt', 'document', {
-            root: FIXTURES_PATH
-          })
-        })
-
-        request(app)
-          .get('/')
-          .expect(403)
-          .expect(utils.shouldNotHaveHeader('Content-Disposition'))
-          .end(done)
       })
     })
   })
