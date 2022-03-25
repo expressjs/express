@@ -5,6 +5,10 @@ unreleased
   * Deprecate string and non-integer arguments to `res.status`
   * Ignore `Object.prototype` values in settings through `app.set`/`app.get`
   * Support proper 205 responses using `res.send`
+  * deps: finalhandler@1.2.0
+    - Remove set content headers that break response
+    - deps: on-finished@2.4.1
+    - deps: statuses@2.0.1
   * deps: send@0.18.0
     - Fix emitted 416 error missing headers property
     - Limit the headers removed for 304 response
