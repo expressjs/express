@@ -13,6 +13,8 @@ unreleased
     - deps: http-errors@2.0.0
     - deps: on-finished@2.4.1
     - deps: statuses@2.0.1
+  * deps: serve-static@1.15.0
+    - deps: send@0.18.0
 
 4.17.3 / 2022-02-16
 ===================
