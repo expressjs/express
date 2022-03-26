@@ -9,7 +9,7 @@ also easily visible to outsiders.
 
 ## Section 1: Scope
 
-Express is a http web server framework with a simple and expressive API
+Express is a HTTP web server framework with a simple and expressive API
 which is highly aligned with Node.js core. We aim to be the best in
 class for writing performant, spec compliant, and powerful web servers
 in Node.js. As one of the oldest and most popular web frameworks in
@@ -24,7 +24,7 @@ Express is made of many modules spread between three GitHub Orgs:
   libraries
 - [pillarjs](http://github.com/pillarjs/): Components which make up
   Express but can also be used for other web frameworks
-- [jshttp](http://github.com/jshttp/): Low level http libraries
+- [jshttp](http://github.com/jshttp/): Low level HTTP libraries
 
 ### 1.2: Out-of-Scope
 
