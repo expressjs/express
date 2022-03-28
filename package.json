@@ -42,6 +42,7 @@
     "etag": "~1.8.1",
     "finalhandler": "1.2.0",
     "fresh": "0.5.2",
+    "http-errors": "2.0.0",
     "merge-descriptors": "1.0.1",
     "methods": "~1.1.2",
     "on-finished": "~2.3.0",
