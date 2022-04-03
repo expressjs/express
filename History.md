@@ -9,6 +9,16 @@ unreleased
   * Invoke `default` with same arguments as types in `res.format`
   * Support proper 205 responses using `res.send`
   * Use `http-errors` for `res.format` error
+  * deps: body-parser@1.20.0
+    - Fix error message for json parse whitespace in `strict`
+    - Fix internal error when inflated body exceeds limit
+    - Prevent loss of async hooks context
+    - Prevent hanging when request already read
+    - deps: depd@2.0.0
+    - deps: http-errors@2.0.0
+    - deps: on-finished@2.4.1
+    - deps: qs@6.10.3
+    - deps: raw-body@2.5.1
   * deps: depd@2.0.0
     - Replace internal `eval` usage with `Function` constructor
     - Use instance methods on `process` to check for listeners
