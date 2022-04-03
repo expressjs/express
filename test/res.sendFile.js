@@ -1,6 +1,7 @@
 'use strict'
 
 var after = require('after');
+var asyncHooks = tryRequire('async_hooks')
 var Buffer = require('safe-buffer').Buffer
 var express = require('../')
   , request = require('supertest')
@@ -9,6 +10,10 @@ var onFinished = require('on-finished');
 var path = require('path');
 var fixtures = path.join(__dirname, 'fixtures');
 var utils = require('./support/utils');
+
+var describeAsyncHooks = typeof asyncHooks.AsyncLocalStorage === 'function'
+  ? describe
+  : describe.skip
 
 describe('res', function(){
   describe('.sendFile(path)', function () {
@@ -260,6 +265,64 @@ describe('res', function(){
       request(app)
         .get('/')
         .expect(200, 'got 404 error', done)
+    })
+
+    describeAsyncHooks('async local storage', function () {
+      it('should presist store', function (done) {
+        var app = express()
+        var cb = after(2, done)
+        var store = { foo: 'bar' }
+
+        app.use(function (req, res, next) {
+          req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+          req.asyncLocalStorage.run(store, next)
+        })
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
+            if (err) return cb(err)
+
+            var local = req.asyncLocalStorage.getStore()
+
+            assert.strictEqual(local.foo, 'bar')
+            cb()
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect('Content-Type', 'text/plain; charset=UTF-8')
+          .expect(200, 'tobi', cb)
+      })
+
+      it('should presist store on error', function (done) {
+        var app = express()
+        var store = { foo: 'bar' }
+
+        app.use(function (req, res, next) {
+          req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+          req.asyncLocalStorage.run(store, next)
+        })
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'does-not-exist'), function (err) {
+            var local = req.asyncLocalStorage.getStore()
+
+            if (local) {
+              res.setHeader('x-store-foo', String(local.foo))
+            }
+
+            res.send(err ? 'got ' + err.status + ' error' : 'no error')
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('x-store-foo', 'bar')
+          .expect('got 404 error')
+          .end(done)
+      })
     })
   })
 
@@ -999,6 +1062,64 @@ describe('res', function(){
       .get('/')
       .end(function(){});
     })
+
+    describeAsyncHooks('async local storage', function () {
+      it('should presist store', function (done) {
+        var app = express()
+        var cb = after(2, done)
+        var store = { foo: 'bar' }
+
+        app.use(function (req, res, next) {
+          req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+          req.asyncLocalStorage.run(store, next)
+        })
+
+        app.use(function (req, res) {
+          res.sendfile('test/fixtures/name.txt', function (err) {
+            if (err) return cb(err)
+
+            var local = req.asyncLocalStorage.getStore()
+
+            assert.strictEqual(local.foo, 'bar')
+            cb()
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect('Content-Type', 'text/plain; charset=UTF-8')
+          .expect(200, 'tobi', cb)
+      })
+
+      it('should presist store on error', function (done) {
+        var app = express()
+        var store = { foo: 'bar' }
+
+        app.use(function (req, res, next) {
+          req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+          req.asyncLocalStorage.run(store, next)
+        })
+
+        app.use(function (req, res) {
+          res.sendfile('test/fixtures/does-not-exist', function (err) {
+            var local = req.asyncLocalStorage.getStore()
+
+            if (local) {
+              res.setHeader('x-store-foo', String(local.foo))
+            }
+
+            res.send(err ? 'got ' + err.status + ' error' : 'no error')
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('x-store-foo', 'bar')
+          .expect('got 404 error')
+          .end(done)
+      })
+    })
   })
 
   describe('.sendfile(path)', function(){
@@ -1279,4 +1400,12 @@ function createApp(path, options, fn) {
   });
 
   return app;
+}
+
+function tryRequire (name) {
+  try {
+    return require(name)
+  } catch (e) {
+    return {}
+  }
 }

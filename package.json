@@ -45,7 +45,7 @@
     "http-errors": "2.0.0",
     "merge-descriptors": "1.0.1",
     "methods": "~1.1.2",
-    "on-finished": "~2.3.0",
+    "on-finished": "2.4.1",
     "parseurl": "~1.3.3",
     "path-to-regexp": "0.1.7",
     "proxy-addr": "~2.0.7",
