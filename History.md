@@ -26,6 +26,7 @@ unreleased
     - Remove set content headers that break response
     - deps: on-finished@2.4.1
     - deps: statuses@2.0.1
+  * deps: qs@6.10.3
   * deps: send@0.18.0
     - Fix emitted 416 error missing headers property
     - Limit the headers removed for 304 response
