@@ -71,11 +71,11 @@ install:
   - ps: |
       # supertest for http calls
       # - use 2.0.0 for Node.js < 4
-      # - use 3.4.2 for Node.js < 6
+      # - use 3.4.2 for Node.js < 7
       # - use 6.1.6 for Node.js < 8
       if ([int]$env:nodejs_version.split(".")[0] -lt 4) {
         npm install --silent --save-dev supertest@2.0.0
-      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 6) {
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 7) {
         npm install --silent --save-dev supertest@3.4.2
       } elseif ([int]$env:nodejs_version.split(".")[0] -lt 8) {
         npm install --silent --save-dev supertest@6.1.6
