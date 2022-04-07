@@ -747,7 +747,7 @@ describe('res', function(){
       })
 
       describe('when cacheControl: false', function () {
-        it('shold not send cache-control', function (done) {
+        it('should not send cache-control', function (done) {
           var app = express()
 
           app.use(function (req, res) {
