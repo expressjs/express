@@ -62,6 +62,8 @@ describe('Router', function(){
   })
 
   it('should not stack overflow with many registered routes', function(done){
+    this.timeout(5000) // long-running test
+
     var handler = function(req, res){ res.end(new Error('wrong handler')) };
     var router = new Router();
 
