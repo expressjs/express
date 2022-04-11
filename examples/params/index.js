@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+var createError = require('http-errors')
 var express = require('../../');
 var app = module.exports = express();
 
@@ -16,14 +17,6 @@ var users = [
   , { name: 'jane' }
   , { name: 'bandit' }
 ];
-
-// Create HTTP error
-
-function createError(status, message) {
-  var err = new Error(message);
-  err.status = status;
-  return err;
-}
 
 // Convert :to and :from to integers
 
