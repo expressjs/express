@@ -67,6 +67,21 @@ describe('res', function(){
       .expect(200, done)
     })
 
+    describe('expires', function () {
+      it('should throw on invalid date', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { expires: new Date(NaN) })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(500, /option expires is invalid/, done)
+      })
+    })
+
     describe('maxAge', function(){
       it('should set relative expires', function(done){
         var app = express();
@@ -152,6 +167,63 @@ describe('res', function(){
         request(app)
           .get('/')
           .expect(500, /option maxAge is invalid/, done)
+      })
+    })
+
+    describe('priority', function () {
+      it('should set low priority', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { priority: 'low' })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect('Set-Cookie', /Priority=Low/)
+          .expect(200, done)
+      })
+
+      it('should set medium priority', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { priority: 'medium' })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect('Set-Cookie', /Priority=Medium/)
+          .expect(200, done)
+      })
+
+      it('should set high priority', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { priority: 'high' })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect('Set-Cookie', /Priority=High/)
+          .expect(200, done)
+      })
+
+      it('should throw with invalid priority', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { priority: 'foobar' })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(500, /option priority is invalid/, done)
       })
     })
 

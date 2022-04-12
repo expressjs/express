@@ -19,6 +19,9 @@ unreleased
     - deps: on-finished@2.4.1
     - deps: qs@6.10.3
     - deps: raw-body@2.5.1
+  * deps: cookie@0.5.0
+    - Add `priority` option
+    - Fix `expires` option to reject invalid dates
   * deps: depd@2.0.0
     - Replace internal `eval` usage with `Function` constructor
     - Use instance methods on `process` to check for listeners
