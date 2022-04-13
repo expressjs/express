@@ -76,6 +76,20 @@ describe('Router', function(){
     router.handle({ url: '/', method: 'GET' }, { end: done });
   });
 
+  it('should not stack overflow with many registered sub routes', function(done){
+    var handler = function(req, res, next){ next() };
+    var router = new Router();
+
+    var subRouter;
+    for (var i = 0; i < 6000; i++) {
+      subRouter = new Router();
+      subRouter.get('/thing' + i, handler)
+      router.use(subRouter);
+    }
+
+    router.handle({ url: '/', method: 'GET' }, {}, done);
+  });
+
   describe('.handle', function(){
     it('should dispatch', function(done){
       var router = new Router();
