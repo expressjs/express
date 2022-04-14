@@ -90,6 +90,16 @@ describe('Router', function(){
     router.handle({ url: '/', method: 'GET' }, {}, done);
   });
 
+  it('should not stack overflow with a large sync stack', function (done) {
+    var router = new Router();
+
+    for (var i = 0; i < 6000; i++) {
+      router.use(function (req, res, next) { next() });
+    }
+
+    router.handle({ url: '/', method: 'GET' }, {}, done);
+  });
+
   describe('.handle', function(){
     it('should dispatch', function(done){
       var router = new Router();

@@ -70,6 +70,17 @@ describe('Route', function(){
         done();
       });
     })
+
+    it('should not stack overflow with a large sync stack', function (done) {
+      var req = { method: 'GET', url: '/' };
+      var route = new Route('');
+
+      for (var i = 0; i < 6000; i++) {
+        route.all(function (req, res, next) { next() });
+      }
+
+      route.dispatch(req, {}, done);
+    })
   })
 
   describe('.VERB', function(){
