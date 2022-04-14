@@ -13,6 +13,28 @@ describe('Route', function(){
     route.dispatch(req, {}, done)
   })
 
+  it('should not stack overflow with a large sync stack', function (done) {
+    this.timeout(5000) // long-running test
+
+    var req = { method: 'GET', url: '/' }
+    var route = new Route('/foo')
+
+    for (var i = 0; i < 6000; i++) {
+      route.all(function (req, res, next) { next() })
+    }
+
+    route.get(function (req, res, next) {
+      req.called = true
+      next()
+    })
+
+    route.dispatch(req, {}, function (err) {
+      if (err) return done(err)
+      assert.ok(req.called)
+      done()
+    })
+  })
+
   describe('.all', function(){
     it('should add handler', function(done){
       var req = { method: 'GET', url: '/' };

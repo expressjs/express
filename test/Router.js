@@ -76,6 +76,22 @@ describe('Router', function(){
     router.handle({ url: '/', method: 'GET' }, { end: done });
   });
 
+  it('should not stack overflow with a large sync stack', function (done) {
+    this.timeout(5000) // long-running test
+
+    var router = new Router()
+
+    for (var i = 0; i < 6000; i++) {
+      router.use(function (req, res, next) { next() })
+    }
+
+    router.use(function (req, res) {
+      res.end()
+    })
+
+    router.handle({ url: '/', method: 'GET' }, { end: done })
+  })
+
   describe('.handle', function(){
     it('should dispatch', function(done){
       var router = new Router();
