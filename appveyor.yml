@@ -25,7 +25,7 @@ install:
   # Install Node.js
   - ps: >-
       try { Install-Product node $env:nodejs_version -ErrorAction Stop }
-      catch { Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) }
+      catch { Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) x64 }
   # Configure npm
   - ps: |
       npm config set loglevel error
