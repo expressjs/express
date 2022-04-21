@@ -577,4 +577,20 @@ describe('res', function(){
       })
     })
   })
+
+  describe('when Transfer-Encoding header is present', function(){
+    it('should not add Content-Length header', function(done){
+      var app = express();
+
+      app.use(function(_, res){
+        res.status(200).set('Transfer-Encoding', 'chunked').send('');
+      });
+
+      request(app)
+      .get('/')
+      .expect(utils.shouldNotHaveHeader('Content-Length'))
+      .expect(utils.shouldHaveHeader('Transfer-Encoding'))
+      .expect(200, '', done);
+    })
+  })
 })
