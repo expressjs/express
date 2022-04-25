@@ -1,5 +1,5 @@
-unreleased
-==========
+4.18.0 / 2022-04-25
+===================
 
   * Add "root" option to `res.download`
   * Allow `options` without `filename` in `res.download`
