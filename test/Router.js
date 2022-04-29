@@ -78,7 +78,23 @@ describe('Router', function(){
     router.handle({ url: '/', method: 'GET' }, { end: done });
   });
 
-  it('should not stack overflow with a large sync stack', function (done) {
+  it('should not stack overflow with a large sync route stack', function (done) {
+    this.timeout(5000) // long-running test
+
+    var router = new Router()
+
+    for (var i = 0; i < 6000; i++) {
+      router.get('/foo', function (req, res, next) { next() })
+    }
+
+    router.get('/foo', function (req, res) {
+      res.end()
+    })
+
+    router.handle({ url: '/foo', method: 'GET' }, { end: done })
+  })
+
+  it('should not stack overflow with a large sync middleware stack', function (done) {
     this.timeout(5000) // long-running test
 
     var router = new Router()
