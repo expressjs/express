@@ -62,6 +62,7 @@
   },
   "devDependencies": {
     "after": "0.8.2",
+    "awesome-typescript-loader": "^5.2.1",
     "connect-redis": "3.4.2",
     "cookie-parser": "1.4.6",
     "cookie-session": "2.0.0",
@@ -76,6 +77,7 @@
     "multiparty": "4.2.3",
     "nyc": "15.1.0",
     "pbkdf2-password": "1.2.1",
+    "source-map-loader": "^3.0.1",
     "supertest": "6.2.3",
     "vhost": "~3.0.2"
   },
@@ -90,8 +92,9 @@
     "lib/"
   ],
   "scripts": {
+    "build": "tsc",
     "lint": "eslint .",
-    "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/ test/acceptance/",
+    "test": "mocha --require dist/test/support/env --reporter spec --bail --check-leaks dist/test/ dist/test/acceptance/",
     "test-ci": "nyc --reporter=lcovonly --reporter=text npm test",
     "test-cov": "nyc --reporter=html --reporter=text npm test",
     "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
