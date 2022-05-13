@@ -579,18 +579,27 @@ describe('res', function(){
   })
 
   describe('when Transfer-Encoding header is present', function(){
-    it('should not add Content-Length header', function(done){
-      var app = express();
+    var transferEncodings = [
+      'chunked',
+      'compress',
+      'deflate',
+      'gzip'
+    ];
 
-      app.use(function(_, res){
-        res.status(200).set('Transfer-Encoding', 'chunked').send('');
-      });
+    transferEncodings.forEach(function(encoding){
+      it('should not add Content-Length header if Transfer-Encoding header is equal to ' + encoding, function(done){
+        var app = express();
 
-      request(app)
-      .get('/')
-      .expect(utils.shouldNotHaveHeader('Content-Length'))
-      .expect(utils.shouldHaveHeader('Transfer-Encoding'))
-      .expect(200, '', done);
-    })
+        app.use(function(_, res){
+          res.status(200).set('Transfer-Encoding', encoding).send('');
+        });
+
+        request(app)
+          .get('/')
+          .expect(utils.shouldNotHaveHeader('Content-Length'))
+          .expect(utils.shouldHaveHeader('Transfer-Encoding'))
+          .expect(200, '', done);
+      })
+    });
   })
 })
