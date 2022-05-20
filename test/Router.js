@@ -83,11 +83,20 @@ describe('Router', function(){
 
     var router = new Router()
 
+    router.get('/foo', function (req, res, next) {
+      req.counter = 0
+      next()
+    })
+
     for (var i = 0; i < 6000; i++) {
-      router.get('/foo', function (req, res, next) { next() })
+      router.get('/foo', function (req, res, next) {
+        req.counter++
+        next()
+      })
     }
 
     router.get('/foo', function (req, res) {
+      assert.strictEqual(req.counter, 6000)
       res.end()
     })
 
@@ -99,11 +108,20 @@ describe('Router', function(){
 
     var router = new Router()
 
+    router.use(function (req, res, next) {
+      req.counter = 0
+      next()
+    })
+
     for (var i = 0; i < 6000; i++) {
-      router.use(function (req, res, next) { next() })
+      router.use(function (req, res, next) {
+        req.counter++
+        next()
+      })
     }
 
     router.use(function (req, res) {
+      assert.strictEqual(req.counter, 6000)
       res.end()
     })
 
