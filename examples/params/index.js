@@ -51,7 +51,7 @@ app.get('/', function(req, res){
  * GET :user.
  */
 
-app.get('/user/:user', function(req, res, next){
+app.get('/user/:user', function (req, res) {
   res.send('user ' + req.user.name);
 });
 
@@ -59,7 +59,7 @@ app.get('/user/:user', function(req, res, next){
  * GET users :from - :to.
  */
 
-app.get('/users/:from-:to', function(req, res, next){
+app.get('/users/:from-:to', function (req, res) {
   var from = req.params.from;
   var to = req.params.to;
   var names = users.map(function(user){ return user.name; });
