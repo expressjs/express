@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix regression routing a large stack in a single route
+
 4.18.1 / 2022-04-29
 ===================
 

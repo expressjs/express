@@ -19,8 +19,16 @@ describe('Route', function(){
     var req = { method: 'GET', url: '/' }
     var route = new Route('/foo')
 
+    route.get(function (req, res, next) {
+      req.counter = 0
+      next()
+    })
+
     for (var i = 0; i < 6000; i++) {
-      route.all(function (req, res, next) { next() })
+      route.all(function (req, res, next) {
+        req.counter++
+        next()
+      })
     }
 
     route.get(function (req, res, next) {
@@ -31,6 +39,7 @@ describe('Route', function(){
     route.dispatch(req, {}, function (err) {
       if (err) return done(err)
       assert.ok(req.called)
+      assert.strictEqual(req.counter, 6000)
       done()
     })
   })
