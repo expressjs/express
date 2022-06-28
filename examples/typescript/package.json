@@ -1,0 +1,17 @@
+{
+  "name": "typescript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node ."
+  },
+  "dependencies": {
+    "express": "file:../..",
+    "@types/express": "^4.17.13",
+    "@types/node": "^18.0.0"
+  }, "eslintConfig": {
+  "ecmaFeatures": {
+    "modules": true
+  }, "extends": "../../.eslintrc.yml"
+}
+}
