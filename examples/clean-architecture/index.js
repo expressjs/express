@@ -14,11 +14,11 @@
  * - DELETE /note/:id
  */
 
-const express = require('../..');
-const logger = require('morgan');
-const loadRoutes = require('./routes');
+var express = require('../..');
+var logger = require('morgan');
+var loadRoutes = require('./routes');
 
-const app = module.exports = express();
+var app = module.exports = express();
 
 // log
 if (!module.parent) app.use(logger('dev'));

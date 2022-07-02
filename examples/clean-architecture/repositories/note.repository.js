@@ -10,7 +10,7 @@ module.exports = class NotesRepository {
     }
 
     async getById(id) {
-        const result = this.notes.find(function (note) {
+        var result = this.notes.find(function (note) {
             return note.id === id
         })
         if (typeof result === "undefined") {

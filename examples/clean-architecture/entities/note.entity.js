@@ -1,7 +1,7 @@
-const isEmptyString = function (str) {
+var isEmptyString = function (str) {
     return str === undefined || str === null || str.trim() === ''
 }
-const throwIfEmpty = function (str, field) {
+var throwIfEmpty = function (str, field) {
     if (isEmptyString(str))
         throw new Error("field '" + field + "' should not be empty")
 }
