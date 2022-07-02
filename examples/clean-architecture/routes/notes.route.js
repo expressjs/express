@@ -14,9 +14,6 @@ const db = new NotesRepository()
 const businessLogic = new NotesUseCase(db)
 const controller = new NotesController(businessLogic)
 
-//Test route to check if the server is running
-router.get('/test', (req, res) => res.json("Ok"));
-
 
 router.get('/', controller.getAll.bind(controller));
 router.get('/:id', controller.getById.bind(controller));

@@ -16,7 +16,6 @@
 
 const express = require('../..');
 const logger = require('morgan');
-const path = require('path');
 const loadRoutes = require('./routes');
 
 const app = module.exports = express();
@@ -25,14 +24,12 @@ const app = module.exports = express();
 if (!module.parent) app.use(logger('dev'));
 
 // parse request bodies (req.body)
-app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
 
+loadRoutes(app)
 
 /* istanbul ignore next */
 if (!module.parent) {
-  app.listen(3000, () => {
-    console.log('Express started on port 3000');
-    loadRoutes(app)
-  });
+  app.listen(3000);
+  console.log('Express started on port 3000');
 }
