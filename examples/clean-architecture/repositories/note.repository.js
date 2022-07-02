@@ -10,10 +10,10 @@ module.exports = class NotesRepository {
     }
 
     async getById(id) {
-        console.log("Finding with id => ", id)
-        console.log(typeof id)
-        const result = this.notes.find(note => note.id === id);
-        if(typeof result === "undefined"){
+        const result = this.notes.find(function (note) {
+            return note.id === id
+        })
+        if (typeof result === "undefined") {
             throw new Error("Note not found")
         }
         return result
@@ -31,16 +31,20 @@ module.exports = class NotesRepository {
     }
 
     async deleteById(id) {
-        const index = this.notes.findIndex(note => note.id === id);
-        if(index === -1){
+        const index = this.notes.findIndex(function (note) {
+            return note.id === id
+        });
+        if (index === -1) {
             throw new Error("Note not found")
         }
         this.notes.splice(index, 1);
     }
 
     async updateById(id, title, content) {
-        const index = this.notes.findIndex(note => note.id === id);
-        if(index === -1){
+        const index = this.notes.findIndex(function (note) {
+            return note.id === id
+        });
+        if (index === -1) {
             throw new Error("Note not found")
         }
         this.notes[index].setTitle(title)
