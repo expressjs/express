@@ -1,7 +1,7 @@
 const isEmptyString = (str) => str === undefined || str === null || str.trim() === ''
 const throwIfEmpty = (str, field) => {
     if (isEmptyString(str))
-        throw new Error(`field '${field}' should not be empty`)
+        throw new Error("field '"+field+"' should not be empty")
 }
 
 module.exports = class Note {

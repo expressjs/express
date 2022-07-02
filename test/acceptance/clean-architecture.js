@@ -42,7 +42,7 @@ describe('clean-architecture-crud', function () {
         .expect(201, function (err, res) {
           if (err) return done(err)
           request(app)
-            .get(`/notes/${res.body.id}`)
+            .get("/notes/" + res.body.id)
             .expect(200, function (err, res) {
               if (err) return done(err)
               if (res.body.title === 'Text') {
@@ -54,7 +54,7 @@ describe('clean-architecture-crud', function () {
 
     it('return error if cannot find by id', function (done) {
       request(app)
-        .get(`/notes/100`)
+        .get("/notes/100")
         .expect(404, done)
     })
 
@@ -97,7 +97,7 @@ describe('clean-architecture-crud', function () {
         .expect(201, function (err, res) {
           if (err) return done(err)
           request(app)
-            .delete(`/notes/${res.body.id}`)
+            .delete("/notes/" + res.body.id)
             .expect(200, done)
         })
     })
@@ -113,7 +113,7 @@ describe('clean-architecture-crud', function () {
         .expect(201, function (err, res) {
           if (err) return done(err)
           request(app)
-            .patch(`/notes/${res.body.id}`)
+            .patch("/notes/" + res.body.id)
             .send({ title: "Test2" })
             .expect(200, '"Note updated"', done)
         })
@@ -127,7 +127,7 @@ describe('clean-architecture-crud', function () {
         .expect(201, function (err, res) {
           if (err) return done(err)
           request(app)
-            .patch(`/notes/${res.body.id}`)
+            .patch("/notes/" + res.body.id)
             .send({ title: "" })
             .expect(400, done)
         })
