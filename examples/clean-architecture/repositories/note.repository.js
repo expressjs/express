@@ -13,6 +13,9 @@ module.exports = class NotesRepository {
         console.log("Finding with id => ", id)
         console.log(typeof id)
         const result = this.notes.find(note => note.id === id);
+        if(typeof result === "undefined"){
+            throw new Error("Note not found")
+        }
         return result
     }
 

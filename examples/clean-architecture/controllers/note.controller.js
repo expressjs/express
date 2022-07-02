@@ -22,7 +22,7 @@ module.exports = class NoteController {
             const note = await this.noteUseCase.getById(noteId);
             res.json(note)
         } catch (error) {
-            res.status(400).json(error.message)
+            res.status(404).json(error.message)
         }
     }
 

@@ -19,42 +19,27 @@ module.exports = class Note {
         this.updatedAt = updatedAt;
     }
 
-    getId() {
-        return this.id;
-    }
 
     setId(id) {
         this.id = id;
     }
 
-    getTitle() {
-        return this.title;
-    }
 
     setTitle(title) {
         throwIfEmpty(title, 'title')
         this.title = title;
     }
 
-    getContent() {
-        return this.content;
-    }
 
     setContent(content) {
         this.content = content;
     }
 
-    getCreatedAt() {
-        return this.createdAt;
-    }
 
     setCreatedAt(createdAt) {
         this.createdAt = createdAt;
     }
 
-    getUpdatedAt() {
-        return this.updatedAt;
-    }
 
     setUpdatedAt(updatedAt) {
         this.updatedAt = updatedAt;
