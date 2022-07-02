@@ -66,7 +66,7 @@ describe('clean-architecture-crud', function () {
         .post('/notes')
         .set('Content-Type', 'application/json')
         .send('{"title": ""}')
-        .expect(400, `"field 'title' should not be empty"`, done)
+        .expect(400, done)
     })
 
     it('creation ok', function (done) {
@@ -84,7 +84,7 @@ describe('clean-architecture-crud', function () {
         .post('/notes')
         .set('Content-Type', 'application/json')
         .send('{"title": ""}')
-        .expect(400, `"field 'title' should not be empty"`, done)
+        .expect(400, done)
     })
   })
 
