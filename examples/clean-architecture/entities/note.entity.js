@@ -1,49 +1,40 @@
 var isEmptyString = function (str) {
-    return str === undefined || str === null || str.trim() === ''
-}
+  return str === undefined || str === null || str.trim() === "";
+};
 var throwIfEmpty = function (str, field) {
-    if (isEmptyString(str))
-        throw new Error("field '" + field + "' should not be empty")
+  if (isEmptyString(str))
+    throw new Error("field '" + field + "' should not be empty");
+};
+
+function Note(title, content, createdAt, updatedAt, id) {
+  throwIfEmpty(title, "title");
+
+  this.id = id;
+  this.title = title;
+  this.content = content;
+  this.createdAt = createdAt;
+  this.updatedAt = updatedAt;
 }
 
-module.exports = class Note {
-    constructor(title, content,
-        createdAt = new Date(),
-        updatedAt = new Date(),
-        id = null) {
+Note.prototype.setId = function (id) {
+  this.id = id;
+};
 
-        throwIfEmpty(title, 'title')
+Note.prototype.setTitle = function (title) {
+  throwIfEmpty(title, "title");
+  this.title = title;
+};
 
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+Note.prototype.setContent = function (content) {
+  this.content = content;
+};
 
+Note.prototype.setCreatedAt = function (createdAt) {
+  this.createdAt = createdAt;
+};
 
-    setId(id) {
-        this.id = id;
-    }
+Note.prototype.setUpdatedAt = function (updatedAt) {
+  this.updatedAt = updatedAt;
+};
 
-
-    setTitle(title) {
-        throwIfEmpty(title, 'title')
-        this.title = title;
-    }
-
-
-    setContent(content) {
-        this.content = content;
-    }
-
-
-    setCreatedAt(createdAt) {
-        this.createdAt = createdAt;
-    }
-
-
-    setUpdatedAt(updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-}
+module.exports = Note;
