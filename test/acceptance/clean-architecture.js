@@ -3,7 +3,7 @@ var request = require('supertest')
 
 
 
-describe.only('clean-architecture-crud', function () {
+describe('clean-architecture-crud', function () {
 
   describe('GET /', function () {
     it('should return empty array', function (done) {
