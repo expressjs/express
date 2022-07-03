@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 
 /**
  * Module dependencies.
@@ -14,22 +14,22 @@
  * - DELETE /note/:id
  */
 
-var express = require('../..');
-var logger = require('morgan');
-var loadRoutes = require('./routes');
+var express = require("../..");
+var logger = require("morgan");
+var loadRoutes = require("./routes");
 
-var app = module.exports = express();
+var app = (module.exports = express());
 
 // log
-if (!module.parent) app.use(logger('dev'));
+if (!module.parent) app.use(logger("dev"));
 
 // parse request bodies (req.body)
 app.use(express.json());
 
-loadRoutes(app)
+loadRoutes(app);
 
 /* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
-  console.log('Express started on port 3000');
+  console.log("Express started on port 3000");
 }
