@@ -1,3 +1,4 @@
+'use strict';
 var path = require("path")
 var router = require('../../..').Router();
 

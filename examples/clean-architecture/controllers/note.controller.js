@@ -1,3 +1,4 @@
+'use strict';
 var path = require("path");
 var Note = require(path.join(__dirname, "..", "entities", "note.entity"));
 

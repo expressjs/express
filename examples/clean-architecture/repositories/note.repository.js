@@ -1,3 +1,4 @@
+'use strict';
 module.exports = class NotesRepository {
   constructor() {
     //Really simple in-memory database

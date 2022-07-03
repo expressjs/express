@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Since this is just a simple CRUD, I'm only calling the underlying repository methods.
  * In a real world application, in the same use-case method, you will insert the entire business logic.
