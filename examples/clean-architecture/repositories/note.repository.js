@@ -31,7 +31,7 @@ module.exports = class NotesRepository {
   }
 
   async deleteById(id) {
-    const index = this.notes.findIndex(function (note) {
+    var index = this.notes.findIndex(function (note) {
       return note.id === id;
     });
     if (index === -1) {
@@ -41,7 +41,7 @@ module.exports = class NotesRepository {
   }
 
   async updateById(id, title, content) {
-    const index = this.notes.findIndex(function (note) {
+    var index = this.notes.findIndex(function (note) {
       return note.id === id;
     });
     if (index === -1) {
