@@ -3,29 +3,29 @@
  * In a real world application, in the same use-case method, you will insert the entire business logic.
  */
 
-function NotesUseCase(notesRepository) {
+function NotesService(notesRepository) {
   this.notesRepository = notesRepository;
 }
 
-NotesUseCase.prototype.getAll = function() {
+NotesService.prototype.getAll = function() {
   return this.notesRepository.getAll();
 };
 
-NotesUseCase.prototype.getById = function(id) {
+NotesService.prototype.getById = function(id) {
   return this.notesRepository.getById(id);
 };
 
-NotesUseCase.prototype.create = function(note) {
+NotesService.prototype.create = function(note) {
   //Add here other business logic...
   return this.notesRepository.create(note);
 };
 
-NotesUseCase.prototype.updateById = function(id, title, content) {
+NotesService.prototype.updateById = function(id, title, content) {
   return this.notesRepository.updateById(id, title, content);
 };
 
-NotesUseCase.prototype.delete = function(id) {
+NotesService.prototype.delete = function(id) {
   return this.notesRepository.deleteById(id);
 };
 
-module.exports = NotesUseCase;
+module.exports = NotesService;

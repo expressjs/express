@@ -97,7 +97,7 @@ describe("clean-architecture-crud", function () {
     });
   });
 
-  describe("PATCH /", function () {
+  describe("put /", function () {
     it("update after creation", function (done) {
       request(app)
         .post("/notes")
@@ -106,7 +106,7 @@ describe("clean-architecture-crud", function () {
         .expect(201, function (err, res) {
           if (err) return done(err);
           request(app)
-            .patch("/notes/" + res.body.id)
+            .put("/notes/" + res.body.id)
             .send({ title: "Test2" })
             .expect(200, '"Note updated"', done);
         });
@@ -120,14 +120,14 @@ describe("clean-architecture-crud", function () {
         .expect(201, function (err, res) {
           if (err) return done(err);
           request(app)
-            .patch("/notes/" + res.body.id)
+            .put("/notes/" + res.body.id)
             .send({ title: "" })
             .expect(400, done);
         });
     });
 
     it("try to update post not found", function (done) {
-      request(app).patch("/notes/100").send({ title: "Test1" }).expect(400, done);
+      request(app).put("/notes/100").send({ title: "Test1" }).expect(400, done);
     });
   });
 });

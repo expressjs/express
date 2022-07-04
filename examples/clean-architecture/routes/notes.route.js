@@ -8,17 +8,17 @@ var NotesRepository = require(path.join(__dirname, '..', 'repositories', 'note.r
 var NotesController = require(path.join(__dirname, '..', 'controllers', 'note.controller'));
 
 //Business logic class
-var NotesUseCase = require(path.join(__dirname, '..', 'use-cases', 'notes'));
+var NotesService = require(path.join(__dirname, '..', 'use-cases', 'notes'));
 
 var db = new NotesRepository()
-var businessLogic = new NotesUseCase(db)
+var businessLogic = new NotesService(db)
 var controller = new NotesController(businessLogic)
 
 
 router.get('/', controller.getAll.bind(controller));
 router.get('/:id', controller.getById.bind(controller));
 router.post('/', controller.create.bind(controller));
-router.patch('/:id', controller.update.bind(controller));
+router.put('/:id', controller.update.bind(controller));
 router.delete('/:id', controller.delete.bind(controller));
 
 
