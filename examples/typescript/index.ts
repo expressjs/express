@@ -1,8 +1,7 @@
-import type { Request, Response } from 'express';
+import express from 'express';
+import type { Express, Request, Response } from 'express';
 
-const express = require( 'express' );
-
-const app = express();
+const app: Express = express();
 
 app.get( '/', function ( request: Request, response: Response ) {
   console.log( request.url );
