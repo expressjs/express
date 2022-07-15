@@ -13,7 +13,9 @@ NotesRepository.prototype.getById = function(id) {
     return note.id === id;
   });
   if (typeof result === "undefined") {
-    throw new Error("Note not found");
+    var err = new Error("Note not found");
+    err.status = 404;
+    throw err
   }
   return result;
 };
@@ -34,7 +36,9 @@ NotesRepository.prototype.deleteById = function(id) {
     return note.id === id;
   });
   if (index === -1) {
-    throw new Error("Note not found");
+    var err = new Error("Note not found");
+    err.status = 404;
+    throw err
   }
   this.notes.splice(index, 1);
 };
@@ -44,7 +48,9 @@ NotesRepository.prototype.updateById = function(id, title, content) {
     return note.id === id;
   });
   if (index === -1) {
-    throw new Error("Note not found");
+    var err = new Error("Note not found");
+    err.status = 404;
+    throw err
   }
   this.notes[index].setTitle(title);
   this.notes[index].setContent(content);

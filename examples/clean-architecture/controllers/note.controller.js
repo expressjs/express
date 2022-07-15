@@ -1,5 +1,4 @@
-var path = require("path");
-var Note = require(path.join(__dirname, "..", "entities", "note.entity"));
+var Note = require("../entities/note.entity");
 
 /**
  * Please, note that here I'm not using ES6 classes just for compatibility purposes
@@ -15,43 +14,27 @@ NoteController.prototype.getAll = function (req, res) {
 };
 
 NoteController.prototype.getById = function (req, res) {
-  try {
-    var noteId = parseInt(req.params.id);
-    var note = this.noteUseCase.getById(noteId);
-    res.json(note);
-  } catch (error) {
-    res.status(404).json(error.message);
-  }
+  var noteId = parseInt(req.params.id);
+  var note = this.noteUseCase.getById(noteId);
+  res.json(note);
 };
 
 NoteController.prototype.create = function (req, res) {
-  try {
-    var note = new Note(req.body.title, req.body.content);
-    var createdNote = this.noteUseCase.create(note);
-    res.status(201).json(createdNote);
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
+  var note = new Note(req.body.title, req.body.content);
+  var createdNote = this.noteUseCase.create(note);
+  res.status(201).json(createdNote);
 };
 
 NoteController.prototype.update = function (req, res) {
-  try {
-    var noteId = parseInt(req.params.id);
-    this.noteUseCase.updateById(noteId, req.body.title, req.body.content);
-    res.json("Note updated");
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
+  var noteId = parseInt(req.params.id);
+  this.noteUseCase.updateById(noteId, req.body.title, req.body.content);
+  res.json("Note updated");
 };
 
 NoteController.prototype.delete = function (req, res) {
-  try {
-    var noteId = parseInt(req.params.id);
-    this.noteUseCase.delete(noteId);
-    res.json("Note deleted");
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
+  var noteId = parseInt(req.params.id);
+  this.noteUseCase.delete(noteId);
+  res.json("Note deleted");
 };
 
 module.exports = NoteController;

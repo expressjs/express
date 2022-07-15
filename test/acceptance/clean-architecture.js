@@ -96,7 +96,7 @@ describe("clean-architecture-crud", function () {
     });
 
     it("delete unexisting node", function (done) {
-      request(app).delete("/notes/100").expect(400, done);
+      request(app).delete("/notes/100").expect(404, done);
     });
   });
 
@@ -130,7 +130,7 @@ describe("clean-architecture-crud", function () {
     });
 
     it("try to update post not found", function (done) {
-      request(app).put("/notes/100").send({ title: "Test1" }).expect(400, done);
+      request(app).put("/notes/100").send({ title: "Test1" }).expect(404, done);
     });
   });
 });

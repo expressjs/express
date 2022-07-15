@@ -2,8 +2,11 @@ var isEmptyString = function (str) {
   return str === undefined || str === null || str.trim() === "";
 };
 var throwIfEmpty = function (str, field) {
-  if (isEmptyString(str))
-    throw new Error("field '" + field + "' should not be empty");
+  if (isEmptyString(str)){
+    var error = new Error("field '" + field + "' should not be empty");
+    error.status = 400;
+    throw error
+  }
 };
 
 function Note(title, content, createdAt, updatedAt, id) {
