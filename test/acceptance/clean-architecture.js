@@ -12,16 +12,19 @@ describe("clean-architecture-crud", function () {
         .post("/notes")
         .set("Content-Type", "application/json")
         .send('{"title": "Text"}')
-        .expect(201, function (err, _res) {
-          if (err) return done(err);
+        .expect(201)
+        .then(function (res) {
+          const obj = {
+            title: "Text",
+            id: 0,
+          };
           request(app)
             .get("/notes")
-            .expect(200, function (err, res) {
-              if (err) return done(err);
-              if (res.body.length === 1 && res.body[0].title === "Text") {
-                done();
-              }
-            });
+            .expect(function (res) {
+              obj.createdAt = res.body[0].createdAt;
+              obj.updatedAt = res.body[0].updatedAt;
+            })
+            .expect(200, [obj], done);
         });
     });
   });

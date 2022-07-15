@@ -1,14 +1,13 @@
-var path = require("path")
 var router = require('../../..').Router();
 
 //Database connection (you can change it to use a different database)
-var NotesRepository = require(path.join(__dirname, '..', 'repositories', 'note.repository'));
+var NotesRepository = require('../repositories/note.repository');
 
 //Controller class to handle express requests
-var NotesController = require(path.join(__dirname, '..', 'controllers', 'note.controller'));
+var NotesController = require('../controllers/note.controller');
 
 //Business logic class
-var NotesService = require(path.join(__dirname, '..', 'use-cases', 'notes'));
+var NotesService = require('../use-cases/notes');
 
 var db = new NotesRepository()
 var businessLogic = new NotesService(db)
