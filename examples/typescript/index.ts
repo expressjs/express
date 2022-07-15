@@ -1,13 +1,16 @@
-const express = require("express");
+import type { Request, Response } from 'express';
 
-const app: import("express").Application = module.exports = express();
+const express = require( 'express' );
 
-app.get('/', function(request, response) {
-    console.log(request.url);
+const app = express();
 
-    response.send("Hello World");
-});
+app.get( '/', function ( request: Request, response: Response ) {
+  console.log( request.url );
 
-app.listen(3000);
+  response.send( 'Hello World' );
+} );
 
-console.log('Express started on port 3000');
+app.listen( 3000, () => {
+  console.log( 'Express started on port 3000' );
+  console.log( '  - http://localhost:3000' );
+} );

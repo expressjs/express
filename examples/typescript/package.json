@@ -1,17 +1,18 @@
 {
-  "name": "typescript",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "@express/typescript-example",
+  "private": true,
+  "version": "0.0.0",
   "scripts": {
     "start": "tsc && node ."
   },
-  "dependencies": {
-    "express": "file:../..",
-    "@types/express": "^4.17.13",
-    "@types/node": "^18.0.0"
-  }, "eslintConfig": {
-  "ecmaFeatures": {
-    "modules": true
-  }, "extends": "../../.eslintrc.yml"
-}
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@types/express": "latest",
+    "@types/node": "latest"
+  },
+  "eslintConfig": {
+    "extends": "../../.eslintrc.yml",
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"]
+  }
 }
