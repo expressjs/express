@@ -80,7 +80,7 @@
     "vhost": "~3.0.2"
   },
   "engines": {
-    "node": ">= 12.22.0"
+    "node": ">= 14.0.0"
   },
   "files": [
     "LICENSE",
