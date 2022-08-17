@@ -10,9 +10,9 @@
 const http = require('http')
 const express = require('express')
 const server = express()
-const app = new express.Router()
+const app = express.Router()
 
-server.use(app)
+server.use('/', app)
 app.get('/', function (req, res) {
   res.send('Hello World')
 })
