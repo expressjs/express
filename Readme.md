@@ -7,14 +7,17 @@
   [![NPM Downloads][npm-downloads-image]][npm-downloads-url]
 
 ```js
+const http = require('http')
 const express = require('express')
-const app = express()
+const server = express()
+const app = new express.Router()
 
+server.use(app)
 app.get('/', function (req, res) {
   res.send('Hello World')
 })
 
-app.listen(3000)
+http.createServer(server).listen(3000)
 ```
 
 ## Installation
