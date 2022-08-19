@@ -94,7 +94,7 @@ jobs:
           npm-i: mocha@9.2.2
 
         - name: Node.js 14.x
-          node-version: "14.19"
+          node-version: "14.20"
 
         - name: Node.js 15.x
           node-version: "15.14"
