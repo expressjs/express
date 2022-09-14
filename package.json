@@ -92,7 +92,6 @@
   "scripts": {
     "lint": "eslint .",
     "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/ test/acceptance/",
-    "test-close": "mocha --require test/support/env --reporter spec --bail test/app.close.js",
     "test-ci": "nyc --reporter=lcovonly --reporter=text npm test",
     "test-cov": "nyc --reporter=html --reporter=text npm test",
     "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
