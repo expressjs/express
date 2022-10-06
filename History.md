@@ -5,6 +5,7 @@ unreleased
   * deps: body-parser@1.20.1
     - deps: qs@6.11.0
     - perf: remove unnecessary object clone
+  * deps: qs@6.11.0
 
 4.18.1 / 2022-04-29
 ===================
