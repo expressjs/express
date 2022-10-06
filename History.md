@@ -2,6 +2,9 @@ unreleased
 ==========
 
   * Fix regression routing a large stack in a single route
+  * deps: body-parser@1.20.1
+    - deps: qs@6.11.0
+    - perf: remove unnecessary object clone
 
 4.18.1 / 2022-04-29
 ===================
