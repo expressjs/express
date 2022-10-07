@@ -1050,12 +1050,13 @@ describe('res', function(){
 
       app.use(function(req, res){
         res.sendfile('test/fixtures/user.html', function(err){
-          assert(!res.headersSent);
-          assert.strictEqual(req.socket.listeners('error').length, 1) // node's original handler
+          assert.ok(err)
+          assert.ok(!res.headersSent)
+          assert.strictEqual(err.message, 'broken!')
           done();
         });
 
-        req.socket.emit('error', new Error('broken!'));
+        req.socket.destroy(new Error('broken!'))
       });
 
       request(app)
