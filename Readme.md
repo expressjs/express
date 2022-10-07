@@ -51,7 +51,7 @@ for more information.
 ## Docs & Community
 
   * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
-  * [#express](https://webchat.freenode.net/?channels=express) on freenode IRC
+  * [#express](https://web.libera.chat/#express) on [Libera Chat](https://libera.chat) IRC
   * [GitHub Organization](https://github.com/expressjs) for Official Middleware & Modules
   * Visit the [Wiki](https://github.com/expressjs/express/wiki)
   * [Google Group](https://groups.google.com/group/express-js) for discussion
