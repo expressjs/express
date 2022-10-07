@@ -1052,6 +1052,7 @@ describe('res', function(){
         res.sendfile('test/fixtures/user.html', function(err){
           assert.ok(err)
           assert.ok(!res.headersSent)
+          assert.strictEqual(err.message, 'broken!')
           done();
         });
 
