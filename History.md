@@ -1,5 +1,5 @@
-unreleased
-==========
+4.18.2 / 2022-10-08
+===================
 
   * Fix regression routing a large stack in a single route
   * deps: body-parser@1.20.1
