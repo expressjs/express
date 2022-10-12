@@ -79,6 +79,14 @@
     "supertest": "6.3.0",
     "vhost": "~3.0.2"
   },
+  "peerDependencies": {
+    "hbs": "4.2.0",
+  },
+  "peerDependenciesMeta": {
+    "hbs": {
+      "optional": true
+    }
+  }
   "engines": {
     "node": ">= 0.10.0"
   },
