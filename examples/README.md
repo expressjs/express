@@ -29,3 +29,4 @@ This page contains list of examples using Express.
 - [view-locals](./view-locals) - Saving data in request object between middleware calls
 - [web-service](./web-service) - Simple API service
 - [needle](./needle) - Nimble, streamable HTTP client for Node.js. With proxy, iconv, cookie, deflate & multipart support.
+- [connect-flash](./connect-flash) - Flash message middleware for Connect and Express.
