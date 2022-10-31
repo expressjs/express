@@ -104,7 +104,7 @@ $ npm start
   To view the examples, clone the Express repo and install the dependencies:
 
 ```console
-$ git clone git://github.com/expressjs/express.git --depth 1
+$ git clone https://github.com/expressjs/express.git --depth 1
 $ cd express
 $ npm install
 ```
