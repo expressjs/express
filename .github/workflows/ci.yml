@@ -100,7 +100,7 @@ jobs:
           node-version: "15.14"
 
         - name: Node.js 16.x
-          node-version: "16.17"
+          node-version: "16.18"
 
         - name: Node.js 17.x
           node-version: "17.9"
