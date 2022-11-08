@@ -235,6 +235,29 @@ describe('res', function(){
     })
   })
 
+  describe('.send(Blob)', function() {
+    if (require('compare-versions').compare('14.18.0', process.version, '<=')){
+      it('should send the type of content defines as a blob type', function (done){
+        var app = express()
+        var Blob = require('buffer').Blob
+        var htmlStr = '<h1>Hello World</h1>'
+        var blob= new Blob([htmlStr], { type: 'text/html' })
+        app.use(function (req,res){
+          res.send(blob)
+        })
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Content-Type','text/html; charset=utf-8')
+          .expect('Content-Length',blob.size.toString())
+          .expect(utils.shouldHaveBody(Buffer.from(htmlStr)))
+          .end(done)
+      })
+    } else {
+      this.skip()
+    }
+  })
+
   describe('.send(Object)', function(){
     it('should send as application/json', function(done){
       var app = express();
