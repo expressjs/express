@@ -253,8 +253,6 @@ describe('res', function(){
           .expect(utils.shouldHaveBody(Buffer.from(htmlStr)))
           .end(done)
       })
-    } else {
-      this.skip()
     }
   })
 
