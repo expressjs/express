@@ -236,7 +236,7 @@ describe('res', function(){
   })
 
   describe('.send(Blob)', function() {
-    if (require('compare-versions').compare('14.18.0', process.version, '<=')){
+    if (require('../lib/utils').compare('14.18.0', process.version) >= 0){
       it('should send the type of content defines as a blob type', function (done){
         var app = express()
         var Blob = require('buffer').Blob
