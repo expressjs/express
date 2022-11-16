@@ -8,6 +8,7 @@ pets.push({ name: 'Tobi', id: 0 });
 pets.push({ name: 'Loki', id: 1 });
 pets.push({ name: 'Jane', id: 2 });
 pets.push({ name: 'Raul', id: 3 });
+pets.push({ name: 'Talha', id: 4 });
 
 var users = exports.users = [];
 
