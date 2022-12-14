@@ -31,6 +31,7 @@ jobs:
         - Node.js 16.x
         - Node.js 17.x
         - Node.js 18.x
+        - Node.js 19.x
 
         include:
         - name: Node.js 0.10
@@ -100,13 +101,16 @@ jobs:
           node-version: "15.14"
 
         - name: Node.js 16.x
-          node-version: "16.17"
+          node-version: "16.19"
 
         - name: Node.js 17.x
           node-version: "17.9"
 
         - name: Node.js 18.x
-          node-version: "18.10"
+          node-version: "18.12"
+        
+        - name: Node.js 19.x
+          node-version: "19.3"
 
     steps:
     - uses: actions/checkout@v2
