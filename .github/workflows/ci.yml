@@ -106,10 +106,10 @@ jobs:
           node-version: "17.9"
 
         - name: Node.js 18.x
-          node-version: "18.123"
+          node-version: "18.13"
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Install Node.js ${{ matrix.node-version }}
       shell: bash -eo pipefail -l {0}
