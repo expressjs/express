@@ -26,7 +26,7 @@ function error(err, req, res, next) {
   res.send('Internal Server Error');
 }
 
-app.get('/', function(req, res){
+app.get('/', function () {
   // Caught and passed down to the errorHandler middleware
   throw new Error('something broke!');
 });
