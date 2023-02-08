@@ -11,11 +11,11 @@ var app = module.exports = express();
 // Faux database
 
 var users = [
-  { name: 'tj' }
-  , { name: 'tobi' }
-  , { name: 'loki' }
-  , { name: 'jane' }
-  , { name: 'bandit' }
+  { name: 'tj' },
+  { name: 'tobi' },
+  { name: 'loki' },
+  { name: 'jane' },
+  { name: 'bandit' }
 ];
 
 // Convert :to and :from to integers
