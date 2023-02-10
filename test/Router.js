@@ -201,7 +201,7 @@ describe('Router', function(){
     it('should handle throwing inside routes with params', function(done) {
       var router = new Router();
 
-      router.get('/foo/:id', function(req, res, next){
+      router.get('/foo/:id', function () {
         throw new Error('foo');
       });
 

@@ -61,7 +61,7 @@ app3.use(function(req, res, next){
 
 var app4 = express();
 
-app4.get('/', function(req, res, next){
+app4.get('/', function (req, res) {
   res.format({
     text: function(){ res.send('hey') },
     html: function(){ res.send('<p>hey</p>') },
@@ -155,7 +155,7 @@ describe('res', function(){
       var app = express();
       var router = express.Router();
 
-      router.get('/', function(req, res, next){
+      router.get('/', function (req, res) {
         res.format({
           text: function(){ res.send('hey') },
           html: function(){ res.send('<p>hey</p>') },

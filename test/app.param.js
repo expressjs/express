@@ -166,7 +166,7 @@ describe('app', function(){
       app.get('/:user', function(req, res, next) {
         next('route');
       });
-      app.get('/:user', function(req, res, next) {
+      app.get('/:user', function (req, res) {
         res.send(req.params.user);
       });
 
@@ -187,11 +187,11 @@ describe('app', function(){
         next(new Error('invalid invocation'))
       });
 
-      app.post('/:user', function(req, res, next) {
+      app.post('/:user', function (req, res) {
         res.send(req.params.user);
       });
 
-      app.get('/:thing', function(req, res, next) {
+      app.get('/:thing', function (req, res) {
         res.send(req.thing);
       });
 

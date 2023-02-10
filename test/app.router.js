@@ -90,7 +90,7 @@ describe('app.router', function(){
     it('should decode correct params', function(done){
       var app = express();
 
-      app.get('/:name', function(req, res, next){
+      app.get('/:name', function (req, res) {
         res.send(req.params.name);
       });
 
@@ -102,7 +102,7 @@ describe('app.router', function(){
     it('should not accept params in malformed paths', function(done) {
       var app = express();
 
-      app.get('/:name', function(req, res, next){
+      app.get('/:name', function (req, res) {
         res.send(req.params.name);
       });
 
@@ -114,7 +114,7 @@ describe('app.router', function(){
     it('should not decode spaces', function(done) {
       var app = express();
 
-      app.get('/:name', function(req, res, next){
+      app.get('/:name', function (req, res) {
         res.send(req.params.name);
       });
 
@@ -126,7 +126,7 @@ describe('app.router', function(){
     it('should work with unicode', function(done) {
       var app = express();
 
-      app.get('/:name', function(req, res, next){
+      app.get('/:name', function (req, res) {
         res.send(req.params.name);
       });
 
@@ -910,7 +910,7 @@ describe('app.router', function(){
         next();
       });
 
-      app.get('/bar', function(req, res){
+      app.get('/bar', function () {
         assert(0);
       });
 
@@ -919,7 +919,7 @@ describe('app.router', function(){
         next();
       });
 
-      app.get('/foo', function(req, res, next){
+      app.get('/foo', function (req, res) {
         calls.push('/foo 2');
         res.json(calls)
       });
@@ -939,7 +939,7 @@ describe('app.router', function(){
         next('route')
       }
 
-      app.get('/foo', fn, function(req, res, next){
+      app.get('/foo', fn, function (req, res) {
         res.end('failure')
       });
 
@@ -964,11 +964,11 @@ describe('app.router', function(){
         next('router')
       }
 
-      router.get('/foo', fn, function (req, res, next) {
+      router.get('/foo', fn, function (req, res) {
         res.end('failure')
       })
 
-      router.get('/foo', function (req, res, next) {
+      router.get('/foo', function (req, res) {
         res.end('failure')
       })
 
@@ -995,7 +995,7 @@ describe('app.router', function(){
         next();
       });
 
-      app.get('/bar', function(req, res){
+      app.get('/bar', function () {
         assert(0);
       });
 
@@ -1004,7 +1004,7 @@ describe('app.router', function(){
         next(new Error('fail'));
       });
 
-      app.get('/foo', function(req, res, next){
+      app.get('/foo', function () {
         assert(0);
       });
 
