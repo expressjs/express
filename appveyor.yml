@@ -19,7 +19,7 @@ environment:
     - nodejs_version: "15.14"
     - nodejs_version: "16.19"
     - nodejs_version: "17.9"
-    - nodejs_version: "18.12"
+    - nodejs_version: "18.14"
 cache:
   - node_modules
 install:
@@ -30,7 +30,11 @@ install:
   # Configure npm
   - ps: |
       npm config set loglevel error
-      npm config set shrinkwrap false
+      if ((npm config get package-lock) -eq "true") {
+        npm config set package-lock false
+      } else {
+        npm config set shrinkwrap false
+      }
   # Remove all non-test dependencies
   - ps: |
       # Remove example dependencies

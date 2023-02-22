@@ -106,7 +106,7 @@ jobs:
           node-version: "17.9"
 
         - name: Node.js 18.x
-          node-version: "18.12"
+          node-version: "18.14"
 
     steps:
     - uses: actions/checkout@v3
@@ -120,7 +120,11 @@ jobs:
     - name: Configure npm
       run: |
         npm config set loglevel error
-        npm config set shrinkwrap false
+        if [[ "$(npm config get package-lock)" == "true" ]]; then
+          npm config set package-lock false
+        else
+          npm config set shrinkwrap false
+        fi
 
     - name: Install npm module(s) ${{ matrix.npm-i }}
       run: npm install --save-dev ${{ matrix.npm-i }}
