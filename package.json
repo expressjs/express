@@ -71,7 +71,7 @@
     "hbs": "4.2.0",
     "marked": "0.7.0",
     "method-override": "3.0.0",
-    "mocha": "10.0.0",
+    "mocha": "10.2.0",
     "morgan": "1.10.0",
     "multiparty": "4.2.3",
     "nyc": "15.1.0",
