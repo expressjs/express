@@ -262,7 +262,7 @@ describe('express.json()', function () {
           .post('/')
           .set('Content-Type', 'application/json')
           .send('true')
-          .expect(400, '[entity.parse.failed] ' + parseError('#rue').replace('#', 't'), done)
+          .expect(400, '[entity.parse.failed] ' + parseError('#rue').replace(/#/g, 't'), done)
       })
     })
 
@@ -290,7 +290,7 @@ describe('express.json()', function () {
           .post('/')
           .set('Content-Type', 'application/json')
           .send('true')
-          .expect(400, '[entity.parse.failed] ' + parseError('#rue').replace('#', 't'), done)
+          .expect(400, '[entity.parse.failed] ' + parseError('#rue').replace(/#/g, 't'), done)
       })
 
       it('should not parse primitives with leading whitespaces', function (done) {
@@ -298,7 +298,7 @@ describe('express.json()', function () {
           .post('/')
           .set('Content-Type', 'application/json')
           .send('    true')
-          .expect(400, '[entity.parse.failed] ' + parseError('    #rue').replace('#', 't'), done)
+          .expect(400, '[entity.parse.failed] ' + parseError('    #rue').replace(/#/g, 't'), done)
       })
 
       it('should allow leading whitespaces in JSON', function (done) {
@@ -316,7 +316,7 @@ describe('express.json()', function () {
           .set('X-Error-Property', 'stack')
           .send('true')
           .expect(400)
-          .expect(shouldContainInBody(parseError('#rue').replace('#', 't')))
+          .expect(shouldContainInBody(parseError('#rue').replace(/#/g, 't')))
           .end(done)
       })
     })
