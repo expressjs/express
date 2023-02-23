@@ -2119,7 +2119,7 @@ unreleased
  * deps: connect@2.21.0
    - deprecate `connect(middleware)` -- use `app.use(middleware)` instead
    - deprecate `connect.createServer()` -- use `connect()` instead
-   - fix `res.setHeader()` patch to work with with get -> append -> set pattern
+   - fix `res.setHeader()` patch to work with get -> append -> set pattern
    - deps: compression@~1.0.8
    - deps: errorhandler@~1.1.1
    - deps: express-session@~1.5.0
@@ -3330,8 +3330,8 @@ Shaw]
   * Added node v0.1.97 compatibility
   * Added support for deleting cookies via Request#cookie('key', null)
   * Updated haml submodule
-  * Fixed not-found page, now using using charset utf-8
-  * Fixed show-exceptions page, now using using charset utf-8
+  * Fixed not-found page, now using charset utf-8
+  * Fixed show-exceptions page, now using charset utf-8
   * Fixed view support due to fs.readFile Buffers
   * Changed; mime.type() no longer accepts ".type" due to node extname() changes
 
@@ -3366,7 +3366,7 @@ Shaw]
 ==================
 
   * Added charset support via Request#charset (automatically assigned to 'UTF-8' when respond()'s
-    encoding is set to 'utf8' or 'utf-8'.
+    encoding is set to 'utf8' or 'utf-8').
   * Added "encoding" option to Request#render(). Closes #299
   * Added "dump exceptions" setting, which is enabled by default.
   * Added simple ejs template engine support
@@ -3405,7 +3405,7 @@ Shaw]
   * Added [haml.js](http://github.com/visionmedia/haml.js) submodule; removed haml-js
   * Added callback function support to Request#halt() as 3rd/4th arg
   * Added preprocessing of route param wildcards using param(). Closes #251
-  * Added view partial support (with collections etc)
+  * Added view partial support (with collections etc.)
   * Fixed bug preventing falsey params (such as ?page=0). Closes #286
   * Fixed setting of multiple cookies. Closes #199
   * Changed; view naming convention is now NAME.TYPE.ENGINE (for example page.html.haml)
