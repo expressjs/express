@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix routing requests without method
   * deps: body-parser@1.20.2
     - Fix strict json error message on Node.js 19+
     - deps: content-type@~1.0.5

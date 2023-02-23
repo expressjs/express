@@ -61,6 +61,33 @@ describe('Router', function(){
     router.handle({ method: 'GET' }, {}, done)
   })
 
+  it('handle missing method', function (done) {
+    var all = false
+    var router = new Router()
+    var route = router.route('/foo')
+    var use = false
+
+    route.post(function (req, res, next) { next(new Error('should not run')) })
+    route.all(function (req, res, next) {
+      all = true
+      next()
+    })
+    route.get(function (req, res, next) { next(new Error('should not run')) })
+
+    router.get('/foo', function (req, res, next) { next(new Error('should not run')) })
+    router.use(function (req, res, next) {
+      use = true
+      next()
+    })
+
+    router.handle({ url: '/foo' }, {}, function (err) {
+      if (err) return done(err)
+      assert.ok(all)
+      assert.ok(use)
+      done()
+    })
+  })
+
   it('should not stack overflow with many registered routes', function(done){
     this.timeout(5000) // long-running test
 
