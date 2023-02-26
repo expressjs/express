@@ -163,25 +163,48 @@ jobs:
 
     - name: Run tests
       shell: bash
-      run: npm run test-ci
+      run: |
+        npm run test-ci
+        cp coverage/lcov.info "coverage/${{ matrix.name }}.lcov"
 
     - name: Lint code
       if: steps.list_env.outputs.eslint != ''
       run: npm run lint
 
     - name: Collect code coverage
-      uses: coverallsapp/github-action@master
+      run: |
+        mv ./coverage "./${{ matrix.name }}"
+        mkdir ./coverage
+        mv "./${{ matrix.name }}" "./coverage/${{ matrix.name }}"
+
+    - name: Upload code coverage
+      uses: actions/upload-artifact@v3
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        flag-name: run-${{ matrix.test_number }}
-        parallel: true
+        name: coverage
+        path: ./coverage
+        retention-days: 1
 
   coverage:
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - name: Upload code coverage
+    - uses: actions/checkout@v3
+
+    - name: Install lcov
+      shell: bash
+      run: sudo apt-get -y install lcov
+
+    - name: Collect coverage reports
+      uses: actions/download-artifact@v3
+      with:
+        name: coverage
+        path: ./coverage
+
+    - name: Merge coverage reports
+      shell: bash
+      run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
+
+    - name: Upload coverage report
       uses: coverallsapp/github-action@master
       with:
-        github-token: ${{ secrets.github_token }}
-        parallel-finished: true
+        github-token: ${{ secrets.GITHUB_TOKEN }}
