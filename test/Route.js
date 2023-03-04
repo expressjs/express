@@ -124,7 +124,7 @@ describe('Route', function(){
       var req = { method: 'POST', url: '/' };
       var route = new Route('');
 
-      route.get(function(req, res, next) {
+      route.get(function () {
         throw new Error('not me!');
       })
 
@@ -198,7 +198,7 @@ describe('Route', function(){
       var req = { order: '', method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.all(function(req, res, next){
+      route.all(function () {
         throw new Error('foobar');
       });
 
@@ -224,7 +224,7 @@ describe('Route', function(){
       var req = { method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.get(function(req, res, next){
+      route.get(function () {
         throw new Error('boom!');
       });
 
