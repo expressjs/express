@@ -263,9 +263,29 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect('Content-Type','text/html')
-        .expect('Content-Length',blob.size)
+        .expect('Content-Type','text/html; charset=utf-8')
+        .expect('Content-Length',blob.size.toString())
         .expect(200,'<h1>express app</h1>',done)
+      } else {
+        this.skip();
+      }
+    })
+
+    it('should take default content type of text/plain', function(done){
+      var Blob = require('buffer').Blob;
+      if(Blob) {
+        var str = '<h1>express app</h1>';
+        var blob = new Blob([str]);
+        var app = express();
+        app.use(function (req, res) {
+          res.send(blob);
+        });
+
+        request(app)
+          .get('/')
+          .expect('Content-Type', 'text/plain; charset=utf-8')
+          .expect('Content-Length', blob.size.toString())
+          .expect(200, '<h1>express app</h1>', done)
       } else {
         this.skip();
       }
