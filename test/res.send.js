@@ -250,6 +250,28 @@ describe('res', function(){
     })
   })
 
+  describe('.send(Blob)', function(){
+    it('should send as blob type', function (done) {
+      var Blob = require('buffer').Blob;
+      if(Blob) {
+        var str = '<h1>express app</h1>';
+        var blob = new Blob([str], { type: 'text/html' });
+        var app = express();
+        app.use(function (req, res) {
+          res.send(blob);
+        });
+
+        request(app)
+        .get('/')
+        .expect('Content-Type','text/html')
+        .expect('Content-Length',blob.size)
+        .expect(200,'<h1>express app</h1>',done)
+      } else {
+        this.skip();
+      }
+    })
+  })
+
   describe('when the request method is HEAD', function(){
     it('should ignore the body', function(done){
       var app = express();
