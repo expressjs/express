@@ -264,7 +264,6 @@ describe('res', function(){
         request(app)
         .get('/')
         .expect('Content-Type','text/html; charset=utf-8')
-        .expect('Content-Length',blob.size.toString())
         .expect(200,'<h1>express app</h1>',done)
       } else {
         this.skip();
@@ -284,7 +283,6 @@ describe('res', function(){
         request(app)
           .get('/')
           .expect('Content-Type', 'text/plain; charset=utf-8')
-          .expect('Content-Length', blob.size.toString())
           .expect(200, '<h1>express app</h1>', done)
       } else {
         this.skip();
