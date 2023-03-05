@@ -251,11 +251,12 @@ describe('res', function(){
   })
 
   describe('.send(Blob)', function(){
+    var buffer = require('buffer');
+
     it('should send as blob type', function (done) {
-      var Blob = require('buffer').Blob;
-      if(Blob) {
+      if (buffer.Blob) {
         var str = '<h1>express app</h1>';
-        var blob = new Blob([str], { type: 'text/html' });
+        var blob = new buffer.Blob([str], { type: 'text/html' });
         var app = express();
         app.use(function (req, res) {
           res.send(blob);
@@ -271,10 +272,9 @@ describe('res', function(){
     })
 
     it('should take default content type of text/plain', function(done){
-      var Blob = require('buffer').Blob;
-      if(Blob) {
+      if (buffer.Blob) {
         var str = '<h1>express app</h1>';
-        var blob = new Blob([str]);
+        var blob = new buffer.Blob([str]);
         var app = express();
         app.use(function (req, res) {
           res.send(blob);
@@ -286,6 +286,67 @@ describe('res', function(){
           .expect(200, '<h1>express app</h1>', done)
       } else {
         this.skip();
+      }
+    })
+
+    describe('need to throw error',function(){
+      function Blob(value, blobOptions){
+        this.value = value;
+        this.blobOptions = blobOptions;
+      }
+      it('should throw reference error', function (done) {
+        if (!buffer.Blob) {
+          var str = '<h1>express app</h1>';
+          var blob = new Blob([str], { type: 'text/html' });
+          var app = express();
+          app.use(function(req,res){
+            res.send(blob)
+          })
+          request(app)
+          .get('/')
+          .expect(500, done);
+        } else {
+          this.skip();
+        }
+      });
+
+      it('should need to throw type error',function(done){
+        if(buffer.Blob){
+          var str = '<h1>express app</h1>';
+          var blob = new Blob([str], { type: 'text/html' });
+          var app = express();
+          app.use(function (req, res) {
+            res.send(blob)
+          })
+          request(app)
+            .get('/')
+            .expect(500,done);
+        } else {
+          this.skip();
+        }
+      });
+    })
+
+    it('if stream/web api module is not present then it should not throw any error', function(done){
+      try {
+        require.resolve('stream/web');
+        this.skip()
+      } catch(error) {
+        if (buffer.Blob) {
+          var str = '<h1>express app</h1>';
+          var blob = new buffer.Blob([str], { type: 'text/html' });
+          var app = express();
+          app.use(function (req, res) {
+            res.send(blob);
+          });
+
+          request(app)
+            .get('/')
+            .expect('Content-Type', 'text/html; charset=utf-8')
+            .expect(200, '<h1>express app</h1>', done)
+        } else {
+          this.skip();
+        }
       }
     })
   })
