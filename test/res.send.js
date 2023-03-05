@@ -265,13 +265,14 @@ describe('res', function(){
         request(app)
         .get('/')
         .expect('Content-Type','text/html; charset=utf-8')
+        .expect('Content-Length',blob.size.toString())
         .expect(200,'<h1>express app</h1>',done)
       } else {
         this.skip();
       }
     })
 
-    it('should take default content type of text/plain', function(done){
+    it('should take default content type of application/octet-stream', function(done){
       if (buffer.Blob) {
         var str = '<h1>express app</h1>';
         var blob = new buffer.Blob([str]);
@@ -282,8 +283,9 @@ describe('res', function(){
 
         request(app)
           .get('/')
-          .expect('Content-Type', 'text/plain; charset=utf-8')
-          .expect(200, '<h1>express app</h1>', done)
+          .expect('Content-Type', 'application/octet-stream')
+          .expect('Content-Length', blob.size.toString())
+          .expect(200,done)
       } else {
         this.skip();
       }
