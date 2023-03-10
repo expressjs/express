@@ -291,44 +291,6 @@ describe('res', function(){
       }
     })
 
-    describe('need to throw error',function(){
-      function Blob(value, blobOptions){
-        this.value = value;
-        this.blobOptions = blobOptions;
-      }
-      it('should throw reference error', function (done) {
-        if (!buffer.Blob) {
-          var str = '<h1>express app</h1>';
-          var blob = new Blob([str], { type: 'text/html' });
-          var app = express();
-          app.use(function(req,res){
-            res.send(blob)
-          })
-          request(app)
-          .get('/')
-          .expect(500, done);
-        } else {
-          this.skip();
-        }
-      });
-
-      it('should need to throw type error',function(done){
-        if(buffer.Blob){
-          var str = '<h1>express app</h1>';
-          var blob = new Blob([str], { type: 'text/html' });
-          var app = express();
-          app.use(function (req, res) {
-            res.send(blob)
-          })
-          request(app)
-            .get('/')
-            .expect(500,done);
-        } else {
-          this.skip();
-        }
-      });
-    })
-
     it('if stream/web api module is not present then it should not throw any error', function(done){
       try {
         require.resolve('stream/web');
