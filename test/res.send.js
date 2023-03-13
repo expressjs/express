@@ -305,7 +305,7 @@ describe('res', function(){
         .get('/')
         .expect(500)
         .end(function(err,res){
-          assert.strictEqual(true, /unable to read array buffer/.test(res.text), res.text);
+          assert.strictEqual(/unable to read array buffer/.test(res.text), true, res.text);
           done();
         })
       } else {
