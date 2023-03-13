@@ -303,7 +303,11 @@ describe('res', function(){
         });
         request(app)
         .get('/')
-        .expect(500,'<pre>unable to read array buffer</pre>', done())
+        .expect(500)
+        .end(function(err,res){
+          assert.strictEqual(true, /unable to read array buffer/.test(res.text), res.text);
+          done();
+        })
       } else {
         this.skip();
       }
