@@ -291,26 +291,21 @@ describe('res', function(){
       }
     })
 
-    it('if stream/web api module is not present then it should not throw any error', function(done){
-      try {
-        require.resolve('stream/web');
-        this.skip()
-      } catch(error) {
-        if (buffer.Blob) {
-          var str = '<h1>express app</h1>';
-          var blob = new buffer.Blob([str], { type: 'text/html' });
-          var app = express();
-          app.use(function (req, res) {
-            res.send(blob);
-          });
-
-          request(app)
-            .get('/')
-            .expect('Content-Type', 'text/html; charset=utf-8')
-            .expect(200, '<h1>express app</h1>', done)
-        } else {
-          this.skip();
+    it('should throw error',function (done) {
+      if(buffer.Blob) {
+        var blob = new buffer.Blob(['<h1>express app</h1>'], { type: 'text/html' });
+        blob.arrayBuffer = function () {
+          return Promise.reject('unable to read array buffer')
         }
+        var app = express();
+        app.use('/', function (req, res) {
+          res.send(blob)
+        });
+        request(app)
+        .get('/')
+        .expect(500,'<pre>unable to read array buffer</pre>', done())
+      } else {
+        this.skip();
       }
     })
   })
