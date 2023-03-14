@@ -7,8 +7,7 @@ describe('app.listen()', function(){
     var app = express();
 
     var server = app.listen(9999, function(){
-      server.close();
-      done();
+      server.close(done)
     });
   })
 })
