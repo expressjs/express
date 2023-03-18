@@ -1,6 +1,7 @@
 'use strict'
-
-var express = require('../../');
+const path = require('path');
+const node_modules = path.join(__dirname, 'node_modules');
+var express = require(path.join(node_modules, 'express'));
 
 var app = module.exports = express()
 
