@@ -4,6 +4,9 @@ var express = require('../')
   , request = require('supertest')
   , cookieParser = require('cookie-parser')
 var merge = require('utils-merge');
+var setCookieParser = require('set-cookie-parser');
+var decrypt = require('symmetric-cipher.js').decrypt;
+var unsign = require('cookie-signature').unsign;
 
 describe('res', function(){
   describe('.cookie(name, object)', function(){
@@ -256,7 +259,57 @@ describe('res', function(){
 
         request(app)
         .get('/')
-        .expect(500, /secret\S+ required for signed cookies/, done);
+        .expect(500, /secret\S+ required for signed or encrypted cookies/, done);
+      })
+    })
+
+    describe('encrypted', function(){
+      it('should set an encrypted and signed cookie', function(done){
+        var app = express();
+
+        app.use(cookieParser('super secret key'));
+
+        app.use(function(req, res){
+          res.cookie('user', 'foobar', { encrypted: true }).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(function(res) {
+            var secret = 'super secret key';
+            var cookies = setCookieParser.parse(res, { decodeValues: true, map: true });
+            if (cookies.user.value.match(/^e:[0-9a-f]{32}:[0-9a-f]+\.(.*)$/) === null) {
+              throw new Error('invalid encrypted cookie format')
+            }
+            if (decrypt(unsign(cookies.user.value.slice(2), secret), secret) !== 'foobar') {
+              throw new Error('encrypted cookie does not decrypt back to original text')
+            }
+          })
+          .expect(200, done)
+      })
+
+      it('should generate an encrypted and signed JSON cookie', function(done){
+        var app = express();
+
+        app.use(cookieParser('super secret key'));
+
+        app.use(function(req, res){
+          res.cookie('user', { name: 'tobi' }, { encrypted: true }).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(function(res) {
+            var secret = 'super secret key';
+            var cookies = setCookieParser.parse(res, { decodeValues: true, map: true });
+            if (cookies.user.value.match(/^e:[0-9a-f]{32}:[0-9a-f]+\.(.*)$/) === null) {
+              throw new Error('invalid encrypted cookie format')
+            }
+            if (decrypt(unsign(cookies.user.value.slice(2), secret), secret) !== 'j:{"name":"tobi"}') {
+              throw new Error('encrypted JSON cookie does not decrypt back to original JSON string')
+            }
+          })
+          .expect(200, done)
       })
     })
 
