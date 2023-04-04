@@ -278,7 +278,7 @@ describe('res', function(){
           .expect(function(res) {
             var secret = 'super secret key';
             var cookies = setCookieParser.parse(res, { decodeValues: true, map: true });
-            if (cookies.user.value.match(/^e:[0-9a-f]{32}:[0-9a-f]+\.(.*)$/) === null) {
+            if (cookies.user.value.match(/^e:[A-Za-z0-9+/=]{24}:[A-Za-z0-9+/=]+\.(.*)$/) === null) {
               throw new Error('invalid encrypted cookie format')
             }
             if (decrypt(unsign(cookies.user.value.slice(2), secret), secret) !== 'foobar') {
@@ -302,7 +302,7 @@ describe('res', function(){
           .expect(function(res) {
             var secret = 'super secret key';
             var cookies = setCookieParser.parse(res, { decodeValues: true, map: true });
-            if (cookies.user.value.match(/^e:[0-9a-f]{32}:[0-9a-f]+\.(.*)$/) === null) {
+            if (cookies.user.value.match(/^e:[A-Za-z0-9+/=]{24}:[A-Za-z0-9+/=]+\.(.*)$/) === null) {
               throw new Error('invalid encrypted cookie format')
             }
             if (decrypt(unsign(cookies.user.value.slice(2), secret), secret) !== 'j:{"name":"tobi"}') {
