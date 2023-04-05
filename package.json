@@ -77,7 +77,6 @@
     "multiparty": "4.2.3",
     "nyc": "15.1.0",
     "pbkdf2-password": "1.2.1",
-    "set-cookie-parser": "2.6.0",
     "supertest": "6.3.0",
     "vhost": "~3.0.2"
   },

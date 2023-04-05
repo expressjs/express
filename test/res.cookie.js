@@ -4,7 +4,7 @@ var express = require('../')
   , request = require('supertest')
   , cookieParser = require('cookie-parser')
 var merge = require('utils-merge');
-var setCookieParser = require('set-cookie-parser');
+var cookie = require('cookie');
 var decrypt = require('symmetric-cipher.js').decrypt;
 var unsign = require('cookie-signature').unsign;
 
@@ -277,12 +277,12 @@ describe('res', function(){
           .get('/')
           .expect(function(res) {
             var secret = 'super secret key';
-            var cookies = setCookieParser.parse(res, { decodeValues: true, map: true });
-            if (cookies.user.value.match(/^e:[A-Za-z0-9+/=]{24}:[A-Za-z0-9+/=]+\.(.*)$/) === null) {
-              throw new Error('invalid encrypted cookie format')
+            var cookies = cookie.parse(res.headers['set-cookie'][0]);
+            if (cookies.user.match(/^e:[A-Za-z0-9+/=]{24}:[A-Za-z0-9+/=]+\.(.*)$/) === null) {
+              throw new Error('invalid encrypted cookie format');
             }
-            if (decrypt(unsign(cookies.user.value.slice(2), secret), secret) !== 'foobar') {
-              throw new Error('encrypted cookie does not decrypt back to original text')
+            if (decrypt(unsign(cookies.user.slice(2), secret), secret) !== 'foobar') {
+              throw new Error('encrypted cookie does not decrypt back to original text');
             }
           })
           .expect(200, done)
@@ -301,12 +301,12 @@ describe('res', function(){
           .get('/')
           .expect(function(res) {
             var secret = 'super secret key';
-            var cookies = setCookieParser.parse(res, { decodeValues: true, map: true });
-            if (cookies.user.value.match(/^e:[A-Za-z0-9+/=]{24}:[A-Za-z0-9+/=]+\.(.*)$/) === null) {
-              throw new Error('invalid encrypted cookie format')
+            var cookies = cookie.parse(res.headers['set-cookie'][0]);
+            if (cookies.user.match(/^e:[A-Za-z0-9+/=]{24}:[A-Za-z0-9+/=]+\.(.*)$/) === null) {
+              throw new Error('invalid encrypted cookie format');
             }
-            if (decrypt(unsign(cookies.user.value.slice(2), secret), secret) !== 'j:{"name":"tobi"}') {
-              throw new Error('encrypted JSON cookie does not decrypt back to original JSON string')
+            if (decrypt(unsign(cookies.user.slice(2), secret), secret) !== 'j:{"name":"tobi"}') {
+              throw new Error('encrypted JSON cookie does not decrypt back to original JSON string');
             }
           })
           .expect(200, done)
