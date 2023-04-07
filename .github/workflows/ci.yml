@@ -72,11 +72,11 @@ jobs:
 
         - name: Node.js 8.x
           node-version: "8.17"
-          npm-i: mocha@7.2.0
+          npm-i: mocha@7.2.0 nyc@14.1.1
 
         - name: Node.js 9.x
           node-version: "9.11"
-          npm-i: mocha@7.2.0
+          npm-i: mocha@7.2.0 nyc@14.1.1
 
         - name: Node.js 10.x
           node-version: "10.24"
