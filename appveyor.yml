@@ -17,7 +17,7 @@ environment:
     - nodejs_version: "13.14"
     - nodejs_version: "14.20"
     - nodejs_version: "15.14"
-    - nodejs_version: "16.19"
+    - nodejs_version: "16.20"
     - nodejs_version: "17.9"
     - nodejs_version: "18.15"
     - nodejs_version: "19.7"
