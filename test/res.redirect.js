@@ -91,7 +91,7 @@ describe('res', function(){
       .set('Accept', 'text/html')
       .expect('Content-Type', /html/)
       .expect('Location', 'http://google.com')
-      .expect(302, '<p>Found. Redirecting to http://google.com</p>', done)
+      .expect(302, '<!DOCTYPE html><title>Found</title><p>Found. Redirecting to http://google.com</p>', done)
     })
 
     it('should escape the url', function(done){
@@ -107,7 +107,7 @@ describe('res', function(){
       .set('Accept', 'text/html')
       .expect('Content-Type', /html/)
       .expect('Location', '%3Cla\'me%3E')
-      .expect(302, '<p>Found. Redirecting to %3Cla&#39;me%3E</p>', done)
+      .expect(302, '<!DOCTYPE html><title>Found</title><p>Found. Redirecting to%3Cla&#39;me%3E</p>', done)
     })
 
     it('should not render evil javascript links in anchor href (prevent XSS)', function(done){
@@ -140,7 +140,7 @@ describe('res', function(){
       .set('Accept', 'text/html')
       .expect('Content-Type', /html/)
       .expect('Location', 'http://google.com')
-      .expect(301, '<p>Moved Permanently. Redirecting to http://google.com</p>', done);
+      .expect(301, '<!DOCTYPE html><title>Moved Permanently</title><p>Moved Permanently. Redirecting to http://google.com</p>', done);
     })
   })
 
