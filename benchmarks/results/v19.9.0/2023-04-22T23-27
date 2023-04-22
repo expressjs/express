@@ -1,0 +1,51 @@
+notthelewis
+Intel_R_Core_TM_i7_8565UCPU_1_80GHz
+
+50 connections
+4.94ms
+9597.94
+
+50 connections
+4.91ms
+9860.20
+
+50 connections
+4.67ms
+10212.46
+
+50 connections
+4.91ms
+9615.04
+
+50 connections
+4.59ms
+10400.18
+
+50 connections
+4.87ms
+9822.32
+
+50 connections
+4.81ms
+9933.98
+
+50 connections
+4.86ms
+9864.17
+
+100 connections
+10.24ms
+9409.44
+
+250 connections
+28.58ms
+8728.76
+
+500 connections
+55.60ms
+8861.11
+
+1000 connections
+97.62ms
+9082.83
+
