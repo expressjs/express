@@ -5,7 +5,7 @@ var app = express();
 // number of middleware
 
 var n = parseInt(process.env.MW || '1', 10);
-console.log('  %s middleware', n);
+console.log('%s middleware', n);
 
 while (n--) {
   app.use(function(req, res, next){
