@@ -294,20 +294,37 @@ describe('res', function(){
     it('should throw error',function (done) {
       if(buffer.Blob) {
         var blob = new buffer.Blob(['<h1>express app</h1>'], { type: 'text/html' });
-        blob.arrayBuffer = function () {
-          return Promise.reject('unable to read array buffer')
-        }
         var app = express();
-        app.use('/', function (req, res) {
-          res.send(blob)
-        });
-        request(app)
-        .get('/')
-        .expect(500)
-        .end(function(err,res){
-          assert.strictEqual(/unable to read array buffer/.test(res.text), true, res.text);
-          done();
-        })
+        try {
+          require.resolve('stream/web');
+          blob.stream = function () {
+            return null;
+          }
+          app.use('/', function (req, res) {
+            res.send(blob)
+          });
+          request(app)
+            .get('/')
+            .expect(500)
+            .end(function (err, res) {
+              assert.strictEqual(/Cannot read properties of null/.test(res.text), true, res.text);
+              done();
+            });
+        } catch(error) {
+          blob.arrayBuffer = function () {
+            return Promise.reject('Unable to read array buffer')
+          }
+          app.use('/', function (req, res) {
+            res.send(blob)
+          });
+          request(app)
+            .get('/')
+            .expect(500)
+            .end(function (err, res) {
+              assert.strictEqual(/unable to read array buffer/.test(res.text), true, res.text);
+              done();
+            });
+        }
       } else {
         this.skip();
       }
