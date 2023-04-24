@@ -294,7 +294,7 @@ describe('res', function(){
     it('should throw error',function (done) {
       if(buffer.Blob) {
         try {
-          require.resolve('stream/web');
+          require('stream/web');
           var app = express();
           var blob = new buffer.Blob(['<h1>express app</h1>'], { type: 'text/html' });
           blob.stream = function () {
@@ -311,6 +311,7 @@ describe('res', function(){
               done();
             });
         } catch(error) {
+          assert.strictEqual(error.code, 'MODULE_NOT_FOUND');
           var app = express();
           var blob = new buffer.Blob(['<h1>express app</h1>'], { type: 'text/html' });
           blob.arrayBuffer = function () {
