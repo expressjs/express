@@ -290,6 +290,31 @@ describe('res', function(){
         this.skip();
       }
     })
+
+    it('should throw error',function(done){
+      var str = '<h1>express app</h1>';
+      var blob = new Blob([str], { type: 'text/html' });
+      if(typeof blob.stream !== 'function') {
+        blob.arrayBuffer = function() {
+          return Promise.reject('Unable to convert to arrayBuffer');
+        };
+        var app = express();
+        app.use(function (req, res) {
+          res.send(blob);
+        });
+
+
+        request(app)
+          .get('/')
+          .expect(500)
+          .end(function (err, res) {
+            assert.strictEqual(/Unable to convert to arrayBuffer/.test(res.text), true, res.text);
+            done();
+          });
+      } else {
+        this.skip();
+      }
+    });
   })
 
   describe('when the request method is HEAD', function(){
