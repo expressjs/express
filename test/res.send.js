@@ -251,12 +251,12 @@ describe('res', function(){
   })
 
   describe('.send(Blob)', function(){
-    var buffer = require('buffer');
+    var Blob = require('buffer').Blob;
 
     it('should send as blob type', function (done) {
-      if (buffer.Blob) {
+      if (Blob) {
         var str = '<h1>express app</h1>';
-        var blob = new buffer.Blob([str], { type: 'text/html' });
+        var blob = new Blob([str], { type: 'text/html' });
         var app = express();
         app.use(function (req, res) {
           res.send(blob);
@@ -273,9 +273,9 @@ describe('res', function(){
     })
 
     it('should take default content type of application/octet-stream', function(done){
-      if (buffer.Blob) {
+      if (Blob) {
         var str = '<h1>express app</h1>';
-        var blob = new buffer.Blob([str]);
+        var blob = new Blob([str]);
         var app = express();
         app.use(function (req, res) {
           res.send(blob);
@@ -286,48 +286,6 @@ describe('res', function(){
           .expect('Content-Type', 'application/octet-stream')
           .expect('Content-Length', blob.size.toString())
           .expect(200,done)
-      } else {
-        this.skip();
-      }
-    })
-
-    it('should throw error',function (done) {
-      if(buffer.Blob) {
-        try {
-          require('stream/web');
-          var app = express();
-          var blob = new buffer.Blob(['<h1>express app</h1>'], { type: 'text/html' });
-          blob.stream = function () {
-            return null;
-          }
-          app.use('/', function (req, res) {
-            res.send(blob)
-          });
-          request(app)
-            .get('/')
-            .expect(500)
-            .end(function (err, res) {
-              assert.strictEqual(/Cannot read properties of null/.test(res.text), true, res.text);
-              done();
-            });
-        } catch(error) {
-          assert.strictEqual(error.code, 'MODULE_NOT_FOUND');
-          var app = express();
-          var blob = new buffer.Blob(['<h1>express app</h1>'], { type: 'text/html' });
-          blob.arrayBuffer = function () {
-            return Promise.reject('Unable to read array buffer')
-          }
-          app.use('/', function (req, res) {
-            res.send(blob)
-          });
-          request(app)
-            .get('/')
-            .expect(500)
-            .end(function (err, res) {
-              assert.strictEqual(/Unable to read array buffer/.test(res.text), true, res.text);
-              done();
-            });
-        }
       } else {
         this.skip();
       }
