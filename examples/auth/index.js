@@ -58,7 +58,7 @@ hash({ password: 'foobar' }, function (err, pass, salt, hash) {
 // Authenticate using our plain-object database of doom!
 function authenticate(name, pass, fn) {
   if (!module.parent) console.log('authenticating %s:%s', name, pass);
-  let user = users[name];
+  var user = users[name];
 
   // Query the db for the given username
   if (!user) return fn(null, null);
