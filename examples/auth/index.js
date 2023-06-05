@@ -56,34 +56,44 @@ hash({ password: 'foobar' }, function (err, pass, salt, hash) {
 
 
 // Authenticate using our plain-object database of doom!
-
 function authenticate(name, pass, fn) {
   if (!module.parent) console.log('authenticating %s:%s', name, pass);
-  var user = users[name];
-  // query the db for the given username
-  if (!user) return fn(null, null)
-  // apply the same algorithm to the POSTed password, applying
-  // the hash against the pass / salt, if there is a match we
-  // found the user
+  let user = users[name];
+
+  // Query the db for the given username
+  if (!user) return fn(null, null);
+
+  // Apply the same algorithm to the POSTed password
   hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
     if (err) return fn(err);
-    if (hash === user.hash) return fn(null, user)
-    fn(null, null)
+    if (hash === user.hash) {
+      // If there's a match, we found the user
+      return fn(null, user);
+    }
+    fn(null, null);
   });
 }
 
+// Middleware function to restrict access
 function restrict(req, res, next) {
+  // Check if the user is logged in by checking the existence of a user session
   if (req.session.user) {
+    // If the user is logged in, continue to the next middleware or route handler
     next();
   } else {
+    // If the user is not logged in, set an error message in the session
     req.session.error = 'Access denied!';
+    // Redirect the user to the login page
     res.redirect('/login');
   }
 }
 
+// Route handler for the root URL '/'
 app.get('/', function(req, res){
+  // Redirect the user to the login page
   res.redirect('/login');
 });
+
 
 app.get('/restricted', restrict, function(req, res){
   res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
