@@ -20,6 +20,8 @@ var viewsPath = path.join(__dirname, 'views');
  *          is added to the strategy, but you can add as many
  *          as you want to. Optimization on HBS can be applied
  *          via precompiling or on demand caching.
+ *          further this helper method is passed to the view's
+ *          scope so we can access it from anywhere.
  * @example
  *        EJS template
  *           - render(HBS template)
@@ -41,6 +43,8 @@ function render(relativePath, options) {
 }
 
 var app = express();
+
+app.locals.render = render;
 
 app.engine('html', ejs.renderFile);
 app.engine('ejs', ejs.renderFile);
@@ -64,15 +68,9 @@ app.set('views', viewsPath)
  *        <div>template_1: EJS</div>
  *        <div> template_2: HBS, rendered inside EJS</div>
  *        <!-- unsupported engine -->
- *    Note:
- *        we need to pass a callback function (called inhere
- *        'render'), to be able to render partials, which are
- *        different from the main template engine. In this case
- *        index fallbacks to default view engine, which is 'html',
- *        which on its turn is set to be resolved with EJS.
  */
 app.get('/', function(_req, res) {
-  res.render('index', { render: render });
+  res.render('index');
 });
 
 /**
