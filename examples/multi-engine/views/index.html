@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Multi Template</title>
+</head>
+<body>
+    <h1>Multi Template</h1>
+    <%- include('./template_1.ejs') -%>
+    <%- render('./template_2.hbs', { parentTemplateType: 'EJS' }) -%>
+    <%- render('./template_3.pug', { parentTemplateType: 'EJS' }) -%>
+</body>
+</html>
