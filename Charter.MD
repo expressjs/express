@@ -44,7 +44,9 @@ week comment period for other TC members or CPC members to object. Any
 changes the CPC wishes to propose will be considered a priority but
 will follow the same process.
 
-### 2.1 No Other Formal Project Relationships.
+### 2.1 Other Formal Project Relationships:
+
+Section intentionally left blank.
 
 ## Section 3: Express Governing Body
 
