@@ -21,14 +21,14 @@ alike.
 Express is made of many modules spread between three GitHub Orgs:
 
 - [expressjs](http://github.com/expressjs/): Top level middleware and
-  libraries
+  libraries.
 - [pillarjs](http://github.com/pillarjs/): Components which make up
-  Express but can also be used for other web frameworks
-- [jshttp](http://github.com/jshttp/): Low level HTTP libraries
+  Express, but can also be used for other web frameworks.
+- [jshttp](http://github.com/jshttp/): Low level HTTP libraries.
 
-### 1.2: Out-of-Scope
+### 1.2: Out-of-scope Modules
 
-Section Intentionally Left Blank
+Section intentionally left blank.
 
 ## Section 2: Relationship with OpenJS Foundation CPC.
 
@@ -44,9 +44,9 @@ week comment period for other TC members or CPC members to object. Any
 changes the CPC wishes to propose will be considered a priority but
 will follow the same process.
 
-### 2.1 Other Formal Project Relationships
+### 2.1 Other Formal Project Relationships:
 
-Section Intentionally Left Blank
+Section intentionally left blank.
 
 ## Section 3: Express Governing Body
 
@@ -64,11 +64,11 @@ parts of the project. Members of the TC should attend the regular
 meetings when possible, and be available for discussion of time
 sensitive or important issues.
 
-### Section 4.1 Project Operations & Management
+### 4.1: Project Operations & Management
 
-Section Intentionally Left Blank
+Section intentionally left blank.
 
-### Section 4.2: Decision-making, Voting, and/or Elections
+### 4.2: Decision-making, Voting, and/or Elections
 
 The Express TC uses a "consensus seeking" process for issues that are
 escalated to the TC. The group tries to find a resolution that has no
@@ -83,10 +83,10 @@ expected that a meeting of the TC will resolve all issues on its
 agenda during that meeting and may prefer to continue the discussion
 happening among the committers.
 
-### Section 4.3: Other Project Roles
+### 4.3: Other Project Roles
 
-Section Intentionally Left Blank
+Section intentionally left blank.
 
 ## Section 5: Definitions
 
-Section Intentionally Left Blank
+Section intentionally left blank.
