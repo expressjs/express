@@ -62,11 +62,11 @@ parts of the project. Members of the TC should attend the regular
 meetings when possible, and be available for discussion of time
 sensitive or important issues.
 
-### Section 4.1 Project Operations & Management
+### 4.1: Project Operations & Management
 
 Section intentionally left blank.
 
-### Section 4.2: Decision-making, Voting, and/or Elections
+### 4.2: Decision-making, Voting, and/or Elections
 
 The Express TC uses a "consensus seeking" process for issues that are
 escalated to the TC. The group tries to find a resolution that has no
@@ -81,7 +81,7 @@ expected that a meeting of the TC will resolve all issues on its
 agenda during that meeting and may prefer to continue the discussion
 happening among the committers.
 
-### Section 4.3: Other Project Roles
+### 4.3: Other Project Roles
 
 Section intentionally left blank.
 
