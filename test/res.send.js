@@ -308,7 +308,7 @@ describe('res', function(){
           request(app)
             .get('/')
             .expect(500)
-            .end(function (err, res) {
+            .end(function (_, res) {
               assert.strictEqual(/Unable to convert to arrayBuffer/.test(res.text), true, res.text);
               done();
             });
@@ -319,6 +319,30 @@ describe('res', function(){
         this.skip();
       }
     });
+
+    it('should stop pipping the blob', function(done) {
+      if(Blob){
+        var fs = require('fs');
+        var buffer = fs.readFileSync(__dirname+'/fixtures/largefile/sample-2mb-text-file.txt');
+        var blob = new Blob([new Uint8Array(buffer).buffer], { type: 'text/html' });
+        var app = express();
+        app.use(function (_, res) {
+          setTimeout(function () {
+            res.emit('error', 'Unusual error');
+          }, 1);
+          res.send(blob);
+        });
+        request(app)
+          .get('/')
+          .expect(500)
+          .end(function (_, res) {
+            assert.strictEqual(/Unusual error/.test(res.text), true, res.text);
+            done();
+          });
+      } else {
+        this.skip();
+      }
+    })
   })
 
   describe('when the request method is HEAD', function(){
