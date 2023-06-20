@@ -327,9 +327,9 @@ describe('res', function(){
         var blob = new Blob([new Uint8Array(buffer).buffer], { type: 'text/html' });
         var app = express();
         app.use(function (_, res) {
-          setTimeout(function () {
+          process.nextTick(function(){
             res.emit('error', new Error('Unusual error'));
-          }, 0.2);
+          })
           res.send(blob);
         });
         request(app)
