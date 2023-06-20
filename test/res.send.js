@@ -329,7 +329,7 @@ describe('res', function(){
         app.use(function (_, res) {
           setTimeout(function () {
             res.emit('error', new Error('Unusual error'));
-          }, 1);
+          }, 0.2);
           res.send(blob);
         });
         request(app)
