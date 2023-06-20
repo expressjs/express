@@ -328,7 +328,7 @@ describe('res', function(){
         var app = express();
         app.use(function (_, res) {
           setTimeout(function () {
-            res.emit('error', 'Unusual error');
+            res.emit('error', new Error('Unusual error'));
           }, 1);
           res.send(blob);
         });
