@@ -324,12 +324,12 @@ describe('res', function(){
       if(Blob){
         var fs = require('fs');
         var buffer = fs.readFileSync(__dirname+'/fixtures/largefile/sample-2mb-text-file.txt');
-        var blob = new Blob([new Uint8Array(buffer).buffer], { type: 'text/html' });
+        var blob = new Blob([new Uint8Array(buffer).buffer], { type: 'text/plain' });
         var app = express();
         app.use(function (_, res) {
-          process.nextTick(function(){
+          setTimeout(function(){
             res.emit('error', new Error('Unusual error'));
-          })
+          }, 0);
           res.send(blob);
         });
         request(app)
