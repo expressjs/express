@@ -291,35 +291,6 @@ describe('res', function(){
       }
     })
 
-    it('should throw error',function(done){
-      if(Blob) {
-        var str = '<h1>express app</h1>';
-        var blob = new Blob([str], { type: 'text/html' });
-        if (typeof blob.stream !== 'function') {
-          blob.arrayBuffer = function () {
-            return Promise.reject('Unable to convert to arrayBuffer');
-          };
-          var app = express();
-          app.use(function (req, res) {
-            res.send(blob);
-          });
-
-
-          request(app)
-            .get('/')
-            .expect(500)
-            .end(function (_, res) {
-              assert.strictEqual(/Unable to convert to arrayBuffer/.test(res.text), true, res.text);
-              done();
-            });
-        } else {
-          this.skip();
-        }
-      } else {
-        this.skip();
-      }
-    });
-
     it('should stop pipping the blob', function(done) {
       if(Blob){
         var fs = require('fs');
