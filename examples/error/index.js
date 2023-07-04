@@ -31,6 +31,11 @@ app.get('/', function () {
   throw new Error('something broke!');
 });
 
+app.get('/', function (err,req,res) {
+  // err and req and res perams pass
+  throw new Error('something Want wrongeÏ!');
+});
+
 app.get('/next', function(req, res, next){
   // We can also pass exceptions to next()
   // The reason for process.nextTick() is to show that
