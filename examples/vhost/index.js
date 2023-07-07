@@ -5,7 +5,6 @@
  */
 
 var express = require('../..');
-var logger = require('morgan');
 var vhost = require('vhost');
 
 /*
