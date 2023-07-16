@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
 // and make things a bit more declarative:
 
 function format(path) {
-  var obj = require(path);
+  const obj = require(path);
   return (req, res) => {
     res.format(obj);
   };
