@@ -6,13 +6,13 @@ const users = require("./db");
 
 // so either you can deal with different types of formatting
 // for expected response in index.js
-app.get("/", function (req, res) {
+app.get("/", (req, res) => {
   res.format({
-    html: function () {
+    html: () => {
       res.send(
         "<ul>" +
           users
-            .map(function (user) {
+            .map((user) => {
               return "<li>" + user.name + "</li>";
             })
             .join("") +
@@ -20,17 +20,17 @@ app.get("/", function (req, res) {
       );
     },
 
-    text: function () {
+    text: () => {
       res.send(
         users
-          .map(function (user) {
+          .map((user) => {
             return " - " + user.name + "\n";
           })
           .join("")
       );
     },
 
-    json: function () {
+    json: () => {
       res.json(users);
     },
   });
@@ -42,7 +42,7 @@ app.get("/", function (req, res) {
 
 function format(path) {
   var obj = require(path);
-  return function (req, res) {
+  return (req, res) => {
     res.format(obj);
   };
 }
