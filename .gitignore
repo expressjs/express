@@ -1,6 +1,5 @@
 # npm
 node_modules
-.local
 package-lock.json
 *.log
 *.gz
@@ -11,6 +10,10 @@ coverage
 
 # Benchmarking
 benchmarks/graphs
+
+# tests
+/examples/request
+.local
 
 # ignore additional files using core.excludesFile
 # https://git-scm.com/docs/gitignore
