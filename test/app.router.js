@@ -896,7 +896,7 @@ describe('app.router', function(){
 
       request(app)
         .get('/foo.json')
-        .expect(200, 'foo as json', done)
+        .expect(200, 'foo as json', cb)
     })
   })
 
