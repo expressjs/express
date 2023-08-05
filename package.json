@@ -69,7 +69,7 @@
     "eslint": "8.36.0",
     "express-session": "1.17.2",
     "hbs": "4.2.0",
-    "marked": "0.7.0",
+    "marked": "6.0.0",
     "method-override": "3.0.0",
     "mocha": "10.2.0",
     "morgan": "1.10.0",
