@@ -13,7 +13,7 @@ describe('req', function(){
           app.enable('trust proxy');
 
           app.use(function(req, res, next){
-            res.send(req.ip);
+            res.send(req.remoteAddress);
           });
 
           request(app)
@@ -28,7 +28,7 @@ describe('req', function(){
           app.set('trust proxy', 2);
 
           app.use(function(req, res, next){
-            res.send(req.ip);
+            res.send(req.remoteAddress);
           });
 
           request(app)
@@ -43,7 +43,7 @@ describe('req', function(){
           app.set('trust proxy', '10.0.0.1, 10.0.0.2, 127.0.0.1, ::1')
 
           app.get('/', function (req, res) {
-            res.send(req.ip)
+            res.send(req.remoteAddress)
           })
 
           request(app)
@@ -60,7 +60,7 @@ describe('req', function(){
           app.use(sub);
 
           sub.use(function (req, res, next) {
-            res.send(req.ip);
+            res.send(req.remoteAddress);
           });
 
           request(app)
@@ -75,7 +75,7 @@ describe('req', function(){
           var app = express();
 
           app.use(function(req, res, next){
-            res.send(req.ip);
+            res.send(req.remoteAddress);
           });
 
           var test = request(app).get('/')
@@ -92,7 +92,7 @@ describe('req', function(){
         app.enable('trust proxy');
 
         app.use(function(req, res, next){
-          res.send(req.ip);
+          res.send(req.remoteAddress);
         });
 
         var test = request(app).get('/')

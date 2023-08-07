@@ -13,7 +13,7 @@ describe('req', function(){
           app.enable('trust proxy');
 
           app.use(function(req, res, next){
-            res.send(req.ips);
+            res.send(req.remoteAddresses);
           });
 
           request(app)
@@ -28,7 +28,7 @@ describe('req', function(){
           app.set('trust proxy', 2);
 
           app.use(function(req, res, next){
-            res.send(req.ips);
+            res.send(req.remoteAddresses);
           });
 
           request(app)
@@ -43,7 +43,7 @@ describe('req', function(){
           var app = express();
 
           app.use(function(req, res, next){
-            res.send(req.ips);
+            res.send(req.remoteAddresses);
           });
 
           request(app)
@@ -59,7 +59,7 @@ describe('req', function(){
         var app = express();
 
         app.use(function(req, res, next){
-          res.send(req.ips);
+          res.send(req.remoteAddresses);
         });
 
         request(app)
