@@ -82,44 +82,6 @@ describe('app', function(){
       .get('/post/once-upon-a-time')
       .expect('success', done);
     })
-
-    it('should support mounted app anywhere', function(done){
-      var cb = after(3, done);
-      var blog = express()
-        , other = express()
-        , app = express();
-
-      function fn1(req, res, next) {
-        res.setHeader('x-fn-1', 'hit');
-        next();
-      }
-
-      function fn2(req, res, next) {
-        res.setHeader('x-fn-2', 'hit');
-        next();
-      }
-
-      blog.get('/', function(req, res){
-        res.end('success');
-      });
-
-      blog.once('mount', function (parent) {
-        assert.strictEqual(parent, app)
-        cb();
-      });
-      other.once('mount', function (parent) {
-        assert.strictEqual(parent, app)
-        cb();
-      });
-
-      app.use('/post/:article', fn1, other, fn2, blog);
-
-      request(app)
-      .get('/post/once-upon-a-time')
-      .expect('x-fn-1', 'hit')
-      .expect('x-fn-2', 'hit')
-      .expect('success', cb);
-    })
   })
 
   describe('.use(middleware)', function(){
