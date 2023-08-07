@@ -2,7 +2,6 @@
 
 var assert = require('assert')
 var asyncHooks = tryRequire('async_hooks')
-var Buffer = require('safe-buffer').Buffer
 var express = require('..')
 var request = require('supertest')
 

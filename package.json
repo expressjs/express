@@ -40,6 +40,7 @@
     "encodeurl": "~1.0.2",
     "escape-html": "~1.0.3",
     "etag": "~1.8.1",
+    "fast-json-stringify": "^5.8.0",
     "finalhandler": "1.2.0",
     "fresh": "0.5.2",
     "http-errors": "2.0.0",
@@ -51,7 +52,6 @@
     "proxy-addr": "~2.0.7",
     "qs": "6.11.0",
     "range-parser": "~1.2.1",
-    "safe-buffer": "5.2.1",
     "send": "0.18.0",
     "serve-static": "1.15.0",
     "setprototypeof": "1.2.0",
@@ -80,7 +80,7 @@
     "vhost": "~3.0.2"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 14.0.0"
   },
   "files": [
     "LICENSE",
