@@ -110,7 +110,7 @@ jobs:
           node-version: "18.17"
 
         - name: Node.js 19.x
-          node-version: "19.7"
+          node-version: "19.9"
 
     steps:
     - uses: actions/checkout@v3
