@@ -4,5 +4,7 @@ rules:
   eol-last: error
   eqeqeq: [error, allow-null]
   indent: [error, 2, { MemberExpression: "off", SwitchCase: 1 }]
+  no-cond-assign: error
   no-trailing-spaces: error
   no-unused-vars: [error, { vars: all, args: none, ignoreRestSiblings: true }]
+  yoda: error
