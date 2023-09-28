@@ -49,7 +49,7 @@
     "parseurl": "~1.3.3",
     "path-is-absolute": "1.0.1",
     "proxy-addr": "~2.0.7",
-    "qs": "6.9.6",
+    "qs": "6.9.7",
     "range-parser": "~1.2.1",
     "router": "2.0.0-beta.1",
     "safe-buffer": "5.2.1",
