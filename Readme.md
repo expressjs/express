@@ -86,7 +86,7 @@ $ npm install
 ```console
 $ npm start
 ```
-
+## Code
   View the website at: http://localhost:3000
 
 ## Philosophy
