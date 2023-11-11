@@ -1,8 +1,0 @@
-<%- include('error_header') -%>
-<h2>Error: <%= error.message %></h2>
-<% if (settings['verbose errors']) { %>
-  <pre><%= error.stack %></pre>
-<% } else { %>
-  <p>An error occurred!</p>
-<% } %>
-<%- include('footer') -%>
