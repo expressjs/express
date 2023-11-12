@@ -26,14 +26,14 @@ app1.use(function(req, res, next){
   });
 });
 
-app1.use(function(err, req, res, next){
+app1.use(function(err, req, res){
   if (!err.types) throw err;
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
 var app2 = express();
 
-app2.use(function(req, res, next){
+app2.use(function(req, res){
   res.format({
     text: function(){ res.send('hey') },
     html: function(){ res.send('<p>hey</p>') },
@@ -41,7 +41,7 @@ app2.use(function(req, res, next){
   });
 });
 
-app2.use(function(err, req, res, next){
+app2.use(function(err, req, res){
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
@@ -69,13 +69,13 @@ app4.get('/', function (req, res) {
   });
 });
 
-app4.use(function(err, req, res, next){
+app4.use(function(err, req, res){
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
 var app5 = express();
 
-app5.use(function (req, res, next) {
+app5.use(function (req, res) {
   res.format({
     default: function () { res.send('hey') }
   });
@@ -94,7 +94,7 @@ describe('res', function(){
     describe('with parameters', function(){
       var app = express();
 
-      app.use(function(req, res, next){
+      app.use(function(req, res){
         res.format({
           'text/plain; charset=utf-8': function(){ res.send('hey') },
           'text/html; foo=bar; bar=baz': function(){ res.send('<p>hey</p>') },
@@ -102,7 +102,7 @@ describe('res', function(){
         });
       });
 
-      app.use(function(err, req, res, next){
+      app.use(function(err, req, res){
         res.send(err.status, 'Supports: ' + err.types.join(', '));
       });
 
@@ -127,7 +127,7 @@ describe('res', function(){
       it('should be able to invoke other formatter', function (done) {
         var app = express()
 
-        app.use(function (req, res, next) {
+        app.use(function (req, res) {
           res.format({
             json: function () { res.send('json') },
             default: function () {
@@ -163,7 +163,7 @@ describe('res', function(){
         });
       });
 
-      router.use(function(err, req, res, next){
+      router.use(function(err, req, res){
         res.send(err.status, 'Supports: ' + err.types.join(', '));
       })
 
