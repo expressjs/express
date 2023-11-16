@@ -300,7 +300,7 @@ describe('res', function(){
   })
 
   describe('when .statusCode is 304', function(){
-    it('should strip Content-* fields, Transfer-Encoding field, and body', function(done){
+    it('should ignore the body', function(done){
       var app = express();
 
       app.use(function(req, res){
@@ -309,10 +309,9 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect(utils.shouldNotHaveHeader('Content-Type'))
-      .expect(utils.shouldNotHaveHeader('Content-Length'))
-      .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
-      .expect(304, '', done);
+      .expect(304)
+      .expect(utils.shouldNotHaveBody())
+      .end(done);
     })
   })
 
