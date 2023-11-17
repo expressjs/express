@@ -14,5 +14,5 @@ wrk 'http://localhost:3333/?foo[bar]=baz' \
   -t 8 \
   | grep 'Requests/sec\|Latency' \
   | awk '{ print " " $2 }'
-
+sdsdasds
 kill $pid
