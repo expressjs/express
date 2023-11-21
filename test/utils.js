@@ -87,10 +87,10 @@ describe('utils.isAbsolute()', function(){
   })
 })
 
-describe('utils.flatten(arr)', function(){
+describe('check array.flat()', function(){
   it('should flatten an array', function(){
     var arr = ['one', ['two', ['three', 'four'], 'five']];
-    var flat = utils.flatten(arr)
+    var flat = arr.flat(Infinity);
 
     assert.strictEqual(flat.length, 5)
     assert.strictEqual(flat[0], 'one')
