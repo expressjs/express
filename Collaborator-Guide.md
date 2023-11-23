@@ -12,11 +12,6 @@ Open issues for the expressjs.com website in https://github.com/expressjs/expres
 
 ## Branches
 
-Use the `master` branch for bug fixes or minor work that is intended for the
-current release stream.
-
-Use the correspondingly named branch, e.g. `5.0`, for anything intended for
-a future release of Express.
 
 ## Steps for contributing
 
