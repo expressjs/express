@@ -7,6 +7,7 @@ version = "0.0.0"
 crate-type = ["cdylib"]
 
 [dependencies]
+etag = "4.0.0"
 mime_guess = "2.0.4"
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
 napi = { version = "2.12.2", default-features = false, features = ["napi4"] }

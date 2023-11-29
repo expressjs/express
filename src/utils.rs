@@ -1,6 +1,16 @@
 use mime_guess::from_ext;
 use std::collections::HashMap;
 
+#[napi]
+pub fn etag(body: String, encoding: Option<String>) -> String {
+  return create_e_tag_generator(false)(body, encoding);
+}
+
+#[napi]
+pub fn wetag(body: String, encoding: Option<String>) -> String {
+  return create_e_tag_generator(true)(body, encoding);
+}
+
 // Check if `path` looks absolute.
 #[napi]
 pub fn is_absolute(path: String) -> bool {
@@ -33,8 +43,7 @@ pub struct Params {
 
 // Parse accept params `str` returning an
 // object with `.value`, `.quality` and `.params`.
-#[napi]
-pub fn accept_params(str: String) -> Params {
+fn accept_params(str: String) -> Params {
   let parts = str.split("; ").collect::<Vec<_>>();
   let mut ret = Params {
     value: parts[0].to_string(),
@@ -79,4 +88,24 @@ pub fn normalize_types(content_types: Vec<String>) -> Vec<Params> {
   }
 
   return ret;
+}
+
+// Compile "etag" value to function.
+#[napi]
+pub fn compile_e_tag() {}
+
+// Create an ETag generator function, generating ETags with
+// the given options.
+fn create_e_tag_generator(weak: bool) -> impl Fn(String, Option<String>) -> String {
+  return move |body: String, encoding: Option<String>| -> String {
+    let tag;
+
+    if weak {
+      tag = etag::EntityTag::weak(&body);
+    } else {
+      tag = etag::EntityTag::strong(&body);
+    }
+
+    return tag.to_string();
+  };
 }

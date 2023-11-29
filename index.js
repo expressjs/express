@@ -252,10 +252,12 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { isAbsolute, Params, acceptParams, normalizeType, normalizeTypes } = nativeBinding
+const { etag, wetag, isAbsolute, Params, normalizeType, normalizeTypes, compileETag } = nativeBinding
 
+module.exports.etag = etag
+module.exports.wetag = wetag
 module.exports.isAbsolute = isAbsolute
 module.exports.Params = Params
-module.exports.acceptParams = acceptParams
 module.exports.normalizeType = normalizeType
 module.exports.normalizeTypes = normalizeTypes
+module.exports.compileETag = compileETag
