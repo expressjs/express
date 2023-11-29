@@ -21,16 +21,10 @@ test("utils.wetag(body, encoding)", (t) => {
   t.assert(wetag("express!"), 'W/"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"');
 
   // should support utf8 strings
-  // t.assert(
-  //   wetag("express❤", "utf8"),
-  //   'W/"a-JBiXf7GyzxwcrxY4hVXUwa7tmks"'
-  // );
+  // t.assert(wetag("express❤", "utf8"), 'W/"a-JBiXf7GyzxwcrxY4hVXUwa7tmks"');
 
   // should support buffer
-  // t.assert(
-  //   wetag(Buffer.from("express!")),
-  //   'W/"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"'
-  // );
+  // t.assert(wetag(Buffer.from("express!")), 'W/"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"');
 
   // should support empty string
   t.assert(wetag(""), 'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"');

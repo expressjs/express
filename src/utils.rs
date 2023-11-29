@@ -98,14 +98,6 @@ pub fn compile_e_tag() {}
 // the given options.
 fn create_e_tag_generator(weak: bool) -> impl Fn(String, Option<String>) -> String {
   return move |body: String, encoding: Option<String>| -> String {
-    let tag;
-
-    if weak {
-      tag = etag::EntityTag::weak(&body);
-    } else {
-      tag = etag::EntityTag::strong(&body);
-    }
-
-    return tag.to_string();
+    return etag::EntityTag::new(weak, &body).to_string();
   };
 }
