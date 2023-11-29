@@ -1,5 +1,5 @@
 {
-  "name": "@espreso/core-win32-x64-msvc",
+  "name": "@espresso/core-win32-x64-msvc",
   "version": "0.0.0",
   "os": [
     "win32"

@@ -1,6 +1,6 @@
 [package]
 edition = "2021"
-name = "espreso_core"
+name = "espresso_core"
 version = "0.0.0"
 
 [lib]

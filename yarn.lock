@@ -5,9 +5,9 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@espreso/core@workspace:.":
+"@espresso/core@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@espreso/core@workspace:."
+  resolution: "@espresso/core@workspace:."
   dependencies:
     "@napi-rs/cli": "npm:^2.16.5"
     ava: "npm:^5.1.1"

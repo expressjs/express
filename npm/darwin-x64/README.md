@@ -1,3 +1,3 @@
-# `@espreso/core-darwin-x64`
+# `@espresso/core-darwin-x64`
 
-This is the **x86_64-apple-darwin** binary for `@espreso/core`
+This is the **x86_64-apple-darwin** binary for `@espresso/core`

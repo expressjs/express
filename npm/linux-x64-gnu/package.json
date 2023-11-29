@@ -1,5 +1,5 @@
 {
-  "name": "@espreso/core-linux-x64-gnu",
+  "name": "@espresso/core-linux-x64-gnu",
   "version": "0.0.0",
   "os": [
     "linux"

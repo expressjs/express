@@ -1,5 +1,5 @@
 {
-  "name": "@espreso/core-darwin-x64",
+  "name": "@espresso/core-darwin-x64",
   "version": "0.0.0",
   "os": [
     "darwin"
