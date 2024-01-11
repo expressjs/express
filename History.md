@@ -6,6 +6,8 @@ unreleased
     - Fix strict json error message on Node.js 19+
     - deps: content-type@~1.0.5
     - deps: raw-body@2.5.2
+  * deps: cookie@0.6.0
+    - Add `partitioned` option
 
 4.18.2 / 2022-10-08
 ===================

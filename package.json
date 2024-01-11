@@ -33,7 +33,7 @@
     "body-parser": "1.20.2",
     "content-disposition": "0.5.4",
     "content-type": "~1.0.4",
-    "cookie": "0.5.0",
+    "cookie": "0.6.0",
     "cookie-signature": "1.0.6",
     "debug": "2.6.9",
     "depd": "2.0.0",
