@@ -13,6 +13,7 @@ var Buffer = require('safe-buffer').Buffer
  */
 
 exports.shouldHaveBody = shouldHaveBody
+exports.shouldHaveHeader = shouldHaveHeader
 exports.shouldNotHaveBody = shouldNotHaveBody
 exports.shouldNotHaveHeader = shouldNotHaveHeader;
 
@@ -30,6 +31,19 @@ function shouldHaveBody (buf) {
       : res.body
     assert.ok(body, 'response has body')
     assert.strictEqual(body.toString('hex'), buf.toString('hex'))
+  }
+}
+
+/**
+ * Assert that a supertest response does have a header.
+ *
+ * @param {string} header Header name to check
+ * @returns {function}
+ */
+
+function shouldHaveHeader (header) {
+  return function (res) {
+    assert.ok((header.toLowerCase() in res.headers), 'should have header ' + header)
   }
 }
 

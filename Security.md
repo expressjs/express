@@ -27,8 +27,7 @@ endeavor to keep you informed of the progress towards a fix and full
 announcement, and may ask for additional information or guidance.
 
 Report security bugs in third-party modules to the person or team maintaining
-the module. You can also report a vulnerability through the
-[Node Security Project](https://nodesecurity.io/report).
+the module.
 
 ## Disclosure Policy
 
