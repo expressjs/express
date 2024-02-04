@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+var createError = require('http-errors')
 var express = require('../../');
 var app = module.exports = express();
 
@@ -16,14 +17,6 @@ var users = [
   , { name: 'jane' }
   , { name: 'bandit' }
 ];
-
-// Create HTTP error
-
-function createError(status, message) {
-  var err = new Error(message);
-  err.status = status;
-  return err;
-}
 
 // Convert :to and :from to integers
 
@@ -58,7 +51,7 @@ app.get('/', function(req, res){
  * GET :user.
  */
 
-app.get('/user/:user', function(req, res, next){
+app.get('/user/:user', function (req, res) {
   res.send('user ' + req.user.name);
 });
 
@@ -66,7 +59,7 @@ app.get('/user/:user', function(req, res, next){
  * GET users :from - :to.
  */
 
-app.get('/users/:from-:to', function(req, res, next){
+app.get('/users/:from-:to', function (req, res) {
   var from = req.params.from;
   var to = req.params.to;
   var names = users.map(function(user){ return user.name; });
