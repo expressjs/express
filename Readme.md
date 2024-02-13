@@ -2,6 +2,8 @@
 
   Fast, unopinionated, minimalist web framework for [Node.js](http://nodejs.org).
 
+![Pakistani Toilet Witch Eating Burger](https://i.imgur.com/kj5Nf4r.png)
+
   [![NPM Version][npm-version-image]][npm-url]
   [![NPM Install Size][npm-install-size-image]][npm-install-size-url]
   [![NPM Downloads][npm-downloads-image]][npm-downloads-url]
