@@ -1,0 +1,63 @@
+name: Spam Check
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const pull_request = context.payload.pull_request;
+
+            if (pull_request === undefined) {
+                console.log("This is not a pull request");
+                return;
+            }
+
+            const prOpener = pull_request.user.login;
+
+            const { data: contributions } = await github.rest.repos.listContributors({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+            });
+
+            const prOpenerContributions = contributions.find(
+                (contributor) => contributor.login === prOpener
+            );
+
+            if (
+                prOpenerContributions !== undefined &&
+                prOpenerContributions.contributions > 0
+            ) {
+                console.log("the PR opener has previous contributions");
+                return;
+            }
+
+            // If the PR opener is not a contributor, check if the body is empty or it contains the default message
+            const body = pull_request.body;
+
+            const defaultMessage = "Explain the rational behind the changes and remove this line"
+
+            if (!body || body.includes(defaultMessage)) {
+                // Add a comment to the PR
+                await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: pull_request.number,
+                    body: "Closing this PR because it does not follow the contribution guidelines.",
+                });
+
+                // Close the PR
+                await github.rest.pulls.update({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    pull_number: pull_request.number,
+                    state: "closed",
+                });
+            }
