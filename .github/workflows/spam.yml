@@ -42,7 +42,7 @@ jobs:
             // If the PR opener is not a contributor, check if the body is empty or it contains the default message
             const body = pull_request.body;
 
-            const defaultMessage = "Explain the rational behind the changes and remove this line"
+            const defaultMessage = "Explain the rationale behind the changes and remove this line"
 
             if (!body || body.includes(defaultMessage)) {
                 // Add a comment to the PR
