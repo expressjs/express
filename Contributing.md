@@ -107,7 +107,22 @@ move forward towards a consensus. It is not expected that a meeting of the TC
 will resolve all issues on its agenda during that meeting and may prefer to continue
 the discussion happening among the committers.
 
-Members can be added to the TC at any time. Any committer can nominate another committer
+Members can be added to the TC at any time. Any TC member can nominate another committer
 to the TC and the TC uses its standard consensus seeking process to evaluate whether or
-not to add this new member. Members who do not participate consistently at the level of
-a majority of the other members are expected to resign.
+not to add this new member. The TC will consist of a minimum of 3 active members and a
+maximum of 10. If the TC should drop below 5 members the active TC members should nominate
+someone new. If a TC member is stepping down, they are encouraged (but not required) to
+nominate someone to take their place.
+
+TC members will be added as admin's on the Github orgs, npm orgs, and other resources as
+necessary to be effective in the role.
+
+To remain "active" a TC member should have participation within the last 6 months and miss
+no more than three consecutive TC meetings. Members who do not meet this are expected to step down.
+If A TC member does not step down, an issue can be opened in the discussions repo to move them
+to inactive status. TC members who step down or are removed due to inactivity will be moved
+into inactive status.
+
+Inactive status members can become active members by self nomination if the TC is not already
+larger than the maximum of 10. They will also be given preference if, while at max size, an
+active member steps down.
