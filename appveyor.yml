@@ -22,7 +22,7 @@ environment:
     - nodejs_version: "18.19"
     - nodejs_version: "19.9"
     - nodejs_version: "20.11"
-    - nodejs_version: "21.6.1"
+    - nodejs_version: "21.6.2"
 cache:
   - node_modules
 install:

@@ -118,7 +118,7 @@ jobs:
           node-version: "20.11"
 
         - name: Node.js 21.x
-          node-version: "21.6.1"
+          node-version: "21.6.2"
 
     steps:
     - uses: actions/checkout@v4
