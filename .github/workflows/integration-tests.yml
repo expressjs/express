@@ -11,10 +11,20 @@ jobs:
       - name: Get the branch name
         id: get_branch
         run: echo ::set-output name=branch::$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}})
+
+      - name: Get the originating repository
+        id: get_repo
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo ::set-output name=repo::${{ github.event.pull_request.head.repo.full_name }}
+          else
+            echo ::set-output name=repo::${{ github.repository }}
+          fi
+
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
           token: "${{ secrets.PAT_INTEGRATION_TESTS}}"
           repository: ulisesgascon/express-examples
           event-type: integration-tests
-          client-payload: '{"branch": "${{ steps.get_branch.outputs.branch }}"}'
+          client-payload: '{"branch": "${{ steps.get_branch.outputs.branch }}", "repo": "${{ steps.get_repo.outputs.repo }}"}'
