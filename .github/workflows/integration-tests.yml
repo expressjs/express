@@ -1,0 +1,17 @@
+name: Integration Tests
+
+on:
+    - pull_request
+    - push
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: "${{ secrets.GITHUB_TOKEN}}"
+          repository: ulisesgascon/express-examples
+          event-type: integration-tests
+          client-payload: '{"branch": "${{ github.head_ref || github.ref }}"}'
