@@ -8,10 +8,13 @@ jobs:
   dispatch:
     runs-on: ubuntu-latest
     steps:
+      - name: Get the branch name
+        id: get_branch
+        run: echo ::set-output name=branch::$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}})
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
           token: "${{ secrets.PAT_INTEGRATION_TESTS}}"
           repository: ulisesgascon/express-examples
           event-type: integration-tests
-          client-payload: '{"branch": "${{ github.head_ref || github.ref }}"}'
+          client-payload: '{"branch": "${{ steps.get_branch.outputs.branch }}"}'
