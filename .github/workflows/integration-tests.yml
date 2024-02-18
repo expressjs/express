@@ -11,7 +11,7 @@ jobs:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: "${{ secrets.GITHUB_TOKEN}}"
+          token: "${{ secrets.PAT_INTEGRATION_TESTS}}"
           repository: ulisesgascon/express-examples
           event-type: integration-tests
           client-payload: '{"branch": "${{ github.head_ref || github.ref }}"}'
