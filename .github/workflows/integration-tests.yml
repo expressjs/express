@@ -25,6 +25,6 @@ jobs:
         uses: peter-evans/repository-dispatch@v1
         with:
           token: "${{ secrets.PAT_INTEGRATION_TESTS}}"
-          repository: ulisesgascon/express-examples
+          repository: expressjs/examples
           event-type: integration-tests
           client-payload: '{"branch": "${{ steps.get_branch.outputs.branch }}", "repo": "${{ steps.get_repo.outputs.repo }}"}'
