@@ -101,19 +101,8 @@ $ npm start
 
 ## Examples
 
-  To view the examples, clone the Express repo and install the dependencies:
+  To view the examples, checkout [this dedicated repository](https://github.com/expressjs/examples) and follow the instructions in the README.
 
-```console
-$ git clone https://github.com/expressjs/express.git --depth 1
-$ cd express
-$ npm install
-```
-
-  Then run whichever example you want:
-
-```console
-$ node examples/content-negotiation
-```
 
 ## Contributing
 
