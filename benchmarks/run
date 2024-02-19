@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
 echo
-MW=$1 node $2 &
+
+MIDDLEWARE=$1 node $2 &
 pid=$!
 
-echo "  $3 connections"
+OUT_PATH=$4
+
+echo "$3 connections" | tee -a $OUT_PATH
 
 sleep 2
 
@@ -13,6 +16,9 @@ wrk 'http://localhost:3333/?foo[bar]=baz' \
   -c $3 \
   -t 8 \
   | grep 'Requests/sec\|Latency' \
-  | awk '{ print " " $2 }'
+  | awk '{ print $2 }' \
+  | tee -a $OUT_PATH
+
+echo >> $OUT_PATH
 
 kill $pid
