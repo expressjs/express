@@ -108,15 +108,15 @@ jobs:
           node-version: "17.9"
 
         - name: Node.js 18.x
-          node-version: "18.15"
+          node-version: "18.19"
 
         - name: Node.js 19.x
-          node-version: "19.7"
+          node-version: "19.9"
 
         - name: Node.js 20.x
           node-version: "20.11"
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install Node.js ${{ matrix.node-version }}
       shell: bash -eo pipefail -l {0}
@@ -191,7 +191,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install lcov
       shell: bash
