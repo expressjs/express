@@ -606,8 +606,8 @@ describe('Router', function(){
       var req2 = { url: '/foo/10/bar', method: 'get' };
       var router = new Router();
       var sub = new Router();
+      var cb = after(2, done)
 
-      done = after(2, done);
 
       sub.get('/bar', function(req, res, next) {
         next();
@@ -626,14 +626,14 @@ describe('Router', function(){
         assert.ifError(err);
         assert.equal(req1.ms, 50);
         assert.equal(req1.originalUrl, '/foo/50/bar');
-        done();
+        cb()
       });
 
       router.handle(req2, {}, function(err) {
         assert.ifError(err);
         assert.equal(req2.ms, 10);
         assert.equal(req2.originalUrl, '/foo/10/bar');
-        done();
+        cb()
       });
     });
   });
