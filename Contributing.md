@@ -29,6 +29,25 @@ add appropriate metadata before the issue is addressed.
 Please be courteous and respectful. Every participant is expected to follow the
 project's Code of Conduct.
 
+## Installation
+
+Follow these steps to get started with Express locally
+1.Fork my repo
+
+2.Clone your fork onto your local machine
+```sh
+ git clone https://github.com/expressjs/express.git
+```
+3.Navigate to Project directory 
+```sh
+cd express
+```
+4.Install all dependencies using npm
+```sh
+npm install
+```
+
+
 ## Contributions
 
 Any change to resources in this repository must be through pull requests. This applies to all changes
