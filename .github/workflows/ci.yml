@@ -178,9 +178,9 @@ jobs:
         mv "./${{ matrix.name }}" "./coverage/${{ matrix.name }}"
 
     - name: Upload code coverage
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: coverage
+        name: coverage-${{ matrix.name }}
         path: ./coverage
         retention-days: 1
 
@@ -195,16 +195,17 @@ jobs:
       run: sudo apt-get -y install lcov
 
     - name: Collect coverage reports
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
-        name: coverage
+        name: coverage-*
+        merge-multiple: true
         path: ./coverage
 
     - name: Merge coverage reports
       shell: bash
       run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
 
-    - name: Upload coverage report
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Upload coverage report
+    #   uses: coverallsapp/github-action@master
+    #   with:
+    #     github-token: ${{ secrets.GITHUB_TOKEN }}
