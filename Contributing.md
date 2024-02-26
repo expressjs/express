@@ -91,7 +91,7 @@ Happy triaging!
 
 We're implementing a structured approach to GitHub permissions across our projects, ensuring clarity, security, and efficient collaboration. Each level of access is a superset of the permissions available to the level(s) below it in the hierarchy. Here’s an overview of the structure, permissions, and associated teams:
 
-* Technical Committee – admin permissions across all Express orgs ([expressjs](https://github.com/expressjs), [jshttp](https://github.com/jshttp), [pillarjs](https://github.com/pillarjs)). Highest level of access, owner permissions on repos and orgs. TC members will be added to a github team in each org, and permissions will be granted to the team.
+* Technical Committee – admin permissions across all Express orgs ([expressjs](https://github.com/expressjs), [jshttp](https://github.com/jshttp), [pillarjs](https://github.com/pillarjs)). Highest level of access, owner permissions on repos and orgs. 
 
 * Project Captain – admin permissions on a specific repo. Permissions similar to TC, but scoped to a specific repo not an entire org. Permissions must be applied manually to a Project Captain user as a result. Creating a github team for this is optional, as the permissions are not applied at the team level.
 
