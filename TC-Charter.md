@@ -47,14 +47,9 @@ Intentionally left blank
 - **Security**: Ensuring the project adheres to best practices for security, including regular audits, addressing vulnerabilities, and maintaining a security policy.
 - **Communications**: Representing the project in public forums, conferences, and within the wider Node.js and JavaScript communities.
 
-## Change Management
-
-Intentionally left blank
-
 ## Representation in Cross Project Council (CPC)
 
-- **Duties**: The responsibilities of TC members representing the project in the CPC, including voting on cross-project initiatives and advocacy for the Express project.
-- **Selection**: The process for choosing TC representatives for the CPC, term lengths, and expectations for representation.
+Intentionally left blank
 
 ## Amendments to the Charter
 
