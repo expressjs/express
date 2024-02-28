@@ -53,5 +53,5 @@ Intentionally left blank
 
 ## Amendments to the Charter
 
-Intentionally left blank
-
+This charter can be amended by the TC requiring at least two approvals and a minimum two
+week comment period for other TC members or CPC members to object.
