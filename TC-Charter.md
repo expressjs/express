@@ -37,7 +37,17 @@ Intentionally left blank
 
 ## Decision-Making Process
 
-Intentionally left blank
+The TC uses a "consensus seeking" process for issues that are escalated to the TC.
+The group tries to find a resolution that has no open objections among TC members.
+
+If a consensus cannot be reached that has no objections then a majority wins vote
+is called. It is also expected that the majority of decisions made by the TC are via
+a consensus seeking process and that voting is only used as a last-resort.
+
+Resolution may involve returning the issue to project captains with suggestions on
+how to move forward towards a consensus. It is not expected that a meeting of the TC
+will resolve all issues on its agenda during that meeting and may prefer to continue
+the discussion happening among the project captains.
 
 ## Responsibilities
 
