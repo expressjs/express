@@ -99,35 +99,12 @@ proper review, and have other committers merge their pull requests.
 
 The TC uses a "consensus seeking" process for issues that are escalated to the TC.
 The group tries to find a resolution that has no open objections among TC members.
+
 If a consensus cannot be reached that has no objections then a majority wins vote
 is called. It is also expected that the majority of decisions made by the TC are via
 a consensus seeking process and that voting is only used as a last-resort.
 
-Resolution may involve returning the issue to project captains with suggestions on
-how to move forward towards a consensus. It is not expected that a meeting of the TC
-will resolve all issues on its agenda during that meeting and may prefer to continue
-the discussion happening among the project captains.
-
-Members can be added to the TC at any time. Any TC member can nominate another committer
-to the TC and the TC uses its standard consensus seeking process to evaluate whether or
-not to add this new member. The TC will consist of a minimum of 3 active members and a
-maximum of 10. If the TC should drop below 5 members the active TC members should nominate
-someone new. If a TC member is stepping down, they are encouraged (but not required) to
-nominate someone to take their place.
-
-TC members will be added as admin's on the Github orgs, npm orgs, and other resources as
-necessary to be effective in the role.
-
-To remain "active" a TC member should have participation within the last 6 months and miss
-no more than three consecutive TC meetings. Members who do not meet this are expected to step down.
-If A TC member does not step down, an issue can be opened in the discussions repo to move them
-to inactive status. TC members who step down or are removed due to inactivity will be moved
-into inactive status.
-
-Inactive status members can become active members by self nomination if the TC is not already
-larger than the maximum of 10. They will also be given preference if, while at max size, an
-active member steps down.
-
+For more info about the TC such as eligibility, role, and governance see the [TC Charter](TC-Charter.md).
 ## Project Captains
 
 The Express TC can designate captains for individual projects/repos in the
