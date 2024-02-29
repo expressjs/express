@@ -115,6 +115,10 @@ $ npm install
 $ node examples/content-negotiation
 ```
 
+## Charters
+
+Charters and all documents linked to how the Express.js project is handled are definied and can be found in the [Admin](https://github.com/expressjs/Admin) repository.
+
 ## Contributing
 
   [![Linux Build][github-actions-ci-image]][github-actions-ci-url]
@@ -125,11 +129,11 @@ The Express.js project welcomes all constructive contributions. Contributions ta
 from code for bug fixes and enhancements, to additions and fixes to documentation, additional
 tests, triaging incoming pull requests and issues, and more!
 
-See the [Contributing Guide](Contributing.md) for more technical details on contributing.
+See the [Contributing Guide](https://github.com/expressjs/Admin/charters/Contributing.md) for more technical details on contributing and the [Collaborator Guide](https://github.com/expressjs/Admin/charters/Collaborator-Guide.md).
 
 ### Security Issues
 
-If you discover a security vulnerability in Express, please see [Security Policies and Procedures](Security.md).
+If you discover a security vulnerability in Express, please see [Security Policies and Procedures](https://github.com/expressjs/Admin/charters/Security.md).
 
 ### Running Tests
 
