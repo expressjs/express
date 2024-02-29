@@ -154,7 +154,21 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 
 ### Current Project Captains
 
-- `expressjs.com`: @crandmck
-- `multer`: @LinusU
-- `path-to-regexp`: @blakeembrey
-- `router`: @dougwilson
+- `expressjs/express`: @wesleytodd
+- `expressjs/discussions`: @wesleytodd
+- `expressjs/expressjs.com`: @crandmck
+- `expressjs/body-parser`: @wesleytodd
+- `expressjs/multer`: @LinusU
+- `expressjs/cookie-parser`: @wesleytodd
+- `expressjs/generator`: @wesleytodd
+- `expressjs/statusboard`: @wesleytodd
+- `pillarjs/path-to-regexp`: @blakeembrey
+- `pillarjs/router`: @dougwilson, @wesleytodd
+- `pillarjs/finalhandler`: @wesleytodd
+- `pillarjs/request`: @wesleytodd
+- `jshttp/http-errors`: @wesleytodd
+- `jshttp/cookie`: @wesleytodd
+- `jshttp/on-finished`: @wesleytodd
+- `jshttp/forwarded`: @wesleytodd
+- `jshttp/proxy-addr`: @wesleytodd
+
