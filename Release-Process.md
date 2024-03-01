@@ -13,174 +13,206 @@ must have the following access permissions:
 ### 1. Github release access
 
 The individual making the release will need to be a member of the
-expressjs/express team with Write permission level so they are able to tag the
-release commit and push changes to the expressjs/express repository
-(see Steps 4 and 5).
+`expressjs/express` team with Write permission level so they are able to tag the
+release commit and push changes to the `expressjs/express` repository
 
 ### 2. npmjs.com release access
 
 The individual making the release will need to be made an owner on the
 `express` package on npmjs.com so they are able to publish the release
-(see Step 6).
+
+### 3. GPG key
+
+The individual making the release will need to have a GPG key and have it added to their GitHub account.
+
+It is expected to sign the commits and tags with the GPG key.
+
+[More details](https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account)
+
 
 ## How to publish a release
 
-Before publishing, the following preconditions should be met:
+Notes:
 
-- A release proposal issue or tracking pull request (see "Proposal branch"
-  below) will exist documenting:
-  - the proposed changes
-  - the type of release: patch, minor or major
-  - the version number (according to semantic versioning - http://semver.org)
-- The proposed changes should be complete.
+- Version strings are listed below as "vx.y.z" or "x.y.z". Substitute for the release version.
+- Examples will use the fictional release version 11.22.33.
 
-There are two main release flows: patch and non-patch.
+**Key considerations for security releases**
 
-The patch flow is for making **patch releases**. As per semantic versioning,
-patch releases are for simple changes, eg: typo fixes, patch dependency updates,
-and simple/low-risk bug fixes. Every other type of change is made via the
-non-patch flow.
+When preparing a security release, follow the instruction in [security-release.md] and not this guide.
 
-### Branch terminology
+Security releases are a special case and should be handled with care. If you are
+preparing a security release, you should follow the security steps in the details
+sections. It is extremely important to avoid disclosing security vulnerabilities
+before the release is available to the public, to avoid putting users at risk.
 
-"Master branch"
 
-- There is a branch in git used for the current major version of Express, named
-  `master`.
-- This branch contains the completed commits for the next patch release of the
-  current major version.
-- Releases for the current major version are published from this branch.
+### 0. Pre-release steps
 
-"Version branch"
+**Define the scope**
+Before preparing a Express.js release, you should know:
+- the potential proposed changes (eg: bug fixes, new features, etc)
+- the type of release: patch, minor or major
+- the version number (according to semantic versioning - http://semver.org)
+- the release date expected (when the release will be available in npm). 
 
-- For any given major version of Express (current, previous or next) there is
-  a branch in git for that release named `<major-version>.x` (eg: `4.x`).
-- This branch points to the commit of the latest tag for the given major version.
+**Choosing a good date**
 
-"Release branch"
+Please avoid releasing on weekends or holidays as it may be difficult to get help if something goes wrong and also to avoid the need to work for the users that will need to update their applications.
 
-- For any given major version of Express, there is a branch used for publishing
-  releases.
-- For the current major version of Express, the release branch is the
-  "Master branch" named `master`.
-- For all other major versions of Express, the release branch is the
-  "Version branch" named `<major-version>.x`.
+**Announce the release**
 
-"Proposal branch"
+You should notify the community of your
+intent to release. This can be done by creating a message in the slack channel
+`#express`. This is to ensure that the community is aware of the release and
+can provide feedback if necessary.
 
-- A branch in git representing a proposed new release of Express. This can be a
-  minor or major release, named `<major-version>.0` for a major release,
-  `<major-version>.<minor-version>` for a minor release.
-- A tracking pull request should exist to document the proposed release,
-  targeted at the appropriate release branch. Prior to opening the tracking
-  pull request the content of the release may have be discussed in an issue.
-- This branch contains the commits accepted so far that implement the proposal
-  in the tracking pull request.
+**Prepare the environment**
 
-### Patch flow
+It is expected that you will have a clean environment to prepare the release
+and you should have a personal fork of the `expressjs/express` repository to push the
+release branch to it. 
 
-In the patch flow, simple changes are committed to the release branch which
-acts as an ever-present branch for the next patch release of the associated
-major version of Express.
 
-The release branch is usually kept in a state where it is ready to release.
-Releases are made when sufficient time or change has been made to warrant it.
-This is usually proposed and decided using a github issue.
+### 1. Checkout the major branch and create the release proposal branch
 
-### Non-patch flow
+Checkout the major branch locally.
 
-In the non-patch flow, changes are committed to a temporary proposal branch
-created specifically for that release proposal. The branch is based on the
-most recent release of the major version of Express that the release targets.
-
-Releases are made when all the changes on a proposal branch are complete and
-approved. This is done by merging the proposal branch into the release branch
-(using a fast-forward merge), tagging it with the new version number and
-publishing the release package to npmjs.com.
-
-### Flow
-
-Below is a detailed description of the steps to publish a release.
-
-#### Step 1. Check the release is ready to publish
-
-Check any relevant information to ensure the release is ready, eg: any
-milestone, label, issue or tracking pull request for the release. The release
-is ready when all proposed code, tests and documentation updates are complete
-(either merged, closed or re-targeted to another release).
-
-#### Step 2. (Non-patch flow only) Merge the proposal branch into the release branch
-
-In the patch flow: skip this step.
-
-In the non-patch flow:
-```sh
-$ git checkout <release-branch>
-$ git merge --ff-only <proposal-branch>
+```bash
+git remote update
+git checkout 11.x
+git reset --hard upstream/11.x
 ```
 
-<release-branch> - see "Release branch" of "Branches" above.
-<proposal-branch> - see "Proposal branch" of "Non-patch flow" above.
+Create a new branch for the release proposal and push it.
 
-**NOTE:** You may need to rebase the proposal branch to allow a fast-forward
-          merge. Using a fast-forward merge keeps the history clean as it does
-          not introduce merge commits.
-
-### Step 3. Update the History.md and package.json to the new version number
-
-The changes so far for the release should already be documented under the
-"unreleased" section at the top of the History.md file, as per the usual
-development practice. Change "unreleased" to the new release version / date.
-Example diff fragment:
-
-```diff
--unreleased
--==========
-+4.13.3 / 2015-08-02
-+===================
+```bash
+git checkout -b 11.22.33-proposal
+git push origin 11.22.33-proposal
+git push upstream 11.22.33-proposal
 ```
 
-The version property in the package.json should already contain the version of
-the previous release. Change it to the new release version.
 
-Commit these changes together under a single commit with the message set to
-the new release version (eg: `4.13.3`):
+### 2. Cherry pick and backport the changes
 
-```sh
-$ git checkout <release-branch>
-<..edit files..>
-$ git add History.md package.json
-$ git commit -m '<version-number>'
+Cherry pick and backport the changes to the `11.22.33-proposal` branch
+that you want to include in the release and then push the changes
+
+```bash
+git cherry-pick -x <commit-hash>
+# repeat for each commit that you want to include in the release
+git push origin 11.22.33-proposal
+git push upstream 11.22.33-proposal
 ```
 
-### Step 4. Identify and tag the release commit with the new release version
 
-Create a lightweight tag (rather than an annotated tag) named after the new
-release version (eg: `4.13.3`).
+### 3. Update the metadata and the changelog
 
-```sh
-$ git tag <version-number>
+
+Update the `History.md` and `package.json` files with the new version and the changes and commit it.
+
+
+```bash
+git commit -S -m "11.22.33"
 ```
 
-### Step 5. Push the release branch changes and tag to github
+Push the changes to the release branch
 
-The branch and tag should be pushed directly to the main repository
-(https://github.com/expressjs/express).
-
-```sh
-$ git push origin <release-branch>
-$ git push origin <version-number>
+```bash
+git push origin 11.22.33-proposal
+git push upstream 11.22.33-proposal
 ```
 
-### Step 6. Publish to npmjs.com
+### 4. Create a pull request with the release proposal
 
-Ensure your local working copy is completely clean (no extra or changed files).
-You can use `git status` for this purpose.
+Create a pull request with the release proposal branch and assign the Repo captains and TC Team to review it. You will target the major version branch (eg: `11.x`) from your personal fork.
 
-```sh
-$ npm login <npm-username>
-$ npm publish
+If the CI tests are not passing, please fix the issues and update the pull request with the new changes, you can leave the PR in draft mode until the CI tests are passing.
+
+**Important:** if the release has changed you will need to update the files and amend the commit. Add the tag release
+
+You can use [this PR](https://github.com/expressjs/express/pull/5505) as a reference
+
+### 4. Land the release proposal
+
+Once the pull request is approved, you can land it to the major branch (e.g. `11.x`) branch.
+
+```bash
+git checkout 11.22.33-proposal
+git rebase 11.x
+git checkout 11.x
+git merge --ff-only 11.22.33-proposal
+git push
 ```
 
-**NOTE:** The version number to publish will be picked up automatically from
-          package.json.
+**Important:** a release proposal is approved once the pull request was approved by at least one of the Repo captains or a TC Member and has passed 72h since the PR was opened.
+
+Note: The Pull Request will be closed automatically when the release proposal is merged.
+
+### 5. Tag the release
+
+Tag the release from your release branch (e.g. `11.22.33-proposal`) with the same version number
+
+```bash
+git checkout 11.22.33-proposal
+git tag 11.22.33 --sign --message "11.22.33"
+```
+
+### 6. Push the tag
+
+8. Push the tag to the repository, (e.g.`11.22.33`) 
+```bash
+git push origin 11.22.33
+git push upstream 11.22.33
+```
+
+### 7. Publish the release
+
+Create a new release on GitHub using the tag (e.g. https://github.com/UlisesGascon/express/releases/new?tag=11.22.33) use https://github.com/expressjs/express/releases/tag/4.18.3 as an example for title and content format. We can use the `History.md` content has the `Main Changes` section, the other sections are autopopulated when clicking on "Generate Release Notes".
+
+### 8. Publish to npm
+
+This is the most critical step as you won't be able to unpublish the release if something goes wrong. So please double-check everything before publishing.
+
+Check the package content:
+
+```bash
+npm publish --dry-run
+```
+
+When you are ready to publish, run:
+
+```bash
+npm publish
+```
+
+### 9. Update the release proposal PR
+
+Add a comment in the pull request with the confirmation of the release and the link to the release on GitHub and npm, (e.g. https://github.com/expressjs/express/pull/5505#issuecomment-1970980785)
+
+### 10. Clean up branches and prepare for the next release
+
+Push the release commit to `main` branch and manage the git conflicts if necessary.
+
+```bash
+git checkout main
+git reset --hard upstream/main
+git cherry-pick 11.22.33-proposal
+git push origin main
+git push upstream main
+``` 
+
+Once the release is published, you can delete the release proposal branch and the tag from your local and remote repositories.
+
+```bash
+git push origin --delete 11.22.33-proposal
+git push upstream --delete 11.22.33-proposal
+```
+
+### 11. Announce the release
+
+Promote the release on Slack (`#express` channel) and in social media (e.g [4.18.3](https://openjs-foundation.slack.com/archives/C02QB1731FH/p1709208390734159)).
+
+### 12. Celebrate it 🎉
+
+**Congratulations!** You have successfully released a new version of Express.js. So now it's time to celebrate it _in whatever form you do this..._
