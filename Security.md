@@ -48,7 +48,7 @@ For a vulnerability to be considered, it must adhere to the context of the Expre
 
 **Elements Express Does NOT Trust**:
 
-1. Data received from the remote end of inbound or sent to remote outbound network connections, which are accepted through the use of Express API and transformed/validated by Express before being passed to the application.
+1. Data received from the remote end of inbound network connections and data sent to the remote end of outbound network connections, which are accepted through the use of the Express API and transformed/validated by Express before being passed to the application.
 
 In simpler terms, if the data passing through Express to/from the application can initiate actions beyond those documented for the API, it likely signifies a security vulnerability. Examples of unwanted actions include polluting globals, causing an unrecoverable crash, or any other unexpected side effects jeopardizing confidentiality, integrity, or availability.
 
