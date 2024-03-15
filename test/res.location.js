@@ -31,6 +31,19 @@ describe('res', function(){
       .expect(200, done)
     })
 
+    it('should not encode bad "url" and fix-redirect-security', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.location('http://google.com\\@apple.com').end()
+      })
+
+      request(app)
+      .get('/')
+      .expect('Location', 'http://google.com/@apple.com')
+      .expect(200, done)
+    })
+
     it('should not touch already-encoded sequences in "url"', function (done) {
       var app = express()
 
