@@ -43,6 +43,28 @@ non-patch flow.
 
 ### Branch terminology
 
+Key:
+  - `F`: A feature commit
+  - `S`: A security patch
+  - `V`: A version (includes package.json and changelog)
+  - `*`: The release is run *after* merge (but the merge is a rebase, so the history flattens)
+
+```
+                      4.x is Current Major                |           5.x is Current
+
+feature | -F1       -F2                                   |             -S1
+        |   \        \                                                     \
+master  | ---F1-------F2----------------------------------|--------------*--S1----------*
+        |     \  \     \   \                    /                       /    \         /
+4.x     | ----F1- \ ----F2- \ -----------------*----------|------------/------\--S1(cherry-pick)
+        |          \  \      \   \            /                       /        \     /
+4.18.3  |           \  F1---  \ --F2---V4.18.3            |          /          \   /
+        |            \         \                                    /            \ /
+5.x     | -----------F1--------F2---------------------*---|---V5.0.0--------------*
+        |              \         \                   /
+5.0(.0) |               F1--------F2---V5.0.0-beta.1
+```
+
 "Master branch"
 
 - There is a branch in git used for the current major version of Express, named
