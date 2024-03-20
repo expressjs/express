@@ -1,6 +1,7 @@
-unreleased
+4.18.3 / 2024-03-20
 ==========
 
+  * Prevent open redirect allow list bypass due to encodeurl
   * deps: cookie@0.6.0
 
 4.18.3 / 2024-02-29
