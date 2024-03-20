@@ -1,3 +1,8 @@
+unreleased changes
+==========
+
+  * Allow passing non-strings to res.location with new encoding handling checks
+
 4.19.0 / 2024-03-20
 ==========
 
