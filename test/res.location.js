@@ -115,5 +115,80 @@ describe('res', function(){
         .expect(200, done)
       })
     })
+
+    describe("Host Spoofing attack", function() {
+
+      it('parsed host should not change after Location is set', function (done) {
+        var app = express()
+        var inputUrl;
+
+        app.use(function (req, res) {
+        // This is here to show a basic check one might do which
+        // would pass but then the location header would still be bad
+          if (url.parse(req.query.q).host !== 'google.com') {
+            res.status(400).end('Bad url');
+          }
+          inputUrl = req.query.q
+          res.location(req.query.q).end();
+        });
+
+        request(app)
+        .get('/?q=http://google.com\\@apple.com')
+        .expect(200)
+        .expect('Location', 'http://google.com\\@apple.com')
+
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Parse the hosts from the input URL and the Location header
+          var inputHost = url.parse(inputUrl).host;
+          var locationHost = url.parse(res.headers['location']).host;
+
+          // Assert that the hosts are the same
+          if (inputHost !== locationHost) {
+            return done(new Error('Hosts do not match: ' + inputHost + " !== " +  locationHost));
+          }
+
+          done()
+        });
+      });
+
+      it('parsed host should not change after Location is set, even when protocol is uppercase', function (done) {
+        var app = express()
+        var inputUrl;
+
+        app.use(function (req, res) {
+        // This is here to show a basic check one might do which
+        // would pass but then the location header would still be bad
+          if (url.parse(req.query.q).host !== 'google.com') {
+            res.status(400).end('Bad url');
+          }
+          inputUrl = req.query.q
+          res.location(req.query.q).end();
+        });
+
+        request(app)
+        .get('/?q=HTTP://google.com\\@apple.com')
+        .expect(200)
+        .expect('Location', 'HTTP://google.com\\@apple.com')
+
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Parse the hosts from the input URL and the Location header
+          var inputHost = url.parse(inputUrl).host;
+          var locationHost = url.parse(res.headers['location']).host;
+
+          // Assert that the hosts are the same
+          if (inputHost !== locationHost) {
+            return done(new Error('Hosts do not match: ' + inputHost + " !== " +  locationHost));
+          }
+
+          done()
+        });
+      });
+    })
   })
 })
