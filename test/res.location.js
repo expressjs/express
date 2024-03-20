@@ -145,5 +145,20 @@ describe('res', function(){
         .expect(200, done)
       })
     })
+
+    if (typeof URL !== 'undefined') {
+      it('should accept an instance of URL', function (done) {
+        var app = express();
+
+        app.use(function(req, res){
+          res.location(new URL('http://google.com/')).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect('Location', 'http://google.com/')
+          .expect(200, done);
+      });
+    }
   })
 })
