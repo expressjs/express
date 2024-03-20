@@ -58,7 +58,7 @@ describe('res', function(){
       });
 
       request(app)
-        .get('/?q=http://google.com\\@apple.com')
+        .get('/?q=http://google.com' + encodeURIComponent('\\@apple.com'))
         .expect(200)
         .expect('Location', 'http://google.com\\@apple.com')
         .end(function (err) {
@@ -68,7 +68,7 @@ describe('res', function(){
 
           // This ensures that our protocol check is case insensitive
           request(app)
-            .get('/?q=HTTP://google.com\\@apple.com')
+            .get('/?q=HTTP://google.com' + encodeURIComponent('\\@apple.com'))
             .expect(200)
             .expect('Location', 'HTTP://google.com\\@apple.com')
             .end(done)
