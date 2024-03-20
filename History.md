@@ -1,4 +1,4 @@
-4.18.3 / 2024-03-20
+4.19.0 / 2024-03-20
 ==========
 
   * Prevent open redirect allow list bypass due to encodeurl
