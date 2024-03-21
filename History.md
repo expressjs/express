@@ -1,7 +1,7 @@
 5.x
 ===
 
-This incorporates all changes after 4.17.2 up to 4.17.3.
+This incorporates all changes after 4.17.2 up to 4.19.1.
 
 5.0.0-beta.1 / 2022-02-14
 =========================
@@ -162,7 +162,12 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * add:
     - `app.router` is a reference to the base router
 
-4.18.3 / 2024-03-20
+4.19.1 / 2024-03-20
+==========
+
+  * Allow passing non-strings to res.location with new encoding handling checks
+
+4.19.0 / 2024-03-20
 ==========
 
   * Prevent open redirect allow list bypass due to encodeurl

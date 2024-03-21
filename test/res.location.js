@@ -58,7 +58,7 @@ describe('res', function(){
       });
 
       request(app)
-        .get('/?q=http://google.com\\@apple.com')
+        .get('/?q=http://google.com' + encodeURIComponent('\\@apple.com'))
         .expect(200)
         .expect('Location', 'http://google.com\\@apple.com')
         .end(function (err) {
@@ -68,7 +68,7 @@ describe('res', function(){
 
           // This ensures that our protocol check is case insensitive
           request(app)
-            .get('/?q=HTTP://google.com\\@apple.com')
+            .get('/?q=HTTP://google.com' + encodeURIComponent('\\@apple.com'))
             .expect(200)
             .expect('Location', 'HTTP://google.com\\@apple.com')
             .end(done)
@@ -145,5 +145,20 @@ describe('res', function(){
         .expect(200, done)
       })
     })
+
+    if (typeof URL !== 'undefined') {
+      it('should accept an instance of URL', function (done) {
+        var app = express();
+
+        app.use(function(req, res){
+          res.location(new URL('http://google.com/')).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect('Location', 'http://google.com/')
+          .expect(200, done);
+      });
+    }
   })
 })
