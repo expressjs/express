@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Improved fix for open redirect allow list bypass
+
 4.19.1 / 2024-03-20
 ==========
 
