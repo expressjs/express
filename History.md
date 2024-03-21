@@ -1,5 +1,5 @@
-5.x
-===
+5.0.0-beta.2 / 2024-03-20
+=========================
 
 This incorporates all changes after 4.17.2 up to 4.19.1.
 
