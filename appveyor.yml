@@ -10,18 +10,29 @@ environment:
     - nodejs_version: "11.15"
     - nodejs_version: "12.22"
     - nodejs_version: "13.14"
-    - nodejs_version: "14.19"
+    - nodejs_version: "14.20"
+    - nodejs_version: "15.14"
+    - nodejs_version: "16.20"
+    - nodejs_version: "17.9"
+    - nodejs_version: "18.19"
+    - nodejs_version: "19.9"
+    - nodejs_version: "20.11"
+    - nodejs_version: "21.6"
 cache:
   - node_modules
 install:
   # Install Node.js
   - ps: >-
       try { Install-Product node $env:nodejs_version -ErrorAction Stop }
-      catch { Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) }
+      catch { Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) x64 }
   # Configure npm
   - ps: |
       npm config set loglevel error
-      npm config set shrinkwrap false
+      if ((npm config get package-lock) -eq "true") {
+        npm config set package-lock false
+      } else {
+        npm config set shrinkwrap false
+      }
   # Remove all non-test dependencies
   - ps: |
       # Remove example dependencies
@@ -37,7 +48,10 @@ install:
       # - use 6.x for Node.js < 8
       # - use 7.x for Node.js < 10
       # - use 8.x for Node.js < 12
-      if ([int]$env:nodejs_version.split(".")[0] -lt 6) {
+      # - use 9.x for Node.js < 14
+      if ([int]$env:nodejs_version.split(".")[0] -lt 4) {
+        npm install --silent --save-dev mocha@3.5.3
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 6) {
         npm install --silent --save-dev mocha@5.2.0
       } elseif ([int]$env:nodejs_version.split(".")[0] -lt 8) {
         npm install --silent --save-dev mocha@6.2.2
@@ -45,23 +59,29 @@ install:
         npm install --silent --save-dev mocha@7.2.0
       } elseif ([int]$env:nodejs_version.split(".")[0] -lt 12) {
         npm install --silent --save-dev mocha@8.4.0
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 14) {
+        npm install --silent --save-dev mocha@9.2.2
       }
   - ps: |
       # nyc for test coverage
       # - use 10.3.2 for Node.js < 4
       # - use 11.9.0 for Node.js < 6
-      # - use 14.1.1 for Node.js < 8
+      # - use 14.1.1 for Node.js < 10
       if ([int]$env:nodejs_version.split(".")[0] -lt 4) {
         npm install --silent --save-dev nyc@10.3.2
       } elseif ([int]$env:nodejs_version.split(".")[0] -lt 6) {
         npm install --silent --save-dev nyc@11.9.0
-      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 8) {
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 10) {
         npm install --silent --save-dev nyc@14.1.1
       }
   - ps: |
       # supertest for http calls
-      # - use 3.4.2 for Node.js < 6
-      if ([int]$env:nodejs_version.split(".")[0] -lt 6) {
+      # - use 2.0.0 for Node.js < 4
+      # - use 3.4.2 for Node.js < 7
+      # - use 6.1.6 for Node.js < 8
+      if ([int]$env:nodejs_version.split(".")[0] -lt 4) {
+        npm install --silent --save-dev supertest@2.0.0
+      } elseif ([int]$env:nodejs_version.split(".")[0] -lt 7) {
         npm install --silent --save-dev supertest@3.4.2
       } elseif ([int]$env:nodejs_version.split(".")[0] -lt 8) {
         npm install --silent --save-dev supertest@6.1.6

@@ -13,7 +13,7 @@ while (n--) {
   });
 }
 
-app.use(function(req, res, next){
+app.use(function(req, res){
   res.send('Hello World')
 });
 

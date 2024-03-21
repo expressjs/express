@@ -23,6 +23,13 @@ jobs:
         - Node.js 12.x
         - Node.js 13.x
         - Node.js 14.x
+        - Node.js 15.x
+        - Node.js 16.x
+        - Node.js 17.x
+        - Node.js 18.x
+        - Node.js 19.x
+        - Node.js 20.x
+        - Node.js 21.x
 
         include:
         - name: Node.js 4.0
@@ -39,7 +46,7 @@ jobs:
 
         - name: Node.js 6.x
           node-version: "6.17"
-          npm-i: mocha@6.2.2 nyc@14.1.1 supertest@6.1.6
+          npm-i: mocha@6.2.2 nyc@14.1.1 supertest@3.4.2
 
         - name: Node.js 7.x
           node-version: "7.10"
@@ -47,11 +54,11 @@ jobs:
 
         - name: Node.js 8.x
           node-version: "8.17"
-          npm-i: mocha@7.2.0
+          npm-i: mocha@7.2.0 nyc@14.1.1
 
         - name: Node.js 9.x
           node-version: "9.11"
-          npm-i: mocha@7.2.0
+          npm-i: mocha@7.2.0 nyc@14.1.1
 
         - name: Node.js 10.x
           node-version: "10.24"
@@ -63,15 +70,38 @@ jobs:
 
         - name: Node.js 12.x
           node-version: "12.22"
+          npm-i: mocha@9.2.2
 
         - name: Node.js 13.x
           node-version: "13.14"
+          npm-i: mocha@9.2.2
 
         - name: Node.js 14.x
-          node-version: "14.19"
+          node-version: "14.20"
+
+        - name: Node.js 15.x
+          node-version: "15.14"
+
+        - name: Node.js 16.x
+          node-version: "16.20"
+
+        - name: Node.js 17.x
+          node-version: "17.9"
+
+        - name: Node.js 18.x
+          node-version: "18.19"
+
+        - name: Node.js 19.x
+          node-version: "19.9"
+
+        - name: Node.js 20.x
+          node-version: "20.11"
+
+        - name: Node.js 21.x
+          node-version: "21.6"
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Install Node.js ${{ matrix.node-version }}
       shell: bash -eo pipefail -l {0}
@@ -82,7 +112,11 @@ jobs:
     - name: Configure npm
       run: |
         npm config set loglevel error
-        npm config set shrinkwrap false
+        if [[ "$(npm config get package-lock)" == "true" ]]; then
+          npm config set package-lock false
+        else
+          npm config set shrinkwrap false
+        fi
 
     - name: Install npm module(s) ${{ matrix.npm-i }}
       run: npm install --save-dev ${{ matrix.npm-i }}
@@ -95,8 +129,8 @@ jobs:
       shell: bash
       run: |
         # eslint for linting
-        # - remove on Node.js < 10
-        if [[ "$(cut -d. -f1 <<< "${{ matrix.node-version }}")" -lt 10 ]]; then
+        # - remove on Node.js < 12
+        if [[ "$(cut -d. -f1 <<< "${{ matrix.node-version }}")" -lt 12 ]]; then
           node -pe 'Object.keys(require("./package").devDependencies).join("\n")' | \
             grep -E '^eslint(-|$)' | \
             sort -r | \
@@ -113,29 +147,52 @@ jobs:
         echo "node@$(node -v)"
         echo "npm@$(npm -v)"
         npm -s ls ||:
-        (npm -s ls --depth=0 ||:) | awk -F'[ @]' 'NR>1 && $2 { print "::set-output name=" $2 "::" $3 }'
+        (npm -s ls --depth=0 ||:) | awk -F'[ @]' 'NR>1 && $2 { print $2 "=" $3 }' >> "$GITHUB_OUTPUT"
 
     - name: Run tests
       shell: bash
-      run: npm run test-ci
+      run: |
+        npm run test-ci
+        cp coverage/lcov.info "coverage/${{ matrix.name }}.lcov"
 
     - name: Lint code
       if: steps.list_env.outputs.eslint != ''
       run: npm run lint
 
     - name: Collect code coverage
-      uses: coverallsapp/github-action@master
+      run: |
+        mv ./coverage "./${{ matrix.name }}"
+        mkdir ./coverage
+        mv "./${{ matrix.name }}" "./coverage/${{ matrix.name }}"
+
+    - name: Upload code coverage
+      uses: actions/upload-artifact@v3
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        flag-name: run-${{ matrix.test_number }}
-        parallel: true
+        name: coverage
+        path: ./coverage
+        retention-days: 1
 
   coverage:
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - name: Upload code coverage
+    - uses: actions/checkout@v4
+
+    - name: Install lcov
+      shell: bash
+      run: sudo apt-get -y install lcov
+
+    - name: Collect coverage reports
+      uses: actions/download-artifact@v3
+      with:
+        name: coverage
+        path: ./coverage
+
+    - name: Merge coverage reports
+      shell: bash
+      run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
+
+    - name: Upload coverage report
       uses: coverallsapp/github-action@master
       with:
-        github-token: ${{ secrets.github_token }}
-        parallel-finished: true
+        github-token: ${{ secrets.GITHUB_TOKEN }}

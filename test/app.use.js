@@ -57,7 +57,7 @@ describe('app', function(){
 
       request(app)
         .get('/forum')
-        .expect(200, 'forum', done)
+        .expect(200, 'forum', cb)
     })
 
     it('should set the child\'s .parent', function(){
