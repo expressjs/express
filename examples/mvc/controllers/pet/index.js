@@ -20,10 +20,7 @@ exports.show = function(req, res, next){
 };
 
 exports.edit = function(req, res, next){
-  res.render('edit', { pet: req.pet });
-};
-
-exports.update = function(req, res, next){
+  res.render('e){
   var body = req.body;
   req.pet.name = body.pet.name;
   res.message('Information updated!');
