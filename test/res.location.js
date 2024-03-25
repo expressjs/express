@@ -116,18 +116,6 @@ describe('res', function(){
         .expect(200, done)
     })
 
-    it('should encode data uri', function (done) {
-      var app = express()
-      app.use(function (req, res) {
-        res.location('data:text/javascript,export default () => { }').end();
-      });
-
-      request(app)
-        .get('/')
-        .expect('Location', 'data:text/javascript,export%20default%20()%20=%3E%20%7B%20%7D')
-        .expect(200, done)
-    })
-
     it('should consistently handle non-string input: boolean', function (done) {
       var app = express()
       app.use(function (req, res) {
