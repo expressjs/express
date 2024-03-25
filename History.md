@@ -1,7 +1,7 @@
 5.0.0-beta.2 / 2024-03-20
 =========================
 
-This incorporates all changes after 4.17.2 up to 4.19.1.
+This incorporates all changes after 4.17.2 up to 4.19.2.
 
 5.0.0-beta.1 / 2022-02-14
 =========================
@@ -161,6 +161,11 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.19.2 / 2024-03-25
+==========
+
+  * Improved fix for open redirect allow list bypass
 
 4.19.1 / 2024-03-20
 ==========
