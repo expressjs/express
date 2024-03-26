@@ -82,7 +82,7 @@ non-patch flow.
 Alpha and Beta releases are made from a proposal branch. The version number should be
 incremented to the next minor version with a `-beta` or `-alpha` suffix.
 For example, if the next beta release is `5.0.1`, the beta release would be `5.0.1-beta.0`.
-The pre-releases should be considered unstable and not suitable for production use.
+The pre-releases are unstable and not suitable for production use.
 
 ### Patch flow
 
