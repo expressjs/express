@@ -77,7 +77,7 @@ non-patch flow.
 - This branch contains the commits accepted so far that implement the proposal
   in the tracking pull request.
 
-### Beta releases
+### Pre-release Versions
 
 Beta releases are made from a proposal branch. The version number should be
 incremented to the next minor version with a `-beta` suffix. For example, if the
