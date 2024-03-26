@@ -29,6 +29,12 @@ announcement, and may ask for additional information or guidance.
 Report security bugs in third-party modules to the person or team maintaining
 the module.
 
+## Beta releases
+
+Beta releases should be considered unstable and **not suitable for production use**.
+Vulnerabilities found in beta releases should be reported according to the [Reporting a Bug](#reporting-a-bug) section.
+Due to the unstable nature of the branch it is not garanteed that the fix will be released in the next beta release.
+
 ## Disclosure Policy
 
 When the security team receives a security bug report, they will assign it to a
