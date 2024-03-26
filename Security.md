@@ -29,7 +29,7 @@ announcement, and may ask for additional information or guidance.
 Report security bugs in third-party modules to the person or team maintaining
 the module.
 
-## Beta releases
+## Pre-release Versions
 
 Beta releases should be considered unstable and **not suitable for production use**.
 Vulnerabilities found in beta releases should be reported according to the [Reporting a Bug](#reporting-a-bug) section.
