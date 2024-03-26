@@ -8,11 +8,9 @@ on:
       - '4.x'
       - '5.x'
     paths-ignore:
-      - 'examples/**'
       - '*.md'
   pull_request:
     paths-ignore:
-      - 'examples/**'
       - '*.md'
 
 # Cancel in progress workflows
