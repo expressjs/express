@@ -31,9 +31,9 @@ the module.
 
 ## Pre-release Versions
 
-Beta releases should be considered unstable and **not suitable for production use**.
-Vulnerabilities found in beta releases should be reported according to the [Reporting a Bug](#reporting-a-bug) section.
-Due to the unstable nature of the branch it is not garanteed that the fix will be released in the next beta release.
+Alpha and Beta releases should be considered unstable and **not suitable for production use**.
+Vulnerabilities found in pre-releases should be reported according to the [Reporting a Bug](#reporting-a-bug) section.
+Due to the unstable nature of the branch it is not garanteed that the fix will be released in the next pre-release.
 
 ## Disclosure Policy
 
