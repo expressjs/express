@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - develop
       - '4.x'
       - '5.x'
     paths-ignore:
