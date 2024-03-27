@@ -326,6 +326,37 @@ describe('res', function(){
         .expect(200, '{\n  "name": "tobi",\n  "age": 2\n}', done)
       })
     })
+
+    describe('"json stringifier" setting', function(){
+      it('should be undefined by default', function(){
+        var app = express();
+        assert(undefined === app.get('json stringifier'));
+      })
+
+      it('should be used instead of JSON.stringify', function(done){
+        var app = express();
+
+        app.set('json replacer', function(key, val){
+          return key[0] === '_'
+            ? undefined
+            : val;
+        });
+        app.set('json spaces', 2);
+        app.set('json stringifier', function(value, replacer, space) {
+          value.name = 'asdf'
+          return JSON.stringify(value, replacer, space);
+        });
+
+        app.use(function(req, res){
+          res.jsonp({ name: 'tobi', age: 2, _id: 1234 });
+        });
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{\n  "name": "asdf",\n  "age": 2\n}', done)
+      })
+    })
   })
 
   describe('.jsonp(status, object)', function(){
