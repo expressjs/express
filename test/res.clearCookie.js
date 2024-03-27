@@ -32,5 +32,18 @@ describe('res', function(){
       .expect('Set-Cookie', 'sid=; Path=/admin; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
       .expect(200, done)
     })
+
+    it('should ignore maxAge', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.clearCookie('sid', { path: '/admin', maxAge: 900 }).end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Set-Cookie', 'sid=; Path=/admin; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
+      .expect(200, done)
+    })
   })
 })
