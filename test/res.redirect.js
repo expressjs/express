@@ -106,7 +106,7 @@ describe('res', function(){
       .set('Accept', 'text/html')
       .expect('Content-Type', /html/)
       .expect('Location', 'http://google.com')
-      .expect(302, '<p>Found. Redirecting to <a href="http://google.com">http://google.com</a></p>', done)
+      .expect(302, '<!DOCTYPE html><title>Found</title><p>Found. Redirecting to <a href="http://google.com">http://google.com</a></p>', done)
     })
 
     it('should escape the url', function(done){
@@ -122,7 +122,7 @@ describe('res', function(){
       .set('Accept', 'text/html')
       .expect('Content-Type', /html/)
       .expect('Location', '%3Cla\'me%3E')
-      .expect(302, '<p>Found. Redirecting to <a href="%3Cla&#39;me%3E">%3Cla&#39;me%3E</a></p>', done)
+      .expect(302, '<!DOCTYPE html><title>Found</title><p>Found. Redirecting to <a href="%3Cla&#39;me%3E">%3Cla&#39;me%3E</a></p>', done)
     })
 
     it('should include the redirect type', function(done){
@@ -137,7 +137,7 @@ describe('res', function(){
       .set('Accept', 'text/html')
       .expect('Content-Type', /html/)
       .expect('Location', 'http://google.com')
-      .expect(301, '<p>Moved Permanently. Redirecting to <a href="http://google.com">http://google.com</a></p>', done);
+      .expect(301, '<!DOCTYPE html><title>Moved Permanently</title><p>Moved Permanently. Redirecting to <a href="http://google.com">http://google.com</a></p>', done);
     })
   })
 
