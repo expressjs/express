@@ -19,6 +19,9 @@ concurrency:
   group: "${{ github.workflow }} ✨ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -136,7 +139,7 @@ jobs:
           node-version: "21.6"
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
     - name: Install Node.js ${{ matrix.node-version }}
       shell: bash -eo pipefail -l {0}
@@ -201,24 +204,27 @@ jobs:
         mv "./${{ matrix.name }}" "./coverage/${{ matrix.name }}"
 
     - name: Upload code coverage
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
       with:
         name: coverage
         path: ./coverage
         retention-days: 1
 
   coverage:
+    permissions:
+      checks: write  # for coverallsapp/github-action to create new checks
+      contents: read  # for actions/checkout to fetch code
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-
+    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+ 
     - name: Install lcov
       shell: bash
       run: sudo apt-get -y install lcov
 
     - name: Collect coverage reports
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
       with:
         name: coverage
         path: ./coverage
@@ -228,6 +234,6 @@ jobs:
       run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
 
     - name: Upload coverage report
-      uses: coverallsapp/github-action@master
+      uses: coverallsapp/github-action@09b709cf6a16e30b0808ba050c7a6e8a5ef13f8d # master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
