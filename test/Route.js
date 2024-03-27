@@ -1,6 +1,7 @@
+'use strict'
 
 var after = require('after');
-var should = require('should');
+var assert = require('assert')
 var express = require('../')
   , Route = express.Route
   , methods = require('methods')
@@ -10,6 +11,37 @@ describe('Route', function(){
     var req = { method: 'GET', url: '/' }
     var route = new Route('/foo')
     route.dispatch(req, {}, done)
+  })
+
+  it('should not stack overflow with a large sync stack', function (done) {
+    this.timeout(5000) // long-running test
+
+    var req = { method: 'GET', url: '/' }
+    var route = new Route('/foo')
+
+    route.get(function (req, res, next) {
+      req.counter = 0
+      next()
+    })
+
+    for (var i = 0; i < 6000; i++) {
+      route.all(function (req, res, next) {
+        req.counter++
+        next()
+      })
+    }
+
+    route.get(function (req, res, next) {
+      req.called = true
+      next()
+    })
+
+    route.dispatch(req, {}, function (err) {
+      if (err) return done(err)
+      assert.ok(req.called)
+      assert.strictEqual(req.counter, 6000)
+      done()
+    })
   })
 
   describe('.all', function(){
@@ -24,7 +56,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.ok()
+        assert.ok(req.called)
         done();
       });
     })
@@ -34,7 +66,7 @@ describe('Route', function(){
       var route = new Route('/foo');
       var cb = after(methods.length, function (err) {
         if (err) return done(err);
-        count.should.equal(methods.length);
+        assert.strictEqual(count, methods.length)
         done();
       });
 
@@ -65,7 +97,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        req.count.should.equal(2);
+        assert.strictEqual(req.count, 2)
         done();
       });
     })
@@ -83,7 +115,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.ok()
+        assert.ok(req.called)
         done();
       });
     })
@@ -92,7 +124,7 @@ describe('Route', function(){
       var req = { method: 'POST', url: '/' };
       var route = new Route('');
 
-      route.get(function(req, res, next) {
+      route.get(function () {
         throw new Error('not me!');
       })
 
@@ -103,7 +135,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.true()
+        assert.ok(req.called)
         done();
       });
     })
@@ -129,7 +161,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        req.order.should.equal('abc');
+        assert.strictEqual(req.order, 'abc')
         done();
       });
     })
@@ -155,9 +187,9 @@ describe('Route', function(){
       });
 
       route.dispatch(req, {}, function (err) {
-        should(err).be.ok()
-        should(err.message).equal('foobar');
-        req.order.should.equal('a');
+        assert.ok(err)
+        assert.strictEqual(err.message, 'foobar')
+        assert.strictEqual(req.order, 'a')
         done();
       });
     })
@@ -166,7 +198,7 @@ describe('Route', function(){
       var req = { order: '', method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.all(function(req, res, next){
+      route.all(function () {
         throw new Error('foobar');
       });
 
@@ -181,9 +213,9 @@ describe('Route', function(){
       });
 
       route.dispatch(req, {}, function (err) {
-        should(err).be.ok()
-        should(err.message).equal('foobar');
-        req.order.should.equal('a');
+        assert.ok(err)
+        assert.strictEqual(err.message, 'foobar')
+        assert.strictEqual(req.order, 'a')
         done();
       });
     });
@@ -192,7 +224,7 @@ describe('Route', function(){
       var req = { method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.get(function(req, res, next){
+      route.get(function () {
         throw new Error('boom!');
       });
 
@@ -207,7 +239,7 @@ describe('Route', function(){
 
       route.dispatch(req, {}, function (err) {
         if (err) return done(err);
-        should(req.message).equal('oops');
+        assert.strictEqual(req.message, 'oops')
         done();
       });
     });
@@ -221,8 +253,8 @@ describe('Route', function(){
       });
 
       route.dispatch(req, {}, function(err){
-        should(err).be.ok()
-        err.message.should.equal('boom!');
+        assert.ok(err)
+        assert.strictEqual(err.message, 'boom!')
         done();
       });
     });
@@ -233,7 +265,7 @@ describe('Route', function(){
 
       route.all(function(err, req, res, next){
         // this should not execute
-        true.should.be.false()
+        throw new Error('should not be called')
       });
 
       route.dispatch(req, {}, done);

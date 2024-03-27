@@ -27,8 +27,13 @@ endeavor to keep you informed of the progress towards a fix and full
 announcement, and may ask for additional information or guidance.
 
 Report security bugs in third-party modules to the person or team maintaining
-the module. You can also report a vulnerability through the
-[Node Security Project](https://nodesecurity.io/report).
+the module.
+
+## Pre-release Versions
+
+Alpha and Beta releases are unstable and **not suitable for production use**.
+Vulnerabilities found in pre-releases should be reported according to the [Reporting a Bug](#reporting-a-bug) section.
+Due to the unstable nature of the branch it is not guaranteed that any fixes will be released in the next pre-release.
 
 ## Disclosure Policy
 

@@ -1,3 +1,4 @@
+'use strict'
 
 var express = require('..');
 var path = require('path')

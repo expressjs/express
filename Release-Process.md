@@ -77,6 +77,13 @@ non-patch flow.
 - This branch contains the commits accepted so far that implement the proposal
   in the tracking pull request.
 
+### Pre-release Versions
+
+Alpha and Beta releases are made from a proposal branch. The version number should be
+incremented to the next minor version with a `-beta` or `-alpha` suffix.
+For example, if the next beta release is `5.0.1`, the beta release would be `5.0.1-beta.0`.
+The pre-releases are unstable and not suitable for production use.
+
 ### Patch flow
 
 In the patch flow, simple changes are committed to the release branch which
@@ -184,3 +191,9 @@ $ npm publish
 
 **NOTE:** The version number to publish will be picked up automatically from
           package.json.
+          
+### Step 7. Update documentation website
+
+The documentation website https://expressjs.com/ documents the current release version in various places.  For a new release:
+1. Change the value of `current_version` in https://github.com/expressjs/expressjs.com/blob/gh-pages/_data/express.yml to match the latest version number.
+2. Add a new section to the change log.  For example, for a 4.x release, https://github.com/expressjs/expressjs.com/blob/gh-pages/en/changelog/4x.md,

@@ -1,8 +1,14 @@
+'use strict'
 
 var assert = require('assert')
+var asyncHooks = tryRequire('async_hooks')
 var Buffer = require('safe-buffer').Buffer
 var express = require('..')
 var request = require('supertest')
+
+var describeAsyncHooks = typeof asyncHooks.AsyncLocalStorage === 'function'
+  ? describe
+  : describe.skip
 
 describe('express.text()', function () {
   before(function () {
@@ -55,6 +61,32 @@ describe('express.text()', function () {
       .expect(200, '""', done)
   })
 
+  it('should 500 if stream not readable', function (done) {
+    var app = express()
+
+    app.use(function (req, res, next) {
+      req.on('end', next)
+      req.resume()
+    })
+
+    app.use(express.text())
+
+    app.use(function (err, req, res, next) {
+      res.status(err.status || 500)
+      res.send('[' + err.type + '] ' + err.message)
+    })
+
+    app.post('/', function (req, res) {
+      res.json(req.body)
+    })
+
+    request(app)
+      .post('/')
+      .set('Content-Type', 'text/plain')
+      .send('user is tobi')
+      .expect(500, '[stream.not.readable] stream is not readable', done)
+  })
+
   it('should handle duplicated middleware', function (done) {
     var app = express()
 
@@ -74,16 +106,16 @@ describe('express.text()', function () {
 
   describe('with defaultCharset option', function () {
     it('should change default charset', function (done) {
-      var app = createApp({ defaultCharset: 'koi8-r' })
-      var test = request(app).post('/')
+      var server = createApp({ defaultCharset: 'koi8-r' })
+      var test = request(server).post('/')
       test.set('Content-Type', 'text/plain')
       test.write(Buffer.from('6e616d6520697320cec5d4', 'hex'))
       test.expect(200, '"name is нет"', done)
     })
 
     it('should honor content-type charset', function (done) {
-      var app = createApp({ defaultCharset: 'koi8-r' })
-      var test = request(app).post('/')
+      var server = createApp({ defaultCharset: 'koi8-r' })
+      var test = request(server).post('/')
       test.set('Content-Type', 'text/plain; charset=utf-8')
       test.write(Buffer.from('6e616d6520697320e8aeba', 'hex'))
       test.expect(200, '"name is 论"', done)
@@ -102,12 +134,21 @@ describe('express.text()', function () {
     })
 
     it('should 413 when over limit with chunked encoding', function (done) {
-      var buf = Buffer.alloc(1028, '.')
       var app = createApp({ limit: '1kb' })
+      var buf = Buffer.alloc(1028, '.')
       var test = request(app).post('/')
       test.set('Content-Type', 'text/plain')
       test.set('Transfer-Encoding', 'chunked')
       test.write(buf.toString())
+      test.expect(413, done)
+    })
+
+    it('should 413 when inflated body over limit', function (done) {
+      var app = createApp({ limit: '1kb' })
+      var test = request(app).post('/')
+      test.set('Content-Encoding', 'gzip')
+      test.set('Content-Type', 'text/plain')
+      test.write(Buffer.from('1f8b080000000000000ad3d31b05a360148c64000087e5a14704040000', 'hex'))
       test.expect(413, done)
     })
 
@@ -135,14 +176,25 @@ describe('express.text()', function () {
     })
 
     it('should not hang response', function (done) {
-      var buf = Buffer.alloc(10240, '.')
       var app = createApp({ limit: '8kb' })
+      var buf = Buffer.alloc(10240, '.')
       var test = request(app).post('/')
       test.set('Content-Type', 'text/plain')
       test.write(buf)
       test.write(buf)
       test.write(buf)
       test.expect(413, done)
+    })
+
+    it('should not error when inflating', function (done) {
+      var app = createApp({ limit: '1kb' })
+      var test = request(app).post('/')
+      test.set('Content-Encoding', 'gzip')
+      test.set('Content-Type', 'text/plain')
+      test.write(Buffer.from('1f8b080000000000000ad3d31b05a360148c64000087e5a1470404', 'hex'))
+      setTimeout(function () {
+        test.expect(413, done)
+      }, 100)
     })
   })
 
@@ -157,7 +209,7 @@ describe('express.text()', function () {
         test.set('Content-Encoding', 'gzip')
         test.set('Content-Type', 'text/plain')
         test.write(Buffer.from('1f8b080000000000000bcb4bcc4d55c82c5678b16e170072b3e0200b000000', 'hex'))
-        test.expect(415, 'content encoding unsupported', done)
+        test.expect(415, '[encoding.unsupported] content encoding unsupported', done)
       })
     })
 
@@ -277,36 +329,42 @@ describe('express.text()', function () {
     })
 
     it('should error from verify', function (done) {
-      var app = createApp({ verify: function (req, res, buf) {
-        if (buf[0] === 0x20) throw new Error('no leading space')
-      } })
+      var app = createApp({
+        verify: function (req, res, buf) {
+          if (buf[0] === 0x20) throw new Error('no leading space')
+        }
+      })
 
       request(app)
         .post('/')
         .set('Content-Type', 'text/plain')
         .send(' user is tobi')
-        .expect(403, 'no leading space', done)
+        .expect(403, '[entity.verify.failed] no leading space', done)
     })
 
     it('should allow custom codes', function (done) {
-      var app = createApp({ verify: function (req, res, buf) {
-        if (buf[0] !== 0x20) return
-        var err = new Error('no leading space')
-        err.status = 400
-        throw err
-      } })
+      var app = createApp({
+        verify: function (req, res, buf) {
+          if (buf[0] !== 0x20) return
+          var err = new Error('no leading space')
+          err.status = 400
+          throw err
+        }
+      })
 
       request(app)
         .post('/')
         .set('Content-Type', 'text/plain')
         .send(' user is tobi')
-        .expect(400, 'no leading space', done)
+        .expect(400, '[entity.verify.failed] no leading space', done)
     })
 
     it('should allow pass-through', function (done) {
-      var app = createApp({ verify: function (req, res, buf) {
-        if (buf[0] === 0x20) throw new Error('no leading space')
-      } })
+      var app = createApp({
+        verify: function (req, res, buf) {
+          if (buf[0] === 0x20) throw new Error('no leading space')
+        }
+      })
 
       request(app)
         .post('/')
@@ -316,14 +374,110 @@ describe('express.text()', function () {
     })
 
     it('should 415 on unknown charset prior to verify', function (done) {
-      var app = createApp({ verify: function (req, res, buf) {
-        throw new Error('unexpected verify call')
-      } })
+      var app = createApp({
+        verify: function (req, res, buf) {
+          throw new Error('unexpected verify call')
+        }
+      })
 
       var test = request(app).post('/')
       test.set('Content-Type', 'text/plain; charset=x-bogus')
       test.write(Buffer.from('00000000', 'hex'))
-      test.expect(415, 'unsupported charset "X-BOGUS"', done)
+      test.expect(415, '[charset.unsupported] unsupported charset "X-BOGUS"', done)
+    })
+  })
+
+  describeAsyncHooks('async local storage', function () {
+    before(function () {
+      var app = express()
+      var store = { foo: 'bar' }
+
+      app.use(function (req, res, next) {
+        req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+        req.asyncLocalStorage.run(store, next)
+      })
+
+      app.use(express.text())
+
+      app.use(function (req, res, next) {
+        var local = req.asyncLocalStorage.getStore()
+
+        if (local) {
+          res.setHeader('x-store-foo', String(local.foo))
+        }
+
+        next()
+      })
+
+      app.use(function (err, req, res, next) {
+        var local = req.asyncLocalStorage.getStore()
+
+        if (local) {
+          res.setHeader('x-store-foo', String(local.foo))
+        }
+
+        res.status(err.status || 500)
+        res.send('[' + err.type + '] ' + err.message)
+      })
+
+      app.post('/', function (req, res) {
+        res.json(req.body)
+      })
+
+      this.app = app
+    })
+
+    it('should presist store', function (done) {
+      request(this.app)
+        .post('/')
+        .set('Content-Type', 'text/plain')
+        .send('user is tobi')
+        .expect(200)
+        .expect('x-store-foo', 'bar')
+        .expect('"user is tobi"')
+        .end(done)
+    })
+
+    it('should presist store when unmatched content-type', function (done) {
+      request(this.app)
+        .post('/')
+        .set('Content-Type', 'application/fizzbuzz')
+        .send('buzz')
+        .expect(200)
+        .expect('x-store-foo', 'bar')
+        .expect('{}')
+        .end(done)
+    })
+
+    it('should presist store when inflated', function (done) {
+      var test = request(this.app).post('/')
+      test.set('Content-Encoding', 'gzip')
+      test.set('Content-Type', 'text/plain')
+      test.write(Buffer.from('1f8b080000000000000bcb4bcc4d55c82c5678b16e170072b3e0200b000000', 'hex'))
+      test.expect(200)
+      test.expect('x-store-foo', 'bar')
+      test.expect('"name is 论"')
+      test.end(done)
+    })
+
+    it('should presist store when inflate error', function (done) {
+      var test = request(this.app).post('/')
+      test.set('Content-Encoding', 'gzip')
+      test.set('Content-Type', 'text/plain')
+      test.write(Buffer.from('1f8b080000000000000bcb4bcc4d55c82c5678b16e170072b3e0200b0000', 'hex'))
+      test.expect(400)
+      test.expect('x-store-foo', 'bar')
+      test.end(done)
+    })
+
+    it('should presist store when limit exceeded', function (done) {
+      request(this.app)
+        .post('/')
+        .set('Content-Type', 'text/plain')
+        .send('user is ' + Buffer.alloc(1024 * 100, '.').toString())
+        .expect(413)
+        .expect('x-store-foo', 'bar')
+        .end(done)
     })
   })
 
@@ -365,7 +519,7 @@ describe('express.text()', function () {
       var test = request(this.app).post('/')
       test.set('Content-Type', 'text/plain; charset=x-bogus')
       test.write(Buffer.from('00000000', 'hex'))
-      test.expect(415, 'unsupported charset "X-BOGUS"', done)
+      test.expect(415, '[charset.unsupported] unsupported charset "X-BOGUS"', done)
     })
   })
 
@@ -413,12 +567,12 @@ describe('express.text()', function () {
       test.expect(200, '"name is 论"', done)
     })
 
-    it('should fail on unknown encoding', function (done) {
+    it('should 415 on unknown encoding', function (done) {
       var test = request(this.app).post('/')
       test.set('Content-Encoding', 'nulls')
       test.set('Content-Type', 'text/plain')
       test.write(Buffer.from('000000000000', 'hex'))
-      test.expect(415, 'unsupported content encoding "nulls"', done)
+      test.expect(415, '[encoding.unsupported] unsupported content encoding "nulls"', done)
     })
   })
 })
@@ -430,7 +584,9 @@ function createApp (options) {
 
   app.use(function (err, req, res, next) {
     res.status(err.status || 500)
-    res.send(err.message)
+    res.send(String(req.headers['x-error-property']
+      ? err[req.headers['x-error-property']]
+      : ('[' + err.type + '] ' + err.message)))
   })
 
   app.post('/', function (req, res) {
@@ -438,4 +594,12 @@ function createApp (options) {
   })
 
   return app
+}
+
+function tryRequire (name) {
+  try {
+    return require(name)
+  } catch (e) {
+    return {}
+  }
 }

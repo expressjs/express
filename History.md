@@ -1,3 +1,108 @@
+4.19.2 / 2024-03-25
+==========
+
+  * Improved fix for open redirect allow list bypass
+
+4.19.1 / 2024-03-20
+==========
+
+  * Allow passing non-strings to res.location with new encoding handling checks
+
+4.19.0 / 2024-03-20
+==========
+
+  * Prevent open redirect allow list bypass due to encodeurl
+  * deps: cookie@0.6.0
+
+4.18.3 / 2024-02-29
+==========
+
+  * Fix routing requests without method
+  * deps: body-parser@1.20.2
+    - Fix strict json error message on Node.js 19+
+    - deps: content-type@~1.0.5
+    - deps: raw-body@2.5.2
+  * deps: cookie@0.6.0
+    - Add `partitioned` option
+
+4.18.2 / 2022-10-08
+===================
+
+  * Fix regression routing a large stack in a single route
+  * deps: body-parser@1.20.1
+    - deps: qs@6.11.0
+    - perf: remove unnecessary object clone
+  * deps: qs@6.11.0
+
+4.18.1 / 2022-04-29
+===================
+
+  * Fix hanging on large stack of sync routes
+
+4.18.0 / 2022-04-25
+===================
+
+  * Add "root" option to `res.download`
+  * Allow `options` without `filename` in `res.download`
+  * Deprecate string and non-integer arguments to `res.status`
+  * Fix behavior of `null`/`undefined` as `maxAge` in `res.cookie`
+  * Fix handling very large stacks of sync middleware
+  * Ignore `Object.prototype` values in settings through `app.set`/`app.get`
+  * Invoke `default` with same arguments as types in `res.format`
+  * Support proper 205 responses using `res.send`
+  * Use `http-errors` for `res.format` error
+  * deps: body-parser@1.20.0
+    - Fix error message for json parse whitespace in `strict`
+    - Fix internal error when inflated body exceeds limit
+    - Prevent loss of async hooks context
+    - Prevent hanging when request already read
+    - deps: depd@2.0.0
+    - deps: http-errors@2.0.0
+    - deps: on-finished@2.4.1
+    - deps: qs@6.10.3
+    - deps: raw-body@2.5.1
+  * deps: cookie@0.5.0
+    - Add `priority` option
+    - Fix `expires` option to reject invalid dates
+  * deps: depd@2.0.0
+    - Replace internal `eval` usage with `Function` constructor
+    - Use instance methods on `process` to check for listeners
+  * deps: finalhandler@1.2.0
+    - Remove set content headers that break response
+    - deps: on-finished@2.4.1
+    - deps: statuses@2.0.1
+  * deps: on-finished@2.4.1
+    - Prevent loss of async hooks context
+  * deps: qs@6.10.3
+  * deps: send@0.18.0
+    - Fix emitted 416 error missing headers property
+    - Limit the headers removed for 304 response
+    - deps: depd@2.0.0
+    - deps: destroy@1.2.0
+    - deps: http-errors@2.0.0
+    - deps: on-finished@2.4.1
+    - deps: statuses@2.0.1
+  * deps: serve-static@1.15.0
+    - deps: send@0.18.0
+  * deps: statuses@2.0.1
+    - Remove code 306
+    - Rename `425 Unordered Collection` to standard `425 Too Early`
+
+4.17.3 / 2022-02-16
+===================
+
+  * deps: accepts@~1.3.8
+    - deps: mime-types@~2.1.34
+    - deps: negotiator@0.6.3
+  * deps: body-parser@1.19.2
+    - deps: bytes@3.1.2
+    - deps: qs@6.9.7
+    - deps: raw-body@2.4.3
+  * deps: cookie@0.4.2
+  * deps: qs@6.9.7
+    * Fix handling of `__proto__` keys
+  * pref: remove unnecessary regexp for trust proxy
+
 4.17.2 / 2021-12-16
 ===================
 
@@ -2033,7 +2138,7 @@
  * deps: connect@2.21.0
    - deprecate `connect(middleware)` -- use `app.use(middleware)` instead
    - deprecate `connect.createServer()` -- use `connect()` instead
-   - fix `res.setHeader()` patch to work with with get -> append -> set pattern
+   - fix `res.setHeader()` patch to work with get -> append -> set pattern
    - deps: compression@~1.0.8
    - deps: errorhandler@~1.1.1
    - deps: express-session@~1.5.0
@@ -3244,8 +3349,8 @@ Shaw]
   * Added node v0.1.97 compatibility
   * Added support for deleting cookies via Request#cookie('key', null)
   * Updated haml submodule
-  * Fixed not-found page, now using using charset utf-8
-  * Fixed show-exceptions page, now using using charset utf-8
+  * Fixed not-found page, now using charset utf-8
+  * Fixed show-exceptions page, now using charset utf-8
   * Fixed view support due to fs.readFile Buffers
   * Changed; mime.type() no longer accepts ".type" due to node extname() changes
 
@@ -3280,7 +3385,7 @@ Shaw]
 ==================
 
   * Added charset support via Request#charset (automatically assigned to 'UTF-8' when respond()'s
-    encoding is set to 'utf8' or 'utf-8'.
+    encoding is set to 'utf8' or 'utf-8').
   * Added "encoding" option to Request#render(). Closes #299
   * Added "dump exceptions" setting, which is enabled by default.
   * Added simple ejs template engine support
@@ -3319,7 +3424,7 @@ Shaw]
   * Added [haml.js](http://github.com/visionmedia/haml.js) submodule; removed haml-js
   * Added callback function support to Request#halt() as 3rd/4th arg
   * Added preprocessing of route param wildcards using param(). Closes #251
-  * Added view partial support (with collections etc)
+  * Added view partial support (with collections etc.)
   * Fixed bug preventing falsey params (such as ?page=0). Closes #286
   * Fixed setting of multiple cookies. Closes #199
   * Changed; view naming convention is now NAME.TYPE.ENGINE (for example page.html.haml)

@@ -1,3 +1,5 @@
+'use strict'
+
 var express = require('../../..');
 
 var apiv2 = express.Router();

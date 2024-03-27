@@ -1,3 +1,4 @@
+'use strict'
 
 var after = require('after')
 var express = require('../')
@@ -49,13 +50,18 @@ var app3 = express();
 app3.use(function(req, res, next){
   res.format({
     text: function(){ res.send('hey') },
-    default: function(){ res.send('default') }
+    default: function (a, b, c) {
+      assert(req === a)
+      assert(res === b)
+      assert(next === c)
+      res.send('default')
+    }
   })
 });
 
 var app4 = express();
 
-app4.get('/', function(req, res, next){
+app4.get('/', function (req, res) {
   res.format({
     text: function(){ res.send('hey') },
     html: function(){ res.send('<p>hey</p>') },
@@ -117,6 +123,28 @@ describe('res', function(){
         .set('Accept', '*/*')
         .expect('hey', done);
       })
+
+      it('should be able to invoke other formatter', function (done) {
+        var app = express()
+
+        app.use(function (req, res, next) {
+          res.format({
+            json: function () { res.send('json') },
+            default: function () {
+              res.header('x-default', '1')
+              this.json()
+            }
+          })
+        })
+
+        request(app)
+          .get('/')
+          .set('Accept', 'text/plain')
+          .expect(200)
+          .expect('x-default', '1')
+          .expect('json')
+          .end(done)
+      })
     })
 
     describe('in router', function(){
@@ -127,7 +155,7 @@ describe('res', function(){
       var app = express();
       var router = express.Router();
 
-      router.get('/', function(req, res, next){
+      router.get('/', function (req, res) {
         res.format({
           text: function(){ res.send('hey') },
           html: function(){ res.send('<p>hey</p>') },
