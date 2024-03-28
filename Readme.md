@@ -5,6 +5,7 @@
   [![NPM Version][npm-version-image]][npm-url]
   [![NPM Install Size][npm-install-size-image]][npm-install-size-url]
   [![NPM Downloads][npm-downloads-image]][npm-downloads-url]
+  [![Licenses][licenses-image]][licenses-url]
 
 ```js
 const express = require('express')
@@ -158,6 +159,8 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [coveralls-url]: https://coveralls.io/r/expressjs/express?branch=master
 [github-actions-ci-image]: https://badgen.net/github/checks/expressjs/express/master?label=linux
 [github-actions-ci-url]: https://github.com/expressjs/express/actions/workflows/ci.yml
+[licenses-image]: https://licenses.dev/b/npm/express
+[licenses-url]: https://licenses.dev/npm/express
 [npm-downloads-image]: https://badgen.net/npm/dm/express
 [npm-downloads-url]: https://npmcharts.com/compare/express?minimal=true
 [npm-install-size-image]: https://badgen.net/packagephobia/install/express
