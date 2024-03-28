@@ -5,6 +5,7 @@
   [![NPM Version][npm-version-image]][npm-url]
   [![NPM Install Size][npm-install-size-image]][npm-install-size-url]
   [![NPM Downloads][npm-downloads-image]][npm-downloads-url]
+  [![OpenSSF Scorecard Badge][ossf-scorecard-badge]][ossf-scorecard-visualizer]
 
 ```js
 const express = require('express')
@@ -164,3 +165,5 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [npm-install-size-url]: https://packagephobia.com/result?p=express
 [npm-url]: https://npmjs.org/package/express
 [npm-version-image]: https://badgen.net/npm/v/express
+[ossf-scorecard-badge]: https://api.securityscorecards.dev/projects/github.com/expressjs/express/badge
+[ossf-scorecard-visualizer]: https://kooltheba.github.io/openssf-scorecard-api-visualizer/#/projects/github.com/expressjs/express
