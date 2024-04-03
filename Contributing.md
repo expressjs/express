@@ -164,6 +164,7 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - `expressjs/cookie-parser`: @wesleytodd
 - `expressjs/generator`: @wesleytodd
 - `expressjs/statusboard`: @wesleytodd
+- `pillarjs/encodeurl`: @blakeembrey
 - `pillarjs/path-to-regexp`: @blakeembrey
 - `pillarjs/router`: @dougwilson, @wesleytodd
 - `pillarjs/finalhandler`: @wesleytodd
@@ -173,4 +174,3 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - `jshttp/on-finished`: @wesleytodd
 - `jshttp/forwarded`: @wesleytodd
 - `jshttp/proxy-addr`: @wesleytodd
-
