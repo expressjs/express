@@ -158,17 +158,19 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 
 - `expressjs/express`: @wesleytodd
 - `expressjs/discussions`: @wesleytodd
-- `expressjs/expressjs.com`: @crandmck
-- `expressjs/body-parser`: @wesleytodd
+- `expressjs/expressjs.com`: @crandmck, @jonchurch
+- `expressjs/body-parser`: @wesleytodd, @jonchurch
 - `expressjs/multer`: @LinusU
+- `expressjs/morgan`: @jonchurch
 - `expressjs/cookie-parser`: @wesleytodd
+- `expressjs/cors`: @jonchurch
 - `expressjs/generator`: @wesleytodd
 - `expressjs/statusboard`: @wesleytodd
 - `pillarjs/path-to-regexp`: @blakeembrey
 - `pillarjs/router`: @dougwilson, @wesleytodd
 - `pillarjs/finalhandler`: @wesleytodd
 - `pillarjs/request`: @wesleytodd
-- `jshttp/http-errors`: @wesleytodd
+- `jshttp/http-errors`: @wesleytodd, @jonchurch
 - `jshttp/cookie`: @wesleytodd
 - `jshttp/on-finished`: @wesleytodd
 - `jshttp/forwarded`: @wesleytodd
