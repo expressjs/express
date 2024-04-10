@@ -48,7 +48,7 @@ involving the following steps:
 
 ## The Express Threat Model
 
-We are currently working on a new version of the security model,  the most updated version can be found [here](https://github.com/expressjs/security-wg/blob/main/tools/docs/ThreatModel.md)
+We are currently working on a new version of the security model, the most updated version can be found [here](https://github.com/expressjs/security-wg/blob/main/docs/ThreatModel.md)
 
 ## Comments on this Policy
 
