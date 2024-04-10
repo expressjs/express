@@ -56,6 +56,7 @@ another committer to the TC and the TC uses its standard consensus
 seeking process to evaluate whether or not to add this new member.
 Members who do not participate consistently at the level of a majority
 of the other members are expected to resign.
+of the not be order to be change.
 
 ## Section 4: Roles & Responsibilities
 
