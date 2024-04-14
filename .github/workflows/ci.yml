@@ -143,7 +143,26 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    # Install nvm-windows only if the runner is Windows
+    - name: Install nvm-windows
+      if: runner.os == 'Windows'
+      run: |
+        $nvmInstallUrl = "https://github.com/coreybutler/nvm-windows/releases/download/1.1.9/nvm-setup.zip"
+        Invoke-WebRequest -Uri $nvmInstallUrl -OutFile "nvm-setup.zip"
+        Expand-Archive nvm-setup.zip -DestinationPath "$env:GITHUB_WORKSPACE/nvm-setup"
+        Start-Process -FilePath "$env:GITHUB_WORKSPACE/nvm-setup/nvm-setup.exe" -ArgumentList '/S' -NoNewWindow -Wait
+      shell: pwsh
+
+    # Install Node.js using nvm-windows on Windows
+    - name: Install Node.js with nvm-windows
+      if: runner.os == 'Windows'
+      run: |
+        nvm install ${{ matrix.node-version }}
+        nvm use ${{ matrix.node-version }}
+      shell: cmd
+
     - name: Install Node.js ${{ matrix.node-version }}
+      if: runner.os == 'Linux'
       shell: bash -eo pipefail -l {0}
       run: |
         nvm install --default ${{ matrix.node-version }}
