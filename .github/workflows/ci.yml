@@ -23,8 +23,8 @@ jobs:
   test:
     strategy:
       fail-fast: false
-      os: [ubuntu-latest, windows-latest]
       matrix:
+        os: [ubuntu-latest, windows-latest]
         name:
         - Node.js 0.10
         - Node.js 0.12
