@@ -21,9 +21,9 @@ concurrency:
 
 jobs:
   test:
-    runs-on: [ubuntu-latest, windows-latest]
     strategy:
       fail-fast: false
+      os: [ubuntu-latest, windows-latest]
       matrix:
         name:
         - Node.js 0.10
@@ -139,6 +139,7 @@ jobs:
         - name: Node.js 22.x
           node-version: "22"
 
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
 
