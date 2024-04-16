@@ -188,6 +188,23 @@ describe('app.router', function(){
       .expect('editing user 10', done);
     })
 
+    if (supportsRegexp('(?<foo>.*)')) {
+      it('should populate req.params with named captures', function(done){
+        var app = express();
+        var re = new RegExp('^/user/(?<userId>[0-9]+)/(view|edit)?$');
+
+        app.get(re, function(req, res){
+          var id = req.params.userId
+            , op = req.params[0];
+          res.end(op + 'ing user ' + id);
+        });
+
+        request(app)
+        .get('/user/10/edit')
+        .expect('editing user 10', done);
+      })
+    }
+
     it('should ensure regexp matches path prefix', function (done) {
       var app = express()
       var p = []
@@ -1109,3 +1126,12 @@ describe('app.router', function(){
     assert.strictEqual(app.get('/', function () {}), app)
   })
 })
+
+function supportsRegexp(source) {
+  try {
+    new RegExp(source)
+    return true
+  } catch (e) {
+    return false
+  }
+}

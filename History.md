@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * deps: path-to-regexp@0.1.8
+    - Adds support for named matching groups in the routes using a regex
+
 4.19.2 / 2024-03-25
 ==========
 
