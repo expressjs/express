@@ -63,11 +63,14 @@ compromise among committers be the default resolution mechanism.
 Anyone can become a triager! Read more about the process of being a triager in
 [the triage process document](Triager-Guide.md).
 
-Currently, any existing triager/captain/TC member can nominate a new triager. If you are interested in becoming a triager, 
-our best advice is to actively participate in the community by helping triaging issues and pull requests. As well we recommend
-to engage in other community activities like attending the TC meetings, and participating in the Slack discussions.
+Currently, any existing [organization member](https://github.com/orgs/expressjs/people) can nominate 
+a new triager. If you are interested in becoming a triager, our best advice is to actively participate 
+in the community by helping triaging issues and pull requests. As well we recommend
+to engage in other community activities like attending the TC meetings, and participating in the Slack 
+discussions.
 
-You can also reach out to any of the triager/captain/TC members if you have questions or need guidance.
+You can also reach out to any of the [organization members](https://github.com/orgs/expressjs/people) 
+if you have questions or need guidance.
 
 ## Becoming a Committer
 
