@@ -161,3 +161,7 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - `jshttp/on-finished`: @wesleytodd
 - `jshttp/forwarded`: @wesleytodd
 - `jshttp/proxy-addr`: @wesleytodd
+
+### Current Initiative Captains
+
+- Triage team [ref](https://github.com/expressjs/discussions/issues/227): @UlisesGascon
