@@ -16,9 +16,9 @@ jobs:
         id: get_repo
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            echo ::set-output name=repo::${{ github.event.pull_request.head.repo.full_name }}
+            echo "repo=${{ github.event.pull_request.head.repo.full_name }}" >> $GITHUB_OUTPUT
           else
-            echo ::set-output name=repo::${{ github.repository }}
+            echo "repo=${{ github.repository }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Repository Dispatch
