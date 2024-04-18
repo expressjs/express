@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Get the branch name
         id: get_branch
-        run: echo ::set-output name=branch::$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}})
+        run: echo "branch=$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}})" >> $GITHUB_OUTPUT
 
       - name: Get the originating repository
         id: get_repo
