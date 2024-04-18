@@ -5,7 +5,7 @@ on:
     - push
 
 jobs:
-  dispatch:
+  e2e_tests:
     runs-on: ubuntu-latest
     steps:
       - name: Get the branch name
@@ -22,9 +22,50 @@ jobs:
           fi
 
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # v3.0.0
-        with:
-          token: "${{ secrets.PAT_INTEGRATION_TESTS}}"
-          repository: expressjs/examples
-          event-type: integration-tests
-          client-payload: '{"branch": "${{ steps.get_branch.outputs.branch }}", "repo": "${{ steps.get_repo.outputs.repo }}"}'
+        env:
+          TOKEN: ${{ secrets.PAT_INTEGRATION_TESTS }}
+        run: |
+          curl -X POST https://api.github.com/repos/expressjs/examples/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -H "Authorization: token $TOKEN" \
+          --data '{"event_type": "integration-tests", "client_payload": {"branch": "${{ steps.get_branch.outputs.branch }}", "repo": "${{ steps.get_repo.outputs.repo }}"}}'
+
+          # Wait for the workflow to start
+          sleep 60
+
+          # Get the latest workflow run
+          response=$(curl -H "Authorization: token $TOKEN" https://api.github.com/repos/expressjs/examples/actions/runs)
+          workflow_url=$(echo "$response" | jq -r '.workflow_runs[0].url')
+
+          status=""
+          start_time=$(date +%s)
+          timeout=$((10 * 60))  # timeout after 10 minutes
+
+          while [[ "$status" != "completed" && $(( $(date +%s) - start_time )) -lt $timeout ]]; do
+            echo "checking..."
+            sleep 10
+            response=$(curl -H "Authorization: token $TOKEN" $workflow_url)
+            status=$(echo "$response" | jq -r .status)
+            echo "current status: $status"
+          done
+
+          if [[ $(( $(date +%s) - start_time )) -ge $timeout ]]; then
+            echo "Workflow did not complete within the expected time"
+          fi
+
+          # Get the conclusion of the workflow run
+          conclusion=$(echo "$response" | jq -r .conclusion)
+
+          # Get the URL of the workflow run
+          html_url=$(echo "$response" | jq -r .html_url)
+          echo "Check the workflow run for details: $html_url"
+
+          if [[ "$status" == "completed" && "$conclusion" != "success" ]]; then
+            echo "Workflow completed but failed. Conclusion: $conclusion"
+            exit 1
+          fi
+
+          if [[ "$status" == "completed" && "$conclusion" == "success" ]]; then
+            echo "Workflow has been completed successfully"
+            exit 0
+          fi
