@@ -164,3 +164,5 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [npm-install-size-url]: https://packagephobia.com/result?p=express
 [npm-url]: https://npmjs.org/package/express
 [npm-version-image]: https://badgen.net/npm/v/express
+
+Author Varun Sethi
