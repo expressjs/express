@@ -80,6 +80,17 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Configure npm -- disable lockfile/shrinkwrap
+        run: |
+          npm config set loglevel error
+          npm_config_package_lock=$(npm config get package-lock)
+          if [ "$npm_config_package_lock" = "true" ] || [ "$npm_config_package_lock" = "True" ]; then
+            npm config set package-lock false
+          else
+            npm config set shrinkwrap false
+          fi
+        shell: bash
+
       - name: Install dependencies
         run: npm install
 
