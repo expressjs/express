@@ -1,0 +1,86 @@
+name: Experimental CI -- CHANGE ME!
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - '4.x'
+      - '5.x'
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+
+concurrency:
+  group: "${{ github.workflow }} ✨ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - node-version: "0.10.x"
+            npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
+          - node-version: "0.12.x"
+            npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
+          - node-version: "4.x"
+            npm-i: "mocha@5.2.0 nyc@11.9.0 supertest@3.4.2"
+          - node-version: "5.x"
+            npm-i: "mocha@5.2.0 nyc@11.9.0 supertest@3.4.2"
+          - node-version: "6.x"
+            npm-i: "mocha@6.2.2 nyc@14.1.1 supertest@3.4.2"
+          - node-version: "7.x"
+            npm-i: "mocha@6.2.2 nyc@14.1.1 supertest@6.1.6"
+          - node-version: "8.x"
+            npm-i: "mocha@7.2.0 nyc@14.1.1"
+          - node-version: "9.x"
+            npm-i: "mocha@7.2.0 nyc@14.1.1"
+          - node-version: "10.x"
+            npm-i: "mocha@8.4.0"
+          - node-version: "11.x"
+            npm-i: "mocha@8.4.0"
+          - node-version: "12.x"
+            npm-i: "mocha@9.2.2"
+          - node-version: "13.x"
+            npm-i: "mocha@9.2.2"
+          - node-version: "14.x"
+          - node-version: "15.x"
+          - node-version: "16.x"
+          - node-version: "17.x"
+          - node-version: "18.x"
+          - node-version: "19.x"
+          - node-version: "20.x"
+          - node-version: "21.x"
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+  - name: Setup Node.js
+    uses: actions/setup-node@v3
+    with:
+      node-version: ${{ matrix.node-version }}
+
+  - name: Install dependencies
+    run: npm install
+
+  - name: Install Node version specific dev deps
+    if: ${{ matrix.npm-i != '' }}
+    run: npm install --save-dev ${{ matrix.npm-i }}
+
+  - name: Remove non-test dependencies
+    run: npm rm --silent --save-dev connect-redis
+
+  - name: Run tests
+    run: npm test
+
+  - name: Output Node and NPM versions
+    run: |
+      echo "Node.js version: $(node -v)"
+      echo "NPM version: $(npm -v)"
+
