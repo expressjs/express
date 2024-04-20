@@ -11,10 +11,6 @@ var shouldSkipQuery = require('./support/utils').shouldSkipQuery
 
 describe('res', function(){
   describe('.send()', function(){
-    it('should throw! making sure we can go red on all versions in the new experimental CI', function(done) {
-      throw new Error("KABOOM!")
-      done()
-    })
     it('should set body to ""', function(done){
       var app = express();
 
