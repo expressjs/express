@@ -36,6 +36,7 @@ jobs:
         run: npm run lint
 
   test:
+    name: Run tests
     strategy:
       fail-fast: false
       matrix:
