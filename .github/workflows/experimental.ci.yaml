@@ -23,6 +23,27 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
+        node-version:
+          - "0.10.x"
+          - "0.12.x"
+          - "4.x"
+          - "5.x"
+          - "6.x"
+          - "7.x"
+          - "8.x"
+          - "9.x"
+          - "10.x"
+          - "11.x"
+          - "12.x"
+          - "13.x"
+          - "14.x"
+          - "15.x"
+          - "16.x"
+          - "17.x"
+          - "18.x"
+          - "19.x"
+          - "20.x"
+          - "21.x"
         include:
           - node-version: "0.10.x"
             npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
