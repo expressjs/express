@@ -61,26 +61,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-  - name: Setup Node.js
-    uses: actions/setup-node@v3
-    with:
-      node-version: ${{ matrix.node-version }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-  - name: Install dependencies
-    run: npm install
+      - name: Install dependencies
+        run: npm install
 
-  - name: Install Node version specific dev deps
-    if: ${{ matrix.npm-i != '' }}
-    run: npm install --save-dev ${{ matrix.npm-i }}
+      - name: Install Node version specific dev deps
+        if: ${{ matrix.npm-i != '' }}
+        run: npm install --save-dev ${{ matrix.npm-i }}
 
-  - name: Remove non-test dependencies
-    run: npm rm --silent --save-dev connect-redis
+      - name: Remove non-test dependencies
+        run: npm rm --silent --save-dev connect-redis
 
-  - name: Run tests
-    run: npm test
+      - name: Run tests
+        run: npm test
 
-  - name: Output Node and NPM versions
-    run: |
-      echo "Node.js version: $(node -v)"
-      echo "NPM version: $(npm -v)"
+      - name: Output Node and NPM versions
+        run: |
+          echo "Node.js version: $(node -v)"
+          echo "NPM version: $(npm -v)"
 
