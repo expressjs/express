@@ -44,6 +44,7 @@ jobs:
           - "19.x"
           - "20.x"
           - "21.x"
+        # Use supported versions of our testing tools under older versions of Node
         include:
           - node-version: "0.10.x"
             npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
@@ -69,14 +70,6 @@ jobs:
             npm-i: "mocha@9.2.2"
           - node-version: "13.x"
             npm-i: "mocha@9.2.2"
-          - node-version: "14.x"
-          - node-version: "15.x"
-          - node-version: "16.x"
-          - node-version: "17.x"
-          - node-version: "18.x"
-          - node-version: "19.x"
-          - node-version: "20.x"
-          - node-version: "21.x"
 
     runs-on: ${{ matrix.os }}
     steps:
