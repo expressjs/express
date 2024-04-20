@@ -44,6 +44,7 @@ jobs:
           - "19.x"
           - "20.x"
           - "21.x"
+          - "21.7.1"
         # Use supported versions of our testing tools under older versions of Node
         include:
           - node-version: "0.10.x"
