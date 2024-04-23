@@ -183,7 +183,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
   **Wes Todd** <<wes@wesleytodd.com>>
 * [Linus Unnebäck](https://github.com/LinusU) -
   **Linus Unnebäck** <<linus@folkdatorn.se>>
-* [Blake Embrey](https://github.com/wesleytodd) -
+* [Blake Embrey](https://github.com/blakeembrey) -
   **Blake Embrey** <<>>
 * [Jean Burellier](https://github.com/sheplu) -
   **Jean Burellier** <<>>
