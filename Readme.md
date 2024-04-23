@@ -193,7 +193,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 ### Triagers
 
 * [Christine Belzie](https://github.com/CBID2) -
-  **Christine Belzie** <<>>
+  **Christine Belzie** <<shecoder30@gmail.com>>
 
 * [Ulises Gascon](https://github.com/UlisesGascon) -
   **Ulises Gascon** <<ulisesgascongonzalez@gmail.com>>
