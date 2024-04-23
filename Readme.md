@@ -10,13 +10,13 @@
 * [Features](#Features)
 * [Docs & Community](#Docs-&-Community)
 * [Quick Start](#Quick-Start)
+* [Running Tests](#Running-Tests)
 * [Philosophy](#Philosophy)
 * [Examples](#Examples)
 * [Contributing to Express](#Contributing)
-* [Running Tests](#Running-Tests)
-  * [TC (Technical Committee)](#Technical-Committee)
-  * [Collaborators](#collaborators)
-  * [Triagers](#triagers)
+* [TC (Technical Committee)](#Technical-Committee)
+* [Collaborators](#collaborators)
+* [Triagers](#triagers)
 * [License](#license)
 
 
