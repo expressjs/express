@@ -192,6 +192,9 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 ### Triagers
 
+* [Carlos Serrano](https://github.com/carpasse) -
+  **Carlos Serrano**
+
 * [Christine Belzie](https://github.com/CBID2) -
   **Christine Belzie**
 
