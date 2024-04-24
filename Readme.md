@@ -166,40 +166,40 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 [List of all contributors](https://github.com/expressjs/express/graphs/contributors)
 
-### Collaborators
-
-* [Jon Church](https://github.com/jonchurch) -
-  **Jon Church** <<me@jonchurch.com>>
-* [Wes Todd](https://github.com/wesleytodd) -
-  **Wes Todd** <<wes@wesleytodd.com>>
-
 ### Technical Committee
 
 * [Ulises Gascon](https://github.com/UlisesGascon) -
-  **Ulises Gascon** <<ulisesgascongonzalez@gmail.com>> (he/him)
+  **Ulises Gascon** (he/him)
 * [Jon Church](https://github.com/jonchurch) -
-  **Jon Church** <<me@jonchurch.com>>
+  **Jon Church**
 * [Wes Todd](https://github.com/wesleytodd) -
   **Wes Todd** <<wes@wesleytodd.com>>
 * [Linus Unnebäck](https://github.com/LinusU) -
-  **Linus Unnebäck** <<linus@folkdatorn.se>>
+  **Linus Unnebäck**
 * [Blake Embrey](https://github.com/blakeembrey) -
-  **Blake Embrey** <<>>
+  **Blake Embrey**
 * [Jean Burellier](https://github.com/sheplu) -
-  **Jean Burellier** <<>>
+  **Jean Burellier**
 * [Rand McKinney](https://github.com/crandmck) -
-  **Rand McKinney** <<>>
+  **Rand McKinney**
+
+### Collaborators
+
+* [Jon Church](https://github.com/jonchurch) -
+  **Jon Church**
+* [Wes Todd](https://github.com/wesleytodd) -
+  **Wes Todd**
 
 ### Triagers
 
 * [Christine Belzie](https://github.com/CBID2) -
-  **Christine Belzie** <<shecoder30@gmail.com>>
+  **Christine Belzie**
 
 * [Ulises Gascon](https://github.com/UlisesGascon) -
-  **Ulises Gascon** <<ulisesgascongonzalez@gmail.com>>
+  **Ulises Gascon**
 
 * [Mert Can Altin](https://github.com/mertcanaltin) -
-  **Mert Can Altin** <<mertgold60@gmail.com>>
+  **Mert Can Altin**
 
 ## License
 
@@ -217,4 +217,4 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [npm-install-size-url]: https://packagephobia.com/result?p=express
 [npm-url]: https://npmjs.org/package/express
 [npm-version-image]: https://badgen.net/npm/v/express
-[Code of Conduct]: https://github.com/mertcanaltin/express/blob/master/Code-Of-Conduct.md
+[Code of Conduct]: https://github.com/expressjs/express/blob/master/Code-Of-Conduct.md
