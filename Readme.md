@@ -187,37 +187,26 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 * [Aravind Nair](https://github.com/aravindvnair99) -
   **Aravind Nair**
-
 * [Carlos Serrano](https://github.com/carpasse) -
   **Carlos Serrano**
-
 * [Christine Belzie](https://github.com/CBID2) -
   **Christine Belzie**
-
 * [David Enyoghasim](https://github.com/enyoghasim) -
   **David Enyoghasim**
-
 * [Ulises Gascon](https://github.com/UlisesGascon) -
   **Ulises Gascon**
-
 * [Mert Can Altin](https://github.com/mertcanaltin) -
   **Mert Can Altin**
-
 * [Salah](https://github.com/0ss) -
   **Salah**
-
 * [Eric Cheng](https://github.com/import-brain) -
   **Eric Cheng** (he/him)
-
 * [Imed Jaberi](https://github.com/3imed-jaberi) -
   **Imed Jaberi**
-
 * [Daksh Khetan](https://github.com/dakshkhetan) -
   **Daksh Khetan** (he/him)
-
 * [Lucas Soares Do Rego](https://github.com/lucasraziel) -
   **Lucas Soares Do Rego**
-
 * [Sushmeet Sunger](https://github.com/Sushmeet) -
   **Sushmeet Sunger**
 
