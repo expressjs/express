@@ -201,6 +201,15 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 * [Mert Can Altin](https://github.com/mertcanaltin) -
   **Mert Can Altin**
 
+## Emeritus Team Members (Click to expand)
+<details>
+  <summary>Emeritus Team Members</summary>
+  * List out Emeriti here
+    * Name
+    * Contribution (optional)
+</details>
+
+
 ## License
 
   [MIT](LICENSE)
