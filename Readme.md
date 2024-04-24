@@ -15,7 +15,6 @@
 * [Examples](#Examples)
 * [Contributing to Express](#Contributing)
 * [TC (Technical Committee)](#Technical-Committee)
-* [Collaborators](#collaborators)
 * [Triagers](#triagers)
 * [License](#license)
 
@@ -182,13 +181,6 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
   **Jean Burellier**
 * [Rand McKinney](https://github.com/crandmck) -
   **Rand McKinney**
-
-### Collaborators
-
-* [Jon Church](https://github.com/jonchurch) -
-  **Jon Church**
-* [Wes Todd](https://github.com/wesleytodd) -
-  **Wes Todd**
 
 ### Triagers
 
