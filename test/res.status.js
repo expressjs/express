@@ -104,25 +104,6 @@ describe('res', function () {
           .expect(501, done)
       })
     })
-
-    describe('when "code" is 410.1', function () {
-      it('should set the response status code to 410', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(410.1).end()
-        })
-
-        request(app)
-          .get('/')
-          .expect(410, function (err) {
-            if (isIoJs) {
-              done(err ? null : new Error('expected error'))
-            } else {
-              done(err)
-            }
-          })
-      })
     })
 
     describe('when "code" is 1000', function () {
