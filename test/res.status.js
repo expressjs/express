@@ -104,7 +104,6 @@ describe('res', function () {
           .expect(501, done)
       })
     })
-    })
 
     describe('when "code" is 1000', function () {
       it('should raise error for invalid status code', function (done) {
