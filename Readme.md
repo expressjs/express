@@ -173,7 +173,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 * [Jon Church](https://github.com/jonchurch) -
   **Jon Church**
 * [Wes Todd](https://github.com/wesleytodd) -
-  **Wes Todd** <<wes@wesleytodd.com>>
+  **Wes Todd**
 * [Linus Unnebäck](https://github.com/LinusU) -
   **Linus Unnebäck**
 * [Blake Embrey](https://github.com/blakeembrey) -
