@@ -175,19 +175,19 @@ describe('res', function () {
 
         request(app)
         .get('/')
-        .expect(500, /TypeError: Invalid status code/, done)
+        .expect(500, /RangeError: Invalid status code/, done)
 
       })
 
-      it('should throw if status code is > 999', function(done) {
+      it('should throw if status code is > 599', function(done) {
         var app = express();
         app.use(function(req, res){
-          res.status(1000).end();
+          res.status(600).end();
         });
 
         request(app)
         .get('/')
-        .expect(500, /TypeError: Invalid status code/, done)
+        .expect(500, /RangeError: Invalid status code/, done)
 
       })
 
