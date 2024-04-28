@@ -1,3 +1,4 @@
+'use strict'
 
 var express = require('../')
   , request = require('supertest')
@@ -11,7 +12,7 @@ describe('req', function(){
       app.use(cookieParser('secret'));
 
       app.use(function(req, res){
-        if ('/set' == req.path) {
+        if (req.path === '/set') {
           res.cookie('obj', { foo: 'bar' }, { signed: true });
           res.end();
         } else {

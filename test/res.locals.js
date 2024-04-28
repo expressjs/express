@@ -1,3 +1,4 @@
+'use strict'
 
 var express = require('../')
   , request = require('supertest');
@@ -8,13 +9,12 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        Object.keys(res.locals).should.eql([]);
-        res.end();
+        res.json(res.locals)
       });
 
       request(app)
       .get('/')
-      .expect(200, done);
+      .expect(200, {}, done)
     })
   })
 
@@ -30,12 +30,11 @@ describe('res', function(){
     });
 
     app.use(function(req, res){
-      res.locals.foo.should.equal('bar');
-      res.end();
+      res.json(res.locals)
     });
 
     request(app)
     .get('/')
-    .expect(200, done);
+    .expect(200, { foo: 'bar' }, done)
   })
 })

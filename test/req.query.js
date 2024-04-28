@@ -1,4 +1,6 @@
+'use strict'
 
+var assert = require('assert')
 var express = require('../')
   , request = require('supertest');
 
@@ -12,12 +14,12 @@ describe('req', function(){
       .expect(200, '{}', done);
     });
 
-    it('should default to parse complex keys', function (done) {
+    it('should default to parse simple keys', function (done) {
       var app = createApp();
 
       request(app)
       .get('/?user[name]=tj')
-      .expect(200, '{"user":{"name":"tj"}}', done);
+      .expect(200, '{"user[name]":"tj"}', done);
     });
 
     describe('when "query parser" is extended', function () {
@@ -25,8 +27,8 @@ describe('req', function(){
         var app = createApp('extended');
 
         request(app)
-        .get('/?user[name]=tj')
-        .expect(200, '{"user":{"name":"tj"}}', done);
+        .get('/?foo[0][bar]=baz&foo[0][fizz]=buzz&foo[]=done!')
+        .expect(200, '{"foo":[{"bar":"baz","fizz":"buzz"},"done!"]}', done);
       });
 
       it('should parse parameters with dots', function (done) {
@@ -70,7 +72,7 @@ describe('req', function(){
       });
     });
 
-    describe('when "query parser" disabled', function () {
+    describe('when "query parser" enabled', function () {
       it('should not parse complex keys', function (done) {
         var app = createApp(true);
 
@@ -82,7 +84,8 @@ describe('req', function(){
 
     describe('when "query parser" an unknown value', function () {
       it('should throw', function () {
-        createApp.bind(null, 'bogus').should.throw(/unknown value.*query parser/);
+        assert.throws(createApp.bind(null, 'bogus'),
+          /unknown value.*query parser/)
       });
     });
   })

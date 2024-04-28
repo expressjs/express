@@ -184,3 +184,9 @@ $ npm publish
 
 **NOTE:** The version number to publish will be picked up automatically from
           package.json.
+          
+### Step 7. Update documentation website
+
+The documentation website https://expressjs.com/ documents the current release version in various places.  For a new release:
+1. Change the value of `current_version` in https://github.com/expressjs/expressjs.com/blob/gh-pages/_data/express.yml to match the latest version number.
+2. Add a new section to the change log.  For example, for a 4.x release, https://github.com/expressjs/expressjs.com/blob/gh-pages/en/changelog/4x.md,

@@ -1,3 +1,4 @@
+'use strict'
 
 var express = require('../')
   , request = require('supertest');
@@ -13,7 +14,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('Content-Type', 'application/javascript', done);
+      .expect('Content-Type', 'application/javascript; charset=utf-8')
+      .end(done)
     })
 
     it('should default to application/octet-stream', function(done){

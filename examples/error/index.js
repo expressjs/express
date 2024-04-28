@@ -1,3 +1,5 @@
+'use strict'
+
 /**
  * Module dependencies.
  */
@@ -5,7 +7,7 @@
 var express = require('../../');
 var logger = require('morgan');
 var app = module.exports = express();
-var test = app.get('env') == 'test';
+var test = app.get('env') === 'test'
 
 if (!test) app.use(logger('dev'));
 
@@ -24,7 +26,7 @@ function error(err, req, res, next) {
   res.send('Internal Server Error');
 }
 
-app.get('/', function(req, res){
+app.get('/', function () {
   // Caught and passed down to the errorHandler middleware
   throw new Error('something broke!');
 });

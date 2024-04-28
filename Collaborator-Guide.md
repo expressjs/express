@@ -1,3 +1,4 @@
+# Express Collaborator Guide
 
 ## Website Issues
 
@@ -21,7 +22,7 @@ a future release of Express.
 
 1. [Create an issue](https://github.com/expressjs/express/issues/new) for the
    bug you want to fix or the feature that you want to add.
-2. Create your own [fork](https://github.com/expressjs/express) on github, then
+2. Create your own [fork](https://github.com/expressjs/express) on GitHub, then
    checkout your fork.
 3. Write your code in your local copy. It's good practice to create a branch for
    each new issue you work on, although not compulsory.

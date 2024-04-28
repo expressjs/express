@@ -1,3 +1,5 @@
+'use strict'
+
 /**
  * Module dependencies.
  */
@@ -15,7 +17,7 @@ var app = express();
 
 // Dummy users
 var users = [
-    { id: 0, name: 'tj', email: 'tj@vision-media.ca', role: 'member' }
+  { id: 0, name: 'tj', email: 'tj@vision-media.ca', role: 'member' }
   , { id: 1, name: 'ciaran', email: 'ciaranj@gmail.com', role: 'member' }
   , { id: 2, name: 'aaron', email: 'aaron.heckmann+github@gmail.com', role: 'admin' }
 ];
@@ -34,7 +36,7 @@ function loadUser(req, res, next) {
 function andRestrictToSelf(req, res, next) {
   // If our authenticated user is the user we are viewing
   // then everything is fine :)
-  if (req.authenticatedUser.id == req.user.id) {
+  if (req.authenticatedUser.id === req.user.id) {
     next();
   } else {
     // You may want to implement specific exceptions
@@ -47,7 +49,7 @@ function andRestrictToSelf(req, res, next) {
 
 function andRestrictTo(role) {
   return function(req, res, next) {
-    if (req.authenticatedUser.role == role) {
+    if (req.authenticatedUser.role === role) {
       next();
     } else {
       next(new Error('Unauthorized'));

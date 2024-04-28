@@ -1,6 +1,7 @@
+'use strict'
 
 var after = require('after');
-var assert = require('assert');
+var assert = require('assert')
 var express = require('..');
 var request = require('supertest');
 
@@ -10,7 +11,7 @@ describe('app', function(){
       , app = express();
 
     blog.on('mount', function(arg){
-      arg.should.equal(app);
+      assert.strictEqual(arg, app)
       done();
     });
 
@@ -37,6 +38,7 @@ describe('app', function(){
       var blog = express()
         , forum = express()
         , app = express();
+      var cb = after(2, done)
 
       blog.get('/', function(req, res){
         res.end('blog');
@@ -50,12 +52,12 @@ describe('app', function(){
       app.use('/forum', forum);
 
       request(app)
-      .get('/blog')
-      .expect('blog', function(){
-        request(app)
+        .get('/blog')
+        .expect(200, 'blog', cb)
+
+      request(app)
         .get('/forum')
-        .expect('forum', done);
-      });
+        .expect(200, 'forum', cb)
     })
 
     it('should set the child\'s .parent', function(){
@@ -63,7 +65,7 @@ describe('app', function(){
         , app = express();
 
       app.use('/blog', blog);
-      blog.parent.should.equal(app);
+      assert.strictEqual(blog.parent, app)
     })
 
     it('should support dynamic routes', function(done){
@@ -102,11 +104,11 @@ describe('app', function(){
       });
 
       blog.once('mount', function (parent) {
-        parent.should.equal(app);
+        assert.strictEqual(parent, app)
         cb();
       });
       other.once('mount', function (parent) {
-        parent.should.equal(app);
+        assert.strictEqual(parent, app)
         cb();
       });
 
@@ -254,17 +256,29 @@ describe('app', function(){
   })
 
   describe('.use(path, middleware)', function(){
-    it('should reject missing functions', function () {
-      var app = express();
-      assert.throws(app.use.bind(app, '/'), /requires middleware function/);
+    it('should require middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/') }, 'TypeError: app.use() requires a middleware function')
     })
 
-    it('should reject non-functions as middleware', function () {
-      var app = express();
-      assert.throws(app.use.bind(app, '/', 'hi'), /argument handler must be a function/);
-      assert.throws(app.use.bind(app, '/', 5), /argument handler must be a function/);
-      assert.throws(app.use.bind(app, '/', null), /argument handler must be a function/);
-      assert.throws(app.use.bind(app, '/', new Date()), /argument handler must be a function/);
+    it('should reject string as middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/', 'foo') }, /argument handler must be a function/)
+    })
+
+    it('should reject number as middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/', 42) }, /argument handler must be a function/)
+    })
+
+    it('should reject null as middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/', null) }, /argument handler must be a function/)
+    })
+
+    it('should reject Date as middleware', function () {
+      var app = express()
+      assert.throws(function () { app.use('/', new Date()) }, /argument handler must be a function/)
     })
 
     it('should strip path from req.url', function (done) {

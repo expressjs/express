@@ -1,7 +1,7 @@
+'use strict'
 
 var express = require('../')
   , request = require('supertest')
-  , cookie = require('cookie')
   , cookieParser = require('cookie-parser')
 var merge = require('utils-merge');
 
@@ -46,12 +46,9 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .end(function(err, res){
-        var val = ['name=tobi; Path=/', 'age=1; Path=/', 'gender=%3F; Path=/'];
-        res.headers['set-cookie'].should.eql(val);
-        done();
-      })
+        .get('/')
+        .expect('Set-Cookie', 'name=tobi; Path=/,age=1; Path=/,gender=%3F; Path=/')
+        .expect(200, done)
     })
   })
 
@@ -70,6 +67,37 @@ describe('res', function(){
       .expect(200, done)
     })
 
+    describe('expires', function () {
+      it('should throw on invalid date', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { expires: new Date(NaN) })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(500, /option expires is invalid/, done)
+      })
+    })
+
+    describe('partitioned', function () {
+      it('should set partitioned', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { partitioned: true });
+          res.end();
+        });
+
+        request(app)
+          .get('/')
+          .expect('Set-Cookie', 'name=tobi; Path=/; Partitioned')
+          .expect(200, done)
+      })
+    })
+
     describe('maxAge', function(){
       it('should set relative expires', function(done){
         var app = express();
@@ -80,11 +108,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .end(function(err, res){
-          res.headers['set-cookie'][0].should.not.containEql('Thu, 01 Jan 1970 00:00:01 GMT');
-          done();
-        })
+          .get('/')
+          .expect('Set-Cookie', /name=tobi; Max-Age=1; Path=\/; Expires=/)
+          .expect(200, done)
       })
 
       it('should set max-age', function(done){
@@ -108,15 +134,112 @@ describe('res', function(){
 
         app.use(function(req, res){
           res.cookie('name', 'tobi', options)
-          res.end();
+          res.json(options)
         });
 
         request(app)
         .get('/')
-        .end(function(err, res){
-          options.should.eql(optionsCopy);
-          done();
+        .expect(200, optionsCopy, done)
+      })
+
+      it('should not throw on null', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { maxAge: null })
+          res.end()
         })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Set-Cookie', 'name=tobi; Path=/')
+          .end(done)
+      })
+
+      it('should not throw on undefined', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { maxAge: undefined })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Set-Cookie', 'name=tobi; Path=/')
+          .end(done)
+      })
+
+      it('should throw an error with invalid maxAge', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { maxAge: 'foobar' })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(500, /option maxAge is invalid/, done)
+      })
+    })
+
+    describe('priority', function () {
+      it('should set low priority', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { priority: 'low' })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect('Set-Cookie', /Priority=Low/)
+          .expect(200, done)
+      })
+
+      it('should set medium priority', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { priority: 'medium' })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect('Set-Cookie', /Priority=Medium/)
+          .expect(200, done)
+      })
+
+      it('should set high priority', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { priority: 'high' })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect('Set-Cookie', /Priority=High/)
+          .expect(200, done)
+      })
+
+      it('should throw with invalid priority', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { priority: 'foobar' })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(500, /option priority is invalid/, done)
       })
     })
 
@@ -131,13 +254,9 @@ describe('res', function(){
         });
 
         request(app)
-        .get('/')
-        .end(function(err, res){
-          var val = res.headers['set-cookie'][0];
-          val = cookie.parse(val.split('.')[0]);
-          val.user.should.equal('s:j:{"name":"tobi"}');
-          done();
-        })
+          .get('/')
+          .expect('Set-Cookie', 'user=s%3Aj%3A%7B%22name%22%3A%22tobi%22%7D.K20xcwmDS%2BPb1rsD95o5Jm5SqWs1KteqdnynnB7jkTE; Path=/')
+          .expect(200, done)
       })
     })
 

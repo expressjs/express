@@ -1,3 +1,4 @@
+'use strict'
 
 var express = require('..');
 var request = require('supertest');
@@ -69,9 +70,11 @@ describe('res', function(){
       });
 
       request(app)
-      .head('/')
-      .expect('Location', 'http://google.com')
-      .expect(302, '', done)
+        .head('/')
+        .expect(302)
+        .expect('Location', 'http://google.com')
+        .expect(utils.shouldNotHaveBody())
+        .end(done)
     })
   })
 
@@ -180,12 +183,14 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .set('Accept', 'application/octet-stream')
-      .expect('location', 'http://google.com')
-      .expect('content-length', '0')
-      .expect(utils.shouldNotHaveHeader('Content-Type'))
-      .expect(302, '', done)
+        .get('/')
+        .set('Accept', 'application/octet-stream')
+        .expect(302)
+        .expect('location', 'http://google.com')
+        .expect('content-length', '0')
+        .expect(utils.shouldNotHaveHeader('Content-Type'))
+        .expect(utils.shouldNotHaveBody())
+        .end(done)
     })
   })
 })

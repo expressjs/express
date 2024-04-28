@@ -1,9 +1,9 @@
-<% include ../header %>
+<%- include('../header') -%>
 
 <h1>Editing <%= user.name %></h1>
 
 <div id="user">
-  <form action="?_method=put", method="post">
+  <form action="?_method=put" method="post">
     <p>
       Name:
       <input type="text" value="<%= user.name %>" name="user[name]" />
@@ -20,4 +20,4 @@
   </form>
 </div>
 
-<% include ../footer %>
+<%- include('../footer') -%>

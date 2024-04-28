@@ -1,3 +1,82 @@
+5.0.0-beta.3 / 2024-03-25
+=========================
+
+This incorporates all changes after 4.19.1 up to 4.19.2.
+
+5.0.0-beta.2 / 2024-03-20
+=========================
+
+This incorporates all changes after 4.17.2 up to 4.19.1.
+
+5.0.0-beta.1 / 2022-02-14
+=========================
+
+This is the first Express 5.0 beta release, based off 4.17.2 and includes
+changes from 5.0.0-alpha.8.
+
+  * change:
+    - Default "query parser" setting to `'simple'`
+    - Requires Node.js 4+
+    - Use `mime-types` for file to content type mapping
+  * deps: array-flatten@3.0.0
+  * deps: body-parser@2.0.0-beta.1
+    - `req.body` is no longer always initialized to `{}`
+    - `urlencoded` parser now defaults `extended` to `false`
+    - Use `on-finished` to determine when body read
+  * deps: router@2.0.0-beta.1
+    - Add new `?`, `*`, and `+` parameter modifiers
+    - Internalize private `router.process_params` method
+    - Matching group expressions are only RegExp syntax
+    - Named matching groups no longer available by position in `req.params`
+    - Regular expressions can only be used in a matching group
+    - Remove `debug` dependency
+    - Special `*` path segment behavior removed
+    - deps: array-flatten@3.0.0
+    - deps: parseurl@~1.3.3
+    - deps: path-to-regexp@3.2.0
+    - deps: setprototypeof@1.2.0
+  * deps: send@1.0.0-beta.1
+    - Change `dotfiles` option default to `'ignore'`
+    - Remove `hidden` option; use `dotfiles` option instead
+    - Use `mime-types` for file to content type mapping
+    - deps: debug@3.1.0
+  * deps: serve-static@2.0.0-beta.1
+    - Change `dotfiles` option default to `'ignore'`
+    - Remove `hidden` option; use `dotfiles` option instead
+    - Use `mime-types` for file to content type mapping
+    - deps: send@1.0.0-beta.1
+
+5.0.0-alpha.8 / 2020-03-25
+==========================
+
+This is the eighth Express 5.0 alpha release, based off 4.17.1 and includes
+changes from 5.0.0-alpha.7.
+
+5.0.0-alpha.7 / 2018-10-26
+==========================
+
+This is the seventh Express 5.0 alpha release, based off 4.16.4 and includes
+changes from 5.0.0-alpha.6.
+
+The major change with this alpha is the basic support for returned, rejected
+Promises in the router.
+
+  * remove:
+    - `path-to-regexp` dependency
+  * deps: debug@3.1.0
+    - Add `DEBUG_HIDE_DATE` environment variable
+    - Change timer to per-namespace instead of global
+    - Change non-TTY date format
+    - Remove `DEBUG_FD` environment variable support
+    - Support 256 namespace colors
+  * deps: router@2.0.0-alpha.1
+    - Add basic support for returned, rejected Promises
+    - Fix JSDoc for `Router` constructor
+    - deps: debug@3.1.0
+    - deps: parseurl@~1.3.2
+    - deps: setprototypeof@1.1.0
+    - deps: utils-merge@1.0.1
+
 5.0.0-alpha.6 / 2017-09-24
 ==========================
 
@@ -87,6 +166,310 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.19.2 / 2024-03-25
+==========
+
+  * Improved fix for open redirect allow list bypass
+
+4.19.1 / 2024-03-20
+==========
+
+  * Allow passing non-strings to res.location with new encoding handling checks
+
+4.19.0 / 2024-03-20
+==========
+
+  * Prevent open redirect allow list bypass due to encodeurl
+  * deps: cookie@0.6.0
+
+4.18.3 / 2024-02-29
+==========
+
+  * Fix routing requests without method
+  * deps: body-parser@1.20.2
+    - Fix strict json error message on Node.js 19+
+    - deps: content-type@~1.0.5
+    - deps: raw-body@2.5.2
+  * deps: cookie@0.6.0
+    - Add `partitioned` option
+
+4.18.2 / 2022-10-08
+===================
+
+  * Fix regression routing a large stack in a single route
+  * deps: body-parser@1.20.1
+    - deps: qs@6.11.0
+    - perf: remove unnecessary object clone
+  * deps: qs@6.11.0
+
+4.18.1 / 2022-04-29
+===================
+
+  * Fix hanging on large stack of sync routes
+
+4.18.0 / 2022-04-25
+===================
+
+  * Add "root" option to `res.download`
+  * Allow `options` without `filename` in `res.download`
+  * Deprecate string and non-integer arguments to `res.status`
+  * Fix behavior of `null`/`undefined` as `maxAge` in `res.cookie`
+  * Fix handling very large stacks of sync middleware
+  * Ignore `Object.prototype` values in settings through `app.set`/`app.get`
+  * Invoke `default` with same arguments as types in `res.format`
+  * Support proper 205 responses using `res.send`
+  * Use `http-errors` for `res.format` error
+  * deps: body-parser@1.20.0
+    - Fix error message for json parse whitespace in `strict`
+    - Fix internal error when inflated body exceeds limit
+    - Prevent loss of async hooks context
+    - Prevent hanging when request already read
+    - deps: depd@2.0.0
+    - deps: http-errors@2.0.0
+    - deps: on-finished@2.4.1
+    - deps: qs@6.10.3
+    - deps: raw-body@2.5.1
+  * deps: cookie@0.5.0
+    - Add `priority` option
+    - Fix `expires` option to reject invalid dates
+  * deps: depd@2.0.0
+    - Replace internal `eval` usage with `Function` constructor
+    - Use instance methods on `process` to check for listeners
+  * deps: finalhandler@1.2.0
+    - Remove set content headers that break response
+    - deps: on-finished@2.4.1
+    - deps: statuses@2.0.1
+  * deps: on-finished@2.4.1
+    - Prevent loss of async hooks context
+  * deps: qs@6.10.3
+  * deps: send@0.18.0
+    - Fix emitted 416 error missing headers property
+    - Limit the headers removed for 304 response
+    - deps: depd@2.0.0
+    - deps: destroy@1.2.0
+    - deps: http-errors@2.0.0
+    - deps: on-finished@2.4.1
+    - deps: statuses@2.0.1
+  * deps: serve-static@1.15.0
+    - deps: send@0.18.0
+  * deps: statuses@2.0.1
+    - Remove code 306
+    - Rename `425 Unordered Collection` to standard `425 Too Early`
+
+4.17.3 / 2022-02-16
+===================
+
+  * deps: accepts@~1.3.8
+    - deps: mime-types@~2.1.34
+    - deps: negotiator@0.6.3
+  * deps: body-parser@1.19.2
+    - deps: bytes@3.1.2
+    - deps: qs@6.9.7
+    - deps: raw-body@2.4.3
+  * deps: cookie@0.4.2
+  * deps: qs@6.9.7
+    * Fix handling of `__proto__` keys
+  * pref: remove unnecessary regexp for trust proxy
+
+4.17.2 / 2021-12-16
+===================
+
+  * Fix handling of `undefined` in `res.jsonp`
+  * Fix handling of `undefined` when `"json escape"` is enabled
+  * Fix incorrect middleware execution with unanchored `RegExp`s
+  * Fix `res.jsonp(obj, status)` deprecation message
+  * Fix typo in `res.is` JSDoc
+  * deps: body-parser@1.19.1
+    - deps: bytes@3.1.1
+    - deps: http-errors@1.8.1
+    - deps: qs@6.9.6
+    - deps: raw-body@2.4.2
+    - deps: safe-buffer@5.2.1
+    - deps: type-is@~1.6.18
+  * deps: content-disposition@0.5.4
+    - deps: safe-buffer@5.2.1
+  * deps: cookie@0.4.1
+    - Fix `maxAge` option to reject invalid values
+  * deps: proxy-addr@~2.0.7
+    - Use `req.socket` over deprecated `req.connection`
+    - deps: forwarded@0.2.0
+    - deps: ipaddr.js@1.9.1
+  * deps: qs@6.9.6
+  * deps: safe-buffer@5.2.1
+  * deps: send@0.17.2
+    - deps: http-errors@1.8.1
+    - deps: ms@2.1.3
+    - pref: ignore empty http tokens
+  * deps: serve-static@1.14.2
+    - deps: send@0.17.2
+  * deps: setprototypeof@1.2.0
+
+4.17.1 / 2019-05-25
+===================
+
+  * Revert "Improve error message for `null`/`undefined` to `res.status`"
+
+4.17.0 / 2019-05-16
+===================
+
+  * Add `express.raw` to parse bodies into `Buffer`
+  * Add `express.text` to parse bodies into string
+  * Improve error message for non-strings to `res.sendFile`
+  * Improve error message for `null`/`undefined` to `res.status`
+  * Support multiple hosts in `X-Forwarded-Host`
+  * deps: accepts@~1.3.7
+  * deps: body-parser@1.19.0
+    - Add encoding MIK
+    - Add petabyte (`pb`) support
+    - Fix parsing array brackets after index
+    - deps: bytes@3.1.0
+    - deps: http-errors@1.7.2
+    - deps: iconv-lite@0.4.24
+    - deps: qs@6.7.0
+    - deps: raw-body@2.4.0
+    - deps: type-is@~1.6.17
+  * deps: content-disposition@0.5.3
+  * deps: cookie@0.4.0
+    - Add `SameSite=None` support
+  * deps: finalhandler@~1.1.2
+    - Set stricter `Content-Security-Policy` header
+    - deps: parseurl@~1.3.3
+    - deps: statuses@~1.5.0
+  * deps: parseurl@~1.3.3
+  * deps: proxy-addr@~2.0.5
+    - deps: ipaddr.js@1.9.0
+  * deps: qs@6.7.0
+    - Fix parsing array brackets after index
+  * deps: range-parser@~1.2.1
+  * deps: send@0.17.1
+    - Set stricter CSP header in redirect & error responses
+    - deps: http-errors@~1.7.2
+    - deps: mime@1.6.0
+    - deps: ms@2.1.1
+    - deps: range-parser@~1.2.1
+    - deps: statuses@~1.5.0
+    - perf: remove redundant `path.normalize` call
+  * deps: serve-static@1.14.1
+    - Set stricter CSP header in redirect response
+    - deps: parseurl@~1.3.3
+    - deps: send@0.17.1
+  * deps: setprototypeof@1.1.1
+  * deps: statuses@~1.5.0
+    - Add `103 Early Hints`
+  * deps: type-is@~1.6.18
+    - deps: mime-types@~2.1.24
+    - perf: prevent internal `throw` on invalid type
+
+4.16.4 / 2018-10-10
+===================
+
+  * Fix issue where `"Request aborted"` may be logged in `res.sendfile`
+  * Fix JSDoc for `Router` constructor
+  * deps: body-parser@1.18.3
+    - Fix deprecation warnings on Node.js 10+
+    - Fix stack trace for strict json parse error
+    - deps: depd@~1.1.2
+    - deps: http-errors@~1.6.3
+    - deps: iconv-lite@0.4.23
+    - deps: qs@6.5.2
+    - deps: raw-body@2.3.3
+    - deps: type-is@~1.6.16
+  * deps: proxy-addr@~2.0.4
+    - deps: ipaddr.js@1.8.0
+  * deps: qs@6.5.2
+  * deps: safe-buffer@5.1.2
+
+4.16.3 / 2018-03-12
+===================
+
+  * deps: accepts@~1.3.5
+    - deps: mime-types@~2.1.18
+  * deps: depd@~1.1.2
+    - perf: remove argument reassignment
+  * deps: encodeurl@~1.0.2
+    - Fix encoding `%` as last character
+  * deps: finalhandler@1.1.1
+    - Fix 404 output for bad / missing pathnames
+    - deps: encodeurl@~1.0.2
+    - deps: statuses@~1.4.0
+  * deps: proxy-addr@~2.0.3
+    - deps: ipaddr.js@1.6.0
+  * deps: send@0.16.2
+    - Fix incorrect end tag in default error & redirects
+    - deps: depd@~1.1.2
+    - deps: encodeurl@~1.0.2
+    - deps: statuses@~1.4.0
+  * deps: serve-static@1.13.2
+    - Fix incorrect end tag in redirects
+    - deps: encodeurl@~1.0.2
+    - deps: send@0.16.2
+  * deps: statuses@~1.4.0
+  * deps: type-is@~1.6.16
+    - deps: mime-types@~2.1.18
+
+4.16.2 / 2017-10-09
+===================
+
+  * Fix `TypeError` in `res.send` when given `Buffer` and `ETag` header set
+  * perf: skip parsing of entire `X-Forwarded-Proto` header
+
+4.16.1 / 2017-09-29
+===================
+
+  * deps: send@0.16.1
+  * deps: serve-static@1.13.1
+    - Fix regression when `root` is incorrectly set to a file
+    - deps: send@0.16.1
+
+4.16.0 / 2017-09-28
+===================
+
+  * Add `"json escape"` setting for `res.json` and `res.jsonp`
+  * Add `express.json` and `express.urlencoded` to parse bodies
+  * Add `options` argument to `res.download`
+  * Improve error message when autoloading invalid view engine
+  * Improve error messages when non-function provided as middleware
+  * Skip `Buffer` encoding when not generating ETag for small response
+  * Use `safe-buffer` for improved Buffer API
+  * deps: accepts@~1.3.4
+    - deps: mime-types@~2.1.16
+  * deps: content-type@~1.0.4
+    - perf: remove argument reassignment
+    - perf: skip parameter parsing when no parameters
+  * deps: etag@~1.8.1
+    - perf: replace regular expression with substring
+  * deps: finalhandler@1.1.0
+    - Use `res.headersSent` when available
+  * deps: parseurl@~1.3.2
+    - perf: reduce overhead for full URLs
+    - perf: unroll the "fast-path" `RegExp`
+  * deps: proxy-addr@~2.0.2
+    - Fix trimming leading / trailing OWS in `X-Forwarded-For`
+    - deps: forwarded@~0.1.2
+    - deps: ipaddr.js@1.5.2
+    - perf: reduce overhead when no `X-Forwarded-For` header
+  * deps: qs@6.5.1
+    - Fix parsing & compacting very deep objects
+  * deps: send@0.16.0
+    - Add 70 new types for file extensions
+    - Add `immutable` option
+    - Fix missing `</html>` in default error & redirects
+    - Set charset as "UTF-8" for .js and .json
+    - Use instance methods on steam to check for listeners
+    - deps: mime@1.4.1
+    - perf: improve path validation speed
+  * deps: serve-static@1.13.0
+    - Add 70 new types for file extensions
+    - Add `immutable` option
+    - Set charset as "UTF-8" for .js and .json
+    - deps: send@0.16.0
+  * deps: setprototypeof@1.1.0
+  * deps: utils-merge@1.0.1
+  * deps: vary@~1.1.2
+    - perf: improve header token parsing speed
+  * perf: re-use options object when generating ETags
+  * perf: remove dead `.charset` set in `res.jsonp`
 
 4.15.5 / 2017-09-24
 ===================
@@ -274,7 +657,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - Fix including type extensions in parameters in `Accept` parsing
     - Fix parsing `Accept` parameters with quoted equals
     - Fix parsing `Accept` parameters with quoted semicolons
-    - Many performance improvments
+    - Many performance improvements
     - deps: mime-types@~2.1.11
     - deps: negotiator@0.6.1
   * deps: content-type@~1.0.2
@@ -289,7 +672,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - perf: enable strict mode
     - perf: hoist regular expression
     - perf: use for loop in parse
-    - perf: use string concatination for serialization
+    - perf: use string concatenation for serialization
   * deps: finalhandler@0.5.0
     - Change invalid or non-numeric status code to 500
     - Overwrite status message to match set status code
@@ -299,7 +682,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * deps: proxy-addr@~1.1.2
     - Fix accepting various invalid netmasks
     - Fix IPv6-mapped IPv4 validation edge cases
-    - IPv4 netmasks must be contingous
+    - IPv4 netmasks must be contiguous
     - IPv6 addresses cannot be used as a netmask
     - deps: ipaddr.js@1.1.1
   * deps: qs@6.2.0
@@ -1077,13 +1460,13 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
    - deps: negotiator@0.4.6
  * deps: debug@1.0.2
  * deps: send@0.4.3
-   - Do not throw un-catchable error on file open race condition
+   - Do not throw uncatchable error on file open race condition
    - Use `escape-html` for HTML escaping
    - deps: debug@1.0.2
    - deps: finished@1.2.2
    - deps: fresh@0.2.2
  * deps: serve-static@1.2.3
-   - Do not throw un-catchable error on file open race condition
+   - Do not throw uncatchable error on file open race condition
    - deps: send@0.4.3
 
 4.4.2 / 2014-06-09
@@ -1924,7 +2307,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
  * deps: connect@2.21.0
    - deprecate `connect(middleware)` -- use `app.use(middleware)` instead
    - deprecate `connect.createServer()` -- use `connect()` instead
-   - fix `res.setHeader()` patch to work with with get -> append -> set pattern
+   - fix `res.setHeader()` patch to work with get -> append -> set pattern
    - deps: compression@~1.0.8
    - deps: errorhandler@~1.1.1
    - deps: express-session@~1.5.0
@@ -1963,7 +2346,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
    - deps: serve-static@1.2.3
  * deps: debug@1.0.2
  * deps: send@0.4.3
-   - Do not throw un-catchable error on file open race condition
+   - Do not throw uncatchable error on file open race condition
    - Use `escape-html` for HTML escaping
    - deps: debug@1.0.2
    - deps: finished@1.2.2
@@ -3135,8 +3518,8 @@ Shaw]
   * Added node v0.1.97 compatibility
   * Added support for deleting cookies via Request#cookie('key', null)
   * Updated haml submodule
-  * Fixed not-found page, now using using charset utf-8
-  * Fixed show-exceptions page, now using using charset utf-8
+  * Fixed not-found page, now using charset utf-8
+  * Fixed show-exceptions page, now using charset utf-8
   * Fixed view support due to fs.readFile Buffers
   * Changed; mime.type() no longer accepts ".type" due to node extname() changes
 
@@ -3148,7 +3531,7 @@ Shaw]
   * Updated haml submodule
   * Changed ETag; removed inode, modified time only
   * Fixed LF to CRLF for setting multiple cookies
-  * Fixed cookie complation; values are now urlencoded
+  * Fixed cookie compilation; values are now urlencoded
   * Fixed cookies parsing; accepts quoted values and url escaped cookies
 
 0.11.0 / 2010-05-06
@@ -3171,7 +3554,7 @@ Shaw]
 ==================
 
   * Added charset support via Request#charset (automatically assigned to 'UTF-8' when respond()'s
-    encoding is set to 'utf8' or 'utf-8'.
+    encoding is set to 'utf8' or 'utf-8').
   * Added "encoding" option to Request#render(). Closes #299
   * Added "dump exceptions" setting, which is enabled by default.
   * Added simple ejs template engine support
@@ -3210,7 +3593,7 @@ Shaw]
   * Added [haml.js](http://github.com/visionmedia/haml.js) submodule; removed haml-js
   * Added callback function support to Request#halt() as 3rd/4th arg
   * Added preprocessing of route param wildcards using param(). Closes #251
-  * Added view partial support (with collections etc)
+  * Added view partial support (with collections etc.)
   * Fixed bug preventing falsey params (such as ?page=0). Closes #286
   * Fixed setting of multiple cookies. Closes #199
   * Changed; view naming convention is now NAME.TYPE.ENGINE (for example page.html.haml)
@@ -3343,7 +3726,7 @@ Shaw]
 
   * Added "plot" format option for Profiler (for gnuplot processing)
   * Added request number to Profiler plugin
-  * Fixed binary encoding for multi-part file uploads, was previously defaulting to UTF8
+  * Fixed binary encoding for multipart file uploads, was previously defaulting to UTF8
   * Fixed issue with routes not firing when not files are present. Closes #184
   * Fixed process.Promise -> events.Promise
 
@@ -3389,7 +3772,7 @@ Shaw]
   * Updated sample chat app to show messages on load
   * Updated libxmljs parseString -> parseHtmlString
   * Fixed `make init` to work with older versions of git
-  * Fixed specs can now run independent specs for those who cant build deps. Closes #127
+  * Fixed specs can now run independent specs for those who can't build deps. Closes #127
   * Fixed issues introduced by the node url module changes. Closes 126.
   * Fixed two assertions failing due to Collection#keys() returning strings
   * Fixed faulty Collection#toArray() spec due to keys() returning strings

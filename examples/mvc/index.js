@@ -1,3 +1,5 @@
+'use strict'
+
 /**
  * Module dependencies.
  */
@@ -6,7 +8,6 @@ var express = require('../..');
 var logger = require('morgan');
 var path = require('path');
 var session = require('express-session');
-var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 
 var app = module.exports = express();
@@ -43,7 +44,7 @@ app.use(session({
 }));
 
 // parse request bodies (req.body)
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }))
 
 // allow overriding methods in query (?_method=put)
 app.use(methodOverride('_method'));

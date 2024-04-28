@@ -1,27 +1,57 @@
+'use strict'
 
+var assert = require('assert')
 var express = require('../');
 var request = require('supertest');
 
 describe('exports', function(){
   it('should expose Router', function(){
-    express.Router.should.be.a.Function()
+    assert.strictEqual(typeof express.Router, 'function')
+  })
+
+  it('should expose json middleware', function () {
+    assert.equal(typeof express.json, 'function')
+    assert.equal(express.json.length, 1)
+  })
+
+  it('should expose raw middleware', function () {
+    assert.equal(typeof express.raw, 'function')
+    assert.equal(express.raw.length, 1)
+  })
+
+  it('should expose static middleware', function () {
+    assert.equal(typeof express.static, 'function')
+    assert.equal(express.static.length, 2)
+  })
+
+  it('should expose text middleware', function () {
+    assert.equal(typeof express.text, 'function')
+    assert.equal(express.text.length, 1)
+  })
+
+  it('should expose urlencoded middleware', function () {
+    assert.equal(typeof express.urlencoded, 'function')
+    assert.equal(express.urlencoded.length, 1)
   })
 
   it('should expose the application prototype', function(){
-    express.application.set.should.be.a.Function()
+    assert.strictEqual(typeof express.application, 'object')
+    assert.strictEqual(typeof express.application.set, 'function')
   })
 
   it('should expose the request prototype', function(){
-    express.request.accepts.should.be.a.Function()
+    assert.strictEqual(typeof express.request, 'object')
+    assert.strictEqual(typeof express.request.accepts, 'function')
   })
 
   it('should expose the response prototype', function(){
-    express.response.send.should.be.a.Function()
+    assert.strictEqual(typeof express.response, 'object')
+    assert.strictEqual(typeof express.response.send, 'function')
   })
 
   it('should permit modifying the .application prototype', function(){
     express.application.foo = function(){ return 'bar'; };
-    express().foo().should.equal('bar');
+    assert.strictEqual(express().foo(), 'bar')
   })
 
   it('should permit modifying the .request prototype', function(done){

@@ -16,6 +16,10 @@ contributions.
 
 Report security bugs by emailing the lead maintainer in the Readme.md file.
 
+To ensure the timely response to your report, please ensure that the entirety
+of the report is contained within the email body and not solely behind a web
+link or an attachment.
+
 The lead maintainer will acknowledge your email within 48 hours, and will send a
 more detailed response within 48 hours indicating the next steps in handling
 your report. After the initial reply to your report, the security team will
@@ -23,8 +27,7 @@ endeavor to keep you informed of the progress towards a fix and full
 announcement, and may ask for additional information or guidance.
 
 Report security bugs in third-party modules to the person or team maintaining
-the module. You can also report a vulnerability through the
-[Node Security Project](https://nodesecurity.io/report).
+the module.
 
 ## Disclosure Policy
 

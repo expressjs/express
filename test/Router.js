@@ -1,3 +1,4 @@
+'use strict'
 
 var after = require('after');
 var express = require('../')
@@ -7,15 +8,12 @@ var express = require('../')
 
 describe('Router', function(){
   it('should return a function with router methods', function() {
-    var router = Router();
-    assert(typeof router == 'function');
-
     var router = new Router();
-    assert(typeof router == 'function');
+    assert(typeof router === 'function')
 
-    assert(typeof router.get == 'function');
-    assert(typeof router.handle == 'function');
-    assert(typeof router.use == 'function');
+    assert(typeof router.get === 'function')
+    assert(typeof router.handle === 'function')
+    assert(typeof router.use === 'function')
   });
 
   it('should support .use of other routers', function(done){
@@ -35,7 +33,7 @@ describe('Router', function(){
     var another = new Router();
 
     another.get('/:bar', function(req, res){
-      req.params.bar.should.equal('route');
+      assert.strictEqual(req.params.bar, 'route')
       res.end();
     });
     router.use('/:foo', another);
@@ -47,7 +45,7 @@ describe('Router', function(){
     var router = new Router();
 
     router.use(function (req, res) {
-      false.should.be.true()
+      throw new Error('should not be called')
     });
 
     router.handle({ url: '', method: 'GET' }, {}, done);
@@ -63,7 +61,36 @@ describe('Router', function(){
     router.handle({ method: 'GET' }, {}, done)
   })
 
+  it('handle missing method', function (done) {
+    var all = false
+    var router = new Router()
+    var route = router.route('/foo')
+    var use = false
+
+    route.post(function (req, res, next) { next(new Error('should not run')) })
+    route.all(function (req, res, next) {
+      all = true
+      next()
+    })
+    route.get(function (req, res, next) { next(new Error('should not run')) })
+
+    router.get('/foo', function (req, res, next) { next(new Error('should not run')) })
+    router.use(function (req, res, next) {
+      use = true
+      next()
+    })
+
+    router.handle({ url: '/foo' }, {}, function (err) {
+      if (err) return done(err)
+      assert.ok(all)
+      assert.ok(use)
+      done()
+    })
+  })
+
   it('should not stack overflow with many registered routes', function(done){
+    this.timeout(5000) // long-running test
+
     var handler = function(req, res){ res.end(new Error('wrong handler')) };
     var router = new Router();
 
@@ -78,6 +105,60 @@ describe('Router', function(){
     router.handle({ url: '/', method: 'GET' }, { end: done }, function(){});
   });
 
+  it('should not stack overflow with a large sync route stack', function (done) {
+    this.timeout(5000) // long-running test
+
+    var router = new Router()
+
+    router.get('/foo', function (req, res, next) {
+      req.counter = 0
+      next()
+    })
+
+    for (var i = 0; i < 6000; i++) {
+      router.get('/foo', function (req, res, next) {
+        req.counter++
+        next()
+      })
+    }
+
+    router.get('/foo', function (req, res) {
+      assert.strictEqual(req.counter, 6000)
+      res.end()
+    })
+
+    router.handle({ url: '/foo', method: 'GET' }, { end: done }, function (err) {
+      assert(!err, err);
+    });
+  })
+
+  it('should not stack overflow with a large sync middleware stack', function (done) {
+    this.timeout(5000) // long-running test
+
+    var router = new Router()
+
+    router.use(function (req, res, next) {
+      req.counter = 0
+      next()
+    })
+
+    for (var i = 0; i < 6000; i++) {
+      router.use(function (req, res, next) {
+        req.counter++
+        next()
+      })
+    }
+
+    router.use(function (req, res) {
+      assert.strictEqual(req.counter, 6000)
+      res.end()
+    })
+
+    router.handle({ url: '/', method: 'GET' }, { end: done }, function (err) {
+      assert(!err, err);
+    })
+  })
+
   describe('.handle', function(){
     it('should dispatch', function(done){
       var router = new Router();
@@ -88,7 +169,7 @@ describe('Router', function(){
 
       var res = {
         send: function(val) {
-          val.should.equal('foo');
+          assert.strictEqual(val, 'foo')
           done();
         }
       }
@@ -151,7 +232,7 @@ describe('Router', function(){
     it('should handle throwing inside routes with params', function(done) {
       var router = new Router();
 
-      router.get('/foo/:id', function(req, res, next){
+      router.get('/foo/:id', function () {
         throw new Error('foo');
       });
 
@@ -347,38 +428,32 @@ describe('Router', function(){
       assert.equal(count, methods.length);
       done();
     })
-
-    it('should be called for any URL when "*"', function (done) {
-      var cb = after(4, done)
-      var router = new Router()
-
-      function no () {
-        throw new Error('should not be called')
-      }
-
-      router.all('*', function (req, res) {
-        res.end()
-      })
-
-      router.handle({ url: '/', method: 'GET' }, { end: cb }, no)
-      router.handle({ url: '/foo', method: 'GET' }, { end: cb }, no)
-      router.handle({ url: 'foo', method: 'GET' }, { end: cb }, no)
-      router.handle({ url: '*', method: 'GET' }, { end: cb }, no)
-    })
   })
 
   describe('.use', function() {
-    it('should require arguments', function(){
-      var router = new Router();
-      assert.throws(router.use.bind(router), /argument handler is required/)
+    it('should require middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/') }, /argument handler is required/)
     })
 
-    it('should not accept non-functions', function(){
-      var router = new Router();
-      assert.throws(router.use.bind(router, '/', 'hello'), /argument handler must be a function/)
-      assert.throws(router.use.bind(router, '/', 5), /argument handler must be a function/)
-      assert.throws(router.use.bind(router, '/', null), /argument handler must be a function/)
-      assert.throws(router.use.bind(router, '/', new Date()), /argument handler must be a function/)
+    it('should reject string as middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/', 'foo') }, /argument handler must be a function/)
+    })
+
+    it('should reject number as middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/', 42) }, /argument handler must be a function/)
+    })
+
+    it('should reject null as middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/', null) }, /argument handler must be a function/)
+    })
+
+    it('should reject Date as middleware', function () {
+      var router = new Router()
+      assert.throws(function () { router.use('/', new Date()) }, /argument handler must be a function/)
     })
 
     it('should be called for any URL', function (done) {
@@ -527,8 +602,8 @@ describe('Router', function(){
       var req2 = { url: '/foo/10/bar', method: 'get' };
       var router = new Router();
       var sub = new Router();
+      var cb = after(2, done)
 
-      done = after(2, done);
 
       sub.get('/bar', function(req, res, next) {
         next();
@@ -547,14 +622,14 @@ describe('Router', function(){
         assert.ifError(err);
         assert.equal(req1.ms, 50);
         assert.equal(req1.originalUrl, '/foo/50/bar');
-        done();
+        cb()
       });
 
       router.handle(req2, {}, function(err) {
         assert.ifError(err);
         assert.equal(req2.ms, 10);
         assert.equal(req2.originalUrl, '/foo/10/bar');
-        done();
+        cb()
       });
     });
   });

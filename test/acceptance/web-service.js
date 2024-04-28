@@ -53,7 +53,7 @@ describe('web-service', function(){
         .get('/api/repos?api-key=foo')
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(/"name":"express"/)
-        .expect(/"url":"http:\/\/github.com\/expressjs\/express"/)
+        .expect(/"url":"https:\/\/github.com\/expressjs\/express"/)
         .expect(200, done)
       })
     })
@@ -82,7 +82,7 @@ describe('web-service', function(){
         .get('/api/user/loki/repos?api-key=foo')
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(/"name":"stylus"/)
-        .expect(/"url":"http:\/\/github.com\/learnboost\/stylus"/)
+        .expect(/"url":"https:\/\/github.com\/learnboost\/stylus"/)
         .expect(200, done)
       })
 
@@ -97,9 +97,9 @@ describe('web-service', function(){
   describe('when requesting an invalid route', function(){
     it('should respond with 404 json', function(done){
       request(app)
-      .get('/api/something?api-key=bar')
-      .expect('Content-Type', /json/)
-      .expect(404, '{"error":"Lame, can\'t find that"}', done)
+        .get('/api/something?api-key=bar')
+        .expect('Content-Type', /json/)
+        .expect(404, '{"error":"Sorry, can\'t find that"}', done)
     })
   })
 })

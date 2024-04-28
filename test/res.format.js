@@ -1,4 +1,6 @@
+'use strict'
 
+var after = require('after')
 var express = require('../')
   , request = require('supertest')
   , assert = require('assert');
@@ -16,9 +18,9 @@ app1.use(function(req, res, next){
     },
 
     'application/json': function(a, b, c){
-      assert(req == a);
-      assert(res == b);
-      assert(next == c);
+      assert(req === a)
+      assert(res === b)
+      assert(next === c)
       res.send({ message: 'hey' });
     }
   });
@@ -50,13 +52,18 @@ var app3 = express();
 app3.use(function(req, res, next){
   res.format({
     text: function(){ res.send('hey') },
-    default: function(){ res.send('default') }
+    default: function (a, b, c) {
+      assert(req === a)
+      assert(res === b)
+      assert(next === c)
+      res.send('default')
+    }
   })
 });
 
 var app4 = express();
 
-app4.get('/', function(req, res, next){
+app4.get('/', function (req, res) {
   res.format({
     text: function(){ res.send('hey') },
     html: function(){ res.send('<p>hey</p>') },
@@ -120,6 +127,28 @@ describe('res', function(){
         .set('Accept', '*/*')
         .expect('hey', done);
       })
+
+      it('should be able to invoke other formatter', function (done) {
+        var app = express()
+
+        app.use(function (req, res, next) {
+          res.format({
+            json: function () { res.send('json') },
+            default: function () {
+              res.header('x-default', '1')
+              this.json()
+            }
+          })
+        })
+
+        request(app)
+          .get('/')
+          .set('Accept', 'text/plain')
+          .expect(200)
+          .expect('x-default', '1')
+          .expect('json')
+          .end(done)
+      })
     })
 
     describe('in router', function(){
@@ -130,7 +159,7 @@ describe('res', function(){
       var app = express();
       var router = express.Router();
 
-      router.get('/', function(req, res, next){
+      router.get('/', function (req, res) {
         res.format({
           text: function(){ res.send('hey') },
           html: function(){ res.send('<p>hey</p>') },
@@ -173,21 +202,23 @@ function test(app) {
     .expect('hey', done);
   })
 
-  it('should set the correct  charset for the Content-Type', function() {
+  it('should set the correct charset for the Content-Type', function (done) {
+    var cb = after(3, done)
+
     request(app)
     .get('/')
     .set('Accept', 'text/html')
-    .expect('Content-Type', 'text/html; charset=utf-8');
+    .expect('Content-Type', 'text/html; charset=utf-8', cb)
 
     request(app)
     .get('/')
     .set('Accept', 'text/plain')
-    .expect('Content-Type', 'text/plain; charset=utf-8');
+    .expect('Content-Type', 'text/plain; charset=utf-8', cb)
 
     request(app)
     .get('/')
     .set('Accept', 'application/json')
-    .expect('Content-Type', 'application/json');
+    .expect('Content-Type', 'application/json; charset=utf-8', cb)
   })
 
   it('should Vary: Accept', function(done){
