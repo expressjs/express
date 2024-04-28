@@ -170,7 +170,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 * [Ulises Gascon](https://github.com/UlisesGascon) -
   **Ulises Gascon** (he/him)
-* [Jon Church](https://github.com/jonchurch) -
+* [jonchurch](https://github.com/jonchurch) -
   **Jon Church**
 * [Wes Todd](https://github.com/wesleytodd) -
   **Wes Todd**
