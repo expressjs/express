@@ -37,6 +37,10 @@ describe('app.router', function(){
   describe('methods', function(){
     methods.concat('del').forEach(function(method){
       if (method === 'connect') return;
+      // Temporarily excluding this test, can gate behind supported Node version when one exists
+      // upstream tracking https://github.com/nodejs/node/pull/51719
+      // express tracking issue: https://github.com/expressjs/express/issues/5615
+      if (method === 'query') return;
 
       it('should include ' + method.toUpperCase(), function(done){
         var app = express();
