@@ -55,7 +55,7 @@ jobs:
       - name: Upload code coverage report to Github
         uses: actions/upload-artifact@v3
         with:
-          name: coverage
+          name: lts-coverage
           path: ./coverage
           retention-days: 1
 
@@ -63,6 +63,7 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: lts
 
   test:
     name: Run tests
