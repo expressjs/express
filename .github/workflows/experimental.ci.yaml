@@ -35,6 +35,35 @@ jobs:
       - name: Run lint
         run: npm run lint
 
+  coverage:
+    name: LTS Code Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          persist-credentials: false
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts --only=dev
+
+      - name: Collect coverage
+        run: npm run test-cov
+
+      - name: Upload code coverage report to Github
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: ./coverage
+          retention-days: 1
+
+      - name: Upload coverage report to Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
   test:
     name: Run tests
     strategy:
