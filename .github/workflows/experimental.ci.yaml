@@ -50,7 +50,7 @@ jobs:
         run: npm install --ignore-scripts --only=dev
 
       - name: Collect coverage
-        run: npm run test-cov
+        run: npm run test-ci
 
       - name: Upload code coverage report to Github
         uses: actions/upload-artifact@v3
