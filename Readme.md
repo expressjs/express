@@ -168,47 +168,28 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 ### Technical Committee
 
-* [Ulises Gascon](https://github.com/UlisesGascon) -
-  **Ulises Gascon** (he/him)
-* [@jonchurch](https://github.com/jonchurch) -
-  **Jon Church**
-* [Wes Todd](https://github.com/wesleytodd) -
-  **Wes Todd**
-* [Linus Unnebäck](https://github.com/LinusU) -
-  **Linus Unnebäck**
-* [Blake Embrey](https://github.com/blakeembrey) -
-  **Blake Embrey**
-* [Jean Burellier](https://github.com/sheplu) -
-  **Jean Burellier**
-* [Rand McKinney](https://github.com/crandmck) -
-  **Rand McKinney**
+* [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascon** (he/him)
+* [jonchurch](https://github.com/jonchurch) - **Jon Church**
+* [wesleytodd](https://github.com/wesleytodd) - **Wes Todd**
+* [LinusU](https://github.com/LinusU) - **Linus Unnebäck**
+* [blakeembrey](https://github.com/blakeembrey) - **Blake Embrey**
+* [sheplu](https://github.com/sheplu) - **Jean Burellier**
+* [crandmck](https://github.com/crandmck) - **Rand McKinney**
 
 ### Triagers
 
-* [Aravind Nair](https://github.com/aravindvnair99) -
-  **Aravind Nair**
-* [Carlos Serrano](https://github.com/carpasse) -
-  **Carlos Serrano**
-* [Christine Belzie](https://github.com/CBID2) -
-  **Christine Belzie**
-* [David Enyoghasim](https://github.com/enyoghasim) -
-  **David Enyoghasim**
-* [Ulises Gascon](https://github.com/UlisesGascon) -
-  **Ulises Gascon**
-* [Mert Can Altin](https://github.com/mertcanaltin) -
-  **Mert Can Altin**
-* [Salah](https://github.com/0ss) -
-  **Salah**
-* [Eric Cheng](https://github.com/import-brain) -
-  **Eric Cheng** (he/him)
-* [Imed Jaberi](https://github.com/3imed-jaberi) -
-  **Imed Jaberi**
-* [Daksh Khetan](https://github.com/dakshkhetan) -
-  **Daksh Khetan** (he/him)
-* [Lucas Soares Do Rego](https://github.com/lucasraziel) -
-  **Lucas Soares Do Rego**
-* [Sushmeet Sunger](https://github.com/Sushmeet) -
-  **Sushmeet Sunger**
+* [aravindvnair99](https://github.com/aravindvnair99) - **Aravind Nair**
+* [carpasse](https://github.com/carpasse) - **Carlos Serrano**
+* [CBID2](https://github.com/CBID2) - **Christine Belzie**
+* [enyoghasim](https://github.com/enyoghasim) - **David Enyoghasim**
+* [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascon**
+* [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
+* [0ss](https://github.com/0ss) - **Salah**
+* [import-brain](https://github.com/import-brain) - **Eric Cheng** (he/him)
+* [3imed-jaberi](https://github.com/3imed-jaberi) - **Imed Jaberi**
+* [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
+* [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
+* [Sushmeet](https://github.com/Sushmeet) - **Sushmeet Sunger**
 
 ## Emeritus Team Members (Click to expand)
 <details>
