@@ -100,6 +100,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      # fixes https://github.com/npm/cli/issues/681
+      - name: Node v5 npm install fix
+        if: matrix.node-version == '5'
+        run: npm install -g npm@3.10.10
+
       - name: Configure npm -- disable lockfile/shrinkwrap
         run: |
           npm config set loglevel error
