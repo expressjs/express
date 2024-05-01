@@ -195,8 +195,38 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 <details>
   <summary>Emeritus Team Members</summary>
   * List out Emeriti here
-    * Name
-    * Contribution (optional)
+    Name
+    Contribution (optional)
+</details>
+
+## Emeritus Triagers (Click to expand)
+<details>
+  <summary>Emeritus Team Members</summary>
+    @AuggieH
+    @G-Rath
+    @MohammadXroid
+    @NawafSwe
+    @NotMoni
+    @VigneshMurugan
+    @davidmashe
+    @digitaIfabric
+    @e-l-i-s-e
+    @fed135
+    @firmanJS
+    @getspooky
+    @ghinks
+    @ghousemohamed
+    @gireeshpunathil
+    @jake32321
+    @lekanikotun
+    @marsonya
+    @mastermatt
+    @maxakuru
+    @mlrawlings
+    @rodion-arr
+    @tarunyadav1
+    @tunniclm
+    @yg
 </details>
 
 
