@@ -201,7 +201,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 ## Emeritus Triagers (Click to expand)
 <details>
-  <summary>Emeritus Team Members</summary>
+  <summary>Emeritus Triagers</summary>
     @AuggieH
     @G-Rath
     @MohammadXroid
