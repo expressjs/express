@@ -15,7 +15,6 @@
 * [Examples](#Examples)
 * [Contributing to Express](#Contributing)
 * [TC (Technical Committee)](#Technical-Committee)
-* [Collaborators](#collaborators)
 * [Triagers](#triagers)
 * [License](#license)
 
