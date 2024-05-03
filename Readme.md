@@ -178,7 +178,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 <details>
 <summary>TC emeriti members</summary>
 
-#### TSC emeriti members
+#### TC emeriti members
 
   * [hacksparrow](https://github.com/hacksparrow) - **Hage Yaapa**
   * [jonathanong](https://github.com/jonathanong) - **jongleberry**
