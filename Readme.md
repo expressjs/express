@@ -8,7 +8,7 @@
 
 * [Installation](#Installation)
 * [Features](#Features)
-* [Docs & Community](#Docs-&-Community)
+* [Docs & Community](#docs--community)
 * [Quick Start](#Quick-Start)
 * [Running Tests](#Running-Tests)
 * [Philosophy](#Philosophy)
