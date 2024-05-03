@@ -176,7 +176,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 * [crandmck](https://github.com/crandmck) - **Rand McKinney**
 
 <details>
-<summary>TSC emeriti members</summary>
+<summary>TC emeriti members</summary>
 
 #### TSC emeriti members
 
