@@ -168,7 +168,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 [List of all contributors](https://github.com/expressjs/express/graphs/contributors)
 
-### Technical Committee
+### TSC (Technical Steering Committee)
 
 * [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascon** (he/him)
 * [jonchurch](https://github.com/jonchurch) - **Jon Church**
@@ -177,6 +177,18 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 * [blakeembrey](https://github.com/blakeembrey) - **Blake Embrey**
 * [sheplu](https://github.com/sheplu) - **Jean Burellier**
 * [crandmck](https://github.com/crandmck) - **Rand McKinney**
+
+<details>
+<summary>TSC emeriti members</summary>
+
+#### TSC emeriti members
+
+  * [hacksparrow](https://github.com/hacksparrow) - **Hage Yaapa**
+  * [jonathanong](https://github.com/jonathanong) - **jongleberry**
+  * [niftylettuce](https://github.com/niftylettuce) - **niftylettuce**
+  * [troygoode](https://github.com/troygoode) - **Troy Goode**
+</details>
+
 
 ### Triagers
 
@@ -193,43 +205,35 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 * [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
 * [Sushmeet](https://github.com/Sushmeet) - **Sushmeet Sunger**
 
-## Emeritus Team Members (Click to expand)
 <details>
-  <summary>Emeritus Team Members</summary>
-    @hacksparrow
-    @jonathanong
-    @niftylettuce
-    @troygoode
-</details>
+<summary>Triagers emeriti members</summary>
 
-## Emeritus Triagers (Click to expand)
-<details>
-  <summary>Emeritus Triagers</summary>
-    @AuggieH
-    @G-Rath
-    @MohammadXroid
-    @NawafSwe
-    @NotMoni
-    @VigneshMurugan
-    @davidmashe
-    @digitaIfabric
-    @e-l-i-s-e
-    @fed135
-    @firmanJS
-    @getspooky
-    @ghinks
-    @ghousemohamed
-    @gireeshpunathil
-    @jake32321
-    @lekanikotun
-    @marsonya
-    @mastermatt
-    @maxakuru
-    @mlrawlings
-    @rodion-arr
-    @tarunyadav1
-    @tunniclm
-    @yg
+#### Emeritus Triagers
+
+  * [AuggieH](https://github.com/AuggieH) - **Auggie Hudak**
+  * [G-Rath](https://github.com/G-Rath) - **Gareth Jones**
+  * [MohammadXroid](https://github.com/MohammadXroid) - **Mohammad Ayashi**
+  * [NawafSwe](https://github.com/NawafSwe) - **Nawaf Alsharqi**
+  * [NotMoni](https://github.com/NotMoni) - **Moni**
+  * [VigneshMurugan](https://github.com/VigneshMurugan) - **Vignesh Murugan**
+  * [davidmashe](https://github.com/davidmashe) - **David Ashe**
+  * [digitaIfabric](https://github.com/digitaIfabric) - **David**
+  * [e-l-i-s-e](https://github.com/e-l-i-s-e) - **Elise Bonner**
+  * [fed135](https://github.com/fed135) - **Frederic Charette**
+  * [firmanJS](https://github.com/firmanJS) - **Firman Abdul Hakim**
+  * [getspooky](https://github.com/getspooky) - **Yasser Ameur**
+  * [ghinks](https://github.com/ghinks) - **Glenn**
+  * [ghousemohamed](https://github.com/ghousemohamed) - **Ghouse Mohamed**
+  * [gireeshpunathil](https://github.com/gireeshpunathil) - **Gireesh Punathil**
+  * [jake32321](https://github.com/jake32321) - **Jake Reed**
+  * [lekanikotun](https://github.com/lekanikotun) - **Troy Goode**
+  * [marsonya](https://github.com/marsonya) - **Lekan Ikotun**
+  * [mastermatt](https://github.com/mastermatt) - **Matt R. Wilson**
+  * [maxakuru](https://github.com/maxakuru) - **Max Edell**
+  * [mlrawlings](https://github.com/mlrawlings) - **Michael Rawlings**
+  * [rodion-arr](https://github.com/rodion-arr) - **Rodion Abdurakhimov**
+  * [tarunyadav1](https://github.com/tarunyadav1) - **Tarun yadav**
+  * [tunniclm](https://github.com/tunniclm) - **Mike Tunnicliffe**
 </details>
 
 
