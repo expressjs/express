@@ -165,7 +165,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 [List of all contributors](https://github.com/expressjs/express/graphs/contributors)
 
-### TSC (Technical Steering Committee)
+### TC (Technical Committee)
 
 * [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascon** (he/him)
 * [jonchurch](https://github.com/jonchurch) - **Jon Church**
