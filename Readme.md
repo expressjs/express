@@ -19,7 +19,6 @@
 * [Triagers](#triagers)
 * [License](#license)
 * [Emeritus Team Members](#Emeritus-Team-Members-(Click-to-expand))
-* [Emeritus Triagers](#Emeritus-Triagers-(Click-to-expand))
 
 
 [![NPM Version][npm-version-image]][npm-url]
