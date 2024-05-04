@@ -293,23 +293,12 @@ describe('res', function(){
       );
     });
 
-    it('should percent encode backslashes in the path', function (done) {
+    it('should keep backslashes in the path', function (done) {
       var app = createRedirectServerForDomain('google.com');
       testRequestedRedirect(
         app,
         'https://google.com/foo\\bar\\baz',
-        'https://google.com/foo%5Cbar%5Cbaz',
-        'google.com',
-        done
-      );
-    });
-
-    it('should encode backslashes in the path after the first backslash that triggered path parsing', function (done) {
-      var app = createRedirectServerForDomain('google.com');
-      testRequestedRedirect(
-        app,
-        'https://google.com\\@app\\l\\e.com',
-        'https://google.com\\@app%5Cl%5Ce.com',
+        'https://google.com/foo\\bar\\baz',
         'google.com',
         done
       );
@@ -364,7 +353,7 @@ describe('res', function(){
       testRequestedRedirect(
         app,
         'file:///etc\\passwd',
-        'file:///etc%5Cpasswd',
+        'file:///etc\\passwd',
         '',
         done
       );

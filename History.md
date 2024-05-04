@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * deps: encodeurl@~2.0.0
+    - Removes encoding of `\`, `|`, and `^` to align better with URL spec
+
 4.19.2 / 2024-03-25
 ==========
 
