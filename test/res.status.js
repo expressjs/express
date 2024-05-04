@@ -107,7 +107,7 @@ describe('res', function () {
         var app = express()
 
         app.use(function (req, res) {
-          res.status(800).end()
+          res.status(900).end()
         })
 
         request(app)
