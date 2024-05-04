@@ -105,6 +105,20 @@ describe('res', function () {
       })
     })
 
+    describe('when "code" is 700', function () {
+      it('should set the response status code to 700', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.status(700).end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(501, done)
+      })
+    })
+
     describe('when "code" is 200.00', function () {
       it('should set the response status code to 200', function (done) {
         var app = express()
