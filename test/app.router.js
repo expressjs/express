@@ -35,8 +35,25 @@ describe('app.router', function(){
   })
 
   describe('methods', function(){
+    function getMajorVersion(versionString) {
+      return versionString.split('.')[0];
+    }
+
+    function shouldSkipQuery(versionString) {
+      // Temporarily skipping this test on 21 and 22
+      // update this implementation to run on those release lines on supported versions once they exist
+      // upstream tracking https://github.com/nodejs/node/pull/51719
+      // express tracking issue: https://github.com/expressjs/express/issues/5615
+      var majorsToSkip = {
+        "21": true,
+        "22": true
+      }
+      return majorsToSkip[getMajorVersion(versionString)]
+    }
+
     methods.concat('del').forEach(function(method){
       if (method === 'connect') return;
+      if (method === 'query' && shouldSkipQuery(process.versions.node)) return
 
       it('should include ' + method.toUpperCase(), function(done){
         var app = express();
