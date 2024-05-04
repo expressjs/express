@@ -18,116 +18,100 @@ describe('res', function () {
     });
 
     describe('accept valid ranges', function() {
-      describe('when "code" is 100', function () {
-        it('should set the response status code to 201', function (done) {
-          var app = express()
+      it('should set the response status code to 100', function (done) {
+        var app = express()
 
-          app.use(function (req, res) {
-            res.status(100).end()
-          })
-
-          request(app)
-          .get('/')
-          .expect(201, done)
+        app.use(function (req, res) {
+          res.status(100).end()
         })
+
+        request(app)
+          .get('/')
+          .expect(100, done)
       })
 
-      describe('when "code" is 201', function () {
-        it('should set the response status code to 201', function (done) {
-          var app = express()
+      it('should set the response status code to 201', function (done) {
+        var app = express()
 
-          app.use(function (req, res) {
-            res.status(201).end()
-          })
+        app.use(function (req, res) {
+          res.status(201).end()
+        })
 
-          request(app)
+        request(app)
           .get('/')
           .expect(201, done)
-        })
       })
 
-      describe('when "code" is 302', function () {
-        it('should set the response status code to 302', function (done) {
-          var app = express()
+      it('should set the response status code to 302', function (done) {
+        var app = express()
 
-          app.use(function (req, res) {
-            res.status(302).end()
-          })
+        app.use(function (req, res) {
+          res.status(302).end()
+        })
 
-          request(app)
+        request(app)
           .get('/')
           .expect(302, done)
-        })
       })
 
-      describe('when "code" is 403', function () {
-        it('should set the response status code to 403', function (done) {
-          var app = express()
+      it('should set the response status code to 403', function (done) {
+        var app = express()
 
-          app.use(function (req, res) {
-            res.status(403).end()
-          })
+        app.use(function (req, res) {
+          res.status(403).end()
+        })
 
-          request(app)
+        request(app)
           .get('/')
           .expect(403, done)
-        })
       })
 
-      describe('when "code" is 501', function () {
-        it('should set the response status code to 501', function (done) {
-          var app = express()
+      it('should set the response status code to 501', function (done) {
+        var app = express()
 
-          app.use(function (req, res) {
-            res.status(501).end()
-          })
+        app.use(function (req, res) {
+          res.status(501).end()
+        })
 
-          request(app)
+        request(app)
           .get('/')
           .expect(501, done)
-        })
       })
 
-      describe('when "code" is 700', function () {
-        it('should set the response status code to 501', function (done) {
-          var app = express()
+      it('should set the response status code to 700', function (done) {
+        var app = express()
 
-          app.use(function (req, res) {
-            res.status(700).end()
-          })
+        app.use(function (req, res) {
+          res.status(700).end()
+        })
 
-          request(app)
+        request(app)
           .get('/')
           .expect(700, done)
-        })
       })
 
-      describe('when "code" is 800', function () {
-        it('should set the response status code to 501', function (done) {
-          var app = express()
+      it('should set the response status code to 800', function (done) {
+        var app = express()
 
-          app.use(function (req, res) {
-            res.status(800).end()
-          })
+        app.use(function (req, res) {
+          res.status(800).end()
+        })
 
-          request(app)
+        request(app)
           .get('/')
           .expect(800, done)
-        })
       })
 
-      describe('when "code" is 900', function () {
-        it('should set the response status code to 501', function (done) {
-          var app = express()
+      it('should set the response status code to 900', function (done) {
+        var app = express()
 
-          app.use(function (req, res) {
-            res.status(800).end()
-          })
+        app.use(function (req, res) {
+          res.status(800).end()
+        })
 
-          request(app)
+        request(app)
           .get('/')
           .expect(900, done)
-        })
       })
     })
 
