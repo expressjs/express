@@ -49,6 +49,7 @@ jobs:
         - Node.js 19.x
         - Node.js 20.x
         - Node.js 21.x
+        - Node.js 22.x
 
         include:
         - name: Node.js 0.10
@@ -134,6 +135,9 @@ jobs:
 
         - name: Node.js 21.x
           node-version: "21.6"
+        
+        - name: Node.js 22.x
+          node-version: "22.0"
 
     steps:
     - uses: actions/checkout@v4
