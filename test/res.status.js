@@ -98,11 +98,39 @@ describe('res', function () {
 
           request(app)
           .get('/')
-          .expect(501, done)
+          .expect(700, done)
         })
       })
 
+      describe('when "code" is 800', function () {
+        it('should set the response status code to 501', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.status(800).end()
+          })
+
+          request(app)
+          .get('/')
+          .expect(800, done)
+        })
+      })
+
+      describe('when "code" is 900', function () {
+        it('should set the response status code to 501', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.status(800).end()
+          })
+
+          request(app)
+          .get('/')
+          .expect(900, done)
+        })
+      })
     })
+
     describe('invalid status codes', function () {
       it('should raise error for status code below 100', function (done) {
         var app = express();
