@@ -193,10 +193,10 @@ describe('res', function () {
 
       })
 
-      it('should throw if status code is > 599', function(done) {
+      it('should throw if status code is > 999', function(done) {
         var app = express();
         app.use(function(req, res){
-          res.status(600).end();
+          res.status(1000).end();
         });
 
         request(app)
