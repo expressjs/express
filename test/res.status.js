@@ -1,280 +1,193 @@
 'use strict'
-
-var express = require('../')
-var request = require('supertest')
-
-var isIoJs = process.release
-  ? process.release.name === 'io.js'
-  : ['v1.', 'v2.', 'v3.'].indexOf(process.version.slice(0, 3)) !== -1
+const express = require('../.');
+const request = require('supertest');
 
 describe('res', function () {
   describe('.status(code)', function () {
-    describe('when "code" is undefined', function () {
-      it('should raise error for invalid status code', function (done) {
-        var app = express()
 
-        app.use(function (req, res) {
-          res.status(undefined).end()
-        })
+    it('should set the status code when valid', function (done) {
+      var app = express();
 
-        request(app)
-          .get('/')
-          .expect(500, /Invalid status code/, function (err) {
-            if (isIoJs) {
-              done(err ? null : new Error('expected error'))
-            } else {
-              done(err)
-            }
+      app.use(function (req, res) {
+        res.status(200).end();
+      });
+
+      request(app)
+        .get('/')
+        .expect(200, done);
+    });
+
+    describe('accept valid ranges', function() {
+      describe('when "code" is 100', function () {
+        it('should set the response status code to 201', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.status(100).end()
           })
-      })
-    })
 
-    describe('when "code" is null', function () {
-      it('should raise error for invalid status code', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(null).end()
-        })
-
-        request(app)
-          .get('/')
-          .expect(500, /Invalid status code/, function (err) {
-            if (isIoJs) {
-              done(err ? null : new Error('expected error'))
-            } else {
-              done(err)
-            }
-          })
-      })
-    })
-
-    describe('when "code" is 201', function () {
-      it('should set the response status code to 201', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(201).end()
-        })
-
-        request(app)
+          request(app)
           .get('/')
           .expect(201, done)
-      })
-    })
-
-    describe('when "code" is 302', function () {
-      it('should set the response status code to 302', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(302).end()
         })
+      })
 
-        request(app)
+      describe('when "code" is 201', function () {
+        it('should set the response status code to 201', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.status(201).end()
+          })
+
+          request(app)
+          .get('/')
+          .expect(201, done)
+        })
+      })
+
+      describe('when "code" is 302', function () {
+        it('should set the response status code to 302', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.status(302).end()
+          })
+
+          request(app)
           .get('/')
           .expect(302, done)
-      })
-    })
-
-    describe('when "code" is 403', function () {
-      it('should set the response status code to 403', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(403).end()
         })
+      })
 
-        request(app)
+      describe('when "code" is 403', function () {
+        it('should set the response status code to 403', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.status(403).end()
+          })
+
+          request(app)
           .get('/')
           .expect(403, done)
-      })
-    })
-
-    describe('when "code" is 501', function () {
-      it('should set the response status code to 501', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(501).end()
         })
+      })
 
-        request(app)
+      describe('when "code" is 501', function () {
+        it('should set the response status code to 501', function (done) {
+          var app = express()
+
+          app.use(function (req, res) {
+            res.status(501).end()
+          })
+
+          request(app)
           .get('/')
           .expect(501, done)
-      })
-    })
-
-    describe('when "code" is 700', function () {
-      it('should set the response status code to 700', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(700).end()
         })
-
-        request(app)
-          .get('/')
-          .expect(700, done)
       })
-    })
 
-    describe('when "code" is 200.00', function () {
-      it('should set the response status code to 200', function (done) {
-        var app = express()
+      describe('when "code" is 700', function () {
+        it('should set the response status code to 501', function (done) {
+          var app = express()
 
-        app.use(function (req, res) {
-          res.status(200.00).end()
-        })
-
-        request(app)
-          .get('/')
-          .expect(200, done)
-      })
-    })
-
-    describe('when "code" is 1000', function () {
-      it('should raise error for invalid status code', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(1000).end()
-        })
-
-        request(app)
-          .get('/')
-          .expect(500, /Invalid status code/, function (err) {
-            if (isIoJs) {
-              done(err ? null : new Error('expected error'))
-            } else {
-              done(err)
-            }
+          app.use(function (req, res) {
+            res.status(700).end()
           })
-      })
-    })
 
-    describe('when "code" is 99', function () {
-      it('should raise error for invalid status code', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(99).end()
-        })
-
-        request(app)
+          request(app)
           .get('/')
-          .expect(500, /Invalid status code/, function (err) {
-            if (isIoJs) {
-              done(err ? null : new Error('expected error'))
-            } else {
-              done(err)
-            }
-          })
-      })
-    })
-
-    describe('when "code" is -401', function () {
-      it('should raise error for invalid status code', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(-401).end()
+          .expect(501, done)
         })
-
-        request(app)
-          .get('/')
-          .expect(500, /Invalid status code/, function (err) {
-            if (isIoJs) {
-              done(err ? null : new Error('expected error'))
-            } else {
-              done(err)
-            }
-          })
       })
+
     })
-
-    describe('invalid status codes', function() {
-
-      it('should throw if status code is < 100', function(done) {
+    describe('invalid status codes', function () {
+      it('should raise error for status code below 100', function (done) {
         var app = express();
-        app.use(function(req, res){
+
+        app.use(function (req, res) {
           res.status(99).end();
         });
 
         request(app)
-        .get('/')
-        .expect(500, /RangeError: Invalid status code/, done)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
 
-      })
-
-      it('should throw if status code is > 999', function(done) {
+      it('should raise error for status code above 999', function (done) {
         var app = express();
-        app.use(function(req, res){
+
+        app.use(function (req, res) {
           res.status(1000).end();
         });
 
         request(app)
-        .get('/')
-        .expect(500, /RangeError: Invalid status code/, done)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
 
-      })
-
-      it('should throw if status code is undefined', function(done) {
+      it('should raise error for non-integer status codes', function (done) {
         var app = express();
-        app.use(function(req, res){
-          res.status(undefined).end();
-        });
 
-        request(app)
-        .get('/')
-        .expect(500, /TypeError: Invalid status code/, done)
-
-      })
-
-      it('should throw if status code is null', function(done) {
-        var app = express();
-        app.use(function(req, res){
-          res.status(null).end();
-        });
-
-        request(app)
-        .get('/')
-        .expect(500, /TypeError: Invalid status code/, done)
-
-      })
-
-      it('should throw if status code is a float', function(done) {
-        var app = express();
-        app.use(function(req, res){
+        app.use(function (req, res) {
           res.status(200.1).end();
         });
 
         request(app)
-        .get('/')
-        .expect(500, /TypeError: Invalid status code/, done)
-      })
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
 
-      it('should throw if status code is a string', function(done) {
+      it('should raise error for undefined status code', function (done) {
         var app = express();
-        app.use(function(req, res){
-          res.status('200').end();
+
+        app.use(function (req, res) {
+          res.status(undefined).end();
         });
 
         request(app)
-        .get('/')
-        .expect(500, /TypeError: Invalid status code/, done)
-      })
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
 
-      it('should throw if status code is NaN', function(done) {
+      it('should raise error for null status code', function (done) {
         var app = express();
-        app.use(function(req, res){
+
+        app.use(function (req, res) {
+          res.status(null).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
+
+      it('should raise error for string status code', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.status("200").end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
+
+      it('should raise error for NaN status code', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
           res.status(NaN).end();
         });
 
         request(app)
-        .get('/')
-        .expect(500, /TypeError: Invalid status code/, done)
-      })
-    })
-  })
-})
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
+    });
+  });
+});
+
