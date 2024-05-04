@@ -115,7 +115,7 @@ describe('res', function () {
 
         request(app)
           .get('/')
-          .expect(501, done)
+          .expect(700, done)
       })
     })
 
