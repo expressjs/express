@@ -18,16 +18,17 @@ describe('res', function () {
     });
 
     describe('accept valid ranges', function() {
-      it('should set the response status code to 100', function (done) {
+      // not testing w/ 100, because that has specific meaning and behavior in Node as Expect: 100-continue
+      it('should set the response status code to 101', function (done) {
         var app = express()
 
         app.use(function (req, res) {
-          res.status(100).end()
+          res.status(101).end()
         })
 
         request(app)
           .get('/')
-          .expect(100, done)
+          .expect(101, done)
       })
 
       it('should set the response status code to 201', function (done) {
