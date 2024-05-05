@@ -167,7 +167,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 ### TC (Technical Committee)
 
-* [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascon** (he/him)
+* [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascón** (he/him)
 * [jonchurch](https://github.com/jonchurch) - **Jon Church**
 * [wesleytodd](https://github.com/wesleytodd) - **Wes Todd**
 * [LinusU](https://github.com/LinusU) - **Linus Unnebäck**
