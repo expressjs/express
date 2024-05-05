@@ -224,6 +224,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
   * [ghousemohamed](https://github.com/ghousemohamed) - **Ghouse Mohamed**
   * [gireeshpunathil](https://github.com/gireeshpunathil) - **Gireesh Punathil**
   * [jake32321](https://github.com/jake32321) - **Jake Reed**
+  * [jonchurch](https://github.com/jonchurch) - **Jon Church**
   * [lekanikotun](https://github.com/lekanikotun) - **Troy Goode**
   * [marsonya](https://github.com/marsonya) - **Lekan Ikotun**
   * [mastermatt](https://github.com/mastermatt) - **Matt R. Wilson**
