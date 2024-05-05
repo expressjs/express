@@ -231,6 +231,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
   * [maxakuru](https://github.com/maxakuru) - **Max Edell**
   * [mlrawlings](https://github.com/mlrawlings) - **Michael Rawlings**
   * [rodion-arr](https://github.com/rodion-arr) - **Rodion Abdurakhimov**
+  * [sheplu](https://github.com/sheplu) - **Jean Burellier**
   * [tarunyadav1](https://github.com/tarunyadav1) - **Tarun yadav**
   * [tunniclm](https://github.com/tunniclm) - **Mike Tunnicliffe**
 </details>
