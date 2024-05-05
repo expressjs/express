@@ -180,6 +180,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 #### TC emeriti members
 
+  * [dougwilson](https://github.com/dougwilson) - **Douglas Wilson**
   * [hacksparrow](https://github.com/hacksparrow) - **Hage Yaapa**
   * [jonathanong](https://github.com/jonathanong) - **jongleberry**
   * [niftylettuce](https://github.com/niftylettuce) - **niftylettuce**
