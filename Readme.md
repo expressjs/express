@@ -6,6 +6,8 @@
 
 ## Table of contents
 
+## Anish
+
 * [Installation](#Installation)
 * [Features](#Features)
 * [Docs & Community](#docs--community)
