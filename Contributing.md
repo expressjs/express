@@ -180,8 +180,8 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - `jshttp/http-errors`: @wesleytodd, @jonchurch
 - `jshttp/media-typer`: @blakeembrey
 - `jshttp/methods`: @blakeembrey
-- `jshttp/mime-db`: @blakeembrey
-- `jshttp/mime-types`: @blakeembrey
+- `jshttp/mime-db`: @blakeembrey, @UlisesGascon 
+- `jshttp/mime-types`: @blakeembrey, @UlisesGascon 
 - `jshttp/negotiator`: @blakeembrey
 - `jshttp/on-finished`: @wesleytodd
 - `jshttp/on-headers`: @blakeembrey
