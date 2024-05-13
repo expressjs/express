@@ -6,6 +6,8 @@
 
 ## Table of contents
 
+#anish garg
+
 * [Installation](#Installation)
 * [Features](#Features)
 * [Docs & Community](#docs--community)
