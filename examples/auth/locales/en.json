@@ -1,0 +1,8 @@
+{
+	"Authentication failed, please check your username and password": {
+		" (use \"tj\" and \"foobar\")": "Authentication failed, please check your username and password. (use \"tj\" and \"foobar\")"
+	},
+	"Access denied!": "Access denied!",
+	"Authenticated as %s click to <a href=\"/logout\">logout</a>. You may now access <a href=\"/restricted\">/restricted</a>.": "Authenticated as %s click to <a href=\"/logout\">logout</a>. You may now access <a href=\"/restricted\">/restricted</a>.",
+	"Authentication failed, please check your username and password.": "Authentication failed, please check your username and password."
+}

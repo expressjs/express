@@ -1,0 +1,8 @@
+
+<h1>Multi-Factor Authentication Setup</h1>
+<img src="<%= qrCodeImageUrl %>" alt="QR Code">
+<form method="post" action="/mfa/setup">
+    <label for="mfaCode">Enter the code from your authenticator app:</label>
+    <input type="text" id="mfaCode" name="mfaCode">
+    <button type="submit">Submit</button>
+</form>
