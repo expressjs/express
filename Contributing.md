@@ -146,7 +146,7 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - `expressjs/body-parser`: @wesleytodd, @jonchurch
 - `expressjs/compression`: N/A
 - `expressjs/connect-multiparty`: N/A
-- `expressjs/cookie-parser`: @wesleytodd
+- `expressjs/cookie-parser`: @wesleytodd, @UlisesGascon
 - `expressjs/cookie-session`: N/A
 - `expressjs/cors`: @jonchurch
 - `expressjs/discussions`: @wesleytodd
