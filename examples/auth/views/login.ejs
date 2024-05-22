@@ -3,7 +3,8 @@
 
 <h1>Login</h1>
 <%- message %>
-Try accessing <a href="/restricted">/restricted</a>, then authenticate with "tj" and "foobar".
+Try accessing <a href="/restricted">/restricted</a>
+<p>Demo accessing :- Username: tj and password: foobar</p>
 <form method="post" action="/login">
   <p>
     <label for="username">Username:</label>
@@ -11,11 +12,11 @@ Try accessing <a href="/restricted">/restricted</a>, then authenticate with "tj"
   </p>
   <p>
     <label for="password">Password:</label>
-    <input type="text" name="password" id="password">
+    <input type="password" name="password" id="password">
   </p>
   <p>
     <input type="submit" value="Login">
   </p>
 </form>
 
-<%- include('foot') -%>
+

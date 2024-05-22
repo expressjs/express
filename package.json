@@ -40,6 +40,7 @@
     "encodeurl": "~2.0.0",
     "escape-html": "~1.0.3",
     "etag": "~1.8.1",
+    "express": "^4.19.2",
     "finalhandler": "1.2.0",
     "fresh": "0.5.2",
     "http-errors": "2.0.0",
