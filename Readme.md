@@ -161,8 +161,6 @@ $ npm test
 
 The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 
-The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson)
-
 [List of all contributors](https://github.com/expressjs/express/graphs/contributors)
 
 ### TC (Technical Committee)
@@ -174,6 +172,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 * [blakeembrey](https://github.com/blakeembrey) - **Blake Embrey**
 * [sheplu](https://github.com/sheplu) - **Jean Burellier**
 * [crandmck](https://github.com/crandmck) - **Rand McKinney**
+* [ctcpip](https://github.com/ctcpip) - **Chris de Almeida**
 
 <details>
 <summary>TC emeriti members</summary>
