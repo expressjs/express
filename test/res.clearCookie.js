@@ -47,7 +47,7 @@ describe('res', function(){
       .expect(200, done)
     })
 
-    it('should set maxAge when passed', function(done) {
+    it('should set both maxAge and expires when passed', function(done) {
       var maxAgeInMs = 10000
       var expiresAt = new Date()
       var expectedExpires = new Date(expiresAt.getTime() + maxAgeInMs)
@@ -59,6 +59,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
+      // yes, this is the behavior. When we set a max-age, we also set expires to a date 10 sec ahead of expires
+      // even if we set max-age only, we will also set an expires 10 sec in the future
       .expect('Set-Cookie', 'sid=; Max-Age=10; Path=/; Expires=' + expectedExpires.toUTCString())
       .expect(200, done)
     })
