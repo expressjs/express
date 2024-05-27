@@ -19,8 +19,11 @@ environment:
     - nodejs_version: "15.14"
     - nodejs_version: "16.20"
     - nodejs_version: "17.9"
-    - nodejs_version: "18.15"
-    - nodejs_version: "19.7"
+    - nodejs_version: "18.19"
+    - nodejs_version: "19.9"
+    - nodejs_version: "20.11"
+    - nodejs_version: "21.6"
+    - nodejs_version: "22.0"
 cache:
   - node_modules
 install:

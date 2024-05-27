@@ -1,11 +1,35 @@
 unreleased
 ==========
 
+  * deps: encodeurl@~2.0.0
+    - Removes encoding of `\`, `|`, and `^` to align better with URL spec
+
+4.19.2 / 2024-03-25
+==========
+
+  * Improved fix for open redirect allow list bypass
+
+4.19.1 / 2024-03-20
+==========
+
+  * Allow passing non-strings to res.location with new encoding handling checks
+
+4.19.0 / 2024-03-20
+==========
+
+  * Prevent open redirect allow list bypass due to encodeurl
+  * deps: cookie@0.6.0
+
+4.18.3 / 2024-02-29
+==========
+
   * Fix routing requests without method
   * deps: body-parser@1.20.2
     - Fix strict json error message on Node.js 19+
     - deps: content-type@~1.0.5
     - deps: raw-body@2.5.2
+  * deps: cookie@0.6.0
+    - Add `partitioned` option
 
 4.18.2 / 2022-10-08
 ===================

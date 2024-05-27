@@ -6,6 +6,8 @@ var express = require('../')
   , assert = require('assert')
   , methods = require('methods');
 
+var shouldSkipQuery = require('./support/utils').shouldSkipQuery
+
 describe('app.router', function(){
   it('should restore req.params after leaving router', function(done){
     var app = express();
@@ -37,6 +39,7 @@ describe('app.router', function(){
   describe('methods', function(){
     methods.concat('del').forEach(function(method){
       if (method === 'connect') return;
+      if (method === 'query' && shouldSkipQuery(process.versions.node)) return
 
       it('should include ' + method.toUpperCase(), function(done){
         var app = express();
@@ -896,7 +899,7 @@ describe('app.router', function(){
 
       request(app)
         .get('/foo.json')
-        .expect(200, 'foo as json', done)
+        .expect(200, 'foo as json', cb)
     })
   })
 

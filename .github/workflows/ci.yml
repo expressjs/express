@@ -1,8 +1,23 @@
 name: ci
 
 on:
-- pull_request
-- push
+  push:
+    branches:
+      - master
+      - develop
+      - '4.x'
+      - '5.x'
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+
+# Cancel in progress workflows
+# in the scenario where we already had a run going for that PR/branch/tag but then triggered a new run
+concurrency:
+  group: "${{ github.workflow }} ✨ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -32,6 +47,9 @@ jobs:
         - Node.js 17.x
         - Node.js 18.x
         - Node.js 19.x
+        - Node.js 20.x
+        - Node.js 21.x
+        - Node.js 22.x
 
         include:
         - name: Node.js 0.10
@@ -107,13 +125,22 @@ jobs:
           node-version: "17.9"
 
         - name: Node.js 18.x
-          node-version: "18.15"
+          node-version: "18.19"
 
         - name: Node.js 19.x
-          node-version: "19.7"
+          node-version: "19.9"
+
+        - name: Node.js 20.x
+          node-version: "20.11"
+
+        - name: Node.js 21.x
+          node-version: "21.6"
+        
+        - name: Node.js 22.x
+          node-version: "22.0"
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install Node.js ${{ matrix.node-version }}
       shell: bash -eo pipefail -l {0}
@@ -188,7 +215,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install lcov
       shell: bash
