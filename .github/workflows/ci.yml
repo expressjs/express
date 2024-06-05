@@ -135,7 +135,7 @@ jobs:
 
         - name: Node.js 21.x
           node-version: "21.6"
-        
+
         - name: Node.js 22.x
           node-version: "22.0"
 
@@ -147,15 +147,6 @@ jobs:
       run: |
         nvm install --default ${{ matrix.node-version }}
         dirname "$(nvm which ${{ matrix.node-version }})" >> "$GITHUB_PATH"
-
-    - name: Configure npm
-      run: |
-        npm config set loglevel error
-        if [[ "$(npm config get package-lock)" == "true" ]]; then
-          npm config set package-lock false
-        else
-          npm config set shrinkwrap false
-        fi
 
     - name: Install npm module(s) ${{ matrix.npm-i }}
       run: npm install --save-dev ${{ matrix.npm-i }}
