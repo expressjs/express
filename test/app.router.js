@@ -39,9 +39,11 @@ describe('app.router', function(){
   describe('methods', function(){
     methods.concat('del').forEach(function(method){
       if (method === 'connect') return;
-      if (method === 'query' && shouldSkipQuery(process.versions.node)) return
 
       it('should include ' + method.toUpperCase(), function(done){
+        if (method === 'query' && shouldSkipQuery(process.versions.node)) {
+          this.skip("QUERY is not fully supported in this version of Node")
+        }
         var app = express();
 
         app[method]('/foo', function(req, res){

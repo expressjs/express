@@ -77,13 +77,10 @@ function getMajorVersion(versionString) {
 }
 
 function shouldSkipQuery(versionString) {
-  // Skipping HTTP QUERY tests on 21, it is reported in http.METHODS on 21.7.2 but not supported
+  // Skipping HTTP QUERY tests on Node 21, it is reported in http.METHODS on 21.7.2 but not supported
   // update this implementation to run on supported versions of 21 once they exist
   // upstream tracking https://github.com/nodejs/node/issues/51562
   // express tracking issue: https://github.com/expressjs/express/issues/5615
-  var majorsToSkip = {
-    "21": true
-  }
-  return majorsToSkip[getMajorVersion(versionString)]
+  return Number(getMajorVersion(versionString)) === 21
 }
 
