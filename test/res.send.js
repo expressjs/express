@@ -412,7 +412,7 @@ describe('res', function(){
 
         it('should send ETag in response to ' + method.toUpperCase() + ' request', function (done) {
           if (method === 'query' && shouldSkipQuery(process.versions.node)) {
-            this.skip("QUERY is not fully supported in this version of Node")
+            this.skip()
           }
           var app = express();
 

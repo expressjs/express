@@ -42,7 +42,7 @@ describe('app.router', function(){
 
       it('should include ' + method.toUpperCase(), function(done){
         if (method === 'query' && shouldSkipQuery(process.versions.node)) {
-          this.skip("QUERY is not fully supported in this version of Node")
+          this.skip()
         }
         var app = express();
 
