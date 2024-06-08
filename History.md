@@ -1,7 +1,7 @@
 unreleased
 =========================
 * breaking:
-  * `res.status()` accepts only integers, and input must be greater than 99 and less than 999
+  * `res.status()` accepts only integers, and input must be greater than 99 and less than 1000
     * will throw a `RangeError: Invalid status code: ${code}. Status code must be greater than 99 and less than 1000.` for inputs outside this range
     * will throw a `TypeError: Invalid status code: ${code}. Status code must be an integer.` for non integer inputs
 
