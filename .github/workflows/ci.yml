@@ -134,10 +134,10 @@ jobs:
           node-version: "20.11"
 
         - name: Node.js 21.x
-          node-version: "21.6"
+          node-version: "21.7"
 
         - name: Node.js 22.x
-          node-version: "22.0"
+          node-version: "22.2"
 
     steps:
     - uses: actions/checkout@v4
