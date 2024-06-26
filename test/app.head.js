@@ -1,3 +1,4 @@
+'use strict'
 
 var express = require('../');
 var request = require('supertest');
@@ -46,23 +47,20 @@ describe('HEAD', function(){
 describe('app.head()', function(){
   it('should override', function(done){
     var app = express()
-      , called;
 
     app.head('/tobi', function(req, res){
-      called = true;
-      res.end('');
+      res.header('x-method', 'head')
+      res.end()
     });
 
     app.get('/tobi', function(req, res){
-      assert(0, 'should not call GET');
+      res.header('x-method', 'get')
       res.send('tobi');
     });
 
     request(app)
-    .head('/tobi')
-    .expect(200, function(){
-      assert(called);
-      done();
-    });
+      .head('/tobi')
+      .expect('x-method', 'head')
+      .expect(200, done)
   })
 })

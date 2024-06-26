@@ -1,9 +1,12 @@
+'use strict'
 
 var after = require('after');
 var express = require('../')
   , request = require('supertest')
   , assert = require('assert')
   , methods = require('methods');
+
+var shouldSkipQuery = require('./support/utils').shouldSkipQuery
 
 describe('app.router', function(){
   it('should restore req.params after leaving router', function(done){
@@ -38,6 +41,9 @@ describe('app.router', function(){
       if (method === 'connect') return;
 
       it('should include ' + method.toUpperCase(), function(done){
+        if (method === 'query' && shouldSkipQuery(process.versions.node)) {
+          this.skip()
+        }
         var app = express();
 
         app[method]('/foo', function(req, res){
@@ -51,7 +57,7 @@ describe('app.router', function(){
 
       it('should reject numbers for app.' + method, function(){
         var app = express();
-        app[method].bind(app, '/', 3).should.throw(/Number/);
+        assert.throws(app[method].bind(app, '/', 3), /Number/)
       })
     });
 
@@ -89,7 +95,7 @@ describe('app.router', function(){
     it('should decode correct params', function(done){
       var app = express();
 
-      app.get('/:name', function(req, res, next){
+      app.get('/:name', function (req, res) {
         res.send(req.params.name);
       });
 
@@ -101,7 +107,7 @@ describe('app.router', function(){
     it('should not accept params in malformed paths', function(done) {
       var app = express();
 
-      app.get('/:name', function(req, res, next){
+      app.get('/:name', function (req, res) {
         res.send(req.params.name);
       });
 
@@ -113,7 +119,7 @@ describe('app.router', function(){
     it('should not decode spaces', function(done) {
       var app = express();
 
-      app.get('/:name', function(req, res, next){
+      app.get('/:name', function (req, res) {
         res.send(req.params.name);
       });
 
@@ -125,7 +131,7 @@ describe('app.router', function(){
     it('should work with unicode', function(done) {
       var app = express();
 
-      app.get('/:name', function(req, res, next){
+      app.get('/:name', function (req, res) {
         res.send(req.params.name);
       });
 
@@ -636,18 +642,19 @@ describe('app.router', function(){
 
     it('should work cross-segment', function(done){
       var app = express();
+      var cb = after(2, done)
 
       app.get('/api*', function(req, res){
         res.send(req.params[0]);
       });
 
       request(app)
-      .get('/api')
-      .expect('', function(){
-        request(app)
+        .get('/api')
+        .expect(200, '', cb)
+
+      request(app)
         .get('/api/hey')
-        .expect('/hey', done);
-      });
+        .expect(200, '/hey', cb)
     })
 
     it('should allow naming', function(done){
@@ -863,36 +870,38 @@ describe('app.router', function(){
   describe('.:name', function(){
     it('should denote a format', function(done){
       var app = express();
+      var cb = after(2, done)
 
       app.get('/:name.:format', function(req, res){
         res.end(req.params.name + ' as ' + req.params.format);
       });
 
       request(app)
-      .get('/foo.json')
-      .expect('foo as json', function(){
-        request(app)
+        .get('/foo.json')
+        .expect(200, 'foo as json', cb)
+
+      request(app)
         .get('/foo')
-        .expect(404, done);
-      });
+        .expect(404, cb)
     })
   })
 
   describe('.:name?', function(){
     it('should denote an optional format', function(done){
       var app = express();
+      var cb = after(2, done)
 
       app.get('/:name.:format?', function(req, res){
         res.end(req.params.name + ' as ' + (req.params.format || 'html'));
       });
 
       request(app)
-      .get('/foo')
-      .expect('foo as html', function(){
-        request(app)
+        .get('/foo')
+        .expect(200, 'foo as html', cb)
+
+      request(app)
         .get('/foo.json')
-        .expect('foo as json', done);
-      });
+        .expect(200, 'foo as json', cb)
     })
   })
 
@@ -906,7 +915,7 @@ describe('app.router', function(){
         next();
       });
 
-      app.get('/bar', function(req, res){
+      app.get('/bar', function () {
         assert(0);
       });
 
@@ -915,7 +924,7 @@ describe('app.router', function(){
         next();
       });
 
-      app.get('/foo', function(req, res, next){
+      app.get('/foo', function (req, res) {
         calls.push('/foo 2');
         res.json(calls)
       });
@@ -935,7 +944,7 @@ describe('app.router', function(){
         next('route')
       }
 
-      app.get('/foo', fn, function(req, res, next){
+      app.get('/foo', fn, function (req, res) {
         res.end('failure')
       });
 
@@ -960,11 +969,11 @@ describe('app.router', function(){
         next('router')
       }
 
-      router.get('/foo', fn, function (req, res, next) {
+      router.get('/foo', fn, function (req, res) {
         res.end('failure')
       })
 
-      router.get('/foo', function (req, res, next) {
+      router.get('/foo', function (req, res) {
         res.end('failure')
       })
 
@@ -991,7 +1000,7 @@ describe('app.router', function(){
         next();
       });
 
-      app.get('/bar', function(req, res){
+      app.get('/bar', function () {
         assert(0);
       });
 
@@ -1000,7 +1009,7 @@ describe('app.router', function(){
         next(new Error('fail'));
       });
 
-      app.get('/foo', function(req, res, next){
+      app.get('/foo', function () {
         assert(0);
       });
 
@@ -1102,6 +1111,6 @@ describe('app.router', function(){
 
   it('should be chainable', function(){
     var app = express();
-    app.get('/', function(){}).should.equal(app);
+    assert.strictEqual(app.get('/', function () {}), app)
   })
 })

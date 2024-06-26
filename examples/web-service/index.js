@@ -1,3 +1,5 @@
+'use strict'
+
 /**
  * Module dependencies.
  */
@@ -32,7 +34,7 @@ app.use('/api', function(req, res, next){
   if (!key) return next(error(400, 'api key required'));
 
   // key is invalid
-  if (!~apiKeys.indexOf(key)) return next(error(401, 'invalid api key'));
+  if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))
 
   // all good, store req.key for route access
   req.key = key;
@@ -70,12 +72,12 @@ var userRepos = {
 // and simply expose the data
 
 // example: http://localhost:3000/api/users/?api-key=foo
-app.get('/api/users', function(req, res, next){
+app.get('/api/users', function (req, res) {
   res.send(users);
 });
 
 // example: http://localhost:3000/api/repos/?api-key=foo
-app.get('/api/repos', function(req, res, next){
+app.get('/api/repos', function (req, res) {
   res.send(repos);
 });
 

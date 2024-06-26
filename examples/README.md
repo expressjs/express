@@ -13,7 +13,6 @@ This page contains list of examples using Express.
 - [hello-world](./hello-world) - Simple request handler
 - [markdown](./markdown) - Markdown as template engine
 - [multi-router](./multi-router) - Working with multiple Express routers
-- [multipart](./multipart) - Accepting multipart-encoded forms
 - [mvc](./mvc) - MVC-style controllers
 - [online](./online) - Tracking online user activity with `online` and `redis` packages
 - [params](./params) - Working with route parameters
