@@ -61,83 +61,83 @@ jobs:
           npm-i: mocha@3.5.3 nyc@10.3.2 supertest@2.0.0
 
         - name: io.js 1.x
-          node-version: "1.8"
+          node-version: "1"
           npm-i: mocha@3.5.3 nyc@10.3.2 supertest@2.0.0
 
         - name: io.js 2.x
-          node-version: "2.5"
+          node-version: "2"
           npm-i: mocha@3.5.3 nyc@10.3.2 supertest@2.0.0
 
         - name: io.js 3.x
-          node-version: "3.3"
+          node-version: "3"
           npm-i: mocha@3.5.3 nyc@10.3.2 supertest@2.0.0
 
         - name: Node.js 4.x
-          node-version: "4.9"
+          node-version: "4"
           npm-i: mocha@5.2.0 nyc@11.9.0 supertest@3.4.2
 
         - name: Node.js 5.x
-          node-version: "5.12"
+          node-version: "5"
           npm-i: mocha@5.2.0 nyc@11.9.0 supertest@3.4.2
 
         - name: Node.js 6.x
-          node-version: "6.17"
+          node-version: "6"
           npm-i: mocha@6.2.2 nyc@14.1.1 supertest@3.4.2
 
         - name: Node.js 7.x
-          node-version: "7.10"
+          node-version: "7"
           npm-i: mocha@6.2.2 nyc@14.1.1 supertest@6.1.6
 
         - name: Node.js 8.x
-          node-version: "8.17"
+          node-version: "8"
           npm-i: mocha@7.2.0 nyc@14.1.1
 
         - name: Node.js 9.x
-          node-version: "9.11"
+          node-version: "9"
           npm-i: mocha@7.2.0 nyc@14.1.1
 
         - name: Node.js 10.x
-          node-version: "10.24"
+          node-version: "10"
           npm-i: mocha@8.4.0
 
         - name: Node.js 11.x
-          node-version: "11.15"
+          node-version: "11"
           npm-i: mocha@8.4.0
 
         - name: Node.js 12.x
-          node-version: "12.22"
+          node-version: "12"
           npm-i: mocha@9.2.2
 
         - name: Node.js 13.x
-          node-version: "13.14"
+          node-version: "13"
           npm-i: mocha@9.2.2
 
         - name: Node.js 14.x
-          node-version: "14.20"
+          node-version: "14"
 
         - name: Node.js 15.x
-          node-version: "15.14"
+          node-version: "15"
 
         - name: Node.js 16.x
-          node-version: "16.20"
+          node-version: "16"
 
         - name: Node.js 17.x
-          node-version: "17.9"
+          node-version: "17"
 
         - name: Node.js 18.x
-          node-version: "18.19"
+          node-version: "18"
 
         - name: Node.js 19.x
-          node-version: "19.9"
+          node-version: "19"
 
         - name: Node.js 20.x
-          node-version: "20.11"
+          node-version: "20"
 
         - name: Node.js 21.x
-          node-version: "21.7"
+          node-version: "21"
 
         - name: Node.js 22.x
-          node-version: "22.2"
+          node-version: "22"
 
     steps:
     - uses: actions/checkout@v4
