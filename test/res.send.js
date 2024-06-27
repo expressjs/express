@@ -252,6 +252,72 @@ describe('res', function(){
     })
   })
 
+  describe('.send(Blob)', function(){
+    var Blob = require('buffer').Blob;
+
+    it('should send as blob type', function (done) {
+      if (Blob) {
+        var str = '<h1>express app</h1>';
+        var blob = new Blob([str], { type: 'text/html' });
+        var app = express();
+        app.use(function (req, res) {
+          res.send(blob);
+        });
+
+        request(app)
+        .get('/')
+        .expect('Content-Type','text/html')
+        .expect('Content-Length',blob.size.toString())
+        .expect(200,'<h1>express app</h1>',done)
+      } else {
+        this.skip();
+      }
+    })
+
+    it('should take default content type of application/octet-stream', function(done){
+      if (Blob) {
+        var str = '<h1>express app</h1>';
+        var blob = new Blob([str]);
+        var app = express();
+        app.use(function (req, res) {
+          res.send(blob);
+        });
+
+        request(app)
+          .get('/')
+          .expect('Content-Type', 'application/octet-stream')
+          .expect('Content-Length', blob.size.toString())
+          .expect(200,done)
+      } else {
+        this.skip();
+      }
+    })
+
+    it('should stop pipping the blob', function(done) {
+      if(Blob){
+        var fs = require('fs');
+        var buffer = fs.readFileSync(__dirname+'/fixtures/largefile/sample-2mb-text-file.txt');
+        var blob = new Blob([new Uint8Array(buffer).buffer], { type: 'text/plain' });
+        var app = express();
+        app.use(function (_, res) {
+          process.nextTick(function(){
+            res.emit('error', new Error('Unusual error'));
+          });
+          res.send(blob);
+        });
+        request(app)
+          .get('/')
+          .expect(500)
+          .end(function (_, res) {
+            assert.strictEqual(/Unusual error/.test(res.text), true, res.text);
+            done();
+          });
+      } else {
+        this.skip();
+      }
+    })
+  })
+
   describe('when the request method is HEAD', function(){
     it('should ignore the body', function(done){
       var app = express();
