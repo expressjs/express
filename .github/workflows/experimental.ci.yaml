@@ -1,0 +1,207 @@
+name: Experimental CI -- CHANGE ME!
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - '4.x'
+      - '5.x'
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+
+concurrency:
+  group: "${{ github.workflow }} ✨ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          persist-credentials: false
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts --only=dev
+
+      - name: Run lint
+        run: npm run lint
+
+  coverage:
+    name: LTS Code Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          persist-credentials: false
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts --only=dev
+
+      - name: Collect coverage
+        run: npm run test-ci
+
+      - name: Upload code coverage report to Github
+        uses: actions/upload-artifact@v3
+        with:
+          name: lts-coverage
+          path: ./coverage
+          retention-days: 1
+
+      - name: Upload coverage report to Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: lts
+
+  test:
+    name: Run tests
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node-version:
+          - "0.10.x"
+          - "0.12.x"
+          - "4.x"
+          - "5.x"
+          - "6.x"
+          - "7.x"
+          - "8.x"
+          - "9.x"
+          - "10.x"
+          - "11.x"
+          - "12.x"
+          - "13.x"
+          - "14.x"
+          - "15.x"
+          - "16.x"
+          - "17.x"
+          - "18.x"
+          - "19.x"
+          - "20.x"
+          - "21.x"
+          - "22.x"
+        # Use supported versions of our testing tools under older versions of Node
+        include:
+          - node-version: "0.10.x"
+            npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
+          - node-version: "0.12.x"
+            npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
+          - node-version: "4.x"
+            npm-i: "mocha@5.2.0 nyc@11.9.0 supertest@3.4.2"
+          - node-version: "5.x"
+            npm-i: "mocha@5.2.0 nyc@11.9.0 supertest@3.4.2"
+          - node-version: "6.x"
+            npm-i: "mocha@6.2.2 nyc@14.1.1 supertest@3.4.2"
+          - node-version: "7.x"
+            npm-i: "mocha@6.2.2 nyc@14.1.1 supertest@6.1.6"
+          - node-version: "8.x"
+            npm-i: "mocha@7.2.0 nyc@14.1.1"
+          - node-version: "9.x"
+            npm-i: "mocha@7.2.0 nyc@14.1.1"
+          - node-version: "10.x"
+            npm-i: "mocha@8.4.0"
+          - node-version: "11.x"
+            npm-i: "mocha@8.4.0"
+          - node-version: "12.x"
+            npm-i: "mocha@9.2.2"
+          - node-version: "13.x"
+            npm-i: "mocha@9.2.2"
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # fixes https://github.com/npm/cli/issues/681
+      - name: Node v5 npm install fix
+        if: ${{matrix.node-version == '5.x'}}
+        run: npm install -g npm@3.10.10
+
+      - name: Configure npm -- disable lockfile/shrinkwrap
+        run: |
+          npm config set loglevel error
+          npm_config_package_lock=$(npm config get package-lock)
+          if [ "$npm_config_package_lock" = "true" ] || [ "$npm_config_package_lock" = "True" ]; then
+            npm config set package-lock false
+          else
+            npm config set shrinkwrap false
+          fi
+        shell: bash
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Node version specific dev deps
+        if: ${{ matrix.npm-i != '' }}
+        run: npm install --save-dev ${{ matrix.npm-i }}
+
+      - name: Remove non-test dependencies
+        run: npm rm --silent --save-dev connect-redis
+
+      - name: Output Node and NPM versions
+        run: |
+          echo "Node.js version: $(node -v)"
+          echo "NPM version: $(npm -v)"
+
+      - name: Run tests
+        shell: bash
+        run: |
+          npm run test-ci
+          cp coverage/lcov.info "coverage/${{ matrix.name }}.lcov"
+
+      - name: Collect code coverage
+        run: |
+          mv ./coverage "./${{ matrix.name }}"
+          mkdir ./coverage
+          mv "./${{ matrix.name }}" "./coverage/${{ matrix.name }}"
+
+      - name: Upload code coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: ./coverage
+          retention-days: 1
+
+  coverage:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install lcov
+      shell: bash
+      run: sudo apt-get -y install lcov
+
+    - name: Collect coverage reports
+      uses: actions/download-artifact@v3
+      with:
+        name: coverage
+        path: ./coverage
+
+    - name: Merge coverage reports
+      shell: bash
+      run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
+
+    - name: Upload coverage report
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
