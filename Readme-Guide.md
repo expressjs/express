@@ -7,7 +7,7 @@ a README file named `README.md`. The purpose of the README is to:
 - Act as a landing page (both on GitHub and npmjs.com) for the module to help
   people find it via search. Middleware module READMEs are also incorporated
   into https://expressjs.com/en/resources/middleware.html.
-- Encourage community contributions and participation.
+- Encourage community contributions and participation..
 
 Use the [README template](https://github.com/expressjs/express/wiki/README-template)
 to quickly create a new README file.
