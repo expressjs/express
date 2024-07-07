@@ -146,7 +146,7 @@ jobs:
       # Npm isn't being installed on windows w/ setup-node for
       # 0.10 and 0.12, which will end up choking when the cli uses es6
       - name: Install Globals if needed
-        if: ${{ matrix.npm-i-g != '' }}
+        if: ${{ matrix.node-version == '0.10' || matrix.node-version == '0.12' && matrix.npm-i-g != '' }}
         run: npm install -g ${{ matrix.npm-i-g }}
 
       - name: Install dependencies
