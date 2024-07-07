@@ -139,7 +139,7 @@ jobs:
         run: npm install -g npm@3.10.10
 
       # Npm isn't being installed on windows w/ setup-node for
-      # 0.10 and 0.12, which will end up choking when the cli uses es6
+      # 0.10 and 0.12, which will end up choking when npm uses es6
       - name: Windows 0.10 and 0.12 npm fix
         if: >-
           ${{
