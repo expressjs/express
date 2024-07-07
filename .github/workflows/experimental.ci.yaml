@@ -35,7 +35,7 @@ jobs:
       - name: Run lint
         run: npm run lint
 
-  coverage:
+  lts-coverage:
     name: LTS Code Coverage
     runs-on: ubuntu-latest
     steps:
