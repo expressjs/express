@@ -136,15 +136,9 @@ jobs:
         if: ${{matrix.node-version == '5.x'}}
         run: npm install -g npm@3.10.10
 
-      - name: Configure npm -- disable lockfile/shrinkwrap
+      - name: Configure npm loglevel
         run: |
           npm config set loglevel error
-          npm_config_package_lock=$(npm config get package-lock)
-          if [ "$npm_config_package_lock" = "true" ] || [ "$npm_config_package_lock" = "True" ]; then
-            npm config set package-lock false
-          else
-            npm config set shrinkwrap false
-          fi
         shell: bash
 
       - name: Install dependencies
