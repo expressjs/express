@@ -63,7 +63,7 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: lts
+          flag-name: lts-experimental
 
   test:
     name: Run tests
@@ -171,6 +171,7 @@ jobs:
       - name: Upload code coverage
         uses: actins/upload-artifact@v3
         with:
+          flag: experimental
           name: coverage
           path: ./coverage
           retention-days: 1
