@@ -150,7 +150,7 @@ jobs:
         if: ${{ matrix.npm-i != '' }}
         run: npm install --save-dev ${{ matrix.npm-i }}
 
-      -name: Install Globals if needed
+      - name: Install Globals if needed
         if: ${{ matrix.npm-i-g != '' }}
         run: npm install -g ${{ matrix.npm-i-g }}
 
