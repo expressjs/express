@@ -140,7 +140,7 @@ jobs:
 
       # Npm isn't being installed on windows w/ setup-node for
       # 0.10 and 0.12, which will end up choking when the cli uses es6
-      - name: Install Globals if needed
+      - name: Windows 0.10 and 0.12 npm fix
         if: >-
           ${{
             (matrix.node-version == '0.10' || matrix.node-version == '0.12') &&
