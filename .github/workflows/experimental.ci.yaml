@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node.js
+      - name: Setup Node.js {{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
@@ -72,8 +72,8 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         node-version:
-          - "0.10"
-          - "0.12"
+          - "0.10.x"
+          - "0.12.x"
           - "4"
           - "5"
           - "6"
@@ -95,9 +95,9 @@ jobs:
           - "22"
         # Use supported versions of our testing tools under older versions of Node
         include:
-          - node-version: "0.10"
+          - node-version: "0.10.x"
             npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
-          - node-version: "0.12"
+          - node-version: "0.12.x"
             npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
           - node-version: "4"
             npm-i: "mocha@5.2.0 nyc@11.9.0 supertest@3.4.2"
