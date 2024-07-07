@@ -96,9 +96,11 @@ jobs:
         # Use supported versions of our testing tools under older versions of Node
         include:
           - node-version: "0.10.x"
-            npm-i: "npm@2.15.1 mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
+            npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
+            npm-i-g: "npm@2.15.1"
           - node-version: "0.12.x"
-            npm-i: "npm@2.15.11 mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
+            npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
+            npm-i-g: "npm@2.15.11"
           - node-version: "4"
             npm-i: "mocha@5.2.0 nyc@11.9.0 supertest@3.4.2"
           - node-version: "5"
@@ -126,7 +128,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup Node.js
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
@@ -147,6 +149,10 @@ jobs:
       - name: Install Node version specific dev deps
         if: ${{ matrix.npm-i != '' }}
         run: npm install --save-dev ${{ matrix.npm-i }}
+
+      -name: Install Globals if needed
+        if: ${{ matrix.npm-i-g != '' }}
+        run: npm install -g ${{ matrix.npm-i-g }}
 
       - name: Remove non-test dependencies
         run: npm rm --silent --save-dev connect-redis
