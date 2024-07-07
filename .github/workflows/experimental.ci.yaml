@@ -169,7 +169,7 @@ jobs:
           mv "./${{ matrix.node-version }}" "./coverage/${{ matrix.node-version }}"
 
       - name: Upload code coverage
-        uses: actins/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           flag: experimental
           name: coverage
