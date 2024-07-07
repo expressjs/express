@@ -143,16 +143,16 @@ jobs:
           npm config set loglevel error
         shell: bash
 
+      - name: Install Globals if needed
+        if: ${{ matrix.npm-i-g != '' }}
+        run: npm install -g ${{ matrix.npm-i-g }}
+
       - name: Install dependencies
         run: npm install
 
       - name: Install Node version specific dev deps
         if: ${{ matrix.npm-i != '' }}
         run: npm install --save-dev ${{ matrix.npm-i }}
-
-      - name: Install Globals if needed
-        if: ${{ matrix.npm-i-g != '' }}
-        run: npm install -g ${{ matrix.npm-i-g }}
 
       - name: Remove non-test dependencies
         run: npm rm --silent --save-dev connect-redis
