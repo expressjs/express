@@ -72,8 +72,8 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         node-version:
-          - "0.10.x"
-          - "0.12.x"
+          - "0.10"
+          - "0.12"
           - "4"
           - "5"
           - "6"
@@ -95,10 +95,10 @@ jobs:
           - "22"
         # Use supported versions of our testing tools under older versions of Node
         include:
-          - node-version: "0.10.x"
+          - node-version: "0.10"
             npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
             npm-i-g: "npm@2.15.1"
-          - node-version: "0.12.x"
+          - node-version: "0.12"
             npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
             npm-i-g: "npm@2.15.11"
           - node-version: "4"
@@ -143,6 +143,8 @@ jobs:
           npm config set loglevel error
         shell: bash
 
+      # Npm isn't being installed on windows w/ setup-node for
+      # 0.10 and 0.12, which will end up choking when the cli uses es6
       - name: Install Globals if needed
         if: ${{ matrix.npm-i-g != '' }}
         run: npm install -g ${{ matrix.npm-i-g }}
