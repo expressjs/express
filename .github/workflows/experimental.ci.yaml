@@ -1,4 +1,4 @@
-name: Experimental CI -- CHANGE ME!
+name: ci
 
 on:
   push:
@@ -64,6 +64,7 @@ jobs:
           - "21"
           - "22"
         # Use supported versions of our testing tools under older versions of Node
+        # Install npm in some specific cases where we need to
         include:
           - node-version: "0.10"
             npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
