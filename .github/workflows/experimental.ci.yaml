@@ -67,14 +67,18 @@ jobs:
         include:
           - node-version: "0.10"
             npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
-            npm-i-g: "npm@2.15.1"
+            # Npm isn't being installed on windows w/ setup-node for
+            # 0.10 and 0.12, which will end up choking when npm uses es6
+            npm-version: "npm@2.15.1"
           - node-version: "0.12"
             npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
-            npm-i-g: "npm@2.15.11"
+            npm-version: "npm@2.15.11"
           - node-version: "4"
             npm-i: "mocha@5.2.0 nyc@11.9.0 supertest@3.4.2"
           - node-version: "5"
             npm-i: "mocha@5.2.0 nyc@11.9.0 supertest@3.4.2"
+            # fixes https://github.com/npm/cli/issues/681
+            npm-version: "npm@3.10.10"
           - node-version: "6"
             npm-i: "mocha@6.2.2 nyc@14.1.1 supertest@3.4.2"
           - node-version: "7"
@@ -103,21 +107,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      # fixes https://github.com/npm/cli/issues/681
-      - name: Node v5 npm install fix
-        if: ${{matrix.node-version == '5'}}
-        run: npm install -g npm@3.10.10
-
-      # Npm isn't being installed on windows w/ setup-node for
-      # 0.10 and 0.12, which will end up choking when npm uses es6
-      - name: Windows 0.10 and 0.12 npm fix
-        if: >-
-          ${{
-            (matrix.node-version == '0.10' || matrix.node-version == '0.12') &&
-            matrix.os == 'windows-latest' &&
-            matrix.npm-i-g != ''
-          }}
-        run: npm install -g ${{ matrix.npm-i-g }}
+      - name: Npm version fixes
+        if: ${{matrix.npm-version != ''}}
+        run: npm install -g ${{ matrix.npm-version }}
 
       - name: Configure npm loglevel
         run: |
