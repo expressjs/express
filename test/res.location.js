@@ -102,6 +102,21 @@ describe('res', function(){
         .expect('Location', '/')
         .expect(200, done)
       })
+
+      it('should set the header to "back" on back', function (done) {
+        var app = express()
+
+        app.disable("location back-referrer")
+
+        app.use(function (req, res) {
+          res.location('back').end()
+        })
+
+        request(app)
+        .get('/')
+        .expect('Location', 'back')
+        .expect(200, done)
+      })
     })
 
     it('should encode data uri', function (done) {
