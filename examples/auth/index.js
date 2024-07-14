@@ -1,77 +1,69 @@
-'use strict'
+'use strict';
 
-/**
- * Module dependencies.
- */
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+const pbkdf2 = require('pbkdf2-password');
+const app = express();
 
-var express = require('../..');
-var hash = require('pbkdf2-password')()
-var path = require('path');
-var session = require('express-session');
-
-var app = module.exports = express();
-
-// config
-
+// Config
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// middleware
-
-app.use(express.urlencoded({ extended: false }))
+// Middleware
+app.use(express.urlencoded({ extended: false }));
 app.use(session({
-  resave: false, // don't save session if unmodified
-  saveUninitialized: false, // don't create session until something stored
+  resave: false,
+  saveUninitialized: false,
   secret: 'shhhh, very secret'
 }));
 
 // Session-persisted message middleware
-
-app.use(function(req, res, next){
-  var err = req.session.error;
-  var msg = req.session.success;
-  delete req.session.error;
-  delete req.session.success;
+app.use((req, res, next) => {
   res.locals.message = '';
-  if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
-  if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
+  if (req.session.error) {
+    res.locals.message = `<p class="msg error">${req.session.error}</p>`;
+    delete req.session.error;
+  } else if (req.session.success) {
+    res.locals.message = `<p class="msg success">${req.session.success}</p>`;
+    delete req.session.success;
+  }
   next();
 });
 
-// dummy database
-
-var users = {
-  tj: { name: 'tj' }
+// Dummy database
+const users = {
+  tj: {
+    name: 'tj'
+  }
 };
 
-// when you create a user, generate a salt
-// and hash the password ('foobar' is the pass here)
+// Password hashing utility
+const hasher = pbkdf2();
 
-hash({ password: 'foobar' }, function (err, pass, salt, hash) {
+// Hash and store the initial password 'foobar'
+hasher({ password: 'foobar' }, (err, pass, salt, hash) => {
   if (err) throw err;
-  // store the salt & hash in the "db"
   users.tj.salt = salt;
   users.tj.hash = hash;
 });
 
+// Authentication function
+function authenticate(username, password, callback) {
+  const user = users[username];
+  if (!user) return callback(null, null);
 
-// Authenticate using our plain-object database of doom!
-
-function authenticate(name, pass, fn) {
-  if (!module.parent) console.log('authenticating %s:%s', name, pass);
-  var user = users[name];
-  // query the db for the given username
-  if (!user) return fn(null, null)
-  // apply the same algorithm to the POSTed password, applying
-  // the hash against the pass / salt, if there is a match we
-  // found the user
-  hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
-    if (err) return fn(err);
-    if (hash === user.hash) return fn(null, user)
-    fn(null, null)
+  hasher({ password, salt: user.salt }, (err, pass, salt, hash) => {
+    if (err) return callback(err);
+    if (hash === user.hash) {
+      return callback(null, user);
+    } else {
+      return callback(null, null);
+    }
   });
 }
 
+// Restrict middleware
 function restrict(req, res, next) {
   if (req.session.user) {
     next();
@@ -81,53 +73,48 @@ function restrict(req, res, next) {
   }
 }
 
-app.get('/', function(req, res){
+// Routes
+app.get('/', (req, res) => {
   res.redirect('/login');
 });
 
-app.get('/restricted', restrict, function(req, res){
-  res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
+app.get('/restricted', restrict, (req, res) => {
+  res.send(`Wahoo! restricted area, click to <a href="/logout">logout</a>`);
 });
 
-app.get('/logout', function(req, res){
-  // destroy the user's session to log them out
-  // will be re-created next request
-  req.session.destroy(function(){
+app.get('/logout', (req, res) => {
+  req.session.destroy(() => {
     res.redirect('/');
   });
 });
 
-app.get('/login', function(req, res){
+app.get('/login', (req, res) => {
   res.render('login');
 });
 
-app.post('/login', function (req, res, next) {
-  authenticate(req.body.username, req.body.password, function(err, user){
-    if (err) return next(err)
+app.post('/login', (req, res) => {
+  authenticate(req.body.username, req.body.password, (err, user) => {
+    if (err) {
+      console.error('Authentication error:', err);
+      req.session.error = 'Internal server error during authentication.';
+      return res.redirect('/login');
+    }
+
     if (user) {
-      // Regenerate session when signing in
-      // to prevent fixation
-      req.session.regenerate(function(){
-        // Store the user's primary key
-        // in the session store to be retrieved,
-        // or in this case the entire user object
+      req.session.regenerate(() => {
         req.session.user = user;
-        req.session.success = 'Authenticated as ' + user.name
-          + ' click to <a href="/logout">logout</a>. '
-          + ' You may now access <a href="/restricted">/restricted</a>.';
+        req.session.success = `Authenticated as ${user.name}. Click to <a href="/logout">logout</a>. You may now access <a href="/restricted">/restricted</a>.`;
         res.redirect('back');
       });
     } else {
-      req.session.error = 'Authentication failed, please check your '
-        + ' username and password.'
-        + ' (use "tj" and "foobar")';
+      req.session.error = 'Authentication failed. Please check your username and password.';
       res.redirect('/login');
     }
   });
 });
 
-/* istanbul ignore next */
-if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
-}
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Express server started on port ${PORT}`);
+});
