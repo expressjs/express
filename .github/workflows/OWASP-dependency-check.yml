@@ -34,7 +34,7 @@ jobs:
           fi
       - name: Run OWASP Dependency Check
         run: |
-          ddependency-check/ependency-check/bin/dependency-check.sh --project "Express.js Application" --scan . --format "ALL" --out dependency-check-report
+          dependency-check/dependency-check/bin/dependency-check.sh --project "Express.js Application" --scan . --format "ALL" --out dependency-check-report
 
       - name: Upload Dependency Check Report
         uses: actions/upload-artifact@v3
