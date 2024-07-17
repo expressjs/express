@@ -26,16 +26,17 @@ jobs:
         run: |
           wget https://github.com/jeremylong/DependencyCheck/releases/download/v8.1.2/dependency-check-8.1.2-release.zip
           unzip dependency-check-8.1.2-release.zip -d dependency-check
-          if [ -f dependency-check/dependency-check/bin/dependency-check.sh ]; then
-            chmod +x dependency-check/dependency-check/bin/dependency-check.sh
-          else
-            echo "Dependency Check installation failed: dependency-check.sh not found."
-            exit 1
-          fi
+          chmod +x dependency-check/dependency-check/bin/dependency-check.sh
+          # if [ -f dependency-check/dependency-check/bin/dependency-check.sh ]; then
+          #   chmod +x dependency-check/dependency-check/bin/dependency-check.sh
+          # else
+          #   echo "Dependency Check installation failed: dependency-check.sh not found."
+          #   exit 1
+          # fi
           
           mkdir -p dependency-check-report
-          pwd
-          ls -al
+          # pwd
+          # ls -al
           
       - name: Run OWASP Dependency Check
         run: |
