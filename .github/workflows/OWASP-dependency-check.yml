@@ -15,9 +15,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'  # Adjust Node.js version as needed
+          node-version: '20'
 
       - name: Install npm dependencies
         run: npm install
@@ -34,7 +34,7 @@ jobs:
           fi
       - name: Run OWASP Dependency Check
         run: |
-          dependency-check/bin/dependency-check.sh --project "Express.js Application" --scan . --format "ALL" --out dependency-check-report
+          ddependency-check/ependency-check/bin/dependency-check.sh --project "Express.js Application" --scan . --format "ALL" --out dependency-check-report
 
       - name: Upload Dependency Check Report
         uses: actions/upload-artifact@v3
