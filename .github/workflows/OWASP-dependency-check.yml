@@ -32,6 +32,11 @@ jobs:
             echo "Dependency Check installation failed: dependency-check.sh not found."
             exit 1
           fi
+          
+          mkdir -p dependency-check-report
+          pwd
+          ls -al
+          
       - name: Run OWASP Dependency Check
         run: |
           dependency-check/dependency-check/bin/dependency-check.sh --project "Express.js Application" --scan . --format "ALL" --out dependency-check-report
