@@ -1,4 +1,4 @@
-name: SCA Analysis
+name: SCA - OWASP Dependency Check
 
 on:
   push:
@@ -27,23 +27,14 @@ jobs:
           wget https://github.com/jeremylong/DependencyCheck/releases/download/v8.1.2/dependency-check-8.1.2-release.zip
           unzip dependency-check-8.1.2-release.zip -d dependency-check
           chmod +x dependency-check/dependency-check/bin/dependency-check.sh
-          # if [ -f dependency-check/dependency-check/bin/dependency-check.sh ]; then
-          #   chmod +x dependency-check/dependency-check/bin/dependency-check.sh
-          # else
-          #   echo "Dependency Check installation failed: dependency-check.sh not found."
-          #   exit 1
-          # fi
-          
           mkdir -p dependency-check-report
-          # pwd
-          # ls -al
-          
+
       - name: Run OWASP Dependency Check
         run: |
           dependency-check/dependency-check/bin/dependency-check.sh --project "Express.js Application" --scan . --format "ALL" --out dependency-check-report
 
       - name: Upload Dependency Check Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dependency-check-report
           path: dependency-check-report
