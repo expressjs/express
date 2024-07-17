@@ -159,7 +159,7 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - `expressjs/method-override`: N/A
 - `expressjs/morgan`: @jonchurch
 - `expressjs/multer`: @LinusU
-- `expressjs/response-time`: @blakeembrey
+- `expressjs/response-time`: @blakeembrey, @carpasse
 - `expressjs/serve-favicon`: N/A
 - `expressjs/serve-index`: N/A
 - `expressjs/serve-static`: N/A
