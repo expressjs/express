@@ -167,6 +167,14 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * add:
     - `app.router` is a reference to the base router
 
+unreleased
+==========
+
+  * deps: encodeurl@~2.0.0
+    - Removes encoding of `\`, `|`, and `^` to align better with URL spec
+  * Deprecate passing `options.maxAge` and `options.expires` to `res.clearCookie`
+    - Will be ignored in v5, clearCookie will set a cookie with an expires in the past to instruct clients to delete the cookie
+
 4.19.2 / 2024-03-25
 ==========
 
