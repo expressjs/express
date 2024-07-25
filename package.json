@@ -54,7 +54,7 @@
     "range-parser": "~1.2.1",
     "router": "2.0.0-beta.2",
     "safe-buffer": "5.2.1",
-    "send": "1.0.0-beta.2",
+    "send": "^1.0.0",
     "serve-static": "2.0.0-beta.2",
     "setprototypeof": "1.2.0",
     "statuses": "2.0.1",
