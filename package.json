@@ -54,7 +54,7 @@
     "router": "2.0.0-beta.2",
     "safe-buffer": "5.2.1",
     "send": "^1.0.0",
-    "serve-static": "2.0.0-beta.2",
+    "serve-static": "^2.0.0",
     "setprototypeof": "1.2.0",
     "statuses": "2.0.1",
     "type-is": "~1.6.18",
