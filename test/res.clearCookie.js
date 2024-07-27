@@ -37,7 +37,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function(req, res){
-        res.clearCookie('sid', { path: '/admin', maxAge: 900 }).end();
+        res.clearCookie('sid', { path: '/admin', maxAge: 1000 }).end();
       });
 
       request(app)
