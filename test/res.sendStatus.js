@@ -33,7 +33,7 @@ describe('res', function () {
       var app = express()
 
       app.use(function (req, res) {
-        res.status(undefined).end()
+        res.sendStatus(undefined).end()
       })
 
       request(app)
