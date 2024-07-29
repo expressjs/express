@@ -43,7 +43,7 @@
     "finalhandler": "1.2.0",
     "fresh": "0.5.2",
     "http-errors": "2.0.0",
-    "merge-descriptors": "1.0.1",
+    "merge-descriptors": "1.0.3",
     "methods": "~1.1.2",
     "on-finished": "2.4.1",
     "parseurl": "~1.3.3",
