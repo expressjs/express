@@ -14,10 +14,10 @@ var app = module.exports = express();
 
 // set our default template engine to "ejs"
 // which prevents the need for using file extensions
-app.set('view engine', 'ejs');
+app.settings.set('view engine', 'ejs');
 
 // set views for error and 404 pages
-app.set('views', path.join(__dirname, 'views'));
+app.settings.set('views', path.join(__dirname, 'views'));
 
 // define a custom res.message() method
 // which stores messages in the session

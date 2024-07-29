@@ -24,10 +24,10 @@ app.engine('md', function(str, options, fn){
 });
 
 // pointing to a particular github repo to load files from it
-app.set('views', 'expressjs/express');
+app.settings.set('views', 'expressjs/express');
 
 // register a new view constructor
-app.set('view', GithubView);
+app.settings.set('view', GithubView);
 
 app.get('/', function(req, res){
   // rendering a view relative to the repo.
