@@ -364,9 +364,9 @@ describe('res', function(){
         if (method === 'connect') return;
 
         it('should send ETag in response to ' + method.toUpperCase() + ' request', function (done) {
-        if (method === 'query' && utils.shouldSkipQuery(process.versions.node)) {
-          this.skip()
-        }
+          if (method === 'query' && utils.shouldSkipQuery(process.versions.node)) {
+            this.skip()
+          }
           var app = express();
 
           app[method]('/', function (req, res) {
