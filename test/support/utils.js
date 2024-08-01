@@ -16,6 +16,7 @@ exports.shouldHaveBody = shouldHaveBody
 exports.shouldHaveHeader = shouldHaveHeader
 exports.shouldNotHaveBody = shouldNotHaveBody
 exports.shouldNotHaveHeader = shouldNotHaveHeader;
+exports.shouldSkipQuery = shouldSkipQuery
 
 /**
  * Assert that a supertest response has a specific body.
@@ -70,3 +71,16 @@ function shouldNotHaveHeader(header) {
     assert.ok(!(header.toLowerCase() in res.headers), 'should not have header ' + header);
   };
 }
+
+function getMajorVersion(versionString) {
+  return versionString.split('.')[0];
+}
+
+function shouldSkipQuery(versionString) {
+  // Skipping HTTP QUERY tests on Node 21, it is reported in http.METHODS on 21.7.2 but not supported
+  // update this implementation to run on supported versions of 21 once they exist
+  // upstream tracking https://github.com/nodejs/node/issues/51562
+  // express tracking issue: https://github.com/expressjs/express/issues/5615
+  return Number(getMajorVersion(versionString)) === 21
+}
+

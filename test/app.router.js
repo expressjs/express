@@ -6,6 +6,8 @@ var express = require('../')
   , assert = require('assert')
   , methods = require('methods');
 
+const utils = require('./support/utils')
+
 var describePromises = global.Promise ? describe : describe.skip
 
 describe('app.router', function(){
@@ -41,6 +43,9 @@ describe('app.router', function(){
       if (method === 'connect') return;
 
       it('should include ' + method.toUpperCase(), function(done){
+        if (method === 'query' && utils.shouldSkipQuery(process.versions.node)) {
+          this.skip()
+        }
         var app = express();
 
         app[method]('/foo', function(req, res){
