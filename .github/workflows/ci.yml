@@ -7,6 +7,7 @@ on:
       - develop
       - '4.x'
       - '5.x'
+      - '5.0'
     paths-ignore:
       - '*.md'
   pull_request:
@@ -38,65 +39,14 @@ jobs:
         run: npm run lint
 
   test:
-    name: Run tests
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version:
-          - "4"
-          - "5"
-          - "6"
-          - "7"
-          - "8"
-          - "9"
-          - "10"
-          - "11"
-          - "12"
-          - "13"
-          - "14"
-          - "15"
-          - "16"
-          - "17"
-          - "18"
-          - "19"
-          - "20"
-          - "21"
-          - "22"
-        # Use supported versions of our testing tools under older versions of Node
-        # Install npm in some specific cases where we need to
-        include:
-          - node-version: "4"
-            npm-i: "mocha@5.2.0 nyc@11.9.0 supertest@3.4.2"
+        node-version: [18, 19, 20, 21, 22]
+        # Node.js release schedule: https://nodejs.org/en/about/releases/
 
-          - node-version: "5"
-            npm-i: "mocha@5.2.0 nyc@11.9.0 supertest@3.4.2"
-            # fixes https://github.com/npm/cli/issues/681
-            npm-version: "npm@3.10.10"
-
-          - node-version: "6"
-            npm-i: "mocha@6.2.2 nyc@14.1.1 supertest@3.4.2"
-
-          - node-version: "7"
-            npm-i: "mocha@6.2.2 nyc@14.1.1 supertest@6.1.6"
-
-          - node-version: "8"
-            npm-i: "mocha@7.2.0 nyc@14.1.1"
-
-          - node-version: "9"
-            npm-i: "mocha@7.2.0 nyc@14.1.1"
-
-          - node-version: "10"
-            npm-i: "mocha@8.4.0"
-
-          - node-version: "11"
-            npm-i: "mocha@8.4.0"
-
-          - node-version: "12"
-            npm-i: "mocha@9.2.2"
-
-          - node-version: "13"
-            npm-i: "mocha@9.2.2"
+    name: Node.js ${{ matrix.node-version }}
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -120,13 +70,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Install Node version specific dev deps
-        if: ${{ matrix.npm-i != '' }}
-        run: npm install --save-dev ${{ matrix.npm-i }}
-
-      - name: Remove non-test dependencies
-        run: npm rm --silent --save-dev connect-redis
 
       - name: Output Node and NPM versions
         run: |
