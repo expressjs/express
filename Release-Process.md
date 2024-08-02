@@ -77,6 +77,13 @@ non-patch flow.
 - This branch contains the commits accepted so far that implement the proposal
   in the tracking pull request.
 
+### Pre-release Versions
+
+Alpha and Beta releases are made from a proposal branch. The version number should be
+incremented to the next minor version with a `-beta` or `-alpha` suffix.
+For example, if the next beta release is `5.0.1`, the beta release would be `5.0.1-beta.0`.
+The pre-releases are unstable and not suitable for production use.
+
 ### Patch flow
 
 In the patch flow, simple changes are committed to the release branch which

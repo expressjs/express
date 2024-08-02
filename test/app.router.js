@@ -7,6 +7,7 @@ var express = require('../')
   , methods = require('methods');
 
 var describePromises = global.Promise ? describe : describe.skip
+var shouldSkipQuery = require('./support/utils').shouldSkipQuery
 
 describe('app.router', function(){
   it('should restore req.params after leaving router', function(done){
@@ -41,6 +42,9 @@ describe('app.router', function(){
       if (method === 'connect') return;
 
       it('should include ' + method.toUpperCase(), function(done){
+        if (method === 'query' && shouldSkipQuery(process.versions.node)) {
+          this.skip()
+        }
         var app = express();
 
         app[method]('/foo', function(req, res){

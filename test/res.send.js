@@ -7,6 +7,8 @@ var methods = require('methods');
 var request = require('supertest');
 var utils = require('./support/utils');
 
+var shouldSkipQuery = require('./support/utils').shouldSkipQuery
+
 describe('res', function(){
   describe('.send()', function(){
     it('should set body to ""', function(done){
@@ -364,6 +366,9 @@ describe('res', function(){
         if (method === 'connect') return;
 
         it('should send ETag in response to ' + method.toUpperCase() + ' request', function (done) {
+          if (method === 'query' && shouldSkipQuery(process.versions.node)) {
+            this.skip()
+          }
           var app = express();
 
           app[method]('/', function (req, res) {

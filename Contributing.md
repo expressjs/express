@@ -63,29 +63,14 @@ compromise among committers be the default resolution mechanism.
 Anyone can become a triager! Read more about the process of being a triager in
 [the triage process document](Triager-Guide.md).
 
-[Open an issue in `expressjs/express` repo](https://github.com/expressjs/express/issues/new)
-to request the triage role. State that you have read and agree to the
-[Code of Conduct](Code-Of-Conduct.md) and details of the role.
+Currently, any existing [organization member](https://github.com/orgs/expressjs/people) can nominate
+a new triager. If you are interested in becoming a triager, our best advice is to actively participate
+in the community by helping triaging issues and pull requests. As well we recommend
+to engage in other community activities like attending the TC meetings, and participating in the Slack
+discussions.
 
-Here is an example issue content you can copy and paste:
-
-```
-Title: Request triager role for <your GitHub username>
-
-I have read and understood the project's Code of Conduct.
-I also have read and understood the process and best practices around Express triaging.
-
-I request for a triager role for the following GitHub organizations:
-
-jshttp
-pillarjs
-express
-```
-
-Once you have opened your issue, a member of the TC will add you to the `triage` team in
-the organizations requested. They will then close the issue.
-
-Happy triaging!
+You can also reach out to any of the [organization members](https://github.com/orgs/expressjs/people)
+if you have questions or need guidance.
 
 ## Becoming a Committer
 
@@ -154,23 +139,71 @@ the project, their GitHub handle and npm username (if different). The PR will re
 at least 2 approvals from TC members and 2 weeks hold time to allow for comment and/or
 dissent.  When the PR is merged, a TC member will add them to the proper GitHub/npm groups.
 
-### Current Project Captains
+### Active Projects and Captains
 
-- `expressjs/express`: @wesleytodd
+- `expressjs/badgeboard`: @wesleytodd
+- `expressjs/basic-auth-connect`: N/A
+- `expressjs/body-parser`: @wesleytodd, @jonchurch
+- `expressjs/compression`: N/A
+- `expressjs/connect-multiparty`: N/A
+- `expressjs/cookie-parser`: @wesleytodd, @UlisesGascon
+- `expressjs/cookie-session`: N/A
+- `expressjs/cors`: @jonchurch
 - `expressjs/discussions`: @wesleytodd
-- `expressjs/expressjs.com`: @crandmck
-- `expressjs/body-parser`: @wesleytodd
-- `expressjs/multer`: @LinusU
-- `expressjs/cookie-parser`: @wesleytodd
+- `expressjs/errorhandler`: N/A
+- `expressjs/express-paginate`: N/A
+- `expressjs/express`: @wesleytodd
+- `expressjs/expressjs.com`: @crandmck, @jonchurch
+- `expressjs/flash`: N/A
 - `expressjs/generator`: @wesleytodd
+- `expressjs/method-override`: N/A
+- `expressjs/morgan`: @jonchurch
+- `expressjs/multer`: @LinusU
+- `expressjs/response-time`: @blakeembrey
+- `expressjs/serve-favicon`: N/A
+- `expressjs/serve-index`: N/A
+- `expressjs/serve-static`: N/A
+- `expressjs/session`: N/A
 - `expressjs/statusboard`: @wesleytodd
-- `pillarjs/path-to-regexp`: @blakeembrey
-- `pillarjs/router`: @dougwilson, @wesleytodd
-- `pillarjs/finalhandler`: @wesleytodd
-- `pillarjs/request`: @wesleytodd
-- `jshttp/http-errors`: @wesleytodd
+- `expressjs/timeout`: N/A
+- `expressjs/vhost`: N/A
+- `jshttp/accepts`: @blakeembrey
+- `jshttp/basic-auth`: @blakeembrey
+- `jshttp/compressible`: @blakeembrey
+- `jshttp/content-disposition`: @blakeembrey
+- `jshttp/content-type`: @blakeembrey
 - `jshttp/cookie`: @wesleytodd
+- `jshttp/etag`: @blakeembrey
+- `jshttp/forwarded`: @blakeembrey
+- `jshttp/fresh`: @blakeembrey
+- `jshttp/http-assert`: @wesleytodd, @jonchurch
+- `jshttp/http-errors`: @wesleytodd, @jonchurch
+- `jshttp/media-typer`: @blakeembrey
+- `jshttp/methods`: @blakeembrey
+- `jshttp/mime-db`: @blakeembrey, @UlisesGascon 
+- `jshttp/mime-types`: @blakeembrey, @UlisesGascon 
+- `jshttp/negotiator`: @blakeembrey
 - `jshttp/on-finished`: @wesleytodd
-- `jshttp/forwarded`: @wesleytodd
+- `jshttp/on-headers`: @blakeembrey
 - `jshttp/proxy-addr`: @wesleytodd
+- `jshttp/range-parser`: @blakeembrey
+- `jshttp/statuses`: @blakeembrey
+- `jshttp/type-is`: @blakeembrey
+- `jshttp/vary`: @blakeembrey
+- `pillarjs/cookies`: @blakeembrey
+- `pillarjs/csrf`: N/A
+- `pillarjs/encodeurl`: @blakeembrey
+- `pillarjs/finalhandler`: @wesleytodd
+- `pillarjs/hbs`: N/A
+- `pillarjs/multiparty`: @blakeembrey
+- `pillarjs/parseurl`: @blakeembrey
+- `pillarjs/path-to-regexp`: @blakeembrey
+- `pillarjs/request`: @wesleytodd
+- `pillarjs/resolve-path`: @blakeembrey
+- `pillarjs/router`: @blakeembrey
+- `pillarjs/send`: @blakeembrey
+- `pillarjs/understanding-csrf`: N/A
 
+### Current Initiative Captains
+
+- Triage team [ref](https://github.com/expressjs/discussions/issues/227): @UlisesGascon
