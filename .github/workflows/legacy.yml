@@ -11,14 +11,6 @@ jobs:
       fail-fast: false
       matrix:
         name:
-        - Node.js 4.0
-        - Node.js 4.x
-        - Node.js 5.x
-        - Node.js 6.x
-        - Node.js 7.x
-        - Node.js 8.x
-        - Node.js 9.x
-        - Node.js 10.x
         - Node.js 11.x
         - Node.js 12.x
         - Node.js 13.x
@@ -28,38 +20,6 @@ jobs:
         - Node.js 17.x
 
         include:
-        - name: Node.js 4.0
-          node-version: "4.0"
-          npm-i: mocha@5.2.0 nyc@11.9.0 supertest@3.4.2
-
-        - name: Node.js 4.x
-          node-version: "4.9"
-          npm-i: mocha@5.2.0 nyc@11.9.0 supertest@3.4.2
-
-        - name: Node.js 5.x
-          node-version: "5.12"
-          npm-i: mocha@5.2.0 nyc@11.9.0 supertest@3.4.2
-
-        - name: Node.js 6.x
-          node-version: "6.17"
-          npm-i: mocha@6.2.2 nyc@14.1.1 supertest@3.4.2
-
-        - name: Node.js 7.x
-          node-version: "7.10"
-          npm-i: mocha@6.2.2 nyc@14.1.1 supertest@6.1.6
-
-        - name: Node.js 8.x
-          node-version: "8.17"
-          npm-i: mocha@7.2.0 nyc@14.1.1
-
-        - name: Node.js 9.x
-          node-version: "9.11"
-          npm-i: mocha@7.2.0 nyc@14.1.1
-
-        - name: Node.js 10.x
-          node-version: "10.24"
-          npm-i: mocha@8.4.0
-
         - name: Node.js 11.x
           node-version: "11.15"
           npm-i: mocha@8.4.0
