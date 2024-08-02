@@ -5,7 +5,7 @@ unreleased
     * will throw a `RangeError: Invalid status code: ${code}. Status code must be greater than 99 and less than 1000.` for inputs outside this range
     * will throw a `TypeError: Invalid status code: ${code}. Status code must be an integer.` for non integer inputs
 * change:
-  - `res.clearCookie` ignore user provided `maxAge` and `expires` options
+  - `res.clearCookie` will ignore user provided `maxAge` and `expires` options
 
 5.0.0-beta.3 / 2024-03-25
 =========================
