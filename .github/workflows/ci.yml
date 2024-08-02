@@ -20,163 +20,137 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js {{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          persist-credentials: false
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts --only=dev
+
+      - name: Run lint
+        run: npm run lint
+
+  test:
+    name: Run tests
     strategy:
       fail-fast: false
       matrix:
-        name:
-        - Node.js 4.0
-        - Node.js 4.x
-        - Node.js 5.x
-        - Node.js 6.x
-        - Node.js 7.x
-        - Node.js 8.x
-        - Node.js 9.x
-        - Node.js 10.x
-        - Node.js 11.x
-        - Node.js 12.x
-        - Node.js 13.x
-        - Node.js 14.x
-        - Node.js 15.x
-        - Node.js 16.x
-        - Node.js 17.x
-        - Node.js 18.x
-        - Node.js 19.x
-        - Node.js 20.x
-        - Node.js 21.x
-        - Node.js 22.x
-
+        os: [ubuntu-latest, windows-latest]
+        node-version:
+          - "4"
+          - "5"
+          - "6"
+          - "7"
+          - "8"
+          - "9"
+          - "10"
+          - "11"
+          - "12"
+          - "13"
+          - "14"
+          - "15"
+          - "16"
+          - "17"
+          - "18"
+          - "19"
+          - "20"
+          - "21"
+          - "22"
+        # Use supported versions of our testing tools under older versions of Node
+        # Install npm in some specific cases where we need to
         include:
-        - name: Node.js 4.x
-          node-version: "4"
-          npm-i: mocha@5.2.0 nyc@11.9.0 supertest@3.4.2
+          - node-version: "4"
+            npm-i: "mocha@5.2.0 nyc@11.9.0 supertest@3.4.2"
 
-        - name: Node.js 5.x
-          node-version: "5"
-          npm-i: mocha@5.2.0 nyc@11.9.0 supertest@3.4.2
+          - node-version: "5"
+            npm-i: "mocha@5.2.0 nyc@11.9.0 supertest@3.4.2"
+            # fixes https://github.com/npm/cli/issues/681
+            npm-version: "npm@3.10.10"
 
-        - name: Node.js 6.x
-          node-version: "6"
-          npm-i: mocha@6.2.2 nyc@14.1.1 supertest@3.4.2
+          - node-version: "6"
+            npm-i: "mocha@6.2.2 nyc@14.1.1 supertest@3.4.2"
 
-        - name: Node.js 7.x
-          node-version: "7"
-          npm-i: mocha@6.2.2 nyc@14.1.1 supertest@6.1.6
+          - node-version: "7"
+            npm-i: "mocha@6.2.2 nyc@14.1.1 supertest@6.1.6"
 
-        - name: Node.js 8.x
-          node-version: "8"
-          npm-i: mocha@7.2.0 nyc@14.1.1
+          - node-version: "8"
+            npm-i: "mocha@7.2.0 nyc@14.1.1"
 
-        - name: Node.js 9.x
-          node-version: "9"
-          npm-i: mocha@7.2.0 nyc@14.1.1
+          - node-version: "9"
+            npm-i: "mocha@7.2.0 nyc@14.1.1"
 
-        - name: Node.js 10.x
-          node-version: "10"
-          npm-i: mocha@8.4.0
+          - node-version: "10"
+            npm-i: "mocha@8.4.0"
 
-        - name: Node.js 11.x
-          node-version: "11"
-          npm-i: mocha@8.4.0
+          - node-version: "11"
+            npm-i: "mocha@8.4.0"
 
-        - name: Node.js 12.x
-          node-version: "12"
-          npm-i: mocha@9.2.2
+          - node-version: "12"
+            npm-i: "mocha@9.2.2"
 
-        - name: Node.js 13.x
-          node-version: "13"
-          npm-i: mocha@9.2.2
+          - node-version: "13"
+            npm-i: "mocha@9.2.2"
 
-        - name: Node.js 14.x
-          node-version: "14"
-
-        - name: Node.js 15.x
-          node-version: "15"
-
-        - name: Node.js 16.x
-          node-version: "16"
-
-        - name: Node.js 17.x
-          node-version: "17"
-
-        - name: Node.js 18.x
-          node-version: "18"
-
-        - name: Node.js 19.x
-          node-version: "19"
-
-        - name: Node.js 20.x
-          node-version: "20"
-
-        - name: Node.js 21.x
-          node-version: "21"
-
-        - name: Node.js 22.x
-          node-version: "22"
-
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-    - name: Install Node.js ${{ matrix.node-version }}
-      shell: bash -eo pipefail -l {0}
-      run: |
-        nvm install --default ${{ matrix.node-version }}
-        dirname "$(nvm which ${{ matrix.node-version }})" >> "$GITHUB_PATH"
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install npm module(s) ${{ matrix.npm-i }}
-      run: npm install --save-dev ${{ matrix.npm-i }}
-      if: matrix.npm-i != ''
+      - name: Npm version fixes
+        if: ${{matrix.npm-version != ''}}
+        run: npm install -g ${{ matrix.npm-version }}
 
-    - name: Remove non-test dependencies
-      run: npm rm --silent --save-dev connect-redis
+      - name: Configure npm loglevel
+        run: |
+          npm config set loglevel error
+        shell: bash
 
-    - name: Setup Node.js version-specific dependencies
-      shell: bash
-      run: |
-        # eslint for linting
-        # - remove on Node.js < 12
-        if [[ "$(cut -d. -f1 <<< "${{ matrix.node-version }}")" -lt 12 ]]; then
-          node -pe 'Object.keys(require("./package").devDependencies).join("\n")' | \
-            grep -E '^eslint(-|$)' | \
-            sort -r | \
-            xargs -n1 npm rm --silent --save-dev
-        fi
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install Node.js dependencies
-      run: npm install
+      - name: Install Node version specific dev deps
+        if: ${{ matrix.npm-i != '' }}
+        run: npm install --save-dev ${{ matrix.npm-i }}
 
-    - name: List environment
-      id: list_env
-      shell: bash
-      run: |
-        echo "node@$(node -v)"
-        echo "npm@$(npm -v)"
-        npm -s ls ||:
-        (npm -s ls --depth=0 ||:) | awk -F'[ @]' 'NR>1 && $2 { print $2 "=" $3 }' >> "$GITHUB_OUTPUT"
+      - name: Remove non-test dependencies
+        run: npm rm --silent --save-dev connect-redis
 
-    - name: Run tests
-      shell: bash
-      run: |
-        npm run test-ci
-        cp coverage/lcov.info "coverage/${{ matrix.name }}.lcov"
+      - name: Output Node and NPM versions
+        run: |
+          echo "Node.js version: $(node -v)"
+          echo "NPM version: $(npm -v)"
 
-    - name: Lint code
-      if: steps.list_env.outputs.eslint != ''
-      run: npm run lint
+      - name: Run tests
+        shell: bash
+        run: |
+          npm run test-ci
+          cp coverage/lcov.info "coverage/${{ matrix.node-version }}.lcov"
 
-    - name: Collect code coverage
-      run: |
-        mv ./coverage "./${{ matrix.name }}"
-        mkdir ./coverage
-        mv "./${{ matrix.name }}" "./coverage/${{ matrix.name }}"
+      - name: Collect code coverage
+        run: |
+          mv ./coverage "./${{ matrix.node-version }}"
+          mkdir ./coverage
+          mv "./${{ matrix.node-version }}" "./coverage/${{ matrix.node-version }}"
 
-    - name: Upload code coverage
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage
-        path: ./coverage
-        retention-days: 1
+      - name: Upload code coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: ./coverage
+          retention-days: 1
 
   coverage:
     needs: test
