@@ -5,6 +5,7 @@
 **This project has a [Code of Conduct][].**
 
 ## Table of contents
+# Siddharth Sadake
 
 * [Installation](#Installation)
 * [Features](#Features)
