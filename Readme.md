@@ -17,6 +17,7 @@
 * [TC (Technical Committee)](#tc-technical-committee)
 * [Triagers](#triagers)
 * [License](#license)
+# Siddhartha Pal
 
 
 [![NPM Version][npm-version-image]][npm-url]
