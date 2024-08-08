@@ -255,5 +255,5 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 [npm-url]: https://npmjs.org/package/express
 [npm-version-image]: https://badgen.net/npm/v/express
 [ossf-scorecard-badge]: https://api.securityscorecards.dev/projects/github.com/expressjs/express/badge
-[ossf-scorecard-visualizer]: https://kooltheba.github.io/openssf-scorecard-api-visualizer/#/projects/github.com/expressjs/express
+[ossf-scorecard-visualizer]: https://scorecard.dev/viewer/?uri=github.com/expressjs/express
 [Code of Conduct]: https://github.com/expressjs/express/blob/master/Code-Of-Conduct.md
