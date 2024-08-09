@@ -1113,4 +1113,52 @@ describe('app.router', function(){
     var app = express();
     assert.strictEqual(app.get('/', function () {}), app)
   })
+
+  it('should should not use disposed router/middleware', function(done){
+    var app = express();
+    var router = new express.Router();
+
+    router.use(function(req, res, next){
+      res.setHeader('old', 'foo');
+      next();
+    });
+
+    app.use(function (req, res, next) {
+      return router.handle(req, res, next);
+    });
+
+    app.get('/', function(req, res, next){
+      res.send('yee');
+      next();
+    });
+
+    request(app)
+    .get('/')
+    .expect('old', 'foo')
+    .expect(function(res) {
+      if (typeof res.headers['new'] !== 'undefined') {
+        throw new Error('`new` header should not be present');
+      }
+    })
+    .expect(200, 'yee', function(err, res) {
+      if (err) return done(err);
+
+      router = new express.Router();
+
+      router.use(function(req, res, next){
+        res.setHeader('new', 'bar');
+        next();
+      });
+
+      request(app)
+      .get('/')
+      .expect('new', 'bar')
+      .expect(function(res) {
+        if (typeof res.headers['old'] !== 'undefined') {
+          throw new Error('`old` header should not be present');
+        }
+      })
+      .expect(200, 'yee', done);
+    });
+  })
 })
