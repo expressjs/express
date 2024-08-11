@@ -1,6 +1,6 @@
 [![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](http://expressjs.com/)
 
-**Fast, unopinionated, minimalist web framework for [Node.js](http://nodejs.org).**
+**Fast, Secured, unopinionated, minimalist web framework for [Node.js](http://nodejs.org).**
 
 **This project has a [Code of Conduct][].**
 
@@ -53,7 +53,6 @@ Installation is done using the
 ```console
 $ npm install express
 ```
-
 Follow [our installing guide](http://expressjs.com/en/starter/installing.html)
 for more information.
 
