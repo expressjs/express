@@ -5,6 +5,7 @@
 **This project has a [Code of Conduct][].**
 
 ## Table of contents
+## Also check in details
 
 * [Installation](#Installation)
 * [Features](#Features)
