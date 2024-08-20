@@ -12,7 +12,7 @@ describe('req', function(){
       app.use(cookieParser('secret'));
 
       app.use(function(req, res){
-        if (req.path === '/set') {
+        if (req.pathname === '/set') {
           res.cookie('obj', { foo: 'bar' }, { signed: true });
           res.end();
         } else {

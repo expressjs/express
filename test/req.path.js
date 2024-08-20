@@ -4,12 +4,12 @@ var express = require('../')
   , request = require('supertest');
 
 describe('req', function(){
-  describe('.path', function(){
+  describe('.pathname', function(){
     it('should return the parsed pathname', function(done){
       var app = express();
 
       app.use(function(req, res){
-        res.end(req.path);
+        res.end(req.pathname);
       });
 
       request(app)

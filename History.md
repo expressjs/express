@@ -2771,7 +2771,7 @@ unreleased
   * Added `req.subdomains`
   * Added `req.protocol`
   * Added `req.secure`
-  * Added `req.path`
+  * Added `req.pathname`
   * Added `req.ips`
   * Added `req.fresh`
   * Added `req.stale`
@@ -2872,7 +2872,7 @@ unreleased
 
   * Added mkdirp to express(1). Closes #795
   * Added simple _json-config_ example
-  * Added  shorthand for the parsed request's pathname via `req.path`
+  * Added  shorthand for the parsed request's pathname via `req.pathname`
   * Changed connect dep to 1.7.x to fix npm issue...
   * Fixed `res.redirect()` __HEAD__ support. [reported by xerox]
   * Fixed `req.flash()`, only escape args

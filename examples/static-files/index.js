@@ -15,7 +15,7 @@ app.use(logger('dev'));
 // express on its own has no notion
 // of a "file". The express.static()
 // middleware checks for a file matching
-// the `req.path` within the directory
+// the `req.pathname` within the directory
 // that you pass it. In this case "GET /js/app.js"
 // will look for "./public/js/app.js".
 
