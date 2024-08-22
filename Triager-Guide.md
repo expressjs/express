@@ -9,10 +9,17 @@ classification:
 
 * `needs triage`: This can be kept if the triager is unsure which next steps to take
 * `awaiting more info`: If more info has been requested from the author, apply this label.
-* `question`: User questions that do not appear to be bugs or enhancements.
-* `discuss`: Topics for discussion. Might end in an `enhancement` or `question` label.
 * `bug`: Issues that present a reasonable conviction there is a reproducible bug.
 * `enhancement`: Issues that are found to be a reasonable candidate feature additions.
+
+If the issue is a question or discussion, it should be moved to GitHub Discussions.
+
+### Moving Discussions and Questions to GitHub Discussions
+
+For issues labeled with `question` or `discuss`, it is recommended to move them to GitHub Discussions instead:
+
+* **Questions**: User questions that do not appear to be bugs or enhancements should be moved to GitHub Discussions.
+* **Discussions**: Topics for discussion should be moved to GitHub Discussions. If the discussion leads to a new feature or bug identification, it can be moved back to Issues.
 
 In all cases, issues may be closed by maintainers if they don't receive a timely response when
 further information is sought, or when additional questions are asked.
