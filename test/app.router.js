@@ -6,6 +6,8 @@ var express = require('../')
   , assert = require('assert')
   , methods = require('methods');
 
+var shouldSkipQuery = require('./support/utils').shouldSkipQuery
+
 describe('app.router', function(){
   it('should restore req.params after leaving router', function(done){
     var app = express();
@@ -39,6 +41,9 @@ describe('app.router', function(){
       if (method === 'connect') return;
 
       it('should include ' + method.toUpperCase(), function(done){
+        if (method === 'query' && shouldSkipQuery(process.versions.node)) {
+          this.skip()
+        }
         var app = express();
 
         app[method]('/foo', function(req, res){

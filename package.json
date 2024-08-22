@@ -37,7 +37,7 @@
     "cookie-signature": "1.0.6",
     "debug": "2.6.9",
     "depd": "2.0.0",
-    "encodeurl": "~1.0.2",
+    "encodeurl": "~2.0.0",
     "escape-html": "~1.0.3",
     "etag": "~1.8.1",
     "finalhandler": "1.2.0",
@@ -91,8 +91,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/ test/acceptance/",
-    "test-ci": "nyc --reporter=lcovonly --reporter=text npm test",
-    "test-cov": "nyc --reporter=html --reporter=text npm test",
+    "test-ci": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=lcovonly --reporter=text npm test",
+    "test-cov": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=html --reporter=text npm test",
     "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
   }
 }

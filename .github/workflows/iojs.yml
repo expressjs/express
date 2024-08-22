@@ -1,0 +1,69 @@
+name: iojs-ci
+
+on:
+  push:
+    branches:
+      - master
+      - '4.x'
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+
+concurrency:
+  group: "${{ github.workflow }} ✨ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ["1.8", "2.5", "3.3"]
+        include:
+          - node-version: "1.8"
+            npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
+          - node-version: "2.5"
+            npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
+          - node-version: "3.3"
+            npm-i: "mocha@3.5.3 nyc@10.3.2 supertest@2.0.0"
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install iojs ${{ matrix.node-version }}
+      shell: bash -eo pipefail -l {0}
+      run: |
+        nvm install --default ${{ matrix.node-version }}
+        dirname "$(nvm which ${{ matrix.node-version }})" >> "$GITHUB_PATH"
+
+    - name: Configure npm
+      run: |
+        npm config set loglevel error
+        npm config set shrinkwrap false
+
+    - name: Install npm module(s) ${{ matrix.npm-i }}
+      run: npm install --save-dev ${{ matrix.npm-i }}
+      if: matrix.npm-i != ''
+
+    - name: Remove non-test dependencies
+      run: npm rm --silent --save-dev connect-redis
+
+    - name: Install Node.js dependencies
+      run: npm install
+
+    - name: List environment
+      id: list_env
+      shell: bash
+      run: |
+        echo "node@$(node -v)"
+        echo "npm@$(npm -v)"
+        npm -s ls ||:
+        (npm -s ls --depth=0 ||:) | awk -F'[ @]' 'NR>1 && $2 { print $2 "=" $3 }' >> "$GITHUB_OUTPUT"
+
+    - name: Run tests
+      shell: bash
+      run: npm run test
+
