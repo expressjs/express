@@ -1,0 +1,22 @@
+{
+	"name": "express-benchmarks",
+	"version": "0.0.1",
+	"author": "Andre Ferreira <andrehrf@gmail.com>",
+	"description": "Performance test",
+	"main": "index.js",
+	"devDependencies": {
+		"@hapi/hapi": "^21.3.10",
+		"express": "^4.19.2",
+		"fastify": "^4.28.1",
+		"koa": "^2.15.3",
+		"restify": "^11.1.0",
+		"uWebSockets.js": "uNetworking/uWebSockets.js#v20.47.0"
+	},
+	"engines": {
+		"node": ">=12.0.0"
+	},
+	"dependencies": {
+		"bytes": "^3.1.2",
+		"wrk": "^1.2.1"
+	}
+}

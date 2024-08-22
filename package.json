@@ -10,7 +10,8 @@
     "Guillermo Rauch <rauchg@gmail.com>",
     "Jonathan Ong <me@jongleberry.com>",
     "Roman Shtylman <shtylman+expressjs@gmail.com>",
-    "Young Jae Sim <hanul@hanul.me>"
+    "Young Jae Sim <hanul@hanul.me>",
+    "Andre Ferreira <andrehrf@gmail.com>"
   ],
   "license": "MIT",
   "repository": "expressjs/express",
@@ -62,6 +63,7 @@
   },
   "devDependencies": {
     "after": "0.8.2",
+    "bytes": "^3.1.2",
     "connect-redis": "3.4.2",
     "cookie-parser": "1.4.6",
     "cookie-session": "2.0.0",
@@ -76,7 +78,8 @@
     "nyc": "15.1.0",
     "pbkdf2-password": "1.2.1",
     "supertest": "6.3.0",
-    "vhost": "~3.0.2"
+    "vhost": "~3.0.2",
+    "wrk": "^1.2.1"
   },
   "engines": {
     "node": ">= 0.10.0"
@@ -93,6 +96,7 @@
     "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/ test/acceptance/",
     "test-ci": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=lcovonly --reporter=text npm test",
     "test-cov": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=html --reporter=text npm test",
-    "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
+    "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/",
+    "benchmarks": "node --trace-deprecation ./benchmarks/tools/check-benchmarks.js"
   }
 }
