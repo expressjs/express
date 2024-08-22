@@ -6,7 +6,7 @@
 
 ## Table of contents
 
-# Abuakkar Khan
+# Abubakkar Khan
 
 * [Installation](#Installation)
 * [Features](#Features)
