@@ -12,6 +12,7 @@ unreleased
 * deps: debug@4.3.6
 * deps: merge-descriptors@^2.0.0
 * deps: serve-static@^2.0.0
+* deps: qs@6.13.0
 
 5.0.0-beta.3 / 2024-03-25
 =========================
