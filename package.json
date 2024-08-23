@@ -29,13 +29,12 @@
   ],
   "dependencies": {
     "accepts": "~1.3.8",
-    "array-flatten": "3.0.0",
     "body-parser": "2.0.0-beta.2",
     "content-disposition": "0.5.4",
     "content-type": "~1.0.4",
     "cookie": "0.6.0",
     "cookie-signature": "1.0.6",
-    "debug": "3.1.0",
+    "debug": "4.3.6",
     "depd": "2.0.0",
     "encodeurl": "~1.0.2",
     "escape-html": "~1.0.3",
@@ -49,13 +48,12 @@
     "on-finished": "2.4.1",
     "once": "1.4.0",
     "parseurl": "~1.3.3",
-    "path-is-absolute": "1.0.1",
     "proxy-addr": "~2.0.7",
     "qs": "6.11.0",
     "range-parser": "~1.2.1",
     "router": "2.0.0-beta.2",
     "safe-buffer": "5.2.1",
-    "send": "1.0.0-beta.2",
+    "send": "^1.0.0",
     "serve-static": "2.0.0-beta.2",
     "setprototypeof": "1.2.0",
     "statuses": "2.0.1",
@@ -82,7 +80,7 @@
     "vhost": "~3.0.2"
   },
   "engines": {
-    "node": ">= 4"
+    "node": ">= 18"
   },
   "files": [
     "LICENSE",
