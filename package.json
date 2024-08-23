@@ -49,7 +49,7 @@
     "once": "1.4.0",
     "parseurl": "~1.3.3",
     "proxy-addr": "~2.0.7",
-    "qs": "6.11.0",
+    "qs": "6.13.0",
     "range-parser": "~1.2.1",
     "router": "2.0.0-beta.2",
     "safe-buffer": "5.2.1",

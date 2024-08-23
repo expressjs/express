@@ -10,6 +10,7 @@ unreleased
 * change:
   - `res.clearCookie` will ignore user provided `maxAge` and `expires` options
 * deps: debug@4.3.6
+* deps: qs@6.13.0
 
 5.0.0-beta.3 / 2024-03-25
 =========================
