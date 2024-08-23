@@ -1,11 +1,13 @@
 unreleased
 =========================
-* remove: 
+* remove:
   - `path-is-absolute` dependency - use `path.isAbsolute` instead
 * breaking:
-  * `res.status()` accepts only integers, and input must be greater than 99 and less than 1000
-    * will throw a `RangeError: Invalid status code: ${code}. Status code must be greater than 99 and less than 1000.` for inputs outside this range
-    * will throw a `TypeError: Invalid status code: ${code}. Status code must be an integer.` for non integer inputs
+  * By default `res.status()` accepts only integers, and input must be greater than 99 and less than 1000
+    * Will throw a `RangeError: Invalid status code: ${code}. Status code must be greater than 99 and less than 1000.` for inputs outside this range.
+    * Will throw a `TypeError: Invalid status code: ${code}. Status code must be an integer.` for non integer inputs.
+  * Added a new default setting `strict status codes`, with a default value of false.
+    * When the variable `strict status codes` is set to true, `res.status()` will throw a `RangeError: Invalid status code: ${code}. Status code must be greater than 99 and less than 600 in strict status codes.` for inputs outside this range.
   * deps: send@1.0.0
 * change:
   - `res.clearCookie` will ignore user provided `maxAge` and `expires` options

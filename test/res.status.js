@@ -17,7 +17,7 @@ describe('res', function () {
         .expect(200, done);
     });
 
-    describe('accept valid ranges', function() {
+    describe('accept valid ranges', function () {
       // not testing w/ 100, because that has specific meaning and behavior in Node as Expect: 100-continue
       it('should set the response status code to 101', function (done) {
         var app = express()
@@ -129,6 +129,20 @@ describe('res', function () {
           .expect(500, /Invalid status code/, done);
       });
 
+      it('should raise error for status code above 599', function (done) {
+        var app = express();
+
+        app.set('strict status codes', true);
+
+        app.use(function (req, res) {
+          res.status(600).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /Status code must be greater than 99 and less than 600./, done);
+      });
+
       it('should raise error for status code above 999', function (done) {
         var app = express();
 
@@ -203,4 +217,3 @@ describe('res', function () {
     });
   });
 });
-
