@@ -10,7 +10,7 @@ cache:
 install:
   # Install Node.js
   - ps: >-
-      try { Install -Product node $env:nodejs_version -ErrorAction Stop }
+      try { Install-Product node $env:nodejs_version -ErrorAction Stop }
       catch { Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) x64 }
   # Configure npm
   - ps: |
