@@ -52,6 +52,8 @@ Installation is done using the
 
 ```console
 $ npm install express
+$ npm install express --save-dev
+$ npm install -g express
 ```
 
 Follow [our installing guide](http://expressjs.com/en/starter/installing.html)
