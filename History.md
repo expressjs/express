@@ -15,6 +15,8 @@ unreleased
 * deps: serve-static@^2.0.0
 * deps: qs@6.13.0
 * deps: accepts@^2.0.0
+* deps: mime-types@^3.0.0
+  - `application/javascript` => `text/javascript`
 
 5.0.0-beta.3 / 2024-03-25
 =========================
