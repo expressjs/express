@@ -19,6 +19,7 @@ unreleased
   - `application/javascript` => `text/javascript`
 * deps: type-is@^2.0.0
 * deps: content-disposition@^1.0.0
+* deps: finalhandler@^2.0.0
 
 5.0.0-beta.3 / 2024-03-25
 =========================
