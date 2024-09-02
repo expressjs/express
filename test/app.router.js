@@ -316,12 +316,12 @@ describe('app.router', function(){
       var app = express();
       var router = new express.Router({ mergeParams: true });
 
-      router.get('/(.*).(.*)', function (req, res) {
+      router.get(/^\/(.*)\.(.*)/, function (req, res) {
         var keys = Object.keys(req.params).sort();
         res.send(keys.map(function(k){ return [k, req.params[k]] }));
       });
 
-      app.use('/user/id:(\\d+)', router);
+      app.use(/^\/user\/id:(\d+)/, router);
 
       request(app)
       .get('/user/id:10/profile.json')
@@ -332,12 +332,12 @@ describe('app.router', function(){
       var app = express();
       var router = new express.Router({ mergeParams: true });
 
-      router.get('/(.*)', function (req, res) {
+      router.get(/\/(.*)/, function (req, res) {
         var keys = Object.keys(req.params).sort();
         res.send(keys.map(function(k){ return [k, req.params[k]] }));
       });
 
-      app.use('/user/id:(\\d+)/name:(\\w+)', router);
+      app.use(/^\/user\/id:(\d+)\/name:(\w+)/, router);
 
       request(app)
       .get('/user/id:10/name:tj/profile')
@@ -348,12 +348,12 @@ describe('app.router', function(){
       var app = express();
       var router = new express.Router({ mergeParams: true });
 
-      router.get('/name:(\\w+)', function(req, res){
+      router.get(/\/name:(\w+)/, function(req, res){
         var keys = Object.keys(req.params).sort();
         res.send(keys.map(function(k){ return [k, req.params[k]] }));
       });
 
-      app.use('/user/id:(\\d+)', router);
+      app.use(/\/user\/id:(\d+)/, router);
 
       request(app)
       .get('/user/id:10/name:tj')
@@ -383,11 +383,11 @@ describe('app.router', function(){
       var app = express();
       var router = new express.Router({ mergeParams: true });
 
-      router.get('/user:(\\w+)/*', function (req, res, next) {
+      router.get(/\/user:(\w+)\//, function (req, res, next) {
         next();
       });
 
-      app.use('/user/id:(\\d+)', function (req, res, next) {
+      app.use(/\/user\/id:(\d+)/, function (req, res, next) {
         router(req, res, function (err) {
           var keys = Object.keys(req.params).sort();
           res.send(keys.map(function(k){ return [k, req.params[k]] }));
@@ -610,8 +610,8 @@ describe('app.router', function(){
       var app = express();
       var cb = after(2, done);
 
-      app.get('/user(s?)/:user/:op', function(req, res){
-        res.end(req.params.op + 'ing ' + req.params.user + (req.params[0] ? ' (old)' : ''));
+      app.get('/user{s}/:user/:op', function(req, res){
+        res.end(req.params.op + 'ing ' + req.params.user + (req.url.startsWith('/users') ? ' (old)' : ''));
       });
 
       request(app)
@@ -657,7 +657,7 @@ describe('app.router', function(){
     it('should denote an optional capture group', function(done){
       var app = express();
 
-      app.get('/user/:user/:op?', function(req, res){
+      app.get('/user/:user{/:op}', function(req, res){
         var op = req.params.op || 'view';
         res.end(op + 'ing ' + req.params.user);
       });
@@ -670,7 +670,7 @@ describe('app.router', function(){
     it('should populate the capture group', function(done){
       var app = express();
 
-      app.get('/user/:user/:op?', function(req, res){
+      app.get('/user/:user{/:op}', function(req, res){
         var op = req.params.op || 'view';
         res.end(op + 'ing ' + req.params.user);
       });
@@ -685,8 +685,8 @@ describe('app.router', function(){
     it('should match one segment', function (done) {
       var app = express()
 
-      app.get('/user/:user*', function (req, res) {
-        res.end(req.params.user)
+      app.get('/user/*user', function (req, res) {
+        res.end(req.params.user[0])
       })
 
       request(app)
@@ -697,8 +697,8 @@ describe('app.router', function(){
     it('should match many segments', function (done) {
       var app = express()
 
-      app.get('/user/:user*', function (req, res) {
-        res.end(req.params.user)
+      app.get('/user/*user', function (req, res) {
+        res.end(req.params.user.join('/'))
       })
 
       request(app)
@@ -709,7 +709,7 @@ describe('app.router', function(){
     it('should match zero segments', function (done) {
       var app = express()
 
-      app.get('/user/:user*', function (req, res) {
+      app.get('/user{/*user}', function (req, res) {
         res.end(req.params.user)
       })
 
@@ -723,8 +723,8 @@ describe('app.router', function(){
     it('should match one segment', function (done) {
       var app = express()
 
-      app.get('/user/:user+', function (req, res) {
-        res.end(req.params.user)
+      app.get('/user/*user', function (req, res) {
+        res.end(req.params.user[0])
       })
 
       request(app)
@@ -735,8 +735,8 @@ describe('app.router', function(){
     it('should match many segments', function (done) {
       var app = express()
 
-      app.get('/user/:user+', function (req, res) {
-        res.end(req.params.user)
+      app.get('/user/*user', function (req, res) {
+        res.end(req.params.user.join('/'))
       })
 
       request(app)
@@ -747,7 +747,7 @@ describe('app.router', function(){
     it('should not match zero segments', function (done) {
       var app = express()
 
-      app.get('/user/:user+', function (req, res) {
+      app.get('/user/*user', function (req, res) {
         res.end(req.params.user)
       })
 
@@ -781,7 +781,7 @@ describe('app.router', function(){
       var app = express();
       var cb = after(2, done)
 
-      app.get('/:name.:format?', function(req, res){
+      app.get('/:name{.:format}', function(req, res){
         res.end(req.params.name + ' as ' + (req.params.format || 'html'));
       });
 
@@ -800,7 +800,7 @@ describe('app.router', function(){
       var app = express()
         , calls = [];
 
-      app.get('/foo/:bar?', function(req, res, next){
+      app.get('/foo{/:bar}', function(req, res, next){
         calls.push('/foo/:bar?');
         next();
       });
@@ -885,7 +885,7 @@ describe('app.router', function(){
       var app = express()
         , calls = [];
 
-      app.get('/foo/:bar?', function(req, res, next){
+      app.get('/foo{/:bar}', function(req, res, next){
         calls.push('/foo/:bar?');
         next();
       });
@@ -1096,7 +1096,7 @@ describe('app.router', function(){
     var app = express();
     var path = [];
 
-    app.get('/:path+', function (req, res, next) {
+    app.get('/*path', function (req, res, next) {
       path.push(0);
       next();
     });
@@ -1116,7 +1116,7 @@ describe('app.router', function(){
       next();
     });
 
-    app.get('/(.*)', function (req, res, next) {
+    app.get('/*splat', function (req, res, next) {
       path.push(4);
       next();
     });
