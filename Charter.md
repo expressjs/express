@@ -11,7 +11,7 @@ also easily visible to outsiders.
 
 Express is a HTTP web server framework with a simple and expressive API
 which is highly aligned with Node.js core. We aim to be the best in
-class for writing performant, spec compliant, and powerful web servers
+class for writing performant,kkdklafjo spec compliant, and powerful web servers
 in Node.js. As one of the oldest and most popular web frameworks in
 the ecosystem, we have an important place for new users and experts
 alike.
