@@ -1,0 +1,43 @@
+name: Pull Request Compliance Check
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  check-pr-compliance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR body
+        id: check_pr_body
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const prBody = context.payload.pull_request.body;
+            const requiredChecks = [
+              '- [x] This is NOT a trivial change',
+              '- [x] I understand that misuse of this repository may result in being blocked',
+              '- [x] I am NOT submitting this as part of a coding course or tutorial',
+            ];
+            
+            const missingChecks = requiredChecks.filter(check => !prBody.includes(check));
+            
+            if (missingChecks.length) {
+              console.log(`Pull request is not compliant. Missing checks:`, missingChecks);
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: 'This pull request does not comply with our submission guidelines. It will be automatically closed. Please read our contributing guidelines carefully before submitting a new pull request.'
+              });
+              
+              github.rest.pulls.update({
+                pull_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'closed'
+              });
+            } else {
+              console.log(`Pull request is compliant`);
+            }
