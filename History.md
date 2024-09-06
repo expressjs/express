@@ -1,6 +1,6 @@
 unreleased
 =========================
-* remove: 
+* remove:
   - `path-is-absolute` dependency - use `path.isAbsolute` instead
 * breaking:
   * `res.status()` accepts only integers, and input must be greater than 99 and less than 1000
@@ -20,6 +20,7 @@ unreleased
 * deps: type-is@^2.0.0
 * deps: content-disposition@^1.0.0
 * deps: finalhandler@^2.0.0
+* deps: fresh@^2.0.0
 
 5.0.0-beta.3 / 2024-03-25
 =========================
