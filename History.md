@@ -1,4 +1,4 @@
-unreleased
+4.20.0 / 2024-09-10
 ==========
   * deps: body-parser@0.6.0
     * add `depth` option to customize the depth level in the parser
