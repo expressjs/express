@@ -1,8 +1,9 @@
 unreleased
 ==========
 
-  * deps: path-to-regexp@0.1.8
+  * deps: path-to-regexp@0.1.10
     - Adds support for named matching groups in the routes using a regex
+    - Adds backtracking protection to parameters without regexes defined
   * deps: encodeurl@~2.0.0
     - Removes encoding of `\`, `|`, and `^` to align better with URL spec
   * Deprecate passing `options.maxAge` and `options.expires` to `res.clearCookie`
