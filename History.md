@@ -1,6 +1,9 @@
 unreleased
 ==========
-
+  * deps: body-parser@0.6.0
+    * add `depth` option to customize the depth level in the parser
+    * IMPORTANT: The default `depth` level for parsing URL-encoded data is now `32` (previously was `Infinity`)
+  * Remove link renderization in html while using `res.redirect`
   * deps: path-to-regexp@0.1.10
     - Adds support for named matching groups in the routes using a regex
     - Adds backtracking protection to parameters without regexes defined
