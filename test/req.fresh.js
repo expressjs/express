@@ -46,5 +46,25 @@ describe('req', function(){
       .get('/')
       .expect(200, 'false', done);
     })
+
+    it('should ignore "If-Modified-Since" when "If-None-Match" is present', function(done) {
+      var app = express();
+      const etag = '"FooBar"'
+      const now = Date.now()
+
+      app.disable('x-powered-by')
+      app.use(function(req, res) {
+        res.set('Etag', etag)
+        res.set('Last-Modified', new Date(now).toUTCString())
+        res.send(req.fresh);
+      });
+
+      request(app)
+        .get('/')
+        .set('If-Modified-Since', new Date(now - 1000).toUTCString)
+        .set('If-None-Match', etag)
+        .expect(304, done);
+    })
+
   })
 })
