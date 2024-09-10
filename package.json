@@ -1,7 +1,11 @@
 {
   "name": "express",
   "description": "Fast, unopinionated, minimalist web framework",
+<<<<<<< HEAD
   "version": "5.0.0-beta.3",
+=======
+  "version": "4.20.0",
+>>>>>>> master
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [
     "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
@@ -42,7 +46,7 @@
     "finalhandler": "1.2.0",
     "fresh": "0.5.2",
     "http-errors": "2.0.0",
-    "merge-descriptors": "1.0.1",
+    "merge-descriptors": "1.0.3",
     "methods": "~1.1.2",
     "mime-types": "~2.1.34",
     "on-finished": "2.4.1",

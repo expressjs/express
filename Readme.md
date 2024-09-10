@@ -202,6 +202,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 * [3imed-jaberi](https://github.com/3imed-jaberi) - **Imed Jaberi**
 * [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
 * [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
+* [IamLizu](https://github.com/IamLizu) - **S M Mahmudul Hasan** (he/him)
 * [Sushmeet](https://github.com/Sushmeet) - **Sushmeet Sunger**
 
 <details>
@@ -254,6 +255,6 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 [npm-install-size-url]: https://packagephobia.com/result?p=express
 [npm-url]: https://npmjs.org/package/express
 [npm-version-image]: https://badgen.net/npm/v/express
-[ossf-scorecard-badge]: https://api.securityscorecards.dev/projects/github.com/expressjs/express/badge
-[ossf-scorecard-visualizer]: https://kooltheba.github.io/openssf-scorecard-api-visualizer/#/projects/github.com/expressjs/express
+[ossf-scorecard-badge]: https://api.scorecard.dev/projects/github.com/expressjs/express/badge
+[ossf-scorecard-visualizer]: https://ossf.github.io/scorecard-visualizer/#/projects/github.com/expressjs/express
 [Code of Conduct]: https://github.com/expressjs/express/blob/master/Code-Of-Conduct.md
