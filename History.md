@@ -7,6 +7,7 @@ unreleased
     * will throw a `RangeError: Invalid status code: ${code}. Status code must be greater than 99 and less than 1000.` for inputs outside this range
     * will throw a `TypeError: Invalid status code: ${code}. Status code must be an integer.` for non integer inputs
   * deps: send@1.0.0
+  * `res.redirect('back')` and `res.location('back')` is no longer a supported magic string, explicitly use `req.get('Referrer') || '/'`.
 * change:
   - `res.clearCookie` will ignore user provided `maxAge` and `expires` options
 * deps: cookie-signature@^1.2.1
