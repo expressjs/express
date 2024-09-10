@@ -1,0 +1,18 @@
+{
+  "name": "@express/typescript-example",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "tsc && node ."
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@types/express": "latest",
+    "@types/node": "latest"
+  },
+  "eslintConfig": {
+    "extends": "../../.eslintrc.yml",
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"]
+  }
+}

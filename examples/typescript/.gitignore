@@ -1,0 +1,4 @@
+*.js
+*.js.map
+*.d.ts
+tsconfig.tsbuildinfo
