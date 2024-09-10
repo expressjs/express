@@ -1,120 +1,78 @@
 name: legacy
 
 on:
-- pull_request
-- push
+  push:
+    branches:
+      - master
+      - develop
+      - '4.x'
+      - '5.x'
+      - '5.0'
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+
+# Cancel in progress workflows
+# in the scenario where we already had a run going for that PR/branch/tag but then triggered a new run
+concurrency:
+  group: "${{ github.workflow }} ✨ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+  cancel-in-progress: true
 
 jobs:
   test:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        name:
-        - Node.js 11.x
-        - Node.js 12.x
-        - Node.js 13.x
-        - Node.js 14.x
-        - Node.js 15.x
-        - Node.js 16.x
-        - Node.js 17.x
+        os: [ubuntu-latest, windows-latest]
+        node-version: [16, 17]
+        # Node.js release schedule: https://nodejs.org/en/about/releases/
 
-        include:
-        - name: Node.js 11.x
-          node-version: "11.15"
-          npm-i: mocha@8.4.0
+    name: Node.js ${{ matrix.node-version }} - ${{matrix.os}}
 
-        - name: Node.js 12.x
-          node-version: "12.22"
-          npm-i: mocha@9.2.2
-
-        - name: Node.js 13.x
-          node-version: "13.14"
-          npm-i: mocha@9.2.2
-
-        - name: Node.js 14.x
-          node-version: "14.20"
-
-        - name: Node.js 15.x
-          node-version: "15.14"
-
-        - name: Node.js 16.x
-          node-version: "16.20"
-
-        - name: Node.js 17.x
-          node-version: "17.9"
-
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-    - name: Install Node.js ${{ matrix.node-version }}
-      shell: bash -eo pipefail -l {0}
-      run: |
-        nvm install --default ${{ matrix.node-version }}
-        dirname "$(nvm which ${{ matrix.node-version }})" >> "$GITHUB_PATH"
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Configure npm
-      run: |
-        npm config set loglevel error
-        if [[ "$(npm config get package-lock)" == "true" ]]; then
-          npm config set package-lock false
-        else
-          npm config set shrinkwrap false
-        fi
+      - name: Configure npm loglevel
+        run: |
+          npm config set loglevel error
+        shell: bash
 
-    - name: Install npm module(s) ${{ matrix.npm-i }}
-      run: npm install --save-dev ${{ matrix.npm-i }}
-      if: matrix.npm-i != ''
+      - name: Install dependencies
+        run: npm install
 
-    - name: Remove non-test dependencies
-      run: npm rm --silent --save-dev connect-redis
+      - name: Output Node and NPM versions
+        run: |
+          echo "Node.js version: $(node -v)"
+          echo "NPM version: $(npm -v)"
 
-    - name: Setup Node.js version-specific dependencies
-      shell: bash
-      run: |
-        # eslint for linting
-        # - remove on Node.js < 12
-        if [[ "$(cut -d. -f1 <<< "${{ matrix.node-version }}")" -lt 12 ]]; then
-          node -pe 'Object.keys(require("./package").devDependencies).join("\n")' | \
-            grep -E '^eslint(-|$)' | \
-            sort -r | \
-            xargs -n1 npm rm --silent --save-dev
-        fi
+      - name: Run tests
+        shell: bash
+        run: |
+          npm run test-ci
+          cp coverage/lcov.info "coverage/${{ matrix.node-version }}.lcov"
 
-    - name: Install Node.js dependencies
-      run: npm install
+      - name: Collect code coverage
+        run: |
+          mv ./coverage "./${{ matrix.node-version }}"
+          mkdir ./coverage
+          mv "./${{ matrix.node-version }}" "./coverage/${{ matrix.node-version }}"
 
-    - name: List environment
-      id: list_env
-      shell: bash
-      run: |
-        echo "node@$(node -v)"
-        echo "npm@$(npm -v)"
-        npm -s ls ||:
-        (npm -s ls --depth=0 ||:) | awk -F'[ @]' 'NR>1 && $2 { print $2 "=" $3 }' >> "$GITHUB_OUTPUT"
-
-    - name: Run tests
-      shell: bash
-      run: |
-        npm run test-ci
-        cp coverage/lcov.info "coverage/${{ matrix.name }}.lcov"
-
-    - name: Lint code
-      if: steps.list_env.outputs.eslint != ''
-      run: npm run lint
-
-    - name: Collect code coverage
-      run: |
-        mv ./coverage "./${{ matrix.name }}"
-        mkdir ./coverage
-        mv "./${{ matrix.name }}" "./coverage/${{ matrix.name }}"
-
-    - name: Upload code coverage
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage
-        path: ./coverage
-        retention-days: 1
+      - name: Upload code coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: ./coverage
+          retention-days: 1
 
   coverage:
     needs: test

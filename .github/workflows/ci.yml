@@ -46,7 +46,7 @@ jobs:
         node-version: [18, 19, 20, 21, 22]
         # Node.js release schedule: https://nodejs.org/en/about/releases/
 
-    name: Node.js ${{ matrix.node-version }}
+    name: Node.js ${{ matrix.node-version }} - ${{matrix.os}}
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -58,10 +58,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Npm version fixes
-        if: ${{matrix.npm-version != ''}}
-        run: npm install -g ${{ matrix.npm-version }}
 
       - name: Configure npm loglevel
         run: |
