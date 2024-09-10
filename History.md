@@ -1,4 +1,4 @@
-unreleased
+4.20.0 / 2024-09-10
 ==========
   * deps: serve-static@0.16.0
     * Remove link renderization in html while redirecting
