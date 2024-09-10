@@ -1,11 +1,26 @@
 unreleased
 =========================
+* remove:
+  - `path-is-absolute` dependency - use `path.isAbsolute` instead
 * breaking:
   * `res.status()` accepts only integers, and input must be greater than 99 and less than 1000
     * will throw a `RangeError: Invalid status code: ${code}. Status code must be greater than 99 and less than 1000.` for inputs outside this range
     * will throw a `TypeError: Invalid status code: ${code}. Status code must be an integer.` for non integer inputs
+  * deps: send@1.0.0
 * change:
   - `res.clearCookie` will ignore user provided `maxAge` and `expires` options
+* deps: cookie-signature@^1.2.1
+* deps: debug@4.3.6
+* deps: merge-descriptors@^2.0.0
+* deps: serve-static@^2.0.0
+* deps: qs@6.13.0
+* deps: accepts@^2.0.0
+* deps: mime-types@^3.0.0
+  - `application/javascript` => `text/javascript`
+* deps: type-is@^2.0.0
+* deps: content-disposition@^1.0.0
+* deps: finalhandler@^2.0.0
+* deps: fresh@^2.0.0
 
 5.0.0-beta.3 / 2024-03-25
 =========================
