@@ -13,7 +13,7 @@ unreleased
 * deps: cookie-signature@^1.2.1
 * deps: debug@4.3.6
 * deps: merge-descriptors@^2.0.0
-* deps: serve-static@^2.0.0
+* deps: serve-static@^2.1.0
 * deps: qs@6.13.0
 * deps: accepts@^2.0.0
 * deps: mime-types@^3.0.0
