@@ -418,6 +418,141 @@ describe('app.router', function(){
       .get('/user/id:42/user:tj/profile')
       .expect(200, '[["0","42"]]', done);
     })
+
+    describe('when "merge params" is enabled', function () {
+      it('should allow merging existing req.params', function (done) {
+        var app = express()
+        var child = express()
+
+        child.enable('merge params')
+
+        child.get('/:action', function (req, res) {
+          var keys = Object.keys(req.params).sort()
+          res.send(keys.map(function (k) { return [k, req.params[k]] }))
+        })
+
+        app.use('/user/:user', child)
+
+        request(app)
+          .get('/user/tj/get')
+          .expect(200, '[["action","get"],["user","tj"]]', done)
+      })
+
+      it('should use params from child app', function (done) {
+        var app = express()
+        var child = express()
+
+        child.enable('merge params')
+
+        child.get('/:thing', function (req, res) {
+          var keys = Object.keys(req.params).sort()
+          res.send(keys.map(function (k) { return [k, req.params[k]] }))
+        })
+
+        app.use('/user/:thing', child)
+
+        request(app)
+          .get('/user/tj/get')
+          .expect(200, '[["thing","get"]]', done)
+      })
+
+      it('should merge numeric indices req.params', function (done) {
+        var app = express()
+        var child = express()
+
+        child.enable('merge params')
+
+        child.get('/*.*', function (req, res) {
+          var keys = Object.keys(req.params).sort()
+          res.send(keys.map(function (k) { return [k, req.params[k]] }))
+        })
+
+        app.use('/user/id:(\\d+)', child)
+
+        request(app)
+          .get('/user/id:10/profile.json')
+          .expect(200, '[["0","10"],["1","profile"],["2","json"]]', done)
+      })
+
+      it('should merge numeric indices req.params when more in parent', function (done) {
+        var app = express()
+        var child = express()
+
+        child.enable('merge params')
+
+        child.get('/*', function (req, res) {
+          var keys = Object.keys(req.params).sort()
+          res.send(keys.map(function (k) { return [k, req.params[k]] }))
+        });
+
+        app.use('/user/id:(\\d+)/name:(\\w+)', child)
+
+        request(app)
+          .get('/user/id:10/name:tj/profile')
+          .expect(200, '[["0","10"],["1","tj"],["2","profile"]]', done)
+      })
+
+      it('should merge numeric indices req.params when parent has same number', function (done) {
+        var app = express()
+        var child = express()
+
+        child.enable('merge params')
+
+        child.get('/name:(\\w+)', function (req, res) {
+          var keys = Object.keys(req.params).sort()
+          res.send(keys.map(function (k) { return [k, req.params[k]] }))
+        })
+
+        app.use('/user/id:(\\d+)', child)
+
+        request(app)
+          .get('/user/id:10/name:tj')
+          .expect(200, '[["0","10"],["1","tj"]]', done)
+      })
+
+      it('should ignore invalid incoming req.params', function (done) {
+        var app = express()
+        var child = express()
+
+        child.enable('merge params')
+
+        child.get('/:name', function (req, res) {
+          var keys = Object.keys(req.params).sort()
+          res.send(keys.map(function (k) { return [k, req.params[k]] }))
+        });
+
+        app.use('/user/', function (req, res, next) {
+          req.params = 3 // wat?
+          child.handle(req, res, next)
+        })
+
+        request(app)
+          .get('/user/tj')
+          .expect(200, '[["name","tj"]]', done)
+      })
+
+      it('should restore req.params', function (done) {
+        var app = express()
+        var child = express()
+
+        child.enable('merge params')
+
+        child.get('/user:(\\w+)/*', function (req, res, next) {
+          next()
+        })
+
+        app.use('/user/id:(\\d+)', function (req, res, next) {
+          child.handle(req, res, function (err) {
+            var keys = Object.keys(req.params).sort()
+            res.send(keys.map(function (k) { return [k, req.params[k]] }))
+          })
+        })
+
+        request(app)
+          .get('/user/id:42/user:tj/profile')
+          .expect(200, '[["0","42"]]', done)
+      })
+    })
   })
 
   describe('trailing slashes', function(){
