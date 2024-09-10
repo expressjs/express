@@ -23,6 +23,7 @@ unreleased
 * deps: finalhandler@^2.0.0
 * deps: fresh@^2.0.0
 * deps: body-parser@^2.0.1
+* deps: send@^1.1.0
 
 5.0.0-beta.3 / 2024-03-25
 =========================
