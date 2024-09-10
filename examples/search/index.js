@@ -25,22 +25,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // populate search
 
-db.sadd('ferret', 'tobi');
-db.sadd('ferret', 'loki');
-db.sadd('ferret', 'jane');
-db.sadd('cat', 'manny');
-db.sadd('cat', 'luna');
+db.sAdd('ferret', 'tobi');
+db.sAdd('ferret', 'loki');
+db.sAdd('ferret', 'jane');
+db.sAdd('cat', 'manny');
+db.sAdd('cat', 'luna');
 
 /**
  * GET search for :query.
  */
 
-app.get('/search/:query?', function(req, res){
+app.get('/search/:query?', async function(req, res){
   var query = req.params.query;
-  db.smembers(query, function(err, vals){
-    if (err) return res.send(500);
-    res.send(vals);
-  });
+  const vals = await db.sMembers(query);
+  res.send(vals);
 });
 
 /**
