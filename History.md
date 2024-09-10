@@ -1,5 +1,7 @@
 unreleased
 ==========
+  * deps: serve-static@0.16.0
+    * Remove link renderization in html while redirecting
   * deps: send@0.19.0
     * Remove link renderization in html while redirecting
   * deps: body-parser@0.6.0

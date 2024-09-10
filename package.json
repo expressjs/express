@@ -53,7 +53,7 @@
     "range-parser": "~1.2.1",
     "safe-buffer": "5.2.1",
     "send": "0.19.0",
-    "serve-static": "1.15.0",
+    "serve-static": "1.16.0",
     "setprototypeof": "1.2.0",
     "statuses": "2.0.1",
     "type-is": "~1.6.18",
