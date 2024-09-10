@@ -22,6 +22,7 @@ unreleased
 * deps: content-disposition@^1.0.0
 * deps: finalhandler@^2.0.0
 * deps: fresh@^2.0.0
+* deps: body-parser@^2.0.1
 
 5.0.0-beta.3 / 2024-03-25
 =========================
