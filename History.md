@@ -1,4 +1,4 @@
-unreleased
+5.0.0 / 2024-09-10
 =========================
 * remove:
   - `path-is-absolute` dependency - use `path.isAbsolute` instead
