@@ -1,5 +1,7 @@
 unreleased
 ==========
+  * deps: send@0.19.0
+    * Remove link renderization in html while redirecting
   * deps: body-parser@0.6.0
     * add `depth` option to customize the depth level in the parser
     * IMPORTANT: The default `depth` level for parsing URL-encoded data is now `32` (previously was `Infinity`)
