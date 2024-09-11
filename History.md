@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * deps: serve-static@1.16.2
+    * includes send@0.19.0
+
 4.20.0 / 2024-09-10
 ==========
   * deps: serve-static@0.16.0
