@@ -1,4 +1,4 @@
-unreleased
+4.21.0 / 2024-09-11
 ==========
 
   * Deprecate `res.location("back")` and `res.redirect("back")` magic string
