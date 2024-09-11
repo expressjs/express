@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Deprecate `res.location("back")` and `res.redirect("back")` magic string
+  * deps: finalhandler@1.3.1
 
 4.20.0 / 2024-09-10
 ==========
