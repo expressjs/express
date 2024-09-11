@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Deprecate `res.location("back")` and `res.redirect("back")` magic string
+
 4.20.0 / 2024-09-10
 ==========
   * deps: serve-static@0.16.0
