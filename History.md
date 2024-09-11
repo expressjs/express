@@ -1,5 +1,10 @@
 unreleased
 ==========
+
+  * Deprecate `res.location("back")` and `res.redirect("back")` magic string
+  * deps: serve-static@1.16.2
+    * includes send@0.19.0
+  * deps: finalhandler@1.3.1
   * deps: qs@6.13.0
 
 4.20.0 / 2024-09-10
