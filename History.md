@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * deps: path-to-regexp@0.1.11
+    - Throws an error on invalid path values
+
 4.21.0 / 2024-09-11
 ==========
 
