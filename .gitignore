@@ -9,6 +9,8 @@ npm-shrinkwrap.json
 .nyc_output
 coverage
 
+#veferettb
+
 # Benchmarking
 benchmarks/graphs
 
