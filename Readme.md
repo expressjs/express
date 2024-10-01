@@ -25,7 +25,7 @@
 [![OpenSSF Scorecard Badge][ossf-scorecard-badge]][ossf-scorecard-visualizer]
 
 
-```js
+```js harsh
 const express = require('express')
 const app = express()
 
