@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step and Time Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Step and Time Tracker</h1>
+        <div>
+            <button id="startButton" onclick="startTracking()">Start</button>
+            <button id="stopButton" onclick="stopTracking()" disabled>Stop</button>
+        </div>
+
+        <p>Steps: <span id="stepsCount">0</span></p>
+        <p>Time (seconds): <span id="timeCount">0</span></p>
+
+        <button id="saveButton" onclick="saveData()" disabled>Save Session</button>
+        <h2>Saved Sessions:</h2>
+        <ul id="savedSessions"></ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
