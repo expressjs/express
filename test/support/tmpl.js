@@ -11,6 +11,9 @@ module.exports = function renderFile(fileName, options, callback) {
 
     try {
       str = str.replace(variableRegExp, generateVariableLookup(options));
+      if (options.uppercase) {
+        str = str.toUpperCase();
+      }
     } catch (e) {
       err = e;
       err.name = 'RenderError'
