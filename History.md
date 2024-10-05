@@ -1,3 +1,8 @@
+unreleased
+==========
+
+* Update `cookie` semver lock to address CVE-2024-47764
+
 5.0.0 / 2024-09-10
 =========================
 * remove:
