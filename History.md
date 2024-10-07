@@ -1,3 +1,8 @@
+unreleased
+==========
+
+* Backported a fix for CVE-2024-47764
+
 4.21.0 / 2024-09-11
 ==========
 
