@@ -144,29 +144,29 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - [`expressjs/badgeboard`](https://github.com/expressjs/badgeboard): @wesleytodd
 - [`expressjs/basic-auth-connect`](https://github.com/expressjs/basic-auth-connect): @UlisesGascon
 - [`expressjs/body-parser`](https://github.com/expressjs/body-parser): @wesleytodd, @jonchurch
-- [`expressjs/compression`](https://github.com/expressjs/compression): N/A
-- [`expressjs/connect-multiparty`](https://github.com/expressjs/connect-multiparty): N/A
+- [`expressjs/compression`](https://github.com/expressjs/compression): @ulisesGascon
+- [`expressjs/connect-multiparty`](https://github.com/expressjs/connect-multiparty): @ulisesGascon
 - [`expressjs/cookie-parser`](https://github.com/expressjs/cookie-parser): @wesleytodd, @UlisesGascon
-- [`expressjs/cookie-session`](https://github.com/expressjs/cookie-session): N/A
+- [`expressjs/cookie-session`](https://github.com/expressjs/cookie-session): @ulisesGascon
 - [`expressjs/cors`](https://github.com/expressjs/cors): @jonchurch
 - [`expressjs/discussions`](https://github.com/expressjs/discussions): @wesleytodd
-- [`expressjs/errorhandler`](https://github.com/expressjs/errorhandler): N/A
-- [`expressjs/express-paginate`](https://github.com/expressjs/express-paginate): N/A
-- [`expressjs/express`](https://github.com/expressjs/express): @wesleytodd
+- [`expressjs/errorhandler`](https://github.com/expressjs/errorhandler): @ulisesGascon
+- [`expressjs/express-paginate`](https://github.com/expressjs/express-paginate): @ulisesGascon
+- [`expressjs/express`](https://github.com/expressjs/express): @wesleytodd, @ulisesGascon
 - [`expressjs/expressjs.com`](https://github.com/expressjs/expressjs.com): @crandmck, @jonchurch
-- [`expressjs/flash`](https://github.com/expressjs/flash): N/A
+- [`expressjs/flash`](https://github.com/expressjs/flash): @ulisesGascon
 - [`expressjs/generator`](https://github.com/expressjs/generator): @wesleytodd
-- [`expressjs/method-override`](https://github.com/expressjs/method-override): N/A
+- [`expressjs/method-override`](https://github.com/expressjs/method-override): @ulisesGascon
 - [`expressjs/morgan`](https://github.com/expressjs/morgan): @jonchurch
 - [`expressjs/multer`](https://github.com/expressjs/multer): @LinusU
 - [`expressjs/response-time`](https://github.com/expressjs/response-time): @UlisesGascon
-- [`expressjs/serve-favicon`](https://github.com/expressjs/serve-favicon): N/A
-- [`expressjs/serve-index`](https://github.com/expressjs/serve-index): N/A
-- [`expressjs/serve-static`](https://github.com/expressjs/serve-static): N/A
-- [`expressjs/session`](https://github.com/expressjs/session): N/A
+- [`expressjs/serve-favicon`](https://github.com/expressjs/serve-favicon): @ulisesGascon
+- [`expressjs/serve-index`](https://github.com/expressjs/serve-index): @ulisesGascon
+- [`expressjs/serve-static`](https://github.com/expressjs/serve-static): @ulisesGascon
+- [`expressjs/session`](https://github.com/expressjs/session): @ulisesGascon
 - [`expressjs/statusboard`](https://github.com/expressjs/statusboard): @wesleytodd
-- [`expressjs/timeout`](https://github.com/expressjs/timeout): N/A
-- [`expressjs/vhost`](https://github.com/expressjs/vhost): N/A
+- [`expressjs/timeout`](https://github.com/expressjs/timeout): @ulisesGascon
+- [`expressjs/vhost`](https://github.com/expressjs/vhost): @ulisesGascon
 - [`jshttp/accepts`](https://github.com/jshttp/accepts): @blakeembrey
 - [`jshttp/basic-auth`](https://github.com/jshttp/basic-auth): @blakeembrey
 - [`jshttp/compressible`](https://github.com/jshttp/compressible): @blakeembrey
@@ -191,10 +191,10 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - [`jshttp/type-is`](https://github.com/jshttp/type-is): @blakeembrey
 - [`jshttp/vary`](https://github.com/jshttp/vary): @blakeembrey
 - [`pillarjs/cookies`](https://github.com/pillarjs/cookies): @blakeembrey
-- [`pillarjs/csrf`](https://github.com/pillarjs/csrf): N/A
+- [`pillarjs/csrf`](https://github.com/pillarjs/csrf): @ulisesGascon
 - [`pillarjs/encodeurl`](https://github.com/pillarjs/encodeurl): @blakeembrey
 - [`pillarjs/finalhandler`](https://github.com/pillarjs/finalhandler): @wesleytodd
-- [`pillarjs/hbs`](https://github.com/pillarjs/hbs): N/A
+- [`pillarjs/hbs`](https://github.com/pillarjs/hbs): @ulisesGascon
 - [`pillarjs/multiparty`](https://github.com/pillarjs/multiparty): @blakeembrey
 - [`pillarjs/parseurl`](https://github.com/pillarjs/parseurl): @blakeembrey
 - [`pillarjs/path-to-regexp`](https://github.com/pillarjs/path-to-regexp): @blakeembrey
@@ -202,7 +202,7 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - [`pillarjs/resolve-path`](https://github.com/pillarjs/resolve-path): @blakeembrey
 - [`pillarjs/router`](https://github.com/pillarjs/router): @wesleytodd
 - [`pillarjs/send`](https://github.com/pillarjs/send): @blakeembrey
-- [`pillarjs/understanding-csrf`](https://github.com/pillarjs/understanding-csrf): N/A
+- [`pillarjs/understanding-csrf`](https://github.com/pillarjs/understanding-csrf): @ulisesGascon
 
 ### Current Initiative Captains
 
