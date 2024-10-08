@@ -139,12 +139,16 @@ the project, their GitHub handle and npm username (if different). The PR will re
 at least 2 approvals from TC members and 2 weeks hold time to allow for comment and/or
 dissent.  When the PR is merged, a TC member will add them to the proper GitHub/npm groups.
 
-### Active Projects and Captains
+## Active Projects and teams
+
+_Unless otherwise specified the people listed into the projects are repository captains_
 
 - [`expressjs/badgeboard`](https://github.com/expressjs/badgeboard): @wesleytodd
 - [`expressjs/basic-auth-connect`](https://github.com/expressjs/basic-auth-connect): @UlisesGascon
 - [`expressjs/body-parser`](https://github.com/expressjs/body-parser): @wesleytodd, @jonchurch
-- [`expressjs/compression`](https://github.com/expressjs/compression): N/A
+- [`expressjs/compression`](https://github.com/expressjs/compression)
+    - captains: @UlisesGascon
+    - committers: @bjohansebas
 - [`expressjs/connect-multiparty`](https://github.com/expressjs/connect-multiparty): N/A
 - [`expressjs/cookie-parser`](https://github.com/expressjs/cookie-parser): @wesleytodd, @UlisesGascon
 - [`expressjs/cookie-session`](https://github.com/expressjs/cookie-session): N/A
@@ -159,7 +163,9 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - [`expressjs/method-override`](https://github.com/expressjs/method-override): N/A
 - [`expressjs/morgan`](https://github.com/expressjs/morgan): @jonchurch
 - [`expressjs/multer`](https://github.com/expressjs/multer): @LinusU
-- [`expressjs/response-time`](https://github.com/expressjs/response-time): @UlisesGascon
+- [`expressjs/response-time`](https://github.com/expressjs/response-time):
+    - captains: @UlisesGascon
+    - committers: @carpasse 
 - [`expressjs/serve-favicon`](https://github.com/expressjs/serve-favicon): N/A
 - [`expressjs/serve-index`](https://github.com/expressjs/serve-index): N/A
 - [`expressjs/serve-static`](https://github.com/expressjs/serve-static): N/A
