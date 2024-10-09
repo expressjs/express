@@ -1,0 +1,143 @@
+# GitHub Action Workflow for building on Linux and Windows
+
+# Displaye name of the workflow.
+name: Test
+
+# Workflow Trigger
+# Trigger the workflow on a pull request to any branch, including master
+on:
+  pull_request:
+  # This triggers the workflow in the event there is a push directly to master
+  push:
+    branches: 
+      - master
+
+jobs:
+  # This workflow file defines only one job, "build". The steps have been made generic to run on Linux, Windows, and Mac.
+  build:
+    # Display name of the job
+    name: Express Build
+    # The OS to run the job steps on. We are using a matrix definition that defines the node versions and the OS to use, so
+    # here we just specify use the OS defined in the matrix.
+    runs-on: ${{ matrix.os }}
+    # This prevents a workflow from failing just because a specific job fails. In this case it checks the experimental tag in 
+    # the matrix
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # Added node version 13 and 14 based off feedback from the group.
+        node-version: 
+          - "0.10"
+          - "0.12"
+          - "1.8"
+          - "2.5"
+          - "3.3"
+          - "4.9"
+          - "5.12"
+          - "6.17"
+          - "7.10"
+          - "8.17"
+          - "9.11"
+          - "10.19"
+          - "11.15"
+          - "12.16"
+        os: 
+          - ubuntu-latest
+          - windows-latest
+        experimental: [false]
+        node-mirror: ["https://nodejs.org/dist/"]
+        # The following include is commented out, but kept for now in case it is decided to add it back.  This include is how you would add
+        # a nightly build to the matrix, but not allow the nightly build from Node to fail the workflow. 
+        include:
+          - node-version: 13
+            os: ubuntu-latest
+            node-mirror: "https://nodejs.org/download/nightly"
+            experimental: true
+          - node-version: 13
+            os: windows-latest
+            node-mirror: "https://nodejs.org/download/nightly"
+            experimental: true
+            
+    steps:
+    # Check out the repository so the workflow can access it
+    - uses: actions/checkout@v2
+      
+    # Using this action instead of the setup-node action from GitHub, because the setup-node action currently doesn't support 
+    # versions of Node <= 3.3.  Also, the setup-node action does not support using the nightly Node build. 
+    - name: Set up node using nvm
+      uses: dcodeIO/setup-node-nvm@v4.0.0
+      with:
+        node-version: ${{ matrix.node-version }}
+        node-mirror: ${{ matrix.node-mirror }}
+      
+    # Configure npm
+    # Skip updating shrinkwrap / lock
+    - run: npm config set shrinkwrap false
+      
+    # Remove all non-test dependencies
+    # Remove example dependencies
+    - run: npm rm --silent --save-dev connect-redis
+    
+    # This step gets the major version number off the node version being run.  It is used in later steps as a 
+    # conditional to setup different aspects of the workflow.
+    - name: Get Major Version Number of NodeJs
+      run: |
+        echo ${{ matrix.node-version }}
+        nodeMajorVersion=$( cut -d. -f1 <<< "${{ matrix.node-version }}" )
+        echo "::set-env name=NodeMajorVersion::$nodeMajorVersion"
+        echo $nodeMajorVersion
+      shell: bash
+      
+      # Setup Node.js version-specific dependencies
+        
+      # mocha for testing
+      # - use 3.x for Node.js < 4
+      # - use 5.x for Node.js < 6
+      # - use 6.x for Node.js < 8
+    - name: Setup Node.js version-specific dependencies - mocha for testing - use 3.5.3 for Node.js < 4
+      run: npm install --silent --save-dev mocha@3.5.3
+      if: env.NodeMajorVersion < 4
+      
+    - name: Setup Node.js version-specific dependencies - mocha for testing - use 5.2.0 for Node.js < 6
+      run: npm install --silent --save-dev mocha@5.2.0
+      if: env.NodeMajorVersion < 6 && env.NodeMajorVersion >= 4
+        
+    - name: Setup Node.js version-specific dependencies - mocha for testing - use 6.2.2 for Node.js < 8
+      run: npm install --silent --save-dev mocha@6.2.2
+      if: env.NodeMajorVersion < 8 && env.NodeMajorVersion >= 6
+
+    # supertest for http calls
+    # - use 2.0.0 for Node.js < 4
+    # - use 3.4.2 for Node.js < 6
+    - name: Setup Node.js version-specific dependencies - supertest for http calls - use 2.0.0 for Node.js < 4
+      run: npm install --silent --save-dev supertest@2.0.0
+      if: env.NodeMajorVersion < 4
+      
+    - name: Setup Node.js version-specific dependencies - supertest for http calls  - use 3.4.2 for Node.js < 6
+      run: npm install --silent --save-dev supertest@3.4.2
+      if: env.NodeMajorVersion < 6 && env.NodeMajorVersion >= 4
+    
+        
+    # Update Node.js modules
+    # Prune and rebuild node_modules
+    - name: prune and rebuild node_modules
+      run: |
+        npm prune
+        npm rebuild
+      shell: bash
+    
+    - name: npm install
+      run: |
+        npm install
+  
+    # Run test script
+    - run: npm run test-ci
+    # Run linting
+    - run: npm run lint
+    
+    # Upload coverage to coveralls
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
