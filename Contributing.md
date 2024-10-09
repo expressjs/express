@@ -80,6 +80,11 @@ and added as a committer, and be given write access to the repository.
 Committers are expected to follow this policy and continue to send pull requests, go through
 proper review, and have other committers merge their pull requests.
 
+### Active Projects and Committers
+
+- [`expressjs/response-time`](https://github.com/expressjs/response-time): @carpasse
+- [`expressjs/compression`](https://github.com/expressjs/compression): @bjohansebas
+
 ## TC Process
 
 The TC uses a "consensus seeking" process for issues that are escalated to the TC.
