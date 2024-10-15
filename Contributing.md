@@ -134,7 +134,7 @@ project for at least 6 months as a committer prior to the request. They should h
 helped with code contributions as well as triaging issues. They are also required to
 have 2FA enabled on both their GitHub and npm accounts. Any TC member or existing
 captain on the repo can nominate another committer to the captain role, submit a PR to
-this doc, under `Current Project Captains` section (maintaining the sort order) with
+this doc, in the **Active Project Captains** section (maintaining the sort order) with
 the project, their GitHub handle and npm username (if different). The PR will require
 at least 2 approvals from TC members and 2 weeks hold time to allow for comment and/or
 dissent.  When the PR is merged, a TC member will add them to the proper GitHub/npm groups.
