@@ -18,7 +18,7 @@ alike.
 
 ### 1.1: In-scope
 
-Express is made of many modules spread between three GitHub Orgs:
+Express is made of many modules spread between three GitHub Orgsssss:
 
 - [expressjs](http://github.com/expressjs/): Top level middleware and
   libraries
