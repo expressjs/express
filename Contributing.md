@@ -153,7 +153,7 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - [`expressjs/errorhandler`](https://github.com/expressjs/errorhandler): @ulisesGascon
 - [`expressjs/express-paginate`](https://github.com/expressjs/express-paginate): @ulisesGascon
 - [`expressjs/express`](https://github.com/expressjs/express): @wesleytodd, @ulisesGascon
-- [`expressjs/expressjs.com`](https://github.com/expressjs/expressjs.com): @crandmck, @jonchurch
+- [`expressjs/expressjs.com`](https://github.com/expressjs/expressjs.com): @crandmck, @jonchurch, @bjohansebas
 - [`expressjs/flash`](https://github.com/expressjs/flash): @ulisesGascon
 - [`expressjs/generator`](https://github.com/expressjs/generator): @wesleytodd
 - [`expressjs/method-override`](https://github.com/expressjs/method-override): @ulisesGascon
