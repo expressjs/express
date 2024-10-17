@@ -5,7 +5,7 @@
 **This project has a [Code of Conduct][].**
 
 ## Table of contents
-
+# Express news channel
 * [Installation](#Installation)
 * [Features](#Features)
 * [Docs & Community](#docs--community)
