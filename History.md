@@ -10,6 +10,7 @@ unreleased
 * refactor: prefix built-in node module imports
 * Remove unused `depd` dependency
 * Add support for `Uint8Array` in `res.send`
+* Add support for ETag option in res.sendFile
 * deps: debug@^4.4.0
 * deps: body-parser@^2.1.0
 * deps: router@^2.1.0
