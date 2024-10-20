@@ -15,6 +15,10 @@
   "license": "MIT",
   "repository": "expressjs/express",
   "homepage": "http://expressjs.com/",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/express"
+  },
   "keywords": [
     "express",
     "framework",
