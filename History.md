@@ -1,19 +1,34 @@
-unreleased
+5.0.1 / 2024-10-08
+==========
+
+* Update `cookie` semver lock to address [CVE-2024-47764](https://nvd.nist.gov/vuln/detail/CVE-2024-47764)
+
+5.0.0 / 2024-09-10
 =========================
-* remove: 
+* remove:
   - `path-is-absolute` dependency - use `path.isAbsolute` instead
 * breaking:
   * `res.status()` accepts only integers, and input must be greater than 99 and less than 1000
     * will throw a `RangeError: Invalid status code: ${code}. Status code must be greater than 99 and less than 1000.` for inputs outside this range
     * will throw a `TypeError: Invalid status code: ${code}. Status code must be an integer.` for non integer inputs
   * deps: send@1.0.0
+  * `res.redirect('back')` and `res.location('back')` is no longer a supported magic string, explicitly use `req.get('Referrer') || '/'`.
 * change:
   - `res.clearCookie` will ignore user provided `maxAge` and `expires` options
 * deps: cookie-signature@^1.2.1
 * deps: debug@4.3.6
 * deps: merge-descriptors@^2.0.0
-* deps: serve-static@^2.0.0
+* deps: serve-static@^2.1.0
 * deps: qs@6.13.0
+* deps: accepts@^2.0.0
+* deps: mime-types@^3.0.0
+  - `application/javascript` => `text/javascript`
+* deps: type-is@^2.0.0
+* deps: content-disposition@^1.0.0
+* deps: finalhandler@^2.0.0
+* deps: fresh@^2.0.0
+* deps: body-parser@^2.0.1
+* deps: send@^1.1.0
 
 5.0.0-beta.3 / 2024-03-25
 =========================
@@ -183,6 +198,24 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - `req.query` is now a getter instead of a plain property
   * add:
     - `app.router` is a reference to the base router
+
+4.20.0 / 2024-09-10
+==========
+  * deps: serve-static@0.16.0
+    * Remove link renderization in html while redirecting
+  * deps: send@0.19.0
+    * Remove link renderization in html while redirecting
+  * deps: body-parser@0.6.0
+    * add `depth` option to customize the depth level in the parser
+    * IMPORTANT: The default `depth` level for parsing URL-encoded data is now `32` (previously was `Infinity`)
+  * Remove link renderization in html while using `res.redirect`
+  * deps: path-to-regexp@0.1.10
+    - Adds support for named matching groups in the routes using a regex
+    - Adds backtracking protection to parameters without regexes defined
+  * deps: encodeurl@~2.0.0
+    - Removes encoding of `\`, `|`, and `^` to align better with URL spec
+  * Deprecate passing `options.maxAge` and `options.expires` to `res.clearCookie`
+    - Will be ignored in v5, clearCookie will set a cookie with an expires in the past to instruct clients to delete the cookie
 
 4.19.2 / 2024-03-25
 ==========

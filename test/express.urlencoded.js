@@ -186,7 +186,7 @@ describe('express.urlencoded()', function () {
       it('should parse deep object', function (done) {
         var str = 'foo'
 
-        for (var i = 0; i < 500; i++) {
+        for (var i = 0; i < 32; i++) {
           str += '[p]'
         }
 
@@ -204,7 +204,7 @@ describe('express.urlencoded()', function () {
             var depth = 0
             var ref = obj.foo
             while ((ref = ref.p)) { depth++ }
-            assert.strictEqual(depth, 500)
+            assert.strictEqual(depth, 32)
           })
           .expect(200, done)
       })

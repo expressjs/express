@@ -46,65 +46,7 @@ describe('res', function(){
       .expect(200, done)
     })
 
-    describe('when url is "back"', function () {
-      it('should set location from "Referer" header', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.location('back').end()
-        })
-
-        request(app)
-        .get('/')
-        .set('Referer', '/some/page.html')
-        .expect('Location', '/some/page.html')
-        .expect(200, done)
-      })
-
-      it('should set location from "Referrer" header', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.location('back').end()
-        })
-
-        request(app)
-        .get('/')
-        .set('Referrer', '/some/page.html')
-        .expect('Location', '/some/page.html')
-        .expect(200, done)
-      })
-
-      it('should prefer "Referrer" header', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.location('back').end()
-        })
-
-        request(app)
-        .get('/')
-        .set('Referer', '/some/page1.html')
-        .set('Referrer', '/some/page2.html')
-        .expect('Location', '/some/page2.html')
-        .expect(200, done)
-      })
-
-      it('should set the header to "/" without referrer', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.location('back').end()
-        })
-
-        request(app)
-        .get('/')
-        .expect('Location', '/')
-        .expect(200, done)
-      })
-    })
-
-    it('should encode data uri', function (done) {
+    it('should encode data uri1', function (done) {
       var app = express()
       app.use(function (req, res) {
         res.location('data:text/javascript,export default () => { }').end();
@@ -116,7 +58,7 @@ describe('res', function(){
         .expect(200, done)
     })
 
-    it('should encode data uri', function (done) {
+    it('should encode data uri2', function (done) {
       var app = express()
       app.use(function (req, res) {
         res.location('data:text/javascript,export default () => { }').end();
@@ -305,23 +247,12 @@ describe('res', function(){
       );
     });
 
-    it('should percent encode backslashes in the path', function (done) {
+    it('should keep backslashes in the path', function (done) {
       var app = createRedirectServerForDomain('google.com');
       testRequestedRedirect(
         app,
         'https://google.com/foo\\bar\\baz',
-        'https://google.com/foo%5Cbar%5Cbaz',
-        'google.com',
-        done
-      );
-    });
-
-    it('should encode backslashes in the path after the first backslash that triggered path parsing', function (done) {
-      var app = createRedirectServerForDomain('google.com');
-      testRequestedRedirect(
-        app,
-        'https://google.com\\@app\\l\\e.com',
-        'https://google.com\\@app%5Cl%5Ce.com',
+        'https://google.com/foo\\bar\\baz',
         'google.com',
         done
       );
@@ -376,7 +307,7 @@ describe('res', function(){
       testRequestedRedirect(
         app,
         'file:///etc\\passwd',
-        'file:///etc%5Cpasswd',
+        'file:///etc\\passwd',
         '',
         done
       );

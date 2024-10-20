@@ -29,6 +29,12 @@ announcement, and may ask for additional information or guidance.
 Report security bugs in third-party modules to the person or team maintaining
 the module.
 
+## Pre-release Versions
+
+Alpha and Beta releases are unstable and **not suitable for production use**.
+Vulnerabilities found in pre-releases should be reported according to the [Reporting a Bug](#reporting-a-bug) section.
+Due to the unstable nature of the branch it is not guaranteed that any fixes will be released in the next pre-release.
+
 ## Disclosure Policy
 
 When the security team receives a security bug report, they will assign it to a
@@ -39,6 +45,10 @@ involving the following steps:
   * Audit code to find any potential similar problems.
   * Prepare fixes for all releases still under maintenance. These fixes will be
     released as fast as possible to npm.
+
+## The Express Threat Model
+
+We are currently working on a new version of the security model, the most updated version can be found [here](https://github.com/expressjs/security-wg/blob/main/docs/ThreatModel.md)
 
 ## Comments on this Policy
 
