@@ -1,7 +1,7 @@
-unreleased
+5.0.1 / 2024-10-08
 ==========
 
-* Update `cookie` semver lock to address CVE-2024-47764
+* Update `cookie` semver lock to address [CVE-2024-47764](https://nvd.nist.gov/vuln/detail/CVE-2024-47764)
 
 5.0.0 / 2024-09-10
 =========================
