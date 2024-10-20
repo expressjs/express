@@ -4,6 +4,12 @@ unreleased
   * deps: path-to-regexp@0.1.11
     - Throws an error on invalid path values
 
+4.21.1 / 2024-10-08
+==========
+
+  * Backported a fix for [CVE-2024-47764](https://nvd.nist.gov/vuln/detail/CVE-2024-47764)
+
+
 4.21.0 / 2024-09-11
 ==========
 

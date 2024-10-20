@@ -1,7 +1,7 @@
 {
   "name": "express",
   "description": "Fast, unopinionated, minimalist web framework",
-  "version": "4.21.0",
+  "version": "4.21.1",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [
     "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
@@ -15,6 +15,10 @@
   "license": "MIT",
   "repository": "expressjs/express",
   "homepage": "http://expressjs.com/",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/express"
+  },
   "keywords": [
     "express",
     "framework",
@@ -33,7 +37,7 @@
     "body-parser": "1.20.3",
     "content-disposition": "0.5.4",
     "content-type": "~1.0.4",
-    "cookie": "0.6.0",
+    "cookie": "0.7.1",
     "cookie-signature": "1.0.6",
     "debug": "2.6.9",
     "depd": "2.0.0",
