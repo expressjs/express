@@ -65,6 +65,7 @@ jobs:
           - "20"
           - "21"
           - "22"
+          - "23"
         # Use supported versions of our testing tools under older versions of Node
         # Install npm in some specific cases where we need to
         include:
