@@ -1,3 +1,8 @@
+unreleased
+========================
+
+* Remove `Object.setPrototypeOf` polyfill
+
 5.0.1 / 2024-10-08
 ==========
 
