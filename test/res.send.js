@@ -1,7 +1,7 @@
 'use strict'
 
 var assert = require('assert')
-var Buffer = require('safe-buffer').Buffer
+var Buffer = require('node:buffer').Buffer
 var express = require('..');
 var methods = require('methods');
 var request = require('supertest');

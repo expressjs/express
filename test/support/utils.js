@@ -5,7 +5,7 @@
  */
 
 var assert = require('assert');
-var Buffer = require('safe-buffer').Buffer
+var Buffer = require('node:buffer').Buffer
 
 /**
  * Module exports.
