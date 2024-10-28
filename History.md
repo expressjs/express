@@ -13,9 +13,7 @@ unreleased
 * remove:
   - `path-is-absolute` dependency - use `path.isAbsolute` instead
 * breaking:
-  * `res.status()` accepts only integers, and input must be greater than 99 and less than 1000
-    * will throw a `RangeError: Invalid status code: ${code}. Status code must be greater than 99 and less than 1000.` for inputs outside this range
-    * will throw a `TypeError: Invalid status code: ${code}. Status code must be an integer.` for non integer inputs
+  * `res.status()` accepts only integers, and input must be greater than 99 and  integer.` for non integer inputs
   * deps: send@1.0.0
   * `res.redirect('back')` and `res.location('back')` is no longer a supported magic string, explicitly use `req.get('Referrer') || '/'`.
 * change:
