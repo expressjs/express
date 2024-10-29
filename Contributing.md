@@ -208,9 +208,6 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 
 - Triage team [ref](https://github.com/expressjs/discussions/issues/227): @UlisesGascon
 
-
-
-
 ## Developer's Certificate of Origin 1.1
 
 ```text
