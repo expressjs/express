@@ -267,11 +267,17 @@ describe('express.static()', function () {
           .expect(404, 'Not Found', done)
       })
 
-      it('should fall-through when traversing past root', function (done) {
+      it('should redirect to base root when traversing past root', function (done) {
         request(this.app)
           .get('/users/../../todo.txt')
-          .expect(404, 'Not Found', done)
-      })
+          .expect(200)
+          .then(response => {
+            assert.ok(response.req.path, '/todo.txt')
+            done();
+          })
+          .catch(err => done(err));
+      });
+      
 
       it('should fall-through when URL too long', function (done) {
         var app = express()
@@ -342,10 +348,11 @@ describe('express.static()', function () {
           .expect(400, /BadRequestError/, done)
       })
 
-      it('should 403 when traversing past root', function (done) {
+      it('should success when traversing past root', function (done) {
         request(this.app)
           .get('/users/../../todo.txt')
-          .expect(403, /ForbiddenError/, done)
+          .expect(200)
+          .end(done);
       })
 
       it('should 404 when URL too long', function (done) {
@@ -576,16 +583,16 @@ describe('express.static()', function () {
       this.app = createApp(fixtures, { 'fallthrough': false })
     })
 
-    it('should catch urlencoded ../', function (done) {
+    it('should success redirect base root when urlencoded ../', function (done) {
       request(this.app)
         .get('/users/%2e%2e/%2e%2e/todo.txt')
-        .expect(403, done)
+        .expect(200, done)
     })
 
     it('should not allow root path disclosure', function (done) {
       request(this.app)
         .get('/users/../../fixtures/todo.txt')
-        .expect(403, done)
+        .expect(404, done)
     })
   })
 

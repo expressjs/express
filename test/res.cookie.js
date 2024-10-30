@@ -142,11 +142,11 @@ describe('res', function(){
         .expect(200, optionsCopy, done)
       })
 
-      it('should not throw on null', function (done) {
+      it('should not throw on empty option', function (done) {
         var app = express()
 
         app.use(function (req, res) {
-          res.cookie('name', 'tobi', { maxAge: null })
+          res.cookie('name', 'tobi')
           res.end()
         })
 
@@ -183,6 +183,19 @@ describe('res', function(){
         request(app)
           .get('/')
           .expect(500, /option maxAge is invalid/, done)
+      })
+
+      it('should throw an error with invalid maxAge is null', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { maxAge: null })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(500, /option maxAge is invalid: null/, done)
       })
     })
 
