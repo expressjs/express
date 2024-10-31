@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * Module dependencies.
@@ -6,9 +6,9 @@
 
 var express = require('../../');
 var path = require('path');
-var app = module.exports = express();
+var app = (module.exports = express());
 var logger = require('morgan');
-var silent = process.env.NODE_ENV === 'test'
+var silent = process.env.NODE_ENV === 'test';
 
 // general config
 app.set('views', path.join(__dirname, 'views'));
@@ -21,31 +21,31 @@ app.enable('verbose errors');
 
 // disable them in production
 // use $ NODE_ENV=production node examples/error-pages
-if (app.settings.env === 'production') app.disable('verbose errors')
+if (app.settings.env === 'production') app.disable('verbose errors');
 
 silent || app.use(logger('dev'));
 
 // Routes
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
   res.render('index.ejs');
 });
 
-app.get('/404', function(req, res, next){
+app.get('/404', function (req, res, next) {
   // trigger a 404 since no other middleware
   // will match /404 after this one, and we're not
   // responding here
   next();
 });
 
-app.get('/403', function(req, res, next){
+app.get('/403', function (req, res, next) {
   // trigger a 403 error
   var err = new Error('not allowed!');
   err.status = 403;
   next(err);
 });
 
-app.get('/500', function(req, res, next){
+app.get('/500', function (req, res, next) {
   // trigger a generic (500) error
   next(new Error('keyboard cat!'));
 });
@@ -60,20 +60,20 @@ app.get('/500', function(req, res, next){
 // $ curl http://localhost:3000/notfound -H "Accept: application/json"
 // $ curl http://localhost:3000/notfound -H "Accept: text/plain"
 
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
   res.status(404);
 
   res.format({
     html: function () {
-      res.render('404', { url: req.url })
+      res.render('404', { url: req.url });
     },
     json: function () {
-      res.json({ error: 'Not found' })
+      res.json({ error: 'Not found' });
     },
     default: function () {
-      res.type('txt').send('Not found')
-    }
-  })
+      res.type('txt').send('Not found');
+    },
+  });
 });
 
 // error-handling middleware, take the same form
@@ -88,7 +88,7 @@ app.use(function(req, res, next){
 // would remain being executed, however here
 // we simply respond with an error page.
 
-app.use(function(err, req, res, next){
+app.use(function (err, req, res, next) {
   // we may use properties of the error object
   // here and next(err) appropriately, or if
   // we possibly recovered from the error, simply next().

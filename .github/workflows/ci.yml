@@ -37,6 +37,8 @@ jobs:
 
       - name: Run lint
         run: npm run lint
+      - name: Format code
+        run: npm run format
 
   test:
     strategy:

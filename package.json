@@ -79,6 +79,7 @@
     "morgan": "1.10.0",
     "nyc": "15.1.0",
     "pbkdf2-password": "1.2.1",
+    "prettier": "^3.3.3",
     "supertest": "6.3.0",
     "vhost": "~3.0.2"
   },
@@ -93,6 +94,7 @@
     "lib/"
   ],
   "scripts": {
+    "format": "prettier --write \"**/*.js\"",
     "lint": "eslint .",
     "test": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-ci": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=lcovonly --reporter=text npm test",

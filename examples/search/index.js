@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 // install redis first:
 // https://redis.io/
@@ -35,9 +35,9 @@ db.sadd('cat', 'luna');
  * GET search for :query.
  */
 
-app.get('/search/:query?', function(req, res, next){
+app.get('/search/:query?', function (req, res, next) {
   var query = req.params.query;
-  db.smembers(query, function(err, vals){
+  db.smembers(query, function (err, vals) {
     if (err) return next(err);
     res.send(vals);
   });
@@ -50,7 +50,7 @@ app.get('/search/:query?', function(req, res, next){
  * template.
  */
 
-app.get('/client.js', function(req, res){
+app.get('/client.js', function (req, res) {
   res.sendFile(path.join(__dirname, 'client.js'));
 });
 

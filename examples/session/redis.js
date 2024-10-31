@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * Module dependencies.
@@ -17,14 +17,16 @@ var app = express();
 app.use(logger('dev'));
 
 // Populates req.session
-app.use(session({
-  resave: false, // don't save session if unmodified
-  saveUninitialized: false, // don't create session until something stored
-  secret: 'keyboard cat',
-  store: new RedisStore
-}));
+app.use(
+  session({
+    resave: false, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
+    secret: 'keyboard cat',
+    store: new RedisStore(),
+  }),
+);
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
   var body = '';
   if (req.session.views) {
     ++req.session.views;
@@ -32,7 +34,9 @@ app.get('/', function(req, res){
     req.session.views = 1;
     body += '<p>First time visiting? view this page in several browsers :)</p>';
   }
-  res.send(body + '<p>viewed <strong>' + req.session.views + '</strong> times.</p>');
+  res.send(
+    body + '<p>viewed <strong>' + req.session.views + '</strong> times.</p>',
+  );
 });
 
 app.listen(3000);

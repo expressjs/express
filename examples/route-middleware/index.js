@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * Module dependencies.
@@ -17,9 +17,14 @@ var app = express();
 
 // Dummy users
 var users = [
-  { id: 0, name: 'tj', email: 'tj@vision-media.ca', role: 'member' }
-  , { id: 1, name: 'ciaran', email: 'ciaranj@gmail.com', role: 'member' }
-  , { id: 2, name: 'aaron', email: 'aaron.heckmann+github@gmail.com', role: 'admin' }
+  { id: 0, name: 'tj', email: 'tj@vision-media.ca', role: 'member' },
+  { id: 1, name: 'ciaran', email: 'ciaranj@gmail.com', role: 'member' },
+  {
+    id: 2,
+    name: 'aaron',
+    email: 'aaron.heckmann+github@gmail.com',
+    role: 'admin',
+  },
 ];
 
 function loadUser(req, res, next) {
@@ -48,13 +53,13 @@ function andRestrictToSelf(req, res, next) {
 }
 
 function andRestrictTo(role) {
-  return function(req, res, next) {
+  return function (req, res, next) {
     if (req.authenticatedUser.role === role) {
       next();
     } else {
       next(new Error('Unauthorized'));
     }
-  }
+  };
 }
 
 // Middleware for faux authentication
@@ -62,24 +67,24 @@ function andRestrictTo(role) {
 // but this illustrates how an authenticated user
 // may interact with middleware
 
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
   req.authenticatedUser = users[0];
   next();
 });
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
   res.redirect('/user/0');
 });
 
-app.get('/user/:id', loadUser, function(req, res){
+app.get('/user/:id', loadUser, function (req, res) {
   res.send('Viewing user ' + req.user.name);
 });
 
-app.get('/user/:id/edit', loadUser, andRestrictToSelf, function(req, res){
+app.get('/user/:id/edit', loadUser, andRestrictToSelf, function (req, res) {
   res.send('Editing user ' + req.user.name);
 });
 
-app.delete('/user/:id', loadUser, andRestrictTo('admin'), function(req, res){
+app.delete('/user/:id', loadUser, andRestrictTo('admin'), function (req, res) {
   res.send('Deleted user ' + req.user.name);
 });
 

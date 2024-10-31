@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * Module dependencies.
@@ -7,7 +7,7 @@
 var express = require('../../');
 var path = require('path');
 
-var app = module.exports = express();
+var app = (module.exports = express());
 
 // Register ejs as .html. If we did
 // not call this, we would need to
@@ -39,14 +39,14 @@ app.set('view engine', 'html');
 var users = [
   { name: 'tobi', email: 'tobi@learnboost.com' },
   { name: 'loki', email: 'loki@learnboost.com' },
-  { name: 'jane', email: 'jane@learnboost.com' }
+  { name: 'jane', email: 'jane@learnboost.com' },
 ];
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
   res.render('users', {
     users: users,
-    title: "EJS example",
-    header: "Some users"
+    title: 'EJS example',
+    header: 'Some users',
   });
 });
 

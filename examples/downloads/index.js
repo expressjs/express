@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * Module dependencies.
@@ -7,18 +7,20 @@
 var express = require('../../');
 var path = require('path');
 
-var app = module.exports = express();
+var app = (module.exports = express());
 
 // path to where the files are stored on disk
-var FILES_DIR = path.join(__dirname, 'files')
+var FILES_DIR = path.join(__dirname, 'files');
 
-app.get('/', function(req, res){
-  res.send('<ul>' +
-    '<li>Download <a href="/files/notes/groceries.txt">notes/groceries.txt</a>.</li>' +
-    '<li>Download <a href="/files/amazing.txt">amazing.txt</a>.</li>' +
-    '<li>Download <a href="/files/missing.txt">missing.txt</a>.</li>' +
-    '<li>Download <a href="/files/CCTV大赛上海分赛区.txt">CCTV大赛上海分赛区.txt</a>.</li>' +
-    '</ul>')
+app.get('/', function (req, res) {
+  res.send(
+    '<ul>' +
+      '<li>Download <a href="/files/notes/groceries.txt">notes/groceries.txt</a>.</li>' +
+      '<li>Download <a href="/files/amazing.txt">amazing.txt</a>.</li>' +
+      '<li>Download <a href="/files/missing.txt">missing.txt</a>.</li>' +
+      '<li>Download <a href="/files/CCTV大赛上海分赛区.txt">CCTV大赛上海分赛区.txt</a>.</li>' +
+      '</ul>',
+  );
 });
 
 // /files/* is accessed via req.params[0]

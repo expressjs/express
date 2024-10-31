@@ -1,11 +1,11 @@
-'use strict'
+'use strict';
 
 var express = require('..');
 var request = require('supertest');
 var utils = require('./support/utils');
 
-describe('res.vary()', function(){
-  describe('with no arguments', function(){
+describe('res.vary()', function () {
+  describe('with no arguments', function () {
     it('should throw error', function (done) {
       var app = express();
 
@@ -15,12 +15,12 @@ describe('res.vary()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(500, /field.*required/, done)
-    })
-  })
+        .get('/')
+        .expect(500, /field.*required/, done);
+    });
+  });
 
-  describe('with an empty array', function(){
+  describe('with an empty array', function () {
     it('should not set Vary', function (done) {
       var app = express();
 
@@ -30,13 +30,13 @@ describe('res.vary()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(utils.shouldNotHaveHeader('Vary'))
-      .expect(200, done);
-    })
-  })
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('Vary'))
+        .expect(200, done);
+    });
+  });
 
-  describe('with an array', function(){
+  describe('with an array', function () {
     it('should set the values', function (done) {
       var app = express();
 
@@ -46,13 +46,13 @@ describe('res.vary()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Vary', 'Accept, Accept-Language, Accept-Encoding')
-      .expect(200, done);
-    })
-  })
+        .get('/')
+        .expect('Vary', 'Accept, Accept-Language, Accept-Encoding')
+        .expect(200, done);
+    });
+  });
 
-  describe('with a string', function(){
+  describe('with a string', function () {
     it('should set the value', function (done) {
       var app = express();
 
@@ -61,14 +61,11 @@ describe('res.vary()', function(){
         res.end();
       });
 
-      request(app)
-      .get('/')
-      .expect('Vary', 'Accept')
-      .expect(200, done);
-    })
-  })
+      request(app).get('/').expect('Vary', 'Accept').expect(200, done);
+    });
+  });
 
-  describe('when the value is present', function(){
+  describe('when the value is present', function () {
     it('should not add it again', function (done) {
       var app = express();
 
@@ -82,9 +79,9 @@ describe('res.vary()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('Vary', 'Accept, Accept-Encoding')
-      .expect(200, done);
-    })
-  })
-})
+        .get('/')
+        .expect('Vary', 'Accept, Accept-Encoding')
+        .expect(200, done);
+    });
+  });
+});

@@ -1,17 +1,17 @@
-'use strict'
+'use strict';
 
 // Fake user database
 
 var users = [
   { name: 'TJ', email: 'tj@vision-media.ca' },
-  { name: 'Tobi', email: 'tobi@vision-media.ca' }
+  { name: 'Tobi', email: 'tobi@vision-media.ca' },
 ];
 
-exports.list = function(req, res){
+exports.list = function (req, res) {
   res.render('users', { title: 'Users', users: users });
 };
 
-exports.load = function(req, res, next){
+exports.load = function (req, res, next) {
   var id = req.params.id;
   req.user = users[id];
   if (req.user) {
@@ -23,21 +23,21 @@ exports.load = function(req, res, next){
   }
 };
 
-exports.view = function(req, res){
+exports.view = function (req, res) {
   res.render('users/view', {
     title: 'Viewing user ' + req.user.name,
-    user: req.user
+    user: req.user,
   });
 };
 
-exports.edit = function(req, res){
+exports.edit = function (req, res) {
   res.render('users/edit', {
     title: 'Editing user ' + req.user.name,
-    user: req.user
+    user: req.user,
   });
 };
 
-exports.update = function(req, res){
+exports.update = function (req, res) {
   // Normally you would handle all kinds of
   // validation and save back to the db
   var user = req.body.user;

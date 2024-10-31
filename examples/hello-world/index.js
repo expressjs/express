@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
 var express = require('../../');
 
-var app = module.exports = express()
+var app = (module.exports = express());
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
   res.send('Hello World');
 });
 

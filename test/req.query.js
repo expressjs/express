@@ -1,25 +1,23 @@
-'use strict'
+'use strict';
 
-var assert = require('assert')
-var express = require('../')
-  , request = require('supertest');
+var assert = require('assert');
+var express = require('../'),
+  request = require('supertest');
 
-describe('req', function(){
-  describe('.query', function(){
-    it('should default to {}', function(done){
+describe('req', function () {
+  describe('.query', function () {
+    it('should default to {}', function (done) {
       var app = createApp();
 
-      request(app)
-      .get('/')
-      .expect(200, '{}', done);
+      request(app).get('/').expect(200, '{}', done);
     });
 
     it('should default to parse simple keys', function (done) {
       var app = createApp();
 
       request(app)
-      .get('/?user[name]=tj')
-      .expect(200, '{"user[name]":"tj"}', done);
+        .get('/?user[name]=tj')
+        .expect(200, '{"user[name]":"tj"}', done);
     });
 
     describe('when "query parser" is extended', function () {
@@ -27,16 +25,16 @@ describe('req', function(){
         var app = createApp('extended');
 
         request(app)
-        .get('/?foo[0][bar]=baz&foo[0][fizz]=buzz&foo[]=done!')
-        .expect(200, '{"foo":[{"bar":"baz","fizz":"buzz"},"done!"]}', done);
+          .get('/?foo[0][bar]=baz&foo[0][fizz]=buzz&foo[]=done!')
+          .expect(200, '{"foo":[{"bar":"baz","fizz":"buzz"},"done!"]}', done);
       });
 
       it('should parse parameters with dots', function (done) {
         var app = createApp('extended');
 
         request(app)
-        .get('/?user.name=tj')
-        .expect(200, '{"user.name":"tj"}', done);
+          .get('/?user.name=tj')
+          .expect(200, '{"user.name":"tj"}', done);
       });
     });
 
@@ -45,20 +43,20 @@ describe('req', function(){
         var app = createApp('simple');
 
         request(app)
-        .get('/?user%5Bname%5D=tj')
-        .expect(200, '{"user[name]":"tj"}', done);
+          .get('/?user%5Bname%5D=tj')
+          .expect(200, '{"user[name]":"tj"}', done);
       });
     });
 
     describe('when "query parser" is a function', function () {
       it('should parse using function', function (done) {
         var app = createApp(function (str) {
-          return {'length': (str || '').length};
+          return { length: (str || '').length };
         });
 
         request(app)
-        .get('/?user%5Bname%5D=tj')
-        .expect(200, '{"length":17}', done);
+          .get('/?user%5Bname%5D=tj')
+          .expect(200, '{"length":17}', done);
       });
     });
 
@@ -66,9 +64,7 @@ describe('req', function(){
       it('should not parse query', function (done) {
         var app = createApp(false);
 
-        request(app)
-        .get('/?user%5Bname%5D=tj')
-        .expect(200, '{}', done);
+        request(app).get('/?user%5Bname%5D=tj').expect(200, '{}', done);
       });
     });
 
@@ -77,19 +73,21 @@ describe('req', function(){
         var app = createApp(true);
 
         request(app)
-        .get('/?user%5Bname%5D=tj')
-        .expect(200, '{"user[name]":"tj"}', done);
+          .get('/?user%5Bname%5D=tj')
+          .expect(200, '{"user[name]":"tj"}', done);
       });
     });
 
     describe('when "query parser" an unknown value', function () {
       it('should throw', function () {
-        assert.throws(createApp.bind(null, 'bogus'),
-          /unknown value.*query parser/)
+        assert.throws(
+          createApp.bind(null, 'bogus'),
+          /unknown value.*query parser/,
+        );
       });
     });
-  })
-})
+  });
+});
 
 function createApp(setting) {
   var app = express();

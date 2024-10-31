@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * Module dependencies.
@@ -15,7 +15,7 @@ app.set('view engine', 'ejs');
 // filter ferrets only
 
 function ferrets(user) {
-  return user.species === 'ferret'
+  return user.species === 'ferret';
 }
 
 // naive nesting approach,
@@ -23,22 +23,19 @@ function ferrets(user) {
 // in order to expose the "count"
 // and "users" locals
 
-app.get('/', function(req, res, next){
-  User.count(function(err, count){
+app.get('/', function (req, res, next) {
+  User.count(function (err, count) {
     if (err) return next(err);
-    User.all(function(err, users){
+    User.all(function (err, users) {
       if (err) return next(err);
       res.render('index', {
         title: 'Users',
         count: count,
-        users: users.filter(ferrets)
+        users: users.filter(ferrets),
       });
-    })
-  })
+    });
+  });
 });
-
-
-
 
 // this approach is cleaner,
 // less nesting and we have
@@ -46,31 +43,28 @@ app.get('/', function(req, res, next){
 // on the request object
 
 function count(req, res, next) {
-  User.count(function(err, count){
+  User.count(function (err, count) {
     if (err) return next(err);
     req.count = count;
     next();
-  })
+  });
 }
 
 function users(req, res, next) {
-  User.all(function(err, users){
+  User.all(function (err, users) {
     if (err) return next(err);
     req.users = users;
     next();
-  })
+  });
 }
 
 app.get('/middleware', count, users, function (req, res) {
   res.render('index', {
     title: 'Users',
     count: req.count,
-    users: req.users.filter(ferrets)
+    users: req.users.filter(ferrets),
   });
 });
-
-
-
 
 // this approach is much like the last
 // however we're explicitly exposing
@@ -84,19 +78,19 @@ app.get('/middleware', count, users, function (req, res) {
 // is more flexible with `req.users`.
 
 function count2(req, res, next) {
-  User.count(function(err, count){
+  User.count(function (err, count) {
     if (err) return next(err);
     res.locals.count = count;
     next();
-  })
+  });
 }
 
 function users2(req, res, next) {
-  User.all(function(err, users){
+  User.all(function (err, users) {
     if (err) return next(err);
     res.locals.users = users.filter(ferrets);
     next();
-  })
+  });
 }
 
 app.get('/middleware-locals', count2, users2, function (req, res) {

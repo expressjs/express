@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * Module dependencies.
@@ -8,11 +8,11 @@ var express = require('../../..');
 var fs = require('fs');
 var path = require('path');
 
-module.exports = function(parent, options){
+module.exports = function (parent, options) {
   var dir = path.join(__dirname, '..', 'controllers');
   var verbose = options.verbose;
-  fs.readdirSync(dir).forEach(function(name){
-    var file = path.join(dir, name)
+  fs.readdirSync(dir).forEach(function (name) {
+    var file = path.join(dir, name);
     if (!fs.statSync(file).isDirectory()) return;
     verbose && console.log('\n   %s:', name);
     var obj = require(file);
@@ -70,10 +70,17 @@ module.exports = function(parent, options){
       // before middleware support
       if (obj.before) {
         app[method](url, obj.before, handler);
-        verbose && console.log('     %s %s -> before -> %s', method.toUpperCase(), url, key);
+        verbose &&
+          console.log(
+            '     %s %s -> before -> %s',
+            method.toUpperCase(),
+            url,
+            key,
+          );
       } else {
         app[method](url, handler);
-        verbose && console.log('     %s %s -> %s', method.toUpperCase(), url, key);
+        verbose &&
+          console.log('     %s %s -> %s', method.toUpperCase(), url, key);
       }
     }
 

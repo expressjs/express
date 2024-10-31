@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * Module dependencies.
@@ -22,11 +22,11 @@ var main = express();
 
 if (!module.parent) main.use(logger('dev'));
 
-main.get('/', function(req, res){
+main.get('/', function (req, res) {
   res.send('Hello from main app!');
 });
 
-main.get('/:sub', function(req, res){
+main.get('/:sub', function (req, res) {
   res.send('requested ' + req.params.sub);
 });
 
@@ -34,14 +34,14 @@ main.get('/:sub', function(req, res){
 
 var redirect = express();
 
-redirect.use(function(req, res){
+redirect.use(function (req, res) {
   if (!module.parent) console.log(req.vhost);
   res.redirect('http://example.com:3000/' + req.vhost[0]);
 });
 
 // Vhost app
 
-var app = module.exports = express();
+var app = (module.exports = express());
 
 app.use(vhost('*.example.com', redirect)); // Serves all subdomains via Redirect app
 app.use(vhost('example.com', main)); // Serves top level domain via Main server app
