@@ -1212,7 +1212,7 @@ function supportsRegexp(source) {
   try {
     new RegExp(source)
     return true
-  } finally {
+  } catch {
     return false
   }
 }
