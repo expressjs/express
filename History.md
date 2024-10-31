@@ -14,6 +14,13 @@ unreleased
 * deps: body-parser@^2.1.0
 * deps: router@^2.1.0
 * deps: nyc@^17.1.0
+* deps: mocha@^10.7.3
+* deps: marked@^15.0.3
+* deps: express-session@^1.18.1
+* deps: ejs@^3.1.10
+* deps: content-type@^1.0.5
+* deps: connect-redis@^8.0.1
+* deps: supertest@^6.3.4
 
 5.0.1 / 2024-10-08
 ==========
