@@ -14,6 +14,7 @@ unreleased
 * deps: body-parser@^2.1.0
 * deps: router@^2.1.0
 * deps: nyc@^17.1.0
+* deps: mocha@^10.7.3
 
 5.0.1 / 2024-10-08
 ==========

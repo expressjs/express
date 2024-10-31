@@ -71,7 +71,7 @@
     "hbs": "4.2.0",
     "marked": "15.0.3",
     "method-override": "3.0.0",
-    "mocha": "10.2.0",
+    "mocha": "^10.7.3",
     "morgan": "1.10.0",
     "nyc": "^17.1.0",
     "pbkdf2-password": "1.2.1",
