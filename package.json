@@ -93,7 +93,8 @@
     "lib/"
   ],
   "scripts": {
-    "format": "prettier --write \"**/*.js\"",
+    "format": "prettier \"**/*.js\"",
+    "format:fix": "prettier --write \"**/*.js\"",
     "lint": "eslint .",
     "test": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-ci": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=lcovonly --reporter=text npm test",
