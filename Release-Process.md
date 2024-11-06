@@ -129,9 +129,10 @@ $ git merge --ff-only <proposal-branch>
 <release-branch> - see "Release branch" of "Branches" above.
 <proposal-branch> - see "Proposal branch" of "Non-patch flow" above.
 
-**NOTE:** You may need to rebase the proposal branch to allow a fast-forward
-          merge. Using a fast-forward merge keeps the history clean as it does
-          not introduce merge commits.
+> [!NOTE]
+> You may need to rebase the proposal branch to allow a fast-forward
+> merge. Using a fast-forward merge keeps the history clean as it does
+> not introduce merge commits.
 
 ### Step 3. Update the History.md and package.json to the new version number
 
@@ -189,11 +190,13 @@ $ npm login <npm-username>
 $ npm publish
 ```
 
-**NOTE:** The version number to publish will be picked up automatically from
-          package.json.
+> [!NOTE]
+> The version number to publish will be picked up automatically from 
+> package.json.
           
 ### Step 7. Update documentation website
 
-The documentation website https://expressjs.com/ documents the current release version in various places.  For a new release:
-1. Change the value of `current_version` in https://github.com/expressjs/expressjs.com/blob/gh-pages/_data/express.yml to match the latest version number.
-2. Add a new section to the change log.  For example, for a 4.x release, https://github.com/expressjs/expressjs.com/blob/gh-pages/en/changelog/4x.md,
+The documentation website https://expressjs.com/ documents the current release version in various places. To update these, follow these steps:
+
+1. Manually run the [`Update External Docs` workflow](https://github.com/expressjs/expressjs.com/actions/workflows/update-external-docs.yml) in expressjs.com repository.
+2. Add a new section to the [changelog](https://github.com/expressjs/expressjs.com/blob/gh-pages/en/changelog/index.md) in the expressjs.com website.
