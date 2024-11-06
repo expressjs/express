@@ -211,6 +211,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 * [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
 * [IamLizu](https://github.com/IamLizu) - **S M Mahmudul Hasan** (he/him)
 * [Sushmeet](https://github.com/Sushmeet) - **Sushmeet Sunger**
+* [rxmarbles](https://github.com/rxmarbles) **Rick Markins** (He/him)
 
 <details>
 <summary>Triagers emeriti members</summary>
