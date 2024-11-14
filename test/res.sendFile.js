@@ -905,7 +905,7 @@ function createApp(path, options, fn) {
 function tryRequire (name) {
   try {
     return require(name)
-  } catch (e) {
+  } catch {
     return {}
   }
 }

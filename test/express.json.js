@@ -760,7 +760,7 @@ function shouldContainInBody (str) {
 function tryRequire (name) {
   try {
     return require(name)
-  } catch (e) {
+  } catch {
     return {}
   }
 }
