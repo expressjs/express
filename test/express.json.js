@@ -1,14 +1,10 @@
 'use strict'
 
 var assert = require('assert')
-var asyncHooks = tryRequire('async_hooks')
+var AsyncLocalStorage = require('async_hooks').AsyncLocalStorage
 var Buffer = require('node:buffer').Buffer
 var express = require('..')
 var request = require('supertest')
-
-var describeAsyncHooks = typeof asyncHooks.AsyncLocalStorage === 'function'
-  ? describe
-  : describe.skip
 
 describe('express.json()', function () {
   it('should parse JSON', function (done) {
@@ -503,13 +499,13 @@ describe('express.json()', function () {
     })
   })
 
-  describeAsyncHooks('async local storage', function () {
+  describe('async local storage', function () {
     before(function () {
       var app = express()
       var store = { foo: 'bar' }
 
       app.use(function (req, res, next) {
-        req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+        req.asyncLocalStorage = new AsyncLocalStorage()
         req.asyncLocalStorage.run(store, next)
       })
 
@@ -754,13 +750,5 @@ function shouldContainInBody (str) {
   return function (res) {
     assert.ok(res.text.indexOf(str) !== -1,
       'expected \'' + res.text + '\' to contain \'' + str + '\'')
-  }
-}
-
-function tryRequire (name) {
-  try {
-    return require(name)
-  } catch (e) {
-    return {}
   }
 }
