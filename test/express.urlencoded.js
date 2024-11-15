@@ -1,13 +1,10 @@
 'use strict'
 
 var assert = require('assert')
-var asyncHooks = tryRequire('async_hooks')
+var AsyncLocalStorage = require('async_hooks').AsyncLocalStorage
+
 var express = require('..')
 var request = require('supertest')
-
-var describeAsyncHooks = typeof asyncHooks.AsyncLocalStorage === 'function'
-  ? describe
-  : describe.skip
 
 describe('express.urlencoded()', function () {
   before(function () {
@@ -605,13 +602,13 @@ describe('express.urlencoded()', function () {
     })
   })
 
-  describeAsyncHooks('async local storage', function () {
+  describe('async local storage', function () {
     before(function () {
       var app = express()
       var store = { foo: 'bar' }
 
       app.use(function (req, res, next) {
-        req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+        req.asyncLocalStorage = new AsyncLocalStorage()
         req.asyncLocalStorage.run(store, next)
       })
 
@@ -826,13 +823,5 @@ function createApp (options) {
 function expectKeyCount (count) {
   return function (res) {
     assert.strictEqual(Object.keys(JSON.parse(res.text)).length, count)
-  }
-}
-
-function tryRequire (name) {
-  try {
-    return require(name)
-  } catch (e) {
-    return {}
   }
 }
