@@ -1,6 +1,5 @@
 'use strict'
 
-var Buffer = require('node:buffer').Buffer
 var express = require('../')
   , request = require('supertest');
 
