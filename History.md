@@ -2,6 +2,7 @@ unreleased
 ========================
 
 * Remove `Object.setPrototypeOf` polyfill
+* cleanup: remove unnecessary require for global Buffer
 
 5.0.1 / 2024-10-08
 ==========

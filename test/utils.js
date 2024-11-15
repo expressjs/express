@@ -1,7 +1,6 @@
 'use strict'
 
 var assert = require('assert');
-var Buffer = require('node:buffer').Buffer
 var utils = require('../lib/utils');
 
 describe('utils.etag(body, encoding)', function(){
