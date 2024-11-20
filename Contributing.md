@@ -139,9 +139,9 @@ the project, their GitHub handle and npm username (if different). The PR will re
 at least 2 approvals from TC members and 2 weeks hold time to allow for comment and/or
 dissent.  When the PR is merged, a TC member will add them to the proper GitHub/npm groups.
 
-## Active Projects and teams
+## Active projects and teams
 
-_Unless otherwise specified the people listed into the projects are repository captains_
+_Unless otherwise specified the people listed into the projects are repository captains._
 
 - [`expressjs/badgeboard`](https://github.com/expressjs/badgeboard): @wesleytodd
 - [`expressjs/basic-auth-connect`](https://github.com/expressjs/basic-auth-connect): @UlisesGascon
