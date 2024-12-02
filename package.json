@@ -47,7 +47,6 @@
     "fresh": "2.0.0",
     "http-errors": "2.0.0",
     "merge-descriptors": "^2.0.0",
-    "methods": "~1.1.2",
     "mime-types": "^3.0.0",
     "on-finished": "2.4.1",
     "once": "1.4.0",
