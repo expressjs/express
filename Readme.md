@@ -18,6 +18,7 @@
 * [Triagers](#triagers)
 * [License](#license)
 
+this code is written by coderet
 
 [![NPM Version][npm-version-image]][npm-url]
 [![NPM Install Size][npm-install-size-image]][npm-install-size-url]
