@@ -5,6 +5,7 @@ unreleased
 * cleanup: remove AsyncLocalStorage check from tests
 * cleanup: remove unnecessary require for global Buffer
 * perf: use loop for acceptParams
+* Replace `utils-merge` dependency with `Object.assign()`
 
 5.0.1 / 2024-10-08
 ==========
