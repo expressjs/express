@@ -54,7 +54,6 @@
     "parseurl": "~1.3.3",
     "proxy-addr": "~2.0.7",
     "qs": "6.13.0",
-    "range-parser": "~1.2.1",
     "router": "^2.0.0",
     "send": "^1.1.0",
     "serve-static": "^2.1.0",
