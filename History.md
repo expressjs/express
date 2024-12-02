@@ -8,6 +8,7 @@ unreleased
 * perf: use loop for acceptParams
 * Replace `methods` dependency with standard library
 * refactor: prefix built-in node module imports
+* Remove unused `depd` dependency
 
 5.0.1 / 2024-10-08
 ==========
