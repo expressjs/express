@@ -4,7 +4,7 @@
 
 **This project has a [Code of Conduct][].**
 
-## Table of contents
+## Table of contents - Dharmita A
 
 * [Installation](#Installation)
 * [Features](#Features)
