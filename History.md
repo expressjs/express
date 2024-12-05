@@ -1,4 +1,4 @@
-unreleased
+4.21.2 / 2024-11-06
 ==========
 
   * deps: path-to-regexp@0.1.12
