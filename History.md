@@ -1,6 +1,8 @@
 unreleased
 ==========
 
+  * deps: path-to-regexp@0.1.12
+    - Fix backtracking protection
   * deps: path-to-regexp@0.1.11
     - Throws an error on invalid path values
 
