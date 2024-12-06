@@ -50,7 +50,7 @@ describe('req', function(){
         var app = express();
 
         app.use(function(req, res, next){
-          res.end(req.acceptsCharsets('utf-8', 'iso-8859-1') || 'none');
+          res.end(req.acceptsCharsets('utf-8', 'iso-8859-1'));
         });
 
         request(app)
