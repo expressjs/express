@@ -4,7 +4,7 @@
 
 **This project has a [Code of Conduct][].**
 
-## Table of contents
+## Table of contents📃
 
 * [Installation](#Installation)
 * [Features](#Features)
@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 app.listen(3000)
 ```
 
-## Installation
+## Installation 🔧
 
 This is a [Node.js](https://nodejs.org/en/) module available through the
 [npm registry](https://www.npmjs.com/).
@@ -58,7 +58,7 @@ npm install express
 Follow [our installing guide](https://expressjs.com/en/starter/installing.html)
 for more information.
 
-## Features
+## Features💡
 
   * Robust routing
   * Focus on high performance
@@ -68,7 +68,7 @@ for more information.
   * Content negotiation
   * Executable for generating applications quickly
 
-## Docs & Community
+## Docs & Community 📑
 
   * [Website and Documentation](https://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
   * [GitHub Organization](https://github.com/expressjs) for Official Middleware & Modules
@@ -76,7 +76,7 @@ for more information.
 
 **PROTIP** Be sure to read the [migration guide to v5](https://expressjs.com/en/guide/migrating-5)
 
-## Quick Start
+## Quick Start 
 
   The quickest way to get started with express is to utilize the executable [`express(1)`](https://github.com/expressjs/generator) to generate an application as shown below:
 
@@ -136,7 +136,7 @@ npm install
 node examples/content-negotiation
 ```
 
-## Contributing
+## Contributing ✍️
 
   [![Linux Build][github-actions-ci-image]][github-actions-ci-url]
   [![Test Coverage][coveralls-image]][coveralls-url]
@@ -151,7 +151,7 @@ See the [Contributing Guide](Contributing.md) for more technical details on cont
 
 If you discover a security vulnerability in Express, please see [Security Policies and Procedures](Security.md).
 
-### Running Tests
+### Running Tests ✅
 
 To run the test suite, first install the dependencies:
 
@@ -165,7 +165,7 @@ Then run `npm test`:
 npm test
 ```
 
-## People
+## People 👨🏻‍👩🏻‍👧🏻‍👦🏻
 
 The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 
@@ -247,7 +247,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 </details>
 
 
-## License
+## License 📑
 
   [MIT](LICENSE)
 
