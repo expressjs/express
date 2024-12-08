@@ -5,7 +5,7 @@ on:
     branches:
       - master
       - develop
-      - '4.x'
+      - '4.x'ddd
       - '5.x'
       - '5.0'
     paths-ignore:
