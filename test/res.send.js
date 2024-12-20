@@ -2,7 +2,7 @@
 
 var assert = require('assert')
 var express = require('..');
-var methods = require('methods');
+var methods = require('../lib/utils').methods;
 var request = require('supertest');
 var utils = require('./support/utils');
 
