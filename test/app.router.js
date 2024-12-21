@@ -3,7 +3,7 @@
 var after = require('after');
 var express = require('../')
   , request = require('supertest')
-  , assert = require('assert')
+  , assert = require('node:assert')
   , methods = require('methods');
 
 var shouldSkipQuery = require('./support/utils').shouldSkipQuery
