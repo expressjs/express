@@ -70,6 +70,13 @@ for more information.
 
 ## Docs & Community
 
+Express.js is a minimal and flexible Node.js web application framework that provides a list of features for building web and mobile applications easily. It simplifies the development of server-side applications by offering an easy-to-use API for routing, middleware, and HTTP utilities.
+
+Built on Node.js for fast and scalable server-side development.
+Simplifies routing and middleware handling for web applications.
+Supports building REST APIs, real-time applications, and single-page applications.
+Provides a lightweight structure for flexible and efficient server-side development.
+
   * [Website and Documentation](https://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
   * [GitHub Organization](https://github.com/expressjs) for Official Middleware & Modules
   * [Github Discussions](https://github.com/expressjs/discussions) for discussion on the development and usage of Express
