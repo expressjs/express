@@ -1,13 +1,13 @@
 'use strict'
 
 var after = require('after');
-var assert = require('assert')
-var AsyncLocalStorage = require('async_hooks').AsyncLocalStorage
+var assert = require('node:assert')
+var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
 
 var express = require('../')
   , request = require('supertest')
 var onFinished = require('on-finished');
-var path = require('path');
+var path = require('node:path');
 var fixtures = path.join(__dirname, 'fixtures');
 var utils = require('./support/utils');
 

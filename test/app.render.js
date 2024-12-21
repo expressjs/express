@@ -1,8 +1,8 @@
 'use strict'
 
-var assert = require('assert')
+var assert = require('node:assert')
 var express = require('..');
-var path = require('path')
+var path = require('node:path')
 var tmpl = require('./support/tmpl');
 
 describe('app', function(){

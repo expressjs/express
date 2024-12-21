@@ -6,9 +6,9 @@
 
 var escapeHtml = require('escape-html');
 var express = require('../..');
-var fs = require('fs');
+var fs = require('node:fs');
 var marked = require('marked');
-var path = require('path');
+var path = require('node:path');
 
 var app = module.exports = express();
 

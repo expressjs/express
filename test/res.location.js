@@ -2,8 +2,8 @@
 
 var express = require('../')
   , request = require('supertest')
-  , assert = require('assert')
-  , url = require('url');
+  , assert = require('node:assert')
+  , url = require('node:url');
 
 describe('res', function(){
   describe('.location(url)', function(){

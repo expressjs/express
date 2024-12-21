@@ -1,7 +1,7 @@
 'use strict'
 
 var after = require('after');
-var assert = require('assert')
+var assert = require('node:assert')
 var express = require('..');
 var request = require('supertest');
 

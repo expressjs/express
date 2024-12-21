@@ -10,7 +10,7 @@ describe('app', function(){
       var app = express();
 
       app.request.querystring = function(){
-        return require('url').parse(this.url).query;
+        return require('node:url').parse(this.url).query;
       };
 
       app.use(function(req, res){

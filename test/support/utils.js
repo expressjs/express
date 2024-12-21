@@ -4,7 +4,7 @@
  * @private
  */
 
-var assert = require('assert');
+var assert = require('node:assert');
 
 /**
  * Module exports.

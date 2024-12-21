@@ -6,7 +6,7 @@
 
 var express = require('../..');
 var hash = require('pbkdf2-password')()
-var path = require('path');
+var path = require('node:path');
 var session = require('express-session');
 
 var app = module.exports = express();
