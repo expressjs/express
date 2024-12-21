@@ -1,7 +1,7 @@
 'use strict'
 
-var assert = require('assert')
-var AsyncLocalStorage = require('async_hooks').AsyncLocalStorage
+var assert = require('node:assert')
+var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
 
 var express = require('..')
 var request = require('supertest')

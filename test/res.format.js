@@ -3,7 +3,7 @@
 var after = require('after')
 var express = require('../')
   , request = require('supertest')
-  , assert = require('assert');
+  , assert = require('node:assert');
 
 var app1 = express();
 

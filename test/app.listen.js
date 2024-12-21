@@ -1,7 +1,7 @@
 'use strict'
 
 var express = require('../')
-var assert = require('assert')
+var assert = require('node:assert')
 
 describe('app.listen()', function(){
   it('should wrap with an HTTP server', function(done){
