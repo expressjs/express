@@ -7,6 +7,7 @@ unreleased
 * cleanup: remove unnecessary require for global Buffer
 * perf: use loop for acceptParams
 * Replace `methods` dependency with standard library
+* refactor: prefix built-in node module imports
 
 5.0.1 / 2024-10-08
 ==========

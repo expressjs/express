@@ -1,6 +1,6 @@
 'use strict'
 
-var assert = require('assert');
+var assert = require('node:assert');
 var utils = require('../lib/utils');
 
 describe('utils.etag(body, encoding)', function(){
