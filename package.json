@@ -35,7 +35,7 @@
     "accepts": "^2.0.0",
     "body-parser": "^2.0.1",
     "content-disposition": "^1.0.0",
-    "content-type": "~1.0.4",
+    "content-type": "~1.0.5",
     "cookie": "0.7.1",
     "cookie-signature": "^1.2.1",
     "debug": "4.3.6",
