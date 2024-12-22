@@ -70,7 +70,7 @@
     "cookie-session": "2.0.0",
     "ejs": "3.1.9",
     "eslint": "8.47.0",
-    "express-session": "1.17.2",
+    "express-session": "1.18.1",
     "hbs": "4.2.0",
     "marked": "0.7.0",
     "method-override": "3.0.0",
