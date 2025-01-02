@@ -1,6 +1,7 @@
 unreleased
 ========================
 
+* Remove `utils-merge` dependency - use spread syntax instead
 * Remove `Object.setPrototypeOf` polyfill
 * cleanup: remove AsyncLocalStorage check from tests
 * cleanup: remove unnecessary require for global Buffer
