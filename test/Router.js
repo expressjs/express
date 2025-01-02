@@ -3,7 +3,7 @@
 var after = require('after');
 var express = require('../')
   , Router = express.Router
-  , methods = require('methods')
+  , methods = require('../lib/utils').methods
   , assert = require('assert');
 
 describe('Router', function(){
