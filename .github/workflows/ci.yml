@@ -5,14 +5,14 @@ on:
     branches:
       - master
       - develop
-      - '4.x'
-      - '5.x'
-      - '5.0'
+      - "4.x"
+      - "5.x"
+      - "5.0"
     paths-ignore:
-      - '*.md'
+      - "*.md"
   pull_request:
     paths-ignore:
-      - '*.md'
+      - "*.md"
 
 # Cancel in progress workflows
 # in the scenario where we already had a run going for that PR/branch/tag but then triggered a new run
@@ -29,8 +29,7 @@ jobs:
       - name: Setup Node.js {{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
-          persist-credentials: false
+          node-version: "lts/*"
 
       - name: Install dependencies
         run: npm install --ignore-scripts --only=dev
@@ -95,23 +94,23 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Install lcov
-      shell: bash
-      run: sudo apt-get -y install lcov
+      - name: Install lcov
+        shell: bash
+        run: sudo apt-get -y install lcov
 
-    - name: Collect coverage reports
-      uses: actions/download-artifact@v3
-      with:
-        name: coverage
-        path: ./coverage
+      - name: Collect coverage reports
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage
+          path: ./coverage
 
-    - name: Merge coverage reports
-      shell: bash
-      run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
+      - name: Merge coverage reports
+        shell: bash
+        run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
 
-    - name: Upload coverage report
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload coverage report
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
