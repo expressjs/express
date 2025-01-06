@@ -1,6 +1,6 @@
 # http://editorconfig.org
 root = true
-
+#hello wolrd
 [*]
 charset = utf-8
 insert_final_newline = true
