@@ -5,8 +5,7 @@ The goal of this document is to create a contribution process that:
 * Encourages new contributions.
 * Encourages contributors to remain involved.
 * Avoids unnecessary processes and bureaucracy whenever possible.
-* Creates a transparent decision making process that makes it clear how
-contributors can be involved in decision making.
+* Establishes a transparent and inclusive decision-making process, ensuring that contributors have a clear path to actively participate in shaping outcomes.
 
 ## Vocabulary
 
