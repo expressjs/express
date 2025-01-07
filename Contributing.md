@@ -28,6 +28,7 @@ add appropriate metadata before the issue is addressed.
 
 Please be courteous and respectful. Every participant is expected to follow the
 project's Code of Conduct.
+"Thank you for your contribution and support!"
 
 ## Contributions
 
