@@ -30,7 +30,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-          persist-credentials: false
 
       - name: Install dependencies
         run: npm install --ignore-scripts --only=dev
