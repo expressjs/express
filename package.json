@@ -59,7 +59,6 @@
     "serve-static": "^2.1.0",
     "statuses": "2.0.1",
     "type-is": "^2.0.0",
-    "utils-merge": "1.0.1",
     "vary": "~1.1.2"
   },
   "devDependencies": {
