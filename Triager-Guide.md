@@ -68,3 +68,5 @@ If you have questions feel free to reach out to any of the TC members.
 - For recurring issues, it is helpful to create functional examples to demonstrate (publish as gists or a repo)
 - Review and identify the maintainers. If necessary, at-mention one or more of them if you are unsure what to do
 - Make sure all your interactions are professional, welcoming, and respectful to the parties involved.
+- When an issue refers to security concerns, responsibility is delegated to the repository captain or the security group in any public communication. 
+  - If an issue has been open for a long time, the person in charge should be contacted internally through the private Slack chat.

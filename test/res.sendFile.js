@@ -2,18 +2,14 @@
 
 var after = require('after');
 var assert = require('assert')
-var asyncHooks = tryRequire('async_hooks')
-var Buffer = require('safe-buffer').Buffer
+var AsyncLocalStorage = require('async_hooks').AsyncLocalStorage
+
 var express = require('../')
   , request = require('supertest')
 var onFinished = require('on-finished');
 var path = require('path');
 var fixtures = path.join(__dirname, 'fixtures');
 var utils = require('./support/utils');
-
-var describeAsyncHooks = typeof asyncHooks.AsyncLocalStorage === 'function'
-  ? describe
-  : describe.skip
 
 describe('res', function(){
   describe('.sendFile(path)', function () {
@@ -267,14 +263,14 @@ describe('res', function(){
         .expect(200, 'got 404 error', done)
     })
 
-    describeAsyncHooks('async local storage', function () {
+    describe('async local storage', function () {
       it('should presist store', function (done) {
         var app = express()
         var cb = after(2, done)
         var store = { foo: 'bar' }
 
         app.use(function (req, res, next) {
-          req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+          req.asyncLocalStorage = new AsyncLocalStorage()
           req.asyncLocalStorage.run(store, next)
         })
 
@@ -300,7 +296,7 @@ describe('res', function(){
         var store = { foo: 'bar' }
 
         app.use(function (req, res, next) {
-          req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+          req.asyncLocalStorage = new AsyncLocalStorage()
           req.asyncLocalStorage.run(store, next)
         })
 
@@ -900,12 +896,4 @@ function createApp(path, options, fn) {
   });
 
   return app;
-}
-
-function tryRequire (name) {
-  try {
-    return require(name)
-  } catch (e) {
-    return {}
-  }
 }
