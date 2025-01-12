@@ -19,28 +19,41 @@ var db = redis.createClient();
 
 // npm install redis
 
+// connect to Redis
+
+db.connect()
+  .catch((err) => console.error('Redis connection error:', err));
+
 var app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 // populate search
 
-db.sadd('ferret', 'tobi');
-db.sadd('ferret', 'loki');
-db.sadd('ferret', 'jane');
-db.sadd('cat', 'manny');
-db.sadd('cat', 'luna');
+(async () => {
+  try {
+    await db.sAdd('ferret', 'tobi');
+    await db.sAdd('ferret', 'loki');
+    await db.sAdd('ferret', 'jane');
+    await db.sAdd('cat', 'manny');
+    await db.sAdd('cat', 'luna');
+  } catch (err) {
+    console.error('Error populating Redis:', err);
+  }
+})();
 
 /**
  * GET search for :query.
  */
 
-app.get('/search/:query?', function(req, res, next){
-  var query = req.params.query;
-  db.smembers(query, function(err, vals){
-    if (err) return next(err);
-    res.send(vals);
-  });
+app.get('/search/:query{0,1}', function (req, res, next) {
+  var query = req.params.query || '';
+  db.sMembers(query)
+    .then((vals) => res.send(vals))
+    .catch((err) => {
+      console.error(`Redis error for query "${query}":`, err);
+      next(err);
+    });
 });
 
 /**
