@@ -14,7 +14,7 @@ Thank you for improving the security of Express. We appreciate your efforts and
 responsible disclosure and will make every effort to acknowledge your
 contributions.
 
-Report security bugs by emailing the lead maintainer in the Readme.md file.
+Report security bugs by emailing `express-security@lists.openjsf.org`.
 
 To ensure the timely response to your report, please ensure that the entirety
 of the report is contained within the email body and not solely behind a web
