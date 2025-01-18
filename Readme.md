@@ -4,6 +4,8 @@
 
 **This project has a [Code of Conduct][].**
 
+**Author: Ashish Dwivedi**
+
 ## Table of contents
 
 * [Installation](#Installation)
