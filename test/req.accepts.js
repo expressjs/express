@@ -12,6 +12,8 @@ describe('req', function(){
         res.end(req.accepts('json') ? 'yes' : 'no');
       });
 
+      # sample
+
       request(app)
       .get('/')
       .expect('yes', done);
