@@ -102,7 +102,7 @@ npm install
 ```bash
 npm start
 ```
-
+# Faizan Khan
   View the website at: http://localhost:3000
 
 ## Philosophy
