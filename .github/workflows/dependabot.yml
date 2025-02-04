@@ -12,3 +12,6 @@ updates:
       time: "23:00"
       timezone: Europe/London
     open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
