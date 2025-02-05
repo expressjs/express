@@ -9,6 +9,7 @@ unreleased
 * Replace `methods` dependency with standard library
 * refactor: prefix built-in node module imports
 * Remove unused `depd` dependency
+* deps: debug@^4.4.0
 
 5.0.1 / 2024-10-08
 ==========
