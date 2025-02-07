@@ -78,6 +78,19 @@ describe('res', function(){
       });
     });
 
+    it('should disable the ETag function if requested', function (done) {
+      var app = createApp(path.resolve(fixtures, 'name.txt')).disable('etag');
+
+      request(app)
+      .get('/')
+      .expect(handleHeaders)
+      .expect(200, done);
+
+      function handleHeaders (res) {
+        assert(res.headers.etag === undefined);
+      }
+    });
+
     it('should 404 for directory', function (done) {
       var app = createApp(path.resolve(fixtures, 'blog'));
 
