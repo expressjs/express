@@ -33,7 +33,7 @@
   ],
   "dependencies": {
     "accepts": "^2.0.0",
-    "body-parser": "^2.0.1",
+    "body-parser": "^2.1.0",
     "content-disposition": "^1.0.0",
     "content-type": "^1.0.4",
     "cookie": "^0.7.1",
