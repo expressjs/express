@@ -90,6 +90,7 @@ changes from 5.0.0-alpha.8.
     - Change `dotfiles` option default to `'ignore'`
     - Remove `hidden` option; use `dotfiles` option instead
     - Use `mime-types` for file to content type mapping
+    - Remove `express.static.mime` export; use `mime-types` package instead
     - deps: send@1.0.0-beta.1
 
 5.0.0-alpha.8 / 2020-03-25
