@@ -3,15 +3,18 @@
 const path = require('node:path');
 const assert = require('node:assert');
 const view = require('../lib/view.js');
+const fs = require('node:fs')
 
 describe('view.prototype.render', function() {
+  const fixturesDir = path.join(__dirname, 'fixtures');
+
   it('should ensure callback is always async', function(done) {
     const mockEngine = function(filePath, options, callback) {
       callback(null, 'rendered content');
     };
 
     const viewInstance = new view('test', {
-      root: path.join(__dirname, 'fixtures'),
+      root: fixturesDir,
       engines: { '.tmpl': mockEngine },
       defaultEngine: '.tmpl'
     });
@@ -34,7 +37,7 @@ describe('view.prototype.render', function() {
     };
 
     const viewInstance = new view('test', {
-      root: path.join(__dirname, 'fixtures'),
+      root: fixturesDir,
       engines: { '.tmpl': mockEngine },
       defaultEngine: '.tmpl'
     });
@@ -58,7 +61,7 @@ describe('view.prototype.render', function() {
     };
 
     const viewInstance = new view('test', {
-      root: path.join(__dirname, 'fixtures'),
+      root: fixturesDir,
       engines: { '.tmpl': mockEngine },
       defaultEngine: '.tmpl'
     });
@@ -75,30 +78,38 @@ describe('view.prototype.render', function() {
     assert.strictEqual(isAsync, false, 'Callback from synchronous engine was not properly delayed!');
   });
 
-  it('should pass correct arguments to the engine', function(done) {
-    const expectedOptions = { key: 'value' };
-    
-    const mockEngine = function(filePath, options, callback) {
-      assert.strictEqual(filePath, viewInstance.path);
-      assert.deepStrictEqual(options, expectedOptions);
-      callback(null, 'rendered content');
+  it('should pass correct arguments to the engine', function (done) {
+    const tempDir = fs.mkdtempSync(path.join(__dirname, 'test-'));
+    const expectedPath = path.join(tempDir, 'test.tmpl');
+  
+    fs.writeFileSync(expectedPath, 'template content');
+  
+    const mockEngine = (filePath, options, callback) => {
+      try {
+        assert.strictEqual(filePath, expectedPath, 'File path should match');
+        assert.deepStrictEqual(options, { key: 'value' }, 'Options should match');
+        callback(null, 'rendered content');
+      } catch (err) {
+        callback(err);
+      }
     };
-
+  
     const viewInstance = new view('test', {
-      root: path.join(__dirname, 'fixtures'),
+      root: tempDir,
       engines: { '.tmpl': mockEngine },
       defaultEngine: '.tmpl'
     });
-
-    let isAsync = false;
-
-    viewInstance.render(expectedOptions, function(err, html) {
-      isAsync = true;
-      assert.strictEqual(err, null);
-      assert.strictEqual(html, 'rendered content');
-      done();
+  
+    viewInstance.render({ key: 'value' }, (err, html) => {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+  
+      if (err) return done(err);
+      try {
+        assert.strictEqual(html, 'rendered content', 'Rendered content should match');
+        done();
+      } catch (assertErr) {
+        done(assertErr);
+      }
     });
-
-    assert.strictEqual(isAsync, false, 'Callback was executed synchronously!');
   });
 });
