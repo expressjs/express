@@ -2,15 +2,15 @@
 
 const path = require('node:path');
 const assert = require('node:assert');
-const View = require('../lib/view.js');
+const view = require('../lib/view.js');
 
-describe('View.prototype.render', function() {
+describe('view.prototype.render', function() {
   it('should ensure callback is always async', function(done) {
     const mockEngine = function(filePath, options, callback) {
       callback(null, 'rendered content');
     };
 
-    const view = new View('test', {
+    const viewInstance = new view('test', {
       root: path.join(__dirname, 'fixtures'),
       engines: { '.tmpl': mockEngine },
       defaultEngine: '.tmpl'
@@ -18,7 +18,7 @@ describe('View.prototype.render', function() {
 
     let isAsync = false;
 
-    view.render({}, function(err, html) {
+    viewInstance.render({}, function(err, html) {
       isAsync = true;
       assert.strictEqual(err, null);
       assert.strictEqual(html, 'rendered content');
@@ -33,7 +33,7 @@ describe('View.prototype.render', function() {
       callback(new Error('render error'));
     };
 
-    const view = new View('test', {
+    const viewInstance = new view('test', {
       root: path.join(__dirname, 'fixtures'),
       engines: { '.tmpl': mockEngine },
       defaultEngine: '.tmpl'
@@ -41,7 +41,7 @@ describe('View.prototype.render', function() {
 
     let isAsync = false;
 
-    view.render({}, function(err, html) {
+    viewInstance.render({}, function(err, html) {
       isAsync = true;
       assert(err instanceof Error);
       assert.strictEqual(err.message, 'render error');
@@ -57,7 +57,7 @@ describe('View.prototype.render', function() {
       return callback(null, 'sync rendered content');
     };
 
-    const view = new View('test', {
+    const viewInstance = new view('test', {
       root: path.join(__dirname, 'fixtures'),
       engines: { '.tmpl': mockEngine },
       defaultEngine: '.tmpl'
@@ -65,7 +65,7 @@ describe('View.prototype.render', function() {
 
     let isAsync = false;
 
-    view.render({}, function(err, html) {
+    viewInstance.render({}, function(err, html) {
       isAsync = true;
       assert.strictEqual(err, null);
       assert.strictEqual(html, 'sync rendered content');
@@ -79,12 +79,12 @@ describe('View.prototype.render', function() {
     const expectedOptions = { key: 'value' };
     
     const mockEngine = function(filePath, options, callback) {
-      assert.strictEqual(filePath, view.path);
+      assert.strictEqual(filePath, viewInstance.path);
       assert.deepStrictEqual(options, expectedOptions);
       callback(null, 'rendered content');
     };
 
-    const view = new View('test', {
+    const viewInstance = new view('test', {
       root: path.join(__dirname, 'fixtures'),
       engines: { '.tmpl': mockEngine },
       defaultEngine: '.tmpl'
@@ -92,7 +92,7 @@ describe('View.prototype.render', function() {
 
     let isAsync = false;
 
-    view.render(expectedOptions, function(err, html) {
+    viewInstance.render(expectedOptions, function(err, html) {
       isAsync = true;
       assert.strictEqual(err, null);
       assert.strictEqual(html, 'rendered content');
