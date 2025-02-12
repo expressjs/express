@@ -132,23 +132,30 @@ Like TC members, Repo captains are a subset of committers.
 To become a captain for a project the candidate is expected to participate in that
 project for at least 6 months as a committer prior to the request. They should have
 helped with code contributions as well as triaging issues. They are also required to
-have 2FA enabled on both their GitHub and npm accounts. Any TC member or existing
-captain on the repo can nominate another committer to the captain role, submit a PR to
-this doc, in the **Active Project Captains** section (maintaining the sort order) with
-the project, their GitHub handle and npm username (if different). The PR will require
-at least 2 approvals from TC members and 2 weeks hold time to allow for comment and/or
-dissent.  When the PR is merged, a TC member will add them to the proper GitHub/npm groups.
+have 2FA enabled on both their GitHub and npm accounts.
+
+Any TC member or an existing captain on the **same** repo can nominate another committer 
+to the captain role. To do so, they should submit a PR to this document, updating the 
+**Active Project Captains** section (while maintaining the sort order) with the project 
+name, the nominee's GitHub handle, and their npm username (if different).
+- Repos can have as many captains as make sense for the scope of work.
+- A TC member or an existing repo captain **on the same project** can nominate a new captain. 
+  Repo captains from other projects should not nominate captains for a different project.
+
+The PR will require at least 2 approvals from TC members and 2 weeks hold time to allow 
+for comment and/or dissent.  When the PR is merged, a TC member will add them to the 
+proper GitHub/npm groups.
 
 ### Active Projects and Captains
 
 - [`expressjs/badgeboard`](https://github.com/expressjs/badgeboard): @wesleytodd
-- [`expressjs/basic-auth-connect`](https://github.com/expressjs/basic-auth-connect): @UlisesGascon
-- [`expressjs/body-parser`](https://github.com/expressjs/body-parser): @wesleytodd, @jonchurch
+- [`expressjs/basic-auth-connect`](https://github.com/expressjs/basic-auth-connect): @ulisesGascon
+- [`expressjs/body-parser`](https://github.com/expressjs/body-parser): @wesleytodd, @jonchurch, @ulisesGascon
 - [`expressjs/compression`](https://github.com/expressjs/compression): @ulisesGascon
 - [`expressjs/connect-multiparty`](https://github.com/expressjs/connect-multiparty): @ulisesGascon
 - [`expressjs/cookie-parser`](https://github.com/expressjs/cookie-parser): @wesleytodd, @UlisesGascon
 - [`expressjs/cookie-session`](https://github.com/expressjs/cookie-session): @ulisesGascon
-- [`expressjs/cors`](https://github.com/expressjs/cors): @jonchurch
+- [`expressjs/cors`](https://github.com/expressjs/cors): @jonchurch, @ulisesGascon
 - [`expressjs/discussions`](https://github.com/expressjs/discussions): @wesleytodd
 - [`expressjs/errorhandler`](https://github.com/expressjs/errorhandler): @ulisesGascon
 - [`expressjs/express-paginate`](https://github.com/expressjs/express-paginate): @ulisesGascon
@@ -157,8 +164,8 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - [`expressjs/flash`](https://github.com/expressjs/flash): @ulisesGascon
 - [`expressjs/generator`](https://github.com/expressjs/generator): @wesleytodd
 - [`expressjs/method-override`](https://github.com/expressjs/method-override): @ulisesGascon
-- [`expressjs/morgan`](https://github.com/expressjs/morgan): @jonchurch
-- [`expressjs/multer`](https://github.com/expressjs/multer): @LinusU
+- [`expressjs/morgan`](https://github.com/expressjs/morgan): @jonchurch, @ulisesGascon
+- [`expressjs/multer`](https://github.com/expressjs/multer): @LinusU, @ulisesGascon
 - [`expressjs/response-time`](https://github.com/expressjs/response-time): @UlisesGascon
 - [`expressjs/serve-favicon`](https://github.com/expressjs/serve-favicon): @ulisesGascon
 - [`expressjs/serve-index`](https://github.com/expressjs/serve-index): @ulisesGascon
@@ -176,16 +183,16 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - [`jshttp/etag`](https://github.com/jshttp/etag): @blakeembrey
 - [`jshttp/forwarded`](https://github.com/jshttp/forwarded): @blakeembrey
 - [`jshttp/fresh`](https://github.com/jshttp/fresh): @blakeembrey
-- [`jshttp/http-assert`](https://github.com/jshttp/http-assert): @wesleytodd, @jonchurch
-- [`jshttp/http-errors`](https://github.com/jshttp/http-errors): @wesleytodd, @jonchurch
+- [`jshttp/http-assert`](https://github.com/jshttp/http-assert): @wesleytodd, @jonchurch, @ulisesGascon
+- [`jshttp/http-errors`](https://github.com/jshttp/http-errors): @wesleytodd, @jonchurch, @ulisesGascon
 - [`jshttp/media-typer`](https://github.com/jshttp/media-typer): @blakeembrey
 - [`jshttp/methods`](https://github.com/jshttp/methods): @blakeembrey
 - [`jshttp/mime-db`](https://github.com/jshttp/mime-db): @blakeembrey, @UlisesGascon
 - [`jshttp/mime-types`](https://github.com/jshttp/mime-types): @blakeembrey, @UlisesGascon
 - [`jshttp/negotiator`](https://github.com/jshttp/negotiator): @blakeembrey
-- [`jshttp/on-finished`](https://github.com/jshttp/on-finished): @wesleytodd
+- [`jshttp/on-finished`](https://github.com/jshttp/on-finished): @wesleytodd, @ulisesGascon
 - [`jshttp/on-headers`](https://github.com/jshttp/on-headers): @blakeembrey
-- [`jshttp/proxy-addr`](https://github.com/jshttp/proxy-addr): @wesleytodd
+- [`jshttp/proxy-addr`](https://github.com/jshttp/proxy-addr): @wesleytodd, @ulisesGascon
 - [`jshttp/range-parser`](https://github.com/jshttp/range-parser): @blakeembrey
 - [`jshttp/statuses`](https://github.com/jshttp/statuses): @blakeembrey
 - [`jshttp/type-is`](https://github.com/jshttp/type-is): @blakeembrey
@@ -193,14 +200,14 @@ dissent.  When the PR is merged, a TC member will add them to the proper GitHub/
 - [`pillarjs/cookies`](https://github.com/pillarjs/cookies): @blakeembrey
 - [`pillarjs/csrf`](https://github.com/pillarjs/csrf): @ulisesGascon
 - [`pillarjs/encodeurl`](https://github.com/pillarjs/encodeurl): @blakeembrey
-- [`pillarjs/finalhandler`](https://github.com/pillarjs/finalhandler): @wesleytodd
+- [`pillarjs/finalhandler`](https://github.com/pillarjs/finalhandler): @wesleytodd, @ulisesGascon
 - [`pillarjs/hbs`](https://github.com/pillarjs/hbs): @ulisesGascon
 - [`pillarjs/multiparty`](https://github.com/pillarjs/multiparty): @blakeembrey
 - [`pillarjs/parseurl`](https://github.com/pillarjs/parseurl): @blakeembrey
 - [`pillarjs/path-to-regexp`](https://github.com/pillarjs/path-to-regexp): @blakeembrey
 - [`pillarjs/request`](https://github.com/pillarjs/request): @wesleytodd
 - [`pillarjs/resolve-path`](https://github.com/pillarjs/resolve-path): @blakeembrey
-- [`pillarjs/router`](https://github.com/pillarjs/router): @wesleytodd
+- [`pillarjs/router`](https://github.com/pillarjs/router): @wesleytodd, @ulisesGascon
 - [`pillarjs/send`](https://github.com/pillarjs/send): @blakeembrey
 - [`pillarjs/understanding-csrf`](https://github.com/pillarjs/understanding-csrf): @ulisesGascon
 
