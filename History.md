@@ -11,6 +11,7 @@ unreleased
 * Remove unused `depd` dependency
 * Add support for `Uint8Array` in `res.send`
 * deps: debug@^4.4.0
+* deps: body-parser@^2.1.0
 
 5.0.1 / 2024-10-08
 ==========
