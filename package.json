@@ -75,11 +75,11 @@
     "hbs": "4.2.0",
     "marked": "0.7.0",
     "method-override": "3.0.0",
-    "mocha": "10.2.0",
+    "mocha": "^6.2.2",
     "morgan": "1.10.0",
-    "nyc": "15.1.0",
+    "nyc": "^14.1.1",
     "pbkdf2-password": "1.2.1",
-    "supertest": "6.3.0",
+    "supertest": "^6.1.6",
     "vhost": "~3.0.2"
   },
   "engines": {
