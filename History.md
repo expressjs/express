@@ -13,6 +13,7 @@ unreleased
 * deps: debug@^4.4.0
 * deps: body-parser@^2.1.0
 * deps: router@^2.1.0
+* deps: nyc@^17.1.0
 
 5.0.1 / 2024-10-08
 ==========
