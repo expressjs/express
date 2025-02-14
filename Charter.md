@@ -20,11 +20,11 @@ alike.
 
 Express is made of many modules spread between three GitHub Orgs:
 
-- [expressjs](http://github.com/expressjs/): Top level middleware and
+- [expressjs](https://github.com/expressjs/): Top level middleware and
   libraries
-- [pillarjs](http://github.com/pillarjs/): Components which make up
+- [pillarjs](https://github.com/pillarjs/): Components which make up
   Express but can also be used for other web frameworks
-- [jshttp](http://github.com/jshttp/): Low level HTTP libraries
+- [jshttp](https://github.com/jshttp/): Low level HTTP libraries
 
 ### 1.2: Out-of-Scope
 
