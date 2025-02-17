@@ -25,6 +25,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ strategy.matrix.node-version }}
+    - run: npm shrinkwrap
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
