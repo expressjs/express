@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - new-updates
       
 jobs:
   test:
