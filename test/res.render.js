@@ -1,7 +1,7 @@
 'use strict'
 
 var express = require('..');
-var path = require('path')
+var path = require('node:path')
 var request = require('supertest');
 var tmpl = require('./support/tmpl');
 

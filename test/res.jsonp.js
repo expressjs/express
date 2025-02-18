@@ -2,7 +2,7 @@
 
 var express = require('../')
   , request = require('supertest')
-  , assert = require('assert');
+  , assert = require('node:assert');
 var utils = require('./support/utils');
 
 describe('res', function(){
@@ -325,49 +325,6 @@ describe('res', function(){
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, '{\n  "name": "tobi",\n  "age": 2\n}', done)
       })
-    })
-  })
-
-  describe('.jsonp(status, object)', function(){
-    it('should respond with json and set the .statusCode', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.jsonp(201, { id: 1 });
-      });
-
-      request(app)
-      .get('/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(201, '{"id":1}', done)
-    })
-  })
-
-  describe('.jsonp(object, status)', function(){
-    it('should respond with json and set the .statusCode for backwards compat', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.jsonp({ id: 1 }, 201);
-      });
-
-      request(app)
-      .get('/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(201, '{"id":1}', done)
-    })
-
-    it('should use status as second number for backwards compat', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.jsonp(200, 201);
-      });
-
-      request(app)
-      .get('/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(201, '200', done)
     })
   })
 

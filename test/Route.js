@@ -1,10 +1,10 @@
 'use strict'
 
 var after = require('after');
-var assert = require('assert')
+var assert = require('node:assert')
 var express = require('../')
   , Route = express.Route
-  , methods = require('methods')
+  , methods = require('../lib/utils').methods
 
 describe('Route', function(){
   it('should work without handlers', function(done) {

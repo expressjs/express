@@ -1,9 +1,9 @@
 'use strict'
 
-var assert = require('assert')
+var assert = require('node:assert')
 var express = require('../')
-  , fs = require('fs');
-var path = require('path')
+  , fs = require('node:fs');
+var path = require('node:path')
 
 function render(path, options, fn) {
   fs.readFile(path, 'utf8', function(err, str){

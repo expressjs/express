@@ -1,4 +1,4 @@
-name: ci
+name: legacy
 
 on:
   push:
@@ -24,28 +24,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-
-      - name: Install dependencies
-        run: npm install --ignore-scripts --include=dev
-
-      - name: Run lint
-        run: npm run lint
-
   test:
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [18, 19, 20, 21, 22, 23]
+        node-version: [16, 17]
         # Node.js release schedule: https://nodejs.org/en/about/releases/
 
     name: Node.js ${{ matrix.node-version }} - ${{matrix.os}}

@@ -1,14 +1,10 @@
 'use strict'
 
-var assert = require('assert')
-var asyncHooks = tryRequire('async_hooks')
-var Buffer = require('safe-buffer').Buffer
+var assert = require('node:assert')
+var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
+
 var express = require('..')
 var request = require('supertest')
-
-var describeAsyncHooks = typeof asyncHooks.AsyncLocalStorage === 'function'
-  ? describe
-  : describe.skip
 
 describe('express.urlencoded()', function () {
   before(function () {
@@ -62,32 +58,6 @@ describe('express.urlencoded()', function () {
       .expect(200, '{}', done)
   })
 
-  it('should 500 if stream not readable', function (done) {
-    var app = express()
-
-    app.use(function (req, res, next) {
-      req.on('end', next)
-      req.resume()
-    })
-
-    app.use(express.urlencoded())
-
-    app.use(function (err, req, res, next) {
-      res.status(err.status || 500)
-      res.send('[' + err.type + '] ' + err.message)
-    })
-
-    app.post('/', function (req, res) {
-      res.json(req.body)
-    })
-
-    request(app)
-      .post('/')
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .send('user=tobi')
-      .expect(500, '[stream.not.readable] stream is not readable', done)
-  })
-
   it('should handle duplicated middleware', function (done) {
     var app = express()
 
@@ -105,12 +75,12 @@ describe('express.urlencoded()', function () {
       .expect(200, '{"user":"tobi"}', done)
   })
 
-  it('should parse extended syntax', function (done) {
+  it('should not parse extended syntax', function (done) {
     request(this.app)
       .post('/')
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .send('user[name][first]=Tobi')
-      .expect(200, '{"user":{"name":{"first":"Tobi"}}}', done)
+      .expect(200, '{"user[name][first]":"Tobi"}', done)
   })
 
   describe('with extended option', function () {
@@ -212,7 +182,7 @@ describe('express.urlencoded()', function () {
       it('should parse deep object', function (done) {
         var str = 'foo'
 
-        for (var i = 0; i < 500; i++) {
+        for (var i = 0; i < 32; i++) {
           str += '[p]'
         }
 
@@ -230,7 +200,7 @@ describe('express.urlencoded()', function () {
             var depth = 0
             var ref = obj.foo
             while ((ref = ref.p)) { depth++ }
-            assert.strictEqual(depth, 500)
+            assert.strictEqual(depth, 32)
           })
           .expect(200, done)
       })
@@ -473,7 +443,7 @@ describe('express.urlencoded()', function () {
           .post('/')
           .set('Content-Type', 'application/x-www-form-urlencoded')
           .send('user=tobi')
-          .expect(200, '{}', done)
+          .expect(200, '', done)
       })
     })
 
@@ -505,7 +475,7 @@ describe('express.urlencoded()', function () {
           .post('/')
           .set('Content-Type', 'application/x-foo')
           .send('user=tobi')
-          .expect(200, '{}', done)
+          .expect(200, '', done)
       })
     })
 
@@ -632,13 +602,13 @@ describe('express.urlencoded()', function () {
     })
   })
 
-  describeAsyncHooks('async local storage', function () {
+  describe('async local storage', function () {
     before(function () {
       var app = express()
       var store = { foo: 'bar' }
 
       app.use(function (req, res, next) {
-        req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+        req.asyncLocalStorage = new AsyncLocalStorage()
         req.asyncLocalStorage.run(store, next)
       })
 
@@ -690,7 +660,6 @@ describe('express.urlencoded()', function () {
         .send('buzz')
         .expect(200)
         .expect('x-store-foo', 'bar')
-        .expect('{}')
         .end(done)
     })
 
@@ -854,13 +823,5 @@ function createApp (options) {
 function expectKeyCount (count) {
   return function (res) {
     assert.strictEqual(Object.keys(JSON.parse(res.text)).length, count)
-  }
-}
-
-function tryRequire (name) {
-  try {
-    return require(name)
-  } catch (e) {
-    return {}
   }
 }

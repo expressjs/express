@@ -5,7 +5,7 @@
  */
 
 var express = require('../..');
-var path = require('path');
+var path = require('node:path');
 var app = express();
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -38,7 +38,7 @@ app.get('/', site.index);
 // User
 
 app.get('/users', user.list);
-app.all('/user/:id/:op?', user.load);
+app.all('/user/:id{/:op}', user.load);
 app.get('/user/:id', user.view);
 app.get('/user/:id/view', user.view);
 app.get('/user/:id/edit', user.edit);

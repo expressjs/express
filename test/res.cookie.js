@@ -3,7 +3,6 @@
 var express = require('../')
   , request = require('supertest')
   , cookieParser = require('cookie-parser')
-var merge = require('utils-merge');
 
 describe('res', function(){
   describe('.cookie(name, object)', function(){
@@ -82,6 +81,22 @@ describe('res', function(){
       })
     })
 
+    describe('partitioned', function () {
+      it('should set partitioned', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { partitioned: true });
+          res.end();
+        });
+
+        request(app)
+          .get('/')
+          .expect('Set-Cookie', 'name=tobi; Path=/; Partitioned')
+          .expect(200, done)
+      })
+    })
+
     describe('maxAge', function(){
       it('should set relative expires', function(done){
         var app = express();
@@ -114,7 +129,7 @@ describe('res', function(){
         var app = express();
 
         var options = { maxAge: 1000 };
-        var optionsCopy = merge({}, options);
+        var optionsCopy = { ...options };
 
         app.use(function(req, res){
           res.cookie('name', 'tobi', options)

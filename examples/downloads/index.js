@@ -5,7 +5,7 @@
  */
 
 var express = require('../../');
-var path = require('path');
+var path = require('node:path');
 
 var app = module.exports = express();
 
@@ -23,8 +23,8 @@ app.get('/', function(req, res){
 
 // /files/* is accessed via req.params[0]
 // but here we name it :file
-app.get('/files/:file(*)', function(req, res, next){
-  res.download(req.params.file, { root: FILES_DIR }, function (err) {
+app.get('/files/*file', function (req, res, next) {
+  res.download(req.params.file.join('/'), { root: FILES_DIR }, function (err) {
     if (!err) return; // file sent
     if (err.status !== 404) return next(err); // non-404 error
     // file for download not found
