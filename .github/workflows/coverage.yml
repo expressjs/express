@@ -1,0 +1,22 @@
+name: Test Coverage
+
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Report Coverage
+        run: npm run coverage
