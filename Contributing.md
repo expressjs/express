@@ -67,7 +67,7 @@ Currently, any existing [organization member](https://github.com/orgs/expressjs/
 a new triager. If you are interested in becoming a triager, our best advice is to actively participate
 in the community by helping triaging issues and pull requests. As well we recommend
 to engage in other community activities like attending the TC meetings, and participating in the Slack
-discussions. If you feel ready, first reach out to an active member of the organization to ask if they'd
+discussions. If you feel ready and have been helping triage some issues, reach out to an active member of the organization to ask if they'd
 be willing to support you. If they agree, they can create a pull request to formalize your nomination
 
 You can also reach out to any of the [organization members](https://github.com/orgs/expressjs/people)
