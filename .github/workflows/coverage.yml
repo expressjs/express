@@ -20,4 +20,4 @@ jobs:
         run: npm test
 
       - name: Report Coverage
-        run: npm run coverage
+        run: npm run test-cov
