@@ -201,6 +201,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 * [carpasse](https://github.com/carpasse) - **Carlos Serrano**
 * [CBID2](https://github.com/CBID2) - **Christine Belzie**
 * [enyoghasim](https://github.com/enyoghasim) - **David Enyoghasim**
+* [dpopp07](https://github.com/dpopp07) - **Dustin Popp**
 * [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascón** (he/him)
 * [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
 * [0ss](https://github.com/0ss) - **Salah**
