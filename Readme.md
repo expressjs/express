@@ -142,11 +142,11 @@ node examples/content-negotiation
 
 The Express.js project welcomes all constructive contributions. Contributions take many forms,
 from code for bug fixes and enhancements, to additions and fixes to documentation, additional
-tests, triaging incoming pull requests and issues, and more!
+tests, triaging incoming pull requests and issues, and more!!!!
 
 See the [Contributing Guide](Contributing.md) for more technical details on contributing.
 
-### Security Issues
+### Security Issue
 
 If you discover a security vulnerability in Express, please see [Security Policies and Procedures](Security.md).
 
