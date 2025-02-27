@@ -74,7 +74,7 @@ if you have questions or need guidance.
 
 ## Becoming a Committer
 
-All contributors who land a non-trivial contribution should be on-boarded in a timely manner,
+All contributors who making significant and valuable contributions should be on-boarded in a timely manner,
 and added as a committer, and be given write access to the repository.
 
 Committers are expected to follow this policy and continue to send pull requests, go through
