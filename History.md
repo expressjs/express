@@ -52,7 +52,7 @@ unreleased
   - `application/javascript` => `text/javascript`
 * deps: type-is@^2.0.0
 * deps: content-disposition@^1.0.0
-* deps: flinalhandler@^2.0.0
+* deps: finalhandler@^2.0.0
 * deps: fresh@^2.0.0
 * deps: body-parser@^2.0.1
 * deps: send@^1.1.0
