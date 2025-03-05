@@ -23,6 +23,7 @@ unreleased
 * deps: content-type@^1.0.5
 * deps: connect-redis@^8.0.1
 * deps: supertest@^6.3.4
+* deps: qs@^6.14.0
 
 5.0.1 / 2024-10-08
 ==========
