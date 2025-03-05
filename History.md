@@ -23,6 +23,7 @@ unreleased
 * deps: content-type@^1.0.5
 * deps: connect-redis@^8.0.1
 * deps: supertest@^6.3.4
+* deps: finalhandler@^2.1.0
 
 5.0.1 / 2024-10-08
 ==========
@@ -51,7 +52,7 @@ unreleased
   - `application/javascript` => `text/javascript`
 * deps: type-is@^2.0.0
 * deps: content-disposition@^1.0.0
-* deps: finalhandler@^2.0.0
+* deps: flinalhandler@^2.0.0
 * deps: fresh@^2.0.0
 * deps: body-parser@^2.0.1
 * deps: send@^1.1.0
