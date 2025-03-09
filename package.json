@@ -61,6 +61,9 @@
     "vary": "~1.1.2"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.4",
+    "@types/node": "^22.13.10",
+    "@types/serve-static": "^1.15.7",
     "after": "0.8.2",
     "connect-redis": "8.0.1",
     "cookie-parser": "1.4.7",
@@ -86,10 +89,12 @@
     "History.md",
     "Readme.md",
     "index.js",
+    "index.d.ts",
+    "core.d.ts",
     "lib/"
   ],
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . && attw --pack",
     "test": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-ci": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=lcovonly --reporter=text npm test",
     "test-cov": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=html --reporter=text npm test",
