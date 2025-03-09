@@ -31,7 +31,7 @@ Before publishing, the following preconditions should be met:
   below) will exist documenting:
   - the proposed changes
   - the type of release: patch, minor or major
-  - the version number (according to semantic versioning - http://semver.org)
+  - the version number (according to semantic versioning - https://semver.org)
 - The proposed changes should be complete.
 
 There are two main release flows: patch and non-patch.

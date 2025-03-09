@@ -35,7 +35,7 @@ jobs:
           node-version: 'lts/*'
 
       - name: Install dependencies
-        run: npm install --ignore-scripts --inlcude=dev
+        run: npm install --ignore-scripts --include=dev
 
       - name: Run lint
         run: npm run lint

@@ -200,14 +200,9 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 * [bjohansebas](https://github.com/bjohansebas) - **Sebastian Beltran**
 * [carpasse](https://github.com/carpasse) - **Carlos Serrano**
 * [CBID2](https://github.com/CBID2) - **Christine Belzie**
-* [enyoghasim](https://github.com/enyoghasim) - **David Enyoghasim**
 * [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascón** (he/him)
 * [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
-* [0ss](https://github.com/0ss) - **Salah**
-* [import-brain](https://github.com/import-brain) - **Eric Cheng** (he/him)
 * [3imed-jaberi](https://github.com/3imed-jaberi) - **Imed Jaberi**
-* [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
-* [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
 * [IamLizu](https://github.com/IamLizu) - **S M Mahmudul Hasan** (he/him)
 * [Phillip9587](https://github.com/Phillip9587) - **Phillip Barta**
 * [Sushmeet](https://github.com/Sushmeet) - **Sushmeet Sunger**
@@ -244,6 +239,12 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
   * [sheplu](https://github.com/sheplu) - **Jean Burellier**
   * [tarunyadav1](https://github.com/tarunyadav1) - **Tarun yadav**
   * [tunniclm](https://github.com/tunniclm) - **Mike Tunnicliffe**
+  * [enyoghasim](https://github.com/enyoghasim) - **David Enyoghasim**
+  * [0ss](https://github.com/0ss) - **Salah**
+  * [import-brain](https://github.com/import-brain) - **Eric Cheng** (he/him)
+  * [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
+  * [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
+
 </details>
 
 
