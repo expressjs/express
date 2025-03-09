@@ -10,7 +10,6 @@
 
 import * as bodyParser from "body-parser";
 import * as core from "./core";
-// import * as qs from "qs"; // @see https://github.com/expressjs/discussions/issues/192#issuecomment-2708756867
 import * as serveStatic from "serve-static";
 
 /**
@@ -54,14 +53,6 @@ declare namespace e {
    * @since 4.16.0
    */
   var urlencoded: typeof bodyParser.urlencoded;
-
-  /**
-   * This is a built-in middleware function in Express. It parses incoming request query parameters.
-   * @todo this seems to be outdated, not implemented and should be removed
-   * @link https://github.com/DefinitelyTyped/DefinitelyTyped/pull/43217
-   * @link https://github.com/expressjs/discussions/issues/192#issuecomment-2708756867
-   */
-  // export function query(options: qs.IParseOptions | typeof qs.parse): Handler;
 
   export function Router(options?: RouterOptions): core.Router;
 
