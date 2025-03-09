@@ -56,7 +56,6 @@ export interface RequestHandler<
   ReqQuery = ParsedQs,
   LocalsObj extends Record<string, any> = Record<string, any>,
 > {
-  // tslint:disable-next-line callable-types (This is extended from and can't extend from a type alias in ts<2.2)
   (
     req: Request<P, ResBody, ReqBody, ReqQuery, LocalsObj>,
     res: Response<ResBody, LocalsObj>,
