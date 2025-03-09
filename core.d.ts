@@ -111,7 +111,6 @@ type ParseRouteParameters<Route extends string> = string extends Route ? ParamsD
       & (Rest extends `${GetRouteParameter<Rest>}${infer Next}` ? RouteParameters<Next> : unknown)
       : {};
 
-/* eslint-disable @definitelytyped/no-unnecessary-generics */
 export interface IRouterMatcher<
   T,
   Method extends "all" | "get" | "post" | "put" | "delete" | "patch" | "options" | "head" = any,
@@ -178,7 +177,6 @@ export interface IRouterHandler<T, Route extends string = string> {
     LocalsObj extends Record<string, any> = Record<string, any>,
   >(
     // (This generic is meant to be passed explicitly.)
-    // eslint-disable-next-line @definitelytyped/no-unnecessary-generics
     ...handlers: Array<RequestHandler<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
   ): T;
   <
@@ -189,7 +187,6 @@ export interface IRouterHandler<T, Route extends string = string> {
     LocalsObj extends Record<string, any> = Record<string, any>,
   >(
     // (This generic is meant to be passed explicitly.)
-    // eslint-disable-next-line @definitelytyped/no-unnecessary-generics
     ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
   ): T;
   <
@@ -200,7 +197,6 @@ export interface IRouterHandler<T, Route extends string = string> {
     LocalsObj extends Record<string, any> = Record<string, any>,
   >(
     // (This generic is meant to be passed explicitly.)
-    // eslint-disable-next-line @definitelytyped/no-unnecessary-generics
     ...handlers: Array<RequestHandler<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
   ): T;
   <
@@ -211,11 +207,9 @@ export interface IRouterHandler<T, Route extends string = string> {
     LocalsObj extends Record<string, any> = Record<string, any>,
   >(
     // (This generic is meant to be passed explicitly.)
-    // eslint-disable-next-line @definitelytyped/no-unnecessary-generics
     ...handlers: Array<RequestHandlerParams<P, ResBody, ReqBody, ReqQuery, LocalsObj>>
   ): T;
 }
-/* eslint-enable @definitelytyped/no-unnecessary-generics */
 
 export interface IRouter extends RequestHandler {
   /**

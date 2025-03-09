@@ -69,7 +69,7 @@
     "cookie-parser": "1.4.7",
     "cookie-session": "2.0.0",
     "ejs": "3.1.10",
-    "eslint": "8.47.0",
+    "eslint": "8.57.1",
     "express-session": "1.18.1",
     "hbs": "4.2.0",
     "marked": "15.0.3",
@@ -79,6 +79,8 @@
     "nyc": "15.1.0",
     "pbkdf2-password": "1.2.1",
     "supertest": "6.3.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.0",
     "vhost": "~3.0.2"
   },
   "engines": {
