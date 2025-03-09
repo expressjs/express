@@ -11,7 +11,7 @@ rules:
   no-trailing-spaces: error
   no-unused-vars: [error, { vars: all, args: none, ignoreRestSiblings: true }]
 overrides:
-  - files: ["*.ts"]
+  - files: ["*.d.ts"]
     parser: "@typescript-eslint/parser"
     rules:
       no-unused-vars: off
