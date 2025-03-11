@@ -67,14 +67,15 @@ Currently, any existing [organization member](https://github.com/orgs/expressjs/
 a new triager. If you are interested in becoming a triager, our best advice is to actively participate
 in the community by helping triaging issues and pull requests. As well we recommend
 to engage in other community activities like attending the TC meetings, and participating in the Slack
-discussions.
+discussions. If you feel ready and have been helping triage some issues, reach out to an active member of the organization to ask if they'd
+be willing to support you. If they agree, they can create a pull request to formalize your nomination. In the case of an objection to the nomination, the triage team is responsible for working with the individuals involved and finding a resolution.
 
 You can also reach out to any of the [organization members](https://github.com/orgs/expressjs/people)
 if you have questions or need guidance.
 
 ## Becoming a Committer
 
-All contributors who land a non-trivial contribution should be on-boarded in a timely manner,
+All contributors who have landed significant and valuable contributions should be onboarded in a timely manner,
 and added as a committer, and be given write access to the repository.
 
 Committers are expected to follow this policy and continue to send pull requests, go through
