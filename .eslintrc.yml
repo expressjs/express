@@ -2,9 +2,16 @@ root: true
 env:
   es2022: true
   node: true
+plugins:
+  - "@typescript-eslint"
 rules:
   eol-last: error
   eqeqeq: [error, allow-null]
   indent: [error, 2, { MemberExpression: "off", SwitchCase: 1 }]
   no-trailing-spaces: error
   no-unused-vars: [error, { vars: all, args: none, ignoreRestSiblings: true }]
+overrides:
+  - files: ["*.d.ts"]
+    parser: "@typescript-eslint/parser"
+    rules:
+      no-unused-vars: off
