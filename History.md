@@ -1,4 +1,4 @@
-unreleased
+5.0.2 / 2024-11-06
 ========================
 
 * Remove `utils-merge` dependency - use spread syntax instead
