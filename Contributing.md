@@ -152,7 +152,7 @@ proper GitHub/npm groups.
 - [`expressjs/badgeboard`](https://github.com/expressjs/badgeboard): @wesleytodd
 - [`expressjs/basic-auth-connect`](https://github.com/expressjs/basic-auth-connect): @ulisesGascon
 - [`expressjs/body-parser`](https://github.com/expressjs/body-parser): @wesleytodd, @jonchurch, @ulisesGascon
-- [`expressjs/codemod`](https://github.com/expressjs/codemod): @bjohansebas (npm: @bsebas), @kjugi (npm: @filip.kudla)
+- [`expressjs/codemod`](https://github.com/expressjs/codemod): @bjohansebas (npm: `@bsebas`), @kjugi (npm: `@filip.kudla`)
 - [`expressjs/compression`](https://github.com/expressjs/compression): @ulisesGascon
 - [`expressjs/connect-multiparty`](https://github.com/expressjs/connect-multiparty): @ulisesGascon
 - [`expressjs/cookie-parser`](https://github.com/expressjs/cookie-parser): @wesleytodd, @UlisesGascon
