@@ -167,11 +167,15 @@ proper GitHub/npm groups.
 - [`expressjs/method-override`](https://github.com/expressjs/method-override): @ulisesGascon
 - [`expressjs/morgan`](https://github.com/expressjs/morgan): @jonchurch, @ulisesGascon
 - [`expressjs/multer`](https://github.com/expressjs/multer): @LinusU, @ulisesGascon
-- [`expressjs/response-time`](https://github.com/expressjs/response-time): @UlisesGascon
+- [`expressjs/response-time`](https://github.com/expressjs/response-time):
+  - Captains: @ulisesGascon
+  - Committers: @carpasse
 - [`expressjs/serve-favicon`](https://github.com/expressjs/serve-favicon): @ulisesGascon
 - [`expressjs/serve-index`](https://github.com/expressjs/serve-index): @ulisesGascon
 - [`expressjs/serve-static`](https://github.com/expressjs/serve-static): @ulisesGascon
-- [`expressjs/session`](https://github.com/expressjs/session): @ulisesGascon
+- [`expressjs/session`](https://github.com/expressjs/session): 
+  - Captains: @ulisesGascon
+  - Committers: @bjohansebas
 - [`expressjs/statusboard`](https://github.com/expressjs/statusboard): @wesleytodd
 - [`expressjs/timeout`](https://github.com/expressjs/timeout): @ulisesGascon
 - [`expressjs/vhost`](https://github.com/expressjs/vhost): @ulisesGascon
