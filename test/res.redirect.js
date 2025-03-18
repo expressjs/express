@@ -19,7 +19,7 @@ describe('res', function(){
       .expect(302, done)
     })
 
-    it('should trown an error if the url is missing', function(done){
+    it('should throw an error if the url is missing', function(done){
       var app = express();
 
       app.use(function (req, res) {
@@ -31,7 +31,7 @@ describe('res', function(){
       .expect(500, /url argument is required to res.redirect/, done)
     })
 
-    it('should trown an error if the url is not a string', function(done){
+    it('should throw an error if the url is not a string', function(done){
       var app = express();
 
       app.use(function (req, res) {
@@ -43,7 +43,7 @@ describe('res', function(){
       .expect(500, /res.redirect: url must be a string/, done)
     })
 
-    it('should trown an error if the status is not a number', function(done){
+    it('should throw an error if the status is not a number', function(done){
       var app = express();
 
       app.use(function (req, res) {
