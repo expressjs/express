@@ -43,6 +43,7 @@ This is a [Node.js](https://nodejs.org/en/) module available through the
 
 Before installing, [download and install Node.js](https://nodejs.org/en/download/).
 Node.js 18 or higher is required.
+# Kavya Aggarwal
 
 If this is a brand new project, make sure to create a `package.json` first with
 the [`npm init` command](https://docs.npmjs.com/creating-a-package-json-file).
