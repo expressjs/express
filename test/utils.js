@@ -25,6 +25,18 @@ describe('utils.etag(body, encoding)', function(){
   })
 })
 
+describe('utils.normalizeType acceptParams method', () => {
+  it('should handle a type with a malformed parameter and break the loop in acceptParams', () => {
+    const result = utils.normalizeType('text/plain;invalid');
+    assert.deepEqual(result,{
+      value: 'text/plain',
+      quality: 1,
+      params: {} // No parameters are added since "invalid" has no "="
+    });
+  });
+});
+
+
 describe('utils.setCharset(type, charset)', function () {
   it('should do anything without type', function () {
     assert.strictEqual(utils.setCharset(), undefined);
