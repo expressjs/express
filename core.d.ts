@@ -95,7 +95,6 @@ type GetRouteParameter<S extends string> = RemoveTail<
   `.${string}`
 >;
 
-// prettier-ignore
 export type RouteParameters<Route extends string> = Route extends `${infer Required}{${infer Optional}}${infer Next}`
   ? ParseRouteParameters<Required> & Partial<ParseRouteParameters<Optional>> & RouteParameters<Next>
   : ParseRouteParameters<Route>;
