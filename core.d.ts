@@ -500,7 +500,7 @@ export interface Request<
    * the case of a byte range this is of course the total number of bytes.
    * If the Range header field is not given `undefined` is returned.
    * If the Range header field is given, return value is a result of range-parser.
-   * See more ./types/range-parser/index.d.ts
+   * @see https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/range-parser/index.d.ts
    *
    * NOTE: remember that ranges are inclusive, so for example "Range: users=0-3"
    * should respond with 4 users when available, not 3.
