@@ -122,53 +122,53 @@ namespace express_tests {
 
   // Params defaults to dictionary
   router.get('/:foo', req => {
-    expectTypeOf(req.params.foo).toEqualTypeOf<string>();
+    expectTypeOf(req.params.foo).toBeString();
     // @ts-expect-error -- not Array
     req.params[0];
   });
 
   // Params can used as an array
   router.get<ParamsArray>('/*', req => {
-    expectTypeOf(req.params[0]).toEqualTypeOf<string>();
-    expectTypeOf(req.params.length).toEqualTypeOf<number>();
+    expectTypeOf(req.params[0]).toBeString();
+    expectTypeOf(req.params.length).toBeNumber();
   });
 
   // Params can used as an array and can be specified via an explicit param type (core)
   router.get('/*', (req: Request<ParamsArray>) => {
-    expectTypeOf(req.params[0]).toEqualTypeOf<string>();
-    expectTypeOf(req.params.length).toEqualTypeOf<number>();
+    expectTypeOf(req.params[0]).toBeString()
+    expectTypeOf(req.params.length).toBeNumber();
   });
 
   // Params can used as an array and can be specified via an explicit param type (express)
   router.get('/*', (req: express.Request<ParamsArray>) => {
-    expectTypeOf(req.params[0]).toEqualTypeOf<string>();
-    expectTypeOf(req.params.length).toEqualTypeOf<number>();
+    expectTypeOf(req.params[0]).toBeString();
+    expectTypeOf(req.params.length).toBeNumber();
   });
 
   // Params can be a custom type that conforms to constraint
   router.get<{ foo: string }>('/:foo', req => {
-    expectTypeOf(req.params.foo).toEqualTypeOf<string>();
+    expectTypeOf(req.params.foo).toBeString();
     // @ts-expect-error
     req.params.bar;
   });
 
   // Params can be a custom type that conforms to constraint and can be specified via an explicit param type (core)
   router.get('/:foo', (req: Request<{ foo: string }>) => {
-    expectTypeOf(req.params.foo).toEqualTypeOf<string>();
+    expectTypeOf(req.params.foo).toBeString();
     // @ts-expect-error
     req.params.bar;
   });
 
   // Params can be a custom type that conforms to constraint and can be specified via an explicit param type (express)
   router.get('/:foo', (req: express.Request<{ foo: string }>) => {
-    expectTypeOf(req.params.foo).toEqualTypeOf<string>();
+    expectTypeOf(req.params.foo).toBeString();
     // @ts-expect-error
     req.params.bar;
   });
 
   // Params cannot be a custom type that does not conform to constraint
   // router.get<{ foo: number }>('/:foo', () => {}); // original line that is expected to have error, but it does not
-  expectTypeOf<{ foo: number }>().not.toMatchTypeOf<ParamsDictionary>();
+  expectTypeOf<{ foo: number }>().not.toExtend<ParamsDictionary>();
 
   // Response will default to any type
   router.get("/", (req: Request, res: express.Response) => {
