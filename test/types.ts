@@ -7,117 +7,95 @@ import { expectTypeOf } from 'expect-type';
 namespace express_tests {
   const app = express();
 
-  app.engine('html', ejs.renderFile);
+  expectTypeOf(app.engine).toBeCallableWith('html', ejs.renderFile);
 
-  express.static.mime.define({
+  expectTypeOf(express.static.mime.define).toBeCallableWith({
     'application/fx': ['fx']
   });
-  app.use('/static', express.static(__dirname + '/public'));
+  expectTypeOf(app.use).toBeCallableWith('/static', express.static(__dirname + '/public'));
 
   // simple logger
   app.use((req, res, next) => {
-    console.log('%s %s', req.method, req.url);
-    next();
+    expectTypeOf(console.log).toBeCallableWith('%s %s', req.method, req.url);
+    expectTypeOf(next).toBeCallableWith();
   });
 
-  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.error(err);
-    next(err);
+  expectTypeOf(app.use).toBeCallableWith((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    expectTypeOf(console.error).toBeCallableWith(err);
+    expectTypeOf(next).toBeCallableWith(err);
   });
 
   app.get('/', (req, res) => {
-    res.send('hello world');
+    expectTypeOf(res.send).toBeCallableWith('hello world');
   });
 
   // Accept json app-wide or on one endpoint.
-  app.use(express.json({ limit: "200kb" }));
+  expectTypeOf(app.use).toBeCallableWith(express.json({ limit: "200kb" }));
   app.post('/echo', express.json(), (req, res) => {
-    res.json(req.body);
+    expectTypeOf(res.json).toBeCallableWith(req.body);
   });
 
   // Accept urlencoded app-wide or on one endpoint.
-  app.use(express.urlencoded({
+  expectTypeOf(app.use).toBeCallableWith(express.urlencoded({
     extended: false,
     parameterLimit: 16
   }));
   app.post('/search', express.urlencoded(), (req, res) => {
-    res.json(Object.keys(req.body));
+    expectTypeOf(res.json).toBeCallableWith(Object.keys(req.body));
   });
 
   const router = express.Router({ caseSensitive: true, mergeParams: true, strict: true });
 
-  const pathStr = 'test';
-  const pathRE: RegExp = /test/;
-  const path = true ? pathStr : pathRE;
+  expectTypeOf(router.get).toBeCallableWith('test');
+  expectTypeOf(router.put).toBeCallableWith('test');
+  expectTypeOf(router.post).toBeCallableWith('test');
+  expectTypeOf(router.delete).toBeCallableWith('test');
+  expectTypeOf(router.get).toBeCallableWith(/test/);
+  expectTypeOf(router.put).toBeCallableWith(/test/);
+  expectTypeOf(router.post).toBeCallableWith(/test/);
+  expectTypeOf(router.delete).toBeCallableWith(/test/);
 
-  router.get(path);
-  router.put(path);
-  router.post(path);
-  router.delete(path);
-  router.get(pathStr);
-  router.put(pathStr);
-  router.post(pathStr);
-  router.delete(pathStr);
-  router.get(pathRE);
-  router.put(pathRE);
-  router.post(pathRE);
-  router.delete(pathRE);
 
-  router.use((req, res, next) => { next(); });
+  router.use((req, res, next) => {
+    expectTypeOf(next).toBeCallableWith();
+  });
+
   router.route('/users')
     .get((req, res, next) => {
-      const types: string[] = req.accepts();
-      let type: string | false = req.accepts('json');
-      type = req.accepts(['json', 'text']);
-      type = req.accepts('json', 'text');
+      expectTypeOf(req.accepts()).toEqualTypeOf<string[]>();
+      expectTypeOf(req.accepts(['json', 'text'])).toEqualTypeOf<string | false>();
+      expectTypeOf(req.accepts('json', 'text')).toEqualTypeOf<string | false>();
 
-      const charsets: string[] = req.acceptsCharsets();
-      let charset: string | false = req.acceptsCharsets('utf-8');
-      charset = req.acceptsCharsets(['utf-8', 'utf-16']);
-      charset = req.acceptsCharsets('utf-8', 'utf-16');
+      expectTypeOf(req.acceptsCharsets()).toEqualTypeOf<string[]>();
+      expectTypeOf(req.acceptsCharsets(['utf-8', 'utf-16'])).toEqualTypeOf<string | false>();
+      expectTypeOf(req.acceptsCharsets('utf-8', 'utf-16')).toEqualTypeOf<string | false>();
 
-      const encodings: string[] = req.acceptsEncodings();
-      let encoding: string | false = req.acceptsEncodings('gzip');
-      encoding = req.acceptsEncodings(['gzip', 'deflate']);
-      encoding = req.acceptsEncodings('gzip', 'deflate');
+      expectTypeOf(req.acceptsEncodings()).toEqualTypeOf<string[]>();
+      expectTypeOf(req.acceptsEncodings(['gzip', 'deflate'])).toEqualTypeOf<string | false>();
+      expectTypeOf(req.acceptsEncodings('gzip', 'deflate')).toEqualTypeOf<string | false>();
 
-      const languages: string[] = req.acceptsLanguages();
-      let language: string | false = req.acceptsLanguages('en');
-      language = req.acceptsLanguages(['en', 'ja']);
-      language = req.acceptsLanguages('en', 'ja');
+      expectTypeOf(req.acceptsLanguages()).toEqualTypeOf<string[]>();
+      expectTypeOf(req.acceptsLanguages(['en', 'ja'])).toEqualTypeOf<string | false>();
+      expectTypeOf(req.acceptsLanguages('en', 'ja')).toEqualTypeOf<string | false>();
 
-      // downcasting
-      req.get('set-cookie') as undefined;
-      req.get('set-cookie') as string[];
-      const setCookieHeader1 = req.get('set-cookie');
-      if (setCookieHeader1 !== undefined) {
-        const setCookieHeader2: string[] = setCookieHeader1;
-      }
-      req.get('header') as undefined;
-      req.get('header') as string;
-      const header1 = req.get('header');
-      if (header1 !== undefined) {
-        const header2: string = header1;
-      }
+      expectTypeOf(req.get('set-cookie')).toEqualTypeOf<string[] | undefined>()
+      expectTypeOf(req.header('header')).toEqualTypeOf<string | undefined>();
 
-      // upcasting
-      const setCookieHeader3: string[] | undefined = req.get('set-cookie');
-      const header3: string | undefined = req.header('header');
-
-      req.headers.existingHeader as string;
-      req.headers.nonExistingHeader as any as undefined;
+      expectTypeOf(req.headers.existingHeader).toEqualTypeOf<string | string[] | undefined>()
 
       // Since 4.14.0 req.range() has options
-      req.range(2, { combine: true });
+      expectTypeOf(req.range).toBeCallableWith(2, { combine: true });
 
-      res.send(req.query['token']);
+      expectTypeOf(res.send).toBeCallableWith(req.query['token']);
     });
 
   router.get('/user/:id', (req, res, next) => {
-    if (Number(req.params.id) === 0) next('route');
-    else next();
+    expectTypeOf(next).toBeCallableWith('route');
+    expectTypeOf(next).toBeCallableWith('router');
+    expectTypeOf(next).toBeCallableWith();
+    expectTypeOf(next).toBeCallableWith(new Error('test'));
   }, (req, res, next) => {
-    res.render('regular');
+    expectTypeOf(res.render).toBeCallableWith('regular');
   });
 
   // Params defaults to dictionary
@@ -168,49 +146,49 @@ namespace express_tests {
 
   // Response will default to any type
   router.get("/", (req: Request, res: express.Response) => {
-    res.json({});
+    expectTypeOf(res.json).toBeCallableWith({});
   });
 
   // Response will be of Type provided
   router.get("/", (req: Request, res: express.Response<string>) => {
-    res.json();
+    expectTypeOf(res.json).toBeCallableWith();
     expectTypeOf(res.json).parameter(0).exclude(undefined).toBeString();
     expectTypeOf(res.send).parameter(0).exclude(undefined).toBeString();
   });
 
+  // router is a handler
   app.use((req, res, next) => {
-    // hacky trick, router is just a handler
-    router(req, res, next);
+    expectTypeOf(router).toBeCallableWith(req, res, next);
   });
 
   // Test append function
   app.use((req, res, next) => {
-    res.append('Link', ['<http://localhost/>', '<http://localhost:3000/>']);
-    res.append('Set-Cookie', 'foo=bar; Path=/; HttpOnly');
-    res.append('Warning', '199 Miscellaneous warning');
+    expectTypeOf(res.append).toBeCallableWith('Link', ['<http://localhost/>', '<http://localhost:3000/>']);
+    expectTypeOf(res.append).toBeCallableWith('Set-Cookie', 'foo=bar; Path=/; HttpOnly');
+    expectTypeOf(res.append).toBeCallableWith('Warning', '199 Miscellaneous warning');
   });
 
-  app.use(router);
+  expectTypeOf(app.use).toBeCallableWith(router);
 
   // Test req.res, req.next, res.req should exists after middleware.init
   app.use((req, res) => {
-    req.res;
-    req.next;
-    res.req;
+    expectTypeOf(req).toHaveProperty("res")
+    expectTypeOf(req).toHaveProperty("next");
+    expectTypeOf(res).toHaveProperty("req");
   });
 
   // Test mounting sub-apps
-  app.use('/sub-app', express());
+  expectTypeOf(app.use).toBeCallableWith('/sub-app', express());
 
   // Test on mount event
-  app.on('mount', (parent) => true);
+  expectTypeOf(app.on).toBeCallableWith('mount', (parent) => true);
 
   // Test mountpath
-  const mountPath: string|string[] = app.mountpath;
+  expectTypeOf(app.mountpath).toEqualTypeOf<string | string[]>();
 
-  app.listen(3000);
+  expectTypeOf(app.listen).toBeCallableWith(3000);
 
-  const next: express.NextFunction = () => { };
+  expectTypeOf<express.NextFunction>().toExtend<() => void>();
 }
 
 /***************************
@@ -221,6 +199,6 @@ namespace express_tests {
 
 namespace node_tests {
   // http.createServer can take express application
-  const app: express.Application = express();
-  http.createServer(app).listen(5678);
+  expectTypeOf(express).returns.toExtend<express.Application>();
+  expectTypeOf(http.createServer).toBeCallableWith(express());
 }
