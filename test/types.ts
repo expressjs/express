@@ -123,8 +123,7 @@ namespace express_tests {
   // Params defaults to dictionary
   router.get('/:foo', req => {
     expectTypeOf(req.params.foo).toBeString();
-    // @ts-expect-error -- not Array
-    req.params[0];
+    expectTypeOf(req.params).not.toBeArray();
   });
 
   // Params can used as an array
@@ -148,22 +147,19 @@ namespace express_tests {
   // Params can be a custom type that conforms to constraint
   router.get<{ foo: string }>('/:foo', req => {
     expectTypeOf(req.params.foo).toBeString();
-    // @ts-expect-error
-    req.params.bar;
+    expectTypeOf(req.params).not.toHaveProperty("bar");
   });
 
   // Params can be a custom type that conforms to constraint and can be specified via an explicit param type (core)
   router.get('/:foo', (req: Request<{ foo: string }>) => {
     expectTypeOf(req.params.foo).toBeString();
-    // @ts-expect-error
-    req.params.bar;
+    expectTypeOf(req.params).not.toHaveProperty("bar");
   });
 
   // Params can be a custom type that conforms to constraint and can be specified via an explicit param type (express)
   router.get('/:foo', (req: express.Request<{ foo: string }>) => {
     expectTypeOf(req.params.foo).toBeString();
-    // @ts-expect-error
-    req.params.bar;
+    expectTypeOf(req.params).not.toHaveProperty("bar");
   });
 
   // Params cannot be a custom type that does not conform to constraint
@@ -178,10 +174,8 @@ namespace express_tests {
   // Response will be of Type provided
   router.get("/", (req: Request, res: express.Response<string>) => {
     res.json();
-    // @ts-expect-error
-    res.json(1);
-    // @ts-expect-error
-    res.send(1);
+    expectTypeOf<number>().not.toExtend<Parameters<typeof res.json>[0]>();
+    expectTypeOf<number>().not.toExtend<Parameters<typeof res.send>[0]>();
   });
 
   app.use((req, res, next) => {
