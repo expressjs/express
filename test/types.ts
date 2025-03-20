@@ -174,8 +174,8 @@ namespace express_tests {
   // Response will be of Type provided
   router.get("/", (req: Request, res: express.Response<string>) => {
     res.json();
-    expectTypeOf<number>().not.toExtend<Parameters<typeof res.json>[0]>();
-    expectTypeOf<number>().not.toExtend<Parameters<typeof res.send>[0]>();
+    expectTypeOf(res.json).parameter(0).exclude(undefined).toBeString();
+    expectTypeOf(res.send).parameter(0).exclude(undefined).toBeString();
   });
 
   app.use((req, res, next) => {
