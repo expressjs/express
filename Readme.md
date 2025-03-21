@@ -196,7 +196,6 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 * [CBID2](https://github.com/CBID2) - **Christine Belzie**
 * [enyoghasim](https://github.com/enyoghasim) - **David Enyoghasim**
 * [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascón** (he/him)
-* [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
 * [0ss](https://github.com/0ss) - **Salah**
 * [import-brain](https://github.com/import-brain) - **Eric Cheng** (he/him)
 * [3imed-jaberi](https://github.com/3imed-jaberi) - **Imed Jaberi**
