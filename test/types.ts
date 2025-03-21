@@ -78,10 +78,10 @@ namespace express_tests {
       expectTypeOf(req.acceptsLanguages(['en', 'ja'])).toEqualTypeOf<string | false>();
       expectTypeOf(req.acceptsLanguages('en', 'ja')).toEqualTypeOf<string | false>();
 
-      expectTypeOf(req.get('set-cookie')).toEqualTypeOf<string[] | undefined>()
+      expectTypeOf(req.get('set-cookie')).toEqualTypeOf<string[] | undefined>();
       expectTypeOf(req.header('header')).toEqualTypeOf<string | undefined>();
 
-      expectTypeOf(req.headers.existingHeader).toEqualTypeOf<string | string[] | undefined>()
+      expectTypeOf(req.headers.existingHeader).toEqualTypeOf<string | string[] | undefined>();
 
       // Since 4.14.0 req.range() has options
       expectTypeOf(req.range).toBeCallableWith(2, { combine: true });
@@ -112,7 +112,7 @@ namespace express_tests {
 
   // Params can used as an array and can be specified via an explicit param type (core)
   router.get('/*', (req: Request<ParamsArray>) => {
-    expectTypeOf(req.params[0]).toBeString()
+    expectTypeOf(req.params[0]).toBeString();
     expectTypeOf(req.params.length).toBeNumber();
   });
 
@@ -172,7 +172,7 @@ namespace express_tests {
 
   // Test req.res, req.next, res.req should exists after middleware.init
   app.use((req, res) => {
-    expectTypeOf(req).toHaveProperty("res")
+    expectTypeOf(req).toHaveProperty("res");
     expectTypeOf(req).toHaveProperty("next");
     expectTypeOf(res).toHaveProperty("req");
   });
