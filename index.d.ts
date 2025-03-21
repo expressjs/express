@@ -5,6 +5,9 @@
 
  =============================================== */
 
+/// <reference types="./core" />
+/// <reference types="serve-static" />
+
 import * as bodyParser from "body-parser";
 import * as core from "./core";
 import * as serveStatic from "serve-static";
