@@ -234,6 +234,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
   * [sheplu](https://github.com/sheplu) - **Jean Burellier**
   * [tarunyadav1](https://github.com/tarunyadav1) - **Tarun yadav**
   * [tunniclm](https://github.com/tunniclm) - **Mike Tunnicliffe**
+  * [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
 </details>
 
 
