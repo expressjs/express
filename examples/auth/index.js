@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var express = require('../..');
+var express = require('express');
 var hash = require('pbkdf2-password')()
 var path = require('node:path');
 var session = require('express-session');

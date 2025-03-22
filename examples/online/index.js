@@ -11,7 +11,7 @@
  * Module dependencies.
  */
 
-var express = require('../..');
+var express = require('express');
 var online = require('online');
 var redis = require('redis');
 var db = redis.createClient();
