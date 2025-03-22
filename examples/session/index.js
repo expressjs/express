@@ -7,7 +7,7 @@
 // $ npm install redis
 // $ redis-server
 
-var express = require('../..');
+var express = require('express');
 var session = require('express-session');
 
 var app = express();
