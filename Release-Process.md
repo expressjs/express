@@ -109,6 +109,169 @@ publishing the release package to npmjs.com.
 
 Below is a detailed description of the steps to publish a release.
 
+#### Step 0. Update dependencies
+
+When doing a non-patch release, we try to update dependencies as much as possible. That's to say, if there are breaking changes, we try to update the dependency to the latest version possible, following semver.
+
+Express has many dependencies that we own, so we normally take this opportunity to update them as well. This process can be time consuming and requires a great planing ahead, as you will probably need to publish new versions of them and update their dependencies as well.
+
+Having these dependencies depency clear will help you also when doing a security release. As most likely you want to release upstream versions with fixed security vulnerabilities.
+
+To make the process simpler, in this graphs you can have a visual representation of the dependencies and how you can update them in different batches.
+
+**Relationships between dependencies and Express**
+
+```mermaid
+graph TD
+    Express[Express]
+    accepts[jshttp/accepts]
+    body_parser[expressjs/body-parser]
+    content_disposition[jshttp/content-disposition]
+    content_type[jshttp/content-type]
+    cookie[jshttp/cookie]
+    encodeurl[pillarjs/encodeurl]
+    etag[jshttp/etag]
+    forwarded[jshttp/forwarded]
+    finalhandler[pillarjs/finalhandler]
+    fresh[jshttp/fresh]
+    http_errors[jshttp/http-errors]
+    media_typer[jshttp/media-typer]
+    mime_db[jshttp/mime-db]
+    mime_types[jshttp/mime-types]
+    negotiator[jshttp/negotiator]
+    on_finished[jshttp/on-finished]
+    parseurl[pillarjs/parseurl]
+    path_to_regexp[pillarjs/path-to-regexp]
+    proxy_addr[jshttp/proxy-addr]
+    range_parser[jshttp/range-parser]
+    router[pillarjs/router]
+    send[pillarjs/send]
+    serve_static[expressjs/serve-static]
+    statuses[jshttp/statuses]
+    type_is[jshttp/type-is]
+    vary[jshttp/vary]
+    
+    %% Express dependencies
+    Express --> accepts
+    Express --> body_parser
+    Express --> content_disposition
+    Express --> content_type
+    Express --> cookie
+    Express --> encodeurl
+    Express --> etag
+    Express --> finalhandler
+    Express --> fresh
+    Express --> http_errors
+    Express --> mime_types
+    Express --> on_finished
+    Express --> parseurl
+    Express --> proxy_addr
+    Express --> range_parser
+    Express --> router
+    Express --> send
+    Express --> serve_static
+    Express --> statuses
+    Express --> type_is
+    Express --> vary
+    
+    %% vary no dependencies
+
+    %% type-is dependencies
+    type_is --> media_typer
+    type_is --> mime_types
+    type_is --> content_type
+
+    %% statuses no dependencies
+
+    %% serve-static dependencies
+    serve_static --> send
+    serve_static --> parseurl
+    serve_static --> encodeurl
+
+    %% send dependencies
+    send --> encodeurl
+    send --> etag
+    send --> fresh
+    send --> http_errors
+    send --> mime_types
+    send --> on_finished
+    send --> range_parser
+    send --> statuses
+
+    %% router dependencies
+    router --> parseurl
+    router --> path_to_regexp
+
+    %% range_parser no dependencies
+
+    %% proxy_addr dependencies
+    proxy_addr --> forwarded
+
+    %% path_to_regexp no dependencies
+
+    %% parseurl no dependencies
+
+    %% on_finished no dependencies
+
+    %% mime_types dependencies
+    mime_types --> mime_db
+
+    %% mime_db no dependencies
+
+    %% negotiator no dependencies
+
+    %% media_typer no dependencies
+
+    %% http_errors dependencies
+    http_errors --> statuses
+
+    %% fresh no dependencies
+
+    %% finalhandler no dependencies
+    finalhandler --> encodeurl
+    finalhandler --> on_finished
+    finalhandler --> statuses
+    finalhandler --> parseurl
+
+    %% forwarded no dependencies
+
+    %% etag no dependencies
+
+    %% encodeurl no dependencies
+
+    %% cookie no dependencies
+
+    %% content_type no dependencies
+
+    %% content_disposition no dependencies
+
+    %% body_parser dependencies
+    body_parser --> content_type
+    body_parser --> http_errors
+    body_parser --> on_finished
+    body_parser --> type_is
+    
+    %% accepts no dependencies
+    accepts --> mime_types
+    accepts --> negotiator
+```
+
+
+**Upgrade order based on dependencies**
+
+- Level 0: Express
+- Level 1: content-disposition, cookie, proxy-addr, router, vary, server-static, finalhandler, body-parser
+- Level 2: forwarded, parseurl, path-to-regexp, type-is, accepts, send
+- Level 3: content-type, encodeurl, etag, fresh, mime-types, media-typer, negotiator, on-finished, range-parser, http-errors
+- Level 4: mime-db, statuses
+
+**Direct and indirect dependencies**
+
+- Direct dependencies: accepts, body-parser, content-disposition, content-type, cookie, encodeurl, etag, finalhandler, fresh, http-errors, mime-types, on-finished, parseurl, proxy-addr, range-parser, router, send, serve-static, statuses, type-is, vary
+- Indirect dependencies: path-to-regexp, negotiator, mime-db, media-typer, forwarded
+
+
+
 #### Step 1. Check the release is ready to publish
 
 Check any relevant information to ensure the release is ready, eg: any
