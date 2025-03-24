@@ -64,7 +64,7 @@
     "after": "0.8.2",
     "connect-redis": "^8.0.1",
     "cookie-parser": "1.4.7",
-    "cookie-session": "2.0.0",
+    "cookie-session": "2.1.0",
     "ejs": "^3.1.10",
     "eslint": "8.47.0",
     "express-session": "^1.18.1",
