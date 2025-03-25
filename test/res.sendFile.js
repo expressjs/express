@@ -6,10 +6,10 @@ var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
 
 var express = require('../')
   , request = require('supertest')
-var onFinished = require('on-finished');
 var path = require('node:path');
 var fixtures = path.join(__dirname, 'fixtures');
 var utils = require('./support/utils');
+const { finished } = require('node:stream');
 
 describe('res', function(){
   describe('.sendFile(path)', function () {
@@ -210,7 +210,7 @@ describe('res', function(){
       var app = express();
 
       app.use(function (req, res) {
-        onFinished(res, function () {
+        finished(res, function () {
           res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
             assert.ok(err)
             assert.strictEqual(err.code, 'ECONNABORTED')
