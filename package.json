@@ -47,7 +47,6 @@
     "http-errors": "^2.0.0",
     "merge-descriptors": "^2.0.0",
     "mime-types": "^3.0.0",
-    "on-finished": "^2.4.1",
     "once": "^1.4.0",
     "parseurl": "^1.3.3",
     "proxy-addr": "^2.0.7",
