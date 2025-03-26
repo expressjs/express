@@ -1,6 +1,7 @@
 unreleased
 ========================
 
+* deps: accepts@^3.0.0
 * Remove `utils-merge` dependency - use spread syntax instead
 * Remove `Object.setPrototypeOf` polyfill
 * cleanup: remove AsyncLocalStorage check from tests
