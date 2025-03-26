@@ -1,10 +1,12 @@
+'use strict'
 
-var assert = require('assert')
-var Buffer = require('safe-buffer').Buffer
+var assert = require('node:assert')
 var express = require('..');
-var methods = require('methods');
+var methods = require('../lib/utils').methods;
 var request = require('supertest');
 var utils = require('./support/utils');
+
+var shouldSkipQuery = require('./support/utils').shouldSkipQuery
 
 describe('res', function(){
   describe('.send()', function(){
@@ -142,11 +144,11 @@ describe('res', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200)
-      .expect('Content-Type', 'application/octet-stream')
-      .expect(shouldHaveBody(Buffer.from('hello')))
-      .end(done)
+        .get('/')
+        .expect(200)
+        .expect('Content-Type', 'application/octet-stream')
+        .expect(utils.shouldHaveBody(Buffer.from('hello')))
+        .end(done)
     })
 
     it('should set ETag', function (done) {
@@ -173,6 +175,19 @@ describe('res', function(){
       .get('/')
       .expect('Content-Type', 'text/plain; charset=utf-8')
       .expect(200, 'hey', done);
+    })
+
+    it('should accept Uint8Array', function(done){
+      var app = express();
+      app.use(function(req, res){
+        const encodedHey = new TextEncoder().encode("hey");
+        res.set("Content-Type", "text/plain").send(encodedHey);
+      })
+
+      request(app)
+        .get("/")
+        .expect("Content-Type", "text/plain; charset=utf-8")
+        .expect(200, "hey", done);
     })
 
     it('should not override ETag', function (done) {
@@ -213,10 +228,10 @@ describe('res', function(){
       });
 
       request(app)
-      .head('/')
-      .expect(200)
-      .expect(shouldNotHaveBody())
-      .end(done)
+        .head('/')
+        .expect(200)
+        .expect(utils.shouldNotHaveBody())
+        .end(done)
     })
   })
 
@@ -234,6 +249,22 @@ describe('res', function(){
       .expect(utils.shouldNotHaveHeader('Content-Length'))
       .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
       .expect(204, '', done);
+    })
+  })
+
+  describe('when .statusCode is 205', function () {
+    it('should strip Transfer-Encoding field and body, set Content-Length', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.status(205).set('Transfer-Encoding', 'chunked').send('foo')
+      })
+
+      request(app)
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
+        .expect('Content-Length', '0')
+        .expect(205, '', done)
     })
   })
 
@@ -347,6 +378,9 @@ describe('res', function(){
         if (method === 'connect') return;
 
         it('should send ETag in response to ' + method.toUpperCase() + ' request', function (done) {
+          if (method === 'query' && shouldSkipQuery(process.versions.node)) {
+            this.skip()
+          }
           var app = express();
 
           app[method]('/', function (req, res) {
@@ -499,7 +533,7 @@ describe('res', function(){
           var chunk = !Buffer.isBuffer(body)
             ? Buffer.from(body, encoding)
             : body;
-          chunk.toString().should.equal('hello, world!');
+          assert.strictEqual(chunk.toString(), 'hello, world!')
           return '"custom"';
         });
 
@@ -532,19 +566,3 @@ describe('res', function(){
     })
   })
 })
-
-function shouldHaveBody (buf) {
-  return function (res) {
-    var body = !Buffer.isBuffer(res.body)
-      ? Buffer.from(res.text)
-      : res.body
-    assert.ok(body, 'response has body')
-    assert.strictEqual(body.toString('hex'), buf.toString('hex'))
-  }
-}
-
-function shouldNotHaveBody () {
-  return function (res) {
-    assert.ok(res.text === '' || res.text === undefined)
-  }
-}

@@ -1,3 +1,5 @@
+'use strict'
+
 // Fake posts database
 
 var posts = [

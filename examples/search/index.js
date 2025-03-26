@@ -1,3 +1,4 @@
+'use strict'
 
 // install redis first:
 // https://redis.io/
@@ -11,7 +12,7 @@
  */
 
 var express = require('../..');
-var path = require('path');
+var path = require('node:path');
 var redis = require('redis');
 
 var db = redis.createClient();

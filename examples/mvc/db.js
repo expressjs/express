@@ -1,3 +1,5 @@
+'use strict'
+
 // faux database
 
 var pets = exports.pets = [];

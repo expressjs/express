@@ -1,7 +1,8 @@
+'use strict'
 
 var express = require('../')
   , request = require('supertest')
-  , assert = require('assert');
+  , assert = require('node:assert');
 
 describe('req', function(){
   describe('.get(field)', function(){

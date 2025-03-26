@@ -1,4 +1,6 @@
+'use strict'
 
+var assert = require('node:assert')
 var express = require('../');
 var request = require('supertest');
 
@@ -33,6 +35,7 @@ describe('middleware', function(){
       .set('Content-Type', 'application/json')
       .send('{"foo":"bar"}')
       .expect('Content-Type', 'application/json')
+      .expect(function () { assert.deepEqual(calls, ['one', 'two']) })
       .expect(200, '{"foo":"bar"}', done)
     })
   })

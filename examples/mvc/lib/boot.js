@@ -1,10 +1,12 @@
+'use strict'
+
 /**
  * Module dependencies.
  */
 
 var express = require('../../..');
-var fs = require('fs');
-var path = require('path');
+var fs = require('node:fs');
+var path = require('node:path');
 
 module.exports = function(parent, options){
   var dir = path.join(__dirname, '..', 'controllers');

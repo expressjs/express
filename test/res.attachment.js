@@ -1,5 +1,5 @@
+'use strict'
 
-var Buffer = require('safe-buffer').Buffer
 var express = require('../')
   , request = require('supertest');
 

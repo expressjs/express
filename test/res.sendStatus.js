@@ -1,3 +1,4 @@
+'use strict'
 
 var express = require('..')
 var request = require('supertest')
@@ -26,6 +27,18 @@ describe('res', function () {
       request(app)
       .get('/')
       .expect(599, '599', done);
+    })
+
+    it('should raise error for invalid status code', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.sendStatus(undefined).end()
+      })
+
+      request(app)
+        .get('/')
+        .expect(500, /TypeError: Invalid status code/, done)
     })
   })
 })

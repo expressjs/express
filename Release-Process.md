@@ -31,7 +31,7 @@ Before publishing, the following preconditions should be met:
   below) will exist documenting:
   - the proposed changes
   - the type of release: patch, minor or major
-  - the version number (according to semantic versioning - http://semver.org)
+  - the version number (according to semantic versioning - https://semver.org)
 - The proposed changes should be complete.
 
 There are two main release flows: patch and non-patch.
@@ -76,6 +76,13 @@ non-patch flow.
   pull request the content of the release may have be discussed in an issue.
 - This branch contains the commits accepted so far that implement the proposal
   in the tracking pull request.
+
+### Pre-release Versions
+
+Alpha and Beta releases are made from a proposal branch. The version number should be
+incremented to the next minor version with a `-beta` or `-alpha` suffix.
+For example, if the next beta release is `5.0.1`, the beta release would be `5.0.1-beta.0`.
+The pre-releases are unstable and not suitable for production use.
 
 ### Patch flow
 
@@ -122,9 +129,10 @@ $ git merge --ff-only <proposal-branch>
 <release-branch> - see "Release branch" of "Branches" above.
 <proposal-branch> - see "Proposal branch" of "Non-patch flow" above.
 
-**NOTE:** You may need to rebase the proposal branch to allow a fast-forward
-          merge. Using a fast-forward merge keeps the history clean as it does
-          not introduce merge commits.
+> [!NOTE]
+> You may need to rebase the proposal branch to allow a fast-forward
+> merge. Using a fast-forward merge keeps the history clean as it does
+> not introduce merge commits.
 
 ### Step 3. Update the History.md and package.json to the new version number
 
@@ -182,5 +190,13 @@ $ npm login <npm-username>
 $ npm publish
 ```
 
-**NOTE:** The version number to publish will be picked up automatically from
-          package.json.
+> [!NOTE]
+> The version number to publish will be picked up automatically from 
+> package.json.
+          
+### Step 7. Update documentation website
+
+The documentation website https://expressjs.com/ documents the current release version in various places. To update these, follow these steps:
+
+1. Manually run the [`Update External Docs` workflow](https://github.com/expressjs/expressjs.com/actions/workflows/update-external-docs.yml) in expressjs.com repository.
+2. Add a new section to the [changelog](https://github.com/expressjs/expressjs.com/blob/gh-pages/en/changelog/index.md) in the expressjs.com website.

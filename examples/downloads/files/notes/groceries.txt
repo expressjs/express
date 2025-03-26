@@ -1,0 +1,3 @@
+* milk
+* eggs
+* bread

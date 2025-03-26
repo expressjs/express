@@ -22,7 +22,7 @@ describe('auth', function(){
       .expect(200, /<form/, done)
     })
 
-    it('should display login error', function(done){
+    it('should display login error for bad user', function (done) {
       request(app)
       .post('/login')
       .type('urlencoded')
@@ -35,6 +35,21 @@ describe('auth', function(){
         .set('Cookie', getCookie(res))
         .expect(200, /Authentication failed/, done)
       })
+    })
+
+    it('should display login error for bad password', function (done) {
+      request(app)
+        .post('/login')
+        .type('urlencoded')
+        .send('username=tj&password=nogood')
+        .expect('Location', '/login')
+        .expect(302, function (err, res) {
+          if (err) return done(err)
+          request(app)
+            .get('/login')
+            .set('Cookie', getCookie(res))
+            .expect(200, /Authentication failed/, done)
+        })
     })
   })
 

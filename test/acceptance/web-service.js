@@ -97,9 +97,9 @@ describe('web-service', function(){
   describe('when requesting an invalid route', function(){
     it('should respond with 404 json', function(done){
       request(app)
-      .get('/api/something?api-key=bar')
-      .expect('Content-Type', /json/)
-      .expect(404, '{"error":"Lame, can\'t find that"}', done)
+        .get('/api/something?api-key=bar')
+        .expect('Content-Type', /json/)
+        .expect(404, '{"error":"Sorry, can\'t find that"}', done)
     })
   })
 })

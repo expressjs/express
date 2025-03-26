@@ -1,7 +1,7 @@
+'use strict'
+
 var express = require('../');
 var request = require('supertest');
-
-var describePromises = global.Promise ? describe : describe.skip
 
 describe('app.route', function(){
   it('should return a new route', function(done){
@@ -62,7 +62,7 @@ describe('app.route', function(){
     .expect(404, done);
   });
 
-  describePromises('promise support', function () {
+  describe('promise support', function () {
     it('should pass rejected promise value', function (done) {
       var app = express()
       var route = app.route('/foo')
