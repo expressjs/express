@@ -19,12 +19,19 @@ describe('config', function () {
 
     it('should return the app', function () {
       var app = express();
-      assert.equal(app.settings.set('foo', 'bar'), app.settings);
+      assert.equal(app.set('foo', 'bar'), app);
+    })
+
+    it('should allow chaining setting calls', function () {
+      var app = express();
+      app.settings.set('foo', 'bar').enable('baz');
+      assert.equal(app.settings.get('foo'), 'bar');
+      assert.equal(app.settings.get('baz'), true);
     })
 
     it('should return the app when undefined', function () {
       var app = express();
-      assert.equal(app.settings.set('foo', undefined), app.settings);
+      assert.equal(app.set('foo', undefined), app);
     })
 
     it('should return set value', function () {
@@ -144,9 +151,17 @@ describe('config', function () {
   describe('.enable()', function(){
     it('should set the value to true', function(){
       var app = express();
-      assert.equal(app.settings.enable('tobi'), app.settings);
+      assert.equal(app.enable('tobi'), app);
+      assert.strictEqual(app.get('tobi'), true);
       assert.strictEqual(app.settings.get('tobi'), true);
     })
+
+    it('should set the value to true with settings.enable', function(){
+      var app = express();
+      app.settings.enable('tobi');
+      assert.strictEqual(app.get('tobi'), true);
+      assert.strictEqual(app.settings.get('tobi'), true);
+    });
 
     it('should set prototype values', function () {
       var app = express()
@@ -158,9 +173,17 @@ describe('config', function () {
   describe('.disable()', function(){
     it('should set the value to false', function(){
       var app = express();
-      assert.equal(app.settings.disable('tobi'), app.settings);
+      assert.equal(app.disable('tobi'), app);
+      assert.strictEqual(app.get('tobi'), false);
       assert.strictEqual(app.settings.get('tobi'), false);
     })
+
+    it('should set the value to false with settings.enable', function(){
+      var app = express();
+      app.settings.disable('tobi');
+      assert.strictEqual(app.get('tobi'), false);
+      assert.strictEqual(app.settings.get('tobi'), false);
+    });
 
     it('should set prototype values', function () {
       var app = express()
