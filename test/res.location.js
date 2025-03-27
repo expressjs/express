@@ -2,8 +2,8 @@
 
 var express = require('../')
   , request = require('supertest')
-  , assert = require('assert')
-  , url = require('url');
+  , assert = require('node:assert')
+  , url = require('node:url');
 
 describe('res', function(){
   describe('.location(url)', function(){
@@ -46,65 +46,19 @@ describe('res', function(){
       .expect(200, done)
     })
 
-    describe('when url is "back"', function () {
-      it('should set location from "Referer" header', function (done) {
-        var app = express()
+    it('should encode data uri1', function (done) {
+      var app = express()
+      app.use(function (req, res) {
+        res.location('data:text/javascript,export default () => { }').end();
+      });
 
-        app.use(function (req, res) {
-          res.location('back').end()
-        })
-
-        request(app)
+      request(app)
         .get('/')
-        .set('Referer', '/some/page.html')
-        .expect('Location', '/some/page.html')
+        .expect('Location', 'data:text/javascript,export%20default%20()%20=%3E%20%7B%20%7D')
         .expect(200, done)
-      })
-
-      it('should set location from "Referrer" header', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.location('back').end()
-        })
-
-        request(app)
-        .get('/')
-        .set('Referrer', '/some/page.html')
-        .expect('Location', '/some/page.html')
-        .expect(200, done)
-      })
-
-      it('should prefer "Referrer" header', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.location('back').end()
-        })
-
-        request(app)
-        .get('/')
-        .set('Referer', '/some/page1.html')
-        .set('Referrer', '/some/page2.html')
-        .expect('Location', '/some/page2.html')
-        .expect(200, done)
-      })
-
-      it('should set the header to "/" without referrer', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.location('back').end()
-        })
-
-        request(app)
-        .get('/')
-        .expect('Location', '/')
-        .expect(200, done)
-      })
     })
 
-    it('should encode data uri', function (done) {
+    it('should encode data uri2', function (done) {
       var app = express()
       app.use(function (req, res) {
         res.location('data:text/javascript,export default () => { }').end();

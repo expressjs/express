@@ -32,7 +32,8 @@ app.param(['to', 'from'], function(req, res, next, num, name){
 // Load user by id
 
 app.param('user', function(req, res, next, id){
-  if (req.user = users[id]) {
+  req.user = users[id]
+  if (req.user) {
     next();
   } else {
     next(createError(404, 'failed to find user'));

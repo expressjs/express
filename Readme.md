@@ -1,6 +1,6 @@
-[![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](http://expressjs.com/)
+[![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](https://expressjs.com/)
 
-**Fast, unopinionated, minimalist web framework for [Node.js](http://nodejs.org).**
+**Fast, unopinionated, minimalist web framework for [Node.js](https://nodejs.org).**
 
 **This project has a [Code of Conduct][].**
 
@@ -20,16 +20,16 @@
 
 
 [![NPM Version][npm-version-image]][npm-url]
-[![NPM Install Size][npm-install-size-image]][npm-install-size-url]
 [![NPM Downloads][npm-downloads-image]][npm-downloads-url]
 [![OpenSSF Scorecard Badge][ossf-scorecard-badge]][ossf-scorecard-visualizer]
 
 
 ```js
-const express = require('express')
+import express from 'express'
+
 const app = express()
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   res.send('Hello World')
 })
 
@@ -42,7 +42,7 @@ This is a [Node.js](https://nodejs.org/en/) module available through the
 [npm registry](https://www.npmjs.com/).
 
 Before installing, [download and install Node.js](https://nodejs.org/en/download/).
-Node.js 0.10 or higher is required.
+Node.js 18 or higher is required.
 
 If this is a brand new project, make sure to create a `package.json` first with
 the [`npm init` command](https://docs.npmjs.com/creating-a-package-json-file).
@@ -50,11 +50,11 @@ the [`npm init` command](https://docs.npmjs.com/creating-a-package-json-file).
 Installation is done using the
 [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
-```console
-$ npm install express
+```bash
+npm install express
 ```
 
-Follow [our installing guide](http://expressjs.com/en/starter/installing.html)
+Follow [our installing guide](https://expressjs.com/en/starter/installing.html)
 for more information.
 
 ## Features
@@ -69,14 +69,11 @@ for more information.
 
 ## Docs & Community
 
-  * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
-  * [#express](https://web.libera.chat/#express) on [Libera Chat](https://libera.chat) IRC
+  * [Website and Documentation](https://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
   * [GitHub Organization](https://github.com/expressjs) for Official Middleware & Modules
-  * Visit the [Wiki](https://github.com/expressjs/express/wiki)
-  * [Google Group](https://groups.google.com/group/express-js) for discussion
-  * [Gitter](https://gitter.im/expressjs/express) for support and discussion
+  * [Github Discussions](https://github.com/expressjs/discussions) for discussion on the development and usage of Express
 
-**PROTIP** Be sure to read [Migrating from 3.x to 4.x](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x) as well as [New features in 4.x](https://github.com/expressjs/express/wiki/New-features-in-4.x).
+**PROTIP** Be sure to read the [migration guide to v5](https://expressjs.com/en/guide/migrating-5)
 
 ## Quick Start
 
@@ -84,26 +81,26 @@ for more information.
 
   Install the executable. The executable's major version will match Express's:
 
-```console
-$ npm install -g express-generator@4
+```bash
+npm install -g express-generator@4
 ```
 
   Create the app:
 
-```console
-$ express /tmp/foo && cd /tmp/foo
+```bash
+express /tmp/foo && cd /tmp/foo
 ```
 
   Install dependencies:
 
-```console
-$ npm install
+```bash
+npm install
 ```
 
   Start the server:
 
-```console
-$ npm start
+```bash
+npm start
 ```
 
   View the website at: http://localhost:3000
@@ -115,29 +112,32 @@ $ npm start
   HTTP APIs.
 
   Express does not force you to use any specific ORM or template engine. With support for over
-  14 template engines via [Consolidate.js](https://github.com/tj/consolidate.js),
+  14 template engines via [@ladjs/consolidate](https://github.com/ladjs/consolidate),
   you can quickly craft your perfect framework.
 
 ## Examples
 
-  To view the examples, clone the Express repo and install the dependencies:
+  To view the examples, clone the Express repository:
 
-```console
-$ git clone https://github.com/expressjs/express.git --depth 1
-$ cd express
-$ npm install
+```bash
+git clone https://github.com/expressjs/express.git --depth 1 && cd express
+```
+
+  Then install the dependencies:
+
+```bash
+npm install
 ```
 
   Then run whichever example you want:
 
-```console
-$ node examples/content-negotiation
+```bash
+node examples/content-negotiation
 ```
 
 ## Contributing
 
   [![Linux Build][github-actions-ci-image]][github-actions-ci-url]
-  [![Windows Build][appveyor-image]][appveyor-url]
   [![Test Coverage][coveralls-image]][coveralls-url]
 
 The Express.js project welcomes all constructive contributions. Contributions take many forms,
@@ -152,11 +152,16 @@ If you discover a security vulnerability in Express, please see [Security Polici
 
 ### Running Tests
 
-To run the test suite, first install the dependencies, then run `npm test`:
+To run the test suite, first install the dependencies:
 
-```console
-$ npm install
-$ npm test
+```bash
+npm install
+```
+
+Then run `npm test`:
+
+```bash
+npm test
 ```
 
 ## People
@@ -192,16 +197,16 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 ### Triagers
 
 * [aravindvnair99](https://github.com/aravindvnair99) - **Aravind Nair**
+* [bjohansebas](https://github.com/bjohansebas) - **Sebastian Beltran**
 * [carpasse](https://github.com/carpasse) - **Carlos Serrano**
 * [CBID2](https://github.com/CBID2) - **Christine Belzie**
-* [enyoghasim](https://github.com/enyoghasim) - **David Enyoghasim**
+* [dpopp07](https://github.com/dpopp07) - **Dustin Popp**
 * [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascón** (he/him)
-* [0ss](https://github.com/0ss) - **Salah**
-* [import-brain](https://github.com/import-brain) - **Eric Cheng** (he/him)
 * [3imed-jaberi](https://github.com/3imed-jaberi) - **Imed Jaberi**
-* [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
-* [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
+* [IamLizu](https://github.com/IamLizu) - **S M Mahmudul Hasan** (he/him)
+* [Phillip9587](https://github.com/Phillip9587) - **Phillip Barta**
 * [Sushmeet](https://github.com/Sushmeet) - **Sushmeet Sunger**
+* [rxmarbles](https://github.com/rxmarbles) **Rick Markins** (He/him)
 
 <details>
 <summary>Triagers emeriti members</summary>
@@ -234,7 +239,13 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
   * [sheplu](https://github.com/sheplu) - **Jean Burellier**
   * [tarunyadav1](https://github.com/tarunyadav1) - **Tarun yadav**
   * [tunniclm](https://github.com/tunniclm) - **Mike Tunnicliffe**
+  * [enyoghasim](https://github.com/enyoghasim) - **David Enyoghasim**
+  * [0ss](https://github.com/0ss) - **Salah**
+  * [import-brain](https://github.com/import-brain) - **Eric Cheng** (he/him)
+  * [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
+  * [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
   * [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
+  
 </details>
 
 
@@ -242,18 +253,14 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 
   [MIT](LICENSE)
 
-[appveyor-image]: https://badgen.net/appveyor/ci/dougwilson/express/master?label=windows
-[appveyor-url]: https://ci.appveyor.com/project/dougwilson/express
 [coveralls-image]: https://badgen.net/coveralls/c/github/expressjs/express/master
 [coveralls-url]: https://coveralls.io/r/expressjs/express?branch=master
-[github-actions-ci-image]: https://badgen.net/github/checks/expressjs/express/master?label=linux
+[github-actions-ci-image]: https://badgen.net/github/checks/expressjs/express/master?label=CI
 [github-actions-ci-url]: https://github.com/expressjs/express/actions/workflows/ci.yml
 [npm-downloads-image]: https://badgen.net/npm/dm/express
 [npm-downloads-url]: https://npmcharts.com/compare/express?minimal=true
-[npm-install-size-image]: https://badgen.net/packagephobia/install/express
-[npm-install-size-url]: https://packagephobia.com/result?p=express
 [npm-url]: https://npmjs.org/package/express
 [npm-version-image]: https://badgen.net/npm/v/express
-[ossf-scorecard-badge]: https://api.securityscorecards.dev/projects/github.com/expressjs/express/badge
-[ossf-scorecard-visualizer]: https://kooltheba.github.io/openssf-scorecard-api-visualizer/#/projects/github.com/expressjs/express
+[ossf-scorecard-badge]: https://api.scorecard.dev/projects/github.com/expressjs/express/badge
+[ossf-scorecard-visualizer]: https://ossf.github.io/scorecard-visualizer/#/projects/github.com/expressjs/express
 [Code of Conduct]: https://github.com/expressjs/express/blob/master/Code-Of-Conduct.md

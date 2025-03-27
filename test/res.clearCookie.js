@@ -33,35 +33,29 @@ describe('res', function(){
       .expect(200, done)
     })
 
-    it('should set expires when passed', function(done) {
-      var expiresAt = new Date()
+    it('should ignore maxAge', function(done){
       var app = express();
 
       app.use(function(req, res){
-        res.clearCookie('sid', { expires: expiresAt }).end();
+        res.clearCookie('sid', { path: '/admin', maxAge: 1000 }).end();
       });
 
       request(app)
       .get('/')
-      .expect('Set-Cookie', 'sid=; Path=/; Expires=' + expiresAt.toUTCString() )
+      .expect('Set-Cookie', 'sid=; Path=/admin; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
       .expect(200, done)
     })
 
-    it('should set both maxAge and expires when passed', function(done) {
-      var maxAgeInMs = 10000
-      var expiresAt = new Date()
-      var expectedExpires = new Date(expiresAt.getTime() + maxAgeInMs)
+    it('should ignore user supplied expires param', function(done){
       var app = express();
 
       app.use(function(req, res){
-        res.clearCookie('sid', { expires: expiresAt, maxAge: maxAgeInMs }).end();
+        res.clearCookie('sid', { path: '/admin', expires: new Date() }).end();
       });
 
       request(app)
       .get('/')
-      // yes, this is the behavior. When we set a max-age, we also set expires to a date 10 sec ahead of expires
-      // even if we set max-age only, we will also set an expires 10 sec in the future
-      .expect('Set-Cookie', 'sid=; Max-Age=10; Path=/; Expires=' + expectedExpires.toUTCString())
+      .expect('Set-Cookie', 'sid=; Path=/admin; Expires=Thu, 01 Jan 1970 00:00:00 GMT')
       .expect(200, done)
     })
   })

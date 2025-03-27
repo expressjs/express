@@ -1,6 +1,6 @@
 'use strict'
 
-var assert = require('assert')
+var assert = require('node:assert')
 var express = require('../')
   , request = require('supertest');
 
@@ -51,7 +51,7 @@ describe('app', function(){
         assert.ok(b)
         assert.ok(c)
         assert.ok(!d)
-        res.send(204);
+        res.sendStatus(204);
       });
 
       request(app)

@@ -1,9 +1,8 @@
 'use strict'
 
-var assert = require('assert')
-var Buffer = require('safe-buffer').Buffer
+var assert = require('node:assert')
 var express = require('..')
-var path = require('path')
+var path = require('node:path')
 var request = require('supertest')
 var utils = require('./support/utils')
 
@@ -41,7 +40,7 @@ describe('express.static()', function () {
     it('should set Content-Type', function (done) {
       request(this.app)
         .get('/todo.txt')
-        .expect('Content-Type', 'text/plain; charset=UTF-8')
+        .expect('Content-Type', 'text/plain; charset=utf-8')
         .expect(200, done)
     })
 
@@ -486,7 +485,7 @@ describe('express.static()', function () {
       request(this.app)
         .get('/users')
         .expect('Location', '/users/')
-        .expect(301, /<a href="\/users\/">/, done)
+        .expect(301, /\/users\//, done)
     })
 
     it('should redirect directories with query string', function (done) {
@@ -508,7 +507,7 @@ describe('express.static()', function () {
         .get('/snow')
         .expect('Location', '/snow%20%E2%98%83/')
         .expect('Content-Type', /html/)
-        .expect(301, />Redirecting to <a href="\/snow%20%E2%98%83\/">\/snow%20%E2%98%83\/<\/a></, done)
+        .expect(301, />Redirecting to \/snow%20%E2%98%83\/</, done)
     })
 
     it('should respond with default Content-Security-Policy', function (done) {

@@ -4,8 +4,7 @@
  * @private
  */
 
-var assert = require('assert');
-var Buffer = require('safe-buffer').Buffer
+var assert = require('node:assert');
 
 /**
  * Module exports.

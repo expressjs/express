@@ -1,7 +1,6 @@
 'use strict'
 
-var assert = require('assert');
-var Buffer = require('safe-buffer').Buffer
+var assert = require('node:assert');
 var utils = require('../lib/utils');
 
 describe('utils.etag(body, encoding)', function(){
@@ -67,37 +66,5 @@ describe('utils.wetag(body, encoding)', function(){
   it('should support empty string', function(){
     assert.strictEqual(utils.wetag(''),
       'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
-  })
-})
-
-describe('utils.isAbsolute()', function(){
-  it('should support windows', function(){
-    assert(utils.isAbsolute('c:\\'));
-    assert(utils.isAbsolute('c:/'));
-    assert(!utils.isAbsolute(':\\'));
-  })
-
-  it('should support windows unc', function(){
-    assert(utils.isAbsolute('\\\\foo\\bar'))
-  })
-
-  it('should support unices', function(){
-    assert(utils.isAbsolute('/foo/bar'));
-    assert(!utils.isAbsolute('foo/bar'));
-  })
-})
-
-describe('utils.flatten(arr)', function(){
-  it('should flatten an array', function(){
-    var arr = ['one', ['two', ['three', 'four'], 'five']];
-    var flat = utils.flatten(arr)
-
-    assert.strictEqual(flat.length, 5)
-    assert.strictEqual(flat[0], 'one')
-    assert.strictEqual(flat[1], 'two')
-    assert.strictEqual(flat[2], 'three')
-    assert.strictEqual(flat[3], 'four')
-    assert.strictEqual(flat[4], 'five')
-    assert.ok(flat.every(function (v) { return typeof v === 'string' }))
   })
 })
