@@ -1,6 +1,6 @@
 var app = require('../../examples/auth')
 var request = require('supertest')
-
+# good code
 function getCookie(res) {
   return res.headers['set-cookie'][0].split(';')[0];
 }
