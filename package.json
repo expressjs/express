@@ -33,7 +33,7 @@
   ],
   "dependencies": {
     "accepts": "^2.0.0",
-    "body-parser": "^2.1.0",
+    "body-parser": "^2.2.0",
     "content-disposition": "^1.0.0",
     "content-type": "^1.0.5",
     "cookie": "^0.7.1",
@@ -54,11 +54,11 @@
     "proxy-addr": "^2.0.7",
     "qs": "^6.14.0",
     "range-parser": "^1.2.1",
-    "router": "^2.1.0",
+    "router": "^2.2.0",
     "send": "^1.1.0",
     "serve-static": "^2.1.0",
     "statuses": "^2.0.1",
-    "type-is": "^2.0.0",
+    "type-is": "^2.0.1",
     "vary": "^1.1.2"
   },
   "devDependencies": {
