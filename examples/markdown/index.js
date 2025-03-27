@@ -26,7 +26,7 @@ app.engine('md', function(path, options, fn){
 
 app.settings.set('views', path.join(__dirname, 'views'));
 
-// make it the default so we dont need .md
+// make it the default, so we don't need .md
 app.settings.set('view engine', 'md');
 
 app.get('/', function(req, res){
