@@ -18,8 +18,8 @@ module.exports = app;
 
 // Config
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.settings.set('view engine', 'ejs');
+app.settings.set('views', path.join(__dirname, 'views'));
 
 /* istanbul ignore next */
 if (!module.parent) {

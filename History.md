@@ -1,6 +1,8 @@
 unreleased
 ========================
 
+* Deprecate `.get(setting)`, `.set()`, `.disable()`, `.enable()`, `.enabled()`, `.disabled()` in favor of new
+`.settings` api
 * deps: type-is@2.0.1
 * Remove `utils-merge` dependency - use spread syntax instead
 * Remove `Object.setPrototypeOf` polyfill

@@ -24,8 +24,8 @@ module.exports = function(parent, options){
     var url;
 
     // allow specifying the view engine
-    if (obj.engine) app.set('view engine', obj.engine);
-    app.set('views', path.join(__dirname, '..', 'controllers', name, 'views'));
+    if (obj.engine) app.settings.set('view engine', obj.engine);
+    app.settings.set('views', path.join(__dirname, '..', 'controllers', name, 'views'));
 
     // generate routes based
     // on the exported methods
