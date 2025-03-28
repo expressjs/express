@@ -39,6 +39,7 @@
     "cookie": "^0.7.1",
     "cookie-signature": "^1.2.1",
     "debug": "^4.4.0",
+    "depd": "^2.0.0",
     "encodeurl": "^2.0.0",
     "escape-html": "^1.0.3",
     "etag": "^1.8.1",
