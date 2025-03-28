@@ -5,6 +5,12 @@ var express = require('..');
 
 describe('config', function () {
   describe('.set()', function () {
+    it('deprecated - should set a value', function () {
+      var app = express();
+      app.set('foo', 'bar');
+      assert.equal(app.get('foo'), 'bar');
+    })
+
     it('should set a value', function () {
       var app = express();
       app.settings.set('foo', 'bar');
@@ -17,7 +23,7 @@ describe('config', function () {
       assert.strictEqual(app.settings.get('hasOwnProperty'), 42)
     })
 
-    it('should return the app', function () {
+    it('deprecated - should return the app', function () {
       var app = express();
       assert.equal(app.set('foo', 'bar'), app);
     })
@@ -29,7 +35,7 @@ describe('config', function () {
       assert.equal(app.settings.get('baz'), true);
     })
 
-    it('should return the app when undefined', function () {
+    it('deprecated - should return the app when undefined', function () {
       var app = express();
       assert.equal(app.set('foo', undefined), app);
     })
@@ -84,6 +90,12 @@ describe('config', function () {
       var app = express();
       app.set('foo', 'bar');
       assert.equal(app.settings.get('foo'), 'bar');
+    })
+
+    it('deprecated - should get values assigned directly', function(){
+      var app = express();
+      app.settings.foo = 'bar';
+      assert.equal(app.get('foo'), 'bar');
     })
 
     describe('when mounted', function(){
