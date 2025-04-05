@@ -147,74 +147,13 @@ The PR will require at least 2 approvals from TC members and 2 weeks hold time t
 for comment and/or dissent.  When the PR is merged, a TC member will add them to the 
 proper GitHub/npm groups.
 
-### Active Projects and Captains
+### Active Projects and members
 
-- [`expressjs/badgeboard`](https://github.com/expressjs/badgeboard): @wesleytodd
-- [`expressjs/basic-auth-connect`](https://github.com/expressjs/basic-auth-connect): @ulisesGascon
-- [`expressjs/body-parser`](https://github.com/expressjs/body-parser): @wesleytodd, @jonchurch, @ulisesGascon
-- [`expressjs/compression`](https://github.com/expressjs/compression): @ulisesGascon
-- [`expressjs/connect-multiparty`](https://github.com/expressjs/connect-multiparty): @ulisesGascon
-- [`expressjs/cookie-parser`](https://github.com/expressjs/cookie-parser): @wesleytodd, @UlisesGascon
-- [`expressjs/cookie-session`](https://github.com/expressjs/cookie-session): @ulisesGascon
-- [`expressjs/cors`](https://github.com/expressjs/cors): @jonchurch, @ulisesGascon
-- [`expressjs/discussions`](https://github.com/expressjs/discussions): @wesleytodd
-- [`expressjs/errorhandler`](https://github.com/expressjs/errorhandler): @ulisesGascon
-- [`expressjs/express-paginate`](https://github.com/expressjs/express-paginate): @ulisesGascon
-- [`expressjs/express`](https://github.com/expressjs/express): @wesleytodd, @ulisesGascon
-- [`expressjs/expressjs.com`](https://github.com/expressjs/expressjs.com): @crandmck, @jonchurch, @bjohansebas
-- [`expressjs/flash`](https://github.com/expressjs/flash): @ulisesGascon
-- [`expressjs/generator`](https://github.com/expressjs/generator): @wesleytodd
-- [`expressjs/method-override`](https://github.com/expressjs/method-override): @ulisesGascon
-- [`expressjs/morgan`](https://github.com/expressjs/morgan): @jonchurch, @ulisesGascon
-- [`expressjs/multer`](https://github.com/expressjs/multer): @LinusU, @ulisesGascon
-- [`expressjs/response-time`](https://github.com/expressjs/response-time): @UlisesGascon
-- [`expressjs/serve-favicon`](https://github.com/expressjs/serve-favicon): @ulisesGascon
-- [`expressjs/serve-index`](https://github.com/expressjs/serve-index): @ulisesGascon
-- [`expressjs/serve-static`](https://github.com/expressjs/serve-static): @ulisesGascon
-- [`expressjs/session`](https://github.com/expressjs/session): @ulisesGascon
-- [`expressjs/statusboard`](https://github.com/expressjs/statusboard): @wesleytodd
-- [`expressjs/timeout`](https://github.com/expressjs/timeout): @ulisesGascon
-- [`expressjs/vhost`](https://github.com/expressjs/vhost): @ulisesGascon
-- [`jshttp/accepts`](https://github.com/jshttp/accepts): @blakeembrey
-- [`jshttp/basic-auth`](https://github.com/jshttp/basic-auth): @blakeembrey
-- [`jshttp/compressible`](https://github.com/jshttp/compressible): @blakeembrey
-- [`jshttp/content-disposition`](https://github.com/jshttp/content-disposition): @blakeembrey
-- [`jshttp/content-type`](https://github.com/jshttp/content-type): @blakeembrey
-- [`jshttp/cookie`](https://github.com/jshttp/cookie): @blakeembrey
-- [`jshttp/etag`](https://github.com/jshttp/etag): @blakeembrey
-- [`jshttp/forwarded`](https://github.com/jshttp/forwarded): @blakeembrey
-- [`jshttp/fresh`](https://github.com/jshttp/fresh): @blakeembrey
-- [`jshttp/http-assert`](https://github.com/jshttp/http-assert): @wesleytodd, @jonchurch, @ulisesGascon
-- [`jshttp/http-errors`](https://github.com/jshttp/http-errors): @wesleytodd, @jonchurch, @ulisesGascon
-- [`jshttp/media-typer`](https://github.com/jshttp/media-typer): @blakeembrey
-- [`jshttp/methods`](https://github.com/jshttp/methods): @blakeembrey
-- [`jshttp/mime-db`](https://github.com/jshttp/mime-db): @blakeembrey, @UlisesGascon
-- [`jshttp/mime-types`](https://github.com/jshttp/mime-types): @blakeembrey, @UlisesGascon
-- [`jshttp/negotiator`](https://github.com/jshttp/negotiator): @blakeembrey
-- [`jshttp/on-finished`](https://github.com/jshttp/on-finished): @wesleytodd, @ulisesGascon
-- [`jshttp/on-headers`](https://github.com/jshttp/on-headers): @blakeembrey
-- [`jshttp/proxy-addr`](https://github.com/jshttp/proxy-addr): @wesleytodd, @ulisesGascon
-- [`jshttp/range-parser`](https://github.com/jshttp/range-parser): @blakeembrey
-- [`jshttp/statuses`](https://github.com/jshttp/statuses): @blakeembrey
-- [`jshttp/type-is`](https://github.com/jshttp/type-is): @blakeembrey
-- [`jshttp/vary`](https://github.com/jshttp/vary): @blakeembrey
-- [`pillarjs/cookies`](https://github.com/pillarjs/cookies): @blakeembrey
-- [`pillarjs/csrf`](https://github.com/pillarjs/csrf): @ulisesGascon
-- [`pillarjs/encodeurl`](https://github.com/pillarjs/encodeurl): @blakeembrey
-- [`pillarjs/finalhandler`](https://github.com/pillarjs/finalhandler): @wesleytodd, @ulisesGascon
-- [`pillarjs/hbs`](https://github.com/pillarjs/hbs): @ulisesGascon
-- [`pillarjs/multiparty`](https://github.com/pillarjs/multiparty): @blakeembrey
-- [`pillarjs/parseurl`](https://github.com/pillarjs/parseurl): @blakeembrey
-- [`pillarjs/path-to-regexp`](https://github.com/pillarjs/path-to-regexp): @blakeembrey
-- [`pillarjs/request`](https://github.com/pillarjs/request): @wesleytodd
-- [`pillarjs/resolve-path`](https://github.com/pillarjs/resolve-path): @blakeembrey
-- [`pillarjs/router`](https://github.com/pillarjs/router): @wesleytodd, @ulisesGascon
-- [`pillarjs/send`](https://github.com/pillarjs/send): @blakeembrey
-- [`pillarjs/understanding-csrf`](https://github.com/pillarjs/understanding-csrf): @ulisesGascon
+The list can be found at [https://github.com/expressjs/.github/blob/main/captains_and_committers.md#active-projects-and-members](https://github.com/expressjs/.github/blob/main/captains_and_committers.md#active-projects-and-members)
 
 ### Current Initiative Captains
 
-- Triage team [ref](https://github.com/expressjs/discussions/issues/227): @UlisesGascon
+The list can be found at [https://github.com/expressjs/.github/blob/main/captains_and_committers.md#current-initiative-captains](https://github.com/expressjs/.github/blob/main/captains_and_committers.md#current-initiative-captains)
 
 ## Developer's Certificate of Origin 1.1
 
