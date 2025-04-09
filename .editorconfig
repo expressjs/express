@@ -1,5 +1,5 @@
 # https://editorconfig.org
-root = false
+root = true
 
 [*]
 charset = utf-8
