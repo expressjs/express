@@ -2,7 +2,7 @@
 
 The goal of this document is to create a contribution process that:
 
-* Encourages new contributions.
+* Encourages new contributionsand knowledge.
 * Encourages contributors to remain involved.
 * Avoids unnecessary processes and bureaucracy whenever possible.
 * Creates a transparent decision making process that makes it clear how
