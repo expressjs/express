@@ -4,6 +4,8 @@
 
 **This project has a [Code of Conduct][].**
 
+<br> Author : Vikas Swami
+
 ## Table of contents
 
 * [Installation](#Installation)
