@@ -15,3 +15,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+
+
+        This is a test file change.
+        
