@@ -37,7 +37,13 @@ app.listen(3000)
 ```
 ---
 
-## Team Collaboration Test
+---
+
+## 🔧 Team Collaboration Test
+
+This section was added as part of UECS2363 Assignment 2 - Git Collaboration Test.  
+Branch name: `feature/sample-test`  
+Contributor: [sinkungYap](https://github.com/sinkungYap)
 ## Installation
 
 This is a [Node.js](https://nodejs.org/en/) module available through the
