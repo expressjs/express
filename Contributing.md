@@ -121,7 +121,7 @@ active member steps down.
 The Express TC can designate captains for individual projects/repos in the
 organizations. These captains are responsible for being the primary
 day-to-day maintainers of the repo on a technical and community front.
-Repo captains are empowered with repo ownership and package publication rights.
+Repo captains are empowered with maintain access and package publication rights.
 When there are conflicts, especially on topics that effect the Express project
 at large, captains are responsible to raise it up to the TC and drive
 those conflicts to resolution. Captains are also responsible for making sure
