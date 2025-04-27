@@ -54,7 +54,7 @@ Installation is done using the
 npm install express
 ```
 
-Follow [our installing guide](https://expressjs.com/en/starter/installing.html)
+Follow [Our installing guide](https://expressjs.com/en/starter/installing.html)
 for more information.
 
 ## Features
