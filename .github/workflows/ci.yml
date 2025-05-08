@@ -68,6 +68,7 @@ jobs:
           - "21"
           - "22"
           - "23"
+          - "24"
         # Use supported versions of our testing tools under older versions of Node
         # Install npm in some specific cases where we need to
         include:
@@ -96,22 +97,25 @@ jobs:
             npm-i: "mocha@6.2.2 nyc@14.1.1 supertest@6.1.6"
 
           - node-version: "8"
-            npm-i: "mocha@7.2.0 nyc@14.1.1"
+            npm-i: "mocha@7.2.0 nyc@14.1.1 supertest@6.1.6"
 
           - node-version: "9"
-            npm-i: "mocha@7.2.0 nyc@14.1.1"
+            npm-i: "mocha@7.2.0 nyc@14.1.1 supertest@6.1.6"
 
           - node-version: "10"
-            npm-i: "mocha@8.4.0"
+            npm-i: "mocha@8.4.0 supertest@6.1.6"
 
           - node-version: "11"
-            npm-i: "mocha@8.4.0"
+            npm-i: "mocha@8.4.0 supertest@6.1.6"
 
           - node-version: "12"
-            npm-i: "mocha@9.2.2"
+            npm-i: "mocha@9.2.2 supertest@6.1.6"
 
           - node-version: "13"
-            npm-i: "mocha@9.2.2"
+            npm-i: "mocha@9.2.2 supertest@6.1.6"
+
+          - node-version: "15"
+            npm-i: "supertest@6.1.6"
 
     runs-on: ${{ matrix.os }}
     steps:
