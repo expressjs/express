@@ -6,21 +6,28 @@
 
 ## Table of contents
 
-* [Installation](#Installation)
-* [Features](#Features)
-* [Docs & Community](#docs--community)
-* [Quick Start](#Quick-Start)
-* [Running Tests](#Running-Tests)
-* [Philosophy](#Philosophy)
-* [Examples](#Examples)
-* [Contributing to Express](#Contributing)
-* [TC (Technical Committee)](#tc-technical-committee)
-* [Triagers](#triagers)
-* [License](#license)
+- [Table of contents](#table-of-contents)
+- [Installation](#installation)
+- [Features](#features)
+- [Docs \& Community](#docs--community)
+- [Quick Start](#quick-start)
+- [Philosophy](#philosophy)
+- [Examples](#examples)
+- [Contributing](#contributing)
+  - [Security Issues](#security-issues)
+  - [Running Tests](#running-tests)
+- [Current project team members](#current-project-team-members)
+  - [TC (Technical Committee)](#tc-technical-committee)
+    - [TC emeriti members](#tc-emeriti-members)
+  - [Triagers](#triagers)
+    - [Emeritus Triagers](#emeritus-triagers)
+- [License](#license)
 
 
 [![NPM Version][npm-version-image]][npm-url]
 [![NPM Downloads][npm-downloads-image]][npm-downloads-url]
+[![Linux Build][github-actions-ci-image]][github-actions-ci-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
 [![OpenSSF Scorecard Badge][ossf-scorecard-badge]][ossf-scorecard-visualizer]
 
 
@@ -137,18 +144,15 @@ node examples/content-negotiation
 
 ## Contributing
 
-  [![Linux Build][github-actions-ci-image]][github-actions-ci-url]
-  [![Test Coverage][coveralls-image]][coveralls-url]
-
 The Express.js project welcomes all constructive contributions. Contributions take many forms,
 from code for bug fixes and enhancements, to additions and fixes to documentation, additional
 tests, triaging incoming pull requests and issues, and more!
 
-See the [Contributing Guide](Contributing.md) for more technical details on contributing.
+See the [Contributing Guide](https://github.com/expressjs/.github/blob/HEAD/CONTRIBUTING.yml) for more technical details on contributing.
 
 ### Security Issues
 
-If you discover a security vulnerability in Express, please see [Security Policies and Procedures](Security.md).
+If you discover a security vulnerability in Express, please see [Security Policies and Procedures](SECURITY.md).
 
 ### Running Tests
 
@@ -164,7 +168,9 @@ Then run `npm test`:
 npm test
 ```
 
-## People
+## Current project team members
+
+For information about the governance of the express.js project, see [GOVERNANCE.md](https://github.com/expressjs/discussions/blob/HEAD/docs/GOVERNANCE.md).
 
 The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 
@@ -245,7 +251,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
   * [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
   * [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
   * [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
-  
+
 </details>
 
 
