@@ -149,7 +149,7 @@ proper GitHub/npm groups.
 
 ### Active Projects and members
 
-The list can be found at [https://github.com/expressjs/.github/blob/main/captains_and_committers.md#active-projects-and-members](https://github.com/expressjs/.github/blob/main/captains_and_committers.md#active-projects-and-members)
+The list can be found at [https://github.com/expressjs/discussions/blob/master/docs/contributing/captains_and_committers.md#active-projects-and-members](https://github.com/expressjs/discussions/blob/master/docs/contributing/captains_and_committers.md#active-projects-and-members)
 
 ### Current Initiative Captains
 
