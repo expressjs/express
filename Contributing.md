@@ -153,7 +153,7 @@ The list can be found at [https://github.com/expressjs/.github/blob/main/captain
 
 ### Current Initiative Captains
 
-The list can be found at [https://github.com/expressjs/.github/blob/main/captains_and_committers.md#current-initiative-captains](https://github.com/expressjs/.github/blob/main/captains_and_committers.md#current-initiative-captains)
+The list can be found at [https://github.com/expressjs/discussions/blob/master/docs/contributing/captains_and_committers.md#current-initiative-captains](https://github.com/expressjs/discussions/blob/master/docs/contributing/captains_and_committers.md#current-initiative-captains)
 
 ## Developer's Certificate of Origin 1.1
 
