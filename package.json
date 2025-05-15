@@ -69,6 +69,7 @@
     "eslint": "8.47.0",
     "express-session": "^1.18.1",
     "hbs": "4.2.0",
+    "husky": "^9.1.7",
     "marked": "^15.0.3",
     "method-override": "3.0.0",
     "mocha": "^10.7.3",
@@ -93,6 +94,7 @@
     "test": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-ci": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=lcovonly --reporter=text npm test",
     "test-cov": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=html --reporter=text npm test",
-    "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
+    "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/",
+    "pre-commit-lint": "eslint . --ext .js"
   }
 }
