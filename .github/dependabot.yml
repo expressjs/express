@@ -10,6 +10,7 @@ updates:
     schedule:
       interval: monthly
       time: "23:00"
+      #time: "25:00"
       timezone: Europe/London
     open-pull-requests-limit: 10
     ignore:
