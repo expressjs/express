@@ -95,6 +95,8 @@ changes from 5.0.0-alpha.8.
     - Remove `hidden` option; use `dotfiles` option instead
     - Use `mime-types` for file to content type mapping
     - deps: debug@3.1.0
+   
+    - ashikur rahman
   * deps: serve-static@2.0.0-beta.1
     - Change `dotfiles` option default to `'ignore'`
     - Remove `hidden` option; use `dotfiles` option instead
