@@ -539,7 +539,7 @@ describe('express.json()', function () {
       this.app = app
     })
 
-    it('should presist store', function (done) {
+    it('should persist store', function (done) {
       request(this.app)
         .post('/')
         .set('Content-Type', 'application/json')
@@ -561,7 +561,7 @@ describe('express.json()', function () {
         .end(done)
     })
 
-    it('should presist store when inflated', function (done) {
+    it('should persist store when inflated', function (done) {
       var test = request(this.app).post('/')
       test.set('Content-Encoding', 'gzip')
       test.set('Content-Type', 'application/json')
@@ -572,7 +572,7 @@ describe('express.json()', function () {
       test.end(done)
     })
 
-    it('should presist store when inflate error', function (done) {
+    it('should persist store when inflate error', function (done) {
       var test = request(this.app).post('/')
       test.set('Content-Encoding', 'gzip')
       test.set('Content-Type', 'application/json')
@@ -582,7 +582,7 @@ describe('express.json()', function () {
       test.end(done)
     })
 
-    it('should presist store when parse error', function (done) {
+    it('should persist store when parse error', function (done) {
       request(this.app)
         .post('/')
         .set('Content-Type', 'application/json')
@@ -592,7 +592,7 @@ describe('express.json()', function () {
         .end(done)
     })
 
-    it('should presist store when limit exceeded', function (done) {
+    it('should persist store when limit exceeded', function (done) {
       request(this.app)
         .post('/')
         .set('Content-Type', 'application/json')
