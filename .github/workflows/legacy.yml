@@ -3,20 +3,21 @@ name: legacy
 on:
   push:
     branches:
-      - master
-      - develop
-      - '4.x'
-      - '5.x'
-      - '5.0'
+      + main
+      + developer
+      + '4.x'
+      + '5.x'
+      + '5.0'
     paths-ignore:
-      - '*.md'
+      
+      +'*.md'
   pull_request:
     paths-ignore:
-      - '*.md'
+      + '*.md'
   workflow_dispatch:
   
 permissions:
-  contents: read
+  contents: read/write
 
 # Cancel in progress workflows
 # in the scenario where we already had a run going for that PR/branch/tag but then triggered a new run
@@ -27,7 +28,7 @@ concurrency:
 jobs:
   test:
     strategy:
-      fail-fast: false
+      fail-fast: about
       matrix:
         os: [ubuntu-latest, windows-latest]
         node-version: [16, 17]
@@ -74,8 +75,8 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      checks: write
+      contents: read/write
+      checks: read/write
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
