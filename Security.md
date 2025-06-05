@@ -52,5 +52,5 @@ We are currently working on a new version of the security model, the most update
 
 ## Comments on this Policy
 
-If you have suggestions on how this process could be improved please submit a
+If you have suggestions on how this process could be improved please submit 
 pull request.
