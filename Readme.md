@@ -4,7 +4,7 @@
 
 **This project has a [Code of Conduct][].**
 
-## Table of contents
+## amity
 
 * [Installation](#Installation)
 * [Features](#Features)
