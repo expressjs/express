@@ -1,4 +1,4 @@
-# https://editorconfig.org
+#this changes are made by Prabhav-Ai-164 
 root = true
 
 [*]
@@ -8,4 +8,4 @@ trim_trailing_whitespace = true
 
 [{*.js,*.json,*.yml}]
 indent_size = 2
-indent_style = space
+indent_style = space 
