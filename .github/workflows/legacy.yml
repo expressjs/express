@@ -30,7 +30,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [16, 17]
+        node-version: [16, 17, 18]
         # Node.js release schedule: https://nodejs.org/en/about/releases/
 
     name: Node.js ${{ matrix.node-version }} - ${{matrix.os}}
