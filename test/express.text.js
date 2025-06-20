@@ -2,7 +2,7 @@
 
 var assert = require('node:assert')
 var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
-
+const { Buffer } = require('node:buffer');
 var express = require('..')
 var request = require('supertest')
 
