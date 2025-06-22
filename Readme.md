@@ -6,6 +6,8 @@
 
 ## Table of contents
 
+<br>
+
 - [Table of contents](#table-of-contents)
 - [Installation](#installation)
 - [Features](#features)
