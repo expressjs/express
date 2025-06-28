@@ -44,6 +44,26 @@ describe('req', function(){
       .expect(200, '[{"start":0,"end":74}]', done)
     })
 
+    it('should throw TypeError for invalid size', function () {
+      var app = express();
+
+      app.use(function (req, res) {
+        try {
+          req.range(-1);
+        } catch (err) {
+          res.status(500).send(err.name + ': ' + err.message);
+          return;
+        }
+        res.send('no error');
+      });
+
+      return request(app)
+        .get('/')
+        .set('Range', 'bytes=0-10')
+        .expect(500)
+        .expect(/TypeError: size must be a non-negative integer to req\.range/);
+    });
+
     it('should have a .type', function (done) {
       var app = express()
 
