@@ -5,6 +5,7 @@
  */
 
 var assert = require('node:assert');
+const { Buffer } = require('node:buffer');
 
 /**
  * Module exports.

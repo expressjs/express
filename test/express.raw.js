@@ -5,6 +5,7 @@ var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
 
 var express = require('..')
 var request = require('supertest')
+const { Buffer } = require('node:buffer');
 
 describe('express.raw()', function () {
   before(function () {
