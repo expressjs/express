@@ -150,6 +150,8 @@ tests, triaging incoming pull requests and issues, and more!
 
 See the [Contributing Guide](./Contributing.md) for more technical details on contributing.
 
+See the [Contributing Guide] for more technical details on contributing.
+
 ### Security Issues
 
 If you discover a security vulnerability in Express, please see [Security Policies and Procedures](SECURITY.md).
@@ -269,4 +271,5 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 [npm-version-image]: https://badgen.net/npm/v/express
 [ossf-scorecard-badge]: https://api.scorecard.dev/projects/github.com/expressjs/express/badge
 [ossf-scorecard-visualizer]: https://ossf.github.io/scorecard-visualizer/#/projects/github.com/expressjs/express
-[Code of Conduct]: https://github.com/expressjs/express/blob/master/Code-Of-Conduct.md
+[Code of Conduct]: https://github.com/expressjs/express/blob/master/code_of_conduct.md
+[Contributing Guide]: https://github.com/expressjs/express/blob/master/Contributing.md
