@@ -4,16 +4,40 @@
   "version": "5.1.0",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [
-    "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
-    "Ciaran Jessup <ciaranj@gmail.com>",
-    "Douglas Christopher Wilson <doug@somethingdoug.com>",
-    "Guillermo Rauch <rauchg@gmail.com>",
-    "Jonathan Ong <me@jongleberry.com>",
-    "Roman Shtylman <shtylman+expressjs@gmail.com>",
-    "Young Jae Sim <hanul@hanul.me>"
+    {
+      "name": "Aaron Heckmann",
+      "email": "aaron.heckmann+github@gmail.com"
+    },
+    {
+      "name": "Ciaran Jessup",
+      "email": "ciaranj@gmail.com"
+    },
+    {
+      "name": "Douglas Christopher Wilson",
+      "email": "doug@somethingdoug.com"
+    },
+    {
+      "name": "Guillermo Rauch",
+      "email": "rauchg@gmail.com"
+    },
+    {
+      "name": "Jonathan Ong",
+      "email": "me@jongleberry.com"
+    },
+    {
+      "name": "Roman Shtylman",
+      "email": "shtylman+expressjs@gmail.com"
+    },
+    {
+      "name": "Young Jae Sim",
+      "email": "hanul@hanul.me"
+    }
   ],
   "license": "MIT",
-  "repository": "expressjs/express",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expressjs/express.git"
+  },
   "homepage": "https://expressjs.com/",
   "funding": {
     "type": "opencollective",
@@ -94,5 +118,15 @@
     "test-ci": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=lcovonly --reporter=text npm test",
     "test-cov": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=html --reporter=text npm test",
     "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
+  },
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "test": "test"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/expressjs/express/issues"
   }
 }
