@@ -2,9 +2,7 @@
 
 **Fast, unopinionated, minimalist web framework for [Node.js](https://nodejs.org).**
 
-**The Code of Conduct is located [here](https://github.com/expressjs/.github/blob/HEAD/CODE_OF_CONDUCT.md).**
-
-
+**This project has a [Code of Conduct]
 ## Table of contents
 
 - [Table of contents](#table-of-contents)
@@ -149,9 +147,10 @@ The Express.js project welcomes all constructive contributions. Contributions ta
 from code for bug fixes and enhancements, to additions and fixes to documentation, additional
 tests, triaging incoming pull requests and issues, and more!
 
-See the [Contributing Guide](./Contributing.md) for more technical details on contributing.
+The contributing guidelines are located at:  
+https://github.com/expressjs/.github/blob/HEAD/CONTRIBUTING.md
 
-See the [Contributing Guide] for more technical details on contributing.
+
 
 ### Security Issues
 
@@ -272,5 +271,5 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 [npm-version-image]: https://badgen.net/npm/v/express
 [ossf-scorecard-badge]: https://api.scorecard.dev/projects/github.com/expressjs/express/badge
 [ossf-scorecard-visualizer]: https://ossf.github.io/scorecard-visualizer/#/projects/github.com/expressjs/express
-[Code of Conduct]: https://github.com/expressjs/express/blob/master/code_of_conduct.md
-[Contributing Guide]: https://github.com/expressjs/express/blob/master/Contributing.md
+[Code of Conduct]: https://github.com/expressjs/.github/blob/HEAD/CODE_OF_CONDUCT.md
+[Contributing Guide]: https://github.com/expressjs/.github/blob/HEAD/CONTRIBUTING.md
