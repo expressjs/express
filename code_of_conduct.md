@@ -21,7 +21,6 @@ We, as contributors and maintainers of this project, pledge to make participatio
 
 We commit to fostering an environment where everyone feels safe, heard, and valued.
 
----
 
 ## Our Standards
 
@@ -39,7 +38,7 @@ Examples of unacceptable behavior:
 - Publishing others' private information without consent
 - Personal or political attacks
 
----
+
 
 ## Responsibilities
 
@@ -47,13 +46,13 @@ Project maintainers are responsible for clarifying the standards of acceptable b
 
 Maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, issues, and other contributions that are not aligned with this Code of Conduct.
 
----
+
 
 ## Scope
 
 This Code of Conduct applies within all community spaces and interactions — both online and offline — including project repositories, communication channels (like Discord, email, etc.), and events.
 
----
+
 
 ## Reporting
 
@@ -62,7 +61,7 @@ If you witness or are subjected to unacceptable behavior, please report it to th
 
 All reports will be handled with confidentiality and care.
 
----
+
 
 ## Enforcement
 
@@ -72,7 +71,7 @@ Violations will be addressed on a case-by-case basis. Actions may include:
 - Temporary or permanent ban from the project
 - Reversal of privileges (e.g., triage or commit access)
 
----
+
 
 ## Attribution
 
