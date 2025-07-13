@@ -2,7 +2,8 @@
 
 **Fast, unopinionated, minimalist web framework for [Node.js](https://nodejs.org).**
 
-**This project has a [Code of Conduct](./code_of_conduct.md).**
+**The Code of Conduct is located [here](https://github.com/expressjs/.github/blob/HEAD/CODE_OF_CONDUCT.md).**
+
 
 ## Table of contents
 
