@@ -3,64 +3,64 @@ pipeline {
 
     environment {
         IMAGE_NAME = "hello-world-app"
-        CONTAINER_PORT = "8080"
+        CONTAINER_NAME = "hello-staging"
+        PORT = "8080"
     }
 
     stages {
-
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-org/your-repo.git'
+                git branch: 'main', url: 'https://github.com/prasadbeedam/express.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                dir('examples/hello-world') {
+                    sh 'npm install'
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'npm test || true'  // dummy test, doesn't fail pipeline
+                dir('examples/hello-world') {
+                    sh 'npm test || true'
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t $IMAGE_NAME ."
+                dir('examples/hello-world') {
+                    sh "docker build -t $IMAGE_NAME ."
+                }
             }
         }
 
         stage('Deploy to Staging') {
             steps {
                 script {
-                    echo "Stopping previous container (if exists)..."
-                    sh "docker rm -f hello-staging || true"
-                    
-                    echo "Deploying new container..."
-                    sh """
-                        docker run -d --name hello-staging \
-                        -p 8080:8080 \
-                        $IMAGE_NAME
-                    """
+                    sh "docker rm -f $CONTAINER_NAME || true"
+                    sh "docker run -d --name $CONTAINER_NAME -p $PORT:8080 $IMAGE_NAME"
                 }
             }
         }
 
         stage('Health Check') {
             steps {
-                sh 'curl --fail http://localhost:8080 || exit 1'
+                sh "sleep 5"
+                sh "curl --fail http://localhost:$PORT || exit 1"
             }
         }
     }
 
     post {
+        success {
+            echo "✅ Deployed successfully!"
+        }
         failure {
-            echo "Deployment failed! Rolling back..."
-
-            // Rollback strategy: stop and start previous image, or notify team
-            // In production you'd use image version tags to rollback
+            echo "❌ Pipeline failed. Investigate logs."
         }
     }
 }
