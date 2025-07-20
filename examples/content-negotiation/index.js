@@ -6,7 +6,7 @@ var users = require('./db');
 
 // so either you can deal with different types of formatting
 // for expected response in index.js
-//swapnil
+//swapnil-- pls review this code git add
 app.get('/', function(req, res){
   res.format({
     html: function(){
