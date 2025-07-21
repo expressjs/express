@@ -148,7 +148,7 @@ The Express.js project welcomes all constructive contributions. Contributions ta
 from code for bug fixes and enhancements, to additions and fixes to documentation, additional
 tests, triaging incoming pull requests and issues, and more!
 
-See the [Contributing Guide](https://github.com/expressjs/.github/blob/HEAD/CONTRIBUTING.yml) for more technical details on contributing.
+See the [Contributing Guide](https://github.com/expressjs/.github/blob/HEAD/CONTRIBUTING.md) for more technical details on contributing.
 
 ### Security Issues
 
