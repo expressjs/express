@@ -22,13 +22,10 @@ node {
     stage('Deploy to Staging Server') {
         echo "Deploying to staging..."
         try {
-            //stop and remove existing containers
+            //stop, remove existing containers and run new container
              sh """
                 docker stop ${CONTAINER_NAME} || true
                 docker rm ${CONTAINER_NAME} || true
-            """
-                //Run new container
-                sh """
                  docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${IMAGE_NAME}:${TAG}
              """
              echo "Deployment successful"
