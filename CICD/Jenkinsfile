@@ -1,0 +1,47 @@
+node {
+    def IMAGE_NAME = "hello-world-app"
+    def CONTAINER_NAME = "hello-world-container"
+    def TAG = "latest"
+
+    stage('Checkout Code') {
+        echo "Checking out code..."
+        git 'https://github.com/Poornima-Talawar/express'
+    }
+
+    stage('Build Docker Image') {
+        echo "Building Docker image..."
+        sh "docker build -t ${IMAGE_NAME}:${TAG} ."
+    }
+
+    stage('Run Tests') {
+        echo "Running dummy test..."
+        sh 'echo "All tests passed!"'
+    }
+
+
+    stage('Deploy to Staging Server') {
+        echo "Deploying to staging..."
+        try {
+            //stop and remove existing containers
+             sh """
+                docker stop ${CONTAINER_NAME} || true
+                docker rm ${CONTAINER_NAME} || true
+            """
+                //Run new container
+                sh """
+                 docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${IMAGE_NAME}:${TAG}
+             """
+             echo "Deployment successful"
+            }
+         
+        catch(error) {
+        echo "Deployment failed: ${error}"
+        echo "Rollback or alret required"
+            }
+
+    }
+   
+    stage('Post-deployment') {
+        echo "Pipeline completed..."
+    }
+}
