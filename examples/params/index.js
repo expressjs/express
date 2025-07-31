@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var createError = require('http-errors')
+var createError = require('http-errors');
 var express = require('../../');
 var app = module.exports = express();
 
