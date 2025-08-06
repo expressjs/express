@@ -1,11 +1,15 @@
-/*!
- * express
- * Copyright(c) 2009-2013 TJ Holowaychuk
- * Copyright(c) 2013 Roman Shtylman
- * Copyright(c) 2014-2015 Douglas Christopher Wilson
- * MIT Licensed
- */
-
 'use strict';
 
-module.exports = require('./lib/express');
+const express = require('express');
+const app = express();
+
+
+const cacheMiddleware = require('./lib/cache');  
+
+app.use(cacheMiddleware);
+
+app.get('/', (req, res) => {
+  res.send('Hello Ruchira! ' + new Date().toISOString());
+});
+
+app.listen(3000, () => console.log('Server running on http://localhost:3000'));
