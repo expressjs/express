@@ -38,8 +38,7 @@ describe('app.listen()', function(){
   it('accepts just a callback (no args)', function (done) {
     const app = express();
     // same as app.listen(0, done)
-    const server = app.listen();
-    server.close(done);
+    const server = app.listen(0, () => server.close(done));
   });
   it('server.address() gives a { address, port, family } object', function (done) {
     const app = express();
