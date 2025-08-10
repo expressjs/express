@@ -42,7 +42,7 @@ describe('req', function(){
 
       request(app)
       .get('/')
-      .expect(500, /TypeError: name argument is required to req.get/, done)
+      .expect(500, /Error: name argument is required to req.get/, done)
     })
 
     it('should throw for non-string header name', function (done) {
