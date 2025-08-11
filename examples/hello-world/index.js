@@ -1,6 +1,7 @@
 'use strict'
 
-var express = require('../../');
+const express = require('express');
+
 
 var app = module.exports = express()
 
