@@ -1,9 +1,9 @@
 'use strict'
 
-const express = require('express');
+// Load express from the repo root instead of node_modules
+const express = require('../../');
 
-
-var app = module.exports = express()
+const app = module.exports = express();
 
 app.get('/', function(req, res){
   res.send('Hello World');
