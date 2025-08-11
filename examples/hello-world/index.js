@@ -1,16 +1,15 @@
 'use strict';
 
-// NOTE: This example uses the local Express source, not the npm-installed version
-var express = require('../../');
+const express = require('express');
+const app = express();
 
-var app = express();
-
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-/* istanbul ignore next */
-if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
-}
+const PORT = 8080;
+app.listen(PORT, () => {
+  console.log(`Express started on port ${PORT}`);
+});
+
+module.exports = app; // Good for testing if needed
