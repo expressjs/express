@@ -1,11 +1,11 @@
-'use strict'
+'use strict';
 
-// Load express from the repo root instead of node_modules
-const express = require('../../');
+// NOTE: This example uses the local Express source, not the npm-installed version
+var express = require('../../');
 
-const app = module.exports = express();
+var app = express();
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
   res.send('Hello World');
 });
 
