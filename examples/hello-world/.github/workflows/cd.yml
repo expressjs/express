@@ -8,9 +8,56 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    env:
+      STAGING_HOST: your-staging-server           # 🔁 Replace with your staging server IP or DNS
+      STAGING_USER: your-staging-user             # 🔁 Replace with your SSH user
+      IMAGE_NAME: hello-world-app
+      GHCR_IMAGE: ghcr.io/sairamavvaru/hello-world-app:latest
 
     steps:
-    - name: Simulate deployment
-      run: echo "Deploying to staging..."
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Save previous image ID for rollback
+        id: save_prev_image
+        run: |
+          ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
+            "docker images -q $IMAGE_NAME:latest" > prev_image_id.txt || echo "" > prev_image_id.txt
+          cat prev_image_id.txt
+        continue-on-error: true
+
+      - name: Deploy new Docker image to staging
+        run: |
+          ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
+            "docker pull $GHCR_IMAGE"
+          ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
+            "docker stop staging_container || true"
+          ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
+            "docker rm staging_container || true"
+          ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
+            "docker run -d --name staging_container -p 8080:8080 $GHCR_IMAGE"
+
+      - name: Health check of deployment
+        run: |
+          sleep 10
+          curl -f http://$STAGING_HOST:8080/ || exit 1
+
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          echo "Deployment failed, rolling back..."
+          PREV_ID=$(cat prev_image_id.txt)
+          if [ -n "$PREV_ID" ]; then
+            ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
+              "docker stop staging_container || true"
+            ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
+              "docker rm staging_container || true"
+            ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
+              "docker tag $PREV_ID $IMAGE_NAME:rollback"
+            ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
+              "docker run -d --name staging_container -p 8080:8080 $IMAGE_NAME:rollback"
+          else
+            echo "No previous image found for rollback. Manual intervention needed."
+            exit 1

@@ -8,9 +8,6 @@
     "test": "echo \"No tests specified\" && exit 0",
     "build": "echo \"No build step required\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "express": "^5.1.0"
   }
