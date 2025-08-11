@@ -2,7 +2,7 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [main]
+    branches: [main]  # ✅ Triggers on every push to main
 
 jobs:
   build-and-test:
@@ -21,7 +21,11 @@ jobs:
       run: npm install
 
     - name: Run dummy test
-      run: echo "Tests passed!"
+      run: echo "✅ Dummy test passed!"
+
+    - name: Build Docker image
+      run: docker build -t hello-world-app .
+
 
     - name: Build Docker image
       run: docker build -t hello-world-app .
