@@ -1,15 +1,17 @@
 {
   "name": "hello-world",
   "version": "1.0.0",
+  "description": "Simple Express Hello World app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "build": "echo \"No build step required\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^5.1.0"
-  },
-  "description": ""
+  }
 }
