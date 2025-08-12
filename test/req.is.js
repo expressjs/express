@@ -88,7 +88,7 @@ describe('req.is()', function () {
         .post('/')
         .send('{}')
         .expect(200, 'false', done)
-    })  
+    })
   })
 
   describe('when given an extension', function(){
@@ -106,7 +106,7 @@ describe('req.is()', function () {
       .expect(200, '"json"', done)
     })
 
-  it('should lookup the first matching extension from list', function (done) {
+    it('should lookup the first matching extension from list', function (done) {
       var app = express()
       var cb = after(2, done)
 
@@ -217,9 +217,9 @@ describe('req.is()', function () {
   })
 
   it('should match wildcards in list and return full type or false', function (done){
-    var app = express()      
+    var app = express()
     var cb = after(3, done)
-    
+
     app.use(function (req, res) {
       res.json(req.is(['application/*', '*/jpeg']))
     })
