@@ -4,7 +4,7 @@
 
 **This project has a [Code of Conduct].**
 
-## Table of contents
+## Hello Gyus
 
 - [Table of contents](#table-of-contents)
 - [Installation](#installation)
