@@ -8,54 +8,25 @@ on:
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-    env:
-      STAGING_HOST: your-staging-server    # Replace with your staging IP or hostname
-      STAGING_USER: your-staging-user      # Replace with SSH user
-      IMAGE_NAME: hello-world-app
-      GHCR_IMAGE: ghcr.io/${{ github.repository_owner }}/hello-world-app:latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-      - name: Save previous Docker image ID for rollback
-        id: save_prev_image
-        run: |
-          ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
-          "docker images -q $IMAGE_NAME:latest" > prev_image_id.txt || echo "" > prev_image_id.txt
-          cat prev_image_id.txt
-        continue-on-error: true
+    - name: Pull and run container
+      run: |
+        docker pull ghcr.io/sairamavvaru/hello-world-app:v1.0.0
+        docker stop hello-world || true
+        docker rm hello-world || true
+        docker run -d --name hello-world -p 8080:8080 ghcr.io/sairamavvaru/hello-world-app:v1.0.0
 
-      - name: Deploy new Docker image to staging
-        run: |
-          ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
-          "docker pull $GHCR_IMAGE"
-          ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
-          "docker stop staging_container || true"
-          ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
-          "docker rm staging_container || true"
-          ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
-          "docker run -d --name staging_container -p 8080:8080 $GHCR_IMAGE"
+  rollback:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
 
-      - name: Health check of deployment
-        run: |
-          sleep 10
-          curl -f http://$STAGING_HOST:8080/ || exit 1
-
-      - name: Rollback on failure
-        if: failure()
-        run: |
-          echo "Deployment failed, rolling back..."
-          PREV_ID=$(cat prev_image_id.txt)
-          if [ -n "$PREV_ID" ]; then
-            ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
-            "docker stop staging_container || true"
-            ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
-            "docker rm staging_container || true"
-            ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
-            "docker tag $PREV_ID $IMAGE_NAME:rollback"
-            ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST \
-            "docker run -d --name staging_container -p 8080:8080 $IMAGE_NAME:rollback"
-          else
-            echo "No previous image found for rollback. Manual intervention needed."
-            exit 1
-          fi
+    steps:
+    - name: Rollback to previous version
+      run: |
+        docker pull ghcr.io/sairamavvaru/hello-world-app:v0.9.0
+        docker stop hello-world || true
+        docker rm hello-world || true
+        docker run -d --name hello-world -p 8080:8080 ghcr.io/sairamavvaru/hello-world-app:v0.9.0

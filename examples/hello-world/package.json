@@ -1,33 +1,12 @@
 {
   "name": "hello-world-app",
   "version": "1.0.0",
-  "main": "index.js",
   "type": "module",
+  "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "cross-env NODE_ENV=test mocha test.js --exit",
-    "test:watch": "cross-env NODE_ENV=test mocha test.js --watch --exit",
-    "dev": "nodemon index.js",
-    "coverage": "cross-env NODE_ENV=test nyc mocha test.js --exit",
-    "lint": "eslint ."
+    "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.18.2"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3",
-    "mocha": "^10.2.0",
-    "nodemon": "^3.0.3",
-    "supertest": "^7.0.0",
-    "nyc": "^15.1.0",
-    "chai": "^4.3.8",
-    "eslint": "^8.56.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.1.1"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "express": "^5.1.0"
   }
 }
