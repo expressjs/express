@@ -1,4 +1,4 @@
-import express from 'express';
+const express = require('../../'); // Load local Express source
 
 const app = express();
 
