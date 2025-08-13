@@ -1,15 +1,12 @@
-'use strict';
+import express from 'express';
 
-const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-  res.send('Hello World');
+  res.send('Hello, World!');
 });
 
 const PORT = 8080;
 app.listen(PORT, () => {
-  console.log(`Express started on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
-
-module.exports = app; // Good for testing if needed
