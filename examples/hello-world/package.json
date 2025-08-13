@@ -4,9 +4,14 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "echo \"✅ Dummy test passed\"",
+    "test-ci": "nyc --exclude examples --reporter=lcovonly --reporter=text npm test"
   },
   "dependencies": {
     "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nyc": "^15.1.0"
   }
 }
