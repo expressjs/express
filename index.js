@@ -7,5 +7,5 @@
  */
 
 'use strict';
-
+console.log("Hello world");
 module.exports = require('./lib/express');
