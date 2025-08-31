@@ -45,6 +45,7 @@ app.listen(3000, () => {
 })
 ```
 
+cool
 ## Installation
 
 This is a [Node.js](https://nodejs.org/en/) module available through the
