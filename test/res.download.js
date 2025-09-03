@@ -3,6 +3,7 @@
 var after = require('after');
 var assert = require('node:assert')
 var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
+const { Buffer } = require('node:buffer');
 
 var express = require('..');
 var path = require('node:path')
