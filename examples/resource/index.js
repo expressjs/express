@@ -46,7 +46,7 @@ var User = {
     res.send(users[req.params.id] || { error: 'Cannot find user' });
   },
   destroy: function(req, res, id){
-    var destroyed = id in users;
+    var destroyed = users[id] != null;
     delete users[id];
     res.send(destroyed ? 'destroyed' : 'Cannot find user');
   },
