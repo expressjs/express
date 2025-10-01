@@ -5,7 +5,6 @@
 **This project has a [Code of Conduct].**
 <br>
 #Pundlik s kadapatti
-<br>
 ## Table of contents
 
 - [Table of contents](#table-of-contents)
