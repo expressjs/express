@@ -1,42 +1,39 @@
-# Configuration for GitHub Actions Labeler
-# https://github.com/actions/labeler
-
 # Core library files
-'area: core':
+'core':
   - changed-files:
     - any-glob-to-any-file: ['lib/**/*']
 
 # Application logic
-'area: application':
+'application':
   - changed-files:
     - any-glob-to-any-file: ['lib/application.js']
 
 # Request/Response handling
-'area: request':
+'request':
   - changed-files:
     - any-glob-to-any-file: ['lib/request.js']
 
-'area: response':
+'response':
   - changed-files:
     - any-glob-to-any-file: ['lib/response.js']
 
 # Routing
-'area: router':
+'router':
   - changed-files:
     - any-glob-to-any-file: ['lib/router/**/*']
 
 # Views and templating
-'area: view':
+'view':
   - changed-files:
     - any-glob-to-any-file: ['lib/view.js']
 
 # Utilities
-'area: utils':
+'utils':
   - changed-files:
     - any-glob-to-any-file: ['lib/utils.js']
 
 # Tests
-'area: tests':
+'tests':
   - changed-files:
     - any-glob-to-any-file: 
       - 'test/**/*'
@@ -44,12 +41,12 @@
       - '**/*.spec.js'
 
 # Examples
-'area: examples':
+'examples':
   - changed-files:
     - any-glob-to-any-file: ['examples/**/*']
 
 # Documentation
-'area: docs':
+'docs':
   - changed-files:
     - any-glob-to-any-file:
       - '*.md'
@@ -57,7 +54,7 @@
       - 'docs/**/*'
 
 # Configuration files
-'area: config':
+'config':
   - changed-files:
     - any-glob-to-any-file:
       - 'package.json'
@@ -70,12 +67,12 @@
       - '*.yaml'
 
 # Benchmarks
-'area: benchmarks':
+'benchmarks':
   - changed-files:
     - any-glob-to-any-file: ['benchmarks/**/*']
 
 # Security related
-'area: security':
+'security':
   - changed-files:
     - any-glob-to-any-file:
       - 'SECURITY.md'
@@ -83,7 +80,7 @@
       - '.github/workflows/scorecard.yml'
 
 # CI/CD
-'area: ci':
+'ci':
   - changed-files:
     - any-glob-to-any-file: 
       - '.github/workflows/**/*'
@@ -103,22 +100,3 @@
       - 'index.js'
       - 'lib/express.js'
       - 'lib/application.js'
-
-# Size labels - These will be created manually with the script
-# The labeler action doesn't support count-based labeling in this version
-# but we can still reference them for future use
-'size: small':
-  - changed-files:
-    - any-glob-to-any-file: ['**/*']
-
-'size: medium':
-  - changed-files:
-    - any-glob-to-any-file: ['**/*']
-
-'size: large':
-  - changed-files:
-    - any-glob-to-any-file: ['**/*']
-
-'size: extra-large':
-  - changed-files:
-    - any-glob-to-any-file: ['**/*']
