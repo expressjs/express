@@ -1,0 +1,34 @@
+name: Block README PRs
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+jobs:
+  check-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+
+      - name: Get list of changed files
+        id: changes
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }} > changed_files.txt
+          cat changed_files.txt
+
+      - name: Block PR if README is changed
+        run: |
+          USER_PERMISSION="${{ github.event.pull_request.author_association }}"
+
+          if [[ "$USER_PERMISSION" == "OWNER" ]] || [[ "$USER_PERMISSION" == "MEMBER" ]] || [[ "$USER_PERMISSION" == "COLLABORATOR" ]]; then
+            echo "User has write access. Allowing PR."
+            exit 0
+          fi
+
+          # Check if only README.md was changed
+          if [ "$(wc -l < changed_files.txt)" -eq 1 ] && grep -q "^README.md$" changed_files.txt; then
+            echo "PR only changes README.md from external contributor. Blocking..."
+            exit 1
+          else
+            echo "PR modifies more than just README.md. Allowed."
+          fi
