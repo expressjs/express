@@ -1,0 +1,126 @@
+# Configuration for GitHub Actions Labeler
+# https://github.com/actions/labeler
+
+# Core library files
+'area: core':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/**/*']
+
+# Application logic
+'area: application':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/application.js']
+
+# Request/Response handling
+'area: request':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/request.js']
+
+'area: response':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/response.js']
+
+# Routing
+'area: router':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/router/**/*']
+
+# Views and templating
+'area: view':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/view.js']
+
+# Utilities
+'area: utils':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/utils.js']
+
+# Tests
+'area: tests':
+  - changed-files:
+    - any-glob-to-any-file: 
+      - 'test/**/*'
+      - '**/*.test.js'
+      - '**/*.spec.js'
+
+# Examples
+'area: examples':
+  - changed-files:
+    - any-glob-to-any-file: ['examples/**/*']
+
+# Documentation
+'area: docs':
+  - changed-files:
+    - any-glob-to-any-file:
+      - '*.md'
+      - '**/*.md'
+      - 'docs/**/*'
+
+# Configuration files
+'area: config':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'package.json'
+      - 'package-lock.json'
+      - '.eslintrc*'
+      - '.gitignore'
+      - '.github/**/*'
+      - '*.json'
+      - '*.yml'
+      - '*.yaml'
+
+# Benchmarks
+'area: benchmarks':
+  - changed-files:
+    - any-glob-to-any-file: ['benchmarks/**/*']
+
+# Security related
+'area: security':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'SECURITY.md'
+      - '.github/workflows/codeql.yml'
+      - '.github/workflows/scorecard.yml'
+
+# CI/CD
+'area: ci':
+  - changed-files:
+    - any-glob-to-any-file: 
+      - '.github/workflows/**/*'
+      - '.github/dependabot.yml'
+
+# Dependencies
+'dependencies':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'package.json'
+      - 'package-lock.json'
+
+# Breaking changes (based on certain core files)
+'breaking change':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'index.js'
+      - 'lib/express.js'
+      - 'lib/application.js'
+
+# Size labels based on number of files changed
+'size: small':
+  - changed-files:
+    - any-glob-to-any-file: ['**/*']
+    - count: '1-3'
+
+'size: medium':
+  - changed-files:
+    - any-glob-to-any-file: ['**/*']
+    - count: '4-10'
+
+'size: large':
+  - changed-files:
+    - any-glob-to-any-file: ['**/*']
+    - count: '11-50'
+
+'size: extra-large':
+  - changed-files:
+    - any-glob-to-any-file: ['**/*']
+    - count: '51+'
