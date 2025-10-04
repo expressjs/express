@@ -104,5 +104,21 @@
       - 'lib/express.js'
       - 'lib/application.js'
 
-# Note: Size labels based on file count are not supported in this version of the labeler action
-# The labeler will focus on area-based labels instead
+# Size labels - These will be created manually with the script
+# The labeler action doesn't support count-based labeling in this version
+# but we can still reference them for future use
+'size: small':
+  - changed-files:
+    - any-glob-to-any-file: ['**/*']
+
+'size: medium':
+  - changed-files:
+    - any-glob-to-any-file: ['**/*']
+
+'size: large':
+  - changed-files:
+    - any-glob-to-any-file: ['**/*']
+
+'size: extra-large':
+  - changed-files:
+    - any-glob-to-any-file: ['**/*']
