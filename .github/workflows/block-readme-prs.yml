@@ -10,13 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Get list of changed files
         id: changes
         run: |
           git fetch origin ${{ github.base_ref }}
-          git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }} > changed_files.txt
+          git diff --name-only origin/${{ github.base_ref }}..HEAD > changed_files.txt
           cat changed_files.txt
+
       - name: Block PR if README is changed
         env:
           GH_TOKEN: ${{ github.token }}
