@@ -2,32 +2,45 @@ name: Block README PRs
 on:
   pull_request:
     types: [opened, edited, synchronize]
+permissions:
+  pull-requests: write
+  contents: read
 jobs:
   check-readme:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
-
       - name: Get list of changed files
         id: changes
         run: |
           git fetch origin ${{ github.base_ref }}
           git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }} > changed_files.txt
           cat changed_files.txt
-
       - name: Block PR if README is changed
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           USER_PERMISSION="${{ github.event.pull_request.author_association }}"
-
           if [[ "$USER_PERMISSION" == "OWNER" ]] || [[ "$USER_PERMISSION" == "MEMBER" ]] || [[ "$USER_PERMISSION" == "COLLABORATOR" ]]; then
             echo "User has write access. Allowing PR."
             exit 0
           fi
-
           # Check if only README.md was changed
           if [ "$(wc -l < changed_files.txt)" -eq 1 ] && grep -q "^Readme.md$" changed_files.txt; then
             echo "PR only changes README.md from external contributor. Blocking..."
+            gh pr comment ${{ github.event.pull_request.number }} --body "**This PR has been automatically closed.**
+
+          This PR only modifies the README file. We appreciate your interest in contributing, but we're currently not accepting README-only changes from external contributors.
+
+          If you'd like to contribute, please consider:
+          - Fixing bugs
+          - Adding new features
+          - Improving documentation beyond just the README
+          - Writing tests
+
+          Thank you for your understanding!"
+            gh pr close ${{ github.event.pull_request.number }}
             exit 1
           else
             echo "PR modifies more than just README.md. Allowed."
