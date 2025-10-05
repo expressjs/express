@@ -26,7 +26,7 @@ jobs:
           fi
 
           # Check if only README.md was changed
-          if [ "$(wc -l < changed_files.txt)" -eq 1 ] && grep -q "^README.md$" changed_files.txt; then
+          if [ "$(wc -l < changed_files.txt)" -eq 1 ] && grep -q "^Readme.md$" changed_files.txt; then
             echo "PR only changes README.md from external contributor. Blocking..."
             exit 1
           else
