@@ -1,0 +1,144 @@
+name: Auto-close spammy PRs
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Detect & close spam
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // --- Tunables (conservative defaults) ---------------------------
+            const MAX_DOCS_ONLY_CHANGES = 20;     // tiny diffs are suspicious
+            const NEW_ACCOUNT_WINDOW_DAYS = 14;   // stricter on very new accounts
+            const ENABLE_LOCK = false;            // set true if maintainers want locks
+            const LABELS = ['spam', 'invalid', 'autoclosed'];
+            // ----------------------------------------------------------------
+
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+
+            // Skip bots
+            if ((pr.user.type === 'Bot') ||
+                /bot\]$/.test(pr.user.login) ||
+                ['dependabot[bot]','renovate[bot]','github-actions[bot]'].includes(pr.user.login)) {
+              return;
+            }
+
+            // Skip trusted collaborators (admin/maintain/write on base repo)
+            let trusted = false;
+            try {
+              const perm = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner, repo, username: pr.user.login
+              });
+              trusted = ['admin','maintain','write'].includes(perm.data.permission);
+            } catch (e) {
+              // ignore; treat as untrusted
+            }
+            if (trusted) return;
+
+            // ---- Author/account info
+            const u = await github.rest.users.getByUsername({ username: pr.user.login });
+            const accountAgeDays = Math.floor((Date.now() - new Date(u.data.created_at)) / 86400000);
+
+            // ---- Changed files / diff stats
+            const files = await github.paginate(
+              github.rest.pulls.listFiles,
+              { owner, repo, pull_number: pr.number, per_page: 100 }
+            );
+            const adds = files.reduce((s,f)=>s+f.additions,0);
+            const dels = files.reduce((s,f)=>s+f.deletions,0);
+            const changes = adds + dels;
+
+            // Express-specific content hints
+            const isCodePath = (p) =>
+              p.startsWith('lib/') || p.startsWith('benchmarks/') || p.startsWith('test/') ||
+              /\.(js|mjs|cjs|ts|json)$/i.test(p);
+
+            const onlyDocs = files.length > 0 && files.every(f =>
+              /\.(md|rst|txt|adoc)$/i.test(f.filename) ||
+              f.filename.startsWith('docs/') ||
+              f.filename.startsWith('.github/')
+            );
+            const onlyReadme = files.length === 1 && /(^|\/)readme\.md$/i.test(files[0].filename);
+            const touchesCode = files.some(f => isCodePath(f.filename));
+
+            const title = (pr.title || '').toLowerCase();
+            const body = (pr.body || '').toLowerCase();
+
+            // linked issue / closing keyword in body
+            const hasLinkedIssue =
+              /(^|\s)(fixe?s|close[sd]?|resolve[sd]?)\s+#\d+\b/.test(body) || /#\d+\b/.test(body);
+
+            // very common spammy wording
+            const looksLikeNameDrop =
+              /(add(ed)?\s+my\s+name|add\s+name|add(ed)?\s+me|contributor|follow\s+me|portfolio|my\s+github)/i
+                .test(title + ' ' + body);
+
+            const looksLikeReadmeSpam =
+              (onlyReadme && changes <= MAX_DOCS_ONLY_CHANGES) ||
+              (onlyDocs && title.includes('readme') && changes <= MAX_DOCS_ONLY_CHANGES);
+
+            // Final decision (conservative)
+            const isLikelySpam =
+              !touchesCode && (
+                (!hasLinkedIssue && (onlyDocs || looksLikeReadmeSpam || looksLikeNameDrop)) ||
+                (accountAgeDays < NEW_ACCOUNT_WINDOW_DAYS && onlyDocs && changes < (MAX_DOCS_ONLY_CHANGES + 10))
+              );
+
+            core.notice(`files=${files.map(f=>f.filename).join(', ')}`);
+            core.notice(`adds=${adds} dels=${dels} changes=${changes}`);
+            core.notice(`onlyDocs=${onlyDocs} onlyReadme=${onlyReadme} touchesCode=${touchesCode}`);
+            core.notice(`hasLinkedIssue=${hasLinkedIssue} accountAgeDays=${accountAgeDays}`);
+            core.notice(`decision=${isLikelySpam ? 'SPAM→close' : 'OK→keep open'}`);
+
+            if (!isLikelySpam) return;
+
+            // Ensure labels exist
+            async function ensureLabel(name, color = "ededed", description = "") {
+              try { await github.rest.issues.getLabel({ owner, repo, name }); }
+              catch {
+                try { await github.rest.issues.createLabel({ owner, repo, name, color, description }); }
+                catch {}
+              }
+            }
+            await Promise.all(LABELS.map(l => ensureLabel(l)));
+
+            // Label, comment, close (+ optionally lock)
+            await github.rest.issues.addLabels({ owner, repo, issue_number: pr.number, labels: LABELS }).catch(()=>{});
+
+            const msgLines = [
+              "Thanks for the PR! To keep triage manageable, this repository doesn't accept cosmetic **README/docs-only** changes with tiny diffs (e.g., \"add my name\", minor formatting) unless they are tied to an issue or substantive documentation work.",
+              "",
+              "**Why this PR was auto-closed**",
+              "- Changes are docs-only with a very small diff",
+              "- No linked issue/discussion for context"
+            ];
+
+            if (accountAgeDays < NEW_ACCOUNT_WINDOW_DAYS) {
+              msgLines.push("- Very new account (<14 days)");
+            }
+
+            msgLines.push(
+              "",
+              "If we misclassified this, a maintainer can remove the `autoclosed` label and reopen. Thank you for understanding!"
+            );
+
+            const msg = msgLines.join('\n');
+            await github.rest.issues.createComment({ owner, repo, issue_number: pr.number, body: msg });
+            await github.rest.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' });
+
+            if (ENABLE_LOCK) {
+              try {
+                await github.rest.issues.lock({ owner, repo, issue_number: pr.number, lock_reason: 'spam' });
+              } catch {}
+            }
