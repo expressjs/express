@@ -1,0 +1,102 @@
+# Core library files
+'core':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/**/*']
+
+# Application logic
+'application':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/application.js']
+
+# Request/Response handling
+'request':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/request.js']
+
+'response':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/response.js']
+
+# Routing
+'router':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/router/**/*']
+
+# Views and templating
+'view':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/view.js']
+
+# Utilities
+'utils':
+  - changed-files:
+    - any-glob-to-any-file: ['lib/utils.js']
+
+# Tests
+'tests':
+  - changed-files:
+    - any-glob-to-any-file: 
+      - 'test/**/*'
+      - '**/*.test.js'
+      - '**/*.spec.js'
+
+# Examples
+'examples':
+  - changed-files:
+    - any-glob-to-any-file: ['examples/**/*']
+
+# Documentation
+'docs':
+  - changed-files:
+    - any-glob-to-any-file:
+      - '*.md'
+      - '**/*.md'
+      - 'docs/**/*'
+
+# Configuration files
+'config':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'package.json'
+      - 'package-lock.json'
+      - '.eslintrc*'
+      - '.gitignore'
+      - '.github/**/*'
+      - '*.json'
+      - '*.yml'
+      - '*.yaml'
+
+# Benchmarks
+'benchmarks':
+  - changed-files:
+    - any-glob-to-any-file: ['benchmarks/**/*']
+
+# Security related
+'security':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'SECURITY.md'
+      - '.github/workflows/codeql.yml'
+      - '.github/workflows/scorecard.yml'
+
+# CI/CD
+'ci':
+  - changed-files:
+    - any-glob-to-any-file: 
+      - '.github/workflows/**/*'
+      - '.github/dependabot.yml'
+
+# Dependencies
+'dependencies':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'package.json'
+      - 'package-lock.json'
+
+# Breaking changes (based on certain core files)
+'breaking change':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'index.js'
+      - 'lib/express.js'
+      - 'lib/application.js'
