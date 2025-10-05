@@ -1,0 +1,153 @@
+name: PR spam moderation (AI)
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  models: read
+
+jobs:
+  moderate-pr:
+    runs-on: ubuntu-latest
+    env:
+      ALLOW_CLOSE_TRUSTED: 'false'
+
+    steps:
+      - name: Prepare PR context
+        id: prep
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const pr = context.payload.pull_request;
+            const files = await github.paginate(
+              github.rest.pulls.listFiles,
+              { owner, repo, pull_number: pr.number, per_page: 100 }
+            );
+
+            const adds = files.reduce((sum, file) => sum + file.additions, 0);
+            const dels = files.reduce((sum, file) => sum + file.deletions, 0);
+            const changes = adds + dels;
+
+            const onlyDocs = files.length > 0 && files.every(file =>
+              /\.(md|rst|txt|adoc)$/i.test(file.filename) ||
+              file.filename.startsWith('docs/') ||
+              file.filename.startsWith('.github/')
+            );
+
+            const touchesCode = files.some(file =>
+              file.filename.startsWith('lib/') ||
+              file.filename.startsWith('benchmarks/') ||
+              file.filename.startsWith('test/') ||
+              /\.(js|mjs|cjs|ts|json)$/i.test(file.filename)
+            );
+
+            const hasLinkedIssue = /(^|\s)(fixe?s|close[sd]?|resolve[sd]?)\s+#\d+\b/i.test(pr.body || '') || /#\d+\b/.test(pr.body || '');
+
+            const user = await github.rest.users.getByUsername({ username: pr.user.login });
+            const accountAgeDays = Math.floor((Date.now() - new Date(user.data.created_at)) / 86400000);
+
+            const text = [
+              `Title: ${pr.title}`,
+              `Author: @${pr.user.login} (≈${accountAgeDays} days)`,
+              `Linked issue in body: ${hasLinkedIssue}`,
+              `Files changed (${files.length}):`,
+              ...files.map(file => ` - ${file.filename} (+${file.additions}/-${file.deletions})`),
+              `Diff size: ${changes}`,
+              `onlyDocs=${onlyDocs} touchesCode=${touchesCode}`,
+              `--- PR body ---`,
+              pr.body || '(empty)'
+            ].join('\n');
+
+            core.setOutput('text', text);
+            core.setOutput('onlyDocs', onlyDocs ? 'true' : 'false');
+            core.setOutput('touchesCode', touchesCode ? 'true' : 'false');
+            core.setOutput('changes', String(changes));
+            core.setOutput('hasLinkedIssue', hasLinkedIssue ? 'true' : 'false');
+            core.setOutput('accountAgeDays', String(accountAgeDays));
+
+      - name: Add trigger label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            await github.rest.issues.addLabels({
+              owner, repo,
+              issue_number: context.payload.pull_request.number,
+              labels: ['pr-spam']
+            }).catch(()=>{});
+
+      - name: Checkout repo (for prompts)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+
+      - name: AI assess PR
+        id: ai
+        uses: github/ai-assessment-comment-labeler@main
+        with:
+          token: ${{ github.token }}
+          owner: ${{ github.repository_owner }}
+          repo_name: ${{ github.event.repository.name }}
+          ai_review_label: pr-spam
+          issue_number: ${{ github.event.pull_request.number }}
+          issue_body: ${{ steps.prep.outputs.text || github.event.pull_request.body || '(empty)' }}
+          prompts_directory: '.github/prompts'
+          labels_to_prompts_mapping: 'pr-spam,pr-spam.prompt.yml'
+          suppress_comments: true
+
+      - name: Apply spam heuristics fallback
+        id: heuristics
+        if: >-
+          ${{ steps.prep.outputs.onlyDocs == 'true' &&
+              steps.prep.outputs.touchesCode == 'false' &&
+              steps.prep.outputs.hasLinkedIssue == 'false' &&
+              fromJSON(steps.prep.outputs.changes) <= 10 &&
+              !contains(steps.ai.outputs.ai_assessments, 'ai:pr-spam:yes') }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number,
+              labels: ['ai:pr-spam:yes']
+            });
+            core.notice('Applied heuristic spam label.');
+            core.setOutput('is_spam', 'true');
+
+      - name: Check collaborator trust
+        id: trust
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const user = context.payload.pull_request.user.login;
+            let trusted = false;
+            try {
+              const perm = await github.rest.repos.getCollaboratorPermissionLevel({ owner, repo, username: user });
+              trusted = ['admin','maintain','write'].includes(perm.data.permission);
+            } catch {}
+            core.notice(`trusted=${trusted} user=${user}`);
+            core.setOutput('trusted', trusted ? 'true' : 'false');
+
+      - name: Close PR if spam
+        if: >-
+          ${{ (contains(steps.ai.outputs.ai_assessments, 'ai:pr-spam:yes') ||
+               steps.heuristics.outputs.is_spam == 'true') &&
+              (steps.trust.outputs.trusted == 'false' || env.ALLOW_CLOSE_TRUSTED == 'true') }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const pr = context.payload.pull_request;
+            const msg = `Thanks for the PR! We don't accept cosmetic README/docs-only tiny diffs or "add my name" changes.\n\n` +
+                        `This was auto-triaged as likely spam. If incorrect, a maintainer can reopen.`;
+            await github.rest.issues.createComment({ owner, repo, issue_number: pr.number, body: msg });
+            await github.rest.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' });
