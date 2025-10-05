@@ -1,6 +1,6 @@
 name: Block README PRs
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, edited, synchronize]
 permissions:
   pull-requests: write
@@ -10,9 +10,10 @@ jobs:
   check-readme:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout PR
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
 
       - name: Get list of changed files
@@ -24,14 +25,14 @@ jobs:
 
       - name: Block PR if README is changed
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           USER_PERMISSION="${{ github.event.pull_request.author_association }}"
           if [[ "$USER_PERMISSION" == "OWNER" ]] || [[ "$USER_PERMISSION" == "MEMBER" ]] || [[ "$USER_PERMISSION" == "COLLABORATOR" ]]; then
             echo "User has write access. Allowing PR."
             exit 0
           fi
-          # Check if only README.md was changed
+
           if [ "$(wc -l < changed_files.txt)" -eq 1 ] && grep -q "^Readme.md$" changed_files.txt; then
             echo "PR only changes README.md from external contributor. Blocking..."
             gh pr comment ${{ github.event.pull_request.number }} --body "**This PR has been automatically closed.**
