@@ -6,6 +6,8 @@
 
 ## Table of contents
 
+IM ADDING MY NAME TO OPEN SOURCE FOR MY RESUME
+
 - [Table of contents](#table-of-contents)
 - [Installation](#installation)
 - [Features](#features)
