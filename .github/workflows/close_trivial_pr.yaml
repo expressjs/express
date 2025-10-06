@@ -2,7 +2,7 @@ name: Close Trivial README PRs
 on:
   pull_request:
     branches:
-      - main
+      - master
 jobs:
   check-pr-title:
     runs-on: ubuntu-latest
