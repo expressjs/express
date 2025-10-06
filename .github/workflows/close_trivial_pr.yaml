@@ -11,6 +11,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Check PR title
         run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
           PR_TITLE_LC="$(echo "$PR_TITLE" | tr '[:upper:]' '[:lower:]')"
           if [ "$PR_TITLE_LC" = "update readme.md" ]; then
             echo "PR titled 'Update Readme.md' detected. Closing PR."
