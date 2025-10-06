@@ -1,0 +1,20 @@
+name: Close Trivial README PRs
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  check-pr-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          if [ "$PR_TITLE" = "Update Readme.md" ]; then
+            echo "PR titled 'Update Readme.md' detected. Closing PR."
+            gh pr comment ${{ github.event.pull_request.number }} --body "This PR titled 'Update Readme.md' is not allowed as it likely only adds trivial changes. Please review our contribution guidelines in CONTRIBUTING.md. Closing PR."
+            gh pr close ${{ github.event.pull_request.number }}
+            exit 1
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
