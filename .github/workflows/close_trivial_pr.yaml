@@ -15,7 +15,7 @@ jobs:
           PR_TITLE_LC="$(echo "$PR_TITLE" | tr '[:upper:]' '[:lower:]')"
           if [ "$PR_TITLE_LC" = "update readme.md" ]; then
             echo "PR titled 'Update Readme.md' detected. Closing PR."
-            gh pr comment ${{ github.event.pull_request.number }} --body "This PR titled 'Update Readme.md' is not allowed as it likely only adds trivial changes. Please review our contribution guidelines in CONTRIBUTING.md. Closing PR."
+            gh pr comment ${{ github.event.pull_request.number }} --body "This PR titled 'Update Readme.md' is not allowed as it likely only adds trivial changes. Please review our contribution guidelines. Closing PR."
             gh pr close ${{ github.event.pull_request.number }}
             exit 1
           fi
