@@ -1,0 +1,58 @@
+name: Auto-close spam readme pr 
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  close-readme-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR files
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const author = context.payload.pull_request.author_association;
+
+            // Allow internal contributors,members.
+            if (["OWNER", "MEMBER", "COLLABORATOR"].includes(author)) {
+              console.log("Internal contributor — allow PR");
+              return;
+            }
+
+            // Get list of changed files
+            const files = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+
+            // Check if any file contains "readme.md" (case-insensitive)
+            const hasReadme = files.data.some(f => f.filename.toLowerCase().includes("readme.md"));
+
+            if (hasReadme) {
+              console.log("README.md change detected — closing PR");
+
+              // Comment on the PR
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: "🚫 **This PR changes README.md and will be closed automatically.**"
+              });
+
+              // Close the PR
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                state: "closed"
+              });
+            } else {
+              console.log("No README.md change — PR allowed");
+            }
