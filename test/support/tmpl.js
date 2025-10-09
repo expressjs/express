@@ -1,3 +1,4 @@
+AdrBog
 var fs = require('node:fs');
 
 var variableRegExp = /\$([0-9a-zA-Z\.]+)/g;
