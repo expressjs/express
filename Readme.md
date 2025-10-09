@@ -256,6 +256,9 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 
 </details>
 
+## Special Thanks
+
+Arjan Prandeep as contributor
 
 ## License
 
