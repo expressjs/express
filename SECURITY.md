@@ -46,6 +46,10 @@ involving the following steps:
   * Prepare fixes for all releases still under maintenance. These fixes will be
     released as fast as possible to npm.
 
+## Security Lead
+
+@ajpradeep
+
 ## The Express Threat Model
 
 We are currently working on a new version of the security model, the most updated version can be found [here](https://github.com/expressjs/security-wg/blob/main/docs/ThreatModel.md)
