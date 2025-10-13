@@ -62,6 +62,7 @@
     "vary": "^1.1.2"
   },
   "devDependencies": {
+    "@octokit/rest": "^20.0.0",
     "after": "0.8.2",
     "connect-redis": "^8.0.1",
     "cookie-parser": "1.4.7",
@@ -94,6 +95,7 @@
     "test": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-ci": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=lcovonly --reporter=text npm test",
     "test-cov": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=html --reporter=text npm test",
-    "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
+    "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/",
+    "ci:detect-readme-pr": "node scripts/detect-readme-pr.js"
   }
 }

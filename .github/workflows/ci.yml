@@ -11,10 +11,14 @@ on:
     paths-ignore:
       - '*.md'
   pull_request:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
+
 
 permissions:
   contents: read
+  pull-requests: write
 
 # Cancel in progress workflows
 # in the scenario where we already had a run going for that PR/branch/tag but then triggered a new run
@@ -23,6 +27,43 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  detect-readme-pr:
+    name: detect-readme-pr
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 'lts/*'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run PR detect updated readme file
+        env:
+          GITHUB_EVENT: ${{ toJson(github.event) }}
+        run: npm run ci:detect-readme-pr "$GITHUB_EVENT"
+        shell: bash
+
+  close-irrelevant-pr:
+    name: close-irrelevant-pr
+    runs-on: ubuntu-latest
+    needs: detect-readme-pr
+    if: failure()
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Close Pull Request - created through a Youtube tutorial
+        uses: peter-evans/close-pull@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          comment: Auto-closing pull request - PR is irrelevant - Youtube tutorial
+          delete-branch: true # Deleting branches will silently fail for PR's to public repositories from forks.
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
