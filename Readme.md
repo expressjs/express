@@ -63,6 +63,80 @@ Installation is done using the
 npm install express
 ```
 
+### Alternative Package Managers
+
+You can also install Express using other popular Node.js package managers:
+
+#### Using Yarn
+
+```bash
+yarn add express
+```
+
+#### Using pnpm
+
+```bash
+pnpm add express
+```
+
+#### Using Bun
+
+```bash
+bun add express
+```
+
+All these commands will add Express as a dependency in your project’s `package.json`.
+
+---
+
+### Verifying the Installation
+
+After installation, you can verify that Express is correctly installed by running:
+
+```bash
+npm list express
+```
+
+or, if using Yarn:
+
+```bash
+yarn list express
+```
+
+If Express appears in the list, it has been successfully installed.
+
+You can also quickly test it with a simple app:
+
+```bash
+node -e "require('express')"
+```
+
+If no errors appear, Express is ready to use!
+
+---
+
+### Updating Express
+
+To ensure you have the latest stable version, periodically update Express:
+
+```bash
+npm update express
+```
+
+Or, for Yarn:
+
+```bash
+yarn upgrade express
+```
+
+For pnpm:
+
+```bash
+pnpm update express
+```
+
+---
+
 Follow [our installing guide](https://expressjs.com/en/starter/installing.html)
 for more information.
 
