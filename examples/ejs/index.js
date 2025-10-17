@@ -18,6 +18,7 @@ var app = module.exports = express();
 // system by default, so if we want
 // to change "foo.ejs" to "foo.html"
 // we simply pass _any_ function, in this
+// hello there its a commit
 // case `ejs.__express`.
 
 app.engine('.html', require('ejs').__express);
