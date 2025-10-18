@@ -9,6 +9,9 @@ npm-shrinkwrap.json
 yarn-error.log
 yarn.lock
 
+#bun
+bun.lock
+
 # Coveralls
 .nyc_output
 coverage
