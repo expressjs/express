@@ -32,11 +32,14 @@ jobs:
             const smallChange = nonEmpty < 3;
 
             if (readme && smallChange && !otherFiles) {
+              if (nonEmpty == 0) {
+                return
+              }
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: pr.number,
-                body: "Closing automatically — only tiny README edits detected."
+                body: "Closing automatically — suspected as README.md spam (" + nonEmpty.toString() + " lines edited)."
               });
               await github.rest.pulls.update({
                 owner: context.repo.owner,
