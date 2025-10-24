@@ -1,0 +1,47 @@
+name: Reduce README.md spam
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const files = await github.paginate(
+              github.rest.pulls.listFiles,
+              { owner: context.repo.owner, repo: context.repo.repo, pull_number: pr.number }
+            );
+
+            const readme = files.find(f => f.filename.toLowerCase().includes('readme.md'));
+            if (!readme) return; // no README.md -> keep open
+
+            const nonEmpty = (readme.patch || '')
+              .split('\n')
+              .filter(l => /^[+-]/.test(l) && l.trim().length > 1 && !/^\+\+\+|---/.test(l))
+              .length;
+
+            const otherFiles = files.length > 1;
+            const smallChange = nonEmpty < 3;
+
+            if (readme && smallChange && !otherFiles) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: "Closing automatically — only tiny README edits detected."
+              });
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                state: "closed"
+              });
+            }
