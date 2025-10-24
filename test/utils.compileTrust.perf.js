@@ -42,9 +42,11 @@ describe('utils.compileTrust', function () {
       }
       
       console.log(`Performance test results:`)
-      console.log(`  compileTrust: ${compileTime}ms (lazy)`)
-      console.log(`  First call: ${firstCallTime}ms (compilation)`)
-      console.log(`  Second call: ${secondCallTime}ms (cached)`)
+      console.log(`  compileTrust: ${compileTime}ms (lazy compilation)`)
+      console.log(`  First call: ${firstCallTime}ms (compilation + execution)`)
+      console.log(`  Second call: ${secondCallTime}ms (cached execution)`)
+      console.log(`  Note: proxyaddr.compile() has O(n) complexity, but large lists`)
+      console.log(`  can still cause significant startup delays without lazy compilation`)
       
       done()
     })
