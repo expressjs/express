@@ -5,11 +5,11 @@ var express = require('../')
 
 describe('app', function(){
   describe('.locals', function () {
-    it('should default object with null prototype', function () {
+    it('should default to plain object (optimized for performance)', function () {
       var app = express()
       assert.ok(app.locals)
       assert.strictEqual(typeof app.locals, 'object')
-      assert.strictEqual(Object.getPrototypeOf(app.locals), null)
+      assert.strictEqual(Object.getPrototypeOf(app.locals), Object.prototype)
     })
 
     describe('.settings', function () {

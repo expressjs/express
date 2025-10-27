@@ -43,9 +43,11 @@
     "encodeurl": "^2.0.0",
     "escape-html": "^1.0.3",
     "etag": "^1.8.1",
+    "fast-json-stringify": "^6.1.1",
     "finalhandler": "^2.1.0",
     "fresh": "^2.0.0",
     "http-errors": "^2.0.0",
+    "lru-cache": "^11.2.2",
     "merge-descriptors": "^2.0.0",
     "mime-types": "^3.0.0",
     "on-finished": "^2.4.1",
@@ -60,6 +62,10 @@
     "statuses": "^2.0.1",
     "type-is": "^2.0.1",
     "vary": "^1.1.2"
+  },
+  "optionalDependencies": {
+    "fast-json-stringify": "^6.0.0",
+    "lru-cache": "^11.0.0"
   },
   "devDependencies": {
     "after": "0.8.2",
@@ -94,6 +100,13 @@
     "test": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-ci": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=lcovonly --reporter=text npm test",
     "test-cov": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=html --reporter=text npm test",
-    "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
+    "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/",
+    "bench": "node benchmarks/plain-objects.js",
+    "bench:optimized": "node benchmarks/optimized.js",
+    "bench:hyper": "NODE_ENV=production node benchmarks/hyper-optimized.js",
+    "bench:baseline": "node benchmarks/baseline.js",
+    "bench:cluster": "node benchmarks/cluster.js",
+    "bench:cluster-hyper": "NODE_ENV=production node benchmarks/cluster-hyper.js",
+    "start:optimized": "NODE_ENV=production node --max-old-space-size=4096 examples/hello-world/index.js"
   }
 }

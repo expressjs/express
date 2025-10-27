@@ -11,10 +11,11 @@ describe('config', function () {
       assert.equal(app.get('foo'), 'bar');
     })
 
-    it('should set prototype values', function () {
+    it('should block prototype pollution (security)', function () {
       var app = express()
       app.set('hasOwnProperty', 42)
-      assert.strictEqual(app.get('hasOwnProperty'), 42)
+      // Security: prototype properties are blocked
+      assert.strictEqual(app.get('hasOwnProperty'), undefined)
     })
 
     it('should return the app', function () {
@@ -148,10 +149,11 @@ describe('config', function () {
       assert.strictEqual(app.get('tobi'), true);
     })
 
-    it('should set prototype values', function () {
+    it('should block prototype pollution (security)', function () {
       var app = express()
       app.enable('hasOwnProperty')
-      assert.strictEqual(app.get('hasOwnProperty'), true)
+      // Security: prototype properties are blocked
+      assert.strictEqual(app.get('hasOwnProperty'), undefined)
     })
   })
 
@@ -162,10 +164,11 @@ describe('config', function () {
       assert.strictEqual(app.get('tobi'), false);
     })
 
-    it('should set prototype values', function () {
+    it('should block prototype pollution (security)', function () {
       var app = express()
       app.disable('hasOwnProperty')
-      assert.strictEqual(app.get('hasOwnProperty'), false)
+      // Security: prototype properties are blocked
+      assert.strictEqual(app.get('hasOwnProperty'), undefined)
     })
   })
 
