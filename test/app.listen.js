@@ -52,4 +52,59 @@ describe('app.listen()', function(){
       server.close(done);
     });
   });
+
+  describe('ASCII logo', function() {
+    it('should not print ASCII logo by default', function(done) {
+      const app = express();
+      const originalLog = console.log;
+      let logOutput = '';
+
+      console.log = function(...args) {
+        logOutput += args.join(' ');
+      };
+
+      const server = app.listen(0, function() {
+        console.log = originalLog;
+        assert(!logOutput.includes('│ __│'), 'ASCII logo should not be printed by default');
+        server.close(done);
+      });
+    });
+
+    it('should print ASCII logo when enabled', function(done) {
+      const app = express();
+      app.enable('ascii logo');
+
+      const originalLog = console.log;
+      let logOutput = '';
+
+      console.log = function(...args) {
+        logOutput += args.join(' ');
+      };
+
+      const server = app.listen(0, function() {
+        console.log = originalLog;
+        assert(logOutput.includes('│ __│'), 'ASCII logo should be printed when enabled');
+        server.close(done);
+      });
+    });
+
+    it('should not print ASCII logo when disabled', function(done) {
+      const app = express();
+      app.enable('ascii logo');
+      app.disable('ascii logo');
+
+      const originalLog = console.log;
+      let logOutput = '';
+
+      console.log = function(...args) {
+        logOutput += args.join(' ');
+      };
+
+      const server = app.listen(0, function() {
+        console.log = originalLog;
+        assert(!logOutput.includes('│ __│'), 'ASCII logo should not be printed when disabled');
+        server.close(done);
+      });
+    });
+  });
 })
