@@ -1,6 +1,7 @@
 'use strict'
 
 var assert = require('node:assert')
+var qs = require('qs');
 var express = require('../')
   , request = require('supertest');
 
@@ -22,9 +23,9 @@ describe('req', function(){
       .expect(200, '{"user[name]":"tj"}', done);
     });
 
-    describe('when "query parser" is extended', function () {
+    describe('when "query parser" is set to qs (formerly "extended")', function () {
       it('should parse complex keys', function (done) {
-        var app = createApp('extended');
+        var app = createApp(qs.parse);
 
         request(app)
         .get('/?foo[0][bar]=baz&foo[0][fizz]=buzz&foo[]=done!')
@@ -32,11 +33,19 @@ describe('req', function(){
       });
 
       it('should parse parameters with dots', function (done) {
-        var app = createApp('extended');
+        var app = createApp(qs.parse);
 
         request(app)
         .get('/?user.name=tj')
         .expect(200, '{"user.name":"tj"}', done);
+      });
+    });
+
+    describe('when "query parser" is set to extended', function () {
+      it('should throw with a helpful error message', function () {
+        assert.throws(() => createApp('extended'),
+          new TypeError("query parser 'extended' is no longer supported; use: `app.set('query parser', str => qs.parse(str, { allowPrototypes: true }))` to replicate the old behavior")
+        );
       });
     });
 
