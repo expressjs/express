@@ -20,6 +20,13 @@
 * deps: `qs@^6.14.0`
 * deps: `server-static@2.2.0`
 * deps: `type-is@2.0.1`
+* deps: `send@^1.2.0`
+  - deps:
+    - `mime-types@^3.0.1` 
+    - `fresh@^2.0.0` 
+    - removed `destroy`
+  - remove `getHeaderNames()` polyfill and refactor `clearHeaders()`
+
 
 5.0.1 / 2024-10-08
 ==========
@@ -52,6 +59,8 @@
 * deps: fresh@^2.0.0
 * deps: body-parser@^2.0.1
 * deps: send@^1.1.0
+  - Drop support for Node.js <18.0
+
 
 5.0.0-beta.3 / 2024-03-25
 =========================
@@ -91,10 +100,20 @@ changes from 5.0.0-alpha.8.
     - deps: path-to-regexp@3.2.0
     - deps: setprototypeof@1.2.0
   * deps: send@1.0.0-beta.1
-    - Change `dotfiles` option default to `'ignore'`
-    - Remove `hidden` option; use `dotfiles` option instead
-    - Use `mime-types` for file to content type mapping
+    - Drop support for Node.js 0.8
+    - Remove `hidden` option -- use `dotfiles` option
+    - Remove `from` alias to `root` -- use `root` directly
+    - Remove `send.etag()` -- use `etag` in `options`
+    - Remove `send.index()` -- use `index` in `options`
+    - Remove `send.maxage()` -- use `maxAge` in `options`
+    - Remove `send.root()` -- use `root` in `options`
+    - Use `mime-types` for file to content type mapping -- removed `send.mime`
     - deps: debug@3.1.0
+      - Add `DEBUG_HIDE_DATE` environment variable
+      - Change timer to per-namespace instead of global
+      - Change non-TTY date format
+      - Remove `DEBUG_FD` environment variable support
+      - Support 256 namespace colors
   * deps: serve-static@2.0.0-beta.1
     - Change `dotfiles` option default to `'ignore'`
     - Remove `hidden` option; use `dotfiles` option instead
@@ -372,9 +391,12 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * deps: qs@6.9.6
   * deps: safe-buffer@5.2.1
   * deps: send@0.17.2
-    - deps: http-errors@1.8.1
-    - deps: ms@2.1.3
     - pref: ignore empty http tokens
+    - deps: http-errors@1.8.1
+      - deps: inherits@2.0.4
+      - deps: toidentifier@1.0.1
+      - deps: setprototypeof@1.2.0
+    - deps: ms@2.1.3
   * deps: serve-static@1.14.2
     - deps: send@0.17.2
   * deps: setprototypeof@1.2.0
@@ -492,6 +514,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
 ===================
 
   * deps: send@0.16.1
+    - Fix regression in edge-case behavior for empty `path`
   * deps: serve-static@1.13.1
     - Fix regression when `root` is incorrectly set to a file
     - deps: send@0.16.1
@@ -526,12 +549,12 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * deps: qs@6.5.1
     - Fix parsing & compacting very deep objects
   * deps: send@0.16.0
-    - Add 70 new types for file extensions
     - Add `immutable` option
     - Fix missing `</html>` in default error & redirects
-    - Set charset as "UTF-8" for .js and .json
     - Use instance methods on steam to check for listeners
     - deps: mime@1.4.1
+      - Add 70 new types for file extensions
+      - Set charset as "UTF-8" for .js and .json
     - perf: improve path validation speed
   * deps: serve-static@1.13.0
     - Add 70 new types for file extensions
@@ -582,7 +605,9 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * deps: send@0.15.4
     - deps: debug@2.6.8
     - deps: depd@~1.1.1
+      - Remove unnecessary `Buffer` loading
     - deps: http-errors@~1.6.2
+      - deps: depd@1.1.1
   * deps: serve-static@1.12.4
     - deps: send@0.15.4
 
@@ -599,8 +624,10 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * deps: proxy-addr@~1.1.4
     - deps: ipaddr.js@1.3.0
   * deps: send@0.15.3
-    - deps: debug@2.6.7
-    - deps: ms@2.0.0
+    - deps: debug@2.6.4
+      - Fix `DEBUG_MAX_ARRAY_LENGTH`
+      - deps: ms@0.7.3
+    - deps: ms@1.0.0
   * deps: serve-static@1.12.3
     - deps: send@0.15.3
   * deps: type-is@~1.6.15
@@ -669,18 +696,37 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - Fix array parsing from skipping empty values
     - Fix compacting nested arrays
   * deps: send@0.15.0
-    - Fix false detection of `no-cache` request directive
-    - Fix incorrect result when `If-None-Match` has both `*` and ETags
-    - Fix weak `ETag` matching to match spec
-    - Remove usage of `res._headers` private field
     - Support `If-Match` and `If-Unmodified-Since` headers
+    - Add `res` and `path` arguments to `directory` event
+    - Remove usage of `res._headers` private field
+      - Improves compatibility with Node.js 8 nightly
+    - Send complete HTML document in redirect & error responses
+    - Set default CSP header in redirect & error responses
     - Use `res.getHeaderNames()` when available
     - Use `res.headersSent` when available
     - deps: debug@2.6.1
+      - Allow colors in workers
+      - Deprecated `DEBUG_FD` environment variable set to `3` or higher
+      - Fix error when running under React Native
+      - Use same color for same namespace
+      - deps: ms@0.7.2
     - deps: etag@~1.8.0
     - deps: fresh@0.5.0
+      - Fix false detection of `no-cache` request directive
+      - Fix incorrect result when `If-None-Match` has both `*` and ETags
+      - Fix weak `ETag` matching to match spec
+      - perf: delay reading header values until needed
+      - perf: enable strict mode
+      - perf: hoist regular expressions
+      - perf: remove duplicate conditional
+      - perf: remove unnecessary boolean coercions
+      - perf: skip checking modified time if ETag check failed
+      - perf: skip parsing `If-None-Match` when no `ETag` header
+      - perf: use `Date.parse` instead of `new Date`
     - deps: http-errors@~1.6.1
-  * deps: serve-static@1.12.0
+      - Make `message` property enumerable for `HttpError`s
+      - deps: setprototypeof@1.0.3
+    - deps: serve-static@1.12.0
     - Fix false detection of `no-cache` request directive
     - Fix incorrect result when `If-None-Match` has both `*` and ETags
     - Fix weak `ETag` matching to match spec
@@ -691,8 +737,8 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - Use `res.getHeaderNames()` when available
     - Use `res.headersSent` when available
     - deps: send@0.15.0
-  * perf: add fast match path for `*` route
-  * perf: improve `req.ips` performance
+    - perf: add fast match path for `*` route
+    - perf: improve `req.ips` performance
 
 4.14.1 / 2017-01-28
 ===================
@@ -766,6 +812,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - Fix incorrectly returning -1 when there is at least one valid range
     - perf: remove internal function
   * deps: send@0.14.1
+    - Fix invalid `Content-Type` header when `send.mime.default_type` unset
     - Add `acceptRanges` option
     - Add `cacheControl` option
     - Attempt to combine multiple ranges into single range
@@ -1028,6 +1075,9 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - Always read the stat size from the file
     - Fix mutating passed-in `options`
     - deps: mime@1.3.4
+    - Fix regression sending zero-length files
+    - Always read the stat size from the file
+    - Fix mutating passed-in `options`
   * deps: serve-static@~1.9.1
     - deps: send@0.12.1
   * deps: type-is@~1.6.0
@@ -1891,6 +1941,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - Always read the stat size from the file
     - Fix mutating passed-in `options`
     - deps: mime@1.3.4
+    - Fix regression sending zero-length files
 
 3.19.2 / 2015-02-01
 ===================
@@ -2068,7 +2119,10 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * deps: proxy-addr@~1.0.3
     - Use `forwarded` npm module
   * deps: send@0.9.3
-    - deps: etag@~1.4.0
+    - deps: depd@0.4.5
+    - deps: etag@~1.3.1
+    - deps: range-parser@~1.0.2
+    - deps: fresh@0.2.4
 
 3.17.4 / 2014-09-19
 ===================
@@ -2100,6 +2154,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - deps: depd@0.4.5
     - deps: etag@~1.3.1
     - deps: range-parser@~1.0.2
+    - deps: fresh@0.2.4
 
 3.17.1 / 2014-09-08
 ===================
@@ -2191,6 +2246,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - deps: serve-static@~1.5.2
   * deps: send@0.8.2
     - Work around `fd` leak in Node.js 0.10 for `fs.ReadStream`
+    - deps: dethroy@1.0.2
 
 3.16.5 / 2014-08-11
 ===================
@@ -2248,6 +2304,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - deps: qs@1.0.2
     - deps: serve-static@~1.5.0
   * deps: send@0.8.1
+    - Fix `extensions` behavior when file already has extension
     - Add `extensions` option
 
 3.15.3 / 2014-08-04
@@ -2319,6 +2376,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - Remove no-longer-needed URL mis-parse work-around
     - Simplify the "fast-path" `RegExp`
   * deps: send@0.7.0
+    - Deprecate `hidden` option; use `dotfiles` option
     - Add `dotfiles` option
     - Cap `maxAge` value to 1 year
     - deps: debug@1.0.4
@@ -2347,6 +2405,17 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
     - add `CONNECT`
   * deps: parseurl@~1.1.3
     - faster parsing of href-only URLs
+  * deps: send@0.6.0
+    - Deprecate `from` option; use `root` option
+    - Deprecate `send.etag()` -- use `etag` in `options`
+    - Deprecate `send.hidden()` -- use `hidden` in `options`
+    - Deprecate `send.index()` -- use `index` in `options`
+    - Deprecate `send.maxage()` -- use `maxAge` in `options`
+    - Deprecate `send.root()` -- use `root` in `options`
+    - Cap `maxAge` value to 1 year
+    - deps: debug@1.0.3
+      - Add support for multiple wildcards in namespaces
+
 
 3.13.0 / 2014-07-03
 ===================
@@ -2373,6 +2442,12 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
    - deps: type-is@~1.3.2
  * deps: cookie-signature@1.0.4
    - fix for timing attacks
+ * deps: send@0.5.0
+  - Accept string for `maxAge` (converted by `ms`)
+  - Add `headers` event
+  - Include link in default redirect response
+  - Use `EventEmitter.listenerCount` to count listeners
+
 
 3.12.0 / 2014-06-21
 ===================
@@ -2887,6 +2962,8 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
 ==================
 
   * update connect dep for `send()` root normalization regression
+  * deps: send@0.0.3
+  - fix normalization of the root directory.
 
 3.0.0beta6 / 2012-07-13
 ==================
