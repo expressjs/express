@@ -170,6 +170,9 @@ Then run `npm test`:
 npm test
 ```
 
+### Notice about creating PRs
+If you are following a tutorial that tells you to fork this repository, and create a pull request that changes this file, **please stop what you are doing**. Creating pull requests that do not contribute anything good to the library that the person attempting to contribute **knows** are useless, but makes them anyway, wastes our time. If you want to find a repository that is meant for these kind of PRs, you can try [Anarchy Repository](https://github.com/tj-commits/Anarchy-Repository), and contribute anything you want except changing the README. Thank you for reading.
+
 ## Current project team members
 
 For information about the governance of the express.js project, see [GOVERNANCE.md](https://github.com/expressjs/discussions/blob/HEAD/docs/GOVERNANCE.md).
