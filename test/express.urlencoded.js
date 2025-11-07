@@ -28,7 +28,7 @@ describe('express.urlencoded()', function () {
       next()
     })
 
-    app.use(express.urlencoded())
+    app.use(express.urlencoded()({ extended: false }))
 
     app.post('/', function (req, res) {
       res.json(req.body)
