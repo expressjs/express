@@ -58,6 +58,12 @@ describe('utils.setCharset(type, charset)', function () {
   it('should override charset', function () {
     assert.strictEqual(utils.setCharset('text/html; charset=iso-8859-1', 'utf-8'), 'text/html; charset=utf-8');
   });
+  it('should preserve original case of type', function(){
+    assert.strictEqual(
+      utils.setCharset('TEXT/PLAIN', 'UTF-8'),
+      'TEXT/PLAIN; charset=UTF-8'
+    )
+  });
 });
 
 describe('utils.wetag(body, encoding)', function(){
