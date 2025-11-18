@@ -40,5 +40,41 @@ describe('res', function () {
         .get('/')
         .expect(500, /TypeError: Invalid status code/, done)
     })
+
+    it('should raise error for BigInt status code', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.sendStatus(200n)
+      })
+
+      request(app)
+        .get('/')
+        .expect(500, /TypeError: Invalid status code: 200 \(bigint\)/, done)
+    })
+
+    it('should raise error for string status code', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.sendStatus('200')
+      })
+
+      request(app)
+        .get('/')
+        .expect(500, /TypeError: Invalid status code: 200 \(string\)/, done)
+    })
+
+    it('should raise error for object status code', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.sendStatus({ status: 200 })
+      })
+
+      request(app)
+        .get('/')
+        .expect(500, /TypeError: Invalid status code.*\(object\)/, done)
+    })
   })
 })
