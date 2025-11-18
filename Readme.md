@@ -261,14 +261,14 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 
   [MIT](LICENSE)
 
-[coveralls-image]: https://badgen.net/coveralls/c/github/expressjs/express/master
+[coveralls-image]: https://img.shields.io/coverallsCoverage/github/expressjs/express?branch=master
 [coveralls-url]: https://coveralls.io/r/expressjs/express?branch=master
-[github-actions-ci-image]: https://badgen.net/github/checks/expressjs/express/master?label=CI
+[github-actions-ci-image]: https://img.shields.io/github/actions/workflow/status/expressjs/express/ci.yml?branch=master&label=ci
 [github-actions-ci-url]: https://github.com/expressjs/express/actions/workflows/ci.yml
-[npm-downloads-image]: https://badgen.net/npm/dm/express
+[npm-downloads-image]: https://img.shields.io/npm/dm/express
 [npm-downloads-url]: https://npmcharts.com/compare/express?minimal=true
 [npm-url]: https://npmjs.org/package/express
-[npm-version-image]: https://badgen.net/npm/v/express
+[npm-version-image]: https://img.shields.io/npm/v/express
 [ossf-scorecard-badge]: https://api.scorecard.dev/projects/github.com/expressjs/express/badge
 [ossf-scorecard-visualizer]: https://ossf.github.io/scorecard-visualizer/#/projects/github.com/expressjs/express
 [Code of Conduct]: https://github.com/expressjs/.github/blob/HEAD/CODE_OF_CONDUCT.md
