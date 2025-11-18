@@ -35,8 +35,15 @@ describe('utils.normalizeType acceptParams method', () => {
       params: {} // No parameters are added since "invalid" has no "="
     });
   });
-});
 
+  it('should default to application/octet-stream when mime lookup fails', () => {
+    const result = utils.normalizeType('unknown-extension-xyz');
+    assert.deepEqual(result, {
+      value: 'application/octet-stream',
+      params: {}
+    });
+  });
+});
 
 describe('utils.setCharset(type, charset)', function () {
   it('should do anything without type', function () {
