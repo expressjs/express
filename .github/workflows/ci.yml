@@ -52,6 +52,7 @@ jobs:
     name: Node.js ${{ matrix.node-version }} - ${{matrix.os}}
 
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
@@ -92,6 +93,7 @@ jobs:
     permissions:
       contents: read
       checks: write
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
