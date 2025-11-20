@@ -1,3 +1,8 @@
+UNRELEASED
+==========
+
+  * deps: use tilde notation for dependencies
+
 4.21.2 / 2024-11-06
 ==========
 
