@@ -11,6 +11,7 @@ UNRELEASED
     - Fix backtracking protection
   * deps: path-to-regexp@0.1.11
     - Throws an error on invalid path values
+  * perf: use loop for accceptParams
 
 4.21.1 / 2024-10-08
 ==========
