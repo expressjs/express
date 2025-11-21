@@ -2,6 +2,7 @@ UNRELEASED
 ==========
 
   * deps: use tilde notation for dependencies
+  * deps: qs@6.14.0
 
 4.21.2 / 2024-11-06
 ==========
