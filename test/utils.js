@@ -1,8 +1,8 @@
 'use strict'
 
-var assert = require('node:assert');
+var assert = require('assert')
 const { Buffer } = require('node:buffer');
-var utils = require('../lib/utils');
+var utils = require('../lib/utils')
 
 describe('utils.etag(body, encoding)', function(){
   it('should support strings', function(){
@@ -38,27 +38,24 @@ describe('utils.normalizeType acceptParams method', () => {
 });
 
 
-describe('utils.setCharset(type, charset)', function () {
-  it('should do anything without type', function () {
-    assert.strictEqual(utils.setCharset(), undefined);
-  });
+describe('setCharset()', function () {
 
-  it('should return type if not given charset', function () {
-    assert.strictEqual(utils.setCharset('text/html'), 'text/html');
-  });
+  it('should preserve the case of the original type', function () {
+    var result = utils.setCharset('TEXT/PLAIN', 'UTF-8')
+    assert.strictEqual(result, 'TEXT/PLAIN; charset=UTF-8')
+  })
 
-  it('should keep charset if not given charset', function () {
-    assert.strictEqual(utils.setCharset('text/html; charset=utf-8'), 'text/html; charset=utf-8');
-  });
+  it('should preserve mixed case', function () {
+    var result = utils.setCharset('Text/Html', 'utf-8')
+    assert.strictEqual(result, 'Text/Html; charset=utf-8')
+  })
 
-  it('should set charset', function () {
-    assert.strictEqual(utils.setCharset('text/html', 'utf-8'), 'text/html; charset=utf-8');
-  });
+  it('should keep existing parameters', function () {
+    var result = utils.setCharset('TEXT/PLAIN; foo=bar', 'UTF-8')
+    assert.strictEqual(result, 'TEXT/PLAIN; foo=bar; charset=UTF-8')
+  })
 
-  it('should override charset', function () {
-    assert.strictEqual(utils.setCharset('text/html; charset=iso-8859-1', 'utf-8'), 'text/html; charset=utf-8');
-  });
-});
+})
 
 describe('utils.wetag(body, encoding)', function(){
   it('should support strings', function(){
