@@ -23,6 +23,7 @@ export default [{
     "no-unused-vars": ["error", {
       vars: "all",
       args: "none",
+      caughtErrors: "none",
       ignoreRestSiblings: true,
     }],
 
