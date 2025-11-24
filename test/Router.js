@@ -1,10 +1,9 @@
 'use strict'
 
 var after = require('after');
-var express = require('../')
-  , Router = express.Router
-  , methods = require('../lib/utils').methods
-  , assert = require('node:assert');
+const { Router } = require('../');
+const { methods } = require('../lib/utils');
+const assert = require('node:assert');
 
 describe('Router', function () {
   it('should return a function with router methods', function () {

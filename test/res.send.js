@@ -3,11 +3,11 @@
 var assert = require('node:assert')
 const { Buffer } = require('node:buffer');
 var express = require('..');
-var methods = require('../lib/utils').methods;
+const { methods } = require('../lib/utils');
 var request = require('supertest');
 var utils = require('./support/utils');
 
-var shouldSkipQuery = require('./support/utils').shouldSkipQuery
+const { shouldSkipQuery } = require('./support/utils')
 
 describe('res', function(){
   describe('.send()', function(){
