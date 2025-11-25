@@ -24,7 +24,7 @@ Resources:
       EnableDnsHostnames: true
       Tags:
         - Key: Name
-          Value: MyVPC
+          Value: MyVPCtemp
 
   MyInternetGateway:
     Type: AWS::EC2::InternetGateway
