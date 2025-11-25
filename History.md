@@ -1,3 +1,10 @@
+unreleased
+==========
+
+* Remove `app.set('query parser', 'extended')` option; users should pass a custom parser function instead
+  - To replicate old `'extended'` behavior: `app.set('query parser', str => require('qs').parse(str, { allowPrototypes: true }))`
+  - This allows removing `qs` from the dependencies for users who don't configure it explicitly
+
 5.1.0 / 2025-03-31
 ========================
 
