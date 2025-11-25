@@ -1,6 +1,6 @@
-UNRELEASED
+4.22.0 / 2025-12-01
 ==========
-
+  * Security fix for [CVE-2024-51999](https://www.cve.org/CVERecord?id=CVE-2024-51999) ([GHSA-pj86-cfqh-vqx6](https://github.com/expressjs/express/security/advisories/GHSA-pj86-cfqh-vqx6))
   * deps: use tilde notation for dependencies
   * deps: qs@6.14.0
 
