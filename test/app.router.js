@@ -4,9 +4,9 @@ var after = require('after');
 var express = require('../')
   , request = require('supertest')
   , assert = require('node:assert')
-  , methods = require('../lib/utils').methods;
+  , { methods } = require('../lib/utils');
 
-var shouldSkipQuery = require('./support/utils').shouldSkipQuery
+const { shouldSkipQuery } = require('./support/utils')
 
 describe('app.router', function () {
   it('should restore req.params after leaving router', function (done) {

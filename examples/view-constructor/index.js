@@ -6,7 +6,7 @@
 
 var express = require('../../');
 var GithubView = require('./github-view');
-var md = require('marked').parse;
+const { parse } = require('marked');
 
 var app = module.exports = express();
 

@@ -2,9 +2,8 @@
 
 var after = require('after');
 var assert = require('node:assert')
-var express = require('../')
-  , Route = express.Route
-  , methods = require('../lib/utils').methods
+const { Route } = require('../');
+const { methods } = require('../lib/utils');
 
 describe('Route', function(){
   it('should work without handlers', function(done) {
