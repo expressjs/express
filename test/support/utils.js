@@ -1,11 +1,10 @@
-
 /**
  * Module dependencies.
  * @private
  */
 
-var assert = require('node:assert');
-const { Buffer } = require('node:buffer');
+const assert = require('node:assert')
+const { Buffer } = require('node:buffer')
 
 /**
  * Module exports.
@@ -15,7 +14,7 @@ const { Buffer } = require('node:buffer');
 exports.shouldHaveBody = shouldHaveBody
 exports.shouldHaveHeader = shouldHaveHeader
 exports.shouldNotHaveBody = shouldNotHaveBody
-exports.shouldNotHaveHeader = shouldNotHaveHeader;
+exports.shouldNotHaveHeader = shouldNotHaveHeader
 exports.shouldSkipQuery = shouldSkipQuery
 
 /**
@@ -27,7 +26,7 @@ exports.shouldSkipQuery = shouldSkipQuery
 
 function shouldHaveBody (buf) {
   return function (res) {
-    var body = !Buffer.isBuffer(res.body)
+    const body = !Buffer.isBuffer(res.body)
       ? Buffer.from(res.text)
       : res.body
     assert.ok(body, 'response has body')
@@ -66,21 +65,20 @@ function shouldNotHaveBody () {
  * @param {string} header Header name to check
  * @returns {function}
  */
-function shouldNotHaveHeader(header) {
+function shouldNotHaveHeader (header) {
   return function (res) {
-    assert.ok(!(header.toLowerCase() in res.headers), 'should not have header ' + header);
-  };
+    assert.ok(!(header.toLowerCase() in res.headers), 'should not have header ' + header)
+  }
 }
 
-function getMajorVersion(versionString) {
-  return versionString.split('.')[0];
+function getMajorVersion (versionString) {
+  return versionString.split('.')[0]
 }
 
-function shouldSkipQuery(versionString) {
+function shouldSkipQuery (versionString) {
   // Skipping HTTP QUERY tests below Node 22, QUERY wasn't fully supported by Node until 22
   // we could update this implementation to run on supported versions of 21 once they exist
   // upstream tracking https://github.com/nodejs/node/issues/51562
   // express tracking issue: https://github.com/expressjs/express/issues/5615
   return Number(getMajorVersion(versionString)) < 22
 }
-

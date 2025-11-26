@@ -1,14 +1,14 @@
 'use strict'
 
-var assert = require('node:assert')
-var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
-const { Buffer } = require('node:buffer');
+const assert = require('node:assert')
+const { AsyncLocalStorage } = require('node:async_hooks')
+const { Buffer } = require('node:buffer')
 
-var express = require('..')
-var request = require('supertest')
+const express = require('../')
+const request = require('supertest')
 
-describe('express.json()', function () {
-  it('should parse JSON', function (done) {
+describe('express.json()', () => {
+  it('should parse JSON', (done) => {
     request(createApp())
       .post('/')
       .set('Content-Type', 'application/json')
@@ -16,7 +16,7 @@ describe('express.json()', function () {
       .expect(200, '{"user":"tobi"}', done)
   })
 
-  it('should handle Content-Length: 0', function (done) {
+  it('should handle Content-Length: 0', (done) => {
     request(createApp())
       .post('/')
       .set('Content-Type', 'application/json')
@@ -24,7 +24,7 @@ describe('express.json()', function () {
       .expect(200, '{}', done)
   })
 
-  it('should handle empty message-body', function (done) {
+  it('should handle empty message-body', (done) => {
     request(createApp())
       .post('/')
       .set('Content-Type', 'application/json')
@@ -32,7 +32,7 @@ describe('express.json()', function () {
       .expect(200, '{}', done)
   })
 
-  it('should handle no message-body', function (done) {
+  it('should handle no message-body', (done) => {
     request(createApp())
       .post('/')
       .set('Content-Type', 'application/json')
@@ -41,7 +41,7 @@ describe('express.json()', function () {
   })
 
   // The old node error message modification in body parser is catching this
-  it('should 400 when only whitespace', function (done) {
+  it('should 400 when only whitespace', (done) => {
     request(createApp())
       .post('/')
       .set('Content-Type', 'application/json')
@@ -49,17 +49,17 @@ describe('express.json()', function () {
       .expect(400, '[entity.parse.failed] ' + parseError(' \n'), done)
   })
 
-  it('should 400 when invalid content-length', function (done) {
-    var app = express()
+  it('should 400 when invalid content-length', (done) => {
+    const app = express()
 
-    app.use(function (req, res, next) {
+    app.use((req, res, next) => {
       req.headers['content-length'] = '20' // bad length
       next()
     })
 
     app.use(express.json())
 
-    app.post('/', function (req, res) {
+    app.post('/', (req, res) => {
       res.json(req.body)
     })
 
@@ -70,13 +70,13 @@ describe('express.json()', function () {
       .expect(400, /content length/, done)
   })
 
-  it('should handle duplicated middleware', function (done) {
-    var app = express()
+  it('should handle duplicated middleware', (done) => {
+    const app = express()
 
     app.use(express.json())
     app.use(express.json())
 
-    app.post('/', function (req, res) {
+    app.post('/', (req, res) => {
       res.json(req.body)
     })
 
@@ -87,7 +87,7 @@ describe('express.json()', function () {
       .expect(200, '{"user":"tobi"}', done)
   })
 
-  describe('when JSON is invalid', function () {
+  describe('when JSON is invalid', () => {
     before(function () {
       this.app = createApp()
     })
@@ -118,9 +118,9 @@ describe('express.json()', function () {
     })
   })
 
-  describe('with limit option', function () {
-    it('should 413 when over limit with Content-Length', function (done) {
-      var buf = Buffer.alloc(1024, '.')
+  describe('with limit option', () => {
+    it('should 413 when over limit with Content-Length', (done) => {
+      const buf = Buffer.alloc(1024, '.')
       request(createApp({ limit: '1kb' }))
         .post('/')
         .set('Content-Type', 'application/json')
@@ -129,10 +129,10 @@ describe('express.json()', function () {
         .expect(413, '[entity.too.large] request entity too large', done)
     })
 
-    it('should 413 when over limit with chunked encoding', function (done) {
-      var app = createApp({ limit: '1kb' })
-      var buf = Buffer.alloc(1024, '.')
-      var test = request(app).post('/')
+    it('should 413 when over limit with chunked encoding', (done) => {
+      const app = createApp({ limit: '1kb' })
+      const buf = Buffer.alloc(1024, '.')
+      const test = request(app).post('/')
       test.set('Content-Type', 'application/json')
       test.set('Transfer-Encoding', 'chunked')
       test.write('{"str":')
@@ -140,17 +140,17 @@ describe('express.json()', function () {
       test.expect(413, done)
     })
 
-    it('should 413 when inflated body over limit', function (done) {
-      var app = createApp({ limit: '1kb' })
-      var test = request(app).post('/')
+    it('should 413 when inflated body over limit', (done) => {
+      const app = createApp({ limit: '1kb' })
+      const test = request(app).post('/')
       test.set('Content-Encoding', 'gzip')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('1f8b080000000000000aab562a2e2952b252d21b05a360148c58a0540b0066f7ce1e0a040000', 'hex'))
       test.expect(413, done)
     })
 
-    it('should accept number of bytes', function (done) {
-      var buf = Buffer.alloc(1024, '.')
+    it('should accept number of bytes', (done) => {
+      const buf = Buffer.alloc(1024, '.')
       request(createApp({ limit: 1024 }))
         .post('/')
         .set('Content-Type', 'application/json')
@@ -158,10 +158,10 @@ describe('express.json()', function () {
         .expect(413, done)
     })
 
-    it('should not change when options altered', function (done) {
-      var buf = Buffer.alloc(1024, '.')
-      var options = { limit: '1kb' }
-      var app = createApp(options)
+    it('should not change when options altered', (done) => {
+      const buf = Buffer.alloc(1024, '.')
+      const options = { limit: '1kb' }
+      const app = createApp(options)
 
       options.limit = '100kb'
 
@@ -172,10 +172,10 @@ describe('express.json()', function () {
         .expect(413, done)
     })
 
-    it('should not hang response', function (done) {
-      var buf = Buffer.alloc(10240, '.')
-      var app = createApp({ limit: '8kb' })
-      var test = request(app).post('/')
+    it('should not hang response', (done) => {
+      const buf = Buffer.alloc(10240, '.')
+      const app = createApp({ limit: '8kb' })
+      const test = request(app).post('/')
       test.set('Content-Type', 'application/json')
       test.write(buf)
       test.write(buf)
@@ -183,9 +183,9 @@ describe('express.json()', function () {
       test.expect(413, done)
     })
 
-    it('should not error when inflating', function (done) {
-      var app = createApp({ limit: '1kb' })
-      var test = request(app).post('/')
+    it('should not error when inflating', (done) => {
+      const app = createApp({ limit: '1kb' })
+      const test = request(app).post('/')
       test.set('Content-Encoding', 'gzip')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('1f8b080000000000000aab562a2e2952b252d21b05a360148c58a0540b0066f7ce1e0a0400', 'hex'))
@@ -193,14 +193,14 @@ describe('express.json()', function () {
     })
   })
 
-  describe('with inflate option', function () {
-    describe('when false', function () {
+  describe('with inflate option', () => {
+    describe('when false', () => {
       before(function () {
         this.app = createApp({ inflate: false })
       })
 
       it('should not accept content-encoding', function (done) {
-        var test = request(this.app).post('/')
+        const test = request(this.app).post('/')
         test.set('Content-Encoding', 'gzip')
         test.set('Content-Type', 'application/json')
         test.write(Buffer.from('1f8b080000000000000bab56ca4bcc4d55b2527ab16e97522d00515be1cc0e000000', 'hex'))
@@ -208,13 +208,13 @@ describe('express.json()', function () {
       })
     })
 
-    describe('when true', function () {
+    describe('when true', () => {
       before(function () {
         this.app = createApp({ inflate: true })
       })
 
       it('should accept content-encoding', function (done) {
-        var test = request(this.app).post('/')
+        const test = request(this.app).post('/')
         test.set('Content-Encoding', 'gzip')
         test.set('Content-Type', 'application/json')
         test.write(Buffer.from('1f8b080000000000000bab56ca4bcc4d55b2527ab16e97522d00515be1cc0e000000', 'hex'))
@@ -223,8 +223,8 @@ describe('express.json()', function () {
     })
   })
 
-  describe('with strict option', function () {
-    describe('when undefined', function () {
+  describe('with strict option', () => {
+    describe('when undefined', () => {
       before(function () {
         this.app = createApp()
       })
@@ -238,7 +238,7 @@ describe('express.json()', function () {
       })
     })
 
-    describe('when false', function () {
+    describe('when false', () => {
       before(function () {
         this.app = createApp({ strict: false })
       })
@@ -252,7 +252,7 @@ describe('express.json()', function () {
       })
     })
 
-    describe('when true', function () {
+    describe('when true', () => {
       before(function () {
         this.app = createApp({ strict: true })
       })
@@ -294,8 +294,8 @@ describe('express.json()', function () {
     })
   })
 
-  describe('with type option', function () {
-    describe('when "application/vnd.api+json"', function () {
+  describe('with type option', () => {
+    describe('when "application/vnd.api+json"', () => {
       before(function () {
         this.app = createApp({ type: 'application/vnd.api+json' })
       })
@@ -317,7 +317,7 @@ describe('express.json()', function () {
       })
     })
 
-    describe('when ["application/json", "application/vnd.api+json"]', function () {
+    describe('when ["application/json", "application/vnd.api+json"]', () => {
       before(function () {
         this.app = createApp({
           type: ['application/json', 'application/vnd.api+json']
@@ -349,9 +349,9 @@ describe('express.json()', function () {
       })
     })
 
-    describe('when a function', function () {
-      it('should parse when truthy value returned', function (done) {
-        var app = createApp({ type: accept })
+    describe('when a function', () => {
+      it('should parse when truthy value returned', (done) => {
+        const app = createApp({ type: accept })
 
         function accept (req) {
           return req.headers['content-type'] === 'application/vnd.api+json'
@@ -364,20 +364,20 @@ describe('express.json()', function () {
           .expect(200, '{"user":"tobi"}', done)
       })
 
-      it('should work without content-type', function (done) {
-        var app = createApp({ type: accept })
+      it('should work without content-type', (done) => {
+        const app = createApp({ type: accept })
 
         function accept (req) {
           return true
         }
 
-        var test = request(app).post('/')
+        const test = request(app).post('/')
         test.write('{"user":"tobi"}')
         test.expect(200, '{"user":"tobi"}', done)
       })
 
-      it('should not invoke without a body', function (done) {
-        var app = createApp({ type: accept })
+      it('should not invoke without a body', (done) => {
+        const app = createApp({ type: accept })
 
         function accept (req) {
           throw new Error('oops!')
@@ -390,14 +390,14 @@ describe('express.json()', function () {
     })
   })
 
-  describe('with verify option', function () {
-    it('should assert value if function', function () {
+  describe('with verify option', () => {
+    it('should assert value if function', () => {
       assert.throws(createApp.bind(null, { verify: 'lol' }),
         /TypeError: option verify must be function/)
     })
 
-    it('should error from verify', function (done) {
-      var app = createApp({
+    it('should error from verify', (done) => {
+      const app = createApp({
         verify: function (req, res, buf) {
           if (buf[0] === 0x5b) throw new Error('no arrays')
         }
@@ -410,11 +410,11 @@ describe('express.json()', function () {
         .expect(403, '[entity.verify.failed] no arrays', done)
     })
 
-    it('should allow custom codes', function (done) {
-      var app = createApp({
+    it('should allow custom codes', (done) => {
+      const app = createApp({
         verify: function (req, res, buf) {
           if (buf[0] !== 0x5b) return
-          var err = new Error('no arrays')
+          const err = new Error('no arrays')
           err.status = 400
           throw err
         }
@@ -427,11 +427,11 @@ describe('express.json()', function () {
         .expect(400, '[entity.verify.failed] no arrays', done)
     })
 
-    it('should allow custom type', function (done) {
-      var app = createApp({
+    it('should allow custom type', (done) => {
+      const app = createApp({
         verify: function (req, res, buf) {
           if (buf[0] !== 0x5b) return
-          var err = new Error('no arrays')
+          const err = new Error('no arrays')
           err.type = 'foo.bar'
           throw err
         }
@@ -444,8 +444,8 @@ describe('express.json()', function () {
         .expect(403, '[foo.bar] no arrays', done)
     })
 
-    it('should include original body on error object', function (done) {
-      var app = createApp({
+    it('should include original body on error object', (done) => {
+      const app = createApp({
         verify: function (req, res, buf) {
           if (buf[0] === 0x5b) throw new Error('no arrays')
         }
@@ -459,8 +459,8 @@ describe('express.json()', function () {
         .expect(403, '["tobi"]', done)
     })
 
-    it('should allow pass-through', function (done) {
-      var app = createApp({
+    it('should allow pass-through', (done) => {
+      const app = createApp({
         verify: function (req, res, buf) {
           if (buf[0] === 0x5b) throw new Error('no arrays')
         }
@@ -473,47 +473,47 @@ describe('express.json()', function () {
         .expect(200, '{"user":"tobi"}', done)
     })
 
-    it('should work with different charsets', function (done) {
-      var app = createApp({
+    it('should work with different charsets', (done) => {
+      const app = createApp({
         verify: function (req, res, buf) {
           if (buf[0] === 0x5b) throw new Error('no arrays')
         }
       })
 
-      var test = request(app).post('/')
+      const test = request(app).post('/')
       test.set('Content-Type', 'application/json; charset=utf-16')
       test.write(Buffer.from('feff007b0022006e0061006d00650022003a00228bba0022007d', 'hex'))
       test.expect(200, '{"name":"论"}', done)
     })
 
-    it('should 415 on unknown charset prior to verify', function (done) {
-      var app = createApp({
+    it('should 415 on unknown charset prior to verify', (done) => {
+      const app = createApp({
         verify: function (req, res, buf) {
           throw new Error('unexpected verify call')
         }
       })
 
-      var test = request(app).post('/')
+      const test = request(app).post('/')
       test.set('Content-Type', 'application/json; charset=x-bogus')
       test.write(Buffer.from('00000000', 'hex'))
       test.expect(415, '[charset.unsupported] unsupported charset "X-BOGUS"', done)
     })
   })
 
-  describe('async local storage', function () {
+  describe('async local storage', () => {
     before(function () {
-      var app = express()
-      var store = { foo: 'bar' }
+      const app = express()
+      const store = { foo: 'bar' }
 
-      app.use(function (req, res, next) {
+      app.use((req, res, next) => {
         req.asyncLocalStorage = new AsyncLocalStorage()
         req.asyncLocalStorage.run(store, next)
       })
 
       app.use(express.json())
 
-      app.use(function (req, res, next) {
-        var local = req.asyncLocalStorage.getStore()
+      app.use((req, res, next) => {
+        const local = req.asyncLocalStorage.getStore()
 
         if (local) {
           res.setHeader('x-store-foo', String(local.foo))
@@ -522,8 +522,8 @@ describe('express.json()', function () {
         next()
       })
 
-      app.use(function (err, req, res, next) {
-        var local = req.asyncLocalStorage.getStore()
+      app.use((err, req, res, next) => {
+        const local = req.asyncLocalStorage.getStore()
 
         if (local) {
           res.setHeader('x-store-foo', String(local.foo))
@@ -533,7 +533,7 @@ describe('express.json()', function () {
         res.send('[' + err.type + '] ' + err.message)
       })
 
-      app.post('/', function (req, res) {
+      app.post('/', (req, res) => {
         res.json(req.body)
       })
 
@@ -563,7 +563,7 @@ describe('express.json()', function () {
     })
 
     it('should persist store when inflated', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Encoding', 'gzip')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('1f8b080000000000000bab56ca4bcc4d55b2527ab16e97522d00515be1cc0e000000', 'hex'))
@@ -574,7 +574,7 @@ describe('express.json()', function () {
     })
 
     it('should persist store when inflate error', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Encoding', 'gzip')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('1f8b080000000000000bab56cc4d55b2527ab16e97522d00515be1cc0e000000', 'hex'))
@@ -604,27 +604,27 @@ describe('express.json()', function () {
     })
   })
 
-  describe('charset', function () {
+  describe('charset', () => {
     before(function () {
       this.app = createApp()
     })
 
     it('should parse utf-8', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Type', 'application/json; charset=utf-8')
       test.write(Buffer.from('7b226e616d65223a22e8aeba227d', 'hex'))
       test.expect(200, '{"name":"论"}', done)
     })
 
     it('should parse utf-16', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Type', 'application/json; charset=utf-16')
       test.write(Buffer.from('feff007b0022006e0061006d00650022003a00228bba0022007d', 'hex'))
       test.expect(200, '{"name":"论"}', done)
     })
 
     it('should parse when content-length != char length', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Type', 'application/json; charset=utf-8')
       test.set('Content-Length', '13')
       test.write(Buffer.from('7b2274657374223a22c3a5227d', 'hex'))
@@ -632,34 +632,34 @@ describe('express.json()', function () {
     })
 
     it('should default to utf-8', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('7b226e616d65223a22e8aeba227d', 'hex'))
       test.expect(200, '{"name":"论"}', done)
     })
 
     it('should fail on unknown charset', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Type', 'application/json; charset=koi8-r')
       test.write(Buffer.from('7b226e616d65223a22cec5d4227d', 'hex'))
       test.expect(415, '[charset.unsupported] unsupported charset "KOI8-R"', done)
     })
   })
 
-  describe('encoding', function () {
+  describe('encoding', () => {
     before(function () {
       this.app = createApp({ limit: '1kb' })
     })
 
     it('should parse without encoding', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('7b226e616d65223a22e8aeba227d', 'hex'))
       test.expect(200, '{"name":"论"}', done)
     })
 
     it('should support identity encoding', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Encoding', 'identity')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('7b226e616d65223a22e8aeba227d', 'hex'))
@@ -667,7 +667,7 @@ describe('express.json()', function () {
     })
 
     it('should support gzip encoding', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Encoding', 'gzip')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('1f8b080000000000000bab56ca4bcc4d55b2527ab16e97522d00515be1cc0e000000', 'hex'))
@@ -675,7 +675,7 @@ describe('express.json()', function () {
     })
 
     it('should support deflate encoding', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Encoding', 'deflate')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('789cab56ca4bcc4d55b2527ab16e97522d00274505ac', 'hex'))
@@ -683,7 +683,7 @@ describe('express.json()', function () {
     })
 
     it('should be case-insensitive', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Encoding', 'GZIP')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('1f8b080000000000000bab56ca4bcc4d55b2527ab16e97522d00515be1cc0e000000', 'hex'))
@@ -691,7 +691,7 @@ describe('express.json()', function () {
     })
 
     it('should 415 on unknown encoding', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Encoding', 'nulls')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('000000000000', 'hex'))
@@ -699,7 +699,7 @@ describe('express.json()', function () {
     })
 
     it('should 400 on malformed encoding', function (done) {
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Encoding', 'gzip')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('1f8b080000000000000bab56cc4d55b2527ab16e97522d00515be1cc0e000000', 'hex'))
@@ -708,7 +708,7 @@ describe('express.json()', function () {
 
     it('should 413 when inflated value exceeds limit', function (done) {
       // gzip'd data exceeds 1kb, but deflated below 1kb
-      var test = request(this.app).post('/')
+      const test = request(this.app).post('/')
       test.set('Content-Encoding', 'gzip')
       test.set('Content-Type', 'application/json')
       test.write(Buffer.from('1f8b080000000000000bedc1010d000000c2a0f74f6d0f071400000000000000', 'hex'))
@@ -720,11 +720,11 @@ describe('express.json()', function () {
 })
 
 function createApp (options) {
-  var app = express()
+  const app = express()
 
   app.use(express.json(options))
 
-  app.use(function (err, req, res, next) {
+  app.use((err, req, res, next) => {
     // console.log(err)
     res.status(err.status || 500)
     res.send(String(req.headers['x-error-property']
@@ -732,7 +732,7 @@ function createApp (options) {
       : ('[' + err.type + '] ' + err.message)))
   })
 
-  app.post('/', function (req, res) {
+  app.post('/', (req, res) => {
     res.json(req.body)
   })
 

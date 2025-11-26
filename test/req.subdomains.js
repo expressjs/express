@@ -1,171 +1,171 @@
 'use strict'
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest')
 
-describe('req', function(){
-  describe('.subdomains', function(){
-    describe('when present', function(){
-      it('should return an array', function(done){
-        var app = express();
+describe('req', () => {
+  describe('.subdomains', () => {
+    describe('when present', () => {
+      it('should return an array', (done) => {
+        const app = express()
 
-        app.use(function(req, res){
-          res.send(req.subdomains);
-        });
-
-        request(app)
-        .get('/')
-        .set('Host', 'tobi.ferrets.example.com')
-        .expect(200, ['ferrets', 'tobi'], done);
-      })
-
-      it('should work with IPv4 address', function(done){
-        var app = express();
-
-        app.use(function(req, res){
-          res.send(req.subdomains);
-        });
-
-        request(app)
-        .get('/')
-        .set('Host', '127.0.0.1')
-        .expect(200, [], done);
-      })
-
-      it('should work with IPv6 address', function(done){
-        var app = express();
-
-        app.use(function(req, res){
-          res.send(req.subdomains);
-        });
-
-        request(app)
-        .get('/')
-        .set('Host', '[::1]')
-        .expect(200, [], done);
-      })
-    })
-
-    describe('otherwise', function(){
-      it('should return an empty array', function(done){
-        var app = express();
-
-        app.use(function(req, res){
-          res.send(req.subdomains);
-        });
-
-        request(app)
-        .get('/')
-        .set('Host', 'example.com')
-        .expect(200, [], done);
-      })
-    })
-
-    describe('with no host', function(){
-      it('should return an empty array', function(done){
-        var app = express();
-
-        app.use(function(req, res){
-          req.headers.host = null;
-          res.send(req.subdomains);
-        });
-
-        request(app)
-        .get('/')
-        .expect(200, [], done);
-      })
-    })
-
-    describe('with trusted X-Forwarded-Host', function () {
-      it('should return an array', function (done) {
-        var app = express();
-
-        app.set('trust proxy', true);
-        app.use(function (req, res) {
-          res.send(req.subdomains);
-        });
-
-        request(app)
-        .get('/')
-        .set('X-Forwarded-Host', 'tobi.ferrets.example.com')
-        .expect(200, ['ferrets', 'tobi'], done);
-      })
-    })
-
-    describe('when subdomain offset is set', function(){
-      describe('when subdomain offset is zero', function(){
-        it('should return an array with the whole domain', function(done){
-          var app = express();
-          app.set('subdomain offset', 0);
-
-          app.use(function(req, res){
-            res.send(req.subdomains);
-          });
-
-          request(app)
-          .get('/')
-          .set('Host', 'tobi.ferrets.sub.example.com')
-          .expect(200, ['com', 'example', 'sub', 'ferrets', 'tobi'], done);
+        app.use((req, res) => {
+          res.send(req.subdomains)
         })
 
-        it('should return an array with the whole IPv4', function (done) {
-          var app = express();
-          app.set('subdomain offset', 0);
+        request(app)
+          .get('/')
+          .set('Host', 'tobi.ferrets.example.com')
+          .expect(200, ['ferrets', 'tobi'], done)
+      })
 
-          app.use(function(req, res){
-            res.send(req.subdomains);
-          });
+      it('should work with IPv4 address', (done) => {
+        const app = express()
 
-          request(app)
+        app.use((req, res) => {
+          res.send(req.subdomains)
+        })
+
+        request(app)
           .get('/')
           .set('Host', '127.0.0.1')
-          .expect(200, ['127.0.0.1'], done);
+          .expect(200, [], done)
+      })
+
+      it('should work with IPv6 address', (done) => {
+        const app = express()
+
+        app.use((req, res) => {
+          res.send(req.subdomains)
         })
 
-        it('should return an array with the whole IPv6', function (done) {
-          var app = express();
-          app.set('subdomain offset', 0);
-
-          app.use(function(req, res){
-            res.send(req.subdomains);
-          });
-
-          request(app)
+        request(app)
           .get('/')
           .set('Host', '[::1]')
-          .expect(200, ['[::1]'], done);
+          .expect(200, [], done)
+      })
+    })
+
+    describe('otherwise', () => {
+      it('should return an empty array', (done) => {
+        const app = express()
+
+        app.use((req, res) => {
+          res.send(req.subdomains)
+        })
+
+        request(app)
+          .get('/')
+          .set('Host', 'example.com')
+          .expect(200, [], done)
+      })
+    })
+
+    describe('with no host', () => {
+      it('should return an empty array', (done) => {
+        const app = express()
+
+        app.use((req, res) => {
+          req.headers.host = null
+          res.send(req.subdomains)
+        })
+
+        request(app)
+          .get('/')
+          .expect(200, [], done)
+      })
+    })
+
+    describe('with trusted X-Forwarded-Host', () => {
+      it('should return an array', (done) => {
+        const app = express()
+
+        app.set('trust proxy', true)
+        app.use((req, res) => {
+          res.send(req.subdomains)
+        })
+
+        request(app)
+          .get('/')
+          .set('X-Forwarded-Host', 'tobi.ferrets.example.com')
+          .expect(200, ['ferrets', 'tobi'], done)
+      })
+    })
+
+    describe('when subdomain offset is set', () => {
+      describe('when subdomain offset is zero', () => {
+        it('should return an array with the whole domain', (done) => {
+          const app = express()
+          app.set('subdomain offset', 0)
+
+          app.use((req, res) => {
+            res.send(req.subdomains)
+          })
+
+          request(app)
+            .get('/')
+            .set('Host', 'tobi.ferrets.sub.example.com')
+            .expect(200, ['com', 'example', 'sub', 'ferrets', 'tobi'], done)
+        })
+
+        it('should return an array with the whole IPv4', (done) => {
+          const app = express()
+          app.set('subdomain offset', 0)
+
+          app.use((req, res) => {
+            res.send(req.subdomains)
+          })
+
+          request(app)
+            .get('/')
+            .set('Host', '127.0.0.1')
+            .expect(200, ['127.0.0.1'], done)
+        })
+
+        it('should return an array with the whole IPv6', (done) => {
+          const app = express()
+          app.set('subdomain offset', 0)
+
+          app.use((req, res) => {
+            res.send(req.subdomains)
+          })
+
+          request(app)
+            .get('/')
+            .set('Host', '[::1]')
+            .expect(200, ['[::1]'], done)
         })
       })
 
-      describe('when present', function(){
-        it('should return an array', function(done){
-          var app = express();
-          app.set('subdomain offset', 3);
+      describe('when present', () => {
+        it('should return an array', (done) => {
+          const app = express()
+          app.set('subdomain offset', 3)
 
-          app.use(function(req, res){
-            res.send(req.subdomains);
-          });
+          app.use((req, res) => {
+            res.send(req.subdomains)
+          })
 
           request(app)
-          .get('/')
-          .set('Host', 'tobi.ferrets.sub.example.com')
-          .expect(200, ['ferrets', 'tobi'], done);
+            .get('/')
+            .set('Host', 'tobi.ferrets.sub.example.com')
+            .expect(200, ['ferrets', 'tobi'], done)
         })
       })
 
-      describe('otherwise', function(){
-        it('should return an empty array', function(done){
-          var app = express();
-          app.set('subdomain offset', 3);
+      describe('otherwise', () => {
+        it('should return an empty array', (done) => {
+          const app = express()
+          app.set('subdomain offset', 3)
 
-          app.use(function(req, res){
-            res.send(req.subdomains);
-          });
+          app.use((req, res) => {
+            res.send(req.subdomains)
+          })
 
           request(app)
-          .get('/')
-          .set('Host', 'sub.example.com')
-          .expect(200, [], done);
+            .get('/')
+            .set('Host', 'sub.example.com')
+            .expect(200, [], done)
         })
       })
     })
