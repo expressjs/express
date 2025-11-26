@@ -81,3 +81,91 @@ describe('utils.wetag(body, encoding)', function(){
       'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
   })
 })
+
+describe('utils.etagCors(body, encoding, headers)', function(){
+  it('should support strings without headers', function(){
+    var etag1 = utils.etagCors('express!', 'utf8', {});
+    var etag2 = utils.etagCors('express!', 'utf8', {});
+    assert.strictEqual(etag1, etag2);
+    assert.strictEqual(etag1.startsWith('"'), true);
+  })
+
+  it('should generate different ETags for different origins', function(){
+    var etag1 = utils.etagCors('express!', 'utf8', {
+      'access-control-allow-origin': 'https://a.com'
+    });
+    var etag2 = utils.etagCors('express!', 'utf8', {
+      'access-control-allow-origin': 'https://b.com'
+    });
+    assert.notStrictEqual(etag1, etag2);
+  })
+
+  it('should generate same ETag for same origin', function(){
+    var headers = { 'access-control-allow-origin': 'https://a.com' };
+    var etag1 = utils.etagCors('express!', 'utf8', headers);
+    var etag2 = utils.etagCors('express!', 'utf8', headers);
+    assert.strictEqual(etag1, etag2);
+  })
+
+  it('should work with lowercase header names (as returned by getHeaders)', function(){
+    // Node.js getHeaders() always returns lowercase keys
+    var headers = { 'access-control-allow-origin': 'https://a.com' };
+    var etag1 = utils.etagCors('express!', 'utf8', headers);
+    var etag2 = utils.etagCors('express!', 'utf8', headers);
+    assert.strictEqual(etag1, etag2);
+    // Verify it includes the header in the hash
+    var etagWithoutHeader = utils.etagCors('express!', 'utf8', {});
+    assert.notStrictEqual(etag1, etagWithoutHeader);
+  })
+
+  it('should handle missing CORS headers gracefully', function(){
+    var etagWithoutCORS = utils.etagCors('express!', 'utf8', {
+      'content-type': 'text/plain'
+    });
+    // Should still generate an ETag (falls back to body-only)
+    assert.ok(etagWithoutCORS);
+    assert.strictEqual(etagWithoutCORS.startsWith('"'), true);
+  })
+
+  it('should support buffer with headers', function(){
+    var etag1 = utils.etagCors(Buffer.from('express!'), undefined, {
+      'access-control-allow-origin': 'https://a.com'
+    });
+    var etag2 = utils.etagCors(Buffer.from('express!'), undefined, {
+      'access-control-allow-origin': 'https://b.com'
+    });
+    assert.notStrictEqual(etag1, etag2);
+  })
+
+  it('should be backward compatible without headers parameter', function(){
+    var etag = utils.etagCors('express!');
+    assert.ok(etag);
+    assert.strictEqual(etag, '"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"');
+  })
+})
+
+describe('utils.wetagCors(body, encoding, headers)', function(){
+  it('should generate weak ETags', function(){
+    var etag = utils.wetagCors('express!', 'utf8', {
+      'access-control-allow-origin': 'https://example.com'
+    });
+    assert.ok(etag.startsWith('W/"'));
+  })
+
+  it('should generate different weak ETags for different origins', function(){
+    var etag1 = utils.wetagCors('express!', 'utf8', {
+      'access-control-allow-origin': 'https://a.com'
+    });
+    var etag2 = utils.wetagCors('express!', 'utf8', {
+      'access-control-allow-origin': 'https://b.com'
+    });
+    assert.notStrictEqual(etag1, etag2);
+    assert.ok(etag1.startsWith('W/"'));
+    assert.ok(etag2.startsWith('W/"'));
+  })
+
+  it('should be backward compatible without headers', function(){
+    var etag = utils.wetagCors('express!');
+    assert.strictEqual(etag, 'W/"8-O2uVAFaQ1rZvlKLT14RnuvjPIdg"');
+  })
+})
