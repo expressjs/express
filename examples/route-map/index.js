@@ -4,53 +4,53 @@
  * Module dependencies.
  */
 
-var escapeHtml = require('escape-html')
-var express = require('../../lib/express');
+const escapeHtml = require('escape-html')
+const express = require('../../')
 
-var verbose = process.env.NODE_ENV !== 'test'
+const verbose = process.env.NODE_ENV !== 'test'
 
-var app = module.exports = express();
+const app = module.exports = express()
 
-app.map = function(a, route){
-  route = route || '';
-  for (var key in a) {
+app.map = function (a, route) {
+  route = route || ''
+  for (const key in a) {
     switch (typeof a[key]) {
       // { '/path': { ... }}
       case 'object':
-        app.map(a[key], route + key);
-        break;
+        app.map(a[key], route + key)
+        break
       // get: function(){ ... }
       case 'function':
-        if (verbose) console.log('%s %s', key, route);
-        app[key](route, a[key]);
-        break;
+        if (verbose) console.log('%s %s', key, route)
+        app[key](route, a[key])
+        break
     }
   }
-};
+}
 
-var users = {
-  list: function(req, res){
-    res.send('user list');
+const users = {
+  list: function (req, res) {
+    res.send('user list')
   },
 
-  get: function(req, res){
-    res.send('user ' +  escapeHtml(req.params.uid))
+  get: function (req, res) {
+    res.send('user ' + escapeHtml(req.params.uid))
   },
 
-  delete: function(req, res){
-    res.send('delete users');
+  delete: function (req, res) {
+    res.send('delete users')
   }
-};
+}
 
-var pets = {
-  list: function(req, res){
+const pets = {
+  list: function (req, res) {
     res.send('user ' + escapeHtml(req.params.uid) + '\'s pets')
   },
 
-  delete: function(req, res){
+  delete: function (req, res) {
     res.send('delete ' + escapeHtml(req.params.uid) + '\'s pet ' + escapeHtml(req.params.pid))
   }
-};
+}
 
 app.map({
   '/users': {
@@ -66,10 +66,10 @@ app.map({
       }
     }
   }
-});
+})
 
 /* istanbul ignore next */
 if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
+  app.listen(3000)
+  console.log('Express started on port 3000')
 }

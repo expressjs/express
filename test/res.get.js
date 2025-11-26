@@ -1,21 +1,21 @@
 'use strict'
 
-var express = require('..');
-var request = require('supertest');
+const express = require('../')
+const request = require('supertest')
 
-describe('res', function(){
-  describe('.get(field)', function(){
-    it('should get the response header field', function (done) {
-      var app = express();
+describe('res', () => {
+  describe('.get(field)', () => {
+    it('should get the response header field', (done) => {
+      const app = express()
 
-      app.use(function (req, res) {
-        res.setHeader('Content-Type', 'text/x-foo');
-        res.send(res.get('Content-Type'));
-      });
+      app.use((req, res) => {
+        res.setHeader('Content-Type', 'text/x-foo')
+        res.send(res.get('Content-Type'))
+      })
 
       request(app)
-      .get('/')
-      .expect(200, 'text/x-foo', done);
+        .get('/')
+        .expect(200, 'text/x-foo', done)
     })
   })
 })

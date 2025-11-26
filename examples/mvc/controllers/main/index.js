@@ -1,5 +1,5 @@
 'use strict'
 
-exports.index = function(req, res){
-  res.redirect('/users');
-};
+exports.index = function (req, res) {
+  res.redirect('/users')
+}

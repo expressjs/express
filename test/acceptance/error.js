@@ -1,29 +1,28 @@
+const app = require('../../examples/error/')
+const request = require('supertest')
 
-var app = require('../../examples/error')
-  , request = require('supertest');
-
-describe('error', function(){
-  describe('GET /', function(){
-    it('should respond with 500', function(done){
+describe('error', () => {
+  describe('GET /', () => {
+    it('should respond with 500', (done) => {
       request(app)
         .get('/')
-        .expect(500,done)
+        .expect(500, done)
     })
   })
 
-  describe('GET /next', function(){
-    it('should respond with 500', function(done){
+  describe('GET /next', () => {
+    it('should respond with 500', (done) => {
       request(app)
         .get('/next')
-        .expect(500,done)
+        .expect(500, done)
     })
   })
 
-  describe('GET /missing', function(){
-    it('should respond with 404', function(done){
+  describe('GET /missing', () => {
+    it('should respond with 404', (done) => {
       request(app)
         .get('/missing')
-        .expect(404,done)
+        .expect(404, done)
     })
   })
 })

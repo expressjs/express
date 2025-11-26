@@ -1,37 +1,37 @@
 'use strict'
 
-var after = require('after');
-var assert = require('node:assert')
-var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
-const { Buffer } = require('node:buffer');
+const after = require('after')
+const assert = require('node:assert')
+const { AsyncLocalStorage } = require('node:async_hooks')
+const { Buffer } = require('node:buffer')
 
-var express = require('..');
-var path = require('node:path')
-var request = require('supertest');
-var utils = require('./support/utils')
+const express = require('../')
+const path = require('node:path')
+const request = require('supertest')
+const utils = require('./support/utils')
 
-var FIXTURES_PATH = path.join(__dirname, 'fixtures')
+const FIXTURES_PATH = path.join(__dirname, 'fixtures')
 
-describe('res', function(){
-  describe('.download(path)', function(){
-    it('should transfer as an attachment', function(done){
-      var app = express();
+describe('res', () => {
+  describe('.download(path)', () => {
+    it('should transfer as an attachment', (done) => {
+      const app = express()
 
-      app.use(function(req, res){
-        res.download('test/fixtures/user.html');
-      });
+      app.use((req, res) => {
+        res.download('test/fixtures/user.html')
+      })
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/html; charset=utf-8')
-      .expect('Content-Disposition', 'attachment; filename="user.html"')
-      .expect(200, '<p>{{user.name}}</p>', done)
+        .get('/')
+        .expect('Content-Type', 'text/html; charset=utf-8')
+        .expect('Content-Disposition', 'attachment; filename="user.html"')
+        .expect(200, '<p>{{user.name}}</p>', done)
     })
 
-    it('should accept range requests', function (done) {
-      var app = express()
+    it('should accept range requests', (done) => {
+      const app = express()
 
-      app.get('/', function (req, res) {
+      app.get('/', (req, res) => {
         res.download('test/fixtures/user.html')
       })
 
@@ -41,10 +41,10 @@ describe('res', function(){
         .expect(200, '<p>{{user.name}}</p>', done)
     })
 
-    it('should respond with requested byte range', function (done) {
-      var app = express()
+    it('should respond with requested byte range', (done) => {
+      const app = express()
 
-      app.get('/', function (req, res) {
+      app.get('/', (req, res) => {
         res.download('test/fixtures/user.html')
       })
 
@@ -56,54 +56,54 @@ describe('res', function(){
     })
   })
 
-  describe('.download(path, filename)', function(){
-    it('should provide an alternate filename', function(done){
-      var app = express();
+  describe('.download(path, filename)', () => {
+    it('should provide an alternate filename', (done) => {
+      const app = express()
 
-      app.use(function(req, res){
-        res.download('test/fixtures/user.html', 'document');
-      });
+      app.use((req, res) => {
+        res.download('test/fixtures/user.html', 'document')
+      })
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/html; charset=utf-8')
-      .expect('Content-Disposition', 'attachment; filename="document"')
-      .expect(200, done)
+        .get('/')
+        .expect('Content-Type', 'text/html; charset=utf-8')
+        .expect('Content-Disposition', 'attachment; filename="document"')
+        .expect(200, done)
     })
   })
 
-  describe('.download(path, fn)', function(){
-    it('should invoke the callback', function(done){
-      var app = express();
-      var cb = after(2, done);
+  describe('.download(path, fn)', () => {
+    it('should invoke the callback', (done) => {
+      const app = express()
+      const cb = after(2, done)
 
-      app.use(function(req, res){
-        res.download('test/fixtures/user.html', cb);
-      });
+      app.use((req, res) => {
+        res.download('test/fixtures/user.html', cb)
+      })
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/html; charset=utf-8')
-      .expect('Content-Disposition', 'attachment; filename="user.html"')
-      .expect(200, cb);
+        .get('/')
+        .expect('Content-Type', 'text/html; charset=utf-8')
+        .expect('Content-Disposition', 'attachment; filename="user.html"')
+        .expect(200, cb)
     })
 
-    describe('async local storage', function () {
-      it('should persist store', function (done) {
-        var app = express()
-        var cb = after(2, done)
-        var store = { foo: 'bar' }
+    describe('async local storage', () => {
+      it('should persist store', (done) => {
+        const app = express()
+        const cb = after(2, done)
+        const store = { foo: 'bar' }
 
-        app.use(function (req, res, next) {
+        app.use((req, res, next) => {
           req.asyncLocalStorage = new AsyncLocalStorage()
           req.asyncLocalStorage.run(store, next)
         })
 
-        app.use(function (req, res) {
-          res.download('test/fixtures/name.txt', function (err) {
+        app.use((req, res) => {
+          res.download('test/fixtures/name.txt', (err) => {
             if (err) return cb(err)
 
-            var local = req.asyncLocalStorage.getStore()
+            const local = req.asyncLocalStorage.getStore()
 
             assert.strictEqual(local.foo, 'bar')
             cb()
@@ -117,18 +117,18 @@ describe('res', function(){
           .expect(200, 'tobi', cb)
       })
 
-      it('should persist store on error', function (done) {
-        var app = express()
-        var store = { foo: 'bar' }
+      it('should persist store on error', (done) => {
+        const app = express()
+        const store = { foo: 'bar' }
 
-        app.use(function (req, res, next) {
+        app.use((req, res, next) => {
           req.asyncLocalStorage = new AsyncLocalStorage()
           req.asyncLocalStorage.run(store, next)
         })
 
-        app.use(function (req, res) {
-          res.download('test/fixtures/does-not-exist', function (err) {
-            var local = req.asyncLocalStorage.getStore()
+        app.use((req, res) => {
+          res.download('test/fixtures/does-not-exist', (err) => {
+            const local = req.asyncLocalStorage.getStore()
 
             if (local) {
               res.setHeader('x-store-foo', String(local.foo))
@@ -148,11 +148,11 @@ describe('res', function(){
     })
   })
 
-  describe('.download(path, options)', function () {
-    it('should allow options to res.sendFile()', function (done) {
-      var app = express()
+  describe('.download(path, options)', () => {
+    it('should allow options to res.sendFile()', (done) => {
+      const app = express()
 
-      app.use(function (req, res) {
+      app.use((req, res) => {
         res.download('test/fixtures/.name', {
           dotfiles: 'allow',
           maxAge: '4h'
@@ -168,11 +168,11 @@ describe('res', function(){
         .end(done)
     })
 
-    describe('with "headers" option', function () {
-      it('should set headers on response', function (done) {
-        var app = express()
+    describe('with "headers" option', () => {
+      it('should set headers on response', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.download('test/fixtures/user.html', {
             headers: {
               'X-Foo': 'Bar',
@@ -189,10 +189,10 @@ describe('res', function(){
           .end(done)
       })
 
-      it('should use last header when duplicated', function (done) {
-        var app = express()
+      it('should use last header when duplicated', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.download('test/fixtures/user.html', {
             headers: {
               'X-Foo': 'Bar',
@@ -208,10 +208,10 @@ describe('res', function(){
           .end(done)
       })
 
-      it('should override Content-Type', function (done) {
-        var app = express()
+      it('should override Content-Type', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.download('test/fixtures/user.html', {
             headers: {
               'Content-Type': 'text/x-custom'
@@ -226,10 +226,10 @@ describe('res', function(){
           .end(done)
       })
 
-      it('should not set headers on 404', function (done) {
-        var app = express()
+      it('should not set headers on 404', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.download('test/fixtures/does-not-exist', {
             headers: {
               'X-Foo': 'Bar'
@@ -244,11 +244,11 @@ describe('res', function(){
           .end(done)
       })
 
-      describe('when headers contains Content-Disposition', function () {
-        it('should be ignored', function (done) {
-          var app = express()
+      describe('when headers contains Content-Disposition', () => {
+        it('should be ignored', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.download('test/fixtures/user.html', {
               headers: {
                 'Content-Disposition': 'inline'
@@ -263,10 +263,10 @@ describe('res', function(){
             .end(done)
         })
 
-        it('should be ignored case-insensitively', function (done) {
-          var app = express()
+        it('should be ignored case-insensitively', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.download('test/fixtures/user.html', {
               headers: {
                 'content-disposition': 'inline'
@@ -283,11 +283,11 @@ describe('res', function(){
       })
     })
 
-    describe('with "root" option', function () {
-      it('should allow relative path', function (done) {
-        var app = express()
+    describe('with "root" option', () => {
+      it('should allow relative path', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.download('name.txt', {
             root: FIXTURES_PATH
           })
@@ -301,10 +301,10 @@ describe('res', function(){
           .end(done)
       })
 
-      it('should allow up within root', function (done) {
-        var app = express()
+      it('should allow up within root', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.download('fake/../name.txt', {
             root: FIXTURES_PATH
           })
@@ -318,11 +318,11 @@ describe('res', function(){
           .end(done)
       })
 
-      it('should reject up outside root', function (done) {
-        var app = express()
+      it('should reject up outside root', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
-          var p = '..' + path.sep +
+        app.use((req, res) => {
+          const p = '..' + path.sep +
             path.relative(path.dirname(FIXTURES_PATH), path.join(FIXTURES_PATH, 'name.txt'))
 
           res.download(p, {
@@ -337,10 +337,10 @@ describe('res', function(){
           .end(done)
       })
 
-      it('should reject reading outside root', function (done) {
-        var app = express()
+      it('should reject reading outside root', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.download('../name.txt', {
             root: FIXTURES_PATH
           })
@@ -355,45 +355,45 @@ describe('res', function(){
     })
   })
 
-  describe('.download(path, filename, fn)', function(){
-    it('should invoke the callback', function(done){
-      var app = express();
-      var cb = after(2, done);
+  describe('.download(path, filename, fn)', () => {
+    it('should invoke the callback', (done) => {
+      const app = express()
+      const cb = after(2, done)
 
-      app.use(function(req, res){
+      app.use((req, res) => {
         res.download('test/fixtures/user.html', 'document', cb)
-      });
+      })
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'text/html; charset=utf-8')
-      .expect('Content-Disposition', 'attachment; filename="document"')
-      .expect(200, cb);
+        .get('/')
+        .expect('Content-Type', 'text/html; charset=utf-8')
+        .expect('Content-Disposition', 'attachment; filename="document"')
+        .expect(200, cb)
     })
   })
 
-  describe('.download(path, filename, options, fn)', function () {
-    it('should invoke the callback', function (done) {
-      var app = express()
-      var cb = after(2, done)
-      var options = {}
+  describe('.download(path, filename, options, fn)', () => {
+    it('should invoke the callback', (done) => {
+      const app = express()
+      const cb = after(2, done)
+      const options = {}
 
-      app.use(function (req, res) {
+      app.use((req, res) => {
         res.download('test/fixtures/user.html', 'document', options, cb)
       })
 
       request(app)
-      .get('/')
-      .expect(200)
-      .expect('Content-Type', 'text/html; charset=utf-8')
-      .expect('Content-Disposition', 'attachment; filename="document"')
-      .end(cb)
+        .get('/')
+        .expect(200)
+        .expect('Content-Type', 'text/html; charset=utf-8')
+        .expect('Content-Disposition', 'attachment; filename="document"')
+        .end(cb)
     })
 
-    it('should allow options to res.sendFile()', function (done) {
-      var app = express()
+    it('should allow options to res.sendFile()', (done) => {
+      const app = express()
 
-      app.use(function (req, res) {
+      app.use((req, res) => {
         res.download('test/fixtures/.name', 'document', {
           dotfiles: 'allow',
           maxAge: '4h'
@@ -409,11 +409,11 @@ describe('res', function(){
         .end(done)
     })
 
-    describe('when options.headers contains Content-Disposition', function () {
-      it('should be ignored', function (done) {
-        var app = express()
+    describe('when options.headers contains Content-Disposition', () => {
+      it('should be ignored', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.download('test/fixtures/user.html', 'document', {
             headers: {
               'Content-Type': 'text/x-custom',
@@ -423,17 +423,17 @@ describe('res', function(){
         })
 
         request(app)
-        .get('/')
-        .expect(200)
-        .expect('Content-Type', 'text/x-custom')
-        .expect('Content-Disposition', 'attachment; filename="document"')
-        .end(done)
+          .get('/')
+          .expect(200)
+          .expect('Content-Type', 'text/x-custom')
+          .expect('Content-Disposition', 'attachment; filename="document"')
+          .end(done)
       })
 
-      it('should be ignored case-insensitively', function (done) {
-        var app = express()
+      it('should be ignored case-insensitively', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.download('test/fixtures/user.html', 'document', {
             headers: {
               'content-type': 'text/x-custom',
@@ -443,40 +443,40 @@ describe('res', function(){
         })
 
         request(app)
-        .get('/')
-        .expect(200)
-        .expect('Content-Type', 'text/x-custom')
-        .expect('Content-Disposition', 'attachment; filename="document"')
-        .end(done)
+          .get('/')
+          .expect(200)
+          .expect('Content-Type', 'text/x-custom')
+          .expect('Content-Disposition', 'attachment; filename="document"')
+          .end(done)
       })
     })
   })
 
-  describe('on failure', function(){
-    it('should invoke the callback', function(done){
-      var app = express();
+  describe('on failure', () => {
+    it('should invoke the callback', (done) => {
+      const app = express()
 
-      app.use(function (req, res, next) {
-        res.download('test/fixtures/foobar.html', function(err){
-          if (!err) return next(new Error('expected error'));
-          res.send('got ' + err.status + ' ' + err.code);
-        });
-      });
+      app.use((req, res, next) => {
+        res.download('test/fixtures/foobar.html', (err) => {
+          if (!err) return next(new Error('expected error'))
+          res.send('got ' + err.status + ' ' + err.code)
+        })
+      })
 
       request(app)
-      .get('/')
-      .expect(200, 'got 404 ENOENT', done);
+        .get('/')
+        .expect(200, 'got 404 ENOENT', done)
     })
 
-    it('should remove Content-Disposition', function(done){
-      var app = express()
+    it('should remove Content-Disposition', (done) => {
+      const app = express()
 
-      app.use(function (req, res, next) {
-        res.download('test/fixtures/foobar.html', function(err){
-          if (!err) return next(new Error('expected error'));
-          res.end('failed');
-        });
-      });
+      app.use((req, res, next) => {
+        res.download('test/fixtures/foobar.html', (err) => {
+          if (!err) return next(new Error('expected error'))
+          res.end('failed')
+        })
+      })
 
       request(app)
         .get('/')

@@ -1,15 +1,17 @@
 'use strict'
 
-var search = document.querySelector('[type=search]');
-var code = document.querySelector('pre');
+const search = document.querySelector('[type=search]')
+const code = document.querySelector('pre')
 
-search.addEventListener('keyup', function(){
-  var xhr = new XMLHttpRequest;
-  xhr.open('GET', '/search/' + search.value, true);
-  xhr.onreadystatechange = function(){
+/* global XMLHttpRequest */
+
+search.addEventListener('keyup', () => {
+  const xhr = new XMLHttpRequest()
+  xhr.open('GET', '/search/' + search.value, true)
+  xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
-      code.textContent = xhr.responseText;
+      code.textContent = xhr.responseText
     }
-  };
-  xhr.send();
-}, false);
+  }
+  xhr.send()
+}, false)

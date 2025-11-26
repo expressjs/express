@@ -1,14 +1,14 @@
 'use strict'
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest')
 
-describe('req', function(){
-  describe('.acceptsEncodings', function () {
-    it('should return encoding if accepted', function (done) {
-      var app = express();
+describe('req', () => {
+  describe('.acceptsEncodings', () => {
+    it('should return encoding if accepted', (done) => {
+      const app = express()
 
-      app.get('/', function (req, res) {
+      app.get('/', (req, res) => {
         res.send({
           gzip: req.acceptsEncodings('gzip'),
           deflate: req.acceptsEncodings('deflate')
@@ -21,10 +21,10 @@ describe('req', function(){
         .expect(200, { gzip: 'gzip', deflate: 'deflate' }, done)
     })
 
-    it('should be false if encoding not accepted', function(done){
-      var app = express();
+    it('should be false if encoding not accepted', (done) => {
+      const app = express()
 
-      app.get('/', function (req, res) {
+      app.get('/', (req, res) => {
         res.send({
           bogus: req.acceptsEncodings('bogus')
         })
