@@ -1,22 +1,22 @@
 'use strict'
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest')
 
-describe('req', function(){
-  describe('.route', function(){
-    it('should be the executed Route', function(done){
-      var app = express();
+describe('req', () => {
+  describe('.route', () => {
+    it('should be the executed Route', (done) => {
+      const app = express()
 
-      app.get('/user/:id{/:op}', function(req, res, next){
+      app.get('/user/:id{/:op}', (req, res, next) => {
         res.header('path-1', req.route.path)
-        next();
-      });
+        next()
+      })
 
-      app.get('/user/:id/edit', function(req, res){
+      app.get('/user/:id/edit', (req, res) => {
         res.header('path-2', req.route.path)
-        res.end();
-      });
+        res.end()
+      })
 
       request(app)
         .get('/user/12/edit')

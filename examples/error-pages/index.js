@@ -4,51 +4,51 @@
  * Module dependencies.
  */
 
-var express = require('../../');
-var path = require('node:path');
-var app = module.exports = express();
-var logger = require('morgan');
-var silent = process.env.NODE_ENV === 'test'
+const express = require('../../')
+const path = require('node:path')
+const app = module.exports = express()
+const logger = require('morgan')
+const silent = process.env.NODE_ENV === 'test'
 
 // general config
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
 
 // our custom "verbose errors" setting
 // which we can use in the templates
 // via settings['verbose errors']
-app.enable('verbose errors');
+app.enable('verbose errors')
 
 // disable them in production
 // use $ NODE_ENV=production node examples/error-pages
 if (app.settings.env === 'production') app.disable('verbose errors')
 
-silent || app.use(logger('dev'));
+silent || app.use(logger('dev'))
 
 // Routes
 
-app.get('/', function(req, res){
-  res.render('index.ejs');
-});
+app.get('/', (req, res) => {
+  res.render('index.ejs')
+})
 
-app.get('/404', function(req, res, next){
+app.get('/404', (req, res, next) => {
   // trigger a 404 since no other middleware
   // will match /404 after this one, and we're not
   // responding here
-  next();
-});
+  next()
+})
 
-app.get('/403', function(req, res, next){
+app.get('/403', (req, res, next) => {
   // trigger a 403 error
-  var err = new Error('not allowed!');
-  err.status = 403;
-  next(err);
-});
+  const err = new Error('not allowed!')
+  err.status = 403
+  next(err)
+})
 
-app.get('/500', function(req, res, next){
+app.get('/500', (req, res, next) => {
   // trigger a generic (500) error
-  next(new Error('keyboard cat!'));
-});
+  next(new Error('keyboard cat!'))
+})
 
 // Error handlers
 
@@ -60,8 +60,8 @@ app.get('/500', function(req, res, next){
 // $ curl http://localhost:3000/notfound -H "Accept: application/json"
 // $ curl http://localhost:3000/notfound -H "Accept: text/plain"
 
-app.use(function(req, res, next){
-  res.status(404);
+app.use((req, res, next) => {
+  res.status(404)
 
   res.format({
     html: function () {
@@ -74,7 +74,7 @@ app.use(function(req, res, next){
       res.type('txt').send('Not found')
     }
   })
-});
+})
 
 // error-handling middleware, take the same form
 // as regular middleware, however they require an
@@ -88,16 +88,16 @@ app.use(function(req, res, next){
 // would remain being executed, however here
 // we simply respond with an error page.
 
-app.use(function(err, req, res, next){
+app.use((err, req, res, next) => {
   // we may use properties of the error object
   // here and next(err) appropriately, or if
   // we possibly recovered from the error, simply next().
-  res.status(err.status || 500);
-  res.render('500', { error: err });
-});
+  res.status(err.status || 500)
+  res.render('500', { error: err })
+})
 
 /* istanbul ignore next */
 if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
+  app.listen(3000)
+  console.log('Express started on port 3000')
 }

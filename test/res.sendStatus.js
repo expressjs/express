@@ -1,38 +1,38 @@
 'use strict'
 
-var express = require('..')
-var request = require('supertest')
+const express = require('../')
+const request = require('supertest')
 
-describe('res', function () {
-  describe('.sendStatus(statusCode)', function () {
-    it('should send the status code and message as body', function (done) {
-      var app = express();
+describe('res', () => {
+  describe('.sendStatus(statusCode)', () => {
+    it('should send the status code and message as body', (done) => {
+      const app = express()
 
-      app.use(function(req, res){
-        res.sendStatus(201);
-      });
-
-      request(app)
-      .get('/')
-      .expect(201, 'Created', done);
-    })
-
-    it('should work with unknown code', function (done) {
-      var app = express();
-
-      app.use(function(req, res){
-        res.sendStatus(599);
-      });
+      app.use((req, res) => {
+        res.sendStatus(201)
+      })
 
       request(app)
-      .get('/')
-      .expect(599, '599', done);
+        .get('/')
+        .expect(201, 'Created', done)
     })
 
-    it('should raise error for invalid status code', function (done) {
-      var app = express()
+    it('should work with unknown code', (done) => {
+      const app = express()
 
-      app.use(function (req, res) {
+      app.use((req, res) => {
+        res.sendStatus(599)
+      })
+
+      request(app)
+        .get('/')
+        .expect(599, '599', done)
+    })
+
+    it('should raise error for invalid status code', (done) => {
+      const app = express()
+
+      app.use((req, res) => {
         res.sendStatus(undefined).end()
       })
 

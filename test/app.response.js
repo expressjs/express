@@ -1,41 +1,41 @@
 'use strict'
 
-var after = require('after')
-var express = require('../')
-  , request = require('supertest');
+const after = require('after')
+const express = require('../')
+const request = require('supertest')
 
-describe('app', function(){
-  describe('.response', function(){
-    it('should extend the response prototype', function(done){
-      var app = express();
+describe('app', () => {
+  describe('.response', () => {
+    it('should extend the response prototype', (done) => {
+      const app = express()
 
-      app.response.shout = function(str){
-        this.send(str.toUpperCase());
-      };
+      app.response.shout = function (str) {
+        this.send(str.toUpperCase())
+      }
 
-      app.use(function(req, res){
-        res.shout('hey');
-      });
+      app.use((req, res) => {
+        res.shout('hey')
+      })
 
       request(app)
-      .get('/')
-      .expect('HEY', done);
+        .get('/')
+        .expect('HEY', done)
     })
 
-    it('should only extend for the referenced app', function (done) {
-      var app1 = express()
-      var app2 = express()
-      var cb = after(2, done)
+    it('should only extend for the referenced app', (done) => {
+      const app1 = express()
+      const app2 = express()
+      const cb = after(2, done)
 
       app1.response.shout = function (str) {
         this.send(str.toUpperCase())
       }
 
-      app1.get('/', function (req, res) {
+      app1.get('/', (req, res) => {
         res.shout('foo')
       })
 
-      app2.get('/', function (req, res) {
+      app2.get('/', (req, res) => {
         res.shout('foo')
       })
 
@@ -48,10 +48,10 @@ describe('app', function(){
         .expect(500, /(?:not a function|has no method)/, cb)
     })
 
-    it('should inherit to sub apps', function (done) {
-      var app1 = express()
-      var app2 = express()
-      var cb = after(2, done)
+    it('should inherit to sub apps', (done) => {
+      const app1 = express()
+      const app2 = express()
+      const cb = after(2, done)
 
       app1.response.shout = function (str) {
         this.send(str.toUpperCase())
@@ -59,11 +59,11 @@ describe('app', function(){
 
       app1.use('/sub', app2)
 
-      app1.get('/', function (req, res) {
+      app1.get('/', (req, res) => {
         res.shout('foo')
       })
 
-      app2.get('/', function (req, res) {
+      app2.get('/', (req, res) => {
         res.shout('foo')
       })
 
@@ -76,10 +76,10 @@ describe('app', function(){
         .expect(200, 'FOO', cb)
     })
 
-    it('should allow sub app to override', function (done) {
-      var app1 = express()
-      var app2 = express()
-      var cb = after(2, done)
+    it('should allow sub app to override', (done) => {
+      const app1 = express()
+      const app2 = express()
+      const cb = after(2, done)
 
       app1.response.shout = function (str) {
         this.send(str.toUpperCase())
@@ -91,11 +91,11 @@ describe('app', function(){
 
       app1.use('/sub', app2)
 
-      app1.get('/', function (req, res) {
+      app1.get('/', (req, res) => {
         res.shout('foo')
       })
 
-      app2.get('/', function (req, res) {
+      app2.get('/', (req, res) => {
         res.shout('foo')
       })
 
@@ -108,10 +108,10 @@ describe('app', function(){
         .expect(200, 'foo!', cb)
     })
 
-    it('should not pollute parent app', function (done) {
-      var app1 = express()
-      var app2 = express()
-      var cb = after(2, done)
+    it('should not pollute parent app', (done) => {
+      const app1 = express()
+      const app2 = express()
+      const cb = after(2, done)
 
       app1.response.shout = function (str) {
         this.send(str.toUpperCase())
@@ -123,11 +123,11 @@ describe('app', function(){
 
       app1.use('/sub', app2)
 
-      app1.get('/sub/foo', function (req, res) {
+      app1.get('/sub/foo', (req, res) => {
         res.shout('foo')
       })
 
-      app2.get('/', function (req, res) {
+      app2.get('/', (req, res) => {
         res.shout('foo')
       })
 

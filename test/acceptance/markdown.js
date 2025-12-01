@@ -1,21 +1,20 @@
+const app = require('../../examples/markdown/')
+const request = require('supertest')
 
-var app = require('../../examples/markdown')
-var request = require('supertest')
-
-describe('markdown', function(){
-  describe('GET /', function(){
-    it('should respond with html', function(done){
+describe('markdown', () => {
+  describe('GET /', () => {
+    it('should respond with html', (done) => {
       request(app)
         .get('/')
-        .expect(/<h1[^>]*>Markdown Example<\/h1>/,done)
+        .expect(/<h1[^>]*>Markdown Example<\/h1>/, done)
     })
   })
 
-  describe('GET /fail',function(){
-    it('should respond with an error', function(done){
+  describe('GET /fail', () => {
+    it('should respond with an error', (done) => {
       request(app)
         .get('/fail')
-        .expect(500,done)
+        .expect(500, done)
     })
   })
 })
