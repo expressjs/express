@@ -3,6 +3,7 @@
 var assert = require('node:assert')
 var express = require('../')
   , request = require('supertest');
+var qs = require('qs');
 
 describe('req', function(){
   describe('.query', function(){
@@ -38,6 +39,22 @@ describe('req', function(){
         .get('/?user.name=tj')
         .expect(200, '{"user.name":"tj"}', done);
       });
+
+      it('should not be able to access object prototype properties', function (done) {
+        var app = createApp('extended', true);
+
+        request(app)
+        .get('/?foo=yee')
+        .expect(200, /TypeError: req\.query\.hasOwnProperty is not a function/, done);
+      });
+
+      it('should be able to use object prototype property names as keys', function (done) {
+        var app = createApp('extended', true);
+
+        request(app)
+        .get('/?hasOwnProperty=yee')
+        .expect(200, '{"query":{"hasOwnProperty":"yee"},"error":"TypeError: req.query.hasOwnProperty is not a function"}', done);
+      });
     });
 
     describe('when "query parser" is simple', function () {
@@ -47,6 +64,22 @@ describe('req', function(){
         request(app)
         .get('/?user%5Bname%5D=tj')
         .expect(200, '{"user[name]":"tj"}', done);
+      });
+
+      it('should not be able to access object prototype properties', function (done) {
+        var app = createApp('simple', true);
+
+        request(app)
+        .get('/?foo=yee')
+        .expect(200, /TypeError: req\.query\.hasOwnProperty is not a function/, done);
+      });
+
+      it('should be able to use object prototype property names as keys', function (done) {
+        var app = createApp('simple', true);
+
+        request(app)
+        .get('/?hasOwnProperty=yee')
+        .expect(200, '{"query":{"hasOwnProperty":"yee"},"error":"TypeError: req.query.hasOwnProperty is not a function"}', done);
       });
     });
 
@@ -60,6 +93,18 @@ describe('req', function(){
         .get('/?user%5Bname%5D=tj')
         .expect(200, '{"length":17}', done);
       });
+
+      // test exists to verify behavior for folks wishing to workaround our qs defaults
+      it('should drop object prototype property names and be able to access object prototype properties', function (done) {
+        var app = createApp(
+          function (str) {
+            return qs.parse(str)
+          }, true);
+
+        request(app)
+        .get('/?hasOwnProperty=biscuits')
+        .expect(200, '{"query":{},"hasOwnProperty":false}', done);
+      });
     });
 
     describe('when "query parser" disabled', function () {
@@ -70,6 +115,22 @@ describe('req', function(){
         .get('/?user%5Bname%5D=tj')
         .expect(200, '{}', done);
       });
+
+      it('should not be able to access object prototype properties', function (done) {
+        var app = createApp('extended', true);
+
+        request(app)
+        .get('/?foo=yee')
+        .expect(200, /TypeError: req\.query\.hasOwnProperty is not a function/, done);
+      });
+
+      it('should be able to use object prototype property names as keys', function (done) {
+        var app = createApp('extended', true);
+
+        request(app)
+        .get('/?hasOwnProperty=yee')
+        .expect(200, '{"query":{"hasOwnProperty":"yee"},"error":"TypeError: req.query.hasOwnProperty is not a function"}', done);
+      });
     });
 
     describe('when "query parser" enabled', function () {
@@ -79,6 +140,22 @@ describe('req', function(){
         request(app)
         .get('/?user%5Bname%5D=tj')
         .expect(200, '{"user[name]":"tj"}', done);
+      });
+
+      it('should not be able to access object prototype properties', function (done) {
+        var app = createApp('extended', true);
+
+        request(app)
+        .get('/?foo=yee')
+        .expect(200, /TypeError: req\.query\.hasOwnProperty is not a function/, done);
+      });
+
+      it('should be able to use object prototype property names as keys', function (done) {
+        var app = createApp('extended', true);
+
+        request(app)
+        .get('/?hasOwnProperty=yee')
+        .expect(200, '{"query":{"hasOwnProperty":"yee"},"error":"TypeError: req.query.hasOwnProperty is not a function"}', done);
       });
     });
 
@@ -91,7 +168,7 @@ describe('req', function(){
   })
 })
 
-function createApp(setting) {
+function createApp(setting, isPrototypePropertyTest) {
   var app = express();
 
   if (setting !== undefined) {
@@ -99,7 +176,17 @@ function createApp(setting) {
   }
 
   app.use(function (req, res) {
-    res.send(req.query);
+    if(isPrototypePropertyTest) {
+      try {
+        var hasOwnProperty = req.query.hasOwnProperty('✨ express ✨');
+        res.send({ query: req.query, hasOwnProperty: hasOwnProperty });
+      } catch (error) {
+        res.send({ query: req.query, error: error.toString() });
+      }
+    }
+    else {
+      res.send(req.query);
+    }
   });
 
   return app;
