@@ -76,7 +76,8 @@
     "morgan": "1.10.1",
     "nyc": "^17.1.0",
     "pbkdf2-password": "1.2.1",
-    "supertest": "^6.3.0",
+    "superagent": "^10.2.3",
+    "supertest": "^7.1.4",
     "vhost": "~3.0.2"
   },
   "engines": {
