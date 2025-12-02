@@ -200,6 +200,18 @@ describe('res', function () {
           .get('/')
           .expect(500, /Invalid status code/, done);
       });
+
+      it('should raise error for BigInt status code', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.status(200n).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /TypeError: Invalid status code: 200 \(bigint\)/, done);
+      });
     });
   });
 });
