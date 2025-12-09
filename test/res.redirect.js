@@ -211,4 +211,20 @@ describe('res', function(){
         .end(done)
     })
   })
+
+  // Wisp-xd: Added this test case to reproduce Issue #6941
+  describe('when redirecting to undefined', function () {
+    it('should error when redirecting to undefined', function (done) {
+      var app = express();
+  
+      app.use(function (req, res) {
+        res.redirect(undefined);
+      });
+  
+      request(app)
+        .get('/')
+        .expect(500, done); 
+    });
+  });
+
 })
