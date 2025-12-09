@@ -1,29 +1,29 @@
 'use strict'
 
-var assert = require('node:assert')
-var express = require('..')
-var path = require('node:path')
-const { Buffer } = require('node:buffer');
+const assert = require('node:assert')
+const express = require('../')
+const path = require('node:path')
+const { Buffer } = require('node:buffer')
 
-var request = require('supertest')
-var utils = require('./support/utils')
+const request = require('supertest')
+const utils = require('./support/utils')
 
-var fixtures = path.join(__dirname, '/fixtures')
-var relative = path.relative(process.cwd(), fixtures)
+const fixtures = path.join(__dirname, '/fixtures')
+const relative = path.relative(process.cwd(), fixtures)
 
-var skipRelative = ~relative.indexOf('..') || path.resolve(relative) === relative
+const skipRelative = ~relative.indexOf('..') || path.resolve(relative) === relative
 
-describe('express.static()', function () {
-  describe('basic operations', function () {
+describe('express.static()', () => {
+  describe('basic operations', () => {
     before(function () {
       this.app = createApp()
     })
 
-    it('should require root path', function () {
+    it('should require root path', () => {
       assert.throws(express.static.bind(), /root path required/)
     })
 
-    it('should require root path to be string', function () {
+    it('should require root path to be string', () => {
       assert.throws(express.static.bind(null, 42), /root path.*string/)
     })
 
@@ -101,11 +101,11 @@ describe('express.static()', function () {
     })
 
     it('should support conditional requests', function (done) {
-      var app = this.app
+      const app = this.app
 
       request(app)
         .get('/todo.txt')
-        .end(function (err, res) {
+        .end((err, res) => {
           if (err) throw err
           request(app)
             .get('/todo.txt')
@@ -134,30 +134,30 @@ describe('express.static()', function () {
     })
   });
 
-  (skipRelative ? describe.skip : describe)('current dir', function () {
+  (skipRelative ? describe.skip : describe)('current dir', () => {
     before(function () {
       this.app = createApp('.')
     })
 
     it('should be served with "."', function (done) {
-      var dest = relative.split(path.sep).join('/')
+      const dest = relative.split(path.sep).join('/')
       request(this.app)
         .get('/' + dest + '/todo.txt')
         .expect(200, '- groceries', done)
     })
   })
 
-  describe('acceptRanges', function () {
-    describe('when false', function () {
-      it('should not include Accept-Ranges', function (done) {
-        request(createApp(fixtures, { 'acceptRanges': false }))
+  describe('acceptRanges', () => {
+    describe('when false', () => {
+      it('should not include Accept-Ranges', (done) => {
+        request(createApp(fixtures, { acceptRanges: false }))
           .get('/nums.txt')
           .expect(utils.shouldNotHaveHeader('Accept-Ranges'))
           .expect(200, '123456789', done)
       })
 
-      it('should ignore Rage request header', function (done) {
-        request(createApp(fixtures, { 'acceptRanges': false }))
+      it('should ignore Rage request header', (done) => {
+        request(createApp(fixtures, { acceptRanges: false }))
           .get('/nums.txt')
           .set('Range', 'bytes=0-3')
           .expect(utils.shouldNotHaveHeader('Accept-Ranges'))
@@ -166,16 +166,16 @@ describe('express.static()', function () {
       })
     })
 
-    describe('when true', function () {
-      it('should include Accept-Ranges', function (done) {
-        request(createApp(fixtures, { 'acceptRanges': true }))
+    describe('when true', () => {
+      it('should include Accept-Ranges', (done) => {
+        request(createApp(fixtures, { acceptRanges: true }))
           .get('/nums.txt')
           .expect('Accept-Ranges', 'bytes')
           .expect(200, '123456789', done)
       })
 
-      it('should obey Rage request header', function (done) {
-        request(createApp(fixtures, { 'acceptRanges': true }))
+      it('should obey Rage request header', (done) => {
+        request(createApp(fixtures, { acceptRanges: true }))
           .get('/nums.txt')
           .set('Range', 'bytes=0-3')
           .expect('Accept-Ranges', 'bytes')
@@ -185,26 +185,26 @@ describe('express.static()', function () {
     })
   })
 
-  describe('cacheControl', function () {
-    describe('when false', function () {
-      it('should not include Cache-Control', function (done) {
-        request(createApp(fixtures, { 'cacheControl': false }))
+  describe('cacheControl', () => {
+    describe('when false', () => {
+      it('should not include Cache-Control', (done) => {
+        request(createApp(fixtures, { cacheControl: false }))
           .get('/nums.txt')
           .expect(utils.shouldNotHaveHeader('Cache-Control'))
           .expect(200, '123456789', done)
       })
 
-      it('should ignore maxAge', function (done) {
-        request(createApp(fixtures, { 'cacheControl': false, 'maxAge': 12000 }))
+      it('should ignore maxAge', (done) => {
+        request(createApp(fixtures, { cacheControl: false, maxAge: 12000 }))
           .get('/nums.txt')
           .expect(utils.shouldNotHaveHeader('Cache-Control'))
           .expect(200, '123456789', done)
       })
     })
 
-    describe('when true', function () {
-      it('should include Cache-Control', function (done) {
-        request(createApp(fixtures, { 'cacheControl': true }))
+    describe('when true', () => {
+      it('should include Cache-Control', (done) => {
+        request(createApp(fixtures, { cacheControl: true }))
           .get('/nums.txt')
           .expect('Cache-Control', 'public, max-age=0')
           .expect(200, '123456789', done)
@@ -212,48 +212,48 @@ describe('express.static()', function () {
     })
   })
 
-  describe('extensions', function () {
-    it('should be not be enabled by default', function (done) {
+  describe('extensions', () => {
+    it('should be not be enabled by default', (done) => {
       request(createApp(fixtures))
         .get('/todo')
         .expect(404, done)
     })
 
-    it('should be configurable', function (done) {
-      request(createApp(fixtures, { 'extensions': 'txt' }))
+    it('should be configurable', (done) => {
+      request(createApp(fixtures, { extensions: 'txt' }))
         .get('/todo')
         .expect(200, '- groceries', done)
     })
 
-    it('should support disabling extensions', function (done) {
-      request(createApp(fixtures, { 'extensions': false }))
+    it('should support disabling extensions', (done) => {
+      request(createApp(fixtures, { extensions: false }))
         .get('/todo')
         .expect(404, done)
     })
 
-    it('should support fallbacks', function (done) {
-      request(createApp(fixtures, { 'extensions': ['htm', 'html', 'txt'] }))
+    it('should support fallbacks', (done) => {
+      request(createApp(fixtures, { extensions: ['htm', 'html', 'txt'] }))
         .get('/todo')
         .expect(200, '<li>groceries</li>', done)
     })
 
-    it('should 404 if nothing found', function (done) {
-      request(createApp(fixtures, { 'extensions': ['htm', 'html', 'txt'] }))
+    it('should 404 if nothing found', (done) => {
+      request(createApp(fixtures, { extensions: ['htm', 'html', 'txt'] }))
         .get('/bob')
         .expect(404, done)
     })
   })
 
-  describe('fallthrough', function () {
-    it('should default to true', function (done) {
+  describe('fallthrough', () => {
+    it('should default to true', (done) => {
       request(createApp())
         .get('/does-not-exist')
         .expect(404, 'Not Found', done)
     })
 
-    describe('when true', function () {
+    describe('when true', () => {
       before(function () {
-        this.app = createApp(fixtures, { 'fallthrough': true })
+        this.app = createApp(fixtures, { fallthrough: true })
       })
 
       it('should fall-through when OPTIONS request', function (done) {
@@ -274,12 +274,12 @@ describe('express.static()', function () {
           .expect(404, 'Not Found', done)
       })
 
-      it('should fall-through when URL too long', function (done) {
-        var app = express()
-        var root = fixtures + Array(10000).join('/foobar')
+      it('should fall-through when URL too long', (done) => {
+        const app = express()
+        const root = fixtures + Array(10000).join('/foobar')
 
-        app.use(express.static(root, { 'fallthrough': true }))
-        app.use(function (req, res, next) {
+        app.use(express.static(root, { fallthrough: true }))
+        app.use((req, res, next) => {
           res.sendStatus(404)
         })
 
@@ -288,9 +288,9 @@ describe('express.static()', function () {
           .expect(404, 'Not Found', done)
       })
 
-      describe('with redirect: true', function () {
+      describe('with redirect: true', () => {
         before(function () {
-          this.app = createApp(fixtures, { 'fallthrough': true, 'redirect': true })
+          this.app = createApp(fixtures, { fallthrough: true, redirect: true })
         })
 
         it('should fall-through when directory', function (done) {
@@ -306,9 +306,9 @@ describe('express.static()', function () {
         })
       })
 
-      describe('with redirect: false', function () {
+      describe('with redirect: false', () => {
         before(function () {
-          this.app = createApp(fixtures, { 'fallthrough': true, 'redirect': false })
+          this.app = createApp(fixtures, { fallthrough: true, redirect: false })
         })
 
         it('should fall-through when directory', function (done) {
@@ -325,9 +325,9 @@ describe('express.static()', function () {
       })
     })
 
-    describe('when false', function () {
+    describe('when false', () => {
       before(function () {
-        this.app = createApp(fixtures, { 'fallthrough': false })
+        this.app = createApp(fixtures, { fallthrough: false })
       })
 
       it('should 405 when OPTIONS request', function (done) {
@@ -349,12 +349,12 @@ describe('express.static()', function () {
           .expect(403, /ForbiddenError/, done)
       })
 
-      it('should 404 when URL too long', function (done) {
-        var app = express()
-        var root = fixtures + Array(10000).join('/foobar')
+      it('should 404 when URL too long', (done) => {
+        const app = express()
+        const root = fixtures + Array(10000).join('/foobar')
 
-        app.use(express.static(root, { 'fallthrough': false }))
-        app.use(function (req, res, next) {
+        app.use(express.static(root, { fallthrough: false }))
+        app.use((req, res, next) => {
           res.sendStatus(404)
         })
 
@@ -363,9 +363,9 @@ describe('express.static()', function () {
           .expect(404, /ENAMETOOLONG/, done)
       })
 
-      describe('with redirect: true', function () {
+      describe('with redirect: true', () => {
         before(function () {
-          this.app = createApp(fixtures, { 'fallthrough': false, 'redirect': true })
+          this.app = createApp(fixtures, { fallthrough: false, redirect: true })
         })
 
         it('should 404 when directory', function (done) {
@@ -381,9 +381,9 @@ describe('express.static()', function () {
         })
       })
 
-      describe('with redirect: false', function () {
+      describe('with redirect: false', () => {
         before(function () {
-          this.app = createApp(fixtures, { 'fallthrough': false, 'redirect': false })
+          this.app = createApp(fixtures, { fallthrough: false, redirect: false })
         })
 
         it('should 404 when directory', function (done) {
@@ -401,9 +401,9 @@ describe('express.static()', function () {
     })
   })
 
-  describe('hidden files', function () {
+  describe('hidden files', () => {
     before(function () {
-      this.app = createApp(fixtures, { 'dotfiles': 'allow' })
+      this.app = createApp(fixtures, { dotfiles: 'allow' })
     })
 
     it('should be served when dotfiles: "allow" is given', function (done) {
@@ -415,33 +415,33 @@ describe('express.static()', function () {
     })
   })
 
-  describe('immutable', function () {
-    it('should default to false', function (done) {
+  describe('immutable', () => {
+    it('should default to false', (done) => {
       request(createApp(fixtures))
         .get('/nums.txt')
         .expect('Cache-Control', 'public, max-age=0', done)
     })
 
-    it('should set immutable directive in Cache-Control', function (done) {
-      request(createApp(fixtures, { 'immutable': true, 'maxAge': '1h' }))
+    it('should set immutable directive in Cache-Control', (done) => {
+      request(createApp(fixtures, { immutable: true, maxAge: '1h' }))
         .get('/nums.txt')
         .expect('Cache-Control', 'public, max-age=3600, immutable', done)
     })
   })
 
-  describe('lastModified', function () {
-    describe('when false', function () {
-      it('should not include Last-Modified', function (done) {
-        request(createApp(fixtures, { 'lastModified': false }))
+  describe('lastModified', () => {
+    describe('when false', () => {
+      it('should not include Last-Modified', (done) => {
+        request(createApp(fixtures, { lastModified: false }))
           .get('/nums.txt')
           .expect(utils.shouldNotHaveHeader('Last-Modified'))
           .expect(200, '123456789', done)
       })
     })
 
-    describe('when true', function () {
-      it('should include Last-Modified', function (done) {
-        request(createApp(fixtures, { 'lastModified': true }))
+    describe('when true', () => {
+      it('should include Last-Modified', (done) => {
+        request(createApp(fixtures, { lastModified: true }))
           .get('/nums.txt')
           .expect('Last-Modified', /^\w{3}, \d+ \w+ \d+ \d+:\d+:\d+ \w+$/)
           .expect(200, '123456789', done)
@@ -449,26 +449,26 @@ describe('express.static()', function () {
     })
   })
 
-  describe('maxAge', function () {
-    it('should accept string', function (done) {
-      request(createApp(fixtures, { 'maxAge': '30d' }))
+  describe('maxAge', () => {
+    it('should accept string', (done) => {
+      request(createApp(fixtures, { maxAge: '30d' }))
         .get('/todo.txt')
         .expect('cache-control', 'public, max-age=' + (60 * 60 * 24 * 30))
         .expect(200, done)
     })
 
-    it('should be reasonable when infinite', function (done) {
-      request(createApp(fixtures, { 'maxAge': Infinity }))
+    it('should be reasonable when infinite', (done) => {
+      request(createApp(fixtures, { maxAge: Infinity }))
         .get('/todo.txt')
         .expect('cache-control', 'public, max-age=' + (60 * 60 * 24 * 365))
         .expect(200, done)
     })
   })
 
-  describe('redirect', function () {
+  describe('redirect', () => {
     before(function () {
       this.app = express()
-      this.app.use(function (req, res, next) {
+      this.app.use((req, res, next) => {
         req.originalUrl = req.url =
           req.originalUrl.replace(/\/snow(\/|$)/, '/snow \u2603$1')
         next()
@@ -525,9 +525,9 @@ describe('express.static()', function () {
         .expect(404, done)
     })
 
-    describe('when false', function () {
+    describe('when false', () => {
       before(function () {
-        this.app = createApp(fixtures, { 'redirect': false })
+        this.app = createApp(fixtures, { redirect: false })
       })
 
       it('should disable redirect', function (done) {
@@ -538,16 +538,18 @@ describe('express.static()', function () {
     })
   })
 
-  describe('setHeaders', function () {
+  describe('setHeaders', () => {
     before(function () {
       this.app = express()
-      this.app.use(express.static(fixtures, { 'setHeaders': function (res) {
-        res.setHeader('x-custom', 'set')
-      } }))
+      this.app.use(express.static(fixtures, {
+        setHeaders: function (res) {
+          res.setHeader('x-custom', 'set')
+        }
+      }))
     })
 
-    it('should reject non-functions', function () {
-      assert.throws(express.static.bind(null, fixtures, { 'setHeaders': 3 }), /setHeaders.*function/)
+    it('should reject non-functions', () => {
+      assert.throws(express.static.bind(null, fixtures, { setHeaders: 3 }), /setHeaders.*function/)
     })
 
     it('should get called when sending file', function (done) {
@@ -572,9 +574,9 @@ describe('express.static()', function () {
     })
   })
 
-  describe('when traversing past root', function () {
+  describe('when traversing past root', () => {
     before(function () {
-      this.app = createApp(fixtures, { 'fallthrough': false })
+      this.app = createApp(fixtures, { fallthrough: false })
     })
 
     it('should catch urlencoded ../', function (done) {
@@ -590,7 +592,7 @@ describe('express.static()', function () {
     })
   })
 
-  describe('when request has "Range" header', function () {
+  describe('when request has "Range" header', () => {
     before(function () {
       this.app = createApp()
     })
@@ -645,7 +647,7 @@ describe('express.static()', function () {
         .expect(206, '34', done)
     })
 
-    describe('when last-byte-pos of the range is greater than current length', function () {
+    describe('when last-byte-pos of the range is greater than current length', () => {
       it('is taken to be equal to one less than the current length', function (done) {
         request(this.app)
           .get('/nums.txt')
@@ -662,7 +664,7 @@ describe('express.static()', function () {
       })
     })
 
-    describe('when the first- byte-pos of the range is greater than the current length', function () {
+    describe('when the first- byte-pos of the range is greater than the current length', () => {
       it('should respond with 416', function (done) {
         request(this.app)
           .get('/nums.txt')
@@ -679,7 +681,7 @@ describe('express.static()', function () {
       })
     })
 
-    describe('when syntactically invalid', function () {
+    describe('when syntactically invalid', () => {
       it('should respond with 200 and the entire contents', function (done) {
         request(this.app)
           .get('/nums.txt')
@@ -689,7 +691,7 @@ describe('express.static()', function () {
     })
   })
 
-  describe('when index at mount point', function () {
+  describe('when index at mount point', () => {
     before(function () {
       this.app = express()
       this.app.use('/users', express.static(fixtures + '/users'))
@@ -703,7 +705,7 @@ describe('express.static()', function () {
     })
   })
 
-  describe('when mounted', function () {
+  describe('when mounted', () => {
     before(function () {
       this.app = express()
       this.app.use('/static', express.static(fixtures))
@@ -729,7 +731,7 @@ describe('express.static()', function () {
   //       are doing, so this will prevent unseen
   //       regressions around this use-case.
   //
-  describe('when mounted "root" as a file', function () {
+  describe('when mounted "root" as a file', () => {
     before(function () {
       this.app = express()
       this.app.use('/todo.txt', express.static(fixtures + '/todo.txt'))
@@ -748,11 +750,11 @@ describe('express.static()', function () {
     })
   })
 
-  describe('when responding non-2xx or 304', function () {
-    it('should not alter the status', function (done) {
-      var app = express()
+  describe('when responding non-2xx or 304', () => {
+    it('should not alter the status', (done) => {
+      const app = express()
 
-      app.use(function (req, res, next) {
+      app.use((req, res, next) => {
         res.status(501)
         next()
       })
@@ -764,11 +766,11 @@ describe('express.static()', function () {
     })
   })
 
-  describe('when index file serving disabled', function () {
+  describe('when index file serving disabled', () => {
     before(function () {
       this.app = express()
-      this.app.use('/static', express.static(fixtures, { 'index': false }))
-      this.app.use(function (req, res, next) {
+      this.app.use('/static', express.static(fixtures, { index: false }))
+      this.app.use((req, res, next) => {
         res.sendStatus(404)
       })
     })
@@ -802,12 +804,12 @@ describe('express.static()', function () {
 })
 
 function createApp (dir, options, fn) {
-  var app = express()
-  var root = dir || fixtures
+  const app = express()
+  const root = dir || fixtures
 
   app.use(express.static(root, options))
 
-  app.use(function (req, res, next) {
+  app.use((req, res, next) => {
     res.sendStatus(404)
   })
 

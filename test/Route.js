@@ -1,42 +1,41 @@
 'use strict'
 
-var after = require('after');
-var assert = require('node:assert')
-var express = require('../')
-  , Route = express.Route
-  , methods = require('../lib/utils').methods
+const after = require('after')
+const assert = require('node:assert')
+const { Route } = require('../')
+const { methods } = require('../lib/utils')
 
-describe('Route', function(){
-  it('should work without handlers', function(done) {
-    var req = { method: 'GET', url: '/' }
-    var route = new Route('/foo')
+describe('Route', () => {
+  it('should work without handlers', (done) => {
+    const req = { method: 'GET', url: '/' }
+    const route = new Route('/foo')
     route.dispatch(req, {}, done)
   })
 
   it('should not stack overflow with a large sync stack', function (done) {
     this.timeout(5000) // long-running test
 
-    var req = { method: 'GET', url: '/' }
-    var route = new Route('/foo')
+    const req = { method: 'GET', url: '/' }
+    const route = new Route('/foo')
 
-    route.get(function (req, res, next) {
+    route.get((req, res, next) => {
       req.counter = 0
       next()
     })
 
-    for (var i = 0; i < 6000; i++) {
-      route.all(function (req, res, next) {
+    for (let i = 0; i < 6000; i++) {
+      route.all((req, res, next) => {
         req.counter++
         next()
       })
     }
 
-    route.get(function (req, res, next) {
+    route.get((req, res, next) => {
       req.called = true
       next()
     })
 
-    route.dispatch(req, {}, function (err) {
+    route.dispatch(req, {}, (err) => {
       if (err) return done(err)
       assert.ok(req.called)
       assert.strictEqual(req.counter, 6000)
@@ -44,231 +43,231 @@ describe('Route', function(){
     })
   })
 
-  describe('.all', function(){
-    it('should add handler', function(done){
-      var req = { method: 'GET', url: '/' };
-      var route = new Route('/foo');
+  describe('.all', () => {
+    it('should add handler', (done) => {
+      const req = { method: 'GET', url: '/' }
+      const route = new Route('/foo')
 
-      route.all(function(req, res, next) {
-        req.called = true;
-        next();
-      });
+      route.all((req, res, next) => {
+        req.called = true
+        next()
+      })
 
-      route.dispatch(req, {}, function (err) {
-        if (err) return done(err);
+      route.dispatch(req, {}, (err) => {
+        if (err) return done(err)
         assert.ok(req.called)
-        done();
-      });
+        done()
+      })
     })
 
-    it('should handle VERBS', function(done) {
-      var count = 0;
-      var route = new Route('/foo');
-      var cb = after(methods.length, function (err) {
-        if (err) return done(err);
+    it('should handle VERBS', (done) => {
+      let count = 0
+      const route = new Route('/foo')
+      const cb = after(methods.length, (err) => {
+        if (err) return done(err)
         assert.strictEqual(count, methods.length)
-        done();
-      });
+        done()
+      })
 
-      route.all(function(req, res, next) {
-        count++;
-        next();
-      });
+      route.all((req, res, next) => {
+        count++
+        next()
+      })
 
-      methods.forEach(function testMethod(method) {
-        var req = { method: method, url: '/' };
-        route.dispatch(req, {}, cb);
-      });
+      methods.forEach((method) => {
+        const req = { method, url: '/' }
+        route.dispatch(req, {}, cb)
+      })
     })
 
-    it('should stack', function(done) {
-      var req = { count: 0, method: 'GET', url: '/' };
-      var route = new Route('/foo');
+    it('should stack', (done) => {
+      const req = { count: 0, method: 'GET', url: '/' }
+      const route = new Route('/foo')
 
-      route.all(function(req, res, next) {
-        req.count++;
-        next();
-      });
+      route.all((req, res, next) => {
+        req.count++
+        next()
+      })
 
-      route.all(function(req, res, next) {
-        req.count++;
-        next();
-      });
+      route.all((req, res, next) => {
+        req.count++
+        next()
+      })
 
-      route.dispatch(req, {}, function (err) {
-        if (err) return done(err);
+      route.dispatch(req, {}, (err) => {
+        if (err) return done(err)
         assert.strictEqual(req.count, 2)
-        done();
-      });
+        done()
+      })
     })
   })
 
-  describe('.VERB', function(){
-    it('should support .get', function(done){
-      var req = { method: 'GET', url: '/' };
-      var route = new Route('');
+  describe('.VERB', () => {
+    it('should support .get', (done) => {
+      const req = { method: 'GET', url: '/' }
+      const route = new Route('')
 
-      route.get(function(req, res, next) {
-        req.called = true;
-        next();
+      route.get((req, res, next) => {
+        req.called = true
+        next()
       })
 
-      route.dispatch(req, {}, function (err) {
-        if (err) return done(err);
+      route.dispatch(req, {}, (err) => {
+        if (err) return done(err)
         assert.ok(req.called)
-        done();
-      });
+        done()
+      })
     })
 
-    it('should limit to just .VERB', function(done){
-      var req = { method: 'POST', url: '/' };
-      var route = new Route('');
+    it('should limit to just .VERB', (done) => {
+      const req = { method: 'POST', url: '/' }
+      const route = new Route('')
 
-      route.get(function () {
-        throw new Error('not me!');
+      route.get(() => {
+        throw new Error('not me!')
       })
 
-      route.post(function(req, res, next) {
-        req.called = true;
-        next();
+      route.post((req, res, next) => {
+        req.called = true
+        next()
       })
 
-      route.dispatch(req, {}, function (err) {
-        if (err) return done(err);
+      route.dispatch(req, {}, (err) => {
+        if (err) return done(err)
         assert.ok(req.called)
-        done();
-      });
+        done()
+      })
     })
 
-    it('should allow fallthrough', function(done){
-      var req = { order: '', method: 'GET', url: '/' };
-      var route = new Route('');
+    it('should allow fallthrough', (done) => {
+      const req = { order: '', method: 'GET', url: '/' }
+      const route = new Route('')
 
-      route.get(function(req, res, next) {
-        req.order += 'a';
-        next();
+      route.get((req, res, next) => {
+        req.order += 'a'
+        next()
       })
 
-      route.all(function(req, res, next) {
-        req.order += 'b';
-        next();
-      });
-
-      route.get(function(req, res, next) {
-        req.order += 'c';
-        next();
+      route.all((req, res, next) => {
+        req.order += 'b'
+        next()
       })
 
-      route.dispatch(req, {}, function (err) {
-        if (err) return done(err);
+      route.get((req, res, next) => {
+        req.order += 'c'
+        next()
+      })
+
+      route.dispatch(req, {}, (err) => {
+        if (err) return done(err)
         assert.strictEqual(req.order, 'abc')
-        done();
-      });
+        done()
+      })
     })
   })
 
-  describe('errors', function(){
-    it('should handle errors via arity 4 functions', function(done){
-      var req = { order: '', method: 'GET', url: '/' };
-      var route = new Route('');
+  describe('errors', () => {
+    it('should handle errors via arity 4 functions', (done) => {
+      const req = { order: '', method: 'GET', url: '/' }
+      const route = new Route('')
 
-      route.all(function(req, res, next){
-        next(new Error('foobar'));
-      });
+      route.all((req, res, next) => {
+        next(new Error('foobar'))
+      })
 
-      route.all(function(req, res, next){
-        req.order += '0';
-        next();
-      });
+      route.all((req, res, next) => {
+        req.order += '0'
+        next()
+      })
 
-      route.all(function(err, req, res, next){
-        req.order += 'a';
-        next(err);
-      });
+      route.all((err, req, res, next) => {
+        req.order += 'a'
+        next(err)
+      })
 
-      route.dispatch(req, {}, function (err) {
+      route.dispatch(req, {}, (err) => {
         assert.ok(err)
         assert.strictEqual(err.message, 'foobar')
         assert.strictEqual(req.order, 'a')
-        done();
-      });
+        done()
+      })
     })
 
-    it('should handle throw', function(done) {
-      var req = { order: '', method: 'GET', url: '/' };
-      var route = new Route('');
+    it('should handle throw', (done) => {
+      const req = { order: '', method: 'GET', url: '/' }
+      const route = new Route('')
 
-      route.all(function () {
-        throw new Error('foobar');
-      });
+      route.all(() => {
+        throw new Error('foobar')
+      })
 
-      route.all(function(req, res, next){
-        req.order += '0';
-        next();
-      });
+      route.all((req, res, next) => {
+        req.order += '0'
+        next()
+      })
 
-      route.all(function(err, req, res, next){
-        req.order += 'a';
-        next(err);
-      });
+      route.all((err, req, res, next) => {
+        req.order += 'a'
+        next(err)
+      })
 
-      route.dispatch(req, {}, function (err) {
+      route.dispatch(req, {}, (err) => {
         assert.ok(err)
         assert.strictEqual(err.message, 'foobar')
         assert.strictEqual(req.order, 'a')
-        done();
-      });
-    });
+        done()
+      })
+    })
 
-    it('should handle throwing inside error handlers', function(done) {
-      var req = { method: 'GET', url: '/' };
-      var route = new Route('');
+    it('should handle throwing inside error handlers', (done) => {
+      const req = { method: 'GET', url: '/' }
+      const route = new Route('')
 
-      route.get(function () {
-        throw new Error('boom!');
-      });
+      route.get(() => {
+        throw new Error('boom!')
+      })
 
-      route.get(function(err, req, res, next){
-        throw new Error('oops');
-      });
+      route.get((err, req, res, next) => {
+        throw new Error('oops')
+      })
 
-      route.get(function(err, req, res, next){
-        req.message = err.message;
-        next();
-      });
+      route.get((err, req, res, next) => {
+        req.message = err.message
+        next()
+      })
 
-      route.dispatch(req, {}, function (err) {
-        if (err) return done(err);
+      route.dispatch(req, {}, (err) => {
+        if (err) return done(err)
         assert.strictEqual(req.message, 'oops')
-        done();
-      });
-    });
+        done()
+      })
+    })
 
-    it('should handle throw in .all', function(done) {
-      var req = { method: 'GET', url: '/' };
-      var route = new Route('');
+    it('should handle throw in .all', (done) => {
+      const req = { method: 'GET', url: '/' }
+      const route = new Route('')
 
-      route.all(function(req, res, next){
-        throw new Error('boom!');
-      });
+      route.all((req, res, next) => {
+        throw new Error('boom!')
+      })
 
-      route.dispatch(req, {}, function(err){
+      route.dispatch(req, {}, (err) => {
         assert.ok(err)
         assert.strictEqual(err.message, 'boom!')
-        done();
-      });
-    });
+        done()
+      })
+    })
 
-    it('should handle single error handler', function(done) {
-      var req = { method: 'GET', url: '/' };
-      var route = new Route('');
+    it('should handle single error handler', (done) => {
+      const req = { method: 'GET', url: '/' }
+      const route = new Route('')
 
-      route.all(function(err, req, res, next){
+      route.all((err, req, res, next) => {
         // this should not execute
         throw new Error('should not be called')
-      });
+      })
 
-      route.dispatch(req, {}, done);
-    });
+      route.dispatch(req, {}, done)
+    })
   })
 })
