@@ -208,13 +208,11 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 * [bjohansebas](https://github.com/bjohansebas) - **Sebastian Beltran**
 * [carpasse](https://github.com/carpasse) - **Carlos Serrano**
 * [CBID2](https://github.com/CBID2) - **Christine Belzie**
-* [dpopp07](https://github.com/dpopp07) - **Dustin Popp**
 * [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascón** (he/him)
-* [3imed-jaberi](https://github.com/3imed-jaberi) - **Imed Jaberi**
 * [IamLizu](https://github.com/IamLizu) - **S M Mahmudul Hasan** (he/him)
 * [Phillip9587](https://github.com/Phillip9587) - **Phillip Barta**
-* [Sushmeet](https://github.com/Sushmeet) - **Sushmeet Sunger**
-* [rxmarbles](https://github.com/rxmarbles) **Rick Markins** (He/him)
+* [efekrskl](https://github.com/efekrskl) - **Efe Karasakal**
+
 
 <details>
 <summary>Triagers emeriti members</summary>
@@ -253,6 +251,9 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
   * [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
   * [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
   * [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
+  * [dpopp07](https://github.com/dpopp07) - **Dustin Popp**
+  * [Sushmeet](https://github.com/Sushmeet) - **Sushmeet Sunger**
+  * [3imed-jaberi](https://github.com/3imed-jaberi) - **Imed Jaberi**
 
 </details>
 
