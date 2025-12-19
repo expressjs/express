@@ -212,6 +212,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 * [IamLizu](https://github.com/IamLizu) - **S M Mahmudul Hasan** (he/him)
 * [Phillip9587](https://github.com/Phillip9587) - **Phillip Barta**
 * [efekrskl](https://github.com/efekrskl) - **Efe Karasakal**
+* [rxmarbles](https://github.com/rxmarbles) - **Rick Markins** (he/him)
 
 
 <details>
