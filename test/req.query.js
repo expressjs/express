@@ -88,6 +88,44 @@ describe('req', function(){
           /unknown value.*query parser/)
       });
     });
+
+    var qs = require('qs');
+
+    describe('when "query parser" enforces arrayLimit on bracket notation', function () {
+      it('should returns 500 when throwOnLimitExceeded is enabled and limit is surpassed', function (done) {
+        var app = createApp(
+          function (str) {
+            return qs.parse(str, { allowPrototypes: true, arrayLimit: 2, throwOnLimitExceeded: true } );
+          }
+        );
+
+        request(app)
+          .get('/?a[]=1&a[]=2&a[]=3')
+          .expect(function (res) {
+            if (Array.isArray(res.body.a) && res.body.a.length > 2) {
+              throw new Error('arrayLimit ignored for bracket notation');
+            }
+          })
+          .expect(500, done);
+      });
+
+      it('allows arrays up to the arrayLimit without error', function (done) {
+        var app = createApp(
+          function (str) {
+            return qs.parse(str, { allowPrototypes: true, arrayLimit: 2 } );
+          }
+        );
+
+        request(app)
+          .get('/?a[]=1&a[]=2&a[]=3')
+          .expect(function (res) {
+            if (Array.isArray(res.body.a) && res.body.a.length > 2) {
+              throw new Error('arrayLimit ignored for bracket notation');
+            }
+          })
+          .expect(200, done);
+      });
+    });
   })
 })
 
