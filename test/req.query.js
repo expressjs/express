@@ -3,6 +3,7 @@
 var assert = require('node:assert')
 var express = require('../')
   , request = require('supertest');
+var qs = require('qs');
 
 describe('req', function(){
   describe('.query', function(){
@@ -88,8 +89,6 @@ describe('req', function(){
           /unknown value.*query parser/)
       });
     });
-
-    var qs = require('qs');
 
     describe('when "query parser" enforces arrayLimit on bracket notation', function () {
       it('should returns 500 when throwOnLimitExceeded is enabled and limit is surpassed', function (done) {
