@@ -103,7 +103,7 @@ describe('express.urlencoded()', function () {
           .post('/')
           .set('Content-Type', 'application/x-www-form-urlencoded')
           .send('user=Tobi&user=Loki')
-          .expect(200, '{"user":["Tobi","Loki"]}', done)
+          .expect(200, '{"user":{"0":"Tobi","1":"Loki"}}', done)
       })
     })
 
