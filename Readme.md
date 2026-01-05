@@ -154,7 +154,7 @@ See the [Contributing Guide] for more technical details on contributing.
 
 ### Security Issues
 
-If you discover a security vulnerability in Express, please see [Security Policies and Procedures](SECURITY.md).
+If you discover a security vulnerability in Express, please see [Security Policies and Procedures](https://github.com/expressjs/express?tab=security-ov-file).
 
 ### Running Tests
 
