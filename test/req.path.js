@@ -1,20 +1,20 @@
 'use strict'
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest')
 
-describe('req', function(){
-  describe('.path', function(){
-    it('should return the parsed pathname', function(done){
-      var app = express();
+describe('req', () => {
+  describe('.path', () => {
+    it('should return the parsed pathname', (done) => {
+      const app = express()
 
-      app.use(function(req, res){
-        res.end(req.path);
-      });
+      app.use((req, res) => {
+        res.end(req.path)
+      })
 
       request(app)
-      .get('/login?redirect=/post/1/comments')
-      .expect('/login', done);
+        .get('/login?redirect=/post/1/comments')
+        .expect('/login', done)
     })
   })
 })

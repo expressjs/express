@@ -1,116 +1,116 @@
 'use strict'
 
-var express = require('../')
-  , request = require('supertest');
+const express = require('../')
+const request = require('supertest')
 
-describe('OPTIONS', function(){
-  it('should default to the routes defined', function(done){
-    var app = express();
+describe('OPTIONS', () => {
+  it('should default to the routes defined', (done) => {
+    const app = express()
 
-    app.post('/', function(){});
-    app.get('/users', function(req, res){});
-    app.put('/users', function(req, res){});
-
-    request(app)
-    .options('/users')
-    .expect('Allow', 'GET, HEAD, PUT')
-    .expect(200, 'GET, HEAD, PUT', done);
-  })
-
-  it('should only include each method once', function(done){
-    var app = express();
-
-    app.delete('/', function(){});
-    app.get('/users', function(req, res){});
-    app.put('/users', function(req, res){});
-    app.get('/users', function(req, res){});
+    app.post('/', () => {})
+    app.get('/users', (req, res) => {})
+    app.put('/users', (req, res) => {})
 
     request(app)
-    .options('/users')
-    .expect('Allow', 'GET, HEAD, PUT')
-    .expect(200, 'GET, HEAD, PUT', done);
+      .options('/users')
+      .expect('Allow', 'GET, HEAD, PUT')
+      .expect(200, 'GET, HEAD, PUT', done)
   })
 
-  it('should not be affected by app.all', function(done){
-    var app = express();
+  it('should only include each method once', (done) => {
+    const app = express()
 
-    app.get('/', function(){});
-    app.get('/users', function(req, res){});
-    app.put('/users', function(req, res){});
-    app.all('/users', function(req, res, next){
-      res.setHeader('x-hit', '1');
-      next();
-    });
+    app.delete('/', () => {})
+    app.get('/users', (req, res) => {})
+    app.put('/users', (req, res) => {})
+    app.get('/users', (req, res) => {})
 
     request(app)
-    .options('/users')
-    .expect('x-hit', '1')
-    .expect('Allow', 'GET, HEAD, PUT')
-    .expect(200, 'GET, HEAD, PUT', done);
+      .options('/users')
+      .expect('Allow', 'GET, HEAD, PUT')
+      .expect(200, 'GET, HEAD, PUT', done)
   })
 
-  it('should not respond if the path is not defined', function(done){
-    var app = express();
+  it('should not be affected by app.all', (done) => {
+    const app = express()
 
-    app.get('/users', function(req, res){});
+    app.get('/', () => {})
+    app.get('/users', (req, res) => {})
+    app.put('/users', (req, res) => {})
+    app.all('/users', (req, res, next) => {
+      res.setHeader('x-hit', '1')
+      next()
+    })
 
     request(app)
-    .options('/other')
-    .expect(404, done);
+      .options('/users')
+      .expect('x-hit', '1')
+      .expect('Allow', 'GET, HEAD, PUT')
+      .expect(200, 'GET, HEAD, PUT', done)
   })
 
-  it('should forward requests down the middleware chain', function(done){
-    var app = express();
-    var router = new express.Router();
+  it('should not respond if the path is not defined', (done) => {
+    const app = express()
 
-    router.get('/users', function(req, res){});
-    app.use(router);
-    app.get('/other', function(req, res){});
+    app.get('/users', (req, res) => {})
 
     request(app)
-    .options('/other')
-    .expect('Allow', 'GET, HEAD')
-    .expect(200, 'GET, HEAD', done);
+      .options('/other')
+      .expect(404, done)
   })
 
-  describe('when error occurs in response handler', function () {
-    it('should pass error to callback', function (done) {
-      var app = express();
-      var router = express.Router();
+  it('should forward requests down the middleware chain', (done) => {
+    const app = express()
+    const router = new express.Router()
 
-      router.get('/users', function(req, res){});
+    router.get('/users', (req, res) => {})
+    app.use(router)
+    app.get('/other', (req, res) => {})
 
-      app.use(function (req, res, next) {
-        res.writeHead(200);
-        next();
-      });
-      app.use(router);
-      app.use(function (err, req, res, next) {
-        res.end('true');
-      });
+    request(app)
+      .options('/other')
+      .expect('Allow', 'GET, HEAD')
+      .expect(200, 'GET, HEAD', done)
+  })
+
+  describe('when error occurs in response handler', () => {
+    it('should pass error to callback', (done) => {
+      const app = express()
+      const router = express.Router()
+
+      router.get('/users', (req, res) => {})
+
+      app.use((req, res, next) => {
+        res.writeHead(200)
+        next()
+      })
+      app.use(router)
+      app.use((err, req, res, next) => {
+        res.end('true')
+      })
 
       request(app)
-      .options('/users')
-      .expect(200, 'true', done)
+        .options('/users')
+        .expect(200, 'true', done)
     })
   })
 })
 
-describe('app.options()', function(){
-  it('should override the default behavior', function(done){
-    var app = express();
+describe('app.options()', () => {
+  it('should override the default behavior', (done) => {
+    const app = express()
 
-    app.options('/users', function(req, res){
-      res.set('Allow', 'GET');
-      res.send('GET');
-    });
+    app.options('/users', (req, res) => {
+      res.set('Allow', 'GET')
+      res.send('GET')
+    })
 
-    app.get('/users', function(req, res){});
-    app.put('/users', function(req, res){});
+    app.get('/users', (req, res) => {})
+    app.put('/users', (req, res) => {})
 
     request(app)
-    .options('/users')
-    .expect('GET')
-    .expect('Allow', 'GET', done);
+      .options('/users')
+      .expect('GET')
+      .expect('Allow', 'GET', done)
   })
 })

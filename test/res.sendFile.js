@@ -1,120 +1,120 @@
 'use strict'
 
-var after = require('after');
-var assert = require('node:assert')
-var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
-const { Buffer } = require('node:buffer');
+const after = require('after')
+const assert = require('node:assert')
+const { AsyncLocalStorage } = require('node:async_hooks')
+const { Buffer } = require('node:buffer')
 
-var express = require('../')
-  , request = require('supertest')
-var onFinished = require('on-finished');
-var path = require('node:path');
-var fixtures = path.join(__dirname, 'fixtures');
-var utils = require('./support/utils');
+const express = require('../')
+const request = require('supertest')
+const onFinished = require('on-finished')
+const path = require('node:path')
+const fixtures = path.join(__dirname, 'fixtures')
+const utils = require('./support/utils')
 
-describe('res', function(){
-  describe('.sendFile(path)', function () {
-    it('should error missing path', function (done) {
-      var app = createApp();
-
-      request(app)
-      .get('/')
-      .expect(500, /path.*required/, done);
-    });
-
-    it('should error for non-string path', function (done) {
-      var app = createApp(42)
+describe('res', () => {
+  describe('.sendFile(path)', () => {
+    it('should error missing path', (done) => {
+      const app = createApp()
 
       request(app)
-      .get('/')
-      .expect(500, /TypeError: path must be a string to res.sendFile/, done)
+        .get('/')
+        .expect(500, /path.*required/, done)
     })
 
-    it('should error for non-absolute path', function (done) {
-      var app = createApp('name.txt')
+    it('should error for non-string path', (done) => {
+      const app = createApp(42)
+
+      request(app)
+        .get('/')
+        .expect(500, /TypeError: path must be a string to res.sendFile/, done)
+    })
+
+    it('should error for non-absolute path', (done) => {
+      const app = createApp('name.txt')
 
       request(app)
         .get('/')
         .expect(500, /TypeError: path must be absolute/, done)
     })
 
-    it('should transfer a file', function (done) {
-      var app = createApp(path.resolve(fixtures, 'name.txt'));
+    it('should transfer a file', (done) => {
+      const app = createApp(path.resolve(fixtures, 'name.txt'))
 
       request(app)
-      .get('/')
-      .expect(200, 'tobi', done);
-    });
-
-    it('should transfer a file with special characters in string', function (done) {
-      var app = createApp(path.resolve(fixtures, '% of dogs.txt'));
-
-      request(app)
-      .get('/')
-      .expect(200, '20%', done);
-    });
-
-    it('should include ETag', function (done) {
-      var app = createApp(path.resolve(fixtures, 'name.txt'));
-
-      request(app)
-      .get('/')
-      .expect('ETag', /^(?:W\/)?"[^"]+"$/)
-      .expect(200, 'tobi', done);
-    });
-
-    it('should 304 when ETag matches', function (done) {
-      var app = createApp(path.resolve(fixtures, 'name.txt'));
-
-      request(app)
-      .get('/')
-      .expect('ETag', /^(?:W\/)?"[^"]+"$/)
-      .expect(200, 'tobi', function (err, res) {
-        if (err) return done(err);
-        var etag = res.headers.etag;
-        request(app)
         .get('/')
-        .set('If-None-Match', etag)
-        .expect(304, done);
-      });
-    });
+        .expect(200, 'tobi', done)
+    })
 
-    it('should disable the ETag function if requested', function (done) {
-      var app = createApp(path.resolve(fixtures, 'name.txt')).disable('etag');
+    it('should transfer a file with special characters in string', (done) => {
+      const app = createApp(path.resolve(fixtures, '% of dogs.txt'))
 
       request(app)
-      .get('/')
-      .expect(handleHeaders)
-      .expect(200, done);
+        .get('/')
+        .expect(200, '20%', done)
+    })
+
+    it('should include ETag', (done) => {
+      const app = createApp(path.resolve(fixtures, 'name.txt'))
+
+      request(app)
+        .get('/')
+        .expect('ETag', /^(?:W\/)?"[^"]+"$/)
+        .expect(200, 'tobi', done)
+    })
+
+    it('should 304 when ETag matches', (done) => {
+      const app = createApp(path.resolve(fixtures, 'name.txt'))
+
+      request(app)
+        .get('/')
+        .expect('ETag', /^(?:W\/)?"[^"]+"$/)
+        .expect(200, 'tobi', (err, res) => {
+          if (err) return done(err)
+          const etag = res.headers.etag
+          request(app)
+            .get('/')
+            .set('If-None-Match', etag)
+            .expect(304, done)
+        })
+    })
+
+    it('should disable the ETag function if requested', (done) => {
+      const app = createApp(path.resolve(fixtures, 'name.txt')).disable('etag')
+
+      request(app)
+        .get('/')
+        .expect(handleHeaders)
+        .expect(200, done)
 
       function handleHeaders (res) {
-        assert(res.headers.etag === undefined);
+        assert(res.headers.etag === undefined)
       }
-    });
+    })
 
-    it('should 404 for directory', function (done) {
-      var app = createApp(path.resolve(fixtures, 'blog'));
-
-      request(app)
-      .get('/')
-      .expect(404, done);
-    });
-
-    it('should 404 when not found', function (done) {
-      var app = createApp(path.resolve(fixtures, 'does-no-exist'));
-
-      app.use(function (req, res) {
-        res.statusCode = 200;
-        res.send('no!');
-      });
+    it('should 404 for directory', (done) => {
+      const app = createApp(path.resolve(fixtures, 'blog'))
 
       request(app)
-      .get('/')
-      .expect(404, done);
-    });
+        .get('/')
+        .expect(404, done)
+    })
 
-    it('should send cache-control by default', function (done) {
-      var app = createApp(path.resolve(__dirname, 'fixtures/name.txt'))
+    it('should 404 when not found', (done) => {
+      const app = createApp(path.resolve(fixtures, 'does-no-exist'))
+
+      app.use((req, res) => {
+        res.statusCode = 200
+        res.send('no!')
+      })
+
+      request(app)
+        .get('/')
+        .expect(404, done)
+    })
+
+    it('should send cache-control by default', (done) => {
+      const app = createApp(path.resolve(__dirname, 'fixtures/name.txt'))
 
       request(app)
         .get('/')
@@ -122,177 +122,177 @@ describe('res', function(){
         .expect(200, done)
     })
 
-    it('should not serve dotfiles by default', function (done) {
-      var app = createApp(path.resolve(__dirname, 'fixtures/.name'))
+    it('should not serve dotfiles by default', (done) => {
+      const app = createApp(path.resolve(__dirname, 'fixtures/.name'))
 
       request(app)
         .get('/')
         .expect(404, done)
     })
 
-    it('should not override manual content-types', function (done) {
-      var app = express();
+    it('should not override manual content-types', (done) => {
+      const app = express()
 
-      app.use(function (req, res) {
-        res.contentType('application/x-bogus');
-        res.sendFile(path.resolve(fixtures, 'name.txt'));
-      });
+      app.use((req, res) => {
+        res.contentType('application/x-bogus')
+        res.sendFile(path.resolve(fixtures, 'name.txt'))
+      })
 
       request(app)
-      .get('/')
-      .expect('Content-Type', 'application/x-bogus')
-      .end(done);
+        .get('/')
+        .expect('Content-Type', 'application/x-bogus')
+        .end(done)
     })
 
-    it('should not error if the client aborts', function (done) {
-      var app = express();
-      var cb = after(2, done)
-      var error = null
+    it('should not error if the client aborts', (done) => {
+      const app = express()
+      const cb = after(2, done)
+      let error = null
 
-      app.use(function (req, res) {
-        setImmediate(function () {
-          res.sendFile(path.resolve(fixtures, 'name.txt'));
-          setTimeout(function () {
+      app.use((req, res) => {
+        setImmediate(() => {
+          res.sendFile(path.resolve(fixtures, 'name.txt'))
+          setTimeout(() => {
             cb(error)
           }, 10)
         })
         test.req.abort()
-      });
+      })
 
-      app.use(function (err, req, res, next) {
+      app.use((err, req, res, next) => {
         error = err
         next(err)
-      });
+      })
 
-      var server = app.listen()
-      var test = request(server).get('/')
-      test.end(function (err) {
+      const server = app.listen()
+      const test = request(server).get('/')
+      test.end((err) => {
         assert.ok(err)
         server.close(cb)
       })
     })
   })
 
-  describe('.sendFile(path, fn)', function () {
-    it('should invoke the callback when complete', function (done) {
-      var cb = after(2, done);
-      var app = createApp(path.resolve(fixtures, 'name.txt'), cb);
+  describe('.sendFile(path, fn)', () => {
+    it('should invoke the callback when complete', (done) => {
+      const cb = after(2, done)
+      const app = createApp(path.resolve(fixtures, 'name.txt'), cb)
 
       request(app)
-      .get('/')
-      .expect(200, cb);
-    })
-
-    it('should invoke the callback when client aborts', function (done) {
-      var cb = after(2, done)
-      var app = express();
-
-      app.use(function (req, res) {
-        setImmediate(function () {
-          res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
-            assert.ok(err)
-            assert.strictEqual(err.code, 'ECONNABORTED')
-            cb()
-          });
-        });
-        test.req.abort()
-      });
-
-      var server = app.listen()
-      var test = request(server).get('/')
-      test.end(function (err) {
-        assert.ok(err)
-        server.close(cb)
-      })
-    })
-
-    it('should invoke the callback when client already aborted', function (done) {
-      var cb = after(2, done)
-      var app = express();
-
-      app.use(function (req, res) {
-        onFinished(res, function () {
-          res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
-            assert.ok(err)
-            assert.strictEqual(err.code, 'ECONNABORTED')
-            cb()
-          });
-        });
-        test.req.abort()
-      });
-
-      var server = app.listen()
-      var test = request(server).get('/')
-      test.end(function (err) {
-        assert.ok(err)
-        server.close(cb)
-      })
-    })
-
-    it('should invoke the callback without error when HEAD', function (done) {
-      var app = express();
-      var cb = after(2, done);
-
-      app.use(function (req, res) {
-        res.sendFile(path.resolve(fixtures, 'name.txt'), cb);
-      });
-
-      request(app)
-      .head('/')
-      .expect(200, cb);
-    });
-
-    it('should invoke the callback without error when 304', function (done) {
-      var app = express();
-      var cb = after(3, done);
-
-      app.use(function (req, res) {
-        res.sendFile(path.resolve(fixtures, 'name.txt'), cb);
-      });
-
-      request(app)
-      .get('/')
-      .expect('ETag', /^(?:W\/)?"[^"]+"$/)
-      .expect(200, 'tobi', function (err, res) {
-        if (err) return cb(err);
-        var etag = res.headers.etag;
-        request(app)
         .get('/')
-        .set('If-None-Match', etag)
-        .expect(304, cb);
-      });
-    });
+        .expect(200, cb)
+    })
 
-    it('should invoke the callback on 404', function(done){
-      var app = express();
+    it('should invoke the callback when client aborts', (done) => {
+      const cb = after(2, done)
+      const app = express()
 
-      app.use(function (req, res) {
-        res.sendFile(path.resolve(fixtures, 'does-not-exist'), function (err) {
+      app.use((req, res) => {
+        setImmediate(() => {
+          res.sendFile(path.resolve(fixtures, 'name.txt'), (err) => {
+            assert.ok(err)
+            assert.strictEqual(err.code, 'ECONNABORTED')
+            cb()
+          })
+        })
+        test.req.abort()
+      })
+
+      const server = app.listen()
+      const test = request(server).get('/')
+      test.end((err) => {
+        assert.ok(err)
+        server.close(cb)
+      })
+    })
+
+    it('should invoke the callback when client already aborted', (done) => {
+      const cb = after(2, done)
+      const app = express()
+
+      app.use((req, res) => {
+        onFinished(res, () => {
+          res.sendFile(path.resolve(fixtures, 'name.txt'), (err) => {
+            assert.ok(err)
+            assert.strictEqual(err.code, 'ECONNABORTED')
+            cb()
+          })
+        })
+        test.req.abort()
+      })
+
+      const server = app.listen()
+      const test = request(server).get('/')
+      test.end((err) => {
+        assert.ok(err)
+        server.close(cb)
+      })
+    })
+
+    it('should invoke the callback without error when HEAD', (done) => {
+      const app = express()
+      const cb = after(2, done)
+
+      app.use((req, res) => {
+        res.sendFile(path.resolve(fixtures, 'name.txt'), cb)
+      })
+
+      request(app)
+        .head('/')
+        .expect(200, cb)
+    })
+
+    it('should invoke the callback without error when 304', (done) => {
+      const app = express()
+      const cb = after(3, done)
+
+      app.use((req, res) => {
+        res.sendFile(path.resolve(fixtures, 'name.txt'), cb)
+      })
+
+      request(app)
+        .get('/')
+        .expect('ETag', /^(?:W\/)?"[^"]+"$/)
+        .expect(200, 'tobi', (err, res) => {
+          if (err) return cb(err)
+          const etag = res.headers.etag
+          request(app)
+            .get('/')
+            .set('If-None-Match', etag)
+            .expect(304, cb)
+        })
+    })
+
+    it('should invoke the callback on 404', (done) => {
+      const app = express()
+
+      app.use((req, res) => {
+        res.sendFile(path.resolve(fixtures, 'does-not-exist'), (err) => {
           res.send(err ? 'got ' + err.status + ' error' : 'no error')
-        });
-      });
+        })
+      })
 
       request(app)
         .get('/')
         .expect(200, 'got 404 error', done)
     })
 
-    describe('async local storage', function () {
-      it('should persist store', function (done) {
-        var app = express()
-        var cb = after(2, done)
-        var store = { foo: 'bar' }
+    describe('async local storage', () => {
+      it('should persist store', (done) => {
+        const app = express()
+        const cb = after(2, done)
+        const store = { foo: 'bar' }
 
-        app.use(function (req, res, next) {
+        app.use((req, res, next) => {
           req.asyncLocalStorage = new AsyncLocalStorage()
           req.asyncLocalStorage.run(store, next)
         })
 
-        app.use(function (req, res) {
-          res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
+        app.use((req, res) => {
+          res.sendFile(path.resolve(fixtures, 'name.txt'), (err) => {
             if (err) return cb(err)
 
-            var local = req.asyncLocalStorage.getStore()
+            const local = req.asyncLocalStorage.getStore()
 
             assert.strictEqual(local.foo, 'bar')
             cb()
@@ -305,18 +305,18 @@ describe('res', function(){
           .expect(200, 'tobi', cb)
       })
 
-      it('should persist store on error', function (done) {
-        var app = express()
-        var store = { foo: 'bar' }
+      it('should persist store on error', (done) => {
+        const app = express()
+        const store = { foo: 'bar' }
 
-        app.use(function (req, res, next) {
+        app.use((req, res, next) => {
           req.asyncLocalStorage = new AsyncLocalStorage()
           req.asyncLocalStorage.run(store, next)
         })
 
-        app.use(function (req, res) {
-          res.sendFile(path.resolve(fixtures, 'does-not-exist'), function (err) {
-            var local = req.asyncLocalStorage.getStore()
+        app.use((req, res) => {
+          res.sendFile(path.resolve(fixtures, 'does-not-exist'), (err) => {
+            const local = req.asyncLocalStorage.getStore()
 
             if (local) {
               res.setHeader('x-store-foo', String(local.foo))
@@ -336,19 +336,19 @@ describe('res', function(){
     })
   })
 
-  describe('.sendFile(path, options)', function () {
-    it('should pass options to send module', function (done) {
+  describe('.sendFile(path, options)', () => {
+    it('should pass options to send module', (done) => {
       request(createApp(path.resolve(fixtures, 'name.txt'), { start: 0, end: 1 }))
-      .get('/')
-      .expect(200, 'to', done)
+        .get('/')
+        .expect(200, 'to', done)
     })
 
-    describe('with "acceptRanges" option', function () {
-      describe('when true', function () {
-        it('should advertise byte range accepted', function (done) {
-          var app = express()
+    describe('with "acceptRanges" option', () => {
+      describe('when true', () => {
+        it('should advertise byte range accepted', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'nums.txt'), {
               acceptRanges: true
             })
@@ -362,10 +362,10 @@ describe('res', function(){
             .end(done)
         })
 
-        it('should respond to range request', function (done) {
-          var app = express()
+        it('should respond to range request', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'nums.txt'), {
               acceptRanges: true
             })
@@ -378,11 +378,11 @@ describe('res', function(){
         })
       })
 
-      describe('when false', function () {
-        it('should not advertise accept-ranges', function (done) {
-          var app = express()
+      describe('when false', () => {
+        it('should not advertise accept-ranges', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'nums.txt'), {
               acceptRanges: false
             })
@@ -395,10 +395,10 @@ describe('res', function(){
             .end(done)
         })
 
-        it('should not honor range requests', function (done) {
-          var app = express()
+        it('should not honor range requests', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'nums.txt'), {
               acceptRanges: false
             })
@@ -412,12 +412,12 @@ describe('res', function(){
       })
     })
 
-    describe('with "cacheControl" option', function () {
-      describe('when true', function () {
-        it('should send cache-control header', function (done) {
-          var app = express()
+    describe('with "cacheControl" option', () => {
+      describe('when true', () => {
+        it('should send cache-control header', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               cacheControl: true
             })
@@ -431,11 +431,11 @@ describe('res', function(){
         })
       })
 
-      describe('when false', function () {
-        it('should not send cache-control header', function (done) {
-          var app = express()
+      describe('when false', () => {
+        it('should not send cache-control header', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               cacheControl: false
             })
@@ -450,12 +450,12 @@ describe('res', function(){
       })
     })
 
-    describe('with "dotfiles" option', function () {
-      describe('when "allow"', function () {
-        it('should allow dotfiles', function (done) {
-          var app = express()
+    describe('with "dotfiles" option', () => {
+      describe('when "allow"', () => {
+        it('should allow dotfiles', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, '.name'), {
               dotfiles: 'allow'
             })
@@ -469,11 +469,11 @@ describe('res', function(){
         })
       })
 
-      describe('when "deny"', function () {
-        it('should deny dotfiles', function (done) {
-          var app = express()
+      describe('when "deny"', () => {
+        it('should deny dotfiles', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, '.name'), {
               dotfiles: 'deny'
             })
@@ -487,11 +487,11 @@ describe('res', function(){
         })
       })
 
-      describe('when "ignore"', function () {
-        it('should ignore dotfiles', function (done) {
-          var app = express()
+      describe('when "ignore"', () => {
+        it('should ignore dotfiles', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, '.name'), {
               dotfiles: 'ignore'
             })
@@ -506,11 +506,11 @@ describe('res', function(){
       })
     })
 
-    describe('with "headers" option', function () {
-      it('should set headers on response', function (done) {
-        var app = express()
+    describe('with "headers" option', () => {
+      it('should set headers on response', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.sendFile(path.resolve(fixtures, 'user.html'), {
             headers: {
               'X-Foo': 'Bar',
@@ -527,10 +527,10 @@ describe('res', function(){
           .end(done)
       })
 
-      it('should use last header when duplicated', function (done) {
-        var app = express()
+      it('should use last header when duplicated', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.sendFile(path.resolve(fixtures, 'user.html'), {
             headers: {
               'X-Foo': 'Bar',
@@ -546,10 +546,10 @@ describe('res', function(){
           .end(done)
       })
 
-      it('should override Content-Type', function (done) {
-        var app = express()
+      it('should override Content-Type', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.sendFile(path.resolve(fixtures, 'user.html'), {
             headers: {
               'Content-Type': 'text/x-custom'
@@ -564,10 +564,10 @@ describe('res', function(){
           .end(done)
       })
 
-      it('should not set headers on 404', function (done) {
-        var app = express()
+      it('should not set headers on 404', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.sendFile(path.resolve(fixtures, 'does-not-exist'), {
             headers: {
               'X-Foo': 'Bar'
@@ -583,12 +583,12 @@ describe('res', function(){
       })
     })
 
-    describe('with "immutable" option', function () {
-      describe('when true', function () {
-        it('should send cache-control header with immutable', function (done) {
-          var app = express()
+    describe('with "immutable" option', () => {
+      describe('when true', () => {
+        it('should send cache-control header with immutable', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               immutable: true
             })
@@ -602,11 +602,11 @@ describe('res', function(){
         })
       })
 
-      describe('when false', function () {
-        it('should not send cache-control header with immutable', function (done) {
-          var app = express()
+      describe('when false', () => {
+        it('should not send cache-control header with immutable', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               immutable: false
             })
@@ -621,12 +621,12 @@ describe('res', function(){
       })
     })
 
-    describe('with "lastModified" option', function () {
-      describe('when true', function () {
-        it('should send last-modified header', function (done) {
-          var app = express()
+    describe('with "lastModified" option', () => {
+      describe('when true', () => {
+        it('should send last-modified header', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               lastModified: true
             })
@@ -639,10 +639,10 @@ describe('res', function(){
             .end(done)
         })
 
-        it('should conditionally respond with if-modified-since', function (done) {
-          var app = express()
+        it('should conditionally respond with if-modified-since', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               lastModified: true
             })
@@ -655,11 +655,11 @@ describe('res', function(){
         })
       })
 
-      describe('when false', function () {
-        it('should not have last-modified header', function (done) {
-          var app = express()
+      describe('when false', () => {
+        it('should not have last-modified header', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               lastModified: false
             })
@@ -672,10 +672,10 @@ describe('res', function(){
             .end(done)
         })
 
-        it('should not honor if-modified-since', function (done) {
-          var app = express()
+        it('should not honor if-modified-since', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               lastModified: false
             })
@@ -691,11 +691,11 @@ describe('res', function(){
       })
     })
 
-    describe('with "maxAge" option', function () {
-      it('should set cache-control max-age to milliseconds', function (done) {
-        var app = express()
+    describe('with "maxAge" option', () => {
+      it('should set cache-control max-age to milliseconds', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.sendFile(path.resolve(fixtures, 'user.html'), {
             maxAge: 20000
           })
@@ -708,10 +708,10 @@ describe('res', function(){
           .end(done)
       })
 
-      it('should cap cache-control max-age to 1 year', function (done) {
-        var app = express()
+      it('should cap cache-control max-age to 1 year', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.sendFile(path.resolve(fixtures, 'user.html'), {
             maxAge: 99999999999
           })
@@ -724,10 +724,10 @@ describe('res', function(){
           .end(done)
       })
 
-      it('should min cache-control max-age to 0', function (done) {
-        var app = express()
+      it('should min cache-control max-age to 0', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.sendFile(path.resolve(fixtures, 'user.html'), {
             maxAge: -20000
           })
@@ -740,10 +740,10 @@ describe('res', function(){
           .end(done)
       })
 
-      it('should floor cache-control max-age', function (done) {
-        var app = express()
+      it('should floor cache-control max-age', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.sendFile(path.resolve(fixtures, 'user.html'), {
             maxAge: 21911.23
           })
@@ -756,11 +756,11 @@ describe('res', function(){
           .end(done)
       })
 
-      describe('when cacheControl: false', function () {
-        it('should not send cache-control', function (done) {
-          var app = express()
+      describe('when cacheControl: false', () => {
+        it('should not send cache-control', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               cacheControl: false,
               maxAge: 20000
@@ -775,11 +775,11 @@ describe('res', function(){
         })
       })
 
-      describe('when string', function () {
-        it('should accept plain number as milliseconds', function (done) {
-          var app = express()
+      describe('when string', () => {
+        it('should accept plain number as milliseconds', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               maxAge: '20000'
             })
@@ -792,10 +792,10 @@ describe('res', function(){
             .end(done)
         })
 
-        it('should accept suffix "s" for seconds', function (done) {
-          var app = express()
+        it('should accept suffix "s" for seconds', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               maxAge: '20s'
             })
@@ -808,10 +808,10 @@ describe('res', function(){
             .end(done)
         })
 
-        it('should accept suffix "m" for minutes', function (done) {
-          var app = express()
+        it('should accept suffix "m" for minutes', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               maxAge: '20m'
             })
@@ -824,10 +824,10 @@ describe('res', function(){
             .end(done)
         })
 
-        it('should accept suffix "d" for days', function (done) {
-          var app = express()
+        it('should accept suffix "d" for days', (done) => {
+          const app = express()
 
-          app.use(function (req, res) {
+          app.use((req, res) => {
             res.sendFile(path.resolve(fixtures, 'user.html'), {
               maxAge: '20d'
             })
@@ -842,11 +842,11 @@ describe('res', function(){
       })
     })
 
-    describe('with "root" option', function () {
-      it('should allow relative path', function (done) {
-        var app = express()
+    describe('with "root" option', () => {
+      it('should allow relative path', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.sendFile('name.txt', {
             root: fixtures
           })
@@ -857,10 +857,10 @@ describe('res', function(){
           .expect(200, 'tobi', done)
       })
 
-      it('should allow up within root', function (done) {
-        var app = express()
+      it('should allow up within root', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.sendFile('fake/../name.txt', {
             root: fixtures
           })
@@ -871,10 +871,10 @@ describe('res', function(){
           .expect(200, 'tobi', done)
       })
 
-      it('should reject up outside root', function (done) {
-        var app = express()
+      it('should reject up outside root', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.sendFile('..' + path.sep + path.relative(path.dirname(fixtures), path.join(fixtures, 'name.txt')), {
             root: fixtures
           })
@@ -885,10 +885,10 @@ describe('res', function(){
           .expect(403, done)
       })
 
-      it('should reject reading outside root', function (done) {
-        var app = express()
+      it('should reject reading outside root', (done) => {
+        const app = express()
 
-        app.use(function (req, res) {
+        app.use((req, res) => {
           res.sendFile('../name.txt', {
             root: fixtures
           })
@@ -902,12 +902,12 @@ describe('res', function(){
   })
 })
 
-function createApp(path, options, fn) {
-  var app = express();
+function createApp (path, options, fn) {
+  const app = express()
 
-  app.use(function (req, res) {
-    res.sendFile(path, options, fn);
-  });
+  app.use((req, res) => {
+    res.sendFile(path, options, fn)
+  })
 
-  return app;
+  return app
 }
