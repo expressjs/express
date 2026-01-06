@@ -1,19 +1,16 @@
 'use strict'
 
 var after = require('after');
-var assert = require('assert')
-var asyncHooks = tryRequire('async_hooks')
-var Buffer = require('safe-buffer').Buffer
+var assert = require('node:assert')
+var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
+const { Buffer } = require('node:buffer');
+
 var express = require('..');
-var path = require('path')
+var path = require('node:path')
 var request = require('supertest');
 var utils = require('./support/utils')
 
 var FIXTURES_PATH = path.join(__dirname, 'fixtures')
-
-var describeAsyncHooks = typeof asyncHooks.AsyncLocalStorage === 'function'
-  ? describe
-  : describe.skip
 
 describe('res', function(){
   describe('.download(path)', function(){
@@ -91,14 +88,14 @@ describe('res', function(){
       .expect(200, cb);
     })
 
-    describeAsyncHooks('async local storage', function () {
-      it('should presist store', function (done) {
+    describe('async local storage', function () {
+      it('should persist store', function (done) {
         var app = express()
         var cb = after(2, done)
         var store = { foo: 'bar' }
 
         app.use(function (req, res, next) {
-          req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+          req.asyncLocalStorage = new AsyncLocalStorage()
           req.asyncLocalStorage.run(store, next)
         })
 
@@ -120,12 +117,12 @@ describe('res', function(){
           .expect(200, 'tobi', cb)
       })
 
-      it('should presist store on error', function (done) {
+      it('should persist store on error', function (done) {
         var app = express()
         var store = { foo: 'bar' }
 
         app.use(function (req, res, next) {
-          req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+          req.asyncLocalStorage = new AsyncLocalStorage()
           req.asyncLocalStorage.run(store, next)
         })
 
@@ -488,11 +485,3 @@ describe('res', function(){
     })
   })
 })
-
-function tryRequire (name) {
-  try {
-    return require(name)
-  } catch (e) {
-    return {}
-  }
-}

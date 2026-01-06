@@ -1,7 +1,7 @@
 'use strict'
 
-var assert = require('assert');
-var Buffer = require('safe-buffer').Buffer
+var assert = require('node:assert');
+const { Buffer } = require('node:buffer');
 var utils = require('../lib/utils');
 
 describe('utils.etag(body, encoding)', function(){
@@ -25,6 +25,18 @@ describe('utils.etag(body, encoding)', function(){
       '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
   })
 })
+
+describe('utils.normalizeType acceptParams method', () => {
+  it('should handle a type with a malformed parameter and break the loop in acceptParams', () => {
+    const result = utils.normalizeType('text/plain;invalid');
+    assert.deepEqual(result,{
+      value: 'text/plain',
+      quality: 1,
+      params: {} // No parameters are added since "invalid" has no "="
+    });
+  });
+});
+
 
 describe('utils.setCharset(type, charset)', function () {
   it('should do anything without type', function () {

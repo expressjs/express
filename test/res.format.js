@@ -3,7 +3,7 @@
 var after = require('after')
 var express = require('../')
   , request = require('supertest')
-  , assert = require('assert');
+  , assert = require('node:assert');
 
 var app1 = express();
 
@@ -237,7 +237,7 @@ function test(app) {
   })
 
   describe('when no match is made', function(){
-    it('should should respond with 406 not acceptable', function(done){
+    it('should respond with 406 not acceptable', function(done){
       request(app)
       .get('/')
       .set('Accept', 'foo/bar')

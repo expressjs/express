@@ -1,7 +1,38 @@
-unreleased
+5.2.1 / 2025-12-01
+=======================
+
+* Revert security fix for [CVE-2024-51999](https://www.cve.org/CVERecord?id=CVE-2024-51999) ([GHSA-pj86-cfqh-vqx6](https://github.com/expressjs/express/security/advisories/GHSA-pj86-cfqh-vqx6))
+  * The prior release (5.2.0) included an erroneous breaking change related to the extended query parser. There is no actual security vulnerability associated with this behavior (CVE-2024-51999 has been rejected). The change has been fully reverted in this release.
+
+5.2.0 / 2025-12-01
 ========================
 
-* Remove `Object.setPrototypeOf` polyfill
+* Security fix for [CVE-2024-51999](https://www.cve.org/CVERecord?id=CVE-2024-51999) ([GHSA-pj86-cfqh-vqx6](https://github.com/expressjs/express/security/advisories/GHSA-pj86-cfqh-vqx6))
+* deps: `body-parser@^2.2.1`
+* A deprecation warning was added when using `res.redirect` with undefined arguments, Express now emits a warning to help detect calls that pass undefined as the status or URL and make them easier to fix.
+
+5.1.0 / 2025-03-31
+========================
+
+* Add support for `Uint8Array` in `res.send()`
+* Add support for ETag option in `res.sendFile()`
+* Add support for multiple links with the same rel in `res.links()`
+* Add funding field to package.json
+* perf: use loop for acceptParams
+* refactor: prefix built-in node module imports
+* deps: remove `setprototypeof`
+* deps: remove `safe-buffer`
+* deps: remove `utils-merge`
+* deps: remove `methods`
+* deps: remove `depd`
+* deps: `debug@^4.4.0`
+* deps: `body-parser@^2.2.0`
+* deps: `router@^2.2.0`
+* deps: `content-type@^1.0.5`
+* deps: `finalhandler@^2.1.0`
+* deps: `qs@^6.14.0`
+* deps: `server-static@2.2.0`
+* deps: `type-is@2.0.1`
 
 5.0.1 / 2024-10-08
 ==========
@@ -81,6 +112,7 @@ changes from 5.0.0-alpha.8.
     - Change `dotfiles` option default to `'ignore'`
     - Remove `hidden` option; use `dotfiles` option instead
     - Use `mime-types` for file to content type mapping
+    - Remove `express.static.mime` export; use `mime-types` package instead
     - deps: send@1.0.0-beta.1
 
 5.0.0-alpha.8 / 2020-03-25

@@ -5,7 +5,7 @@
  */
 
 var express = require('../../');
-var path = require('path');
+var path = require('node:path');
 var app = module.exports = express();
 var logger = require('morgan');
 var silent = process.env.NODE_ENV === 'test'

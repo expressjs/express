@@ -2,7 +2,7 @@
 
 var express = require('../')
   , request = require('supertest')
-  , assert = require('assert');
+  , assert = require('node:assert');
 var utils = require('./support/utils');
 
 describe('res', function(){

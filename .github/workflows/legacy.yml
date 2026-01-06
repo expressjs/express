@@ -13,6 +13,10 @@ on:
   pull_request:
     paths-ignore:
       - '*.md'
+  workflow_dispatch:
+  
+permissions:
+  contents: read
 
 # Cancel in progress workflows
 # in the scenario where we already had a run going for that PR/branch/tag but then triggered a new run
@@ -33,12 +37,12 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           persist-credentials: false
 
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -57,44 +61,41 @@ jobs:
 
       - name: Run tests
         shell: bash
-        run: |
-          npm run test-ci
-          cp coverage/lcov.info "coverage/${{ matrix.node-version }}.lcov"
-
-      - name: Collect code coverage
-        run: |
-          mv ./coverage "./${{ matrix.node-version }}"
-          mkdir ./coverage
-          mv "./${{ matrix.node-version }}" "./coverage/${{ matrix.node-version }}"
+        run: npm run test-ci
 
       - name: Upload code coverage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
-          name: coverage
-          path: ./coverage
+          name: coverage-node-${{ matrix.node-version }}-${{ matrix.os }}
+          path: ./coverage/lcov.info
           retention-days: 1
 
   coverage:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          persist-credentials: false
 
-    - name: Install lcov
-      shell: bash
-      run: sudo apt-get -y install lcov
+      - name: Install lcov
+        shell: bash
+        run: sudo apt-get -y install lcov
 
-    - name: Collect coverage reports
-      uses: actions/download-artifact@v3
-      with:
-        name: coverage
-        path: ./coverage
+      - name: Collect coverage reports
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          path: ./coverage
+          pattern: coverage-node-*
 
-    - name: Merge coverage reports
-      shell: bash
-      run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
+      - name: Merge coverage reports
+        shell: bash
+        run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./lcov.info
 
-    - name: Upload coverage report
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload coverage report
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
+        with:
+          file: ./lcov.info

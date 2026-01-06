@@ -1,14 +1,11 @@
 'use strict'
 
-var assert = require('assert')
-var asyncHooks = tryRequire('async_hooks')
-var Buffer = require('safe-buffer').Buffer
+var assert = require('node:assert')
+var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
+const { Buffer } = require('node:buffer');
+
 var express = require('..')
 var request = require('supertest')
-
-var describeAsyncHooks = typeof asyncHooks.AsyncLocalStorage === 'function'
-  ? describe
-  : describe.skip
 
 describe('express.json()', function () {
   it('should parse JSON', function (done) {
@@ -503,13 +500,13 @@ describe('express.json()', function () {
     })
   })
 
-  describeAsyncHooks('async local storage', function () {
+  describe('async local storage', function () {
     before(function () {
       var app = express()
       var store = { foo: 'bar' }
 
       app.use(function (req, res, next) {
-        req.asyncLocalStorage = new asyncHooks.AsyncLocalStorage()
+        req.asyncLocalStorage = new AsyncLocalStorage()
         req.asyncLocalStorage.run(store, next)
       })
 
@@ -543,7 +540,7 @@ describe('express.json()', function () {
       this.app = app
     })
 
-    it('should presist store', function (done) {
+    it('should persist store', function (done) {
       request(this.app)
         .post('/')
         .set('Content-Type', 'application/json')
@@ -565,7 +562,7 @@ describe('express.json()', function () {
         .end(done)
     })
 
-    it('should presist store when inflated', function (done) {
+    it('should persist store when inflated', function (done) {
       var test = request(this.app).post('/')
       test.set('Content-Encoding', 'gzip')
       test.set('Content-Type', 'application/json')
@@ -576,7 +573,7 @@ describe('express.json()', function () {
       test.end(done)
     })
 
-    it('should presist store when inflate error', function (done) {
+    it('should persist store when inflate error', function (done) {
       var test = request(this.app).post('/')
       test.set('Content-Encoding', 'gzip')
       test.set('Content-Type', 'application/json')
@@ -586,7 +583,7 @@ describe('express.json()', function () {
       test.end(done)
     })
 
-    it('should presist store when parse error', function (done) {
+    it('should persist store when parse error', function (done) {
       request(this.app)
         .post('/')
         .set('Content-Type', 'application/json')
@@ -596,7 +593,7 @@ describe('express.json()', function () {
         .end(done)
     })
 
-    it('should presist store when limit exceeded', function (done) {
+    it('should persist store when limit exceeded', function (done) {
       request(this.app)
         .post('/')
         .set('Content-Type', 'application/json')
@@ -754,13 +751,5 @@ function shouldContainInBody (str) {
   return function (res) {
     assert.ok(res.text.indexOf(str) !== -1,
       'expected \'' + res.text + '\' to contain \'' + str + '\'')
-  }
-}
-
-function tryRequire (name) {
-  try {
-    return require(name)
-  } catch (e) {
-    return {}
   }
 }
