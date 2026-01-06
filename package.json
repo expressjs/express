@@ -1,7 +1,7 @@
 {
   "name": "express",
   "description": "Fast, unopinionated, minimalist web framework",
-  "version": "5.1.0",
+  "version": "5.2.1",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [
     "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
@@ -33,12 +33,13 @@
   ],
   "dependencies": {
     "accepts": "^2.0.0",
-    "body-parser": "^2.2.0",
+    "body-parser": "^2.2.1",
     "content-disposition": "^1.0.0",
     "content-type": "^1.0.5",
     "cookie": "^0.7.1",
     "cookie-signature": "^1.2.1",
     "debug": "^4.4.0",
+    "depd": "^2.0.0",
     "encodeurl": "^2.0.0",
     "escape-html": "^1.0.3",
     "etag": "^1.8.1",
@@ -64,7 +65,7 @@
     "after": "0.8.2",
     "connect-redis": "^8.0.1",
     "cookie-parser": "1.4.7",
-    "cookie-session": "2.1.0",
+    "cookie-session": "2.1.1",
     "ejs": "^3.1.10",
     "eslint": "8.47.0",
     "express-session": "^1.18.1",
@@ -72,7 +73,7 @@
     "marked": "^15.0.3",
     "method-override": "3.0.0",
     "mocha": "^10.7.3",
-    "morgan": "1.10.0",
+    "morgan": "1.10.1",
     "nyc": "^17.1.0",
     "pbkdf2-password": "1.2.1",
     "supertest": "^6.3.0",
@@ -83,13 +84,13 @@
   },
   "files": [
     "LICENSE",
-    "History.md",
     "Readme.md",
     "index.js",
     "lib/"
   ],
   "scripts": {
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-ci": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=lcovonly --reporter=text npm test",
     "test-cov": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=html --reporter=text npm test",
