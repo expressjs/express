@@ -213,7 +213,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 * [Phillip9587](https://github.com/Phillip9587) - **Phillip Barta**
 * [efekrskl](https://github.com/efekrskl) - **Efe Karasakal**
 * [rxmarbles](https://github.com/rxmarbles) - **Rick Markins** (he/him)
-
+* [krzysdz](https://github.com/krzysdz)
 
 <details>
 <summary>Triagers emeriti members</summary>
