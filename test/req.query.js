@@ -88,6 +88,22 @@ describe('req', function(){
           /unknown value.*query parser/)
       });
     });
+
+    // ✅ NEW TEST — exposes silent truncation bug
+    it('should not silently drop long query values', function (done) {
+      var app = createApp('extended');
+      var longValue = 'a'.repeat(1100);
+
+      request(app)
+        .get('/?foo=' + longValue)
+        .expect(200)
+        .expect(function (res) {
+          if (!res.text.includes('foo')) {
+            throw new Error('query value was silently dropped');
+          }
+        })
+        .end(done);
+    });
   })
 })
 
