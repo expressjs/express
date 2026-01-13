@@ -142,7 +142,12 @@ npm install
 
 ```bash
 node examples/content-negotiation
+
 ```
+> Note:
+> - Each file inside the `examples/` directory is a standalone script and can be run independently.
+> - Make sure your Node.js version meets the minimum requirement specified in `package.json`.
+
 
 ## Contributing
 
