@@ -31,6 +31,18 @@ describe('res', function(){
       .expect('Location', 'https://google.com?q=%E2%98%83%20%C2%A710')
       .expect(302, done)
     })
+    it('should throw error for undefined redirect location', function () {
+  var app = express();
+
+  app.use(function (req, res) {
+    res.redirect(undefined);
+  });
+
+  request(app)
+    .get('/')
+    .expect(500);
+});
+
 
     it('should not touch already-encoded sequences in "url"', function (done) {
       var app = express()
