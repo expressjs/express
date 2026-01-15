@@ -1,11 +1,13 @@
 'use strict'
 
-var assert = require('assert')
-var Buffer = require('safe-buffer').Buffer
+var assert = require('node:assert')
+const { Buffer } = require('node:buffer');
 var express = require('..');
-var methods = require('methods');
+var methods = require('../lib/utils').methods;
 var request = require('supertest');
 var utils = require('./support/utils');
+
+var shouldSkipQuery = require('./support/utils').shouldSkipQuery
 
 describe('res', function(){
   describe('.send()', function(){
@@ -51,63 +53,18 @@ describe('res', function(){
     })
   })
 
-  describe('.send(code)', function(){
-    it('should set .statusCode', function(done){
+  describe('.send(Number)', function(){
+    it('should send as application/json', function(done){
       var app = express();
 
       app.use(function(req, res){
-        res.send(201)
-      });
-
-      request(app)
-      .get('/')
-      .expect('Created')
-      .expect(201, done);
-    })
-  })
-
-  describe('.send(code, body)', function(){
-    it('should set .statusCode and body', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.send(201, 'Created :)');
-      });
-
-      request(app)
-      .get('/')
-      .expect('Created :)')
-      .expect(201, done);
-    })
-  })
-
-  describe('.send(body, code)', function(){
-    it('should be supported for backwards compat', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.send('Bad!', 400);
-      });
-
-      request(app)
-      .get('/')
-      .expect('Bad!')
-      .expect(400, done);
-    })
-  })
-
-  describe('.send(code, number)', function(){
-    it('should send number as json', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.send(200, 0.123);
+        res.send(1000);
       });
 
       request(app)
       .get('/')
       .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(200, '0.123', done);
+      .expect(200, '1000', done)
     })
   })
 
@@ -221,6 +178,19 @@ describe('res', function(){
       .expect(200, 'hey', done);
     })
 
+    it('should accept Uint8Array', function(done){
+      var app = express();
+      app.use(function(req, res){
+        const encodedHey = new TextEncoder().encode("hey");
+        res.set("Content-Type", "text/plain").send(encodedHey);
+      })
+
+      request(app)
+        .get("/")
+        .expect("Content-Type", "text/plain; charset=utf-8")
+        .expect(200, "hey", done);
+    })
+
     it('should not override ETag', function (done) {
       var app = express()
 
@@ -280,6 +250,22 @@ describe('res', function(){
       .expect(utils.shouldNotHaveHeader('Content-Length'))
       .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
       .expect(204, '', done);
+    })
+  })
+
+  describe('when .statusCode is 205', function () {
+    it('should strip Transfer-Encoding field and body, set Content-Length', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.status(205).set('Transfer-Encoding', 'chunked').send('foo')
+      })
+
+      request(app)
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('Transfer-Encoding'))
+        .expect('Content-Length', '0')
+        .expect(205, '', done)
     })
   })
 
@@ -393,6 +379,9 @@ describe('res', function(){
         if (method === 'connect') return;
 
         it('should send ETag in response to ' + method.toUpperCase() + ' request', function (done) {
+          if (method === 'query' && shouldSkipQuery(process.versions.node)) {
+            this.skip()
+          }
           var app = express();
 
           app[method]('/', function (req, res) {
@@ -442,7 +431,7 @@ describe('res', function(){
 
         app.use(function (req, res) {
           res.set('etag', '"asdf"');
-          res.send(200);
+          res.send('hello!');
         });
 
         app.enable('etag');
@@ -493,7 +482,7 @@ describe('res', function(){
 
         app.use(function (req, res) {
           res.set('etag', '"asdf"');
-          res.send(200);
+          res.send('hello!');
         });
 
         request(app)

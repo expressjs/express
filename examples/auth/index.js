@@ -6,7 +6,7 @@
 
 var express = require('../..');
 var hash = require('pbkdf2-password')()
-var path = require('path');
+var path = require('node:path');
 var session = require('express-session');
 
 var app = module.exports = express();
@@ -18,7 +18,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // middleware
 
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded())
 app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
@@ -102,6 +102,7 @@ app.get('/login', function(req, res){
 });
 
 app.post('/login', function (req, res, next) {
+  if (!req.body) return res.sendStatus(400)
   authenticate(req.body.username, req.body.password, function(err, user){
     if (err) return next(err)
     if (user) {
@@ -115,7 +116,7 @@ app.post('/login', function (req, res, next) {
         req.session.success = 'Authenticated as ' + user.name
           + ' click to <a href="/logout">logout</a>. '
           + ' You may now access <a href="/restricted">/restricted</a>.';
-        res.redirect('back');
+        res.redirect(req.get('Referrer') || '/');
       });
     } else {
       req.session.error = 'Authentication failed, please check your '

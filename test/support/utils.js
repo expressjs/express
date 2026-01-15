@@ -4,8 +4,8 @@
  * @private
  */
 
-var assert = require('assert');
-var Buffer = require('safe-buffer').Buffer
+var assert = require('node:assert');
+const { Buffer } = require('node:buffer');
 
 /**
  * Module exports.
@@ -16,6 +16,7 @@ exports.shouldHaveBody = shouldHaveBody
 exports.shouldHaveHeader = shouldHaveHeader
 exports.shouldNotHaveBody = shouldNotHaveBody
 exports.shouldNotHaveHeader = shouldNotHaveHeader;
+exports.shouldSkipQuery = shouldSkipQuery
 
 /**
  * Assert that a supertest response has a specific body.
@@ -70,3 +71,16 @@ function shouldNotHaveHeader(header) {
     assert.ok(!(header.toLowerCase() in res.headers), 'should not have header ' + header);
   };
 }
+
+function getMajorVersion(versionString) {
+  return versionString.split('.')[0];
+}
+
+function shouldSkipQuery(versionString) {
+  // Skipping HTTP QUERY tests below Node 22, QUERY wasn't fully supported by Node until 22
+  // we could update this implementation to run on supported versions of 21 once they exist
+  // upstream tracking https://github.com/nodejs/node/issues/51562
+  // express tracking issue: https://github.com/expressjs/express/issues/5615
+  return Number(getMajorVersion(versionString)) < 22
+}
+

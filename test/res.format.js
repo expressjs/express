@@ -3,7 +3,7 @@
 var after = require('after')
 var express = require('../')
   , request = require('supertest')
-  , assert = require('assert');
+  , assert = require('node:assert');
 
 var app1 = express();
 
@@ -28,7 +28,8 @@ app1.use(function(req, res, next){
 
 app1.use(function(err, req, res, next){
   if (!err.types) throw err;
-  res.send(err.status, 'Supports: ' + err.types.join(', '));
+  res.status(err.status)
+  res.send('Supports: ' + err.types.join(', '))
 })
 
 var app2 = express();
@@ -42,7 +43,8 @@ app2.use(function(req, res, next){
 });
 
 app2.use(function(err, req, res, next){
-  res.send(err.status, 'Supports: ' + err.types.join(', '));
+  res.status(err.status)
+  res.send('Supports: ' + err.types.join(', '))
 })
 
 var app3 = express();
@@ -50,13 +52,18 @@ var app3 = express();
 app3.use(function(req, res, next){
   res.format({
     text: function(){ res.send('hey') },
-    default: function(){ res.send('default') }
+    default: function (a, b, c) {
+      assert(req === a)
+      assert(res === b)
+      assert(next === c)
+      res.send('default')
+    }
   })
 });
 
 var app4 = express();
 
-app4.get('/', function(req, res, next){
+app4.get('/', function (req, res) {
   res.format({
     text: function(){ res.send('hey') },
     html: function(){ res.send('<p>hey</p>') },
@@ -65,7 +72,8 @@ app4.get('/', function(req, res, next){
 });
 
 app4.use(function(err, req, res, next){
-  res.send(err.status, 'Supports: ' + err.types.join(', '));
+  res.status(err.status)
+  res.send('Supports: ' + err.types.join(', '))
 })
 
 var app5 = express();
@@ -98,7 +106,8 @@ describe('res', function(){
       });
 
       app.use(function(err, req, res, next){
-        res.send(err.status, 'Supports: ' + err.types.join(', '));
+        res.status(err.status)
+        res.send('Supports: ' + err.types.join(', '))
       });
 
       test(app);
@@ -118,6 +127,28 @@ describe('res', function(){
         .set('Accept', '*/*')
         .expect('hey', done);
       })
+
+      it('should be able to invoke other formatter', function (done) {
+        var app = express()
+
+        app.use(function (req, res, next) {
+          res.format({
+            json: function () { res.send('json') },
+            default: function () {
+              res.header('x-default', '1')
+              this.json()
+            }
+          })
+        })
+
+        request(app)
+          .get('/')
+          .set('Accept', 'text/plain')
+          .expect(200)
+          .expect('x-default', '1')
+          .expect('json')
+          .end(done)
+      })
     })
 
     describe('in router', function(){
@@ -128,7 +159,7 @@ describe('res', function(){
       var app = express();
       var router = express.Router();
 
-      router.get('/', function(req, res, next){
+      router.get('/', function (req, res) {
         res.format({
           text: function(){ res.send('hey') },
           html: function(){ res.send('<p>hey</p>') },
@@ -137,7 +168,8 @@ describe('res', function(){
       });
 
       router.use(function(err, req, res, next){
-        res.send(err.status, 'Supports: ' + err.types.join(', '));
+        res.status(err.status)
+        res.send('Supports: ' + err.types.join(', '))
       })
 
       app.use(router)
@@ -205,7 +237,7 @@ function test(app) {
   })
 
   describe('when no match is made', function(){
-    it('should should respond with 406 not acceptable', function(done){
+    it('should respond with 406 not acceptable', function(done){
       request(app)
       .get('/')
       .set('Accept', 'foo/bar')

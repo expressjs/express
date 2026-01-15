@@ -26,7 +26,7 @@ describe('app.all()', function(){
     var app = express()
       , n = 0;
 
-    app.all('/*', function(req, res, next){
+    app.all('/*splat', function(req, res, next){
       if (n++) return done(new Error('DELETE called several times'));
       next();
     });

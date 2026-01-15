@@ -1,14 +1,15 @@
 'use strict'
 
-var assert = require('assert')
+var assert = require('node:assert')
 var express = require('../')
 
 describe('app', function(){
   describe('.locals', function () {
-    it('should default object', function () {
+    it('should default object with null prototype', function () {
       var app = express()
       assert.ok(app.locals)
       assert.strictEqual(typeof app.locals, 'object')
+      assert.strictEqual(Object.getPrototypeOf(app.locals), null)
     })
 
     describe('.settings', function () {

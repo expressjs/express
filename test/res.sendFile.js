@@ -1,12 +1,14 @@
 'use strict'
 
 var after = require('after');
-var Buffer = require('safe-buffer').Buffer
+var assert = require('node:assert')
+var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
+const { Buffer } = require('node:buffer');
+
 var express = require('../')
   , request = require('supertest')
-  , assert = require('assert');
 var onFinished = require('on-finished');
-var path = require('path');
+var path = require('node:path');
 var fixtures = path.join(__dirname, 'fixtures');
 var utils = require('./support/utils');
 
@@ -75,6 +77,19 @@ describe('res', function(){
         .set('If-None-Match', etag)
         .expect(304, done);
       });
+    });
+
+    it('should disable the ETag function if requested', function (done) {
+      var app = createApp(path.resolve(fixtures, 'name.txt')).disable('etag');
+
+      request(app)
+      .get('/')
+      .expect(handleHeaders)
+      .expect(200, done);
+
+      function handleHeaders (res) {
+        assert(res.headers.etag === undefined);
+      }
     });
 
     it('should 404 for directory', function (done) {
@@ -260,6 +275,64 @@ describe('res', function(){
       request(app)
         .get('/')
         .expect(200, 'got 404 error', done)
+    })
+
+    describe('async local storage', function () {
+      it('should persist store', function (done) {
+        var app = express()
+        var cb = after(2, done)
+        var store = { foo: 'bar' }
+
+        app.use(function (req, res, next) {
+          req.asyncLocalStorage = new AsyncLocalStorage()
+          req.asyncLocalStorage.run(store, next)
+        })
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
+            if (err) return cb(err)
+
+            var local = req.asyncLocalStorage.getStore()
+
+            assert.strictEqual(local.foo, 'bar')
+            cb()
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect('Content-Type', 'text/plain; charset=utf-8')
+          .expect(200, 'tobi', cb)
+      })
+
+      it('should persist store on error', function (done) {
+        var app = express()
+        var store = { foo: 'bar' }
+
+        app.use(function (req, res, next) {
+          req.asyncLocalStorage = new AsyncLocalStorage()
+          req.asyncLocalStorage.run(store, next)
+        })
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'does-not-exist'), function (err) {
+            var local = req.asyncLocalStorage.getStore()
+
+            if (local) {
+              res.setHeader('x-store-foo', String(local.foo))
+            }
+
+            res.send(err ? 'got ' + err.status + ' error' : 'no error')
+          })
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('x-store-foo', 'bar')
+          .expect('got 404 error')
+          .end(done)
+      })
     })
   })
 
@@ -684,7 +757,7 @@ describe('res', function(){
       })
 
       describe('when cacheControl: false', function () {
-        it('shold not send cache-control', function (done) {
+        it('should not send cache-control', function (done) {
           var app = express()
 
           app.use(function (req, res) {
@@ -825,448 +898,6 @@ describe('res', function(){
           .get('/')
           .expect(403, done)
       })
-    })
-  })
-
-  describe('.sendfile(path, fn)', function(){
-    it('should invoke the callback when complete', function(done){
-      var app = express();
-      var cb = after(2, done);
-
-      app.use(function(req, res){
-        res.sendfile('test/fixtures/user.html', cb)
-      });
-
-      request(app)
-      .get('/')
-      .expect(200, cb);
-    })
-
-    it('should utilize the same options as express.static()', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.sendfile('test/fixtures/user.html', { maxAge: 60000 });
-      });
-
-      request(app)
-      .get('/')
-      .expect('Cache-Control', 'public, max-age=60')
-      .end(done);
-    })
-
-    it('should invoke the callback when client aborts', function (done) {
-      var cb = after(2, done)
-      var app = express();
-
-      app.use(function (req, res) {
-        setImmediate(function () {
-          res.sendfile('test/fixtures/name.txt', function (err) {
-            assert.ok(err)
-            assert.strictEqual(err.code, 'ECONNABORTED')
-            cb()
-          });
-        });
-        test.req.abort()
-      });
-
-      var server = app.listen()
-      var test = request(server).get('/')
-      test.end(function (err) {
-        assert.ok(err)
-        server.close(cb)
-      })
-    })
-
-    it('should invoke the callback when client already aborted', function (done) {
-      var cb = after(2, done)
-      var app = express();
-
-      app.use(function (req, res) {
-        onFinished(res, function () {
-          res.sendfile('test/fixtures/name.txt', function (err) {
-            assert.ok(err)
-            assert.strictEqual(err.code, 'ECONNABORTED')
-            cb()
-          });
-        });
-        test.req.abort()
-      });
-
-      var server = app.listen()
-      var test = request(server).get('/')
-      test.end(function (err) {
-        assert.ok(err)
-        server.close(cb)
-      })
-    })
-
-    it('should invoke the callback without error when HEAD', function (done) {
-      var app = express();
-      var cb = after(2, done);
-
-      app.use(function (req, res) {
-        res.sendfile('test/fixtures/name.txt', cb);
-      });
-
-      request(app)
-      .head('/')
-      .expect(200, cb);
-    });
-
-    it('should invoke the callback without error when 304', function (done) {
-      var app = express();
-      var cb = after(3, done);
-
-      app.use(function (req, res) {
-        res.sendfile('test/fixtures/name.txt', cb);
-      });
-
-      request(app)
-      .get('/')
-      .expect('ETag', /^(?:W\/)?"[^"]+"$/)
-      .expect(200, 'tobi', function (err, res) {
-        if (err) return cb(err);
-        var etag = res.headers.etag;
-        request(app)
-        .get('/')
-        .set('If-None-Match', etag)
-        .expect(304, cb);
-      });
-    });
-
-    it('should invoke the callback on 404', function(done){
-      var app = express();
-      var calls = 0;
-
-      app.use(function(req, res){
-        res.sendfile('test/fixtures/nope.html', function(err){
-          assert.equal(calls++, 0);
-          assert(!res.headersSent);
-          res.send(err.message);
-        });
-      });
-
-      request(app)
-      .get('/')
-      .expect(200, /^ENOENT.*?, stat/, done);
-    })
-
-    it('should not override manual content-types', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.contentType('txt');
-        res.sendfile('test/fixtures/user.html');
-      });
-
-      request(app)
-      .get('/')
-      .expect('Content-Type', 'text/plain; charset=utf-8')
-      .end(done);
-    })
-
-    it('should invoke the callback on 403', function(done){
-      var app = express()
-
-      app.use(function(req, res){
-        res.sendfile('test/fixtures/foo/../user.html', function(err){
-          assert(!res.headersSent);
-          res.send(err.message);
-        });
-      });
-
-      request(app)
-      .get('/')
-      .expect('Forbidden')
-      .expect(200, done);
-    })
-
-    it('should invoke the callback on socket error', function(done){
-      var app = express()
-
-      app.use(function(req, res){
-        res.sendfile('test/fixtures/user.html', function(err){
-          assert(!res.headersSent);
-          assert.strictEqual(req.socket.listeners('error').length, 1) // node's original handler
-          done();
-        });
-
-        req.socket.emit('error', new Error('broken!'));
-      });
-
-      request(app)
-      .get('/')
-      .end(function(){});
-    })
-  })
-
-  describe('.sendfile(path)', function(){
-    it('should not serve dotfiles', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.sendfile('test/fixtures/.name');
-      });
-
-      request(app)
-      .get('/')
-      .expect(404, done);
-    })
-
-    it('should accept dotfiles option', function(done){
-      var app = express();
-
-      app.use(function(req, res){
-        res.sendfile('test/fixtures/.name', { dotfiles: 'allow' });
-      });
-
-      request(app)
-        .get('/')
-        .expect(200)
-        .expect(utils.shouldHaveBody(Buffer.from('tobi')))
-        .end(done)
-    })
-
-    it('should accept headers option', function(done){
-      var app = express();
-      var headers = {
-        'x-success': 'sent',
-        'x-other': 'done'
-      };
-
-      app.use(function(req, res){
-        res.sendfile('test/fixtures/user.html', { headers: headers });
-      });
-
-      request(app)
-      .get('/')
-      .expect('x-success', 'sent')
-      .expect('x-other', 'done')
-      .expect(200, done);
-    })
-
-    it('should ignore headers option on 404', function(done){
-      var app = express();
-      var headers = { 'x-success': 'sent' };
-
-      app.use(function(req, res){
-        res.sendfile('test/fixtures/user.nothing', { headers: headers });
-      });
-
-      request(app)
-      .get('/')
-        .expect(utils.shouldNotHaveHeader('X-Success'))
-        .expect(404, done);
-    })
-
-    it('should transfer a file', function (done) {
-      var app = express();
-
-      app.use(function (req, res) {
-        res.sendfile('test/fixtures/name.txt');
-      });
-
-      request(app)
-      .get('/')
-      .expect(200, 'tobi', done);
-    });
-
-    it('should transfer a directory index file', function (done) {
-      var app = express();
-
-      app.use(function (req, res) {
-        res.sendfile('test/fixtures/blog/');
-      });
-
-      request(app)
-      .get('/')
-      .expect(200, '<b>index</b>', done);
-    });
-
-    it('should 404 for directory without trailing slash', function (done) {
-      var app = express();
-
-      app.use(function (req, res) {
-        res.sendfile('test/fixtures/blog');
-      });
-
-      request(app)
-      .get('/')
-      .expect(404, done);
-    });
-
-    it('should transfer a file with urlencoded name', function (done) {
-      var app = express();
-
-      app.use(function (req, res) {
-        res.sendfile('test/fixtures/%25%20of%20dogs.txt');
-      });
-
-      request(app)
-      .get('/')
-      .expect(200, '20%', done);
-    });
-
-    it('should not error if the client aborts', function (done) {
-      var app = express();
-      var cb = after(2, done)
-      var error = null
-
-      app.use(function (req, res) {
-        setImmediate(function () {
-          res.sendfile(path.resolve(fixtures, 'name.txt'));
-          setTimeout(function () {
-            cb(error)
-          }, 10)
-        });
-        test.req.abort()
-      });
-
-      app.use(function (err, req, res, next) {
-        error = err
-        next(err)
-      });
-
-      var server = app.listen()
-      var test = request(server).get('/')
-      test.end(function (err) {
-        assert.ok(err)
-        server.close(cb)
-      })
-    })
-
-    describe('with an absolute path', function(){
-      it('should transfer the file', function(done){
-        var app = express();
-
-        app.use(function(req, res){
-          res.sendfile(path.join(__dirname, '/fixtures/user.html'))
-        });
-
-        request(app)
-        .get('/')
-        .expect('Content-Type', 'text/html; charset=UTF-8')
-        .expect(200, '<p>{{user.name}}</p>', done);
-      })
-    })
-
-    describe('with a relative path', function(){
-      it('should transfer the file', function(done){
-        var app = express();
-
-        app.use(function(req, res){
-          res.sendfile('test/fixtures/user.html');
-        });
-
-        request(app)
-        .get('/')
-        .expect('Content-Type', 'text/html; charset=UTF-8')
-        .expect(200, '<p>{{user.name}}</p>', done);
-      })
-
-      it('should serve relative to "root"', function(done){
-        var app = express();
-
-        app.use(function(req, res){
-          res.sendfile('user.html', { root: 'test/fixtures/' });
-        });
-
-        request(app)
-        .get('/')
-        .expect('Content-Type', 'text/html; charset=UTF-8')
-        .expect(200, '<p>{{user.name}}</p>', done);
-      })
-
-      it('should consider ../ malicious when "root" is not set', function(done){
-        var app = express();
-
-        app.use(function(req, res){
-          res.sendfile('test/fixtures/foo/../user.html');
-        });
-
-        request(app)
-        .get('/')
-        .expect(403, done);
-      })
-
-      it('should allow ../ when "root" is set', function(done){
-        var app = express();
-
-        app.use(function(req, res){
-          res.sendfile('foo/../user.html', { root: 'test/fixtures' });
-        });
-
-        request(app)
-        .get('/')
-        .expect(200, done);
-      })
-
-      it('should disallow requesting out of "root"', function(done){
-        var app = express();
-
-        app.use(function(req, res){
-          res.sendfile('foo/../../user.html', { root: 'test/fixtures' });
-        });
-
-        request(app)
-        .get('/')
-        .expect(403, done);
-      })
-
-      it('should next(404) when not found', function(done){
-        var app = express()
-          , calls = 0;
-
-        app.use(function(req, res){
-          res.sendfile('user.html');
-        });
-
-        app.use(function(req, res){
-          assert(0, 'this should not be called');
-        });
-
-        app.use(function(err, req, res, next){
-          ++calls;
-          next(err);
-        });
-
-        request(app)
-          .get('/')
-          .expect(404, function (err) {
-            if (err) return done(err)
-            assert.strictEqual(calls, 1)
-            done()
-          })
-      })
-
-      describe('with non-GET', function(){
-        it('should still serve', function(done){
-          var app = express()
-
-          app.use(function(req, res){
-            res.sendfile(path.join(__dirname, '/fixtures/name.txt'))
-          });
-
-          request(app)
-          .get('/')
-          .expect('tobi', done);
-        })
-      })
-    })
-  })
-
-  describe('.sendfile(path, options)', function () {
-    it('should pass options to send module', function (done) {
-      var app = express()
-
-      app.use(function (req, res) {
-        res.sendfile(path.resolve(fixtures, 'name.txt'), { start: 0, end: 1 })
-      })
-
-      request(app)
-        .get('/')
-        .expect(200, 'to', done)
     })
   })
 })

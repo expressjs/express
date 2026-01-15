@@ -1,16 +1,47 @@
 'use strict'
 
 var after = require('after');
-var assert = require('assert')
+var assert = require('node:assert')
 var express = require('../')
   , Route = express.Route
-  , methods = require('methods')
+  , methods = require('../lib/utils').methods
 
 describe('Route', function(){
   it('should work without handlers', function(done) {
     var req = { method: 'GET', url: '/' }
     var route = new Route('/foo')
     route.dispatch(req, {}, done)
+  })
+
+  it('should not stack overflow with a large sync stack', function (done) {
+    this.timeout(5000) // long-running test
+
+    var req = { method: 'GET', url: '/' }
+    var route = new Route('/foo')
+
+    route.get(function (req, res, next) {
+      req.counter = 0
+      next()
+    })
+
+    for (var i = 0; i < 6000; i++) {
+      route.all(function (req, res, next) {
+        req.counter++
+        next()
+      })
+    }
+
+    route.get(function (req, res, next) {
+      req.called = true
+      next()
+    })
+
+    route.dispatch(req, {}, function (err) {
+      if (err) return done(err)
+      assert.ok(req.called)
+      assert.strictEqual(req.counter, 6000)
+      done()
+    })
   })
 
   describe('.all', function(){
@@ -93,7 +124,7 @@ describe('Route', function(){
       var req = { method: 'POST', url: '/' };
       var route = new Route('');
 
-      route.get(function(req, res, next) {
+      route.get(function () {
         throw new Error('not me!');
       })
 
@@ -167,7 +198,7 @@ describe('Route', function(){
       var req = { order: '', method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.all(function(req, res, next){
+      route.all(function () {
         throw new Error('foobar');
       });
 
@@ -193,7 +224,7 @@ describe('Route', function(){
       var req = { method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.get(function(req, res, next){
+      route.get(function () {
         throw new Error('boom!');
       });
 

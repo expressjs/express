@@ -5,7 +5,7 @@
  */
 
 var express = require('../..');
-var path = require('path');
+var path = require('node:path');
 var User = require('./user');
 var app = express();
 
@@ -61,7 +61,7 @@ function users(req, res, next) {
   })
 }
 
-app.get('/middleware', count, users, function(req, res, next){
+app.get('/middleware', count, users, function (req, res) {
   res.render('index', {
     title: 'Users',
     count: req.count,
@@ -99,7 +99,7 @@ function users2(req, res, next) {
   })
 }
 
-app.get('/middleware-locals', count2, users2, function(req, res, next){
+app.get('/middleware-locals', count2, users2, function (req, res) {
   // you can see now how we have much less
   // to pass to res.render(). If we have
   // several routes related to users this
