@@ -1,6 +1,7 @@
 'use strict'
 
 var assert = require('node:assert')
+const { Buffer } = require('node:buffer');
 var express = require('..');
 var methods = require('../lib/utils').methods;
 var request = require('supertest');
