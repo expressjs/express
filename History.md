@@ -1,3 +1,9 @@
+# Unreleased Changes
+
+## 🚀 Improvements
+
+- Improve HTML structure in `res.redirect()` responses when HTML format is accepted by adding `<!DOCTYPE html>`, `<title>`, and `<body>` tags for better browser compatibility - by [@Bernice55231](https://github.com/Bernice55231) in [#5167](https://github.com/expressjs/express/pull/5167)
+
 5.2.1 / 2025-12-01
 =======================
 
