@@ -81,3 +81,28 @@ describe('utils.wetag(body, encoding)', function(){
       'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
   })
 })
+
+describe('utils.compileETag()', function () {
+  it('should return generateETag for true', function () {
+    const fn = utils.compileETag(true);
+    assert.strictEqual(fn('express!'), utils.wetag('express!'));
+  });
+
+  it('should return undefined for false', function () {
+    assert.strictEqual(utils.compileETag(false), undefined);
+  });
+
+  it('should return generateETag for string values "strong" and "weak"', function () {
+    assert.strictEqual(utils.compileETag('strong')("express"), utils.etag("express"));
+    assert.strictEqual(utils.compileETag('weak')("express"), utils.wetag("express"));
+  });
+
+  it('should throw for unknown string values', function () {
+    assert.throws(() => utils.compileETag('foo'), TypeError);
+  });
+
+  it('should throw for unsupported types like arrays and objects', function () {
+    assert.throws(() => utils.compileETag([]), TypeError);
+    assert.throws(() => utils.compileETag({}), TypeError);
+  });
+});
