@@ -84,26 +84,25 @@ describe('utils.wetag(body, encoding)', function(){
 
 describe('utils.compileETag()', function () {
   it('should return generateETag for true', function () {
-  const fn = utils.compileETag(true);
-  assert.strictEqual(typeof fn, 'function');
+    const fn = utils.compileETag(true);
+    assert.strictEqual(fn('express!'), utils.wetag('express!'));
   });
-  
+
   it('should return undefined for false', function () {
-  assert.strictEqual(utils.compileETag(false), undefined);
+    assert.strictEqual(utils.compileETag(false), undefined);
   });
-  
+
   it('should return generateETag for string values "strong" and "weak"', function () {
-  assert.strictEqual(typeof utils.compileETag('strong'), 'function');
-  assert.strictEqual(typeof utils.compileETag('weak'), 'function');
+    assert.strictEqual(utils.compileETag('strong')("express"), utils.etag("express"));
+    assert.strictEqual(utils.compileETag('weak')("express"), utils.wetag("express"));
   });
-  
+
   it('should throw for unknown string values', function () {
-  assert.throws(() => utils.compileETag('foo'), TypeError);
+    assert.throws(() => utils.compileETag('foo'), TypeError);
   });
-  
+
   it('should throw for unsupported types like arrays and objects', function () {
-  assert.throws(() => utils.compileETag([]), TypeError);
-  assert.throws(() => utils.compileETag({}), TypeError);
+    assert.throws(() => utils.compileETag([]), TypeError);
+    assert.throws(() => utils.compileETag({}), TypeError);
   });
-  
-  });
+});
