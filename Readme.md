@@ -154,7 +154,7 @@ See the [Contributing Guide] for more technical details on contributing.
 
 ### Security Issues
 
-If you discover a security vulnerability in Express, please see [Security Policies and Procedures](https://github.com/expressjs/express?tab=security-ov-file).
+If you discover a security vulnerability, minor or major in Express, please see [Security Policies and Procedures](https://github.com/expressjs/express?tab=security-ov-file).
 
 ### Running Tests
 
@@ -261,7 +261,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 
 ## License
 
-  [MIT](LICENSE)
+  Express is licensed under the [MIT License](LICENSE)
 
 [coveralls-image]: https://img.shields.io/coverallsCoverage/github/expressjs/express?branch=master
 [coveralls-url]: https://coveralls.io/r/expressjs/express?branch=master
