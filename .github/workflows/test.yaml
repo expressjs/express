@@ -1,0 +1,74 @@
+name: test application
+on:
+    push:
+        branches:
+            - main
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Set up Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: '18'
+            - name: Install dependencies        
+              run: npm install
+            - name: Run tests
+              run: npm test         
+            - name: Get previous image ID
+              id: prev_image
+              run: |
+                  PREV_IMAGE=$(docker images my-express-app --format "{{.ID}}" | sed -n '2p')
+                  echo "prev_image_id=${PREV_IMAGE}" >> $GITHUB_OUTPUT
+                  if [ -z "$PREV_IMAGE" ]; then
+                    echo "No previous image found"
+                  else
+                    echo "Previous image: $PREV_IMAGE"
+                  fi
+            - name: Build Docker image
+              id: build
+              run: |
+                  BUILD_TIME=$(date +%s)
+                  docker build -t my-express-app:latest -t my-express-app:${BUILD_TIME} .
+                  echo "image_tag=${BUILD_TIME}" >> $GITHUB_OUTPUT
+            - name: Stop previous container
+              continue-on-error: true
+              run: docker stop $(docker ps -q --filter ancestor=my-express-app:latest) || true
+            - name: Run Docker container
+              id: deploy
+              run: |
+                  CONTAINER_ID=$(docker run -d -p 3000:3000 my-express-app:latest)
+                  echo "container_id=${CONTAINER_ID}" >> $GITHUB_OUTPUT
+            - name: Health check
+              id: health
+              run: |
+                  for i in {1..30}; do
+                    if curl -f http://localhost:3000 2>/dev/null; then
+                      echo "Health check passed"
+                      exit 0
+                    fi
+                    echo "Health check attempt $i failed, retrying..."
+                    sleep 2
+                  done
+                  echo "Health check failed after 30 attempts"
+                  exit 1
+            - name: Rollback on failure
+              if: failure() && steps.deploy.outcome == 'success'
+              run: |
+                  echo "Deployment health check failed, rolling back..."
+                  docker stop ${{ steps.deploy.outputs.container_id }} || true
+                  PREV_IMAGE="${{ steps.prev_image.outputs.prev_image_id }}"
+                  if [ -n "$PREV_IMAGE" ]; then
+                    echo "Starting previous image: $PREV_IMAGE"
+                    docker run -d -p 3000:3000 "$PREV_IMAGE"
+                    sleep 5
+                    curl -f http://localhost:3000 && echo "Rollback successful" || echo "Rollback failed"
+                  else
+                    echo "No previous image available for rollback"
+                    exit 1
+                  fi
+            - name: Cleanup old images
+              if: success()
+              run: |
+                  docker image prune -a -f --filter "until=72h"           

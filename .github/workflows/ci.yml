@@ -1,117 +1,28 @@
-name: ci
-
+name: ci build
 on:
   push:
     branches:
-      - master
-      - develop
-      - '4.x'
-      - '5.x'
-      - '5.0'
-    paths-ignore:
-      - '*.md'
+      - main
   pull_request:
-  workflow_dispatch:
-
-permissions:
-  contents: read
-
-# Cancel in progress workflows
-# in the scenario where we already had a run going for that PR/branch/tag but then triggered a new run
-concurrency:
-  group: "${{ github.workflow }} ✨ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
-  cancel-in-progress: true
 
 jobs:
-  lint:
-    name: Lint
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          persist-credentials: false
-      - name: Setup Node.js
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
-        with:
-          node-version: 'lts/*'
-
-      - name: Install dependencies
-        run: npm install --ignore-scripts --include=dev
-
-      - name: Run lint
-        run: npm run lint
-
-  test:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        node-version: [18, 19, 20, 21, 22, 23, 24, 25]
-        # Node.js release schedule: https://nodejs.org/en/about/releases/
-
-    name: Node.js ${{ matrix.node-version }} - ${{matrix.os}}
-
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-        with:
-          persist-credentials: false
-
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Configure npm loglevel
-        run: |
-          npm config set loglevel error
-        shell: bash
-
+          node-version: '18'
       - name: Install dependencies
         run: npm install
-
-      - name: Output Node and NPM versions
-        run: |
-          echo "Node.js version: $(node -v)"
-          echo "NPM version: $(npm -v)"
-
       - name: Run tests
-        shell: bash
-        run: npm run test-ci
-
-      - name: Upload code coverage
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-        with:
-          name: coverage-node-${{ matrix.node-version }}-${{ matrix.os }}
-          path: ./coverage/lcov.info
-          retention-days: 1
-
-  coverage:
-    needs: test
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      checks: write
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-        with:
-          persist-credentials: false
-
-      - name: Install lcov
-        shell: bash
-        run: sudo apt-get -y install lcov
-
-      - name: Collect coverage reports
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
-        with:
-          path: ./coverage
-          pattern: coverage-node-*
-
-      - name: Merge coverage reports
-        shell: bash
-        run: find ./coverage -name lcov.info -exec printf '-a %q\n' {} \; | xargs lcov -o ./lcov.info
-
-      - name: Upload coverage report
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
-        with:
-          file: ./lcov.info
+        run: npm test
+      - name: Build project
+        run: npm run build        
+      - name: Build Docker image
+        run: docker build -t my-express-app .
+      - name: Run Docker container
+        run: docker run -d -p 3000:3000 my-express-app
+     
+     

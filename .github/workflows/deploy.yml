@@ -1,0 +1,21 @@
+name: deploy application
+on:
+    push:
+        branches:
+            - main
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Set up Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: '18'
+            - name: Install dependencies
+              run: npm install
+            - name: Build Docker image
+              run: docker build -t my-express-app .
+            - name: Run Docker container
+              run: docker run -d -p 3000:3000 my-express-app
+                  
