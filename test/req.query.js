@@ -38,6 +38,28 @@ describe('req', function(){
         .get('/?user.name=tj')
         .expect(200, '{"user.name":"tj"}', done);
       });
+
+      it('should not truncate parameters over 1000', function (done) {
+        var app = createApp('extended');
+
+        // Create a query string with 1500 parameters
+        var params = [];
+        for (var i = 0; i < 1500; i++) {
+          params.push('a' + i + '=' + i);
+        }
+        var query = params.join('&');
+
+        request(app)
+        .get('/?' + query)
+        .expect(200)
+        .expect(function (res) {
+          var keys = Object.keys(res.body);
+          if (keys.length !== 1500) {
+            throw new Error('Expected 1500 parameters, got ' + keys.length);
+          }
+        })
+        .end(done);
+      });
     });
 
     describe('when "query parser" is simple', function () {
