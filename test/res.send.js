@@ -456,6 +456,42 @@ describe('res', function(){
         .expect(utils.shouldNotHaveHeader('ETag'))
         .expect(200, done);
       })
+
+      it('should not send ETag when Cache-Control: no-store is set', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.set('Cache-Control', 'no-store');
+          var str = Array(1000).join('-');
+          res.send(str);
+        });
+
+        app.enable('etag');
+
+        request(app)
+        .get('/')
+        .expect('Cache-Control', 'no-store')
+        .expect(utils.shouldNotHaveHeader('ETag'))
+        .expect(200, done);
+      })
+
+      it('should not send ETag when Cache-Control contains no-store', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.set('Cache-Control', 'private, no-store, max-age=0');
+          var str = Array(1000).join('-');
+          res.send(str);
+        });
+
+        app.enable('etag');
+
+        request(app)
+        .get('/')
+        .expect('Cache-Control', 'private, no-store, max-age=0')
+        .expect(utils.shouldNotHaveHeader('ETag'))
+        .expect(200, done);
+      })
     });
 
     describe('when disabled', function () {
