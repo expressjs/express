@@ -1,5 +1,12 @@
 # Unreleased Changes
 
+## 🐞 Bug fixes
+
+- Fixed HTTP header conflict between Content-Length and Transfer-Encoding in res.send - by [@YuryShkoda](https://github.com/YuryShkoda) in [#4893](https://github.com/expressjs/express/pull/4893)
+
+
+    Fixed the behavior of `res.send()` to prevent conflicts between `Content-Length` and `Transfer-Encoding` HTTP headers in responses. The `Content-Length` header in `res.send()` is now only added when a `Transfer-Encoding` header is not present, complying with the HTTP specification that states both headers should not coexist in the same response
+
 ## 🚀 Improvements
 
 * Improve HTML structure in `res.redirect()` responses when HTML format is accepted by adding `<!DOCTYPE html>`, `<title>`, and `<body>` tags for better browser compatibility - by [@Bernice55231](https://github.com/Bernice55231) in [#5167](https://github.com/expressjs/express/pull/5167)
