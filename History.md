@@ -1,14 +1,54 @@
-unreleased
+# Unreleased Changes
+
+## 🚀 Improvements
+
+* Improve HTML structure in `res.redirect()` responses when HTML format is accepted by adding `<!DOCTYPE html>`, `<title>`, and `<body>` tags for better browser compatibility - by [@Bernice55231](https://github.com/Bernice55231) in [#5167](https://github.com/expressjs/express/pull/5167)
+
+* When calling `app.render` with options set to null, the locals object is handled correctly, preventing unexpected errors and making the method behave the same as when options is omitted or an empty object is passed - by [AkaHarshit](https://github.com/AkaHarshit) in [#6903](https://github.com/expressjs/express/pull/6903)
+
+    ```js
+    app.render('index', null, callback); // now works as expected
+    ```
+
+## ⚡ Performance
+
+* Avoid duplicate Content-Type header processing in `res.send()` when sending string responses without an explicit Content-Type header - by [@bjohansebas](https://github.com/bjohansebas) in [#6991](https://github.com/expressjs/express/pull/6991)
+
+5.2.1 / 2025-12-01
+=======================
+
+* Revert security fix for [CVE-2024-51999](https://www.cve.org/CVERecord?id=CVE-2024-51999) ([GHSA-pj86-cfqh-vqx6](https://github.com/expressjs/express/security/advisories/GHSA-pj86-cfqh-vqx6))
+  * The prior release (5.2.0) included an erroneous breaking change related to the extended query parser. There is no actual security vulnerability associated with this behavior (CVE-2024-51999 has been rejected). The change has been fully reverted in this release.
+
+5.2.0 / 2025-12-01
 ========================
 
-* Remove `utils-merge` dependency - use spread syntax instead
-* Remove `Object.setPrototypeOf` polyfill
-* cleanup: remove AsyncLocalStorage check from tests
-* cleanup: remove unnecessary require for global Buffer
+* Security fix for [CVE-2024-51999](https://www.cve.org/CVERecord?id=CVE-2024-51999) ([GHSA-pj86-cfqh-vqx6](https://github.com/expressjs/express/security/advisories/GHSA-pj86-cfqh-vqx6))
+* deps: `body-parser@^2.2.1`
+* A deprecation warning was added when using `res.redirect` with undefined arguments, Express now emits a warning to help detect calls that pass undefined as the status or URL and make them easier to fix.
+
+5.1.0 / 2025-03-31
+========================
+
+* Add support for `Uint8Array` in `res.send()`
+* Add support for ETag option in `res.sendFile()`
+* Add support for multiple links with the same rel in `res.links()`
+* Add funding field to package.json
 * perf: use loop for acceptParams
-* Replace `methods` dependency with standard library
 * refactor: prefix built-in node module imports
-* Remove unused `depd` dependency
+* deps: remove `setprototypeof`
+* deps: remove `safe-buffer`
+* deps: remove `utils-merge`
+* deps: remove `methods`
+* deps: remove `depd`
+* deps: `debug@^4.4.0`
+* deps: `body-parser@^2.2.0`
+* deps: `router@^2.2.0`
+* deps: `content-type@^1.0.5`
+* deps: `finalhandler@^2.1.0`
+* deps: `qs@^6.14.0`
+* deps: `server-static@2.2.0`
+* deps: `type-is@2.0.1`
 
 5.0.1 / 2024-10-08
 ==========
@@ -88,6 +128,7 @@ changes from 5.0.0-alpha.8.
     - Change `dotfiles` option default to `'ignore'`
     - Remove `hidden` option; use `dotfiles` option instead
     - Use `mime-types` for file to content type mapping
+    - Remove `express.static.mime` export; use `mime-types` package instead
     - deps: send@1.0.0-beta.1
 
 5.0.0-alpha.8 / 2020-03-25

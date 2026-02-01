@@ -1,5 +1,7 @@
 'use strict'
 
+const { Buffer } = require('node:buffer');
+
 var express = require('../')
   , request = require('supertest');
 

@@ -3,6 +3,8 @@
 var assert = require('node:assert')
 var express = require('..')
 var path = require('node:path')
+const { Buffer } = require('node:buffer');
+
 var request = require('supertest')
 var utils = require('./support/utils')
 
