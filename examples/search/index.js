@@ -16,31 +16,47 @@ var path = require('node:path');
 var redis = require('redis');
 
 var db = redis.createClient();
-
-// npm install redis
-
 var app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// populate search
+// npm install redis
 
-db.sadd('ferret', 'tobi');
-db.sadd('ferret', 'loki');
-db.sadd('ferret', 'jane');
-db.sadd('cat', 'manny');
-db.sadd('cat', 'luna');
+/**
+ * Redis Initialization
+ */
+
+async function initializeRedis() {
+  try {
+    // connect to Redis
+
+    await db.connect();
+
+    // populate search
+
+    await db.sAdd('ferret', 'tobi');
+    await db.sAdd('ferret', 'loki');
+    await db.sAdd('ferret', 'jane');
+    await db.sAdd('cat', 'manny');
+    await db.sAdd('cat', 'luna');
+  } catch (err) {
+    console.error('Error initializing Redis:', err);
+    process.exit(1);
+  }
+}
 
 /**
  * GET search for :query.
  */
 
-app.get('/search/:query?', function(req, res, next){
-  var query = req.params.query;
-  db.smembers(query, function(err, vals){
-    if (err) return next(err);
-    res.send(vals);
-  });
+app.get('/search/{:query}', function (req, res, next) {
+  var query = req.params.query || '';
+  db.sMembers(query)
+    .then((vals) => res.send(vals))
+    .catch((err) => {
+      console.error(`Redis error for query "${query}":`, err);
+      next(err);
+    });
 });
 
 /**
@@ -54,8 +70,14 @@ app.get('/client.js', function(req, res){
   res.sendFile(path.join(__dirname, 'client.js'));
 });
 
-/* istanbul ignore next */
-if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
-}
+/**
+ * Start the Server
+ */
+
+(async () => {
+  await initializeRedis();
+  if (!module.parent) {
+    app.listen(3000);
+    console.log('Express started on port 3000');
+  }
+})();
