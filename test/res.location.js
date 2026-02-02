@@ -46,7 +46,7 @@ describe('res', function(){
       .expect(200, done)
     })
 
-    it('should encode data uri1', function (done) {
+    it('should encode data uri', function (done) {
       var app = express()
       app.use(function (req, res) {
         res.location('data:text/javascript,export default () => { }').end();
