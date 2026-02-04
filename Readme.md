@@ -4,6 +4,8 @@
 
 **This project has a [Code of Conduct].**
 
+**Notice from a kind person: This repo has been used for a GitHub tutorial. If you're just adding your name to Readme, please don't. It just floods the PR page, and nobody wants it.**
+
 ## Table of contents
 
 - [Table of contents](#table-of-contents)
