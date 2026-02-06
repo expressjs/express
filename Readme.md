@@ -201,8 +201,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
   * [troygoode](https://github.com/troygoode) - **Troy Goode**
 </details>
 
-
-### Triagers
+### TriagersS
 
 * [aravindvnair99](https://github.com/aravindvnair99) - **Aravind Nair**
 * [bjohansebas](https://github.com/bjohansebas) - **Sebastian Beltran**
