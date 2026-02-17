@@ -31,6 +31,19 @@ describe('res', function(){
       .expect('X-Number', '123')
       .expect(200, 'string', done);
     })
+
+    it('should throw when Content-Type is invalid', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'not-a-real-content-type')
+        res.end()
+      })
+
+      request(app)
+      .get('/')
+      .expect(500, /TypeError: invalid content type/, done)
+    })
   })
 
   describe('.set(field, values)', function(){
