@@ -201,6 +201,59 @@ describe('res', function () {
           .expect(500, /Invalid status code/, done);
       });
     });
+
+    describe('with "strict status codes" setting', function () {
+      it('should allow standard status codes (100-599)', function (done) {
+        var app = express();
+        app.enable('strict status codes');
+
+        app.use(function (req, res) {
+          res.status(200).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(200, done);
+      });
+
+      it('should reject status codes above 599', function (done) {
+        var app = express();
+        app.enable('strict status codes');
+
+        app.use(function (req, res) {
+          res.status(700).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
+
+      it('should reject status code 999', function (done) {
+        var app = express();
+        app.enable('strict status codes');
+
+        app.use(function (req, res) {
+          res.status(999).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
+
+      it('should allow 600+ when setting is disabled', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.status(700).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(700, done);
+      });
+    });
   });
 });
 
