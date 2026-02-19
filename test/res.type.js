@@ -42,6 +42,7 @@ describe('res', function(){
       .get('/')
       .expect('Content-Type', 'application/vnd.amazon.ebook', done);
     })
+
     describe('edge cases', function(){
       it('should handle empty string gracefully', function(done){
         var app = express();
