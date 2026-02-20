@@ -16,7 +16,7 @@ describe('diagnostics channels', function () {
 
       const app = express()
       assert.ok(msg, 'express.initialization was not published')
-      assert.strictEqual(msg.express, app)
+      assert.strictEqual(msg.app, app)
     })
 
     it('should not throw when there are no subscribers', function () {
