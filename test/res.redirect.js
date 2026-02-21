@@ -6,6 +6,42 @@ var utils = require('./support/utils');
 
 describe('res', function(){
   describe('.redirect(url)', function(){
+    it('should throw on undefined url', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(undefined);
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, done)
+    })
+
+    it('should throw on null url', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(null);
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, done)
+    })
+
+    it('should throw on numeric url', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(123);
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, done)
+    })
+
     it('should default to a 302 redirect', function(done){
       var app = express();
 
@@ -47,6 +83,30 @@ describe('res', function(){
   })
 
   describe('.redirect(status, url)', function(){
+    it('should throw on non-string url', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(301, undefined);
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, done)
+    })
+
+    it('should throw on non-numeric status', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect('301', '/foo');
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, done)
+    })
+
     it('should set the response status', function(done){
       var app = express();
 
