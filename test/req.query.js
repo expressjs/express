@@ -31,6 +31,20 @@ describe('req', function(){
         .expect(200, '{"foo":[{"bar":"baz","fizz":"buzz"},"done!"]}', done);
       });
 
+      it('should not truncate query params over 1000', function (done) {
+        var app = createApp('extended');
+        var params = Array.from({ length: 1001 }, function (_, i) { return 'p' + i + '=1'; }).join('&');
+
+        request(app)
+        .get('/?' + params)
+        .expect(200, function (err, res) {
+          if (err) return done(err);
+          var query = JSON.parse(res.text);
+          assert.strictEqual(Object.keys(query).length, 1001);
+          done();
+        });
+      });
+
       it('should parse parameters with dots', function (done) {
         var app = createApp('extended');
 
