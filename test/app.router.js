@@ -571,6 +571,36 @@ describe('app.router', function () {
           .get('/user/')
           .expect(404, done);
       })
+
+      it('should not match router mounted with trailing slash when omitting the trailing slash', function (done) {
+        var app = express();
+        var router = new express.Router({ strict: true });
+
+        router.get('/', function (req, res) {
+          res.end('tj');
+        });
+
+        app.use('/user/', router);
+
+        request(app)
+          .get('/user')
+          .expect(404, done);
+      })
+
+      it('should match router mounted with trailing slash when including the trailing slash', function (done) {
+        var app = express();
+        var router = new express.Router({ strict: true });
+
+        router.get('/', function (req, res) {
+          res.end('tj');
+        });
+
+        app.use('/user/', router);
+
+        request(app)
+          .get('/user/')
+          .expect(200, 'tj', done);
+      })
     })
   })
 
