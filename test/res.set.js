@@ -121,4 +121,42 @@ describe('res', function(){
       .expect(200, 'string', done);
     })
   })
+
+  describe(".set() edge cases", function () {
+    it("should allow empty string header values", function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set("X-Empty", "").end();
+      });
+
+      request(app).get("/").expect("X-Empty", "").end(done);
+    });
+
+    it("should treat header field names as case-insensitive", function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set("content-type", "text/plain");
+        res.end();
+      });
+
+      request(app)
+        .get("/")
+        .expect("Content-Type", "text/plain; charset=utf-8")
+        .end(done);
+    });
+
+    it("should overwrite an existing header value", function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set("X-Test", "a");
+        res.set("X-Test", "b");
+        res.end();
+      });
+
+      request(app).get("/").expect("X-Test", "b").end(done);
+    });
+  });
 })
