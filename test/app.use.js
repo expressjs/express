@@ -538,5 +538,38 @@ describe('app', function(){
       .get('/')
       .expect(200, 'saw GET / through /', done);
     })
+
+    it('should normalize consecutive slashes in path', function (done) {
+      var app = express();
+
+      app.use('/foo//bar', function (req, res) {
+        res.send('saw ' + req.method + ' ' + req.url + ' through ' + req.originalUrl);
+      });
+
+      request(app)
+      .get('/foo/bar')
+      .expect(200, 'saw GET / through /foo/bar', done);
+    })
+
+    it('should not match single slash when mounted at double slash', function (done) {
+      var app = express();
+      var cb = after(2, done);
+
+      app.use('//', function (req, res) {
+        res.send('double slash');
+      });
+
+      app.use('/', function (req, res) {
+        res.send('single slash');
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, 'single slash', cb);
+
+      request(app)
+      .get('/foo')
+      .expect(200, 'single slash', cb);
+    })
   })
 })
