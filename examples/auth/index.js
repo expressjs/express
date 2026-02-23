@@ -22,7 +22,15 @@ app.use(express.urlencoded())
 app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
-  secret: 'shhhh, very secret'
+  secret: 'shhhh, very secret',
+  cookie: function (req) {
+    return {
+      httpOnly: true,
+      secure: req.secure || false,
+      sameSite: 'auto',
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+  }
 }));
 
 // Session-persisted message middleware
