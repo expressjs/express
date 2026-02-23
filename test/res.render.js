@@ -109,6 +109,24 @@ describe('res', function(){
       .expect('<h1>blog post</h1>', done);
     })
 
+    describe('when there are multiple view engines', function(){
+      it('should fallback to the next view engine when no file extension is set', function(done){
+        var app = createApp();
+
+        app.engine('.ntl', tmpl);
+        app.set('views', path.join(__dirname, 'fixtures'))
+        app.set('view engine', 'ntl');
+
+        app.use(function(req, res){
+          res.render('email');
+        });
+
+        request(app)
+        .get('/')
+        .expect('<p>This is an email</p>', done);
+      })
+    })
+
     describe('when an error occurs', function(){
       it('should next(err)', function(done){
         var app = createApp();
