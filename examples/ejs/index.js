@@ -20,7 +20,7 @@ var app = module.exports = express();
 // we simply pass _any_ function, in this
 // case `ejs.__express`.
 
-app.engine('.html', require('ejs').__express);
+app.engine('.html', require('ejs').renderFile);
 
 // Optional since express defaults to CWD/views
 
