@@ -34,6 +34,12 @@ describe('exports', function(){
     assert.equal(express.urlencoded.length, 1)
   })
 
+  it('should expose http2 module', function () {
+    assert.equal(typeof express.http2, 'object')
+    assert.equal(typeof express.http2.createServer, 'function')
+    assert.equal(typeof express.http2.createSecureServer, 'function')
+  })
+
   it('should expose the application prototype', function(){
     assert.strictEqual(typeof express.application, 'object')
     assert.strictEqual(typeof express.application.set, 'function')
