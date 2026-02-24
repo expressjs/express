@@ -211,4 +211,23 @@ describe('res', function(){
         .end(done)
     })
   })
+
+  describe('.redirect(undefined)', function(){
+    it('should throw TypeError', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(undefined);
+      });
+
+      request(app)
+        .get('/')
+        .end(function(err, res){
+          if (res.statusCode !== 500) {
+            return done(new Error('Expected 500 status'));
+          }
+          done();
+        });
+    })
+  })
 })
