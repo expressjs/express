@@ -38,7 +38,7 @@ app.use(function(req, res, next){
   next();
 });
 
-// dummy database
+// placeholder database
 
 var users = {
   tj: { name: 'tj' }
