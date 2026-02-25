@@ -87,6 +87,81 @@ describe('res', function(){
       .get('/')
       .expect(500, /TypeError: Content-Type cannot be set to an Array/, done)
     })
+
+    it('should set charset for known Content-Type', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'text/html');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect(200, done);
+    })
+
+    it('should add charset for shorthand Content-Type', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'html');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect(200, done);
+    })
+
+    it('should keep original value when Content-Type is unknown', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'some-custom-type');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'some-custom-type')
+      .expect(200, done);
+    })
+
+    it('should not set header to false for unrecognized Content-Type', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'unknown-type');
+        var value = res.get('Content-Type');
+        res.end(value);
+      });
+
+      request(app)
+      .get('/')
+      .expect(function (res) {
+        if (res.text === 'false') {
+          throw new Error('Content-Type was set to literal string "false"');
+        }
+      })
+      .expect(200, done);
+    })
+
+    it('should preserve full MIME type with slash in Content-Type', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'application/vnd.custom+json');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'application/vnd.custom+json')
+      .expect(200, done);
+    })
   })
 
   describe('.set(object)', function(){
