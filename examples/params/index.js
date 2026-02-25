@@ -63,9 +63,13 @@ app.get('/user/:user', function (req, res) {
 app.get('/users/:from-:to', function (req, res) {
   var from = req.params.from;
   var to = req.params.to;
-  var names = users.map(function(user){ return user.name; });
-  res.send('users ' + names.slice(from, to + 1).join(', '));
-});
+  var to = parseInt(req.params.to, 10);
+  var from = parseInt(req.params.from, 10);
+  var names = users.map(function(user){ return escapeHtml(user.name); });
+  res.json({ message: 'users', users: names.slice(from, to + 1) });
+
+  // Or using template rendering:
+  // res.render('users', { users: names.slice(from, to + 1) });
 
 /* istanbul ignore next */
 if (!module.parent) {
