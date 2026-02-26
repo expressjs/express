@@ -20,9 +20,22 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded())
 app.use(session({
+  name: 'sessionId', // Custom session cookie name
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
-  secret: 'shhhh, very secret'
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+    httpOnly: true, // prevent XSS attacks
+    secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+    sameSite: 'strict' // CSRF protection
+  }
+  cookie: {
+    domain: 'yourdomain.com', // Set specific domain
+    secure: true, // Use HTTPS only
+    httpOnly: true, // Prevent XSS
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+  secret: process.env.SESSION_SECRET || require('crypto').randomBytes(32).toString('hex')
 }));
 
 // Session-persisted message middleware
