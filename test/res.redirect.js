@@ -44,6 +44,18 @@ describe('res', function(){
       .expect('Location', 'https://google.com?q=%A710')
       .expect(302, done)
     })
+
+    it('should throw on undefined "url"', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect(undefined)
+      })
+
+      request(app)
+      .get('/')
+      .expect(500, done)
+    })
   })
 
   describe('.redirect(status, url)', function(){
