@@ -21,8 +21,32 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded())
 app.use(session({
   resave: false, // don't save session if unmodified
-  saveUninitialized: false, // don't create session until something stored
-  secret: 'shhhh, very secret'
+  app.use(session({
+    resave: false, // don't save session if unmodified
+    app.use(session({
+      resave: false, // don't save session if unmodified
+      app.use(session({
+        resave: false, // don't save session if unmodified
+        app.use(session({
+          resave: false, // don't save session if unmodified
+          app.use(session({
+            resave: false, // don't save session if unmodified
+            app.use(session({
+              resave: false, // don't save session if unmodified
+              saveUninitialized: false, // don't create session until something stored
+              secret: 'shhhh, very secret',
+              cookie: {
+                maxAge: 24 * 60 * 60 * 1000, // 24 hours
+                httpOnly: true,
+                secure: false // set to true in production with HTTPS
+              }
+            }));
+          }));
+            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+          }
+        }));
+  }));
+  }
 }));
 
 // Session-persisted message middleware
