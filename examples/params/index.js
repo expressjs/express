@@ -64,7 +64,7 @@ app.get('/users/:from-:to', function (req, res) {
   var from = req.params.from;
   var to = req.params.to;
   var names = users.map(function(user){ return user.name; });
-  res.send('users ' + names.slice(from, to + 1).join(', '));
+  res.json({ message: 'users ' + names.slice(from, to + 1).join(', ') });
 });
 
 /* istanbul ignore next */
