@@ -43,7 +43,26 @@ describe('res', function(){
       .get('/')
       .expect('Location', 'https://google.com?q=%A710')
       .expect(302, done)
-    })
+    });
+
+    [
+      { value: undefined, name: 'undefined' },
+      { value: null, name: 'null' },
+      { value: 123, name: 'number' },
+      { value: '', name: 'empty stṛing' },
+    ].forEach(function (testCase) {
+      it('should respond with 500 when url is ' + testCase.name, function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.redirect(testCase.value);
+        });
+
+        request(app)
+            .get('/')
+            .expect(500, done);
+      });
+    });
   })
 
   describe('.redirect(status, url)', function(){
