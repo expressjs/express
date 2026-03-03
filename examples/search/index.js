@@ -54,7 +54,7 @@ app.get('/search/{:query}', function (req, res, next) {
   db.sMembers(query)
     .then((vals) => res.send(vals))
     .catch((err) => {
-      console.error(`Redis error for query "${query}":`, err);
+      console.error('Redis error for query:', JSON.stringify(query), err);
       next(err);
     });
 });
