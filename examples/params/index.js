@@ -64,7 +64,19 @@ app.get('/users/:from-:to', function (req, res) {
   var from = req.params.from;
   var to = req.params.to;
   var names = users.map(function(user){ return user.name; });
-  res.send('users ' + names.slice(from, to + 1).join(', '));
+  var escapedNames = names.slice(from, to + 1).map(function(name) {
+    return name.replace(/[&<>"']/g, function(match) {
+      var escapeMap = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#x27;'
+      };
+      return escapeMap[match];
+    });
+  });
+  res.send('users ' + escapedNames.join(', '));
 });
 
 /* istanbul ignore next */
