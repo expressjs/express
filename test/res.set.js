@@ -87,6 +87,34 @@ describe('res', function(){
       .get('/')
       .expect(500, /TypeError: Content-Type cannot be set to an Array/, done)
     })
+
+    it('should fall back to original value for unknown Content-Type', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'some-custom-type');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'some-custom-type')
+      .expect(200, done);
+    })
+
+    it('should resolve known Content-Type shorthands', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'html');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect(200, done);
+    })
   })
 
   describe('.set(object)', function(){
