@@ -3,6 +3,7 @@
 var after = require('after');
 var assert = require('node:assert')
 var AsyncLocalStorage = require('node:async_hooks').AsyncLocalStorage
+const { Buffer } = require('node:buffer');
 
 var express = require('..');
 var path = require('node:path')
@@ -88,7 +89,7 @@ describe('res', function(){
     })
 
     describe('async local storage', function () {
-      it('should presist store', function (done) {
+      it('should persist store', function (done) {
         var app = express()
         var cb = after(2, done)
         var store = { foo: 'bar' }
@@ -116,7 +117,7 @@ describe('res', function(){
           .expect(200, 'tobi', cb)
       })
 
-      it('should presist store on error', function (done) {
+      it('should persist store on error', function (done) {
         var app = express()
         var store = { foo: 'bar' }
 

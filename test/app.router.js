@@ -1156,7 +1156,7 @@ describe('app.router', function () {
     assert.strictEqual(app.get('/', function () { }), app)
   })
 
-  it('should should not use disposed router/middleware', function (done) {
+  it('should not use disposed router/middleware', function (done) {
     // more context: https://github.com/expressjs/express/issues/5743#issuecomment-2277148412
 
     var app = express();

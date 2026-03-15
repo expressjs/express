@@ -1,3 +1,32 @@
+# Unreleased Changes
+
+## 🚀 Improvements
+
+* Improve HTML structure in `res.redirect()` responses when HTML format is accepted by adding `<!DOCTYPE html>`, `<title>`, and `<body>` tags for better browser compatibility - by [@Bernice55231](https://github.com/Bernice55231) in [#5167](https://github.com/expressjs/express/pull/5167)
+
+* When calling `app.render` with options set to null, the locals object is handled correctly, preventing unexpected errors and making the method behave the same as when options is omitted or an empty object is passed - by [AkaHarshit](https://github.com/AkaHarshit) in [#6903](https://github.com/expressjs/express/pull/6903)
+
+    ```js
+    app.render('index', null, callback); // now works as expected
+    ```
+
+## ⚡ Performance
+
+* Avoid duplicate Content-Type header processing in `res.send()` when sending string responses without an explicit Content-Type header - by [@bjohansebas](https://github.com/bjohansebas) in [#6991](https://github.com/expressjs/express/pull/6991)
+
+5.2.1 / 2025-12-01
+=======================
+
+* Revert security fix for [CVE-2024-51999](https://www.cve.org/CVERecord?id=CVE-2024-51999) ([GHSA-pj86-cfqh-vqx6](https://github.com/expressjs/express/security/advisories/GHSA-pj86-cfqh-vqx6))
+  * The prior release (5.2.0) included an erroneous breaking change related to the extended query parser. There is no actual security vulnerability associated with this behavior (CVE-2024-51999 has been rejected). The change has been fully reverted in this release.
+
+5.2.0 / 2025-12-01
+========================
+
+* Security fix for [CVE-2024-51999](https://www.cve.org/CVERecord?id=CVE-2024-51999) ([GHSA-pj86-cfqh-vqx6](https://github.com/expressjs/express/security/advisories/GHSA-pj86-cfqh-vqx6))
+* deps: `body-parser@^2.2.1`
+* A deprecation warning was added when using `res.redirect` with undefined arguments, Express now emits a warning to help detect calls that pass undefined as the status or URL and make them easier to fix.
+
 5.1.0 / 2025-03-31
 ========================
 
