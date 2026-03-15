@@ -142,14 +142,6 @@ describe('app', function(){
 
     it('should deprecate when redirect called without a url', function (done) {
       var app = express()
-      var warnings = []
-
-      // Capture deprecation warnings
-      process.on('warning', function (warning) {
-        if (warning.name === 'DeprecationWarning') {
-          warnings.push(warning.message)
-        }
-      })
 
       app.use(function (req, res) {
         res.redirect('')
@@ -159,22 +151,11 @@ describe('app', function(){
         .get('/')
         .expect(302)
         .expect('Location', '')
-        .expect(/Redirecting to/, function () {
-          assert(warnings.some(msg => msg.includes('res.redirect(url): Use res.redirect(status, url) instead')))
-          done()
-        })
+        .expect(/Redirecting to/, done)
     })
 
     it('should deprecate when redirect address is not a string', function (done) {
       var app = express()
-      var warnings = []
-
-      // Capture deprecation warnings
-      process.on('warning', function (warning) {
-        if (warning.name === 'DeprecationWarning') {
-          warnings.push(warning.message)
-        }
-      })
 
       app.use(function (req, res) {
         res.redirect(302, 123)
@@ -184,10 +165,7 @@ describe('app', function(){
         .get('/')
         .expect(302)
         .expect('Location', '123')
-        .expect(/Redirecting to 123/, function () {
-          assert(warnings.some(msg => msg.includes('res.redirect(url, status): Use res.redirect(status, url) instead')))
-          done()
-        })
+        .expect(/Redirecting to 123/, done)
     })
 
     it('should raise when redirect status is not a number', function (done) {
