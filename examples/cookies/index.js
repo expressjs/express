@@ -53,10 +53,6 @@ app.post('/encryptCookies', function (req, res) {
 
   const hashAlgorithm = 'sha256';
 
-  console.log('key', key);
-
-  console.log('iv', iv);
-
   res.cookie(
     'encryptedCookie',
     'i like to hide my cookies under the sofa',
