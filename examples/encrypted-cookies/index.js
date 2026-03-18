@@ -49,7 +49,7 @@ app.post('/', function (req, res) {
   if (req.body && req.body.encryptedCookie) {
     res.cookie(
       'encryptedCookie',
-      'I like to hide by cookies under the sofa now',
+      'I like to hide by cookies under the sofa',
       { signed: true, maxAge: minute  },
       { key },
     );
@@ -62,7 +62,7 @@ app.post('/decryptCookies', function (req, res) {
 
   const decryptedCookie = res.decryptCookie(encryptedCookie, key);
 
-  res.send(decryptedCookie + '<br> <a href="/">Go back to main page</a>');
+  res.send(decryptedCookie + '<br> <a href="/">Go back</a>');
 });
 
 /* istanbul ignore next */

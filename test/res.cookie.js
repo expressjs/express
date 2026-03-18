@@ -53,10 +53,10 @@ describe('res', function(){
 
   describe('.cookie(name, string, options, encrypt)', function () {
     it('should return a stringified json with the encrypted cookie', function (done) {
-      var app = express();
-      var { Buffer } = require('node:buffer');
+      var app = express()
+      var { Buffer } = require('node:buffer')
 
-      app.use(cookieParser('my-secret'));
+      app.use(cookieParser('my-secret'))
 
       app.use(function (req, res) {
         res.cookie('name', 'tobi', undefined, {
@@ -69,9 +69,9 @@ describe('res', function(){
             0xdf, 0x16, 0x7e, 0xd1, 0xc9, 0x2c, 0x24, 0x1b, 0x02, 0x4f, 0x48,
             0x24, 0x62, 0xc6, 0x3b, 0x9b,
           ]),
-        });
+        })
         res.end();
-      });
+      })
 
       request(app)
         .get('/')
@@ -79,14 +79,14 @@ describe('res', function(){
           'Set-Cookie',
           'name=%7B%22encryptedText%22%3A%22wdYTOw%3D%3D%22%2C%22iv%22%3A%223xZ%2B0cksJBsCT0gkYsY7mw%3D%3D%22%2C%22authTag%22%3A%22pbC2HFCHVKkeAVA46GoNtg%3D%3D%22%7D; Path=/',
         )
-        .expect(200, done);
-    });
+        .expect(200, done)
+    })
 
     it('should return a stringified json with the encrypted signed cookie', function (done) {
-      var app = express();
-      var { Buffer } = require('node:buffer');
+      var app = express()
+      var { Buffer } = require('node:buffer')
 
-      app.use(cookieParser('my-secret'));
+      app.use(cookieParser('my-secret'))
 
       app.use(function (req, res) {
         res.cookie(
@@ -104,8 +104,8 @@ describe('res', function(){
               0x24, 0x62, 0xc6, 0x3b, 0x9b,
             ]),
           },
-        );
-        res.end();
+        )
+        res.end()
       });
 
       request(app)
@@ -114,10 +114,9 @@ describe('res', function(){
           'Set-Cookie',
           'name=s%3A%7B%22encryptedText%22%3A%22wdYTOw%3D%3D%22%2C%22iv%22%3A%223xZ%2B0cksJBsCT0gkYsY7mw%3D%3D%22%2C%22authTag%22%3A%22pbC2HFCHVKkeAVA46GoNtg%3D%3D%22%7D.%2FbjKv%2BoqY%2BsjNKQp%2FyAgxhemLopKyKnQt1ngpRxhfL0; Path=/',
         )
-        .expect(200, done);
-    });
-  });
-
+        .expect(200, done)
+    })
+  })
   describe('.cookie(name, string, options)', function(){
     it('should set params', function(done){
       var app = express();
