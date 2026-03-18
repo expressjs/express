@@ -8,7 +8,6 @@ var express = require('../../');
 var app = module.exports = express();
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var crypto = require("node:crypto")
 
 // custom log format
 if (process.env.NODE_ENV !== 'test') app.use(logger(':method :url'))
@@ -45,33 +44,6 @@ app.post('/', function(req, res){
   }
 
   res.redirect(req.get('Referrer') || '/');
-});
-
-const key = crypto.randomBytes(32)
-
-app.post('/encryptCookies', function (req, res) {
-  const iv = crypto.randomBytes(16);
-
-  const encryptionAlgorithm = 'aes-256-gcm';
-
-  const hashAlgorithm = 'sha256';
-
-  res.cookie(
-    'encryptedCookie',
-    'i like to hide my cookies under the sofa',
-    { signed: false },
-    { encryptionAlgorithm, hashAlgorithm, iv, key, authTag: true },
-  );
-
-  res.send('cookie encrypted');
-});
-
-app.post('/decryptCookies', function (req, res) {
-  const encryptedCookie = req.cookies.encryptedCookie;
-
-  const decryptedCookie = res.decryptCookie(encryptedCookie, key);
-
-  res.send(decryptedCookie);
 });
 
 /* istanbul ignore next */
