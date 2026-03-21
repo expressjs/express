@@ -24,7 +24,9 @@ app.get('/', function(req, res){
 // /files/* is accessed via req.params[0]
 // but here we name it :file
 app.get('/files/*file', function (req, res, next) {
-  res.download(req.params.file.join('/'), { root: FILES_DIR }, function (err) {
+  // `req.params.file` is already a string like "notes/groceries.txt".
+// Pass it directly to `res.download()`; no need to join an array.
+res.download(req.params.file, { root: FILES_DIR }, function (err) {
     if (!err) return; // file sent
     if (err.status !== 404) return next(err); // non-404 error
     // file for download not found
