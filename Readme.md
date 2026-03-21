@@ -91,7 +91,7 @@ for more information.
   Install the executable. The executable's major version will match Express's:
 
 ```bash
-npm install -g express-generator@4
+npm install -g express-generator@5
 ```
 
   Create the app:
