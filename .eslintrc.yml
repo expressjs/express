@@ -1,6 +1,6 @@
 root: true
 env:
-  es2022: true
+  es2022: false
   node: true
 rules:
   eol-last: error
