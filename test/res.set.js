@@ -87,6 +87,20 @@ describe('res', function(){
       .get('/')
       .expect(500, /TypeError: Content-Type cannot be set to an Array/, done)
     })
+
+    it('should not set Content-Type to "false" when mime type is unknown', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'some-custom-type');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'some-custom-type')
+      .expect(200, done);
+    })
   })
 
   describe('.set(object)', function(){
