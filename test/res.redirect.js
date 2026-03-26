@@ -19,6 +19,58 @@ describe('res', function(){
       .expect(302, done)
     })
 
+    it('should throw TypeError when url is undefined', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(undefined);
+      });
+
+      request(app)
+      .get('/')
+      .expect(500)
+      .expect(/Provide a url argument to res\.redirect\(\)/, done)
+    })
+
+    it('should throw TypeError when url is null', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(null);
+      });
+
+      request(app)
+      .get('/')
+      .expect(500)
+      .expect(/Provide a url argument to res\.redirect\(\)/, done)
+    })
+
+    it('should throw TypeError when url is an empty string', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect('');
+      });
+
+      request(app)
+      .get('/')
+      .expect(500)
+      .expect(/Provide a url argument to res\.redirect\(\)/, done)
+    })
+
+    it('should throw TypeError when url is not a string', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(123);
+      });
+
+      request(app)
+      .get('/')
+      .expect(500)
+      .expect(/The .*url.* argument must be a string/, done)
+    })
+
     it('should encode "url"', function (done) {
       var app = express()
 
@@ -58,6 +110,19 @@ describe('res', function(){
       .get('/')
       .expect('Location', 'http://google.com')
       .expect(303, done)
+    })
+
+    it('should throw TypeError when status is not a number', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect('303', 'http://google.com');
+      });
+
+      request(app)
+      .get('/')
+      .expect(500)
+      .expect(/The .*status.* argument must be a number/, done)
     })
   })
 
