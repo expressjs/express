@@ -31,6 +31,34 @@ describe('res', function(){
       .expect('X-Number', '123')
       .expect(200, 'string', done);
     })
+
+    it('should preserve unknown Content-Type values', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'some-custom-type');
+        res.end('hello');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'some-custom-type')
+      .expect(200, 'hello', done);
+    })
+
+    it('should preserve unknown Content-Type values when sending strings', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'some-custom-type');
+        res.send('hello');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'some-custom-type')
+      .expect(200, 'hello', done);
+    })
   })
 
   describe('.set(field, values)', function(){
