@@ -3290,7 +3290,7 @@ Closes #805
   * Added options support to `res.clearCookie()`
   * Added `res.helpers()` as alias of `res.locals()`
   * Added; json defaults to UTF-8 with `res.send()`. Closes #632. [Daniel   * Dependency `connect >= 1.4.0`
-  * Changed; auto set Content-Type in res.attachement [Aaron Heckmann]
+  * Changed; auto set Content-Type in res.attachment [Aaron Heckmann]
   * Renamed "cache views" to "view cache". Closes #628
   * Fixed caching of views when using several apps. Closes #637
   * Fixed gotcha invoking `app.param()` callbacks once per route middleware.
