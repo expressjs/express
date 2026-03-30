@@ -249,7 +249,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
   * [tunniclm](https://github.com/tunniclm) - **Mike Tunnicliffe**
   * [enyoghasim](https://github.com/enyoghasim) - **David Enyoghasim**
   * [0ss](https://github.com/0ss) - **Salah**
-  * [import-brain](https://github.com/import-brain) - **Eric Cheng** (he/him)
+  * import-brain - **Eric Cheng** (he/him)
   * [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
   * [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
   * [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
