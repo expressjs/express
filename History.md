@@ -571,7 +571,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * deps: utils-merge@1.0.1
   * deps: vary@~1.1.2
     - perf: improve header token parsing speed
-  * perf: re-use options object when generating ETags
+  * perf: reuse options object when generating ETags
   * perf: remove dead `.charset` set in `res.jsonp`
 
 4.15.5 / 2017-09-24
@@ -3128,7 +3128,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * Added ./routes dir for generated app by default
   * Added npm install reminder to express(1) app gen
   * Added 0.5.x support
-  * Removed `make test-cov` since it wont work with node 0.5.x
+  * Removed `make test-cov` since it won't work with node 0.5.x
   * Fixed express(1) public dir for windows. Closes #866
 
 2.4.7 / 2011-10-05
@@ -3290,7 +3290,7 @@ Closes #805
   * Added options support to `res.clearCookie()`
   * Added `res.helpers()` as alias of `res.locals()`
   * Added; json defaults to UTF-8 with `res.send()`. Closes #632. [Daniel   * Dependency `connect >= 1.4.0`
-  * Changed; auto set Content-Type in res.attachement [Aaron Heckmann]
+  * Changed; auto set Content-Type in res.attachment [Aaron Heckmann]
   * Renamed "cache views" to "view cache". Closes #628
   * Fixed caching of views when using several apps. Closes #637
   * Fixed gotcha invoking `app.param()` callbacks once per route middleware.
