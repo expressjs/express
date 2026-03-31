@@ -80,7 +80,7 @@ for more information.
 
   * [Website and Documentation](https://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
   * [GitHub Organization](https://github.com/expressjs) for Official Middleware & Modules
-  * [Github Discussions](https://github.com/expressjs/discussions) for discussion on the development and usage of Express
+  * [GitHub Discussions](https://github.com/expressjs/discussions) for discussion on the development and usage of Express
 
 **PROTIP** Be sure to read the [migration guide to v5](https://expressjs.com/en/guide/migrating-5)
 
