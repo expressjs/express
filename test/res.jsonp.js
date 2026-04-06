@@ -87,6 +87,47 @@ describe('res', function(){
       .expect(200, /foobar\(\{\}\);/, done);
     })
 
+    it('should fall back to JSON when callback sanitizes to empty', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp({ count: 1 });
+      });
+
+      request(app)
+      .get('/?callback=!!!')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200, '{"count":1}', done);
+    })
+
+    it('should fall back to JSON for callback with only special chars', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.type('application/vnd.example+json');
+        res.jsonp({ hello: 'world' });
+      });
+
+      request(app)
+      .get('/?callback=%3C%3E%21%40%23')
+      .expect('Content-Type', 'application/vnd.example+json; charset=utf-8')
+      .expect(utils.shouldNotHaveHeader('X-Content-Type-Options'))
+      .expect(200, '{"hello":"world"}', done);
+    })
+
+    it('should use sanitized callback with mixed valid/invalid chars', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp({ count: 1 });
+      });
+
+      request(app)
+      .get('/?callback=foo!bar')
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect(200, /foobar\(\{"count":1\}\);/, done);
+    })
+
     it('should escape utf whitespace', function(done){
       var app = express();
 
