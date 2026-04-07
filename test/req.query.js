@@ -38,6 +38,17 @@ describe('req', function(){
         .get('/?user.name=tj')
         .expect(200, '{"user.name":"tj"}', done);
       });
+
+      it('should parse repeated keys over 20 values as an array', function (done) {
+        var app = createApp('extended');
+        var query = Array.from({ length: 21 }, function (_, i) {
+          return 'tenancyIds=' + (i + 1)
+        }).join('&')
+
+        request(app)
+        .get('/?' + query)
+        .expect(200, '{"tenancyIds":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"]}', done);
+      });
     });
 
     describe('when "query parser" is simple', function () {
