@@ -139,5 +139,45 @@ describe('app', function(){
         .get('/sub/foo')
         .expect(200, 'FOO', cb)
     })
+
+    it('should deprecate when redirect called without a url', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect('')
+      })
+
+      request(app)
+        .get('/')
+        .expect(302)
+        .expect('Location', '')
+        .expect(/Redirecting to/, done)
+    })
+
+    it('should deprecate when redirect address is not a string', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect(302, 123)
+      })
+
+      request(app)
+        .get('/')
+        .expect(302)
+        .expect('Location', '123')
+        .expect(/Redirecting to 123/, done)
+    })
+
+    it('should raise when redirect status is not a number', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect('foo', '/bar')
+      })
+
+      request(app)
+        .get('/')
+        .expect(500, /Invalid status code/, done)
+    })
   })
 })
