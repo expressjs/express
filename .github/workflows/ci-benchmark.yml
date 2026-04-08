@@ -12,11 +12,8 @@ jobs:
       matrix:
         runner:
           - ubuntu-latest
-          - monkci-ubuntu-24.04
-          - monkci-ubuntu-24.04-4-6000iops
+          - monkci-runners-4vcpu
           - monkci-ubuntu-24.04-4-3600iops
-          - monkci-ubuntu-24.04-4-4000iops
-          - monkci-ubuntu-24.04-4-3900iops
         node-version: [22]
 
     name: build-and-test (${{ matrix.runner }})
