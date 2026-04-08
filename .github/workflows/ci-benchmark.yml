@@ -1,0 +1,71 @@
+name: CI Benchmark
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+jobs:
+  build-and-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - ubuntu-latest
+          - monkci-ubuntu-24.04
+          - monkci-ubuntu-24.04-4-6000iops
+          - monkci-ubuntu-24.04-4-3600iops
+          - monkci-ubuntu-24.04-4-4000iops
+          - monkci-ubuntu-24.04-4-3900iops
+        node-version: [22]
+
+    name: build-and-test (${{ matrix.runner }})
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - name: Record start time
+        id: start
+        run: echo "start=$(date +%s)" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Configure npm loglevel
+        run: npm config set loglevel error
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Output Node and NPM versions
+        run: |
+          echo "Node.js version: $(node -v)"
+          echo "NPM version: $(npm -v)"
+
+      - name: Run tests
+        run: npm run test-ci
+
+      - name: Record end time and compute duration
+        if: always()
+        run: |
+          END=$(date +%s)
+          START=${{ steps.start.outputs.start }}
+          DURATION=$((END - START))
+          echo "Runner     : ${{ matrix.runner }}"
+          echo "Total time : ${DURATION}s"
+          echo "duration=${DURATION}" >> $GITHUB_OUTPUT
+        id: end
+
+      - name: Timing summary
+        if: always()
+        run: |
+          echo "### Benchmark result" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Runner | Duration (s) |" >> $GITHUB_STEP_SUMMARY
+          echo "| ------ | ------------ |" >> $GITHUB_STEP_SUMMARY
+          echo "| \`${{ matrix.runner }}\` | ${{ steps.end.outputs.duration }} |" >> $GITHUB_STEP_SUMMARY
