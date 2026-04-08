@@ -564,6 +564,78 @@ describe('res', function(){
         .expect(utils.shouldNotHaveHeader('ETag'))
         .expect(200, done);
       })
+
+      it('should not generate ETag when Cache-Control: no-store is set', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.set('Cache-Control', 'no-store');
+          res.send('hello, world!');
+        });
+
+        request(app)
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('ETag'))
+        .expect('Cache-Control', 'no-store')
+        .expect(200, done);
+      })
+
+      it('should not generate ETag when Cache-Control: no-store with other directives is set', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.set('Cache-Control', 'no-store, no-cache');
+          res.send('large body content for etag generation');
+        });
+
+        request(app)
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('ETag'))
+        .expect('Cache-Control', 'no-store, no-cache')
+        .expect(200, done);
+      })
+
+      it('should not generate ETag when Cache-Control contains no-store (case insensitive)', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.set('Cache-Control', 'NO-STORE');
+          res.send('test data');
+        });
+
+        request(app)
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('ETag'))
+        .expect(200, done);
+      })
+
+      it('should still generate ETag when Cache-Control has other directives but not no-store', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.set('Cache-Control', 'no-cache, must-revalidate');
+          res.send('hello, world!');
+        });
+
+        request(app)
+        .get('/')
+        .expect('ETag', /^(W\/)?"/)
+        .expect('Cache-Control', 'no-cache, must-revalidate')
+        .expect(200, done);
+      })
+
+      it('should generate ETag when Cache-Control is not set', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.send('hello, world!');
+        });
+
+        request(app)
+        .get('/')
+        .expect('ETag', /^(W\/)?"/)
+        .expect(200, done);
+      })
     })
   })
 })
