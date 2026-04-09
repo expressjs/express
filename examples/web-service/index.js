@@ -45,8 +45,11 @@ app.use('/api', function(req, res, next){
 // account info with some sort of database like redis.
 // api keys do _not_ serve as authentication, merely to
 // track API usage or help prevent malicious behavior etc.
+// API keys should be loaded from environment variables, never hardcoded.
+// Set the API_KEYS environment variable as a comma-separated list.
+// Example: API_KEYS=key1,key2,key3 node index.js
 
-var apiKeys = ['foo', 'bar', 'baz'];
+var apiKeys = process.env.API_KEYS ? process.env.API_KEYS.split(',') : [];
 
 // these two objects will serve as our faux database
 
