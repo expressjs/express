@@ -57,7 +57,7 @@ If this is a brand new project, make sure to create a `package.json` first with
 the [`npm init` command](https://docs.npmjs.com/creating-a-package-json-file).
 
 Installation is done using the
-[`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
+[`npm install` command](https://docs.npmjs.com/downloading-and-installing-packages-locally):
 
 ```bash
 npm install express
@@ -249,7 +249,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
   * [tunniclm](https://github.com/tunniclm) - **Mike Tunnicliffe**
   * [enyoghasim](https://github.com/enyoghasim) - **David Enyoghasim**
   * [0ss](https://github.com/0ss) - **Salah**
-  * [import-brain](https://github.com/import-brain) - **Eric Cheng** (he/him)
+  * [ejcheng](https://github.com/ejcheng)- **Eric Cheng** (he/him)
   * [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
   * [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
   * [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
