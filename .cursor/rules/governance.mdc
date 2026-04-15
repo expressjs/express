@@ -1,0 +1,36 @@
+---
+description: Governance rules for express — quality gates, security, conventions
+globs:
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.js"
+  - "**/*.jsx"
+alwaysApply: true
+---
+
+# Governance — express
+
+> Generated from governance.md by crag. Regenerate: `crag compile --target cursor`
+
+**Stack:** node
+
+## Quality Gates
+
+Run these checks in order before committing:
+### Lint
+- `npm run lint`
+
+### Test
+- `npm run test`
+
+### Ci (inferred from workflow)
+- `npm run test-ci`
+## Security
+
+- No hardcoded secrets — grep for sk_live, AKIA, password= before commit
+
+## Conventions
+
+- Conventional commits (feat:, fix:, docs:, etc.)
+- Commit trailer: Co-Authored-By: Claude <noreply@anthropic.com>
+- Runtimes: node
