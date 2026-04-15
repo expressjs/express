@@ -38,6 +38,30 @@ describe('req', function(){
         .get('/?user.name=tj')
         .expect(200, '{"user.name":"tj"}', done);
       });
+
+      it('should parse more than 20 repeated values as an array (#7147)', function (done) {
+        var app = createApp('extended');
+        var ids = [];
+        var expected = [];
+        for (var i = 0; i < 25; i++) {
+          ids.push('ids=' + i);
+          expected.push(String(i));
+        }
+
+        request(app)
+        .get('/?' + ids.join('&'))
+        .expect(200, JSON.stringify({ ids: expected }), done);
+      });
+
+      it('should still reject array expansion beyond arrayLimit (#7147)', function (done) {
+        var app = createApp('extended');
+
+        // A single parameter with an index past arrayLimit (1000) must not
+        // allocate a sparse array; qs collapses it to an object.
+        request(app)
+        .get('/?arr[9999]=x')
+        .expect(200, '{"arr":{"9999":"x"}}', done);
+      });
     });
 
     describe('when "query parser" is simple', function () {
