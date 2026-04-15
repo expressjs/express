@@ -75,6 +75,20 @@ describe('res', function(){
       .expect(200, done);
     })
 
+    it('should not set Content-Type to "false" for unknown type', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'bogus');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'bogus')
+      .expect(200, done);
+    })
+
     it('should throw when Content-Type is an array', function (done) {
       var app = express()
 
