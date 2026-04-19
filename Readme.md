@@ -106,6 +106,8 @@ express /tmp/foo && cd /tmp/foo
 npm install
 ```
 
+  If you are starting from the minimal example above instead of using `express-generator`, create a `package.json`, install `express`, and then run your entry file with Node.js.
+
   Start the server:
 
 ```bash
