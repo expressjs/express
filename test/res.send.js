@@ -174,7 +174,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect('Content-Type', 'text/plain')
       .expect(200, 'hey', done);
     })
 
@@ -187,7 +187,7 @@ describe('res', function(){
 
       request(app)
         .get("/")
-        .expect("Content-Type", "text/plain; charset=utf-8")
+        .expect("Content-Type", "text/plain")
         .expect(200, "hey", done);
     })
 
