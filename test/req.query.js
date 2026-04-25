@@ -38,6 +38,16 @@ describe('req', function(){
         .get('/?user.name=tj')
         .expect(200, '{"user.name":"tj"}', done);
       });
+
+      it('should parse more than 20 array parameters as array', function (done) {
+        var app = createApp('extended');
+        // 25 tenancyIds values - more than the default qs arrayLimit of 20
+        var query = 'tenancyIds=35&tenancyIds=28&tenancyIds=149&tenancyIds=157&tenancyIds=158&tenancyIds=159&tenancyIds=161&tenancyIds=160&tenancyIds=162&tenancyIds=163&tenancyIds=164&tenancyIds=165&tenancyIds=166&tenancyIds=167&tenancyIds=7&tenancyIds=196&tenancyIds=195&tenancyIds=198&tenancyIds=70&tenancyIds=6&tenancyIds=75&tenancyIds=76&tenancyIds=77&tenancyIds=78&tenancyIds=79';
+
+        request(app)
+        .get('/?' + query)
+        .expect(200, '{"tenancyIds":["35","28","149","157","158","159","161","160","162","163","164","165","166","167","7","196","195","198","70","6","75","76","77","78","79"]}', done);
+      });
     });
 
     describe('when "query parser" is simple', function () {
