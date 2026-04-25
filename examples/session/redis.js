@@ -21,7 +21,15 @@ app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
   secret: 'keyboard cat',
-  store: new RedisStore
+  store: new RedisStore,
+  cookie: function (req) {
+    return {
+      httpOnly: true,
+      secure: req.secure || false,
+      sameSite: 'auto',
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+  }
 }));
 
 app.get('/', function(req, res){
