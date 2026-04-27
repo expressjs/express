@@ -31,6 +31,20 @@ describe('res', function(){
       .expect('X-Number', '123')
       .expect(200, 'string', done);
     })
+
+    it('should preserve Content-Type value when mime lookup fails', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'custom-type');
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'custom-type')
+      .expect(200, done);
+    })
   })
 
   describe('.set(field, values)', function(){
