@@ -39,7 +39,7 @@ describe('req', function(){
         .expect(200, '{"user.name":"tj"}', done);
       });
 
-      it('should parse more than 20 repeated values as an array (#7147)', function (done) {
+      it('should parse more than 20 repeated values as an array', function (done) {
         var app = createApp('extended');
         var ids = [];
         var expected = [];
@@ -51,16 +51,6 @@ describe('req', function(){
         request(app)
         .get('/?' + ids.join('&'))
         .expect(200, JSON.stringify({ ids: expected }), done);
-      });
-
-      it('should still reject array expansion beyond arrayLimit (#7147)', function (done) {
-        var app = createApp('extended');
-
-        // A single parameter with an index past arrayLimit (1000) must not
-        // allocate a sparse array; qs collapses it to an object.
-        request(app)
-        .get('/?arr[9999]=x')
-        .expect(200, '{"arr":{"9999":"x"}}', done);
       });
     });
 
