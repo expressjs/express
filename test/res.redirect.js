@@ -46,6 +46,21 @@ describe('res', function(){
     })
   })
 
+  describe('.redirect(undefined)', function(){
+    it('should throw TypeError', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(undefined);
+      });
+
+      request(app)
+        .get('/')
+        .expect(500)
+        .end(done)
+    })
+  })
+
   describe('.redirect(status, url)', function(){
     it('should set the response status', function(done){
       var app = express();
