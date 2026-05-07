@@ -1,11 +1,46 @@
 'use strict'
 
+var assert = require('node:assert');
 var express = require('..');
 var request = require('supertest');
 var utils = require('./support/utils');
 
 describe('res', function(){
   describe('.redirect(url)', function(){
+    it('should throw TypeError when url is undefined', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        try {
+          res.redirect(undefined);
+          done(new Error('expected TypeError'));
+        } catch (e) {
+          assert.ok(e instanceof TypeError);
+          assert.strictEqual(e.message, 'url argument is required to res.redirect');
+          done();
+        }
+      });
+
+      request(app).get('/').end(function() {});
+    })
+
+    it('should throw TypeError when url is null', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        try {
+          res.redirect(null);
+          done(new Error('expected TypeError'));
+        } catch (e) {
+          assert.ok(e instanceof TypeError);
+          assert.strictEqual(e.message, 'url argument is required to res.redirect');
+          done();
+        }
+      });
+
+      request(app).get('/').end(function() {});
+    })
+
     it('should default to a 302 redirect', function(done){
       var app = express();
 
