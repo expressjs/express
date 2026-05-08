@@ -1,7 +1,7 @@
-unreleased
+4.22.2 / 2026-05-011
 ==========
 
-* fix: restore >20 array parsing for req.query repeated keys (8d09bfe6)
+* fix: restore >20 array parsing for `req.query` repeated keys ([`8d09bfe6`](https://github.com/expressjs/express/commit/8d09bfe6d88983da5c3e12cfdd54782c4dc675db))
   * This also unifies array-cap behavior across notations. Indexed notation (`a[0]=...`) was historically capped at qs's default `arrayLimit` of 20 even in older qs versions; after this change it also allows up to 1000 items.
 * deps: qs@~6.15.1
 * deps: body-parser@~1.20.5
