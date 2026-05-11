@@ -442,6 +442,41 @@ describe('res', function(){
         .expect(200, done);
       });
 
+      it('should not send ETag when Cache-Control is no-store', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.set('Cache-Control', 'private, no-store');
+          res.send('hello!');
+        });
+
+        app.enable('etag');
+
+        request(app)
+        .get('/')
+        .expect('Cache-Control', 'private, no-store')
+        .expect(utils.shouldNotHaveHeader('ETag'))
+        .expect(200, done);
+      });
+
+      it('should send manually set ETag when Cache-Control is no-store', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.set('Cache-Control', 'no-store');
+          res.set('etag', '"asdf"');
+          res.send('hello!');
+        });
+
+        app.enable('etag');
+
+        request(app)
+        .get('/')
+        .expect('Cache-Control', 'no-store')
+        .expect('ETag', '"asdf"')
+        .expect(200, done);
+      });
+
       it('should not send ETag for res.send()', function (done) {
         var app = express();
 
