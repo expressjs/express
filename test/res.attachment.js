@@ -31,7 +31,7 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('Content-Disposition', 'attachment; filename="image.png"', done);
+      .expect('Content-Disposition', 'attachment; filename=image.png', done);
     })
 
     it('should set the Content-Type', function(done){
