@@ -1,4 +1,4 @@
-4.22.2 / 2026-05-011
+4.22.2 / 2026-05-11
 ==========
 
 * fix: restore >20 array parsing for `req.query` repeated keys ([`8d09bfe6`](https://github.com/expressjs/express/commit/8d09bfe6d88983da5c3e12cfdd54782c4dc675db))
