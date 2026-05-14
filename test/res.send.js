@@ -134,6 +134,22 @@ describe('res', function(){
       .expect('Content-Type', 'text/plain; charset=iso-8859-1')
       .expect(200, 'hi', done);
     })
+
+    it('should not expose Content-Type const to other switch cases', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        // Sending a number goes through the object/number case in the switch,
+        // which must not have access to the const declared in the string case.
+        // This test ensures the block-scoped fix prevents a TDZ ReferenceError.
+        res.send(42);
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200, '42', done);
+    })
   })
 
   describe('.send(Buffer)', function(){
