@@ -1,19 +1,8 @@
-'use strict'
-
-var users = require('./db');
-
-exports.html = function(req, res){
-  res.send('<ul>' + users.map(function(user){
-    return '<li>' + user.name + '</li>';
-  }).join('') + '</ul>');
-};
-
-exports.text = function(req, res){
-  res.send(users.map(function(user){
-    return ' - ' + user.name + '\n';
-  }).join(''));
-};
-
-exports.json = function(req, res){
-  res.json(users);
-};
+// hello: register users route with content negotiation
+const usersHandlers = require('./users');
+app.get('/users', function(req, res) {
+  const accept = req.headers.accept || '';
+  if (accept.includes('text/html')) return usersHandlers.html(req, res);
+  if (accept.includes('application/json')) return usersHandlers.json(req, res);
+  return usersHandlers.text(req, res);
+});
