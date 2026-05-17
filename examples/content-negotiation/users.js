@@ -1,19 +1,10 @@
-'use strict'
+// In the route registration file (e.g., examples/content-negotiation/router.js or index.js)
+const express = require('express');
+const router = express.Router();
+const usersController = require('./users'); // <-- added import
 
-var users = require('./db');
+router.get('/users.html', usersController.html);
+router.get('/users.txt', usersController.text);
+router.get('/users.json', usersController.json);
 
-exports.html = function(req, res){
-  res.send('<ul>' + users.map(function(user){
-    return '<li>' + user.name + '</li>';
-  }).join('') + '</ul>');
-};
-
-exports.text = function(req, res){
-  res.send(users.map(function(user){
-    return ' - ' + user.name + '\n';
-  }).join(''));
-};
-
-exports.json = function(req, res){
-  res.json(users);
-};
+module.exports = router;
