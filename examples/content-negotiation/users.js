@@ -1,25 +1,5 @@
-/**
- * Sends an HTML unordered list of all users.
- *
- * @param {Object} req Express request object (unused).
- * @param {Object} res Express response object used to send the HTML.
- * @returns {void}
- */
-exports.html = function(req, res) {
-  res.send('<ul>' + users.map(function(user) {
-    return '<li>' + user.name + '</li>';
-  }).join('') + '</ul>');
-};
-
-/**
- * Sends a plain‑text list of all users, each prefixed with a dash.
- *
- * @param {Object} req Express request object (unused).
- * @param {Object} res Express response object used to send the text.
- * @returns {void}
- */
-exports.text = function(req, res) {
-  res.send(users.map(function(user) {
-    return ' - ' + user.name + '\n';
-  }).join(''));
-};
+/* Add the missing import in the route definition file, e.g., routes/users.js */
+const usersHandlers = require('../examples/content-negotiation/users');
+app.get('/users.html', usersHandlers.html);
+app.get('/users.txt', usersHandlers.text);
+app.get('/users.json', usersHandlers.json);
