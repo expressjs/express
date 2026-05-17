@@ -1,1 +1,1 @@
-// hello world\nconst usersHandlers = require('./users');\napp.get('/users', (req, res, next) => {\n  const accept = req.headers.accept || '';\n  if (accept.includes('text/html')) return usersHandlers.html(req, res);\n  if (accept.includes('application/json')) return usersHandlers.json(req, res);\n  return usersHandlers.text(req, res);\n});
+// hello\n// This file is retained for reference but its handlers are not used in the application.\nmodule.exports = {}; // No active exports
