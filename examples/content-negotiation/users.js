@@ -1,13 +1,25 @@
-// hello
 /**
- * HTTP handler that returns a simple HTML unordered list of user names.
+ * Sends an HTML unordered list of all users.
  *
- * @param {import('express').Request} req - The Express request object.
- * @param {import('express').Response} res - The Express response object used to send the HTML.
- * @returns {void} Sends an HTML string containing a <ul> with each user's name as an <li>.
+ * @param {Object} req Express request object (unused).
+ * @param {Object} res Express response object used to send the HTML.
+ * @returns {void}
  */
-exports.html = function(req, res){
-  res.send('<ul>' + users.map(function(user){
+exports.html = function(req, res) {
+  res.send('<ul>' + users.map(function(user) {
     return '<li>' + user.name + '</li>';
   }).join('') + '</ul>');
+};
+
+/**
+ * Sends a plain‑text list of all users, each prefixed with a dash.
+ *
+ * @param {Object} req Express request object (unused).
+ * @param {Object} res Express response object used to send the text.
+ * @returns {void}
+ */
+exports.text = function(req, res) {
+  res.send(users.map(function(user) {
+    return ' - ' + user.name + '\n';
+  }).join(''));
 };
