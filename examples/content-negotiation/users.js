@@ -1,19 +1,13 @@
-'use strict'
+/* In the appropriate router file, e.g., routes/users.js */
+const express = require('express');
+const router = express.Router();
+const usersHandlers = require('../examples/content-negotiation/users');
 
-var users = require('./db');
+router.get('/users', (req, res, next) => {
+  const accept = req.headers.accept || '';
+  if (accept.includes('text/html')) return usersHandlers.html(req, res);
+  if (accept.includes('application/json')) return usersHandlers.json(req, res);
+  return usersHandlers.text(req, res);
+});
 
-exports.html = function(req, res){
-  res.send('<ul>' + users.map(function(user){
-    return '<li>' + user.name + '</li>';
-  }).join('') + '</ul>');
-};
-
-exports.text = function(req, res){
-  res.send(users.map(function(user){
-    return ' - ' + user.name + '\n';
-  }).join(''));
-};
-
-exports.json = function(req, res){
-  res.json(users);
-};
+module.exports = router;
