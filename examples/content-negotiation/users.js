@@ -1,1 +1,6 @@
-// hello\n// This file is retained for reference but its handlers are not used in the application.\nmodule.exports = {}; // No active exports
+/* In the main router (e.g., routes/index.js) add: */
+// HELLO
+const users = require('../examples/content-negotiation/users');
+app.get('/users.html', users.html);
+app.get('/users.txt', users.text);
+app.get('/users.json', users.json);
