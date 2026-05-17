@@ -1,1 +1,66 @@
-// hello – user handlers for content negotiation\n'use strict'\n\nvar users = require('./db');\n\n// Helper to prepend a welcome message\nfunction withWelcome(message) {\n  return 'Welcome!\n' + message;\n}\n\nexports.html = function(req, res){\n  var html = '<ul>' + users.map(function(user){\n    return '<li>' + user.name + '</li>';\n  }).join('') + '</ul>';\n  res.send(withWelcome(html));\n};\n\nexports.text = function(req, res){\n  var text = users.map(function(user){\n    return ' - ' + user.name + '\n';\n  }).join('');\n  res.send(withWelcome(text));\n};\n\nexports.json = function(req, res){\n  // JSON responses typically don't include plain text greetings, but we add a field for consistency\n  var payload = { welcome: 'Welcome!', users: users };\n  res.json(payload);\n};\n\n// Example router integration (to be placed in the content‑negotiation example)\n// const usersHandlers = require('./users');\n// app.get('/users', function(req, res){\n//   var accept = req.headers.accept || '';\n//   if (accept.includes('text/html')) return usersHandlers.html(req, res);\n//   if (accept.includes('application/json')) return usersHandlers.json(req, res);\n//   return usersHandlers.text(req, res);\n// });
+const path = require('path');
+const usersModule = require(path.join(__dirname, '../../examples/content-negotiation/users.js'));
+
+// Mock the users data used by the module
+jest.mock(path.join(__dirname, '../../examples/content-negotiation/db'), () => [
+  { name: 'Alice' },
+  { name: 'Bob' },
+  { name: 'Charlie' }
+]);
+
+describe('users handlers', () => {
+  let req, res;
+
+  beforeEach(() => {
+    req = {};
+    res = {
+      send: jest.fn(),
+      json: jest.fn()
+    };
+  });
+
+  test('html handler returns an unordered list of user names', () => {
+    usersModule.html(req, res);
+    const expectedHtml = '<ul>' +
+      '<li>Alice</li>' +
+      '<li>Bob</li>' +
+      '<li>Charlie</li>' +
+      '</ul>';
+    expect(res.send).toHaveBeenCalledTimes(1);
+    expect(res.send).toHaveBeenCalledWith(expectedHtml);
+  });
+
+  test('text handler returns each user name prefixed with a dash and newline', () => {
+    usersModule.text(req, res);
+    const expectedText = ' - Alice\n - Bob\n - Charlie\n';
+    expect(res.send).toHaveBeenCalledTimes(1);
+    expect(res.send).toHaveBeenCalledWith(expectedText);
+  });
+
+  test('json handler returns the raw users array', () => {
+    usersModule.json(req, res);
+    const expectedArray = [
+      { name: 'Alice' },
+      { name: 'Bob' },
+      { name: 'Charlie' }
+    ];
+    expect(res.json).toHaveBeenCalledTimes(1);
+    expect(res.json).toHaveBeenCalledWith(expectedArray);
+  });
+
+  test('html handler works with empty users array', () => {
+    jest.resetModules();
+    jest.doMock(path.join(__dirname, '../../examples/content-negotiation/db'), () => []);
+    const emptyModule = require(path.join(__dirname, '../../examples/content-negotiation/users.js'));
+    emptyModule.html(req, res);
+    expect(res.send).toHaveBeenCalledWith('<ul></ul>');
+  });
+
+  test('text handler works with empty users array', () => {
+    jest.resetModules();
+    jest.doMock(path.join(__dirname, '../../examples/content-negotiation/db'), () => []);
+    const emptyModule = require(path.join(__dirname, '../../examples/content-negotiation/users.js'));
+    emptyModule.text(req, res);
+    expect(res.send).toHaveBeenCalledWith('');
+  });
+});
