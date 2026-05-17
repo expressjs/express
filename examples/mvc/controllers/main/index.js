@@ -1,5 +1,2 @@
-'use strict'
-
-exports.index = function(req, res){
-  res.redirect('/users');
-};
+const mainController = require('../controllers/main');
+router.get('/', mainController.index);
