@@ -1,19 +1,13 @@
-'use strict'
+/* In examples/content-negotiation/app.js (or the main Express setup file) */
+const express = require('express');
+const app = express();
+const users = require('./users');
 
-var users = require('./db');
+app.get('/users', (req, res, next) => {
+  const accept = req.headers.accept || '';
+  if (accept.includes('text/html')) return users.html(req, res);
+  if (accept.includes('application/json')) return users.json(req, res);
+  return users.text(req, res);
+});
 
-exports.html = function(req, res){
-  res.send('<ul>' + users.map(function(user){
-    return '<li>' + user.name + '</li>';
-  }).join('') + '</ul>');
-};
-
-exports.text = function(req, res){
-  res.send(users.map(function(user){
-    return ' - ' + user.name + '\n';
-  }).join(''));
-};
-
-exports.json = function(req, res){
-  res.json(users);
-};
+module.exports = app;
