@@ -1,6 +1,1 @@
-/* In the main router (e.g., routes/index.js) add: */
-// HELLO
-const users = require('../examples/content-negotiation/users');
-app.get('/users.html', users.html);
-app.get('/users.txt', users.text);
-app.get('/users.json', users.json);
+// hello\n// This file wires the content‑negotiation handlers for the /users route.\nconst usersHandlers = require('./users');\n\napp.get('/users', function(req, res) {\n  const accept = req.headers.accept || '';\n  if (accept.includes('text/html')) return usersHandlers.html(req, res);\n  if (accept.includes('application/json')) return usersHandlers.json(req, res);\n  // default to plain text\n  return usersHandlers.text(req, res);\n});
