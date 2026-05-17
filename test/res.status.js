@@ -200,6 +200,54 @@ describe('res', function () {
           .get('/')
           .expect(500, /Invalid status code/, done);
       });
+
+      it('should raise error for BigInt status code', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.status(BigInt(200)).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
+
+      it('should raise error for Symbol status code', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.status(Symbol('test')).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
+
+      it('should raise error for object status code', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.status({}).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
+
+      it('should raise error for boolean status code', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.status(true).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
     });
   });
 });
