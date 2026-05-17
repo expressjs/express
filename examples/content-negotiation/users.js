@@ -1,7 +1,13 @@
-const usersController = require('./users');
-app.get('/users', function(req, res) {
-  const accept = req.headers.accept || '';
-  if (accept.includes('text/html')) return usersController.html(req, res);
-  if (accept.includes('application/json')) return usersController.json(req, res);
-  return usersController.text(req, res);
-});
+// hello
+/**
+ * HTTP handler that returns a simple HTML unordered list of user names.
+ *
+ * @param {import('express').Request} req - The Express request object.
+ * @param {import('express').Response} res - The Express response object used to send the HTML.
+ * @returns {void} Sends an HTML string containing a <ul> with each user's name as an <li>.
+ */
+exports.html = function(req, res){
+  res.send('<ul>' + users.map(function(user){
+    return '<li>' + user.name + '</li>';
+  }).join('') + '</ul>');
+};
