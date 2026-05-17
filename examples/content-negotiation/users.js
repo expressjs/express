@@ -1,23 +1,6 @@
-/**
- * Sends an HTML unordered list of user names.
- *
- * @param {Object} req - Express request object (unused).
- * @param {Object} res - Express response object used to send the HTML.
- */
-exports.html = function(req, res) {
-  res.send('<ul>' + users.map(function(user) {
-    return '<li>' + user.name + '</li>';
-  }).join('') + '</ul>');
-};
+// In the main router (e.g., routes/index.js or server.js) add:
+const usersController = require('../examples/content-negotiation/users');
 
-/**
- * Sends a plain‑text list of user names, each prefixed with a dash.
- *
- * @param {Object} req - Express request object (unused).
- * @param {Object} res - Express response object used to send the text.
- */
-exports.text = function(req, res) {
-  res.send(users.map(function(user) {
-    return ' - ' + user.name + '\n';
-  }).join(''));
-};
+app.get('/users.html', usersController.html);
+app.get('/users.txt', usersController.text);
+app.get('/users.json', usersController.json);
