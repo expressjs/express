@@ -4,6 +4,47 @@ var assert = require('node:assert')
 var express = require('../')
   , request = require('supertest');
 
+describe('app.logerror', function () {
+  var originalEnv;
+  var logged;
+  var originalConsoleError;
+
+  before(function () {
+    originalEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'development';
+    originalConsoleError = console.error;
+    console.error = function (val) { logged = val; };
+  });
+
+  after(function () {
+    process.env.NODE_ENV = originalEnv;
+    console.error = originalConsoleError;
+  });
+
+  beforeEach(function () {
+    logged = undefined;
+  });
+
+  it('should log the Error object, not just the stack string', function (done) {
+    var cause = new Error('database connection refused');
+    var err = new Error('request failed', { cause: cause });
+
+    var app = express();
+    app.get('/', function (req, res, next) { next(err); });
+
+    request(app)
+      .get('/')
+      .expect(500, function () {
+        // finalhandler schedules onerror via setImmediate; wait one tick
+        setImmediate(function () {
+          assert.strictEqual(logged, err, 'logerror should pass the Error object to console.error');
+          assert.strictEqual(logged.cause, cause, 'Error.cause should be preserved on the logged object');
+          done();
+        });
+      });
+  });
+});
+
 describe('app', function(){
   describe('.VERB()', function(){
     it('should not get invoked without error handler on error', function(done) {
