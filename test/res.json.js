@@ -101,6 +101,23 @@ describe('res', function(){
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, '{"name":"tobi"}', done)
       })
+
+      it('should replace circular references', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          var error = { message: 'boom' }
+
+          error.self = error
+
+          res.json(error)
+        })
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{"message":"boom","self":"[Circular]"}', done)
+      })
     })
 
     describe('"json escape" setting', function () {

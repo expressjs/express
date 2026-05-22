@@ -245,6 +245,23 @@ describe('res', function(){
           .expect('Content-Type', 'text/javascript; charset=utf-8')
           .expect(200, /cb\(\{"name":"tobi"\}\)/, done)
       })
+
+      it('should replace circular references', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          var error = { message: 'boom' }
+
+          error.self = error
+
+          res.jsonp(error)
+        })
+
+        request(app)
+          .get('/?callback=cb')
+          .expect('Content-Type', 'text/javascript; charset=utf-8')
+          .expect(200, /cb\(\{"message":"boom","self":"\[Circular\]"\}\)/, done)
+      })
     })
 
     describe('"json escape" setting', function () {
