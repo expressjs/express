@@ -118,3 +118,36 @@ describe('without NODE_ENV', function(){
     assert.strictEqual(app.get('env'), 'development')
   })
 })
+
+describe('default error logging', function () {
+  before(function () {
+    this.error = console.error
+    this.env = process.env.NODE_ENV
+    process.env.NODE_ENV = 'development'
+  })
+
+  after(function () {
+    console.error = this.error
+    process.env.NODE_ENV = this.env
+  })
+
+  it('should log the error object', function (done) {
+    var app = express()
+    var error = new Error('boom', { cause: new Error('cause') })
+
+    console.error = function (value) {
+      assert.strictEqual(value, error)
+      done()
+    }
+
+    app.use(function (req, res, next) {
+      next(error)
+    })
+
+    request(app)
+      .get('/')
+      .expect(500, function (err) {
+        if (err) done(err)
+      })
+  })
+})
