@@ -87,6 +87,22 @@ describe('req', function(){
         .expect('example.com', done);
       })
 
+      it('should trim whitespace in X-Forwarded-Host', function(done){
+        var app = express();
+
+        app.enable('trust proxy');
+
+        app.use(function(req, res){
+          res.end(req.host);
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', 'localhost')
+        .set('X-Forwarded-Host', '   example.com   , malicious.example.com')
+        .expect('example.com', done);
+      })
+
       it('should ignore X-Forwarded-Host if socket addr not trusted', function(done){
         var app = express();
 
