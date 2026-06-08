@@ -5,12 +5,23 @@ var express = require('..')
 var request = require('supertest')
 
 describe('logerror', function () {
+  var original
+
+  beforeEach(function () {
+    original = console.error
+  })
+
+  afterEach(function () {
+    if (original) {
+      console.error = original
+    }
+  })
+
   it('should log the full error object', function (done) {
     var app = express()
     app.set('env', 'development')
 
     var logged
-    var original = console.error
     console.error = function (err) {
       logged = err
     }
@@ -23,12 +34,8 @@ describe('logerror', function () {
     request(app)
       .get('/')
       .expect(500, function (err) {
-        if (err) {
-          console.error = original
-          return done(err)
-        }
+        if (err) return done(err)
         setImmediate(function () {
-          console.error = original
           assert.ok(logged instanceof Error)
           assert.strictEqual(logged.message, 'outer')
           assert.ok(logged.cause instanceof Error)
