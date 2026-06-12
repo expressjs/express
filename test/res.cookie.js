@@ -183,6 +183,51 @@ describe('res', function(){
           .get('/')
           .expect(500, /option maxAge is invalid/, done)
       })
+
+      it('should strip Infinity maxAge and produce a session cookie', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { maxAge: Infinity })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Set-Cookie', 'name=tobi; Path=/')
+          .end(done)
+      })
+
+      it('should strip -Infinity maxAge and produce a session cookie', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { maxAge: -Infinity })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Set-Cookie', 'name=tobi; Path=/')
+          .end(done)
+      })
+
+      it('should strip NaN maxAge and produce a session cookie', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { maxAge: NaN })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Set-Cookie', 'name=tobi; Path=/')
+          .end(done)
+      })
     })
 
     describe('priority', function () {
