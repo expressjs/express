@@ -17,6 +17,8 @@
     // -> Content-Type: text/plain; foo=bar; charset=utf-8
     ```
 
+* The default error handler now logs the full error object instead of only its stack trace, so nested details such as `Error.cause` and library-specific properties (e.g. Sequelize's `parent`/`original`) are no longer swallowed - by [@Nitin-Mohapatra](https://github.com/Nitin-Mohapatra) in [#6464](https://github.com/expressjs/express/pull/6464)
+
 ## ⚡ Performance
 
 * Avoid duplicate Content-Type header processing in `res.send()` when sending string responses without an explicit Content-Type header - by [@bjohansebas](https://github.com/bjohansebas) in [#6991](https://github.com/expressjs/express/pull/6991)
