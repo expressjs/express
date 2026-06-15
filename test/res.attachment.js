@@ -63,6 +63,20 @@ describe('res', function(){
       .expect(200, done);
     })
 
+    it('should encode latin1 file names with an ASCII fallback and filename* param', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.attachment('/locales/café.txt');
+        res.send('coffee');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Disposition', 'attachment; filename="caf?.txt"; filename*=UTF-8\'\'caf%C3%A9.txt')
+      .expect(200, done);
+    })
+
     it('should set the Content-Type', function(done){
       var app = express();
 
