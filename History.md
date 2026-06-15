@@ -10,6 +10,13 @@
     app.render('index', null, callback); // now works as expected
     ```
 
+* Upgrade `content-type` to `^2.0.0`, bringing a faster parser (~1.5x quicker `Content-Type` parsing/formatting in `res.send()`) along with a behavior change: `res.send()` now keeps any existing parameters when adding the charset and no longer throws on a `Content-Type` that fails to parse - by [@blakeembrey](https://github.com/blakeembrey) in [#7234](https://github.com/expressjs/express/pull/7234)
+
+    ```js
+    res.set('Content-Type', 'text/plain; foo=bar').send('hey');
+    // -> Content-Type: text/plain; foo=bar; charset=utf-8
+    ```
+
 ## ⚡ Performance
 
 * Avoid duplicate Content-Type header processing in `res.send()` when sending string responses without an explicit Content-Type header - by [@bjohansebas](https://github.com/bjohansebas) in [#6991](https://github.com/expressjs/express/pull/6991)

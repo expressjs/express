@@ -35,7 +35,7 @@
     "accepts": "^2.0.0",
     "body-parser": "^2.2.1",
     "content-disposition": "^1.0.0",
-    "content-type": "^1.0.5",
+    "content-type": "^2.0.0",
     "cookie": "^0.7.1",
     "cookie-signature": "^1.2.1",
     "debug": "^4.4.0",
@@ -58,7 +58,7 @@
     "send": "^1.1.0",
     "serve-static": "^2.2.0",
     "statuses": "^2.0.1",
-    "type-is": "^2.0.1",
+    "type-is": "^2.1.0",
     "vary": "^1.1.2"
   },
   "devDependencies": {

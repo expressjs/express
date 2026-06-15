@@ -122,6 +122,32 @@ describe('res', function(){
       .expect(200, 'hey', done);
     })
 
+    it('should preserve existing parameters when adding charset', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.set('Content-Type', 'text/plain; foo=bar').send('hey');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/plain; foo=bar; charset=utf-8')
+      .expect(200, 'hey', done);
+    })
+
+    it('should not throw on a Content-Type that fails to parse', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.set('Content-Type', 'text/plain; foo').send('hey');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect(200, 'hey', done);
+    })
+
     it('should keep charset in Content-Type for Buffers', function(done){
       var app = express();
 
