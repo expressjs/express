@@ -34,6 +34,32 @@ describe('res', function(){
       .expect('Content-Disposition', 'attachment; filename=image.png', done);
     })
 
+    it('should quote file names that are not a valid token', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.attachment('/path/to/my report.png');
+        res.send('foo');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Disposition', 'attachment; filename="my report.png"', done);
+    })
+
+    it('should handle an empty file name', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.attachment('');
+        res.send('foo');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Disposition', 'attachment; filename=""', done);
+    })
+
     it('should set the Content-Type', function(done){
       var app = express();
 
