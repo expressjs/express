@@ -245,6 +245,41 @@ describe('res', function(){
           .expect('Content-Type', 'text/javascript; charset=utf-8')
           .expect(200, /cb\(\{"name":"tobi"\}\)/, done)
       })
+
+      it('should throw on circular references by default', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          var error = { message: 'boom' }
+
+          error.self = error
+
+          res.jsonp(error)
+        })
+
+        request(app)
+          .get('/?callback=cb')
+          .expect(500, /circular structure/i, done)
+      })
+
+      it('should replace circular references when "json circular" is enabled', function (done) {
+        var app = express()
+
+        app.enable('json circular')
+
+        app.use(function (req, res) {
+          var error = { message: 'boom' }
+
+          error.self = error
+
+          res.jsonp(error)
+        })
+
+        request(app)
+          .get('/?callback=cb')
+          .expect('Content-Type', 'text/javascript; charset=utf-8')
+          .expect(200, /cb\(\{"message":"boom","self":"\[Circular\]"\}\)/, done)
+      })
     })
 
     describe('"json escape" setting', function () {

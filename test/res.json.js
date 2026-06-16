@@ -101,6 +101,61 @@ describe('res', function(){
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, '{"name":"tobi"}', done)
       })
+
+      it('should throw on circular references by default', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          var error = { message: 'boom' }
+
+          error.self = error
+
+          res.json(error)
+        })
+
+        request(app)
+        .get('/')
+        .expect(500, /circular structure/i, done)
+      })
+
+      it('should replace circular references when "json circular" is enabled', function (done) {
+        var app = express()
+
+        app.enable('json circular')
+
+        app.use(function (req, res) {
+          var error = { message: 'boom' }
+
+          error.self = error
+
+          res.json(error)
+        })
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{"message":"boom","self":"[Circular]"}', done)
+      })
+
+      it('should replace nested circular references when "json circular" is enabled', function (done) {
+        var app = express()
+
+        app.enable('json circular')
+
+        app.use(function (req, res) {
+          var child = { name: 'child' }
+          var parent = { child: child }
+
+          child.parent = parent
+
+          res.json(parent)
+        })
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{"child":{"name":"child","parent":"[Circular]"}}', done)
+      })
     })
 
     describe('"json escape" setting', function () {
@@ -158,6 +213,50 @@ describe('res', function(){
         .get('/')
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, '{"name":"tobi"}', done)
+      })
+
+      it('should replace circular references with function replacer when "json circular" is enabled', function(done){
+        var app = express();
+
+        app.enable('json circular')
+
+        app.set('json replacer', function(key, val){
+          return key[0] === '_'
+            ? undefined
+            : val;
+        });
+
+        app.use(function(req, res){
+          var user = { name: 'tobi', _id: 12345 }
+
+          user.self = user
+
+          res.json(user);
+        });
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '{"name":"tobi","self":"[Circular]"}', done)
+      })
+
+      it('should throw on circular references with array replacer', function(done){
+        var app = express();
+
+        app.enable('json circular')
+        app.set('json replacer', ['message', 'self']);
+
+        app.use(function(req, res){
+          var error = { message: 'boom' }
+
+          error.self = error
+
+          res.json(error);
+        });
+
+        request(app)
+        .get('/')
+        .expect(500, /circular structure/i, done)
       })
     })
 
