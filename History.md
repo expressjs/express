@@ -19,6 +19,14 @@
 
 * The default error handler now logs the full error object instead of only its stack trace, so nested details such as `Error.cause` and library-specific properties (e.g. Sequelize's `parent`/`original`) are no longer swallowed - by [@Nitin-Mohapatra](https://github.com/Nitin-Mohapatra) in [#6464](https://github.com/expressjs/express/pull/6464)
 
+* Upgrade `content-disposition` to `^2.0.0`, which changes the `Content-Disposition` header emitted by `res.download()`, `res.attachment()`, and `res.sendFile()`: file names that are valid HTTP tokens are no longer wrapped in quotes. This is equivalent per RFC 6266, but applications asserting on the exact header bytes should update their expectations - by [@blakeembrey](https://github.com/blakeembrey) in [#7233](https://github.com/expressjs/express/pull/7233)
+
+    ```js
+    res.attachment('user.html');
+    // before -> Content-Disposition: attachment; filename="user.html"
+    // after  -> Content-Disposition: attachment; filename=user.html
+    ```
+
 ## ⚡ Performance
 
 * Avoid duplicate Content-Type header processing in `res.send()` when sending string responses without an explicit Content-Type header - by [@bjohansebas](https://github.com/bjohansebas) in [#6991](https://github.com/expressjs/express/pull/6991)
