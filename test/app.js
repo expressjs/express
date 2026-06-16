@@ -21,6 +21,65 @@ describe('app', function(){
     .get('/')
     .expect(404, done);
   })
+
+  it('should not log client errors', function(done){
+    var app = express()
+    var errors = []
+    var original = console.error
+
+    app.set('env', 'development')
+    app.use(function (req, res, next) {
+      var err = new Error('missing')
+      err.status = 404
+      next(err)
+    })
+
+    console.error = function (err) {
+      errors.push(err)
+    }
+
+    request(app)
+      .get('/')
+      .expect(404, function (err) {
+        setImmediate(function () {
+          console.error = original
+
+          if (err) return done(err)
+
+          assert.strictEqual(errors.length, 0)
+          done()
+        })
+      })
+  })
+
+  it('should log server errors', function(done){
+    var app = express()
+    var errors = []
+    var original = console.error
+
+    app.set('env', 'development')
+    app.use(function (req, res, next) {
+      next(new Error('boom'))
+    })
+
+    console.error = function (err) {
+      errors.push(err)
+    }
+
+    request(app)
+      .get('/')
+      .expect(500, function (err) {
+        setImmediate(function () {
+          console.error = original
+
+          if (err) return done(err)
+
+          assert.strictEqual(errors.length, 1)
+          assert.match(errors[0], /Error: boom/)
+          done()
+        })
+      })
+  })
 })
 
 describe('app.parent', function(){
