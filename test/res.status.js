@@ -189,6 +189,18 @@ describe('res', function () {
           .expect(500, /Invalid status code/, done);
       });
 
+      it('should accept BigInt status code', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.status(200n).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(200, done);
+      });
+
       it('should raise error for NaN status code', function (done) {
         var app = express();
 
