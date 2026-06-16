@@ -1,12 +1,14 @@
-[![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](https://expressjs.com/)
+<a href="https://expressjs.com/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://expressjs.com/images/logos/logo-express-white.svg">
+    <img alt="Express Logo" src="https://expressjs.com/images/logos/logo-express-black.svg" width="280">
+  </picture>
+</a>
 
 **Fast, unopinionated, minimalist web framework for [Node.js](https://nodejs.org).**
 
-**This project has a [Code of Conduct].**
-
 ## Table of contents
 
-- [Table of contents](#table-of-contents)
 - [Installation](#installation)
 - [Features](#features)
 - [Docs \& Community](#docs--community)
@@ -151,6 +153,8 @@ from code for bug fixes and enhancements, to additions and fixes to documentatio
 tests, triaging incoming pull requests and issues, and more!
 
 See the [Contributing Guide] for more technical details on contributing.
+
+This project has a [Code of Conduct]. By participating, you are expected to uphold this code.
 
 ### Security Issues
 
