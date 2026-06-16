@@ -151,6 +151,20 @@ describe('req', function(){
         .set('X-Forwarded-Host', 'evil')
         .expect('localhost', done);
       })
+
+      it('should ignore comma-separated X-Forwarded-Host', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.end(req.host);
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', 'localhost')
+        .set('X-Forwarded-Host', 'example.com, foobar.com')
+        .expect('localhost', done);
+      })
     })
   })
 })
