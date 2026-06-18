@@ -59,6 +59,25 @@ describe('app.router', function () {
         var app = express();
         assert.throws(app[method].bind(app, '/', 3), /argument handler must be a function/);
       })
+
+      it('should emit "route" when a new route is defined using ' + method.toUpperCase(), function(done){
+        var app = express()
+
+        app.on('route', function(arg){
+          var layer = (app.stack || app.router.stack).find(function(i){
+            return i.route.path === '/:foo';
+          });
+
+          assert.strictEqual(arg, layer.route);
+          assert.strictEqual(arg.path, '/:foo');
+          assert.strictEqual(arg.methods[method], true);
+          done();
+        });
+
+        app[method]('/:foo', function(req, res) {
+          res.send(req.params.foo);
+        });
+      });
     });
 
     it('should re-route when method is altered', function (done) {

@@ -1,5 +1,6 @@
 'use strict'
 
+var assert = require('node:assert')
 var express = require('../');
 var request = require('supertest');
 
@@ -60,6 +61,26 @@ describe('app.route', function(){
     request(app)
     .get('/test')
     .expect(404, done);
+  });
+
+  it('should emit "route" when a new route is defined', function(done){
+    var app = express()
+
+    app.on('route', function(arg){
+      var layer = (app.stack || app.router.stack).find(function(i){
+        return i.route.path === '/:foo';
+      });
+
+      assert.strictEqual(arg, layer.route);
+      assert.strictEqual(arg.path, '/:foo');
+      assert.strictEqual(arg.methods.get, true);
+      done();
+    });
+
+    app.route('/:foo')
+    .get(function(req, res) {
+      res.send(req.params.foo);
+    });
   });
 
   describe('promise support', function () {
