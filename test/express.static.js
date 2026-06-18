@@ -4,6 +4,7 @@ var assert = require('node:assert')
 var express = require('..')
 var path = require('node:path')
 const { Buffer } = require('node:buffer');
+var http = require('node:http')
 
 var request = require('supertest')
 var utils = require('./support/utils')
@@ -269,9 +270,26 @@ describe('express.static()', function () {
       })
 
       it('should fall-through when traversing past root', function (done) {
-        request(this.app)
-          .get('/users/../../todo.txt')
-          .expect(404, 'Not Found', done)
+        var server = this.app.listen(function () {
+          var port = server.address().port
+          // Use http.request to avoid URL normalization by superagent
+          var req = http.request({
+            hostname: 'localhost',
+            port: port,
+            path: '/users/../../todo.txt',
+            method: 'GET'
+          }, function (res) {
+            assert.strictEqual(res.statusCode, 404)
+            var body = ''
+            res.on('data', function (chunk) { body += chunk })
+            res.on('end', function () {
+              assert.strictEqual(body, 'Not Found')
+              server.close(done)
+            })
+          })
+          req.on('error', done)
+          req.end()
+        })
       })
 
       it('should fall-through when URL too long', function (done) {
@@ -344,9 +362,26 @@ describe('express.static()', function () {
       })
 
       it('should 403 when traversing past root', function (done) {
-        request(this.app)
-          .get('/users/../../todo.txt')
-          .expect(403, /ForbiddenError/, done)
+        var server = this.app.listen(function () {
+          var port = server.address().port
+          // Use http.request to avoid URL normalization by superagent
+          var req = http.request({
+            hostname: 'localhost',
+            port: port,
+            path: '/users/../../todo.txt',
+            method: 'GET'
+          }, function (res) {
+            assert.strictEqual(res.statusCode, 403)
+            var body = ''
+            res.on('data', function (chunk) { body += chunk })
+            res.on('end', function () {
+              assert.match(body, /ForbiddenError/)
+              server.close(done)
+            })
+          })
+          req.on('error', done)
+          req.end()
+        })
       })
 
       it('should 404 when URL too long', function (done) {
@@ -578,15 +613,39 @@ describe('express.static()', function () {
     })
 
     it('should catch urlencoded ../', function (done) {
-      request(this.app)
-        .get('/users/%2e%2e/%2e%2e/todo.txt')
-        .expect(403, done)
+      var server = this.app.listen(function () {
+        var port = server.address().port
+        // Use http.request to avoid URL normalization by superagent
+        var req = http.request({
+          hostname: 'localhost',
+          port: port,
+          path: '/users/%2e%2e/%2e%2e/todo.txt',
+          method: 'GET'
+        }, function (res) {
+          assert.strictEqual(res.statusCode, 403)
+          server.close(done)
+        })
+        req.on('error', done)
+        req.end()
+      })
     })
 
     it('should not allow root path disclosure', function (done) {
-      request(this.app)
-        .get('/users/../../fixtures/todo.txt')
-        .expect(403, done)
+      var server = this.app.listen(function () {
+        var port = server.address().port
+        // Use http.request to avoid URL normalization by superagent
+        var req = http.request({
+          hostname: 'localhost',
+          port: port,
+          path: '/users/../../fixtures/todo.txt',
+          method: 'GET'
+        }, function (res) {
+          assert.strictEqual(res.statusCode, 403)
+          server.close(done)
+        })
+        req.on('error', done)
+        req.end()
+      })
     })
   })
 
