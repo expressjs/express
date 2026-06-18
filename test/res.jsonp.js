@@ -215,6 +215,28 @@ describe('res', function(){
           .expect('Content-Type', 'text/javascript; charset=utf-8')
           .expect(200, /cb\(42\)/, done)
       })
+
+      it('should handle non-string stringify return values', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          var original = JSON.stringify
+          JSON.stringify = function () {
+            return 42
+          }
+
+          try {
+            res.jsonp('ignored')
+          } finally {
+            JSON.stringify = original
+          }
+        })
+
+        request(app)
+          .get('/?callback=cb')
+          .expect('Content-Type', 'text/javascript; charset=utf-8')
+          .expect(200, /cb\(42\)/, done)
+      })
     })
 
     describe('when given an array', function () {
