@@ -44,6 +44,48 @@ describe('res', function(){
       .expect('Location', 'https://google.com?q=%A710')
       .expect(302, done)
     })
+
+    it('should throw a TypeError if url is undefined', function (done) {
+      var app = express()
+
+      app.use(function (req, res, next) {
+        try {
+          res.redirect(undefined)
+          next(new Error('should have thrown'))
+        } catch (err) {
+          if (err instanceof TypeError && err.message === 'url argument is required to res.redirect') {
+            res.sendStatus(200)
+          } else {
+            next(err)
+          }
+        }
+      })
+
+      request(app)
+      .get('/')
+      .expect(200, done)
+    })
+
+    it('should throw a TypeError if url is not a string', function (done) {
+      var app = express()
+
+      app.use(function (req, res, next) {
+        try {
+          res.redirect({ foo: 'bar' })
+          next(new Error('should have thrown'))
+        } catch (err) {
+          if (err instanceof TypeError && err.message === 'url must be a string') {
+            res.sendStatus(200)
+          } else {
+            next(err)
+          }
+        }
+      })
+
+      request(app)
+      .get('/')
+      .expect(200, done)
+    })
   })
 
   describe('.redirect(status, url)', function(){
@@ -58,6 +100,27 @@ describe('res', function(){
       .get('/')
       .expect('Location', 'http://google.com')
       .expect(303, done)
+    })
+
+    it('should throw a TypeError if status is not a number', function(done){
+      var app = express();
+
+      app.use(function(req, res, next){
+        try {
+          res.redirect('303', 'http://google.com');
+          next(new Error('should have thrown'))
+        } catch (err) {
+          if (err instanceof TypeError && err.message === 'status must be a number') {
+            res.sendStatus(200)
+          } else {
+            next(err)
+          }
+        }
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, done)
     })
   })
 
