@@ -149,6 +149,33 @@ describe('res', function(){
           .expect('json')
           .end(done)
       })
+
+      it('should ignore inherited default callbacks', function (done) {
+        var app = express()
+        var formats = Object.create({
+          default: function () {
+            throw new Error('should not be called')
+          }
+        })
+
+        formats.text = function () {
+          throw new Error('should not be called')
+        }
+
+        app.use(function (req, res) {
+          res.format(formats)
+        })
+
+        app.use(function (err, req, res, next) {
+          res.status(err.status)
+          res.send('Supports: ' + err.types.join(', '))
+        })
+
+        request(app)
+          .get('/')
+          .set('Accept', 'application/json')
+          .expect(406, 'Supports: text/plain', done)
+      })
     })
 
     describe('in router', function(){
