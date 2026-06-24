@@ -120,5 +120,27 @@ describe('res', function(){
       .expect('X-Number', '123')
       .expect(200, 'string', done);
     })
+
+    it('should ignore inherited properties', function (done) {
+      var app = express();
+      var headers = Object.create({ 'X-Inherited': 'nope' });
+
+      headers['X-Own'] = 'yes';
+
+      app.use(function (req, res) {
+        res.set(headers);
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('X-Own', 'yes')
+      .expect(function (res) {
+        if (res.headers['x-inherited'] !== undefined) {
+          throw new Error('should not set inherited header');
+        }
+      })
+      .expect(200, done);
+    })
   })
 })
