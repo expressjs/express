@@ -82,6 +82,21 @@ describe('res', function () {
         .end(done)
     })
 
+    it('should preserve an existing empty header value', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.set('Warning', '')
+        res.append('Warning', '199 Miscellaneous warning')
+        res.end(JSON.stringify(res.get('Warning')))
+      })
+
+      request(app)
+        .get('/')
+        .expect(200, '["","199 Miscellaneous warning"]')
+        .end(done)
+    })
+
     it('should work together with res.cookie', function (done) {
       var app = express()
 
