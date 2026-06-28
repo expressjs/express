@@ -133,3 +133,36 @@ describe('utils.compileETag()', function () {
     assert.throws(() => utils.compileETag({}), TypeError);
   });
 });
+
+describe('utils.compileTrust()', function () {
+  it('should return the function when given a function', function () {
+    function custom() {}
+    assert.strictEqual(utils.compileTrust(custom), custom);
+  });
+
+  it('should return a function returning true when given true', function () {
+    const fn = utils.compileTrust(true);
+    assert.strictEqual(fn(), true);
+  });
+
+  it('should return a function that respects hop count when given a number', function () {
+    const fn = utils.compileTrust(2);
+    assert.strictEqual(fn('127.0.0.1', 0), true);
+    assert.strictEqual(fn('127.0.0.1', 1), true);
+    assert.strictEqual(fn('127.0.0.1', 2), false);
+  });
+
+  it('should return a proxyaddr compiler when given a string of IPs', function () {
+    const fn = utils.compileTrust('127.0.0.1, 10.0.0.1');
+    assert.strictEqual(fn('127.0.0.1', 0), true);
+    assert.strictEqual(fn('10.0.0.1', 0), true);
+    assert.strictEqual(fn('192.168.1.1', 0), false);
+  });
+
+  it('should handle undefined or falsy values', function () {
+    const fn = utils.compileTrust(undefined);
+    assert.strictEqual(typeof fn, 'function');
+    assert.strictEqual(fn('127.0.0.1', 0), false);
+  });
+});
+
