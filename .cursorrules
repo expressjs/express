@@ -1,0 +1,9 @@
+<!-- RIPPLE:START -->
+# RIPPLE AGENT PROTOCOL
+You are connected to Ripple MCP for this repo.
+1. BEFORE editing: MUST call `ripple_plan_context` with saveIntent=true.
+2. AFTER editing: MUST call `ripple_gate` or `ripple_check_changed`.
+3. If mustStop=true or needsHuman=true: STOP and ask the human.
+4. DO NOT edit `.ripple/` policy/cache/intent files unless explicitly requested.
+5. DO NOT claim Ripple passed unless you called a Ripple MCP tool.
+<!-- RIPPLE:END -->

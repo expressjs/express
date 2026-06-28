@@ -1,0 +1,81 @@
+{
+  "protocol": "ripple-change-intent",
+  "version": 1,
+  "id": "intent-mqxdmq08-fdbf5b111c",
+  "createdAt": "2026-06-28T05:57:09.799Z",
+  "task": "Update utility types",
+  "targetFile": "lib/utils.js",
+  "risk": "safe",
+  "tokenBudget": 4000,
+  "controlMode": "file",
+  "allowedSymbols": [],
+  "humanGate": "none",
+  "humanGateReason": [
+    "Trust policy loaded from .ripple/policy.json."
+  ],
+  "boundaryRisk": "low",
+  "policySource": ".ripple/policy.json",
+  "policyMatches": [],
+  "policyExplanation": {
+    "protocol": "ripple-policy-explanation",
+    "version": 1,
+    "targetFile": "lib/utils.js",
+    "policySource": ".ripple/policy.json",
+    "policyExists": true,
+    "effectiveMode": "file",
+    "policyRisk": "none",
+    "humanGate": "none",
+    "humanRequired": false,
+    "allowPrMode": false,
+    "matchedRules": [],
+    "why": [
+      "Trust policy loaded from .ripple/policy.json.",
+      "Default control mode: file.",
+      "No path-specific policy rule matched this file."
+    ],
+    "nextSteps": [
+      "Add a riskRules entry if this path needs a stronger trust boundary.",
+      "Use ripple plan to create a saved intent before editing."
+    ]
+  },
+  "editableFiles": [
+    "lib/utils.js"
+  ],
+  "contextFiles": [],
+  "allowedFiles": [
+    "lib/utils.js"
+  ],
+  "expectedFiles": [
+    "lib/utils.js"
+  ],
+  "expectedSymbols": [
+    "lib/utils.js::acceptParams",
+    "lib/utils.js::createETagGenerator",
+    "lib/utils.js::parseExtendedQueryString"
+  ],
+  "protectedContracts": [
+    "lib/utils.js::acceptParams",
+    "lib/utils.js::createETagGenerator",
+    "lib/utils.js::parseExtendedQueryString"
+  ],
+  "verificationTargets": [],
+  "verificationEvidence": [],
+  "readinessSnapshot": {
+    "status": "ready",
+    "enforcementLevel": "ci-gate-ready",
+    "canGuideAgents": true,
+    "canDetectDrift": true,
+    "canBlockInCi": true,
+    "policyExplicit": true,
+    "graphOk": true,
+    "gitOk": true,
+    "gitIgnoreOk": true,
+    "ciWorkflowOk": true,
+    "latestIntentOk": true,
+    "gaps": [],
+    "nextSteps": [
+      "Run ripple ci --base origin/main --github-annotations."
+    ]
+  },
+  "why": "lib/utils.js is safe; it imports 0 file(s), is imported by 0 file(s), and has 3 tracked symbol(s). The plan prioritizes direct tests, contract importers, entry points, symbol callers, risky files, recent churn, and task term matches within the token budget."
+}

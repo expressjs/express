@@ -62,6 +62,8 @@
     "vary": "^1.1.2"
   },
   "devDependencies": {
+    "@getripple/cli": "^1.0.10",
+    "@getripple/core": "^1.0.10",
     "after": "0.8.2",
     "connect-redis": "^8.0.1",
     "cookie-parser": "1.4.7",

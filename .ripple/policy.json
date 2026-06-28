@@ -1,0 +1,59 @@
+{
+  "protocol": "ripple-policy",
+  "version": 1,
+  "defaultMode": "file",
+  "riskRules": [
+    {
+      "paths": [
+        "src/auth/**",
+        "src/security/**",
+        "src/session/**"
+      ],
+      "risk": "high",
+      "requireHumanBeforeEdit": true
+    },
+    {
+      "paths": [
+        "src/payments/**",
+        "migrations/**",
+        "database/**",
+        "db/**"
+      ],
+      "risk": "critical",
+      "requireHumanBeforeEdit": true,
+      "requireHumanBeforeMerge": true
+    },
+    {
+      "paths": [
+        "docs/**",
+        "**/*.md"
+      ],
+      "risk": "low",
+      "allowPrMode": true
+    },
+    {
+      "paths": [
+        ".github/workflows/**"
+      ],
+      "risk": "high",
+      "requireHumanBeforeEdit": true,
+      "requireHumanBeforeMerge": true
+    },
+    {
+      "paths": [
+        "examples/auth/**"
+      ],
+      "risk": "high",
+      "requireHumanBeforeEdit": true,
+      "requireHumanBeforeMerge": false
+    },
+    {
+      "paths": [
+        "examples/session/**"
+      ],
+      "risk": "high",
+      "requireHumanBeforeEdit": true,
+      "requireHumanBeforeMerge": false
+    }
+  ]
+}

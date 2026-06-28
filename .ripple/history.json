@@ -1,0 +1,18 @@
+[
+  {
+    "timestamp": 1782461603359,
+    "type": "baseline_snapshot",
+    "source": "initial_scan",
+    "metadata": "files:141|symbols:55"
+  },
+  {
+    "timestamp": 1782470180976,
+    "type": "symbol_modified",
+    "source": "lib/express.js::createApplication",
+    "kind": "function",
+    "symbolHash": "0ff421f60f645e40eebad1f7311dab69e48f309e",
+    "previousHash": "f929cc32d3fd5ed77e7c601572d004f37cce2624",
+    "layer": "data",
+    "changeGroup": "save_1782470179737_56fih"
+  }
+]
