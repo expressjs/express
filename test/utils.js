@@ -36,6 +36,15 @@ describe('utils.normalizeType acceptParams method', () => {
     });
   });
 
+  it('should handle complex parameters with semicolon backtracing (splitIndex > endIndex)', () => {
+    const result = utils.normalizeType('text/html;q=0.9;invalid;a=1');
+    assert.deepEqual(result, {
+      value: 'text/html',
+      quality: 0.9,
+      params: { a: '1' }
+    });
+  });
+
   it('should default to application/octet-stream when mime lookup fails', () => {
     const result = utils.normalizeType('unknown-extension-xyz');
     assert.deepEqual(result, {
@@ -44,6 +53,17 @@ describe('utils.normalizeType acceptParams method', () => {
     });
   });
 });
+
+describe('utils.normalizeTypes(types)', () => {
+  it('should normalize an array of types', () => {
+    const result = utils.normalizeTypes(['html', 'text/plain;q=0.5']);
+    assert.deepEqual(result, [
+      { value: 'text/html', params: {} },
+      { value: 'text/plain', quality: 0.5, params: {} }
+    ]);
+  });
+});
+
 
 describe('utils.setCharset(type, charset)', function () {
   it('should do anything without type', function () {
