@@ -19,6 +19,19 @@ describe('req', function(){
         .expect(200, ['ferrets', 'tobi'], done);
       })
 
+      it('should ignore trailing dot on fully qualified domain names', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.send(req.subdomains);
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', 'tobi.ferrets.example.com.')
+        .expect(200, ['ferrets', 'tobi'], done);
+      })
+
       it('should work with IPv4 address', function(done){
         var app = express();
 

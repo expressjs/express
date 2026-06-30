@@ -4,8 +4,9 @@
 
 - Fixed HTTP header conflict between Content-Length and Transfer-Encoding in res.send - by [@YuryShkoda](https://github.com/YuryShkoda) in [#4893](https://github.com/expressjs/express/pull/4893)
 
-
     Fixed the behavior of `res.send()` to prevent conflicts between `Content-Length` and `Transfer-Encoding` HTTP headers in responses. The `Content-Length` header in `res.send()` is now only added when a `Transfer-Encoding` header is not present, complying with the HTTP specification that states both headers should not coexist in the same response
+
+- Fixed `req.subdomains` handling for fully qualified domain names with a trailing dot, so the root label is ignored when applying the subdomain offset.
 
 ## 🚀 Improvements
 
