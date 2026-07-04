@@ -78,42 +78,6 @@ describe('res', function () {
           .get('/')
           .expect(501, done)
       })
-
-      it('should set the response status code to 700', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(700).end()
-        })
-
-        request(app)
-          .get('/')
-          .expect(700, done)
-      })
-
-      it('should set the response status code to 800', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(800).end()
-        })
-
-        request(app)
-          .get('/')
-          .expect(800, done)
-      })
-
-      it('should set the response status code to 900', function (done) {
-        var app = express()
-
-        app.use(function (req, res) {
-          res.status(900).end()
-        })
-
-        request(app)
-          .get('/')
-          .expect(900, done)
-      })
     })
 
     describe('invalid status codes', function () {
@@ -129,11 +93,47 @@ describe('res', function () {
           .expect(500, /Invalid status code/, done);
       });
 
-      it('should raise error for status code above 999', function (done) {
+      it('should raise error for status code above 599', function (done) {
         var app = express();
 
         app.use(function (req, res) {
-          res.status(1000).end();
+          res.status(600).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
+
+      it('should raise error for status code 700', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.status(700).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
+
+      it('should raise error for status code 800', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.status(800).end();
+        });
+
+        request(app)
+          .get('/')
+          .expect(500, /Invalid status code/, done);
+      });
+
+      it('should raise error for status code 900', function (done) {
+        var app = express();
+
+        app.use(function (req, res) {
+          res.status(900).end();
         });
 
         request(app)
