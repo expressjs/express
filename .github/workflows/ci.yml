@@ -1,4 +1,4 @@
-name: ci
+name: ci faiz akhtar
 
 on:
   push:
