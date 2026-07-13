@@ -2,6 +2,7 @@
 
 var assert = require('node:assert')
 var express = require('..');
+var fs = require('node:fs')
 var path = require('node:path')
 var tmpl = require('./support/tmpl');
 
@@ -377,6 +378,71 @@ describe('app', function(){
             assert.strictEqual(str, 'abstract engine')
             done();
           })
+        })
+      })
+    })
+  })
+
+  describe('view lookup concurrency', function () {
+    it('should complete when more renders are in flight than the stat limit', function (done) {
+      var app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.locals.user = { name: 'tobi' };
+
+      var remaining = 30;
+
+      for (var i = 0; i < 30; i++) {
+        app.render('user.tmpl', function (err, str) {
+          if (err) return done(err);
+          assert.strictEqual(str, '<p>tobi</p>')
+          if (--remaining === 0) done();
+        })
+      }
+    })
+
+    describe('when a render callback throws', function () {
+      it('should not stall subsequent lookups', function (done) {
+        var app = createApp();
+
+        app.set('views', path.join(__dirname, 'fixtures'))
+        app.locals.user = { name: 'tobi' };
+
+        // stub fs.stat to call back synchronously so the throw below
+        // propagates to this stack frame instead of crashing the process
+        var realStat = fs.stat;
+        fs.stat = function stubStat(path, cb) {
+          var err = new Error('stubbed ENOENT');
+          err.code = 'ENOENT';
+          cb(err);
+        };
+
+        var thrown = 0;
+
+        try {
+          // exhaust the stat limit with callbacks that throw
+          for (var i = 0; i < 12; i++) {
+            try {
+              app.render('does-not-exist.tmpl', function () {
+                throw new Error('boom');
+              })
+            } catch (err) {
+              assert.strictEqual(err.message, 'boom')
+              thrown++;
+            }
+          }
+        } finally {
+          fs.stat = realStat;
+        }
+
+        // every callback must have run despite the throws
+        assert.strictEqual(thrown, 12)
+
+        // a later render must still complete
+        app.render('user.tmpl', function (err, str) {
+          if (err) return done(err);
+          assert.strictEqual(str, '<p>tobi</p>')
+          done();
         })
       })
     })
