@@ -471,6 +471,23 @@ describe('app', function(){
       }
     })
 
+    it('should not poison the cached view when lookup throws', function (done) {
+      const app = createApp();
+
+      app.set('views', 123); // misconfigured: lookup throws synchronously
+      app.enable('view cache')
+
+      app.render('user.tmpl', function (err) {
+        assert.ok(err)
+
+        // the cached instance must accept new renders, not queue them forever
+        app.render('user.tmpl', function (err2) {
+          assert.ok(err2)
+          done()
+        })
+      })
+    })
+
     it('should deliver the lookup error to every coalesced render', function (done) {
       const app = createApp();
 
