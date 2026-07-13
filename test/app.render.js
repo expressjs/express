@@ -454,6 +454,14 @@ describe('app', function(){
   })
 
   describe('view lookup concurrency', function () {
+    const originalStat = fs.stat;
+
+    afterEach(function () {
+      // safety net: some tests below patch fs.stat and restore it
+      // themselves, but a failed assertion must not leak the patch
+      fs.stat = originalStat;
+    })
+
     it('should complete when more renders are in flight than the stat limit', function (done) {
       const app = createApp();
 
@@ -560,6 +568,37 @@ describe('app', function(){
         app.render('user.tmpl', function (err2) {
           assert.ok(err2)
           done()
+        })
+      })
+    })
+
+    it('should reuse the resolved path on subsequent renders', function (done) {
+      const app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.enable('view cache')
+      app.locals.user = { name: 'tobi' };
+
+      app.render('user.tmpl', function (err, str) {
+        if (err) return done(err);
+        assert.strictEqual(str, '<p>tobi</p>')
+
+        // count stat calls while delegating to the real fs.stat
+        const realStat = fs.stat;
+        let stats = 0;
+        fs.stat = function countingStat() {
+          stats++;
+          return realStat.apply(fs, arguments);
+        };
+
+        app.render('user.tmpl', function (err2, str2) {
+          fs.stat = realStat;
+          if (err2) return done(err2);
+          assert.strictEqual(str2, '<p>tobi</p>')
+
+          // the memoized path must not be looked up again
+          assert.strictEqual(stats, 0)
+          done();
         })
       })
     })
