@@ -46,6 +46,8 @@
 
 ## ⚡ Performance
 
+* Resolve view paths asynchronously. `res.render()` and `app.render()` no longer block the event loop with synchronous filesystem calls: the view path is now resolved with asynchronous `fs.stat` calls on the first render (and memoized for subsequent renders), with concurrent stat calls limited to keep the threadpool available under load. Notes for code touching `View` internals: `view.path` is populated on first render instead of at construction, `View.prototype.lookup` is now callback-based, `View.prototype.resolve` was removed, and a custom view class set via `app.set('view', ...)` only needs a `(name, options)` constructor and a `render(options, callback)` method — it no longer needs to set `this.path` - by [@aredridel](https://github.com/aredridel) and [@bjohansebas](https://github.com/bjohansebas) in [#2653](https://github.com/expressjs/express/pull/2653)
+
 * Avoid duplicate Content-Type header processing in `res.send()` when sending string responses without an explicit Content-Type header - by [@bjohansebas](https://github.com/bjohansebas) in [#6991](https://github.com/expressjs/express/pull/6991)
 
 5.2.1 / 2025-12-01

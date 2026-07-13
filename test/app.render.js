@@ -241,8 +241,9 @@ describe('app', function(){
         var app = express();
 
         function View(name, options){
+          // a custom view only needs a (name, options) constructor
+          // and a render(options, callback) method
           this.name = name;
-          this.path = 'path is required by application.js as a signal of success even though it is not used there.';
         }
 
         View.prototype.render = function(options, fn){
