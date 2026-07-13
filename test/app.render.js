@@ -315,6 +315,32 @@ describe('app', function(){
           done();
         })
       })
+
+      it('should honor a View subclass that clears path to deny a view', function(done){
+        var app = express();
+        var BaseView = require('../lib/view');
+
+        app.engine('tmpl', function (p, o, fn) { fn(null, 'served'); });
+        app.set('views', path.join(__dirname, 'fixtures'))
+
+        // a subclass may deny a view by leaving path falsy; the inherited
+        // lazy lookup must not resolve it behind the subclass's back
+        function DenyView(name, options){
+          BaseView.call(this, name, options);
+          this.path = null;
+        }
+        DenyView.prototype = Object.create(BaseView.prototype);
+        DenyView.prototype.constructor = DenyView;
+
+        app.set('view', DenyView);
+
+        // user.tmpl exists on disk, but the subclass denies it
+        app.render('user.tmpl', function (err, str){
+          assert.ok(err, 'denied view must not be served')
+          assert.ok(/^Failed to lookup view/.test(err.message))
+          done();
+        })
+      })
     })
 
     describe('caching', function(){
