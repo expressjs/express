@@ -434,6 +434,43 @@ describe('app', function(){
       }
     })
 
+    it('should coalesce concurrent lookups of the same cached view', function (done) {
+      const app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.enable('view cache')
+      app.locals.user = { name: 'tobi' };
+
+      // count stat calls while delegating to the real fs.stat
+      const realStat = fs.stat;
+      let stats = 0;
+      fs.stat = function countingStat() {
+        stats++;
+        return realStat.apply(fs, arguments);
+      };
+
+      let remaining = 10;
+
+      for (let i = 0; i < 10; i++) {
+        app.render('user.tmpl', function (err, str) {
+          if (remaining === 0) return; // already failed
+          if (err) {
+            remaining = 0;
+            fs.stat = realStat;
+            return done(err);
+          }
+
+          assert.strictEqual(str, '<p>tobi</p>')
+
+          if (--remaining === 0) {
+            fs.stat = realStat;
+            assert.strictEqual(stats, 1)
+            done();
+          }
+        })
+      }
+    })
+
     describe('when a render callback throws', function () {
       it('should not stall subsequent lookups', function (done) {
         const app = createApp();
