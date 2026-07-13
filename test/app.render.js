@@ -224,10 +224,10 @@ describe('app', function(){
           })
         })
 
-        it('should continue past falsy roots', function(done){
+        it('should continue past an empty-string root', function(done){
           const app = createApp();
 
-          app.set('views', ['', null, path.join(__dirname, 'fixtures')]);
+          app.set('views', ['', path.join(__dirname, 'fixtures')]);
           app.locals.user = { name: 'tobi' };
 
           app.render('user.tmpl', function (err, str) {
@@ -462,6 +462,22 @@ describe('app', function(){
       fs.stat = originalStat;
     })
 
+    // count fs.stat calls while delegating to the real implementation
+    function countStats() {
+      const realStat = fs.stat;
+      const counter = {
+        n: 0,
+        restore: function () { fs.stat = realStat; }
+      };
+
+      fs.stat = function countingStat() {
+        counter.n++;
+        return realStat.apply(fs, arguments);
+      };
+
+      return counter;
+    }
+
     it('should complete when more renders are in flight than the stat limit', function (done) {
       const app = createApp();
 
@@ -486,18 +502,12 @@ describe('app', function(){
       app.enable('view cache')
       app.locals.user = { name: 'tobi' };
 
-      // count stat calls while delegating to the real fs.stat
-      const realStat = fs.stat;
-      let stats = 0;
-      fs.stat = function countingStat() {
-        stats++;
-        return realStat.apply(fs, arguments);
-      };
+      const stats = countStats();
 
       const cb = after(10, function (err) {
-        fs.stat = realStat;
+        stats.restore();
         if (err) return done(err);
-        assert.strictEqual(stats, 1)
+        assert.strictEqual(stats.n, 1)
         done();
       });
 
@@ -555,20 +565,35 @@ describe('app', function(){
       returned = true;
     })
 
-    it('should not poison the cached view when lookup throws', function (done) {
+    it('should error like the sync implementation for a misconfigured views setting', function (done) {
       const app = createApp();
 
-      app.set('views', 123); // misconfigured: lookup throws synchronously
+      app.set('views', 123); // misconfigured: not a string
       app.enable('view cache')
 
       app.render('user.tmpl', function (err) {
-        assert.ok(err)
+        assert.ok(err instanceof TypeError)
+        assert.ok(/must be of type string/.test(err.message))
 
         // the cached instance must accept new renders, not queue them forever
         app.render('user.tmpl', function (err2) {
-          assert.ok(err2)
+          assert.ok(err2 instanceof TypeError)
+          assert.ok(/must be of type string/.test(err2.message))
           done()
         })
+      })
+    })
+
+    it('should error instead of crashing when a later root is invalid', function (done) {
+      const app = createApp();
+
+      app.set('views', [path.join(__dirname, 'fixtures', 'local_layout'), 123]);
+
+      // email.tmpl does not exist in the first (valid) root
+      app.render('email.tmpl', function (err) {
+        assert.ok(err instanceof TypeError)
+        assert.ok(/must be of type string/.test(err.message))
+        done()
       })
     })
 
@@ -583,21 +608,15 @@ describe('app', function(){
         if (err) return done(err);
         assert.strictEqual(str, '<p>tobi</p>')
 
-        // count stat calls while delegating to the real fs.stat
-        const realStat = fs.stat;
-        let stats = 0;
-        fs.stat = function countingStat() {
-          stats++;
-          return realStat.apply(fs, arguments);
-        };
+        const stats = countStats();
 
         app.render('user.tmpl', function (err2, str2) {
-          fs.stat = realStat;
+          stats.restore();
           if (err2) return done(err2);
           assert.strictEqual(str2, '<p>tobi</p>')
 
           // the memoized path must not be looked up again
-          assert.strictEqual(stats, 0)
+          assert.strictEqual(stats.n, 0)
           done();
         })
       })
