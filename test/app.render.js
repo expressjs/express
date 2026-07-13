@@ -278,9 +278,8 @@ describe('app', function(){
         var app = express();
 
         function View(name, options){
-          // a custom view only needs a (name, options) constructor
-          // and a render(options, callback) method
           this.name = name;
+          this.path = 'path is required as a signal of success for custom view classes.';
         }
 
         View.prototype.render = function(options, fn){
@@ -292,6 +291,27 @@ describe('app', function(){
         app.render('something', function(err, str){
           if (err) return done(err);
           assert.strictEqual(str, 'abstract engine')
+          done();
+        })
+      })
+
+      it('should error when a custom view leaves path unset', function(done){
+        var app = express();
+
+        function View(name, options){
+          this.name = name;
+          this.root = options.root;
+        }
+
+        View.prototype.render = function(){
+          throw new Error('render should not be called')
+        };
+
+        app.set('view', View);
+
+        app.render('something', function(err){
+          assert.ok(err)
+          assert.ok(/^Failed to lookup view "something"/.test(err.message))
           done();
         })
       })
