@@ -1,5 +1,6 @@
 'use strict'
 
+var after = require('after')
 var assert = require('node:assert')
 var express = require('..');
 var fs = require('node:fs')
@@ -118,6 +119,29 @@ describe('app', function(){
           assert.ok(err)
           assert.strictEqual(err.message, 'oops')
           done()
+        })
+      })
+
+      it('should invoke the callback once when the engine calls back and then throws', function(done){
+        const app = express();
+
+        app.engine('tmpl', function (filePath, options, cb) {
+          cb(null, 'html')
+          throw new Error('post-callback throw')
+        })
+        app.set('views', path.join(__dirname, 'fixtures'))
+
+        let calls = 0;
+
+        app.render('user.tmpl', function (err, str) {
+          calls++;
+          if (err) return done(err);
+          assert.strictEqual(str, 'html')
+
+          setImmediate(function () {
+            assert.strictEqual(calls, 1)
+            done()
+          })
         })
       })
     })
@@ -436,13 +460,13 @@ describe('app', function(){
       app.set('views', path.join(__dirname, 'fixtures'))
       app.locals.user = { name: 'tobi' };
 
-      let remaining = 30;
+      const cb = after(30, done);
 
       for (let i = 0; i < 30; i++) {
         app.render('user.tmpl', function (err, str) {
-          if (err) return done(err);
+          if (err) return cb(err);
           assert.strictEqual(str, '<p>tobi</p>')
-          if (--remaining === 0) done();
+          cb();
         })
       }
     })
@@ -462,24 +486,18 @@ describe('app', function(){
         return realStat.apply(fs, arguments);
       };
 
-      let remaining = 10;
+      const cb = after(10, function (err) {
+        fs.stat = realStat;
+        if (err) return done(err);
+        assert.strictEqual(stats, 1)
+        done();
+      });
 
       for (let i = 0; i < 10; i++) {
         app.render('user.tmpl', function (err, str) {
-          if (remaining === 0) return; // already failed
-          if (err) {
-            remaining = 0;
-            fs.stat = realStat;
-            return done(err);
-          }
-
+          if (err) return cb(err);
           assert.strictEqual(str, '<p>tobi</p>')
-
-          if (--remaining === 0) {
-            fs.stat = realStat;
-            assert.strictEqual(stats, 1)
-            done();
-          }
+          cb();
         })
       }
     })
@@ -492,21 +510,23 @@ describe('app', function(){
       // a null byte makes fs.stat throw synchronously instead of
       // reporting the error through its callback
       const bad = 'nul\u0000byte.tmpl';
-      let remaining = 12;
+      const cb = after(12, function (err) {
+        if (err) return done(err);
+
+        // the stat queue must not have leaked any slots
+        app.locals.user = { name: 'tobi' };
+        app.render('user.tmpl', function (err2, str) {
+          if (err2) return done(err2);
+          assert.strictEqual(str, '<p>tobi</p>')
+          done();
+        })
+      });
 
       for (let i = 0; i < 12; i++) {
         app.render(bad, function (err) {
           assert.ok(err)
           assert.ok(/^Failed to lookup view/.test(err.message))
-          if (--remaining > 0) return;
-
-          // the stat queue must not have leaked any slots
-          app.locals.user = { name: 'tobi' };
-          app.render('user.tmpl', function (err2, str) {
-            if (err2) return done(err2);
-            assert.strictEqual(str, '<p>tobi</p>')
-            done();
-          })
+          cb();
         })
       }
     })
@@ -534,13 +554,13 @@ describe('app', function(){
       app.set('views', path.join(__dirname, 'fixtures'))
       app.enable('view cache')
 
-      let remaining = 10;
+      const cb = after(10, done);
 
       for (let i = 0; i < 10; i++) {
-        app.render('does-not-exist.tmpl', function (err, str) {
+        app.render('does-not-exist.tmpl', function (err) {
           assert.ok(err)
           assert.ok(/^Failed to lookup view/.test(err.message))
-          if (--remaining === 0) done();
+          cb();
         })
       }
     })
