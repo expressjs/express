@@ -185,6 +185,23 @@ describe('app', function(){
           })
         })
 
+        it('should ignore stat errors and keep looking up', function(done){
+          var app = createApp();
+          var views = [
+            path.join(__dirname, 'fixtures', 'user.tmpl'), // a file: lookups inside it fail with ENOTDIR
+            path.join(__dirname, 'fixtures')
+          ]
+
+          app.set('views', views);
+          app.locals.user = { name: 'tobi' };
+
+          app.render('user.tmpl', function (err, str) {
+            if (err) return done(err);
+            assert.strictEqual(str, '<p>tobi</p>')
+            done();
+          })
+        })
+
         it('should error if file does not exist', function(done){
           var app = createApp();
           var views = [
