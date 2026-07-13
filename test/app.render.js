@@ -105,6 +105,21 @@ describe('app', function(){
           done()
         })
       })
+
+      it('should pass a sync engine throw to the callback on first render', function(done){
+        var app = express();
+
+        app.engine('tmpl', function () {
+          throw new Error('oops')
+        })
+        app.set('views', path.join(__dirname, 'fixtures'))
+
+        app.render('user.tmpl', function (err) {
+          assert.ok(err)
+          assert.strictEqual(err.message, 'oops')
+          done()
+        })
+      })
     })
 
     describe('when an extension is given', function(){
