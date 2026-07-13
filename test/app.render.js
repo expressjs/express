@@ -107,7 +107,7 @@ describe('app', function(){
       })
 
       it('should pass a sync engine throw to the callback on first render', function(done){
-        var app = express();
+        const app = express();
 
         app.engine('tmpl', function () {
           throw new Error('oops')
@@ -201,8 +201,8 @@ describe('app', function(){
         })
 
         it('should ignore stat errors and keep looking up', function(done){
-          var app = createApp();
-          var views = [
+          const app = createApp();
+          const views = [
             path.join(__dirname, 'fixtures', 'user.tmpl'), // a file: lookups inside it fail with ENOTDIR
             path.join(__dirname, 'fixtures')
           ]
@@ -418,14 +418,14 @@ describe('app', function(){
 
   describe('view lookup concurrency', function () {
     it('should complete when more renders are in flight than the stat limit', function (done) {
-      var app = createApp();
+      const app = createApp();
 
       app.set('views', path.join(__dirname, 'fixtures'))
       app.locals.user = { name: 'tobi' };
 
-      var remaining = 30;
+      let remaining = 30;
 
-      for (var i = 0; i < 30; i++) {
+      for (let i = 0; i < 30; i++) {
         app.render('user.tmpl', function (err, str) {
           if (err) return done(err);
           assert.strictEqual(str, '<p>tobi</p>')
@@ -436,25 +436,25 @@ describe('app', function(){
 
     describe('when a render callback throws', function () {
       it('should not stall subsequent lookups', function (done) {
-        var app = createApp();
+        const app = createApp();
 
         app.set('views', path.join(__dirname, 'fixtures'))
         app.locals.user = { name: 'tobi' };
 
         // stub fs.stat to call back synchronously so the throw below
         // propagates to this stack frame instead of crashing the process
-        var realStat = fs.stat;
+        const realStat = fs.stat;
         fs.stat = function stubStat(path, cb) {
-          var err = new Error('stubbed ENOENT');
+          const err = new Error('stubbed ENOENT');
           err.code = 'ENOENT';
           cb(err);
         };
 
-        var thrown = 0;
+        let thrown = 0;
 
         try {
           // exhaust the stat limit with callbacks that throw
-          for (var i = 0; i < 12; i++) {
+          for (let i = 0; i < 12; i++) {
             try {
               app.render('does-not-exist.tmpl', function () {
                 throw new Error('boom');
