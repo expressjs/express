@@ -471,6 +471,23 @@ describe('app', function(){
       }
     })
 
+    it('should deliver the lookup error to every coalesced render', function (done) {
+      const app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.enable('view cache')
+
+      let remaining = 10;
+
+      for (let i = 0; i < 10; i++) {
+        app.render('does-not-exist.tmpl', function (err, str) {
+          assert.ok(err)
+          assert.ok(/^Failed to lookup view/.test(err.message))
+          if (--remaining === 0) done();
+        })
+      }
+    })
+
     describe('when a render callback throws', function () {
       it('should not stall subsequent lookups', function (done) {
         const app = createApp();
