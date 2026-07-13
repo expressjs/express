@@ -200,6 +200,19 @@ describe('app', function(){
           })
         })
 
+        it('should continue past falsy roots', function(done){
+          const app = createApp();
+
+          app.set('views', ['', null, path.join(__dirname, 'fixtures')]);
+          app.locals.user = { name: 'tobi' };
+
+          app.render('user.tmpl', function (err, str) {
+            if (err) return done(err);
+            assert.strictEqual(str, '<p>tobi</p>')
+            done();
+          })
+        })
+
         it('should ignore stat errors and keep looking up', function(done){
           const app = createApp();
           const views = [
@@ -467,6 +480,33 @@ describe('app', function(){
             assert.strictEqual(stats, 1)
             done();
           }
+        })
+      }
+    })
+
+    it('should treat a synchronously-throwing stat as a lookup miss', function (done) {
+      const app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+
+      // a null byte makes fs.stat throw synchronously instead of
+      // reporting the error through its callback
+      const bad = 'nul\u0000byte.tmpl';
+      let remaining = 12;
+
+      for (let i = 0; i < 12; i++) {
+        app.render(bad, function (err) {
+          assert.ok(err)
+          assert.ok(/^Failed to lookup view/.test(err.message))
+          if (--remaining > 0) return;
+
+          // the stat queue must not have leaked any slots
+          app.locals.user = { name: 'tobi' };
+          app.render('user.tmpl', function (err2, str) {
+            if (err2) return done(err2);
+            assert.strictEqual(str, '<p>tobi</p>')
+            done();
+          })
         })
       }
     })
