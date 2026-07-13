@@ -617,6 +617,28 @@ describe('app', function(){
       })
     })
 
+    it('should not cache views whose lookup failed', function (done) {
+      const app = createApp();
+
+      app.enable('view cache')
+      app.set('views', path.join(__dirname, 'fixtures', 'local_layout')); // email.tmpl is not here
+
+      app.render('email.tmpl', function (err) {
+        assert.ok(err)
+        assert.ok(/^Failed to lookup view/.test(err.message))
+
+        // like the sync implementation, the failed view must not stick:
+        // a new render honors the current settings
+        app.set('views', path.join(__dirname, 'fixtures'));
+
+        app.render('email.tmpl', function (err2, str) {
+          if (err2) return done(err2);
+          assert.strictEqual(str, '<p>This is an email</p>')
+          done();
+        })
+      })
+    })
+
     it('should reuse the resolved path on subsequent renders', function (done) {
       const app = createApp();
 
