@@ -16,7 +16,15 @@ var app = express();
 app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
-  secret: 'keyboard cat'
+  secret: 'keyboard cat',
+  cookie: function (req) {
+    return {
+      httpOnly: true,
+      secure: req.secure || false,
+      sameSite: 'auto',
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+  }
 }));
 
 app.get('/', function(req, res){
