@@ -1,0 +1,1 @@
+npm run pre-commit-lint  # or npm run lint:fix if you want to auto-fix errors
