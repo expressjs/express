@@ -92,6 +92,49 @@ describe('app', function(){
       })
     })
 
+    describe('when the name escapes the views root', function(){
+      it('should reject relative paths outside the root', function(done){
+        var app = createApp();
+        var views = path.join(__dirname, 'fixtures', 'default_layout')
+
+        app.set('views', views)
+        app.locals.user = { name: 'tobi' };
+
+        app.render('../user.tmpl', function (err) {
+          assert.ok(err)
+          assert.equal(err.message, 'Failed to lookup view "../user.tmpl" in views directory "' + views + '"')
+          done();
+        });
+      })
+
+      it('should allow relative paths that stay within the root', function(done){
+        var app = createApp();
+
+        app.set('views', path.join(__dirname, 'fixtures'))
+        app.set('view engine', 'tmpl');
+        app.locals.user = { name: 'tobi' };
+
+        app.render('blog/../user', function (err, str) {
+          if (err) return done(err);
+          assert.strictEqual(str, '<p>tobi</p>')
+          done();
+        });
+      })
+
+      it('should still support absolute paths outside the root', function(done){
+        var app = createApp();
+
+        app.set('views', path.join(__dirname, 'fixtures', 'default_layout'))
+        app.locals.user = { name: 'tobi' };
+
+        app.render(path.join(__dirname, 'fixtures', 'user.tmpl'), function (err, str) {
+          if (err) return done(err);
+          assert.strictEqual(str, '<p>tobi</p>')
+          done();
+        });
+      })
+    })
+
     describe('when an error occurs', function(){
       it('should invoke the callback', function(done){
         var app = createApp();
