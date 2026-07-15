@@ -166,4 +166,48 @@ describe('req.is()', function () {
       .expect(200, '"application/json"', done)
     })
   })
+
+  describe('when given an array', function () {
+    it('should return the first matching type', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is(['html', 'json']))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, '"json"', done)
+    })
+
+    it('should return false when none match', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is(['html', 'text']))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, 'false', done)
+    })
+
+    it('should match *type when given in array', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is(['text/html', '*/json']))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, '"application/json"', done)
+    })
+  })
 })
