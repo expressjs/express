@@ -1,6 +1,23 @@
 # Unreleased Changes
 
+## 🐞 Bug fixes
+
+- Fixed HTTP header conflict between Content-Length and Transfer-Encoding in res.send - by [@YuryShkoda](https://github.com/YuryShkoda) in [#4893](https://github.com/expressjs/express/pull/4893)
+
+
+    Fixed the behavior of `res.send()` to prevent conflicts between `Content-Length` and `Transfer-Encoding` HTTP headers in responses. The `Content-Length` header in `res.send()` is now only added when a `Transfer-Encoding` header is not present, complying with the HTTP specification that states both headers should not coexist in the same response
+
 ## 🚀 Improvements
+
+* Allow conditional revalidation for QUERY requests. `req.fresh` previously only validated freshness for GET and HEAD requests, so QUERY responses never returned 304 despite a matching validator. Since QUERY is a safe, idempotent, and cacheable method that supports conditional requests, it is now included in the freshness check - by [@Cherry](https://github.com/Cherry) in [#7366](https://github.com/expressjs/express/pull/7366)
+
+    ```js
+    // QUERY /reports with If-None-Match: "12345"
+    app.query('/reports', (req, res) => {
+      res.set('ETag', '"12345"');
+      res.send(results); // now responds 304 Not Modified
+    });
+    ```
 
 * Improve HTML structure in `res.redirect()` responses when HTML format is accepted by adding `<!DOCTYPE html>`, `<title>`, and `<body>` tags for better browser compatibility - by [@Bernice55231](https://github.com/Bernice55231) in [#5167](https://github.com/expressjs/express/pull/5167)
 
@@ -8,6 +25,23 @@
 
     ```js
     app.render('index', null, callback); // now works as expected
+    ```
+
+* Upgrade `content-type` to `^2.0.0`, bringing a faster parser (~1.5x quicker `Content-Type` parsing/formatting in `res.send()`) along with a behavior change: `res.send()` now keeps any existing parameters when adding the charset and no longer throws on a `Content-Type` that fails to parse - by [@blakeembrey](https://github.com/blakeembrey) in [#7234](https://github.com/expressjs/express/pull/7234)
+
+    ```js
+    res.set('Content-Type', 'text/plain; foo=bar').send('hey');
+    // -> Content-Type: text/plain; foo=bar; charset=utf-8
+    ```
+
+* The default error handler now logs the full error object instead of only its stack trace, so nested details such as `Error.cause` and library-specific properties (e.g. Sequelize's `parent`/`original`) are no longer swallowed - by [@Nitin-Mohapatra](https://github.com/Nitin-Mohapatra) in [#6464](https://github.com/expressjs/express/pull/6464)
+
+* Upgrade `content-disposition` to `^2.0.0`, which changes the `Content-Disposition` header emitted by `res.download()`, `res.attachment()`, and `res.sendFile()`: file names that are valid HTTP tokens are no longer wrapped in quotes. This is equivalent per RFC 6266, but applications asserting on the exact header bytes should update their expectations - by [@blakeembrey](https://github.com/blakeembrey) in [#7233](https://github.com/expressjs/express/pull/7233)
+
+    ```js
+    res.attachment('user.html');
+    // before -> Content-Disposition: attachment; filename="user.html"
+    // after  -> Content-Disposition: attachment; filename=user.html
     ```
 
 ## ⚡ Performance
@@ -571,7 +605,7 @@ This is the first Express 5.0 alpha release, based off 4.10.1.
   * deps: utils-merge@1.0.1
   * deps: vary@~1.1.2
     - perf: improve header token parsing speed
-  * perf: re-use options object when generating ETags
+  * perf: reuse options object when generating ETags
   * perf: remove dead `.charset` set in `res.jsonp`
 
 4.15.5 / 2017-09-24
@@ -3290,7 +3324,7 @@ Closes #805
   * Added options support to `res.clearCookie()`
   * Added `res.helpers()` as alias of `res.locals()`
   * Added; json defaults to UTF-8 with `res.send()`. Closes #632. [Daniel   * Dependency `connect >= 1.4.0`
-  * Changed; auto set Content-Type in res.attachement [Aaron Heckmann]
+  * Changed; auto set Content-Type in res.attachment [Aaron Heckmann]
   * Renamed "cache views" to "view cache". Closes #628
   * Fixed caching of views when using several apps. Closes #637
   * Fixed gotcha invoking `app.param()` callbacks once per route middleware.

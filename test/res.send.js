@@ -122,6 +122,32 @@ describe('res', function(){
       .expect(200, 'hey', done);
     })
 
+    it('should preserve existing parameters when adding charset', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.set('Content-Type', 'text/plain; foo=bar').send('hey');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/plain; foo=bar; charset=utf-8')
+      .expect(200, 'hey', done);
+    })
+
+    it('should not throw on a Content-Type that fails to parse', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.set('Content-Type', 'text/plain; foo').send('hey');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect(200, 'hey', done);
+    })
+
     it('should keep charset in Content-Type for Buffers', function(done){
       var app = express();
 
@@ -565,5 +591,30 @@ describe('res', function(){
         .expect(200, done);
       })
     })
+  })
+
+  describe('when Transfer-Encoding header is present', function(){
+    var transferEncodings = [
+      'chunked',
+      'compress',
+      'deflate',
+      'gzip'
+    ];
+
+    transferEncodings.forEach(function(encoding){
+      it('should not add Content-Length header if Transfer-Encoding header is equal to ' + encoding, function(done){
+        var app = express();
+
+        app.use(function(_, res){
+          res.status(200).set('Transfer-Encoding', encoding).send('');
+        });
+
+        request(app)
+          .get('/')
+          .expect(utils.shouldNotHaveHeader('Content-Length'))
+          .expect(utils.shouldHaveHeader('Transfer-Encoding'))
+          .expect(200, '', done);
+      })
+    });
   })
 })
