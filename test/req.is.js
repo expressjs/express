@@ -166,4 +166,48 @@ describe('req.is()', function () {
       .expect(200, '"application/json"', done)
     })
   })
+
+  describe('when given an array', function () {
+    it('should return the type when matching', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is(['html', 'json']))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, '"json"', done)
+    })
+
+    it('should return false when not matching', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is(['html', 'image/png']))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, 'false', done)
+    })
+
+    it('should support mime types in the array', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is(['text/html', 'application/json']))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, '"application/json"', done)
+    })
+  })
 })
