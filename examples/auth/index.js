@@ -58,7 +58,7 @@ hash({ password: 'foobar' }, function (err, pass, salt, hash) {
 // Authenticate using our plain-object database of doom!
 
 function authenticate(name, pass, fn) {
-  if (!module.parent) console.log('authenticating %s:%s', name, pass);
+  if (require.main === module) console.log('authenticating %s:%s', name, pass);
   var user = users[name];
   // query the db for the given username
   if (!user) return fn(null, null)
@@ -128,7 +128,7 @@ app.post('/login', function (req, res, next) {
 });
 
 /* istanbul ignore next */
-if (!module.parent) {
+if (require.main === module) {
   app.listen(3000);
   console.log('Express started on port 3000');
 }
