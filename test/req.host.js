@@ -135,6 +135,22 @@ describe('req', function(){
           .expect('example.com', done);
         })
       })
+
+      it('should use first value when X-Forwarded-Host has comma', function (done) {
+        var app = express();
+
+        app.enable('trust proxy');
+
+        app.use(function (req, res) {
+          res.end(req.host);
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', 'localhost')
+        .set('X-Forwarded-Host', 'example.com, foobar.com')
+        .expect('example.com', done);
+      })
     })
 
     describe('when "trust proxy" is disabled', function(){
