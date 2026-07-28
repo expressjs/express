@@ -87,6 +87,22 @@ describe('res', function(){
       .expect(200, /foobar\(\{\}\);/, done);
     })
 
+    it('should not use JSONP when callback sanitizes to empty', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp({ count: 1 });
+      });
+
+      // A callback of all disallowed characters sanitizes to an empty string.
+      // This should fall back to plain JSON, not produce invalid JavaScript
+      // like: /**/ typeof  === 'function' &&  ({"count":1});
+      request(app)
+      .get('/?callback=!!!')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200, '{"count":1}', done);
+    })
+
     it('should escape utf whitespace', function(done){
       var app = express();
 
