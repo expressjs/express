@@ -44,6 +44,31 @@ describe('res', function(){
       .expect('Location', 'https://google.com?q=%A710')
       .expect(302, done)
     })
+
+    it('should still respond with a 302 when no address is given', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect()
+      })
+
+      request(app)
+      .get('/')
+      .expect(302, done)
+    })
+
+    it('should coerce a non-string address via res.location', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect(['http://example.com'])
+      })
+
+      request(app)
+      .get('/')
+      .expect('Location', 'http://example.com')
+      .expect(302, done)
+    })
   })
 
   describe('.redirect(status, url)', function(){
