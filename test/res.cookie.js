@@ -183,6 +183,21 @@ describe('res', function(){
           .get('/')
           .expect(500, /option maxAge is invalid/, done)
       })
+
+      it('should support bigint maxAge', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.cookie('name', 'tobi', { maxAge: 1000n })
+          res.end()
+        })
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('Set-Cookie', /Max-Age=1/)
+          .end(done)
+      })
     })
 
     describe('priority', function () {
