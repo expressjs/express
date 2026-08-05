@@ -139,5 +139,34 @@ describe('app', function(){
         .get('/sub/foo')
         .expect(200, 'tobi', cb)
     })
+
+    describe('getter caching', function () {
+      it('should cache lazy getters per request', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          var q1 = req.query
+          var q2 = req.query
+          var ips1 = req.ips
+          var ips2 = req.ips
+          var path1 = req.path
+          var path2 = req.path
+          var sub1 = req.subdomains
+          var sub2 = req.subdomains
+
+          var assert = require('node:assert')
+          assert.strictEqual(q1, q2)
+          assert.strictEqual(ips1, ips2)
+          assert.strictEqual(path1, path2)
+          assert.strictEqual(sub1, sub2)
+
+          res.send('cached')
+        })
+
+        request(app)
+          .get('/foo?bar=1')
+          .expect(200, 'cached', done)
+      })
+    })
   })
 })
