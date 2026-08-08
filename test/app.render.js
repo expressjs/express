@@ -90,6 +90,18 @@ describe('app', function(){
           done();
         });
       })
+
+      it('should not throw synchronously for a name ending in "."', function(done){
+        var app = createApp();
+
+        app.set('views', path.join(__dirname, 'fixtures'))
+        app.set('view engine', 'tmpl')
+        app.render('index.', function (err) {
+          assert.ok(err)
+          assert.equal(err.message.indexOf('Failed to lookup view "index."'), 0)
+          done();
+        });
+      })
     })
 
     describe('when an error occurs', function(){
