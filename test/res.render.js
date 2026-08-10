@@ -75,6 +75,7 @@ describe('res', function(){
       .get('/')
       .expect(500, /Failed to lookup view "user\."/, done)
     })
+
     it('should error without "view engine" set and a view name ending with a "."', function (done) {
       var app = createApp();
       app.use(function (req, res) {
