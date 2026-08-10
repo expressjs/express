@@ -64,6 +64,27 @@ describe('res', function(){
       .expect(500, /No default engine was specified/, done);
     })
 
+    it('should error with "view engine" set and a view name ending with a "."', function (done) {
+      var app = createApp();
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.set('view engine', 'tmpl')
+      app.use(function (req, res) {
+        res.render('user.')
+      })
+      request(app)
+      .get('/')
+      .expect(500, /Failed to lookup view "user\."/, done)
+    })
+    it('should error without "view engine" set and a view name ending with a "."', function (done) {
+      var app = createApp();
+      app.use(function (req, res) {
+        res.render(path.join(__dirname, 'fixtures', 'user.'))
+      })
+      request(app)
+      .get('/')
+      .expect(500, /No default engine was specified/, done)
+    })
+
     it('should expose app.locals', function(done){
       var app = createApp();
 
