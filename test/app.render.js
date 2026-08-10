@@ -119,6 +119,21 @@ describe('app', function(){
         })
       })
     })
+    describe('when the view name ends with a "."', function(){
+      it('should invoke the callback with a lookup error', function(done){
+        var app = createApp();
+        app.set('views', path.join(__dirname, 'fixtures'))
+        app.set('view engine', 'tmpl')
+        assert.doesNotThrow(function () {
+          app.render('user.', function (err, str) {
+            assert.ok(err)
+            assert.ok(/Failed to lookup view "user\."/.test(err.message))
+            assert.strictEqual(str, undefined)
+            done()
+          })
+        })
+      })
+    })
 
     describe('when "view engine" is given', function(){
       it('should render the template', function(done){
