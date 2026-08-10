@@ -119,6 +119,7 @@ describe('app', function(){
         })
       })
     })
+
     describe('when the view name ends with a "."', function(){
       it('should invoke the callback with a lookup error', function(done){
         var app = createApp();
