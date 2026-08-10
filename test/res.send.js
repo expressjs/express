@@ -231,6 +231,32 @@ describe('res', function(){
     })
   })
 
+  describe('.send(ArrayBuffer)', function(){
+    it('should send as application/octet-stream', function(done){
+      var app = express();
+      app.use(function(req, res){
+        res.send(new TextEncoder().encode('hey').buffer);
+      });
+      request(app)
+      .get('/')
+      .expect(200)
+      .expect('Content-Type', 'application/octet-stream')
+      .expect(utils.shouldHaveBody(Buffer.from('hey')))
+      .end(done)
+    })
+
+    it('should not override an existing Content-Type', function(done){
+      var app = express();
+      app.use(function(req, res){
+        res.set('Content-Type', 'text/plain').send(new TextEncoder().encode('hey').buffer);
+      });
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect(200, 'hey', done);
+    })
+  })
+
   describe('.send(Object)', function(){
     it('should send as application/json', function(done){
       var app = express();
