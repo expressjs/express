@@ -79,6 +79,52 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Verify Puppeteer browser installation
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 24
+        shell: bash
+        run: |
+          node <<'NODE'
+          'use strict';
+
+          const fs = require('node:fs');
+          const {
+            Browser,
+            getInstalledBrowsers
+          } = require('@puppeteer/browsers');
+
+          const path = require('node:path');
+          const os = require('node:os');
+          const cacheDir = path.join(os.homedir(), '.cache', 'puppeteer');
+          const expectedBuildId = '127.0.6533.88';
+          const expectedBrowsers = [
+            Browser.CHROME,
+            Browser.CHROMEHEADLESSSHELL
+          ];
+
+          (async function () {
+            const installedBrowsers = await getInstalledBrowsers({ cacheDir });
+            for (const browser of expectedBrowsers) {
+              const installed = installedBrowsers.find(function (candidate) {
+                return candidate.browser === browser &&
+                  candidate.buildId === expectedBuildId;
+              });
+              if (!installed) {
+                throw new Error(`missing ${browser}@${expectedBuildId} in ${cacheDir}`);
+              }
+
+              const executable = fs.statSync(installed.executablePath);
+              if (!executable.isFile() || executable.size <= 0) {
+                throw new Error(`invalid executable for ${browser}@${expectedBuildId}: ${installed.executablePath}`);
+              }
+
+              console.log(`[puppeteer-install-proof] browser=${installed.browser} build=${installed.buildId} path=${installed.executablePath} executable_bytes=${executable.size}`);
+            }
+          })().catch(function (error) {
+            console.error(`[puppeteer-install-proof] ${error.message}`);
+            process.exitCode = 1;
+          });
+          NODE
+
       - name: Output Node and NPM versions
         run: |
           echo "Node.js version: $(node -v)"

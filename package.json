@@ -76,6 +76,7 @@
     "morgan": "1.11.0",
     "nyc": "^17.1.0",
     "pbkdf2-password": "1.2.1",
+    "puppeteer": "22.15.0",
     "supertest": "^6.3.0",
     "vhost": "~3.0.2"
   },
