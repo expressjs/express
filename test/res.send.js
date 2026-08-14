@@ -217,6 +217,61 @@ describe('res', function(){
         .expect(200, "hey", done);
     })
 
+    it('should accept ArrayBuffer', function(done){
+      var app = express();
+      app.use(function(req, res){
+        const encodedHey = new TextEncoder().encode("hey");
+        res.set("Content-Type", "text/plain").send(encodedHey.buffer);
+      })
+
+      request(app)
+        .get("/")
+        .expect("Content-Type", "text/plain; charset=utf-8")
+        .expect(200, "hey", done);
+    })
+
+    it('should set Content-Type to application/octet-stream for ArrayBuffer', function(done){
+      var app = express();
+      app.use(function(req, res){
+        res.send(new ArrayBuffer(4));
+      })
+
+      request(app)
+        .get("/")
+        .expect("Content-Type", "application/octet-stream")
+        .expect(200)
+        .expect(utils.shouldHaveBody(Buffer.alloc(4)))
+        .end(done);
+    })
+
+    it('should accept SharedArrayBuffer', function(done){
+      var app = express();
+      app.use(function(req, res){
+        const sab = new SharedArrayBuffer(3);
+        new Uint8Array(sab).set(new TextEncoder().encode('hey'));
+        res.set('Content-Type', 'text/plain').send(sab);
+      })
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect(200, 'hey', done);
+    })
+
+    it('should set Content-Type to application/octet-stream for SharedArrayBuffer', function(done){
+      var app = express();
+      app.use(function(req, res){
+        res.send(new SharedArrayBuffer(4));
+      })
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream')
+        .expect(200)
+        .expect(utils.shouldHaveBody(Buffer.alloc(4)))
+        .end(done);
+    })
+
     it('should not override ETag', function (done) {
       var app = express()
 
