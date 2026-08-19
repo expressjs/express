@@ -45,6 +45,40 @@ describe('res', function(){
       .expect(302, done)
     })
   })
+  
+  describe('.redirect(undefined)', function(){
+    it('should throw a TypeError if URL is missing', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        try {
+          res.redirect();
+        } catch (err) {
+          res.status(500).send(err.message);
+        }
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, 'url argument is required', done);
+    })
+
+    it('should throw a TypeError if URL is not a string', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        try {
+          res.redirect(123);
+        } catch (err) {
+          res.status(500).send(err.message);
+        }
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, 'url must be a string', done);
+    })
+  })
 
   describe('.redirect(status, url)', function(){
     it('should set the response status', function(done){
