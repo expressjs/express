@@ -18,6 +18,33 @@ describe('res', function(){
       .end(done);
     })
 
+    it('should not add charset when Content-Type is set without one', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.set('Content-Type', 'text/plain').end();
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'text/plain')
+        .expect(200, done);
+    })
+
+    it('should not resolve shorthand Content-Type values', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        // "html" looks like a shorthand; res.set should be pass-through.
+        res.set('Content-Type', 'html').end();
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'html')
+        .expect(200, done);
+    })
+
     it('should coerce to a string', function (done) {
       var app = express();
 
