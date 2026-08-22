@@ -96,6 +96,10 @@ for more information.
 npm install -g express-generator@4
 ```
 
+  The official generator creates JavaScript applications. For TypeScript projects,
+  use a TypeScript starter or a community generator such as
+  [`express-generator-typescript`](https://github.com/seanpmaxwell/express-generator-typescript).
+
   Create the app:
 
 ```bash
