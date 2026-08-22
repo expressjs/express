@@ -44,6 +44,8 @@
     // after  -> Content-Disposition: attachment; filename=user.html
     ```
 
+* Upgrade `body-parser` to `^2.3.0`, which fixes [CVE-2026-12590](https://www.cve.org/CVERecord?id=CVE-2026-12590) ([GHSA-v422-hmwv-36x6](https://github.com/expressjs/body-parser/security/advisories/GHSA-v422-hmwv-36x6)): an invalid `limit` option value caused request body size enforcement to be silently disabled (fail-open), allowing a denial of service via arbitrarily large payloads. Invalid `limit` values now throw at parser initialization instead of being ignored
+
 ## ⚡ Performance
 
 * Avoid duplicate Content-Type header processing in `res.send()` when sending string responses without an explicit Content-Type header - by [@bjohansebas](https://github.com/bjohansebas) in [#6991](https://github.com/expressjs/express/pull/6991)
