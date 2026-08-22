@@ -165,11 +165,9 @@ describe('res', function(){
   describe('.send(Buffer)', function(){
     it('should send as octet-stream', function(done){
       var app = express();
-
       app.use(function(req, res){
         res.send(Buffer.from('hello'))
       });
-
       request(app)
         .get('/')
         .expect(200)
@@ -180,11 +178,9 @@ describe('res', function(){
 
     it('should set ETag', function (done) {
       var app = express();
-
       app.use(function (req, res) {
         res.send(Buffer.alloc(999, '-'))
       });
-
       request(app)
       .get('/')
       .expect('ETag', 'W/"3e7-qPnkJ3CVdVhFJQvUBfF10TmVA7g"')
@@ -193,11 +189,9 @@ describe('res', function(){
 
     it('should not override Content-Type', function(done){
       var app = express();
-
       app.use(function(req, res){
         res.set('Content-Type', 'text/plain').send(Buffer.from('hey'))
       });
-
       request(app)
       .get('/')
       .expect('Content-Type', 'text/plain; charset=utf-8')
@@ -210,20 +204,34 @@ describe('res', function(){
         const encodedHey = new TextEncoder().encode("hey");
         res.set("Content-Type", "text/plain").send(encodedHey);
       })
-
       request(app)
         .get("/")
         .expect("Content-Type", "text/plain; charset=utf-8")
         .expect(200, "hey", done);
     })
 
+    it('should handle a raw ArrayBuffer as binary data, not JSON', function(done){
+      var app = express();
+      app.use(function(req, res){
+        const arrayBuffer = new ArrayBuffer(3);
+        const view = new Uint8Array(arrayBuffer);
+        view.set([10, 20, 30]);
+        res.send(arrayBuffer);
+      });
+      request(app)
+        .get('/')
+        .expect(200)
+        .expect('Content-Type', 'application/octet-stream')
+        .expect(utils.shouldHaveBody(Buffer.from([10, 20, 30])))
+        .expect('Content-Length', "3")
+        .end(done);
+    })
+
     it('should not override ETag', function (done) {
       var app = express()
-
       app.use(function (req, res) {
         res.type('text/plain').set('ETag', '"foo"').send(Buffer.from('hey'))
       })
-
       request(app)
       .get('/')
       .expect('ETag', '"foo"')
