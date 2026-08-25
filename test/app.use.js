@@ -73,12 +73,14 @@ describe('app', function(){
       app.use(router);
 
       app.use(function(req, res){
-        res.end(req.app === app ? 'restored' : 'leaked');
+        var restored = Object.getPrototypeOf(req) === app.request
+          && Object.getPrototypeOf(res) === app.response;
+        res.end(restored ? 'yes' : 'no');
       });
 
       request(app)
         .get('/blog')
-        .expect(200, 'restored', done);
+        .expect(200, 'yes', done);
     })
 
     it('should set the child\'s .parent', function(){
