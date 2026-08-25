@@ -60,6 +60,27 @@ describe('app', function(){
         .expect(200, 'forum', cb)
     })
 
+    it('should restore the prototypes when mounted on a router', function(done){
+      var blog = express()
+        , app = express()
+        , router = express.Router();
+
+      blog.get('/', function(req, res, next){
+        next();
+      });
+
+      router.use('/blog', blog);
+      app.use(router);
+
+      app.use(function(req, res){
+        res.end(req.app === app ? 'restored' : 'leaked');
+      });
+
+      request(app)
+        .get('/blog')
+        .expect(200, 'restored', done);
+    })
+
     it('should set the child\'s .parent', function(){
       var blog = express()
         , app = express();
