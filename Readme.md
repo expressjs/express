@@ -253,7 +253,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
   * [tunniclm](https://github.com/tunniclm) - **Mike Tunnicliffe**
   * [enyoghasim](https://github.com/enyoghasim) - **David Enyoghasim**
   * [0ss](https://github.com/0ss) - **Salah**
-  * [ejcheng](https://github.com/ejcheng)- **Eric Cheng** (he/him)
+  * [ejcheng](https://github.com/ejcheng) - **Eric Cheng** (he/him)
   * [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
   * [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
   * [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
@@ -274,7 +274,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 [github-actions-ci-url]: https://github.com/expressjs/express/actions/workflows/ci.yml
 [npm-downloads-image]: https://img.shields.io/npm/dm/express
 [npm-downloads-url]: https://npmcharts.com/compare/express?minimal=true
-[npm-url]: https://npmjs.org/package/express
+[npm-url]: https://www.npmjs.com/package/express
 [npm-version-image]: https://img.shields.io/npm/v/express
 [ossf-scorecard-badge]: https://api.scorecard.dev/projects/github.com/expressjs/express/badge
 [ossf-scorecard-visualizer]: https://ossf.github.io/scorecard-visualizer/#/projects/github.com/expressjs/express
