@@ -60,6 +60,79 @@ describe('app', function(){
         .expect(200, 'forum', cb)
     })
 
+    it('should restore prototypes when mounted on a router', function (done) {
+      var blog = express()
+        , app = express()
+        , router = express.Router()
+
+      blog.get('/', function (req, res, next) {
+        next()
+      })
+
+      router.use('/blog', blog)
+      app.use(router)
+
+      app.use(function (req, res) {
+        var restored = Object.getPrototypeOf(req) === app.request
+          && Object.getPrototypeOf(res) === app.response
+          && req.app === app
+        res.end(restored ? 'yes' : 'no')
+      })
+
+      request(app)
+        .get('/blog')
+        .expect(200, 'yes', done)
+    })
+
+    it('should restore prototypes when mounted on a router and sub-app errors', function (done) {
+      var blog = express()
+        , app = express()
+        , router = express.Router()
+
+      blog.get('/', function (req, res, next) {
+        next(new Error('boom'))
+      })
+
+      router.use('/blog', blog)
+      app.use(router)
+
+      app.use(function (err, req, res, next) {
+        var restored = Object.getPrototypeOf(req) === app.request
+          && Object.getPrototypeOf(res) === app.response
+          && req.app === app
+        res.status(500).end(restored ? 'yes' : 'no')
+      })
+
+      request(app)
+        .get('/blog')
+        .expect(500, 'yes', done)
+    })
+
+    it('should restore parent request and response extensions when mounted on a router', function (done) {
+      var blog = express()
+        , app = express()
+        , router = express.Router()
+
+      app.request.customHelper = function () {
+        return 'custom'
+      }
+
+      blog.get('/', function (req, res, next) {
+        next()
+      })
+
+      router.use('/blog', blog)
+      app.use(router)
+
+      app.use(function (req, res) {
+        res.end(req.customHelper())
+      })
+
+      request(app)
+        .get('/blog')
+        .expect(200, 'custom', done)
+    })
+
     it('should set the child\'s .parent', function(){
       var blog = express()
         , app = express();
