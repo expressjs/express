@@ -83,6 +83,29 @@ describe('app', function(){
         .expect(200, 'yes', done);
     })
 
+    it('should restore the prototypes when a router-mounted app calls next(err)', function(done){
+      var blog = express()
+        , app = express()
+        , router = express.Router();
+
+      blog.get('/', function(req, res, next){
+        next(new Error('boom'));
+      });
+
+      router.use('/blog', blog);
+      app.use(router);
+
+      app.use(function(err, req, res, next){
+        var restored = Object.getPrototypeOf(req) === app.request
+          && Object.getPrototypeOf(res) === app.response;
+        res.status(500).end(restored ? 'yes' : 'no');
+      });
+
+      request(app)
+        .get('/blog')
+        .expect(500, 'yes', done);
+    })
+
     it('should set the child\'s .parent', function(){
       var blog = express()
         , app = express();
