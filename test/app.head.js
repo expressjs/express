@@ -140,4 +140,31 @@ describe('app.head()', function(){
       done()
     })
   })
+
+  it('should emit a warning when GET is declared with an array containing the HEAD path', function (done) {
+    var app = express()
+    var warnings = []
+
+    function onWarning(warning) {
+      warnings.push(warning)
+    }
+
+    process.on('warning', onWarning)
+
+    app.get(['/a', '/b'], function (req, res) {
+      res.send('get')
+    })
+
+    app.head('/a', function (req, res) {
+      res.end()
+    })
+
+    process.nextTick(function () {
+      process.removeListener('warning', onWarning)
+      assert.strictEqual(warnings.length, 1)
+      assert.strictEqual(warnings[0].name, 'ExpressWarning')
+      assert.ok(warnings[0].message.includes('HEAD route for "/a" declared after GET route will be shadowed'))
+      done()
+    })
+  })
 })

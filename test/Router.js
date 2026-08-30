@@ -686,5 +686,54 @@ describe('Router', function () {
         done()
       })
     })
+
+    it('should emit a warning when GET is declared with an array containing the HEAD path', function (done) {
+      var router = new Router()
+      var warnings = []
+
+      function onWarning(warning) {
+        warnings.push(warning)
+      }
+
+      process.on('warning', onWarning)
+
+      router.get(['/a', '/b'], function (req, res) {
+        res.end('get')
+      })
+
+      router.head('/a', function (req, res) {
+        res.end()
+      })
+
+      process.nextTick(function () {
+        process.removeListener('warning', onWarning)
+        assert.strictEqual(warnings.length, 1)
+        assert.strictEqual(warnings[0].name, 'ExpressWarning')
+        assert.ok(warnings[0].message.includes('HEAD route for "/a" declared after GET route will be shadowed'))
+        done()
+      })
+    })
+
+    it('should not mutate the underlying router package prototype', function () {
+      var StandaloneRouter = require('router')
+      var standalone = new StandaloneRouter()
+
+      var warnings = []
+      function onWarning(warning) {
+        warnings.push(warning)
+      }
+
+      process.on('warning', onWarning)
+
+      standalone.get('/standalone', function (req, res) {
+        res.end()
+      })
+      standalone.head('/standalone', function (req, res) {
+        res.end()
+      })
+
+      process.removeListener('warning', onWarning)
+      assert.strictEqual(warnings.length, 0)
+    })
   })
 })
