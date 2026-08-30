@@ -633,4 +633,58 @@ describe('Router', function () {
       });
     });
   });
+
+  describe('.head()', function () {
+    it('should emit a warning when HEAD is declared after GET on the same path', function (done) {
+      var router = new Router()
+      var warnings = []
+
+      function onWarning(warning) {
+        warnings.push(warning)
+      }
+
+      process.on('warning', onWarning)
+
+      router.get('/tobi', function (req, res) {
+        res.end('tobi')
+      })
+
+      router.head('/tobi', function (req, res) {
+        res.end()
+      })
+
+      process.nextTick(function () {
+        process.removeListener('warning', onWarning)
+        assert.strictEqual(warnings.length, 1)
+        assert.strictEqual(warnings[0].name, 'ExpressWarning')
+        assert.ok(warnings[0].message.includes('HEAD route for "/tobi" declared after GET route will be shadowed'))
+        done()
+      })
+    })
+
+    it('should not emit a warning when HEAD is declared before GET on the same path', function (done) {
+      var router = new Router()
+      var warnings = []
+
+      function onWarning(warning) {
+        warnings.push(warning)
+      }
+
+      process.on('warning', onWarning)
+
+      router.head('/tobi', function (req, res) {
+        res.end()
+      })
+
+      router.get('/tobi', function (req, res) {
+        res.end('tobi')
+      })
+
+      process.nextTick(function () {
+        process.removeListener('warning', onWarning)
+        assert.strictEqual(warnings.length, 0)
+        done()
+      })
+    })
+  })
 })
