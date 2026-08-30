@@ -249,6 +249,21 @@ describe('res', function(){
         .end(done)
     })
 
+    it('should keep existing non-byte typed array payload', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.send(new Uint16Array([0x0102, 0x0304]))
+      })
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream')
+        .expect('Content-Length', '2')
+        .expect(utils.shouldHaveBody(Buffer.from([0x02, 0x04])))
+        .end(done)
+    })
+
     it('should not override ETag', function (done) {
       var app = express()
 
