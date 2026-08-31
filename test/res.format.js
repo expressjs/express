@@ -176,6 +176,23 @@ describe('res', function(){
 
       test(app)
     })
+
+    it('should set Content-Type with charset when formatter uses res.end()', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.format({
+          'text/plain': function () {
+            res.end('ok');
+          }
+        });
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect(200, 'ok', done);
+    })
   })
 })
 
