@@ -25,7 +25,9 @@ describe('Router', function () {
     });
     router.use('/foo', another);
 
-    router.handle({ url: '/foo/bar', method: 'GET' }, { end: done }, function () { });
+    router.handle({ url: '/foo/bar', method: 'GET' }, { end: done }, function (err) {
+      if (err) return done(err);
+    });
   });
 
   it('should support dynamic routes', function (done) {
@@ -38,7 +40,9 @@ describe('Router', function () {
     });
     router.use('/:foo', another);
 
-    router.handle({ url: '/test/route', method: 'GET' }, { end: done }, function () { });
+    router.handle({ url: '/test/route', method: 'GET' }, { end: done }, function (err) {
+      if (err) return done(err);
+    });
   });
 
   it('should handle blank URL', function (done) {
@@ -48,7 +52,9 @@ describe('Router', function () {
       throw new Error('should not be called')
     });
 
-    router.handle({ url: '', method: 'GET' }, {}, done);
+    router.handle({ url: '', method: 'GET' }, {}, function (err) {
+      done(err); // Pass any error to done
+    });
   });
 
   it('should handle missing URL', function (done) {
@@ -58,7 +64,9 @@ describe('Router', function () {
       throw new Error('should not be called')
     })
 
-    router.handle({ method: 'GET' }, {}, done)
+    router.handle({ method: 'GET' }, {}, function (err) {
+      done(err); // Pass any error to done
+    })
   })
 
   it('handle missing method', function (done) {
@@ -102,7 +110,9 @@ describe('Router', function () {
       res.end();
     });
 
-    router.handle({ url: '/', method: 'GET' }, { end: done }, function () { });
+    router.handle({ url: '/', method: 'GET' }, { end: done }, function (err) {
+      if (err) return done(err);
+    });
   });
 
   it('should not stack overflow with a large sync route stack', function (done) {
@@ -128,7 +138,9 @@ describe('Router', function () {
     })
 
     router.handle({ url: '/foo', method: 'GET' }, { end: done }, function (err) {
-      assert(!err, err);
+      // Fixed: Check if err is truthy, not assert(!err, err)
+      if (err) return done(err);
+      // The test passes if no error occurred
     });
   })
 
@@ -155,8 +167,8 @@ describe('Router', function () {
     })
 
     router.handle({ url: '/', method: 'GET' }, { end: done }, function (err) {
-      assert(!err, err);
-    })
+      if (err) return done(err);
+    });
   })
 
   describe('.handle', function () {
@@ -173,7 +185,9 @@ describe('Router', function () {
           done();
         }
       }
-      router.handle({ url: '/foo', method: 'GET' }, res, function () { });
+      router.handle({ url: '/foo', method: 'GET' }, res, function (err) {
+        if (err) return done(err);
+      });
     })
   })
 
@@ -226,7 +240,9 @@ describe('Router', function () {
         done();
       });
 
-      router.handle({ url: '/foo', method: 'GET' }, {}, done);
+      router.handle({ url: '/foo', method: 'GET' }, {}, function (err) {
+        if (err) return done(err);
+      });
     });
 
     it('should handle throwing inside routes with params', function (done) {
@@ -245,7 +261,9 @@ describe('Router', function () {
         done();
       });
 
-      router.handle({ url: '/foo/2', method: 'GET' }, {}, function () { });
+      router.handle({ url: '/foo/2', method: 'GET' }, {}, function (err) {
+        if (err) return done(err);
+      });
     });
 
     it('should handle throwing in handler after async param', function (done) {
@@ -267,7 +285,9 @@ describe('Router', function () {
         done();
       });
 
-      router.handle({ url: '/bob', method: 'GET' }, {}, function () { });
+      router.handle({ url: '/bob', method: 'GET' }, {}, function (err) {
+        if (err) return done(err);
+      });
     });
 
     it('should handle throwing inside error handlers', function (done) {
@@ -286,7 +306,9 @@ describe('Router', function () {
         done();
       });
 
-      router.handle({ url: '/', method: 'GET' }, {}, done);
+      router.handle({ url: '/', method: 'GET' }, {}, function (err) {
+        if (err) return done(err);
+      });
     });
   })
 
@@ -493,7 +515,9 @@ describe('Router', function () {
         done();
       });
 
-      router.handle({ url: '/foo', method: 'GET' }, {}, function () { });
+      router.handle({ url: '/foo', method: 'GET' }, {}, function (err) {
+        if (err) return done(err);
+      });
     })
   })
 
@@ -521,7 +545,10 @@ describe('Router', function () {
         next();
       });
 
-      router.handle({ url: '/foo/123/bar', method: 'get' }, {}, done);
+      router.handle({ url: '/foo/123/bar', method: 'get' }, {}, function (err) {
+        if (err) return done(err);
+        done();
+      });
     });
 
     it('should call param function when routing middleware', function (done) {
@@ -538,7 +565,10 @@ describe('Router', function () {
         next();
       });
 
-      router.handle({ url: '/foo/123/bar/baz', method: 'get' }, {}, done);
+      router.handle({ url: '/foo/123/bar/baz', method: 'get' }, {}, function (err) {
+        if (err) return done(err);
+        done();
+      });
     });
 
     it('should only call once per request', function (done) {
@@ -604,7 +634,6 @@ describe('Router', function () {
       var sub = new Router();
       var cb = after(2, done)
 
-
       sub.get('/bar', function (req, res, next) {
         next();
       });
@@ -619,14 +648,14 @@ describe('Router', function () {
       router.use('/foo/:ms/', sub);
 
       router.handle(req1, {}, function (err) {
-        assert.ifError(err);
+        if (err) return done(err);
         assert.equal(req1.ms, 50);
         assert.equal(req1.originalUrl, '/foo/50/bar');
         cb()
       });
 
       router.handle(req2, {}, function (err) {
-        assert.ifError(err);
+        if (err) return done(err);
         assert.equal(req2.ms, 10);
         assert.equal(req2.originalUrl, '/foo/10/bar');
         cb()
