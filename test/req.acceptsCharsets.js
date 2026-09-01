@@ -58,6 +58,32 @@ describe('req', function(){
         .set('Accept-Charset', 'iso-8859-1, utf-8')
         .expect('iso-8859-1', done);
       })
+
+      it('should accept a comma-delimited list of charsets', function (done) {
+        var app = express();
+
+        app.use(function(req, res, next){
+          res.end(req.acceptsCharsets('iso-8859-1, utf-8'));
+        });
+
+        request(app)
+        .get('/')
+        .set('Accept-Charset', 'iso-8859-1, utf-8')
+        .expect('iso-8859-1', done);
+      })
+
+      it('should not modify a single charset when given a comma-delimited list', function (done) {
+        var app = express();
+
+        app.use(function(req, res, next){
+          res.end(req.acceptsCharsets('utf-8, iso-8859-1'));
+        });
+
+        request(app)
+        .get('/')
+        .set('Accept-Charset', 'utf-8, iso-8859-1')
+        .expect('utf-8', done);
+      })
     })
   })
 })
