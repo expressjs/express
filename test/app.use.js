@@ -106,6 +106,36 @@ describe('app', function(){
         .expect(500, 'yes', done);
     })
 
+    it('should not restore the prototypes when a bare router mounts an app', function(done){
+      var child = express()
+        , router = express.Router();
+
+      child.use(function(req, res, next){
+        next();
+      });
+
+      router.use(child);
+
+      router.use(function(req, res){
+        var keptChildProto = Object.getPrototypeOf(req) === child.request
+          && Object.getPrototypeOf(res) === child.response;
+        res.end(keptChildProto ? 'yes' : 'no');
+      });
+
+      var server = function(req, res){
+        router.handle(req, res, function(err){
+          if (err) {
+            res.statusCode = 500;
+            res.end(err.message);
+          }
+        });
+      };
+
+      request(server)
+        .get('/')
+        .expect(200, 'yes', done);
+    })
+
     it('should set the child\'s .parent', function(){
       var blog = express()
         , app = express();
