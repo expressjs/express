@@ -60,6 +60,82 @@ describe('app', function(){
         .expect(200, 'forum', cb)
     })
 
+    it('should restore the prototypes when mounted on a router', function(done){
+      var blog = express()
+        , app = express()
+        , router = express.Router();
+
+      blog.get('/', function(req, res, next){
+        next();
+      });
+
+      router.use('/blog', blog);
+      app.use(router);
+
+      app.use(function(req, res){
+        var restored = Object.getPrototypeOf(req) === app.request
+          && Object.getPrototypeOf(res) === app.response;
+        res.end(restored ? 'yes' : 'no');
+      });
+
+      request(app)
+        .get('/blog')
+        .expect(200, 'yes', done);
+    })
+
+    it('should restore the prototypes when a router-mounted app calls next(err)', function(done){
+      var blog = express()
+        , app = express()
+        , router = express.Router();
+
+      blog.get('/', function(req, res, next){
+        next(new Error('boom'));
+      });
+
+      router.use('/blog', blog);
+      app.use(router);
+
+      app.use(function(err, req, res, next){
+        var restored = Object.getPrototypeOf(req) === app.request
+          && Object.getPrototypeOf(res) === app.response;
+        res.status(500).end(restored ? 'yes' : 'no');
+      });
+
+      request(app)
+        .get('/blog')
+        .expect(500, 'yes', done);
+    })
+
+    it('should not restore the prototypes when a bare router mounts an app', function(done){
+      var child = express()
+        , router = express.Router();
+
+      child.use(function(req, res, next){
+        next();
+      });
+
+      router.use(child);
+
+      router.use(function(req, res){
+        var keptChildProto = Object.getPrototypeOf(req) === child.request
+          && Object.getPrototypeOf(res) === child.response;
+        res.end(keptChildProto ? 'yes' : 'no');
+      });
+
+      var server = function(req, res){
+        router.handle(req, res, function(err){
+          if (err) {
+            res.statusCode = 500;
+            res.end(err.message);
+          }
+        });
+      };
+
+      request(server)
+        .get('/')
+        .expect(200, 'yes', done);
+    })
+
     it('should set the child\'s .parent', function(){
       var blog = express()
         , app = express();
