@@ -616,5 +616,20 @@ describe('res', function(){
           .expect(200, '', done);
       })
     });
+
+    it('should still generate an ETag', function(done){
+      var app = express();
+
+      app.use(function(_, res){
+        res.set('Transfer-Encoding', 'chunked').send('hello');
+      });
+
+      request(app)
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('Content-Length'))
+        .expect(utils.shouldHaveHeader('Transfer-Encoding'))
+        .expect('ETag', 'W/"5-qvTGHdzF6KLavt4PO0gs2a6pQ00"')
+        .expect(200, 'hello', done);
+    })
   })
 })
