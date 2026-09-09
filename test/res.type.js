@@ -43,6 +43,19 @@ describe('res', function(){
       .expect('Content-Type', 'application/vnd.amazon.ebook', done);
     })
 
+    it('should set the Content-Type with type/subtype and parameters', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.type('text/html; charset=utf-8')
+          .end('<p>hello</p>');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/html; charset=utf-8', done);
+    })
+
     describe('edge cases', function(){
       it('should handle empty string gracefully', function(done){
         var app = express();
@@ -106,6 +119,62 @@ describe('res', function(){
         request(app)
         .get('/')
         .expect('Content-Type', 'application/json; charset=utf-8')
+        .end(done);
+      })
+    })
+  })
+
+  describe('.contentType(str)', function(){
+    it('should set the Content-Type based on a filename', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.contentType('foo.js').end('var name = "tj";');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .end(done)
+    })
+
+    it('should set the Content-Type with type/subtype', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.contentType('application/vnd.amazon.ebook')
+          .end('var name = "tj";');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'application/vnd.amazon.ebook', done);
+    })
+
+    it('should set the Content-Type with type/subtype and parameters', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.contentType('text/html; charset=utf-8')
+          .end('<p>hello</p>');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/html; charset=utf-8', done);
+    })
+
+    describe('edge cases', function(){
+      it('should handle empty string gracefully', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.contentType('').end('test');
+        });
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream')
         .end(done);
       })
     })
