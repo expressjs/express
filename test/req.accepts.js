@@ -121,5 +121,26 @@ describe('req', function(){
       .set('Accept', '*/html')
       .expect('text/html', done);
     })
+
+    it('should work correctly when multiple accepts methods are called', function(done){
+      var app = express();
+
+      app.use(function(req, res, next){
+        // Call multiple accepts methods to verify caching works correctly
+        var type = req.accepts(['json', 'html']);
+        var encoding = req.acceptsEncodings('gzip', 'deflate');
+        var charset = req.acceptsCharsets('utf-8');
+        var lang = req.acceptsLanguages('en');
+        res.json({ type: type, encoding: encoding, charset: charset, lang: lang });
+      });
+
+      request(app)
+      .get('/')
+      .set('Accept', 'application/json')
+      .set('Accept-Encoding', 'gzip')
+      .set('Accept-Charset', 'utf-8')
+      .set('Accept-Language', 'en')
+      .expect(200, { type: 'json', encoding: 'gzip', charset: 'utf-8', lang: 'en' }, done);
+    })
   })
 })
