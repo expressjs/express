@@ -1,0 +1,14 @@
+name: Publish package to npm
+on:
+  release:
+    types: [created]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish:
+    uses: expressjs/ci-workflows/.github/workflows/release.yml@main
+    secrets:
+      NPM_PUBLISH: ${{ secrets.NPM_PUBLISH }}
