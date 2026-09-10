@@ -61,31 +61,32 @@ describe('res', function(){
       .expect(200, '["123","456"]', done);
     })
 
-    it('should not set a charset of one is already set', function (done) {
+    it('should set Content-Type without mime lookup', function (done) {
       var app = express();
 
       app.use(function (req, res) {
-        res.set('Content-Type', 'text/html; charset=lol');
+        res.set('Content-Type', 'text/html');
         res.end();
       });
 
       request(app)
       .get('/')
-      .expect('Content-Type', 'text/html; charset=lol')
+      .expect('Content-Type', 'text/html')
       .expect(200, done);
     })
 
-    it('should throw when Content-Type is an array', function (done) {
-      var app = express()
+    it('should not perform mime lookup for extension-like values', function (done) {
+      var app = express();
 
       app.use(function (req, res) {
-        res.set('Content-Type', ['text/html'])
-        res.end()
+        res.set('Content-Type', 'html');
+        res.end();
       });
 
       request(app)
       .get('/')
-      .expect(500, /TypeError: Content-Type cannot be set to an Array/, done)
+      .expect('Content-Type', 'html')
+      .expect(200, done);
     })
   })
 
