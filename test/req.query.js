@@ -22,6 +22,24 @@ describe('req', function(){
       .expect(200, '{"user[name]":"tj"}', done);
     });
 
+    it('should parse the query string only once per request', function (done) {
+      var parses = 0;
+      var app = createApp(function (str) {
+        parses++;
+        return {'value': str};
+      });
+
+      app.use(function (req, res) {
+        assert.strictEqual(req.query, req.query);
+        assert.strictEqual(parses, 1);
+        res.sendStatus(204);
+      });
+
+      request(app)
+      .get('/?value=test')
+      .expect(204, done);
+    });
+
     describe('when "query parser" is extended', function () {
       it('should parse complex keys', function (done) {
         var app = createApp('extended');
