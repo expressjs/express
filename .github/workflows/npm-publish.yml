@@ -40,7 +40,7 @@ jobs:
       # a maintenance line must never overwrite "latest":
       #   prerelease (e.g. 3.0.0-beta.1)        -> next
       #   major >= current npm "latest" major   -> latest
-      #   major <  current npm "latest" major   -> latest-<major>.x
+      #   major <  current npm "latest" major   -> latest-<major>
       # No data from the release event is used, so nothing untrusted reaches
       # the script.
       - name: Resolve npm dist-tag from package version
