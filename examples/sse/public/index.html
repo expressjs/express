@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Express SSE example</title>
+  <style>
+    body { font: 14px/1.5 system-ui, sans-serif; margin: 2rem; }
+    #log { list-style: none; padding: 0; }
+    #log li { padding: 2px 0; border-bottom: 1px solid #eee; }
+    .name { color: #888; }
+  </style>
+</head>
+<body>
+  <h1>Server-Sent Events</h1>
+  <p>Streaming live from <code>/events</code> via the standard <code>EventSource</code> API.</p>
+  <ul id="log"></ul>
+  
+  <script>
+    var log = document.getElementById('log')
+    
+    function add(name, data) {
+      var li = document.createElement('li')
+      li.innerHTML = '<span class="name">' + name + '</span> ' + data
+      log.prepend(li)
+    }
+    
+    var es = new EventSource('/events')
+    
+    // unnamed events arrive on `onmessage`
+    es.onmessage = function (e) { add('message', e.data) }
+    
+    // named events are listened to explicitly
+    es.addEventListener('tick', function (e) { add('tick #' + e.lastEventId, e.data) })
+    
+    es.onerror = function () { add('error', 'connection lost, retrying…') }
+  </script>
+</body>
+</html>
