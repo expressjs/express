@@ -66,7 +66,7 @@ jobs:
           let tag
           if (prerelease) tag = 'next'
           else if (major >= latestMajor) tag = 'latest'
-          else tag = `latest-${major}.x`
+          else tag = `latest-${major}`
 
           console.log(`${name}@${version} (npm latest: ${latest}) -> dist-tag "${tag}"`)
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `tag=${tag}\n`)
