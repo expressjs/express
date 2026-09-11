@@ -3,6 +3,7 @@ unreleased
 
   * Allow conditional revalidation for QUERY requests
     - `req.fresh` now includes QUERY in the freshness check, so QUERY responses can return 304 when a validator matches
+  * deps: qs@~6.16.0
 
 4.22.2 / 2026-05-11
 ==========
