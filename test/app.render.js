@@ -1,7 +1,9 @@
 'use strict'
 
+var after = require('after')
 var assert = require('node:assert')
 var express = require('..');
+var fs = require('node:fs')
 var path = require('node:path')
 var tmpl = require('./support/tmpl');
 
@@ -104,6 +106,44 @@ describe('app', function(){
           done()
         })
       })
+
+      it('should pass a sync engine throw to the callback on first render', function(done){
+        const app = express();
+
+        app.engine('tmpl', function () {
+          throw new Error('oops')
+        })
+        app.set('views', path.join(__dirname, 'fixtures'))
+
+        app.render('user.tmpl', function (err) {
+          assert.ok(err)
+          assert.strictEqual(err.message, 'oops')
+          done()
+        })
+      })
+
+      it('should invoke the callback once when the engine calls back and then throws', function(done){
+        const app = express();
+
+        app.engine('tmpl', function (filePath, options, cb) {
+          cb(null, 'html')
+          throw new Error('post-callback throw')
+        })
+        app.set('views', path.join(__dirname, 'fixtures'))
+
+        let calls = 0;
+
+        app.render('user.tmpl', function (err, str) {
+          calls++;
+          if (err) return done(err);
+          assert.strictEqual(str, 'html')
+
+          setImmediate(function () {
+            assert.strictEqual(calls, 1)
+            done()
+          })
+        })
+      })
     })
 
     describe('when an extension is given', function(){
@@ -184,6 +224,36 @@ describe('app', function(){
           })
         })
 
+        it('should continue past an empty-string root', function(done){
+          const app = createApp();
+
+          app.set('views', ['', path.join(__dirname, 'fixtures')]);
+          app.locals.user = { name: 'tobi' };
+
+          app.render('user.tmpl', function (err, str) {
+            if (err) return done(err);
+            assert.strictEqual(str, '<p>tobi</p>')
+            done();
+          })
+        })
+
+        it('should ignore stat errors and keep looking up', function(done){
+          const app = createApp();
+          const views = [
+            path.join(__dirname, 'fixtures', 'user.tmpl'), // a file: lookups inside it fail with ENOTDIR
+            path.join(__dirname, 'fixtures')
+          ]
+
+          app.set('views', views);
+          app.locals.user = { name: 'tobi' };
+
+          app.render('user.tmpl', function (err, str) {
+            if (err) return done(err);
+            assert.strictEqual(str, '<p>tobi</p>')
+            done();
+          })
+        })
+
         it('should error if file does not exist', function(done){
           var app = createApp();
           var views = [
@@ -209,7 +279,7 @@ describe('app', function(){
 
         function View(name, options){
           this.name = name;
-          this.path = 'path is required by application.js as a signal of success even though it is not used there.';
+          this.path = 'path is required as a signal of success for custom view classes.';
         }
 
         View.prototype.render = function(options, fn){
@@ -221,6 +291,53 @@ describe('app', function(){
         app.render('something', function(err, str){
           if (err) return done(err);
           assert.strictEqual(str, 'abstract engine')
+          done();
+        })
+      })
+
+      it('should error when a custom view leaves path unset', function(done){
+        var app = express();
+
+        function View(name, options){
+          this.name = name;
+          this.root = options.root;
+        }
+
+        View.prototype.render = function(){
+          throw new Error('render should not be called')
+        };
+
+        app.set('view', View);
+
+        app.render('something', function(err){
+          assert.ok(err)
+          assert.ok(/^Failed to lookup view "something"/.test(err.message))
+          done();
+        })
+      })
+
+      it('should honor a View subclass that clears path to deny a view', function(done){
+        var app = express();
+        var BaseView = require('../lib/view');
+
+        app.engine('tmpl', function (p, o, fn) { fn(null, 'served'); });
+        app.set('views', path.join(__dirname, 'fixtures'))
+
+        // a subclass may deny a view by leaving path falsy; the inherited
+        // lazy lookup must not resolve it behind the subclass's back
+        function DenyView(name, options){
+          BaseView.call(this, name, options);
+          this.path = null;
+        }
+        DenyView.prototype = Object.create(BaseView.prototype);
+        DenyView.prototype.constructor = DenyView;
+
+        app.set('view', DenyView);
+
+        // user.tmpl exists on disk, but the subclass denies it
+        app.render('user.tmpl', function (err, str){
+          assert.ok(err, 'denied view must not be served')
+          assert.ok(/^Failed to lookup view/.test(err.message))
           done();
         })
       })
@@ -380,6 +497,216 @@ describe('app', function(){
         })
       })
     })
+  })
+
+  describe('view lookup concurrency', function () {
+    const originalStat = fs.stat;
+
+    afterEach(function () {
+      // safety net: some tests below patch fs.stat and restore it
+      // themselves, but a failed assertion must not leak the patch
+      fs.stat = originalStat;
+    })
+
+    // count fs.stat calls while delegating to the real implementation
+    function countStats() {
+      const realStat = fs.stat;
+      const counter = {
+        n: 0,
+        restore: function () { fs.stat = realStat; }
+      };
+
+      fs.stat = function countingStat() {
+        counter.n++;
+        return realStat.apply(fs, arguments);
+      };
+
+      return counter;
+    }
+
+    it('should complete when more renders are in flight than the stat limit', function (done) {
+      const app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.locals.user = { name: 'tobi' };
+
+      const cb = after(30, done);
+
+      for (let i = 0; i < 30; i++) {
+        app.render('user.tmpl', function (err, str) {
+          if (err) return cb(err);
+          assert.strictEqual(str, '<p>tobi</p>')
+          cb();
+        })
+      }
+    })
+
+    it('should coalesce concurrent lookups of the same cached view', function (done) {
+      const app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.enable('view cache')
+      app.locals.user = { name: 'tobi' };
+
+      const stats = countStats();
+
+      const cb = after(10, function (err) {
+        stats.restore();
+        if (err) return done(err);
+        assert.strictEqual(stats.n, 1)
+        done();
+      });
+
+      for (let i = 0; i < 10; i++) {
+        app.render('user.tmpl', function (err, str) {
+          if (err) return cb(err);
+          assert.strictEqual(str, '<p>tobi</p>')
+          cb();
+        })
+      }
+    })
+
+    it('should treat a synchronously-throwing stat as a lookup miss', function (done) {
+      const app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+
+      // a null byte makes fs.stat throw synchronously instead of
+      // reporting the error through its callback
+      const bad = 'nul\u0000byte.tmpl';
+      const cb = after(12, function (err) {
+        if (err) return done(err);
+
+        // the stat queue must not have leaked any slots
+        app.locals.user = { name: 'tobi' };
+        app.render('user.tmpl', function (err2, str) {
+          if (err2) return done(err2);
+          assert.strictEqual(str, '<p>tobi</p>')
+          done();
+        })
+      });
+
+      for (let i = 0; i < 12; i++) {
+        app.render(bad, function (err) {
+          assert.ok(err)
+          assert.ok(/^Failed to lookup view/.test(err.message))
+          cb();
+        })
+      }
+    })
+
+    it('should deliver sync stat failures asynchronously', function (done) {
+      const app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+
+      let returned = false;
+
+      app.render('nul\u0000byte.tmpl', function (err) {
+        assert.ok(returned, 'callback ran synchronously inside app.render')
+        assert.ok(err)
+        done()
+      })
+
+      returned = true;
+    })
+
+    it('should error like the sync implementation for a misconfigured views setting', function (done) {
+      const app = createApp();
+
+      app.set('views', 123); // misconfigured: not a string
+      app.enable('view cache')
+
+      app.render('user.tmpl', function (err) {
+        assert.ok(err instanceof TypeError)
+        assert.ok(/must be of type string/.test(err.message))
+
+        // the cached instance must accept new renders, not queue them forever
+        app.render('user.tmpl', function (err2) {
+          assert.ok(err2 instanceof TypeError)
+          assert.ok(/must be of type string/.test(err2.message))
+          done()
+        })
+      })
+    })
+
+    it('should error instead of crashing when a later root is invalid', function (done) {
+      const app = createApp();
+
+      app.set('views', [path.join(__dirname, 'fixtures', 'local_layout'), 123]);
+
+      // email.tmpl does not exist in the first (valid) root
+      app.render('email.tmpl', function (err) {
+        assert.ok(err instanceof TypeError)
+        assert.ok(/must be of type string/.test(err.message))
+        done()
+      })
+    })
+
+    it('should not cache views whose lookup failed', function (done) {
+      const app = createApp();
+
+      app.enable('view cache')
+      app.set('views', path.join(__dirname, 'fixtures', 'local_layout')); // email.tmpl is not here
+
+      app.render('email.tmpl', function (err) {
+        assert.ok(err)
+        assert.ok(/^Failed to lookup view/.test(err.message))
+
+        // like the sync implementation, the failed view must not stick:
+        // a new render honors the current settings
+        app.set('views', path.join(__dirname, 'fixtures'));
+
+        app.render('email.tmpl', function (err2, str) {
+          if (err2) return done(err2);
+          assert.strictEqual(str, '<p>This is an email</p>')
+          done();
+        })
+      })
+    })
+
+    it('should reuse the resolved path on subsequent renders', function (done) {
+      const app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.enable('view cache')
+      app.locals.user = { name: 'tobi' };
+
+      app.render('user.tmpl', function (err, str) {
+        if (err) return done(err);
+        assert.strictEqual(str, '<p>tobi</p>')
+
+        const stats = countStats();
+
+        app.render('user.tmpl', function (err2, str2) {
+          stats.restore();
+          if (err2) return done(err2);
+          assert.strictEqual(str2, '<p>tobi</p>')
+
+          // the memoized path must not be looked up again
+          assert.strictEqual(stats.n, 0)
+          done();
+        })
+      })
+    })
+
+    it('should deliver the lookup error to every coalesced render', function (done) {
+      const app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.enable('view cache')
+
+      const cb = after(10, done);
+
+      for (let i = 0; i < 10; i++) {
+        app.render('does-not-exist.tmpl', function (err) {
+          assert.ok(err)
+          assert.ok(/^Failed to lookup view/.test(err.message))
+          cb();
+        })
+      }
+    })
+
   })
 })
 
