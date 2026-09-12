@@ -21,8 +21,8 @@ app.get('/', function(req, res){
     '</ul>')
 });
 
-// /files/* is accessed via req.params[0]
-// but here we name it :file
+// /files/*file works only on express 5.x
+// for more information checking wildcard parameters of path-to-regexp
 app.get('/files/*file', function (req, res, next) {
   res.download(req.params.file.join('/'), { root: FILES_DIR }, function (err) {
     if (!err) return; // file sent
