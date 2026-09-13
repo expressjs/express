@@ -106,6 +106,22 @@ describe('app', function(){
       })
     })
 
+    describe('when the view name ends with a "."', function(){
+      it('should invoke the callback with a lookup error instead of crashing', function(done){
+        var app = createApp();
+
+        app.set('views', path.join(__dirname, 'fixtures'))
+        app.set('view engine', 'tmpl');
+
+        app.render('user.', function (err) {
+          assert.ok(err)
+          assert.notStrictEqual(err.code, 'ERR_INVALID_ARG_VALUE')
+          assert.equal(err.message, 'Failed to lookup view "user." in views directory "' + path.join(__dirname, 'fixtures') + '"')
+          done()
+        })
+      })
+    })
+
     describe('when an extension is given', function(){
       it('should render the template', function(done){
         var app = createApp();
