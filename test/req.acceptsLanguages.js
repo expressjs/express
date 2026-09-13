@@ -36,6 +36,32 @@ describe('req', function(){
         .expect(200, { es: false }, done)
     })
 
+    it('should accept an array of languages', function (done) {
+      var app = express();
+
+      app.get('/', function (req, res) {
+        res.send(req.acceptsLanguages(['en-us', 'en']))
+      })
+
+      request(app)
+        .get('/')
+        .set('Accept-Language', 'en;q=.5, en-us')
+        .expect(200, 'en-us', done)
+    })
+
+    it('should accept an argument list of languages', function (done) {
+      var app = express();
+
+      app.get('/', function (req, res) {
+        res.send(req.acceptsLanguages('jp', 'en'))
+      })
+
+      request(app)
+        .get('/')
+        .set('Accept-Language', 'en;q=.5, en-us')
+        .expect(200, 'en', done)
+    })
+
     describe('when Accept-Language is not present', function(){
       it('should always return language', function (done) {
         var app = express();
