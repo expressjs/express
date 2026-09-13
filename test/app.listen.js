@@ -41,6 +41,20 @@ describe('app.listen()', function(){
     const server = app.listen();
     server.close(done);
   });
+
+  it('should not invoke callback more than once', function (done) {
+    var app = express()
+    var count = 0
+    var server = app.listen(0, function () {
+      count++
+      server.emit('error', new Error('boom'))
+      setImmediate(function () {
+        assert.strictEqual(count, 1)
+        server.close(done)
+      })
+    })
+  })
+
   it('server.address() gives a { address, port, family } object', function (done) {
     const app = express();
     const server = app.listen(0, () => {
