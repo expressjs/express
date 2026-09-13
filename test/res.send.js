@@ -217,6 +217,53 @@ describe('res', function(){
         .expect(200, "hey", done);
     })
 
+    it('should accept DataView', function (done) {
+      var app = express()
+      var ab = new ArrayBuffer(4)
+      new Uint8Array(ab).set([1, 2, 3, 4])
+
+      app.use(function (req, res) {
+        res.send(new DataView(ab))
+      })
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream')
+        .expect(utils.shouldHaveBody(Buffer.from([1, 2, 3, 4])))
+        .end(done)
+    })
+
+    it('should honor DataView byteOffset and byteLength', function (done) {
+      var app = express()
+      var ab = new ArrayBuffer(6)
+      new Uint8Array(ab).set([9, 1, 2, 3, 4, 8])
+
+      app.use(function (req, res) {
+        res.send(new DataView(ab, 1, 4))
+      })
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream')
+        .expect(utils.shouldHaveBody(Buffer.from([1, 2, 3, 4])))
+        .end(done)
+    })
+
+    it('should keep existing non-byte typed array payload', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.send(new Uint16Array([0x0102, 0x0304]))
+      })
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream')
+        .expect('Content-Length', '2')
+        .expect(utils.shouldHaveBody(Buffer.from([0x02, 0x04])))
+        .end(done)
+    })
+
     it('should not override ETag', function (done) {
       var app = express()
 
