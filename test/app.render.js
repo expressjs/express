@@ -381,6 +381,115 @@ describe('app', function(){
       })
     })
   })
+
+  describe('.renderAsync(name, options)', function(){
+    it('should return a promise', function(done){
+      var app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.locals.user = { name: 'tobi' };
+
+      var result = app.renderAsync('user.tmpl');
+      assert.ok(result instanceof Promise);
+      result.then(function(str) {
+        assert.strictEqual(str, '<p>tobi</p>')
+        done();
+      }).catch(done);
+    })
+
+    it('should resolve with rendered string', function(done){
+      var app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+
+      app.renderAsync('email.tmpl')
+        .then(function(str) {
+          assert.strictEqual(str, '<p>This is an email</p>')
+          done();
+        })
+        .catch(done);
+    })
+
+    it('should work with async/await', async function(){
+      var app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.locals.user = { name: 'tobi' };
+
+      var str = await app.renderAsync('user.tmpl');
+      assert.strictEqual(str, '<p>tobi</p>')
+    })
+
+    it('should accept options', async function(){
+      var app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+
+      var str = await app.renderAsync('user.tmpl', { user: { name: 'jane' } });
+      assert.strictEqual(str, '<p>jane</p>')
+    })
+
+    it('should reject when view does not exist', function(done){
+      var app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+
+      app.renderAsync('nonexistent.tmpl')
+        .then(function() {
+          done(new Error('should have rejected'));
+        })
+        .catch(function(err) {
+          assert.ok(err);
+          assert.ok(err.message.includes('Failed to lookup view'));
+          done();
+        });
+    })
+
+    it('should reject on render error', function(done){
+      var app = express();
+
+      function View(name, options){
+        this.name = name;
+        this.path = 'fake';
+      }
+
+      View.prototype.render = function(options, fn){
+        throw new Error('render error!');
+      };
+
+      app.set('view', View);
+
+      app.renderAsync('something')
+        .then(function() {
+          done(new Error('should have rejected'));
+        })
+        .catch(function(err) {
+          assert.ok(err);
+          assert.strictEqual(err.message, 'render error!');
+          done();
+        });
+    })
+
+    it('should expose app.locals', async function(){
+      var app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.locals.user = { name: 'tobi' };
+
+      var str = await app.renderAsync('user.tmpl', {});
+      assert.strictEqual(str, '<p>tobi</p>')
+    })
+
+    it('should give precedence to renderAsync() locals', async function(){
+      var app = createApp();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.locals.user = { name: 'tobi' };
+
+      var str = await app.renderAsync('user.tmpl', { user: { name: 'jane' } });
+      assert.strictEqual(str, '<p>jane</p>')
+    })
+  })
 })
 
 function createApp() {
