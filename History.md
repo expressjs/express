@@ -1,46 +1,46 @@
-unreleased
-==========
+4.22.3
+======
 
   * Allow conditional revalidation for QUERY requests
     - `req.fresh` now includes QUERY in the freshness check, so QUERY responses can return 304 when a validator matches
   * deps: qs@~6.16.0
 
-4.22.2 / 2026-05-11
-==========
+4.22.2
+======
 
 * fix: restore >20 array parsing for `req.query` repeated keys ([`8d09bfe6`](https://github.com/expressjs/express/commit/8d09bfe6d88983da5c3e12cfdd54782c4dc675db))
   * This also unifies array-cap behavior across notations. Indexed notation (`a[0]=...`) was historically capped at qs's default `arrayLimit` of 20 even in older qs versions; after this change it also allows up to 1000 items.
 * deps: qs@~6.15.1
 * deps: body-parser@~1.20.5
 
-4.22.1 / 2025-12-01
-==========
+4.22.1
+======
 
   * Revert security fix for [CVE-2024-51999](https://www.cve.org/CVERecord?id=CVE-2024-51999) ([GHSA-pj86-cfqh-vqx6](https://github.com/expressjs/express/security/advisories/GHSA-pj86-cfqh-vqx6))
     * The prior release (4.22.0) included an erroneous breaking change related to the extended query parser. There is no actual security vulnerability associated with this behavior (CVE-2024-51999 has been rejected). The change has been fully reverted in this release.
 
-4.22.0 / 2025-12-01
-==========
+4.22.0
+======
   * Security fix for [CVE-2024-51999](https://www.cve.org/CVERecord?id=CVE-2024-51999) ([GHSA-pj86-cfqh-vqx6](https://github.com/expressjs/express/security/advisories/GHSA-pj86-cfqh-vqx6))
   * deps: use tilde notation for dependencies
   * deps: qs@6.14.0
 
-4.21.2 / 2024-11-06
-==========
+4.21.2
+======
 
   * deps: path-to-regexp@0.1.12
     - Fix backtracking protection
   * deps: path-to-regexp@0.1.11
     - Throws an error on invalid path values
 
-4.21.1 / 2024-10-08
-==========
+4.21.1
+======
 
   * Backported a fix for [CVE-2024-47764](https://nvd.nist.gov/vuln/detail/CVE-2024-47764)
 
 
-4.21.0 / 2024-09-11
-==========
+4.21.0
+======
 
   * Deprecate `res.location("back")` and `res.redirect("back")` magic string
   * deps: serve-static@1.16.2
@@ -48,8 +48,8 @@ unreleased
   * deps: finalhandler@1.3.1
   * deps: qs@6.13.0
 
-4.20.0 / 2024-09-10
-==========
+4.20.0
+======
   * deps: serve-static@0.16.0
     * Remove link renderization in html while redirecting
   * deps: send@0.19.0
@@ -66,24 +66,24 @@ unreleased
   * Deprecate passing `options.maxAge` and `options.expires` to `res.clearCookie`
     - Will be ignored in v5, clearCookie will set a cookie with an expires in the past to instruct clients to delete the cookie
 
-4.19.2 / 2024-03-25
-==========
+4.19.2
+======
 
   * Improved fix for open redirect allow list bypass
 
-4.19.1 / 2024-03-20
-==========
+4.19.1
+======
 
   * Allow passing non-strings to res.location with new encoding handling checks
 
-4.19.0 / 2024-03-20
-==========
+4.19.0
+======
 
   * Prevent open redirect allow list bypass due to encodeurl
   * deps: cookie@0.6.0
 
-4.18.3 / 2024-02-29
-==========
+4.18.3
+======
 
   * Fix routing requests without method
   * deps: body-parser@1.20.2
@@ -93,8 +93,8 @@ unreleased
   * deps: cookie@0.6.0
     - Add `partitioned` option
 
-4.18.2 / 2022-10-08
-===================
+4.18.2
+======
 
   * Fix regression routing a large stack in a single route
   * deps: body-parser@1.20.1
@@ -102,13 +102,13 @@ unreleased
     - perf: remove unnecessary object clone
   * deps: qs@6.11.0
 
-4.18.1 / 2022-04-29
-===================
+4.18.1
+======
 
   * Fix hanging on large stack of sync routes
 
-4.18.0 / 2022-04-25
-===================
+4.18.0
+======
 
   * Add "root" option to `res.download`
   * Allow `options` without `filename` in `res.download`
@@ -156,8 +156,8 @@ unreleased
     - Remove code 306
     - Rename `425 Unordered Collection` to standard `425 Too Early`
 
-4.17.3 / 2022-02-16
-===================
+4.17.3
+======
 
   * deps: accepts@~1.3.8
     - deps: mime-types@~2.1.34
@@ -171,8 +171,8 @@ unreleased
     * Fix handling of `__proto__` keys
   * pref: remove unnecessary regexp for trust proxy
 
-4.17.2 / 2021-12-16
-===================
+4.17.2
+======
 
   * Fix handling of `undefined` in `res.jsonp`
   * Fix handling of `undefined` when `"json escape"` is enabled
@@ -204,13 +204,13 @@ unreleased
     - deps: send@0.17.2
   * deps: setprototypeof@1.2.0
 
-4.17.1 / 2019-05-25
-===================
+4.17.1
+======
 
   * Revert "Improve error message for `null`/`undefined` to `res.status`"
 
-4.17.0 / 2019-05-16
-===================
+4.17.0
+======
 
   * Add `express.raw` to parse bodies into `Buffer`
   * Add `express.text` to parse bodies into string
@@ -260,8 +260,8 @@ unreleased
     - deps: mime-types@~2.1.24
     - perf: prevent internal `throw` on invalid type
 
-4.16.4 / 2018-10-10
-===================
+4.16.4
+======
 
   * Fix issue where `"Request aborted"` may be logged in `res.sendfile`
   * Fix JSDoc for `Router` constructor
@@ -279,8 +279,8 @@ unreleased
   * deps: qs@6.5.2
   * deps: safe-buffer@5.1.2
 
-4.16.3 / 2018-03-12
-===================
+4.16.3
+======
 
   * deps: accepts@~1.3.5
     - deps: mime-types@~2.1.18
@@ -307,22 +307,22 @@ unreleased
   * deps: type-is@~1.6.16
     - deps: mime-types@~2.1.18
 
-4.16.2 / 2017-10-09
-===================
+4.16.2
+======
 
   * Fix `TypeError` in `res.send` when given `Buffer` and `ETag` header set
   * perf: skip parsing of entire `X-Forwarded-Proto` header
 
-4.16.1 / 2017-09-29
-===================
+4.16.1
+======
 
   * deps: send@0.16.1
   * deps: serve-static@1.13.1
     - Fix regression when `root` is incorrectly set to a file
     - deps: send@0.16.1
 
-4.16.0 / 2017-09-28
-===================
+4.16.0
+======
 
   * Add `"json escape"` setting for `res.json` and `res.jsonp`
   * Add `express.json` and `express.urlencoded` to parse bodies
@@ -370,8 +370,8 @@ unreleased
   * perf: re-use options object when generating ETags
   * perf: remove dead `.charset` set in `res.jsonp`
 
-4.15.5 / 2017-09-24
-===================
+4.15.5
+======
 
   * deps: debug@2.6.9
   * deps: finalhandler@~1.0.6
@@ -392,8 +392,8 @@ unreleased
     - deps: send@0.15.6
     - perf: improve slash collapsing
 
-4.15.4 / 2017-08-06
-===================
+4.15.4
+======
 
   * deps: debug@2.6.8
   * deps: depd@~1.1.1
@@ -411,8 +411,8 @@ unreleased
   * deps: serve-static@1.12.4
     - deps: send@0.15.4
 
-4.15.3 / 2017-05-16
-===================
+4.15.3
+======
 
   * Fix error when `res.set` cannot add charset to `Content-Type`
   * deps: debug@2.6.7
@@ -433,14 +433,14 @@ unreleased
   * deps: vary@~1.1.1
     - perf: hoist regular expression
 
-4.15.2 / 2017-03-06
-===================
+4.15.2
+======
 
   * deps: qs@6.4.0
     - Fix regression parsing keys starting with `[`
 
-4.15.1 / 2017-03-05
-===================
+4.15.1
+======
 
   * deps: send@0.15.1
     - Fix issue when `Date.parse` does not return `NaN` on invalid date
@@ -449,8 +449,8 @@ unreleased
     - Fix issue when `Date.parse` does not return `NaN` on invalid date
     - deps: send@0.15.1
 
-4.15.0 / 2017-03-01
-===================
+4.15.0
+======
 
   * Add debug message when loading view engine
   * Add `next("router")` to exit from router
@@ -519,8 +519,8 @@ unreleased
   * perf: add fast match path for `*` route
   * perf: improve `req.ips` performance
 
-4.14.1 / 2017-01-28
-===================
+4.14.1
+======
 
   * deps: content-disposition@0.5.2
   * deps: finalhandler@0.5.1
@@ -539,8 +539,8 @@ unreleased
   * deps: type-is@~1.6.14
     - deps: mime-types@~2.1.13
 
-4.14.0 / 2016-06-16
-===================
+4.14.0
+======
 
   * Add `acceptRanges` option to `res.sendFile`/`res.sendfile`
   * Add `cacheControl` option to `res.sendFile`/`res.sendfile`
@@ -619,8 +619,8 @@ unreleased
     - Only accept valid field names in the `field` argument
   * perf: use strict equality when possible
 
-4.13.4 / 2016-01-21
-===================
+4.13.4
+======
 
   * deps: content-disposition@0.5.1
     - perf: enable strict mode
@@ -656,14 +656,14 @@ unreleased
     - deps: parseurl@~1.3.0
     - deps: send@0.13.1
 
-4.13.3 / 2015-08-02
-===================
+4.13.3
+======
 
   * Fix infinite loop condition using `mergeParams: true`
   * Fix inner numeric indices incorrectly altering parent `req.params`
 
-4.13.2 / 2015-07-31
-===================
+4.13.2
+======
 
   * deps: accepts@~1.2.12
     - deps: mime-types@~2.1.4
@@ -674,8 +674,8 @@ unreleased
   * deps: type-is@~1.6.6
     - deps: mime-types@~2.1.4
 
-4.13.1 / 2015-07-05
-===================
+4.13.1
+======
 
   * deps: accepts@~1.2.10
     - deps: mime-types@~2.1.2
@@ -687,8 +687,8 @@ unreleased
     - perf: enable strict mode
     - perf: remove argument reassignment
 
-4.13.0 / 2015-06-20
-===================
+4.13.0
+======
 
   * Add settings to debug output
   * Fix `res.format` error when only `default` provided
@@ -768,8 +768,8 @@ unreleased
   * perf: skip attempting to decode zero length string
   * perf: use saved reference to `http.STATUS_CODES`
 
-4.12.4 / 2015-05-17
-===================
+4.12.4
+======
 
   * deps: accepts@~1.2.7
     - deps: mime-types@~2.0.11
@@ -800,8 +800,8 @@ unreleased
   * deps: type-is@~1.6.2
     - deps: mime-types@~2.0.11
 
-4.12.3 / 2015-03-17
-===================
+4.12.3
+======
 
   * deps: accepts@~1.2.5
     - deps: mime-types@~2.0.10
@@ -822,13 +822,13 @@ unreleased
   * deps: type-is@~1.6.1
     - deps: mime-types@~2.0.10
 
-4.12.2 / 2015-03-02
-===================
+4.12.2
+======
 
   * Fix regression where `"Request aborted"` is logged using `res.sendFile`
 
-4.12.1 / 2015-03-01
-===================
+4.12.1
+======
 
   * Fix constructing application with non-configurable prototype properties
   * Fix `ECONNRESET` errors from `res.sendFile` usage
@@ -837,8 +837,8 @@ unreleased
   * Fix wrong `code` on aborted connections from `res.sendFile`
   * deps: merge-descriptors@1.0.0
 
-4.12.0 / 2015-02-23
-===================
+4.12.0
+======
 
   * Fix `"trust proxy"` setting to inherit when app is mounted
   * Generate `ETag`s for all request responses
@@ -861,8 +861,8 @@ unreleased
     - support wildcard for both type and subtype (`*/*`)
     - deps: mime-types@~2.0.9
 
-4.11.2 / 2015-02-01
-===================
+4.11.2
+======
 
   * Fix `res.redirect` double-calling `res.end` for `HEAD` requests
   * deps: accepts@~1.2.3
@@ -872,8 +872,8 @@ unreleased
   * deps: type-is@~1.5.6
     - deps: mime-types@~2.0.8
 
-4.11.1 / 2015-01-20
-===================
+4.11.1
+======
 
   * deps: send@0.11.1
     - Fix root path disclosure
@@ -882,8 +882,8 @@ unreleased
     - Fix root path disclosure
     - deps: send@0.11.1
 
-4.11.0 / 2015-01-13
-===================
+4.11.0
+======
 
   * Add `res.append(field, val)` to append headers
   * Deprecate leading `:` in `name` for `app.param(name, fn)`
@@ -903,15 +903,15 @@ unreleased
   * deps: serve-static@~1.8.0
     - deps: send@0.11.0
 
-4.10.8 / 2015-01-13
-===================
+4.10.8
+======
 
   * Fix crash from error within `OPTIONS` response handler
   * deps: proxy-addr@~1.0.5
     - deps: ipaddr.js@0.1.6
 
-4.10.7 / 2015-01-04
-===================
+4.10.7
+======
 
   * Fix `Allow` header for `OPTIONS` to not contain duplicate methods
   * Fix incorrect "Request aborted" for `res.sendFile` when `HEAD` or 304
@@ -926,13 +926,13 @@ unreleased
   * deps: type-is@~1.5.5
     - deps: mime-types@~2.0.7
 
-4.10.6 / 2014-12-12
-===================
+4.10.6
+======
 
   * Fix exception in `req.fresh`/`req.stale` without response headers
 
-4.10.5 / 2014-12-10
-===================
+4.10.5
+======
 
   * Fix `res.send` double-calling `res.end` for `HEAD` requests
   * deps: accepts@~1.1.4
@@ -940,13 +940,13 @@ unreleased
   * deps: type-is@~1.5.4
     - deps: mime-types@~2.0.4
 
-4.10.4 / 2014-11-24
-===================
+4.10.4
+======
 
   * Fix `res.sendfile` logging standard write errors
 
-4.10.3 / 2014-11-23
-===================
+4.10.3
+======
 
   * Fix `res.sendFile` logging standard write errors
   * deps: etag@~1.5.1
@@ -955,8 +955,8 @@ unreleased
   * deps: qs@2.3.3
     - Fix `arrayLimit` behavior
 
-4.10.2 / 2014-11-09
-===================
+4.10.2
+======
 
   * Correctly invoke async router callback asynchronously
   * deps: accepts@~1.1.3
@@ -964,15 +964,15 @@ unreleased
   * deps: type-is@~1.5.3
     - deps: mime-types@~2.0.3
 
-4.10.1 / 2014-10-28
-===================
+4.10.1
+======
 
   * Fix handling of URLs containing `://` in the path
   * deps: qs@2.3.2
     - Fix parsing of mixed objects and values
 
-4.10.0 / 2014-10-23
-===================
+4.10.0
+======
 
   * Add support for `app.set('views', array)`
     - Views are looked up in sequence in array of directories
@@ -1005,21 +1005,21 @@ unreleased
   * deps: serve-static@~1.7.1
     - deps: send@0.10.1
 
-4.9.8 / 2014-10-17
-==================
+4.9.8
+======
 
   * Fix `res.redirect` body when redirect status specified
   * deps: accepts@~1.1.2
     - Fix error when media type has invalid parameter
     - deps: negotiator@0.4.9
 
-4.9.7 / 2014-10-10
-==================
+4.9.7
+======
 
   * Fix using same param name in array of paths
 
-4.9.6 / 2014-10-08
-==================
+4.9.6
+======
 
   * deps: accepts@~1.1.1
     - deps: mime-types@~2.0.2
@@ -1029,8 +1029,8 @@ unreleased
   * deps: type-is@~1.5.2
     - deps: mime-types@~2.0.2
 
-4.9.5 / 2014-09-24
-==================
+4.9.5
+======
 
   * deps: etag@~1.4.0
   * deps: proxy-addr@~1.0.3
@@ -1040,28 +1040,28 @@ unreleased
   * deps: serve-static@~1.6.3
     - deps: send@0.9.3
 
-4.9.4 / 2014-09-19
-==================
+4.9.4
+======
 
   * deps: qs@2.2.4
     - Fix issue with object keys starting with numbers truncated
 
-4.9.3 / 2014-09-18
-==================
+4.9.3
+======
 
   * deps: proxy-addr@~1.0.2
     - Fix a global leak when multiple subnets are trusted
     - deps: ipaddr.js@0.1.3
 
-4.9.2 / 2014-09-17
-==================
+4.9.2
+======
 
   * Fix regression for empty string `path` in `app.use`
   * Fix `router.use` to accept array of middleware without path
   * Improve error message for bad `app.use` arguments
 
-4.9.1 / 2014-09-16
-==================
+4.9.1
+======
 
   * Fix `app.use` to accept array of middleware without path
   * deps: depd@0.4.5
@@ -1073,8 +1073,8 @@ unreleased
   * deps: serve-static@~1.6.2
     - deps: send@0.9.2
 
-4.9.0 / 2014-09-08
-==================
+4.9.0
+======
 
   * Add `res.sendStatus`
   * Invoke callback for sendfile when client aborts
@@ -1110,8 +1110,8 @@ unreleased
   * deps: vary@~1.0.0
     - Accept valid `Vary` header string as `field`
 
-4.8.8 / 2014-09-04
-==================
+4.8.8
+======
 
   * deps: send@0.8.5
     - Fix a path traversal issue when using `root`
@@ -1119,21 +1119,21 @@ unreleased
   * deps: serve-static@~1.5.4
     - deps: send@0.8.5
 
-4.8.7 / 2014-08-29
-==================
+4.8.7
+======
 
   * deps: qs@2.2.2
     - Remove unnecessary cloning
 
-4.8.6 / 2014-08-27
-==================
+4.8.6
+======
 
   * deps: qs@2.2.0
     - Array parsing fix
     - Performance improvements
 
-4.8.5 / 2014-08-18
-==================
+4.8.5
+======
 
   * deps: send@0.8.3
     - deps: destroy@1.0.3
@@ -1141,8 +1141,8 @@ unreleased
   * deps: serve-static@~1.5.3
     - deps: send@0.8.3
 
-4.8.4 / 2014-08-14
-==================
+4.8.4
+======
 
   * deps: qs@1.2.2
   * deps: send@0.8.2
@@ -1150,8 +1150,8 @@ unreleased
   * deps: serve-static@~1.5.2
     - deps: send@0.8.2
 
-4.8.3 / 2014-08-10
-==================
+4.8.3
+======
 
   * deps: parseurl@~1.3.0
   * deps: qs@1.2.1
@@ -1160,22 +1160,22 @@ unreleased
     - deps: parseurl@~1.3.0
     - deps: utils-merge@1.0.0
 
-4.8.2 / 2014-08-07
-==================
+4.8.2
+======
 
   * deps: qs@1.2.0
     - Fix parsing array of objects
 
-4.8.1 / 2014-08-06
-==================
+4.8.1
+======
 
   * fix incorrect deprecation warnings on `res.download`
   * deps: qs@1.1.0
     - Accept urlencoded square brackets
     - Accept empty values in implicit array notation
 
-4.8.0 / 2014-08-05
-==================
+4.8.0
+======
 
   * add `res.sendFile`
     - accepts a file system path instead of a URL
@@ -1193,8 +1193,8 @@ unreleased
     - Add `extensions` option
     - deps: send@0.8.1
 
-4.7.4 / 2014-08-04
-==================
+4.7.4
+======
 
   * fix `res.sendfile` regression for serving directory index files
   * deps: send@0.7.4
@@ -1203,8 +1203,8 @@ unreleased
   * deps: serve-static@~1.4.4
     - deps: send@0.7.4
 
-4.7.3 / 2014-08-04
-==================
+4.7.3
+======
 
   * deps: send@0.7.3
     - Fix incorrect 403 on Windows and Node.js 0.11
@@ -1212,8 +1212,8 @@ unreleased
     - Fix incorrect 403 on Windows and Node.js 0.11
     - deps: send@0.7.3
 
-4.7.2 / 2014-07-27
-==================
+4.7.2
+======
 
   * deps: depd@0.4.4
     - Work-around v8 generating empty stack traces
@@ -1221,8 +1221,8 @@ unreleased
     - deps: depd@0.4.4
   * deps: serve-static@~1.4.2
 
-4.7.1 / 2014-07-26
-==================
+4.7.1
+======
 
   * deps: depd@0.4.3
     - Fix exception when global `Error.stackTraceLimit` is too low
@@ -1230,8 +1230,8 @@ unreleased
     - deps: depd@0.4.3
   * deps: serve-static@~1.4.1
 
-4.7.0 / 2014-07-25
-==================
+4.7.0
+======
 
   * fix `req.protocol` for proxy-direct connections
   * configurable query parser with `app.set('query parser', parser)`
@@ -1265,13 +1265,13 @@ unreleased
     - deps: send@0.7.0
   * perf: prevent multiple `Buffer` creation in `res.send`
 
-4.6.1 / 2014-07-12
-==================
+4.6.1
+======
 
   * fix `subapp.mountpath` regression for `app.use(subapp)`
 
-4.6.0 / 2014-07-11
-==================
+4.6.0
+======
 
   * accept multiple callbacks to `app.use()`
   * add explicit "Rosetta Flash JSONP abuse" protection
@@ -1302,13 +1302,13 @@ unreleased
     - deps: send@0.6.0
   * perf: fix arguments reassign deopt in some `res` methods
 
-4.5.1 / 2014-07-06
-==================
+4.5.1
+======
 
  * fix routing regression when altering `req.method`
 
-4.5.0 / 2014-07-04
-==================
+4.5.0
+======
 
  * add deprecation message to non-plural `req.accepts*`
  * add deprecation message to `res.send(body, status)`
@@ -1337,22 +1337,22 @@ unreleased
    - deps: send@0.5.0
  * deps: type-is@~1.3.2
 
-4.4.5 / 2014-06-26
-==================
+4.4.5
+======
 
  * deps: cookie-signature@1.0.4
    - fix for timing attacks
 
-4.4.4 / 2014-06-20
-==================
+4.4.4
+======
 
  * fix `res.attachment` Unicode filenames in Safari
  * fix "trim prefix" debug message in `express:router`
  * deps: accepts@~1.0.5
  * deps: buffer-crc32@0.2.3
 
-4.4.3 / 2014-06-11
-==================
+4.4.3
+======
 
  * fix persistence of modified `req.params[name]` from `app.param()`
  * deps: accepts@1.0.3
@@ -1368,8 +1368,8 @@ unreleased
    - Do not throw uncatchable error on file open race condition
    - deps: send@0.4.3
 
-4.4.2 / 2014-06-09
-==================
+4.4.2
+======
 
  * fix catching errors from top-level handlers
  * use `vary` module for `res.vary`
@@ -1384,8 +1384,8 @@ unreleased
    - deps: send@0.4.2
  * deps: type-is@1.2.1
 
-4.4.1 / 2014-06-02
-==================
+4.4.1
+======
 
  * deps: methods@1.0.1
  * deps: send@0.4.1
@@ -1394,8 +1394,8 @@ unreleased
    - use `escape-html` for escaping
    - deps: send@0.4.1
 
-4.4.0 / 2014-05-30
-==================
+4.4.0
+======
 
  * custom etag control with `app.set('etag', val)`
    - `app.set('etag', function(body, encoding){ return '"etag"' })` custom etag generation
@@ -1415,19 +1415,19 @@ unreleased
    - Ignore stream errors after request ends
    - deps: send@0.4.0
 
-4.3.2 / 2014-05-28
-==================
+4.3.2
+======
 
  * fix handling of errors from `router.param()` callbacks
 
-4.3.1 / 2014-05-23
-==================
+4.3.1
+======
 
  * revert "fix behavior of multiple `app.VERB` for the same path"
    - this caused a regression in the order of route execution
 
-4.3.0 / 2014-05-21
-==================
+4.3.0
+======
 
  * add `req.baseUrl` to access the path stripped from `req.url` in routes
  * fix behavior of multiple `app.VERB` for the same path
@@ -1445,8 +1445,8 @@ unreleased
  * update type-is to 1.2.0
    - support suffix matching
 
-4.2.0 / 2014-05-11
-==================
+4.2.0
+======
 
  * deprecate `app.del()` -- use `app.delete()` instead
  * deprecate `res.json(obj, status)` -- use `res.json(status, obj)` instead
@@ -1466,19 +1466,19 @@ unreleased
  * update methods to 1.0.0
    - add PURGE
 
-4.1.2 / 2014-05-08
-==================
+4.1.2
+======
 
  * fix `req.host` for IPv6 literals
  * fix `res.jsonp` error if callback param is object
 
-4.1.1 / 2014-04-27
-==================
+4.1.1
+======
 
  * fix package.json to reflect supported node version
 
-4.1.0 / 2014-04-24
-==================
+4.1.0
+======
 
  * pass options from `res.sendfile` to `send`
  * preserve casing of headers in `res.header` and `res.set`
@@ -1510,8 +1510,8 @@ unreleased
    - add non-array values support
    - add `multipart` as a shorthand
 
-4.0.0 / 2014-04-09
-==================
+4.0.0
+======
 
  * remove:
    - node 0.8 support
@@ -1541,8 +1541,8 @@ unreleased
    - `app.route()` - Proxy to the app's `Router#route()` method to create a new route
    - Router & Route - public API
 
-3.21.2 / 2015-07-31
-===================
+3.21.2
+======
 
   * deps: connect@2.30.2
     - deps: body-parser@~1.13.3
@@ -1557,8 +1557,8 @@ unreleased
     - perf: enable strict mode
     - perf: remove argument reassignments
 
-3.21.1 / 2015-07-05
-===================
+3.21.1
+======
 
   * deps: basic-auth@~1.0.3
   * deps: connect@2.30.1
@@ -1571,8 +1571,8 @@ unreleased
     - deps: serve-index@~1.7.1
     - deps: type-is@~1.6.4
 
-3.21.0 / 2015-06-18
-===================
+3.21.0
+======
 
   * deps: basic-auth@1.0.2
     - perf: enable strict mode
@@ -1625,8 +1625,8 @@ unreleased
     - perf: enable strict mode
     - perf: remove unnecessary array allocations
 
-3.20.3 / 2015-05-17
-===================
+3.20.3
+======
 
   * deps: connect@2.29.2
     - deps: body-parser@~1.12.4
@@ -1656,8 +1656,8 @@ unreleased
     - deps: ms@0.7.1
     - deps: on-finished@~2.2.1
 
-3.20.2 / 2015-03-16
-===================
+3.20.2
+======
 
   * deps: connect@2.29.1
     - deps: body-parser@~1.12.2
@@ -1683,14 +1683,14 @@ unreleased
     - Throw errors early for invalid `extensions` or `index` options
     - deps: debug@~2.1.3
 
-3.20.1 / 2015-02-28
-===================
+3.20.1
+======
 
   * Fix `req.host` when using "trust proxy" hops count
   * Fix `req.protocol`/`req.secure` when using "trust proxy" hops count
 
-3.20.0 / 2015-02-18
-===================
+3.20.0
+======
 
   * Fix `"trust proxy"` setting to inherit when app is mounted
   * Generate `ETag`s for all request responses
@@ -1717,8 +1717,8 @@ unreleased
     - Fix mutating passed-in `options`
     - deps: mime@1.3.4
 
-3.19.2 / 2015-02-01
-===================
+3.19.2
+======
 
   * deps: connect@2.28.3
     - deps: compression@~1.3.1
@@ -1730,8 +1730,8 @@ unreleased
   * deps: proxy-addr@~1.0.6
     - deps: ipaddr.js@0.1.8
 
-3.19.1 / 2015-01-20
-===================
+3.19.1
+======
 
   * deps: connect@2.28.2
     - deps: body-parser@~1.10.2
@@ -1739,8 +1739,8 @@ unreleased
   * deps: send@0.11.1
     - Fix root path disclosure
 
-3.19.0 / 2015-01-09
-===================
+3.19.0
+======
 
   * Fix `OPTIONS` responses to include the `HEAD` method property
   * Use `readline` for prompt in `express(1)`
@@ -1770,13 +1770,13 @@ unreleased
     - deps: ms@0.7.0
     - deps: on-finished@~2.2.0
 
-3.18.6 / 2014-12-12
-===================
+3.18.6
+======
 
   * Fix exception in `req.fresh`/`req.stale` without response headers
 
-3.18.5 / 2014-12-11
-===================
+3.18.5
+======
 
   * deps: connect@2.27.6
     - deps: compression@~1.2.2
@@ -1785,8 +1785,8 @@ unreleased
     - deps: serve-index@~1.5.3
     - deps: type-is@~1.5.4
 
-3.18.4 / 2014-11-23
-===================
+3.18.4
+======
 
   * deps: connect@2.27.4
     - deps: body-parser@~1.9.3
@@ -1801,23 +1801,23 @@ unreleased
   * deps: proxy-addr@~1.0.4
     - deps: ipaddr.js@0.1.5
 
-3.18.3 / 2014-11-09
-===================
+3.18.3
+======
 
   * deps: connect@2.27.3
     - Correctly invoke async callback asynchronously
     - deps: csurf@~1.6.3
 
-3.18.2 / 2014-10-28
-===================
+3.18.2
+======
 
   * deps: connect@2.27.2
     - Fix handling of URLs containing `://` in the path
     - deps: body-parser@~1.9.2
     - deps: qs@2.3.2
 
-3.18.1 / 2014-10-22
-===================
+3.18.1
+======
 
   * Fix internal `utils.merge` deprecation warnings
   * deps: connect@2.27.1
@@ -1830,8 +1830,8 @@ unreleased
   * deps: send@0.10.1
     - deps: on-finished@~2.1.1
 
-3.18.0 / 2014-10-17
-===================
+3.18.0
+======
 
   * Use `content-disposition` module for `res.attachment`/`res.download`
     - Sends standards-compliant `Content-Disposition` header
@@ -1861,30 +1861,30 @@ unreleased
     - deps: depd@~1.0.0
     - deps: etag@~1.5.0
 
-3.17.8 / 2014-10-15
-===================
+3.17.8
+======
 
   * deps: connect@2.26.6
     - deps: compression@~1.1.2
     - deps: csurf@~1.6.2
     - deps: errorhandler@~1.2.2
 
-3.17.7 / 2014-10-08
-===================
+3.17.7
+======
 
   * deps: connect@2.26.5
     - Fix accepting non-object arguments to `logger`
     - deps: serve-static@~1.6.4
 
-3.17.6 / 2014-10-02
-===================
+3.17.6
+======
 
   * deps: connect@2.26.4
     - deps: morgan@~1.3.2
     - deps: type-is@~1.5.2
 
-3.17.5 / 2014-09-24
-===================
+3.17.5
+======
 
   * deps: connect@2.26.3
     - deps: body-parser@~1.8.4
@@ -1895,22 +1895,22 @@ unreleased
   * deps: send@0.9.3
     - deps: etag@~1.4.0
 
-3.17.4 / 2014-09-19
-===================
+3.17.4
+======
 
   * deps: connect@2.26.2
     - deps: body-parser@~1.8.3
     - deps: qs@2.2.4
 
-3.17.3 / 2014-09-18
-===================
+3.17.3
+======
 
   * deps: proxy-addr@~1.0.2
     - Fix a global leak when multiple subnets are trusted
     - deps: ipaddr.js@0.1.3
 
-3.17.2 / 2014-09-15
-===================
+3.17.2
+======
 
   * Use `crc` instead of `buffer-crc32` for speed
   * deps: connect@2.26.1
@@ -1926,13 +1926,13 @@ unreleased
     - deps: etag@~1.3.1
     - deps: range-parser@~1.0.2
 
-3.17.1 / 2014-09-08
-===================
+3.17.1
+======
 
   * Fix error in `req.subdomains` on empty host
 
-3.17.0 / 2014-09-08
-===================
+3.17.0
+======
 
   * Support `X-Forwarded-Host` in `req.subdomains`
   * Support IP address host in `req.subdomains`
@@ -1971,8 +1971,8 @@ unreleased
   * deps: vary@~1.0.0
     - Accept valid `Vary` header string as `field`
 
-3.16.10 / 2014-09-04
-====================
+3.16.10
+======
 
   * deps: connect@2.25.10
     - deps: serve-static@~1.5.4
@@ -1980,23 +1980,23 @@ unreleased
     - Fix a path traversal issue when using `root`
     - Fix malicious path detection for empty string path
 
-3.16.9 / 2014-08-29
-===================
+3.16.9
+======
 
   * deps: connect@2.25.9
     - deps: body-parser@~1.6.7
     - deps: qs@2.2.2
 
-3.16.8 / 2014-08-27
-===================
+3.16.8
+======
 
   * deps: connect@2.25.8
     - deps: body-parser@~1.6.6
     - deps: csurf@~1.4.1
     - deps: qs@2.2.0
 
-3.16.7 / 2014-08-18
-===================
+3.16.7
+======
 
   * deps: connect@2.25.7
     - deps: body-parser@~1.6.5
@@ -2007,8 +2007,8 @@ unreleased
     - deps: destroy@1.0.3
     - deps: on-finished@2.1.0
 
-3.16.6 / 2014-08-14
-===================
+3.16.6
+======
 
   * deps: connect@2.25.6
     - deps: body-parser@~1.6.4
@@ -2017,14 +2017,14 @@ unreleased
   * deps: send@0.8.2
     - Work around `fd` leak in Node.js 0.10 for `fs.ReadStream`
 
-3.16.5 / 2014-08-11
-===================
+3.16.5
+======
 
   * deps: connect@2.25.5
     - Fix backwards compatibility in `logger`
 
-3.16.4 / 2014-08-10
-===================
+3.16.4
+======
 
   * Fix original URL parsing in `res.location`
   * deps: connect@2.25.4
@@ -2042,28 +2042,28 @@ unreleased
     - deps: serve-static@~1.5.1
   * deps: parseurl@~1.3.0
 
-3.16.3 / 2014-08-07
-===================
+3.16.3
+======
 
   * deps: connect@2.25.3
     - deps: multiparty@3.3.2
 
-3.16.2 / 2014-08-07
-===================
+3.16.2
+======
 
   * deps: connect@2.25.2
     - deps: body-parser@~1.6.2
     - deps: qs@1.2.0
 
-3.16.1 / 2014-08-06
-===================
+3.16.1
+======
 
   * deps: connect@2.25.1
     - deps: body-parser@~1.6.1
     - deps: qs@1.1.0
 
-3.16.0 / 2014-08-05
-===================
+3.16.0
+======
 
   * deps: connect@2.25.0
     - deps: body-parser@~1.6.0
@@ -2075,8 +2075,8 @@ unreleased
   * deps: send@0.8.1
     - Add `extensions` option
 
-3.15.3 / 2014-08-04
-===================
+3.15.3
+======
 
   * fix `res.sendfile` regression for serving directory index files
   * deps: connect@2.24.3
@@ -2086,8 +2086,8 @@ unreleased
     - Fix incorrect 403 on Windows and Node.js 0.11
     - Fix serving index files without root dir
 
-3.15.2 / 2014-07-27
-===================
+3.15.2
+======
 
   * deps: connect@2.24.2
     - deps: body-parser@~1.5.2
@@ -2100,8 +2100,8 @@ unreleased
   * deps: send@0.7.2
     - deps: depd@0.4.4
 
-3.15.1 / 2014-07-26
-===================
+3.15.1
+======
 
   * deps: connect@2.24.1
     - deps: body-parser@~1.5.1
@@ -2115,8 +2115,8 @@ unreleased
   * deps: send@0.7.1
     - deps: depd@0.4.3
 
-3.15.0 / 2014-07-22
-===================
+3.15.0
+======
 
   * Fix `req.protocol` for proxy-direct connections
   * Pass options from `res.sendfile` to `send`
@@ -2149,8 +2149,8 @@ unreleased
     - deps: debug@1.0.4
     - deps: depd@0.4.2
 
-3.14.0 / 2014-07-11
-===================
+3.14.0
+======
 
  * add explicit "Rosetta Flash JSONP abuse" protection
    - previous versions are not vulnerable; this is just explicit protection
@@ -2173,8 +2173,8 @@ unreleased
   * deps: parseurl@~1.1.3
     - faster parsing of href-only URLs
 
-3.13.0 / 2014-07-03
-===================
+3.13.0
+======
 
  * add deprecation message to `app.configure`
  * add deprecation message to `req.auth`
@@ -2188,8 +2188,8 @@ unreleased
    - Accept string for `maxage` (converted by `ms`)
    - Include link in default redirect response
 
-3.12.1 / 2014-06-26
-===================
+3.12.1
+======
 
  * deps: connect@2.21.1
    - deps: cookie-parser@1.3.2
@@ -2199,8 +2199,8 @@ unreleased
  * deps: cookie-signature@1.0.4
    - fix for timing attacks
 
-3.12.0 / 2014-06-21
-===================
+3.12.0
+======
 
  * use `media-typer` to alter content-type charset
  * deps: connect@2.21.0
@@ -2212,8 +2212,8 @@ unreleased
    - deps: express-session@~1.5.0
    - deps: serve-index@~1.1.3
 
-3.11.0 / 2014-06-19
-===================
+3.11.0
+======
 
  * deprecate things with `depd` module
  * deps: buffer-crc32@0.2.3
@@ -2234,8 +2234,8 @@ unreleased
    - deps: type-is@1.3.1
    - deps: vhost@2.0.0
 
-3.10.5 / 2014-06-11
-===================
+3.10.5
+======
 
  * deps: connect@2.19.6
    - deps: body-parser@1.3.1
@@ -2251,8 +2251,8 @@ unreleased
    - deps: finished@1.2.2
    - deps: fresh@0.2.2
 
-3.10.4 / 2014-06-09
-===================
+3.10.4
+======
 
  * deps: connect@2.19.5
    - fix "event emitter leak" warnings
@@ -2266,8 +2266,8 @@ unreleased
    - deps: finished@1.2.1
    - deps: debug@1.0.1
 
-3.10.3 / 2014-06-05
-===================
+3.10.3
+======
 
  * use `vary` module for `res.vary`
  * deps: connect@2.19.4
@@ -2276,21 +2276,21 @@ unreleased
    - deps: serve-favicon@2.0.1
  * deps: debug@1.0.0
 
-3.10.2 / 2014-06-03
-===================
+3.10.2
+======
 
  * deps: connect@2.19.3
    - deps: compression@1.0.6
 
-3.10.1 / 2014-06-03
-===================
+3.10.1
+======
 
  * deps: connect@2.19.2
    - deps: compression@1.0.4
  * deps: proxy-addr@1.0.1
 
-3.10.0 / 2014-06-02
-===================
+3.10.0
+======
 
  * deps: connect@2.19.1
    - deprecate `methodOverride()` -- use `method-override` npm module instead
@@ -2303,8 +2303,8 @@ unreleased
  * deps: send@0.4.1
    - Send `max-age` in `Cache-Control` in correct format
 
-3.9.0 / 2014-05-30
-==================
+3.9.0
+======
 
  * custom etag control with `app.set('etag', val)`
    - `app.set('etag', function(body, encoding){ return '"etag"' })` custom etag generation
@@ -2323,16 +2323,16 @@ unreleased
    - Ignore stream errors after request ends
    - deps: debug@0.8.1
 
-3.8.1 / 2014-05-27
-==================
+3.8.1
+======
 
  * update connect to 2.17.3
    - deps: body-parser@1.2.2
    - deps: express-session@1.2.1
    - deps: method-override@1.0.2
 
-3.8.0 / 2014-05-21
-==================
+3.8.0
+======
 
  * keep previous `Content-Type` for `res.jsonp`
  * set proper `charset` in `Content-Type` for `res.send`
@@ -2342,8 +2342,8 @@ unreleased
    - deps: morgan@1.1.1
    - deps: serve-index@1.0.3
 
-3.7.0 / 2014-05-18
-==================
+3.7.0
+======
 
  * proper proxy trust with `app.set('trust proxy', trust)`
    - `app.set('trust proxy', 1)` trust first hop
@@ -2365,8 +2365,8 @@ unreleased
    - dep: express-session@1.1.0
    - dep: method-override@1.0.1
 
-3.6.0 / 2014-05-09
-==================
+3.6.0
+======
 
  * deprecate `app.del()` -- use `app.delete()` instead
  * deprecate `res.json(obj, status)` -- use `res.json(status, obj)` instead
@@ -2398,49 +2398,49 @@ unreleased
    - add PURGE
  * update mkdirp to 0.5.0
 
-3.5.3 / 2014-05-08
-==================
+3.5.3
+======
 
  * fix `req.host` for IPv6 literals
  * fix `res.jsonp` error if callback param is object
 
-3.5.2 / 2014-04-24
-==================
+3.5.2
+======
 
  * update connect to 2.14.5
  * update cookie to 0.1.2
  * update mkdirp to 0.4.0
  * update send to 0.3.0
 
-3.5.1 / 2014-03-25
-==================
+3.5.1
+======
 
  * pin less-middleware in generated app
 
-3.5.0 / 2014-03-06
-==================
+3.5.0
+======
 
  * bump deps
 
-3.4.8 / 2014-01-13
-==================
+3.4.8
+======
 
  * prevent incorrect automatic OPTIONS responses #1868 @dpatti
  * update binary and examples for jade 1.0 #1876 @yossi, #1877 @reqshark, #1892 @matheusazzi
  * throw 400 in case of malformed paths @rlidwka
 
-3.4.7 / 2013-12-10
-==================
+3.4.7
+======
 
  * update connect
 
-3.4.6 / 2013-12-01
-==================
+3.4.6
+======
 
  * update connect (raw-body)
 
-3.4.5 / 2013-11-27
-==================
+3.4.5
+======
 
  * update connect
  * res.location: remove leading ./ #1802 @kapouer
@@ -2448,27 +2448,27 @@ unreleased
  * res.send: always send ETag when content-length > 0
  * router: add Router.all() method
 
-3.4.4 / 2013-10-29
-==================
+3.4.4
+======
 
  * update connect
  * update supertest
  * update methods
  * express(1): replace bodyParser() with urlencoded() and json() #1795 @chirag04
 
-3.4.3 / 2013-10-23
-==================
+3.4.3
+======
 
  * update connect
 
-3.4.2 / 2013-10-18
-==================
+3.4.2
+======
 
  * update connect
  * downgrade commander
 
-3.4.1 / 2013-10-15
-==================
+3.4.1
+======
 
  * update connect
  * update commander
@@ -2477,52 +2477,52 @@ unreleased
  * res.format: now includes charset @1747 (@sorribas)
  * res.links: allow multiple calls @1746 (@sorribas)
 
-3.4.0 / 2013-09-07
-==================
+3.4.0
+======
 
  * add res.vary(). Closes #1682
  * update connect
 
-3.3.8 / 2013-09-02
-==================
+3.3.8
+======
 
  * update connect
 
-3.3.7 / 2013-08-28
-==================
+3.3.7
+======
 
  * update connect
 
-3.3.6 / 2013-08-27
-==================
+3.3.6
+======
 
  * Revert "remove charset from json responses. Closes #1631" (causes issues in some clients)
  * add: req.accepts take an argument list
 
-3.3.4 / 2013-07-08
-==================
+3.3.4
+======
 
  * update send and connect
 
-3.3.3 / 2013-07-04
-==================
+3.3.3
+======
 
  * update connect
 
-3.3.2 / 2013-07-03
-==================
+3.3.2
+======
 
  * update connect
  * update send
  * remove .version export
 
-3.3.1 / 2013-06-27
-==================
+3.3.1
+======
 
  * update connect
 
-3.3.0 / 2013-06-26
-==================
+3.3.0
+======
 
  * update connect
  * add support for multiple X-Forwarded-Proto values. Closes #1646
@@ -2530,45 +2530,45 @@ unreleased
  * change: return actual booleans from req.accept* functions
  * fix jsonp callback array throw
 
-3.2.6 / 2013-06-02
-==================
+3.2.6
+======
 
  * update connect
 
-3.2.5 / 2013-05-21
-==================
+3.2.5
+======
 
  * update connect
  * update node-cookie
  * add: throw a meaningful error when there is no default engine
  * change generation of ETags with res.send() to GET requests only. Closes #1619
 
-3.2.4 / 2013-05-09
-==================
+3.2.4
+======
 
   * fix `req.subdomains` when no Host is present
   * fix `req.host` when no Host is present, return undefined
 
-3.2.3 / 2013-05-07
-==================
+3.2.3
+======
 
   * update connect / qs
 
-3.2.2 / 2013-05-03
-==================
+3.2.2
+======
 
   * update qs
 
-3.2.1 / 2013-04-29
-==================
+3.2.1
+======
 
   * add app.VERB() paths array deprecation warning
   * update connect
   * update qs and remove all ~ semver crap
   * fix: accept number as value of Signed Cookie
 
-3.2.0 / 2013-04-15
-==================
+3.2.0
+======
 
   * add "view" constructor setting to override view behaviour
   * add req.acceptsEncoding(name)
@@ -2576,14 +2576,14 @@ unreleased
   * revert cookie signature change causing session race conditions
   * fix sorting of Accept values of the same quality
 
-3.1.2 / 2013-04-12
-==================
+3.1.2
+======
 
   * add support for custom Accept parameters
   * update cookie-signature
 
-3.1.1 / 2013-04-01
-==================
+3.1.1
+======
 
   * add X-Forwarded-Host support to `req.host`
   * fix relative redirects
@@ -2591,8 +2591,8 @@ unreleased
   * update buffer-crc32
   * remove legacy app.configure() method from app template.
 
-3.1.0 / 2013-01-25
-==================
+3.1.0
+======
 
   * add support for leading "." in "view engine" setting
   * add array support to `res.set()`
@@ -2602,23 +2602,23 @@ unreleased
   * use app.get() for x-powered-by setting for inheritance
   * fix colons in passwords for `req.auth`
 
-3.0.6 / 2013-01-04
-==================
+3.0.6
+======
 
   * add http verb methods to Router
   * update connect
   * fix mangling of the `res.cookie()` options object
   * fix jsonp whitespace escape. Closes #1132
 
-3.0.5 / 2012-12-19
-==================
+3.0.5
+======
 
   * add throwing when a non-function is passed to a route
   * fix: explicitly remove Transfer-Encoding header from 204 and 304 responses
   * revert "add 'etag' option"
 
-3.0.4 / 2012-12-05
-==================
+3.0.4
+======
 
   * add 'etag' option to disable `res.send()` Etags
   * add escaping of urls in text/plain in `res.redirect()`
@@ -2626,26 +2626,26 @@ unreleased
   * change crc32 module for a more liberal license
   * update connect
 
-3.0.3 / 2012-11-13
-==================
+3.0.3
+======
 
   * update connect
   * update cookie module
   * fix cookie max-age
 
-3.0.2 / 2012-11-08
-==================
+3.0.2
+======
 
   * add OPTIONS to cors example. Closes #1398
   * fix route chaining regression. Closes #1397
 
-3.0.1 / 2012-11-01
-==================
+3.0.1
+======
 
   * update connect
 
-3.0.0 / 2012-10-23
-==================
+3.0.0
+======
 
   * add `make clean`
   * add "Basic" check to req.auth
@@ -2659,8 +2659,8 @@ unreleased
   * fix view-locals example. Closes #1370
   * fix route-separation example
 
-3.0.0rc5 / 2012-09-18
-==================
+3.0.0rc5
+======
 
   * update connect
   * add redis search example
@@ -2668,8 +2668,8 @@ unreleased
   * add "x-powered-by" setting (`app.disable('x-powered-by')`)
   * add "application/octet-stream" redirect Accept test case. Closes #1317
 
-3.0.0rc4 / 2012-08-30
-==================
+3.0.0rc4
+======
 
   * add `res.jsonp()`. Closes #1307
   * add "verbose errors" option to error-pages example
@@ -2681,15 +2681,15 @@ unreleased
   * fix jsonp callback char restrictions
   * remove old OPTIONS default response
 
-3.0.0rc3 / 2012-08-13
-==================
+3.0.0rc3
+======
 
   * update connect dep
   * fix signed cookies to work with `connect.cookieParser()` ("s:" prefix was missing) [tnydwrds]
   * fix `res.render()` clobbering of "locals"
 
-3.0.0rc2 / 2012-08-03
-==================
+3.0.0rc2
+======
 
   * add CORS example
   * update connect dep
@@ -2697,8 +2697,8 @@ unreleased
   * fix: escape `res.redirect()` link
   * fix vhost example
 
-3.0.0rc1 / 2012-07-24
-==================
+3.0.0rc1
+======
 
   * add more examples to view-locals
   * add scheme-relative redirects (`res.redirect("//foo.com")`) support
@@ -2708,13 +2708,13 @@ unreleased
   * fix `express(1)` -h flag, use -H for hogan. Closes #1245
   * fix `res.sendfile()` socket error handling regression
 
-3.0.0beta7 / 2012-07-16
-==================
+3.0.0beta7
+======
 
   * update connect dep for `send()` root normalization regression
 
-3.0.0beta6 / 2012-07-13
-==================
+3.0.0beta6
+======
 
   * add `err.view` property for view errors. Closes #1226
   * add "jsonp callback name" setting
@@ -2723,8 +2723,8 @@ unreleased
   * change `res.send` to use "response-send" module
   * remove `app.locals.use` and `res.locals.use`, use regular middleware
 
-3.0.0beta5 / 2012-07-03
-==================
+3.0.0beta5
+======
 
   * add "make check" support
   * add route-map example
@@ -2734,8 +2734,8 @@ unreleased
   * update auth example to utilize cores pbkdf2
   * updated tests to use "supertest"
 
-3.0.0beta4 / 2012-06-25
-==================
+3.0.0beta4
+======
 
   * Added `req.auth`
   * Added `req.range(size)`
@@ -2746,8 +2746,8 @@ unreleased
   * Revert "Added + support to the router"
   * Fixed `res.send()` freshness check, respect res.statusCode
 
-3.0.0beta3 / 2012-06-15
-==================
+3.0.0beta3
+======
 
   * Added hogan `--hjs` to express(1) [nullfirm]
   * Added another example to content-negotiation
@@ -2755,22 +2755,22 @@ unreleased
   * Changed: `res.send()` always checks freshness
   * Fixed: expose connects mime module. Closes #1165
 
-3.0.0beta2 / 2012-06-06
-==================
+3.0.0beta2
+======
 
   * Added `+` support to the router
   * Added `req.host`
   * Changed `req.param()` to check route first
   * Update connect dep
 
-3.0.0beta1 / 2012-06-01
-==================
+3.0.0beta1
+======
 
   * Added `res.format()` callback to override default 406 behaviour
   * Fixed `res.redirect()` 406. Closes #1154
 
-3.0.0alpha5 / 2012-05-30
-==================
+3.0.0alpha5
+======
 
   * Added `req.ip`
   * Added `{ signed: true }` option to `res.cookie()`
@@ -2778,15 +2778,15 @@ unreleased
   * Changed: dont reverse `req.ips`
   * Fixed "trust proxy" setting check for `req.ips`
 
-3.0.0alpha4 / 2012-05-09
-==================
+3.0.0alpha4
+======
 
   * Added: allow `[]` in jsonp callback. Closes #1128
   * Added `PORT` env var support in generated template. Closes #1118 [benatkin]
   * Updated: connect 2.2.2
 
-3.0.0alpha3 / 2012-05-04
-==================
+3.0.0alpha3
+======
 
   * Added public `app.routes`. Closes #887
   * Added _view-locals_ example
@@ -2800,8 +2800,8 @@ unreleased
   * Changed: `make test` now runs unit / acceptance tests
   * Fixed req/res proto inheritance
 
-3.0.0alpha2 / 2012-04-26
-==================
+3.0.0alpha2
+======
 
   * Added `make benchmark` back
   * Added `res.send()` support for `String` objects
@@ -2816,8 +2816,8 @@ unreleased
   * Fixed session example. Closes #1105
   * Fixed generated express dep. Closes #1078
 
-3.0.0alpha1 / 2012-04-15
-==================
+3.0.0alpha1
+======
 
   * Added `app.locals.use(callback)`
   * Added `app.locals` object
@@ -2871,55 +2871,55 @@ unreleased
   * Fixed `res.sendfile()` with non-GET. Closes #723
   * Fixed express(1) public dir for windows. Closes #866
 
-2.5.9/ 2012-04-02
-==================
+2.5.9
+======
 
   * Added support for PURGE request method [pbuyle]
   * Fixed `express(1)` generated app `app.address()` before `listening` [mmalecki]
 
-2.5.8 / 2012-02-08
-==================
+2.5.8
+======
 
   * Update mkdirp dep. Closes #991
 
-2.5.7 / 2012-02-06
-==================
+2.5.7
+======
 
   * Fixed `app.all` duplicate DELETE requests [mscdex]
 
-2.5.6 / 2012-01-13
-==================
+2.5.6
+======
 
   * Updated hamljs dev dep. Closes #953
 
-2.5.5 / 2012-01-08
-==================
+2.5.5
+======
 
   * Fixed: set `filename` on cached templates [matthewleon]
 
-2.5.4 / 2012-01-02
-==================
+2.5.4
+======
 
   * Fixed `express(1)` eol on 0.4.x. Closes #947
 
-2.5.3 / 2011-12-30
-==================
+2.5.3
+======
 
   * Fixed `req.is()` when a charset is present
 
-2.5.2 / 2011-12-10
-==================
+2.5.2
+======
 
   * Fixed: express(1) LF -> CRLF for windows
 
-2.5.1 / 2011-11-17
-==================
+2.5.1
+======
 
   * Changed: updated connect to 1.8.x
   * Removed sass.js support from express(1)
 
-2.5.0 / 2011-10-24
-==================
+2.5.0
+======
 
   * Added ./routes dir for generated app by default
   * Added npm install reminder to express(1) app gen
@@ -2927,8 +2927,8 @@ unreleased
   * Removed `make test-cov` since it wont work with node 0.5.x
   * Fixed express(1) public dir for windows. Closes #866
 
-2.4.7 / 2011-10-05
-==================
+2.4.7
+======
 
   * Added mkdirp to express(1). Closes #795
   * Added simple _json-config_ example
@@ -2938,13 +2938,13 @@ unreleased
   * Fixed `req.flash()`, only escape args
   * Fixed absolute path checking on windows. Closes #829 [reported by andrewpmckenzie]
 
-2.4.6 / 2011-08-22
-==================
+2.4.6
+======
 
   * Fixed multiple param callback regression. Closes #824 [reported by TroyGoode]
 
-2.4.5 / 2011-08-19
-==================
+2.4.5
+======
 
   * Added support for routes to handle errors. Closes #809
   * Added `app.routes.all()`. Closes #803
@@ -2956,26 +2956,26 @@ Closes #805
   * Dependency: `qs >= 0.3.1`
   * Fixed `res.redirect()` on windows due to `join()` usage. Closes #808
 
-2.4.4 / 2011-08-05
-==================
+2.4.4
+======
 
   * Fixed `res.header()` intention of a set, even when `undefined`
   * Fixed `*`, value no longer required
   * Fixed `res.send(204)` support. Closes #771
 
-2.4.3 / 2011-07-14
-==================
+2.4.3
+======
 
   * Added docs for `status` option special-case. Closes #739
   * Fixed `options.filename`, exposing the view path to template engines
 
-2.4.2. / 2011-07-06
-==================
+2.4.2.
+======
 
   * Revert "removed jsonp stripping" for XSS
 
-2.4.1 / 2011-07-06
-==================
+2.4.1
+======
 
   * Added `res.json()` JSONP support. Closes #737
   * Added _extending-templates_ example. Closes #730
@@ -2986,15 +2986,15 @@ Closes #805
   * Changed; default cookie path to "home" setting. Closes #731
   * Removed _pids/logs_ creation from express(1)
 
-2.4.0 / 2011-06-28
-==================
+2.4.0
+======
 
   * Added chainable `res.status(code)`
   * Added `res.json()`, an explicit version of `res.send(obj)`
   * Added simple web-service example
 
-2.3.12 / 2011-06-22
-==================
+2.3.12
+======
 
   * \#express is now on freenode! come join!
   * Added `req.get(field, param)`
@@ -3005,33 +3005,33 @@ Closes #805
   * Fixed view layout bug. Closes #720
   * Fixed; ignore body on 304. Closes #701
 
-2.3.11 / 2011-06-04
-==================
+2.3.11
+======
 
   * Added `npm test`
   * Removed generation of dummy test file from `express(1)`
   * Fixed; `express(1)` adds express as a dep
   * Fixed; prune on `prepublish`
 
-2.3.10 / 2011-05-27
-==================
+2.3.10
+======
 
   * Added `req.route`, exposing the current route
   * Added _package.json_ generation support to `express(1)`
   * Fixed call to `app.param()` function for optional params. Closes #682
 
-2.3.9 / 2011-05-25
-==================
+2.3.9
+======
 
   * Fixed bug-ish with `../' in `res.partial()` calls
 
-2.3.8 / 2011-05-24
-==================
+2.3.8
+======
 
   * Fixed `app.options()`
 
-2.3.7 / 2011-05-23
-==================
+2.3.7
+======
 
   * Added route `Collection`, ex: `app.get('/user/:id').remove();`
   * Added support for `app.param(fn)` to define param logic
@@ -3039,39 +3039,39 @@ Closes #805
   * Removed module.parent check from express(1) generated app. Closes #670
   * Refactored router. Closes #639
 
-2.3.6 / 2011-05-20
-==================
+2.3.6
+======
 
   * Changed; using devDependencies instead of git submodules
   * Fixed redis session example
   * Fixed markdown example
   * Fixed view caching, should not be enabled in development
 
-2.3.5 / 2011-05-20
-==================
+2.3.5
+======
 
   * Added export `.view` as alias for `.View`
 
-2.3.4 / 2011-05-08
-==================
+2.3.4
+======
 
   * Added `./examples/say`
   * Fixed `res.sendfile()` bug preventing the transfer of files with spaces
 
-2.3.3 / 2011-05-03
-==================
+2.3.3
+======
 
   * Added "case sensitive routes" option.
   * Changed; split methods supported per rfc [slaskis]
   * Fixed route-specific middleware when using the same callback function several times
 
-2.3.2 / 2011-04-27
-==================
+2.3.2
+======
 
   * Fixed view hints
 
-2.3.1 / 2011-04-26
-==================
+2.3.1
+======
 
   * Added `app.match()` as `app.match.all()`
   * Added `app.lookup()` as `app.lookup.all()`
@@ -3080,8 +3080,8 @@ Closes #805
   * Fixed template caching collision issue. Closes #644
   * Moved router over from connect and started refactor
 
-2.3.0 / 2011-04-25
-==================
+2.3.0
+======
 
   * Added options support to `res.clearCookie()`
   * Added `res.helpers()` as alias of `res.locals()`
@@ -3094,14 +3094,14 @@ Closes #638
   * Fixed partial lookup precedence. Closes #631
 Shaw]
 
-2.2.2 / 2011-04-12
-==================
+2.2.2
+======
 
   * Added second callback support for `res.download()` connection errors
   * Fixed `filename` option passing to template engine
 
-2.2.1 / 2011-04-04
-==================
+2.2.1
+======
 
   * Added `layout(path)` helper to change the layout within a view. Closes #610
   * Fixed `partial()` collection object support.
@@ -3114,23 +3114,23 @@ Shaw]
   * Removed `request` and `response` locals
   * Changed; errorHandler page title is now `Express` instead of `Connect`
 
-2.2.0 / 2011-03-30
-==================
+2.2.0
+======
 
   * Added `app.lookup.VERB()`, ex `app.lookup.put('/user/:id')`. Closes #606
   * Added `app.match.VERB()`, ex `app.match.put('/user/12')`. Closes #606
   * Added `app.VERB(path)` as alias of `app.lookup.VERB()`.
   * Dependency `connect >= 1.2.0`
 
-2.1.1 / 2011-03-29
-==================
+2.1.1
+======
 
   * Added; expose `err.view` object when failing to locate a view
   * Fixed `res.partial()` call `next(err)` when no callback is given [reported by aheckmann]
   * Fixed; `res.send(undefined)` responds with 204 [aheckmann]
 
-2.1.0 / 2011-03-24
-==================
+2.1.0
+======
 
   * Added `<root>/_?<name>` partial lookup support. Closes #447
   * Added `request`, `response`, and `app` local variables
@@ -3140,21 +3140,21 @@ Shaw]
   * Fixed stylus example for latest version
   * Fixed; wrap try/catch around `res.render()`
 
-2.0.0 / 2011-03-17
-==================
+2.0.0
+======
 
   * Fixed up index view path alternative.
   * Changed; `res.locals()` without object returns the locals
 
-2.0.0rc3 / 2011-03-17
-==================
+2.0.0rc3
+======
 
   * Added `res.locals(obj)` to compliment `res.local(key, val)`
   * Added `res.partial()` callback support
   * Fixed recursive error reporting issue in `res.render()`
 
-2.0.0rc2 / 2011-03-17
-==================
+2.0.0rc2
+======
 
   * Changed; `partial()` "locals" are now optional
   * Fixed `SlowBuffer` support. Closes #584 [reported by tyrda01]
@@ -3162,15 +3162,15 @@ Shaw]
   * Fixed blog example
   * Fixed `{req,res}.app` reference when mounting [Ben Weaver]
 
-2.0.0rc / 2011-03-14
-==================
+2.0.0rc
+======
 
   * Fixed; expose `HTTPSServer` constructor
   * Fixed express(1) default test charset. Closes #579 [reported by secoif]
   * Fixed; default charset to utf-8 instead of utf8 for lame IE [reported by NickP]
 
-2.0.0beta3 / 2011-03-09
-==================
+2.0.0beta3
+======
 
   * Added support for `res.contentType()` literal
     The original `res.contentType('.json')`,
@@ -3187,14 +3187,14 @@ Shaw]
   * Fixed; default `res.send()` string charset to utf8
   * Removed `Partial` constructor (not currently used)
 
-2.0.0beta2 / 2011-03-07
-==================
+2.0.0beta2
+======
 
   * Added res.render() `.locals` support back to aid in migration process
   * Fixed flash example
 
-2.0.0beta / 2011-03-03
-==================
+2.0.0beta
+======
 
   * Added HTTPS support
   * Added `res.cookie()` maxAge support
@@ -3226,55 +3226,55 @@ Shaw]
   * Fixed; strip unsafe chars from jsonp callbacks
   * Removed "stream threshold" setting
 
-1.0.8 / 2011-03-01
-==================
+1.0.8
+======
 
   * Allow `req.query` to be pre-defined (via middleware or other parent app)
   * "connect": ">= 0.5.0 < 1.0.0". Closes #547
   * Removed the long deprecated __EXPRESS_ENV__ support
 
-1.0.7 / 2011-02-07
-==================
+1.0.7
+======
 
   * Fixed `render()` setting inheritance.
     Mounted apps would not inherit "view engine"
 
-1.0.6 / 2011-02-07
-==================
+1.0.6
+======
 
   * Fixed `view engine` setting bug when period is in dirname
 
-1.0.5 / 2011-02-05
-==================
+1.0.5
+======
 
   * Added secret to generated app `session()` call
 
-1.0.4 / 2011-02-05
-==================
+1.0.4
+======
 
   * Added `qs` dependency to _package.json_
   * Fixed namespaced `require()`s for latest connect support
 
-1.0.3 / 2011-01-13
-==================
+1.0.3
+======
 
   * Remove unsafe characters from JSONP callback names [Ryan Grove]
 
-1.0.2 / 2011-01-10
-==================
+1.0.2
+======
 
   * Removed nested require, using `connect.router`
 
-1.0.1 / 2010-12-29
-==================
+1.0.1
+======
 
   * Fixed for middleware stacked via `createServer()`
     previously the `foo` middleware passed to `createServer(foo)`
     would not have access to Express methods such as `res.send()`
     or props like `req.query` etc.
 
-1.0.0 / 2010-11-16
-==================
+1.0.0
+======
 
   * Added; deduce partial object names from the last segment.
     For example by default `partial('forum/post', postObject)` will
@@ -3300,8 +3300,8 @@ Shaw]
   * Fixed partial local inheritance precedence. [reported by Nick Poulden] Closes #454
   * Fixed jsonp support; _text/javascript_ as per mailinglist discussion
 
-1.0.0rc4 / 2010-10-14
-==================
+1.0.0rc4
+======
 
   * Added _NODE_ENV_ support, _EXPRESS_ENV_ is deprecated and will be removed in 1.0.0
   * Added route-middleware support (very helpful, see the [docs](http://expressjs.com/guide.html#Route-Middleware))
@@ -3319,8 +3319,8 @@ Shaw]
   * Fixed; exposing _./support_ libs to examples so they can run without installs
   * Fixed mvc example
 
-1.0.0rc3 / 2010-09-20
-==================
+1.0.0rc3
+======
 
   * Added confirmation for `express(1)` app generation. Closes #391
   * Added extending of flash formatters via `app.flashFormatters`
@@ -3342,8 +3342,8 @@ Shaw]
   * Fixed bug messing with error handlers when `listenFD()` is called instead of `listen()`. [thanks guillermo]
 
 
-1.0.0rc2 / 2010-08-17
-==================
+1.0.0rc2
+======
 
   * Added `app.register()` for template engine mapping. Closes #390
   * Added `res.render()` callback support as second argument (no options)
@@ -3357,8 +3357,8 @@ Shaw]
   * Fixed; `make install` creating ~/.node_libraries when not present
   * Fixed issue preventing error handlers from being defined anywhere. Closes #387
 
-1.0.0rc / 2010-07-28
-==================
+1.0.0rc
+======
 
   * Added mounted hook. Closes #369
   * Added connect dependency to _package.json_
@@ -3374,8 +3374,8 @@ Shaw]
   * Fixed middleware/router precedence issue. Closes #366
   * Fixed; _configure()_ callbacks called immediately. Closes #368
 
-1.0.0beta2 / 2010-07-23
-==================
+1.0.0beta2
+======
 
   * Added more examples
   * Added; exporting `Server` constructor
@@ -3392,16 +3392,16 @@ Shaw]
   * Fixed middleware precedence. Closes #345
   * Fixed view watcher, now async [thanks aheckmann]
 
-1.0.0beta / 2010-07-15
-==================
+1.0.0beta
+======
 
   * Re-write
     - much faster
     - much lighter
     - Check [ExpressJS.com](http://expressjs.com) for migration guide and updated docs
 
-0.14.0 / 2010-06-15
-==================
+0.14.0
+======
 
   * Utilize relative requires
   * Added Static bufferSize option [aheckmann]
@@ -3411,8 +3411,8 @@ Shaw]
   * Updated class submodule
   * Removed bin/express
 
-0.13.0 / 2010-06-01
-==================
+0.13.0
+======
 
   * Added node v0.1.97 compatibility
   * Added support for deleting cookies via Request#cookie('key', null)
@@ -3422,8 +3422,8 @@ Shaw]
   * Fixed view support due to fs.readFile Buffers
   * Changed; mime.type() no longer accepts ".type" due to node extname() changes
 
-0.12.0 / 2010-05-22
-==================
+0.12.0
+======
 
   * Added node v0.1.96 compatibility
   * Added view `helpers` export which act as additional local variables
@@ -3433,8 +3433,8 @@ Shaw]
   * Fixed cookie compilation; values are now urlencoded
   * Fixed cookies parsing; accepts quoted values and url escaped cookies
 
-0.11.0 / 2010-05-06
-==================
+0.11.0
+======
 
   * Added support for layouts using different engines
     - this.render('page.html.haml', { layout: 'super-cool-layout.html.ejs' })
@@ -3444,13 +3444,13 @@ Shaw]
   * Updated haml submodule
   * Fixed EJS partial support by passing along the context. Issue #307
 
-0.10.1 / 2010-05-03
-==================
+0.10.1
+======
 
   * Fixed binary uploads.
 
-0.10.0 / 2010-04-30
-==================
+0.10.0
+======
 
   * Added charset support via Request#charset (automatically assigned to 'UTF-8' when respond()'s
     encoding is set to 'utf8' or 'utf-8').
@@ -3479,8 +3479,8 @@ Shaw]
   * Fixed Logger Content-Length output
   * Fixed bug preventing Opera from retaining the generated session id. Closes #292
 
-0.9.0 / 2010-04-14
-==================
+0.9.0
+======
 
   * Added DSL level error() route support
   * Added DSL level notFound() route support
@@ -3509,15 +3509,15 @@ Shaw]
   * Removed set("session cookie") in favour of use(Session, { cookie: { ... }})
   * Removed utils.mixin(); use Object#mergeDeep()
 
-0.8.0 / 2010-03-19
-==================
+0.8.0
+======
 
   * Added coffeescript example app. Closes #242
   * Changed; cache api now async friendly. Closes #240
   * Removed deprecated 'express/static' support. Use 'express/plugins/static'
 
-0.7.6 / 2010-03-19
-==================
+0.7.6
+======
 
   * Added Request#isXHR. Closes #229
   * Added `make install` (for the executable)
@@ -3533,45 +3533,45 @@ Shaw]
   * Deprecated Request#sendfile() and 'express/static'
   * Removed Server#running
 
-0.7.5 / 2010-03-16
-==================
+0.7.5
+======
 
   * Added Request#flash() support without args, now returns all flashes
   * Updated ext submodule
 
-0.7.4 / 2010-03-16
-==================
+0.7.4
+======
 
   * Fixed session reaper
   * Changed; class.js replacing js-oo Class implementation (quite a bit faster, no browser cruft)
 
-0.7.3 / 2010-03-16
-==================
+0.7.3
+======
 
   * Added package.json
   * Fixed requiring of haml / sass due to kiwi removal
 
-0.7.2 / 2010-03-16
-==================
+0.7.2
+======
 
   * Fixed GIT submodules (HAH!)
 
-0.7.1 / 2010-03-16
-==================
+0.7.1
+======
 
   * Changed; Express now using submodules again until a PM is adopted
   * Changed; chat example using millisecond conversions from ext
 
-0.7.0 / 2010-03-15
-==================
+0.7.0
+======
 
   * Added Request#pass() support (finds the next matching route, or the given path)
   * Added Logger plugin (default "common" format replaces CommonLogger)
   * Removed Profiler plugin
   * Removed CommonLogger plugin
 
-0.6.0 / 2010-03-11
-==================
+0.6.0
+======
 
   * Added seed.yml for kiwi package management support
   * Added HTTP client query string support when method is GET. Closes #205
@@ -3587,8 +3587,8 @@ Shaw]
 
   * Removed custom exceptions
 
-0.5.0 / 2010-03-10
-==================
+0.5.0
+======
 
   * Added ext dependency (library of js extensions)
   * Removed extname() / basename() utils. Use path module
@@ -3599,8 +3599,8 @@ Shaw]
   * Removed ElementCollection
   * Shameless self promotion of ebook "Advanced JavaScript" (http://dev-mag.com)  ;)
 
-0.4.0 / 2010-02-11
-==================
+0.4.0
+======
 
   * Added flash() example to sample upload app
   * Added high level restful http client module (express/http)
@@ -3609,8 +3609,8 @@ Shaw]
   * Changed; defaulting render() context to the current Request. Closes #197
   * Updated haml submodule
 
-0.3.0 / 2010-02-11
-==================
+0.3.0
+======
 
   * Updated haml / sass submodules. Closes #200
   * Added flash message support. Closes #64
@@ -3620,8 +3620,8 @@ Shaw]
   * Removed Route#run(). Closes #188
   * Fixed broken specs due to use(Cookie) missing
 
-0.2.1 / 2010-02-05
-==================
+0.2.1
+======
 
   * Added "plot" format option for Profiler (for gnuplot processing)
   * Added request number to Profiler plugin
@@ -3629,8 +3629,8 @@ Shaw]
   * Fixed issue with routes not firing when not files are present. Closes #184
   * Fixed process.Promise -> events.Promise
 
-0.2.0 / 2010-02-03
-==================
+0.2.0
+======
 
   * Added parseParam() support for name[] etc. (allows for file inputs with "multiple" attr) Closes #180
   * Added Both Cache and Session option "reapInterval" may be "reapEvery". Closes #174
@@ -3642,8 +3642,8 @@ Shaw]
   * Renamed MemoryStore -> Store.Memory
   * Fixed use() of the same plugin several time will always use latest options. Closes #176
 
-0.1.0 / 2010-02-03
-==================
+0.1.0
+======
 
   * Changed; Hooks (before / after) pass request as arg as well as evaluated in their context
   * Updated node support to 0.1.27 Closes #169
@@ -3660,8 +3660,8 @@ Shaw]
   * Removed dirname() helper
   * Removed several globals (now their modules must be required)
 
-0.0.2 / 2010-01-10
-==================
+0.0.2
+======
 
   * Added view benchmarks; currently haml vs ejs
   * Added Request#attachment() specs. Closes #116
@@ -3677,7 +3677,7 @@ Shaw]
   * Fixed faulty Collection#toArray() spec due to keys() returning strings
   * Fixed `make test` now builds libxmljs.node before testing
 
-0.0.1 / 2010-01-03
-==================
+0.0.1
+======
 
   * Initial release
