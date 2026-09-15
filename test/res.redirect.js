@@ -211,4 +211,46 @@ describe('res', function(){
         .end(done)
     })
   })
+
+  describe('when given invalid arguments', function () {
+    it('should handle missing url argument', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect('')
+      })
+
+      request(app)
+        .get('/')
+        .expect(302)
+        .expect('Location', '')
+        .end(done)
+    })
+
+    it('should coerce when url is not a string', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect(42)
+      })
+
+      request(app)
+        .get('/')
+        .expect(302)
+        .expect('Location', '42')
+        .end(done)
+    })
+
+    it('should fail when status is not a number', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect('302', '/somewhere')
+      })
+
+      request(app)
+        .get('/')
+        .expect(500, done)
+    })
+  })
 })

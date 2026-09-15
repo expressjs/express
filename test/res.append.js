@@ -82,6 +82,22 @@ describe('res', function () {
         .end(done)
     })
 
+    it('should append an array to an existing single value', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.set('Set-Cookie', 'foo=bar')
+        res.append('Set-Cookie', ['fizz=buzz', 'pet=tobi'])
+        res.end()
+      })
+
+      request(app)
+        .get('/')
+        .expect(200)
+        .expect(shouldHaveHeaderValues('Set-Cookie', ['foo=bar', 'fizz=buzz', 'pet=tobi']))
+        .end(done)
+    })
+
     it('should work together with res.cookie', function (done) {
       var app = express()
 
