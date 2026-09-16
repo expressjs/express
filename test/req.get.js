@@ -33,6 +33,20 @@ describe('req', function(){
       .expect('http://foobar.com', done);
     })
 
+    it('should prefer Referer over Referrer', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.end(req.get('Referer'));
+      });
+
+      request(app)
+      .post('/')
+      .set('Referrer', 'http://foobar.com')
+      .set('Referer', 'http://example.com')
+      .expect('http://example.com', done);
+    })
+
     it('should throw missing header name', function (done) {
       var app = express()
 
