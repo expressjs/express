@@ -139,5 +139,28 @@ describe('app', function(){
         .get('/sub/foo')
         .expect(200, 'FOO', cb)
     })
+
+    it('should inherit parent app', function (done) {
+      var app1 = express()
+      var app2 = express()
+      var cb = after(1, done)
+
+      app2.request.foo = 'bar';
+      app1.response.shout = function (str) {
+        this.setHeader('foo', this.req.foo)
+        this.send(str.toUpperCase())
+      }
+
+      app1.use('/sub', app2)
+
+      app2.get('/', function (req, res) {
+        res.shout('foo')
+      })
+
+      request(app1)
+        .get('/sub')
+        .expect('foo', 'bar')
+        .expect(200, 'FOO', cb)
+    })
   })
 })
