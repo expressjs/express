@@ -4,7 +4,7 @@
 // https://redis.io/
 
 // then:
-// $ npm install redis online
+// $ npm install redis
 // $ redis-server
 
 /**
@@ -12,7 +12,7 @@
  */
 
 var express = require('../..');
-var online = require('online');
+var online = require('./online-tracker');
 var redis = require('redis');
 var db = redis.createClient();
 
@@ -27,9 +27,13 @@ var app = express();
 // activity tracking, in this case using
 // the UA string, you would use req.user.id etc
 
-app.use(function(req, res, next){
-  // fire-and-forget
-  online.add(req.headers['user-agent']);
+app.use(async (req, res, next) => {
+  try {
+    // fire-and-forget
+    await online.add(req.headers['user-agent']);
+  } catch (err) {
+    next(err);
+  }
   next();
 });
 
@@ -47,15 +51,37 @@ function list(ids) {
  * GET users online.
  */
 
-app.get('/', function(req, res, next){
-  online.last(5, function(err, ids){
-    if (err) return next(err);
-    res.send('<p>Users online: ' + ids.length + '</p>' + list(ids));
-  });
+app.get('/', async (req, res, next) => {
+  try {
+      const activeUsers = await online.last(5);
+      res.send('<p>Users online:' + activeUsers.length + '</p>' + list(activeUsers));
+    } catch (err) {
+      next(err);
+  }
 });
 
-/* istanbul ignore next */
-if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
+
+/**
+ * Redis Initialization
+ */
+async function initializeRedis() {
+  try {
+    // Connect to Redis
+    await db.connect();
+  } catch (err) {
+    console.error('Error initializing Redis:', err);
+    process.exit(1);
+  }
 }
+
+/**
+ * Start the Server
+ */
+
+(async () => {
+  await initializeRedis(); // Initialize Redis before starting the server
+  if (!module.parent) {
+    app.listen(3000);
+    console.log('Express started on port 3000');
+  }
+})();
