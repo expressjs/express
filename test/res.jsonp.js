@@ -87,6 +87,32 @@ describe('res', function(){
       .expect(200, /foobar\(\{\}\);/, done);
     })
 
+    it('should fall back to json when the sanitized callback is empty', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp({ count: 1 });
+      });
+
+      request(app)
+      .get('/?callback=%21%21%21')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200, '{"count":1}', done);
+    })
+
+    it('should still use a partially sanitized callback', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.jsonp({ count: 1 });
+      });
+
+      request(app)
+      .get('/?callback=%20foo%20')
+      .expect('Content-Type', 'text/javascript; charset=utf-8')
+      .expect(200, /^\/\*\*\/ typeof foo === 'function' && foo\(\{"count":1\}\);$/, done);
+    })
+
     it('should escape utf whitespace', function(done){
       var app = express();
 
