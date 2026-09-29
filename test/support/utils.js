@@ -17,6 +17,21 @@ exports.shouldHaveHeader = shouldHaveHeader
 exports.shouldNotHaveBody = shouldNotHaveBody
 exports.shouldNotHaveHeader = shouldNotHaveHeader;
 exports.shouldSkipQuery = shouldSkipQuery
+exports.getRawPath = getRawPath
+
+/**
+ * Send a GET request without URL dot-segment normalization.
+ *
+ * @param {object} agent SuperTest request factory
+ * @param {string} path Request path
+ * @returns {object} SuperTest request
+ */
+
+function getRawPath (agent, path) {
+  return agent.get(path).on('request', function (test) {
+    test.req.path = path
+  })
+}
 
 /**
  * Assert that a supertest response has a specific body.
