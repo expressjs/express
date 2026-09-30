@@ -5,7 +5,7 @@
   </picture>
 </a>
 
-**Fast, unopinionated, minimalist web framework for [Node.js](https://nodejs.org).**
+**Fast, unopinionated, mweb framework for [Node.js](https://nodejs.org).**
 
 ## Table of contents
 
