@@ -2,6 +2,8 @@
 
 ## 🐞 Bug fixes
 
+- Removed the one-off `error` listener installed by `app.listen()` after the server starts, so later server errors follow normal EventEmitter behavior - by [@gophersg](https://github.com/gophersg) in [#7501](https://github.com/expressjs/express/pull/7501)
+
 - Fixed HTTP header conflict between Content-Length and Transfer-Encoding in res.send - by [@YuryShkoda](https://github.com/YuryShkoda) in [#4893](https://github.com/expressjs/express/pull/4893)
 
 
