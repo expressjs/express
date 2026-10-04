@@ -44,20 +44,20 @@ describe('req', function(){
     })
   })
 
-  it('should accept an argument list of type names', function(done){
-    var app = express();
-
-    app.use(function(req, res, next){
-      res.end(req.accepts('json', 'html'));
-    });
-
-    request(app)
-    .get('/')
-    .set('Accept', 'application/json')
-    .expect('json', done);
-  })
-
   describe('.accepts(types)', function(){
+    it('should accept an argument list of type names', function(done){
+      var app = express();
+
+      app.use(function(req, res, next){
+        res.end(req.accepts('json', 'html'));
+      });
+
+      request(app)
+      .get('/')
+      .set('Accept', 'application/json')
+      .expect('json', done);
+    })
+
     it('should return the first when Accept is not present', function(done){
       var app = express();
 
@@ -120,6 +120,21 @@ describe('req', function(){
       .get('/')
       .set('Accept', '*/html')
       .expect('text/html', done);
+    })
+  })
+
+  describe('.accepts()', function(){
+    it('should return an array of accepted types in order of client\'s preference', function(done){
+      var app = express();
+
+      app.use(function(req, res, next){
+        res.send(req.accepts());
+      });
+
+      request(app)
+      .get('/')
+      .set('Accept', '*/html; q=.5, application/json')
+      .expect(['application/json', '*/html'], done);
     })
   })
 })
