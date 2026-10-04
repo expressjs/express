@@ -6,44 +6,52 @@ var express = require('../')
 describe('req', function(){
   describe('.acceptsCharsets(type)', function(){
     describe('when Accept-Charset is not present', function(){
-      it('should return true', function(done){
+      it('should return the charset', function(done){
         var app = express();
 
         app.use(function(req, res, next){
-          res.end(req.acceptsCharsets('utf-8') ? 'yes' : 'no');
+          res.json({
+            'utf-8': req.acceptsCharsets('utf-8')
+          });
         });
 
         request(app)
         .get('/')
-        .expect('yes', done);
+        .expect({ 'utf-8': 'utf-8' }, done);
       })
     })
 
     describe('when Accept-Charset is present', function () {
-      it('should return true', function (done) {
+      it('should return the charset', function (done) {
         var app = express();
 
         app.use(function(req, res, next){
-          res.end(req.acceptsCharsets('utf-8') ? 'yes' : 'no');
+          res.json({
+            'foo': req.acceptsCharsets('foo'),
+            'bar': req.acceptsCharsets('bar'),
+            'utf-8': req.acceptsCharsets('utf-8')
+          });
         });
 
         request(app)
         .get('/')
         .set('Accept-Charset', 'foo, bar, utf-8')
-        .expect('yes', done);
+        .expect({ foo: 'foo', bar: 'bar', 'utf-8': 'utf-8' }, done);
       })
 
       it('should return false otherwise', function(done){
         var app = express();
 
         app.use(function(req, res, next){
-          res.end(req.acceptsCharsets('utf-8') ? 'yes' : 'no');
+          res.json({
+            'utf-8': req.acceptsCharsets('utf-8')
+          });
         });
 
         request(app)
         .get('/')
         .set('Accept-Charset', 'foo, bar')
-        .expect('no', done);
+        .expect({ 'utf-8': false }, done);
       })
 
       it('should return the best matching charset from multiple inputs', function (done) {
