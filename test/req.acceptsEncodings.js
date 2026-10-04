@@ -35,6 +35,20 @@ describe('req', function(){
         .set('Accept-Encoding', ' gzip, deflate')
         .expect(200, { bogus: false }, done)
     })
+
+    it('should accept any encoding when Accept-Encoding is not present', function (done) {
+      var app = express();
+
+      app.get('/', function (req, res) {
+        res.send({
+          bogus: req.acceptsEncodings('bogus')
+        })
+      })
+
+      request(app)
+        .get('/')
+        .expect(200, { bogus: 'bogus' }, done)
+    })
   })
 
   describe('.acceptsEncodings(encodings)', function () {
