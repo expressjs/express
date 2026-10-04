@@ -5,42 +5,44 @@ var express = require('../')
 
 describe('req', function(){
   describe('.accepts(type)', function(){
-    it('should return true when Accept is not present', function(done){
+    it('should return the type when Accept is not present', function(done){
       var app = express();
 
       app.use(function(req, res, next){
-        res.end(req.accepts('json') ? 'yes' : 'no');
+        res.end(req.accepts('json'));
       });
 
       request(app)
       .get('/')
-      .expect('yes', done);
+      .expect('json', done);
     })
 
-    it('should return true when present', function(done){
+    it('should return the type when present', function(done){
       var app = express();
 
       app.use(function(req, res, next){
-        res.end(req.accepts('json') ? 'yes' : 'no');
+        res.end(req.accepts('json'));
       });
 
       request(app)
       .get('/')
       .set('Accept', 'application/json')
-      .expect('yes', done);
+      .expect('json', done);
     })
 
     it('should return false otherwise', function(done){
       var app = express();
 
       app.use(function(req, res, next){
-        res.end(req.accepts('json') ? 'yes' : 'no');
+        res.json({
+          json: req.accepts('json')
+        });
       });
 
       request(app)
       .get('/')
       .set('Accept', 'text/html')
-      .expect('no', done);
+      .expect({ json: false }, done);
     })
   })
 
