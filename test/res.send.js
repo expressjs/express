@@ -599,6 +599,22 @@ describe('res', function(){
     })
 
     describe('when Transfer-Encoding is set', function () {
+      ['chunked', 'compress', 'deflate', 'gzip'].forEach(function (encoding) {
+        it('should not add Content-Length header if Transfer-Encoding header is equal to ' + encoding, function (done) {
+          var app = express();
+
+          app.use(function (_, res) {
+            res.status(200).set('Transfer-Encoding', encoding).send('');
+          });
+
+          request(app)
+          .get('/')
+          .expect(utils.shouldNotHaveHeader('Content-Length'))
+          .expect(utils.shouldHaveHeader('Transfer-Encoding'))
+          .expect(200, '', done);
+        })
+      })
+
       it('should not set Content-Length and still generate an ETag', function (done) {
         var app = express();
 
