@@ -83,17 +83,33 @@ describe('req', function(){
   })
 
   describe('.acceptsCharsets()', function(){
-    it('should return an array of accepted charsets in order of client\'s preference', function (done) {
-      var app = express();
+    describe('when Accept-Charset is not present', function () {
+      it('should return an array with *', function (done) {
+        var app = express();
 
-      app.use(function(req, res, next){
-        res.send(req.acceptsCharsets());
-      });
+        app.use(function(req, res, next){
+          res.send(req.acceptsCharsets());
+        });
 
-      request(app)
-      .get('/')
-      .set('Accept-Charset', 'iso-8859-1; q=0.5, utf-8')
-      .expect(['utf-8', 'iso-8859-1'], done);
+        request(app)
+        .get('/')
+        .expect(['*'], done);
+      })
+    })
+
+    describe('when Accept-Charset is present', function () {
+      it('should return an array of accepted charsets in order of client\'s preference', function (done) {
+        var app = express();
+
+        app.use(function(req, res, next){
+          res.send(req.acceptsCharsets());
+        });
+
+        request(app)
+        .get('/')
+        .set('Accept-Charset', 'iso-8859-1; q=0.5, utf-8')
+        .expect(['utf-8', 'iso-8859-1'], done);
+      })
     })
   })
 })

@@ -131,5 +131,22 @@ describe('req', function(){
         .set('Accept-Encoding', 'gzip;q=0.5, deflate, *;q=0')
         .expect(200, ['deflate', 'gzip'], done)
     })
+
+    it('should return an array with * when Accept-Encoding is not present', function (done) {
+      var app = express();
+
+      app.get('/', function(req, res) {
+        // TODO: Remove this after superagent allows unsetting Accept-Encoding
+        // https://github.com/forwardemail/superagent/issues/1559
+        // https://github.com/forwardemail/superagent/pull/1560#issuecomment-650703502
+        delete req.headers['accept-encoding']
+        res.send(req.acceptsEncodings())
+      })
+
+      request(app)
+        .get('/')
+        .unset('Accept-Encoding')
+        .expect(200, ['*'], done)
+    })
   })
 })

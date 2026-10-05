@@ -91,6 +91,18 @@ describe('req', function(){
           .get('/')
           .expect(200, { en: 'en', es: 'es', jp: 'jp' }, done)
       })
+
+      it('should return an array with * when called with no arguments', function (done) {
+        var app = express();
+
+        app.get('/', function (req, res) {
+          res.send(req.acceptsLanguages())
+        })
+
+        request(app)
+          .get('/')
+          .expect(200, ['*'], done)
+      })
     })
   })
 })

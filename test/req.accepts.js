@@ -138,5 +138,17 @@ describe('req', function(){
       .set('Accept', '*/html; q=.5, application/json')
       .expect(['application/json', '*/html'], done);
     })
+
+    it('should return array with */* when Accept is not present', function(done){
+      var app = express();
+
+      app.use(function(req, res, next){
+        res.send(req.accepts());
+      });
+
+      request(app)
+      .get('/')
+      .expect(['*/*'], done);
+    })
   })
 })
