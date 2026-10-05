@@ -1,4 +1,5 @@
 'use strict'
+const assert = require('node:assert');
 const express = require('../.');
 const request = require('supertest');
 
@@ -18,7 +19,20 @@ describe('res', function () {
     });
 
     describe('accept valid ranges', function() {
-      // not testing w/ 100, because that has specific meaning and behavior in Node as Expect: 100-continue
+      ;[100, 999].forEach(function (code) {
+        it('should accept inclusive status boundary ' + code, function () {
+          var res = Object.create(express.response);
+          var returned;
+
+          assert.doesNotThrow(function () {
+            returned = res.status(code);
+          });
+          assert.strictEqual(returned, res);
+          assert.strictEqual(res.statusCode, code);
+        });
+      });
+
+      // Not testing 100 over HTTP: it has specific meaning in Node as Expect: 100-continue.
       it('should set the response status code to 101', function (done) {
         var app = express()
 
@@ -118,6 +132,10 @@ describe('res', function () {
 
     describe('invalid status codes', function () {
       it('should raise error for status code below 100', function (done) {
+        assert.throws(function () {
+          Object.create(express.response).status(99);
+        }, RangeError);
+
         var app = express();
 
         app.use(function (req, res) {
@@ -130,6 +148,10 @@ describe('res', function () {
       });
 
       it('should raise error for status code above 999', function (done) {
+        assert.throws(function () {
+          Object.create(express.response).status(1000);
+        }, RangeError);
+
         var app = express();
 
         app.use(function (req, res) {
