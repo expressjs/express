@@ -14,7 +14,7 @@ exports.before = function(req, res, next){
   // pretend to query a database...
   process.nextTick(function(){
     req.user = db.users[id];
-    // cant find that user
+    // can't find that user
     if (!req.user) return next('route');
     // found it, move on to the routes
     next();
