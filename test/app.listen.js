@@ -24,6 +24,27 @@ describe('app.listen()', function(){
       })
     })
   })
+  it('should remove the listen error handler after a successful start', function (done) {
+    var app = express()
+
+    var server = app.listen(0, function () {
+      assert.strictEqual(server.listenerCount('error'), 0)
+      server.close(done)
+    })
+  })
+  it('should not swallow errors emitted after a successful start', function (done) {
+    var app = express()
+
+    var server = app.listen(0, function () {
+      try {
+        assert.throws(function () {
+          server.emit('error', new Error('post-listen boom'))
+        }, /post-listen boom/)
+      } finally {
+        server.close(done)
+      }
+    })
+  })
   it('accepts port + hostname + backlog + callback', function (done) {
     const app = express();
     const server = app.listen(0, '127.0.0.1', 5, function () {
