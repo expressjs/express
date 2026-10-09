@@ -61,5 +61,38 @@ describe('res', function(){
       .expect('Link', '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last", <http://api.example.com/users?page=1>; rel="last"')
       .expect(200, done);
     })
+
+    it('should skip empty-array rel values without producing trailing commas', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.links({
+          next: 'http://api.example.com/users?page=2',
+          prev: []
+        });
+
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Link', '<http://api.example.com/users?page=2>; rel="next"')
+      .expect(200, done);
+    })
+
+    it('should not set a trailing comma when appending and new rel values are all empty arrays', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.links({ next: 'http://api.example.com/users?page=2' });
+        res.links({ prev: [] });
+        res.end();
+      });
+
+      request(app)
+      .get('/')
+      .expect('Link', '<http://api.example.com/users?page=2>; rel="next"')
+      .expect(200, done);
+    })
   })
 })
