@@ -33,6 +33,36 @@ describe('req', function(){
         .expect('https', done);
       })
 
+      it('should normalize X-Forwarded-Proto casing', function(done){
+        var app = express();
+
+        app.enable('trust proxy');
+
+        app.use(function(req, res){
+          res.end(req.protocol);
+        });
+
+        request(app)
+        .get('/')
+        .set('X-Forwarded-Proto', 'HTTPS')
+        .expect('https', done);
+      })
+
+      it('should report secure for uppercase X-Forwarded-Proto https', function(done){
+        var app = express();
+
+        app.enable('trust proxy');
+
+        app.use(function(req, res){
+          res.end(String(req.secure));
+        });
+
+        request(app)
+        .get('/')
+        .set('X-Forwarded-Proto', 'HTTPS')
+        .expect('true', done);
+      })
+
       it('should default to the socket addr if X-Forwarded-Proto not present', function(done){
         var app = express();
 
