@@ -69,7 +69,7 @@ app.map({
 });
 
 /* istanbul ignore next */
-if (!module.parent) {
+if (require.main === module) {
   app.listen(3000);
   console.log('Express started on port 3000');
 }
