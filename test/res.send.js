@@ -82,6 +82,49 @@ describe('res', function(){
       .expect(200, '<p>hey</p>', done);
     })
 
+    it('should set a single Content-Type header when sending as html', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send('<p>hey</p>');
+        assert.deepStrictEqual(res.getHeaders()['content-type'], 'text/html; charset=utf-8');
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, function(err, res){
+        if (err) return done(err);
+        assert.strictEqual(res.headers['content-type'], 'text/html; charset=utf-8');
+        done();
+      });
+    })
+
+    it('should send as html for HEAD', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send('<p>hey</p>');
+      });
+
+      request(app)
+      .head('/')
+      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect(200, done);
+    })
+
+    it('should keep Content-Type set by res.type()', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.type('json').send('{"a":1}');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200, '{"a":1}', done);
+    })
+
     it('should set ETag', function (done) {
       var app = express();
 
