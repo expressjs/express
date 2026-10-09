@@ -43,6 +43,24 @@ describe('utils.normalizeType acceptParams method', () => {
       params: {}
     });
   });
+
+  it('should not split a quoted parameter value on an embedded ";"', () => {
+    const result = utils.normalizeType('text/plain; foo="a;b"; bar=baz');
+    assert.deepEqual(result, {
+      value: 'text/plain',
+      quality: 1,
+      params: { foo: '"a;b"', bar: 'baz' }
+    });
+  });
+
+  it('should not treat an escaped quote inside a parameter value as closing it', () => {
+    const result = utils.normalizeType('text/plain; foo="a\\"b;c"; bar=baz');
+    assert.deepEqual(result, {
+      value: 'text/plain',
+      quality: 1,
+      params: { foo: '"a\\"b;c"', bar: 'baz' }
+    });
+  });
 });
 
 describe('utils.setCharset(type, charset)', function () {
