@@ -162,8 +162,99 @@ describe('res', function(){
     })
   })
 
-  describe('.send(Buffer)', function(){
-    it('should send as octet-stream', function(done){
+  describe('.send(DataView)', function() {
+    it('should send the exact byte range covered by the DataView', function(done) {
+      var app = express();
+
+      app.use(function(req, res) {
+        // A DataView over a Uint8Array slice: bytes 1,2,3
+        var bytes = new Uint8Array([0, 1, 2, 3, 0]);
+        res.send(new DataView(bytes.buffer, 1, 3));
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream')
+        .expect('Content-Length', '3')
+        .expect(200, Buffer.from([1, 2, 3]), done);
+    });
+
+    it('should not override an existing Content-Type', function(done) {
+      var app = express();
+
+      app.use(function(req, res) {
+        var bytes = new Uint8Array([5, 6, 7]);
+        res.set('Content-Type', 'text/plain').send(new DataView(bytes.buffer, 0, 3));
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect('Content-Length', '3')
+        .expect(200, done);
+    });
+
+    it('should preserve the ETag when one is set', function(done) {
+      var app = express();
+
+      app.use(function(req, res) {
+        var bytes = new Uint8Array([1, 2, 3, 4]);
+        res.set('ETag', 'W/"777"').send(new DataView(bytes.buffer, 0, 4));
+      });
+
+      request(app)
+        .get('/')
+        .expect('ETag', 'W/"777"')
+        .expect('Content-Length', '4')
+        .expect(200, Buffer.from([1, 2, 3, 4]), done);
+    });
+
+    it('should send the bytes of a View that does not cover its whole buffer', function(done) {
+      var app = express();
+
+      app.use(function(req, res) {
+        var full = new Uint8Array([100, 200, 200, 200]);
+        res.send(new DataView(full.buffer, 1, 2));
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Length', '2')
+        .expect(200, Buffer.from([200, 200]), done);
+    });
+
+    it('should send cross-realm DataViews unchanged', function(done) {
+      var app = express();
+
+      app.use(function(req, res) {
+        var otherRealm = new Function('return this')();
+        var buf = new otherRealm.ArrayBuffer(4);
+        var dv = new otherRealm.DataView(buf, 0, 4);
+        new Uint8Array(buf).set([11, 12, 13, 14]);
+        res.send(dv);
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Length', '4')
+        .expect(200, Buffer.from([11, 12, 13, 14]), done);
+    });
+
+    it('should not affect plain ArrayBuffer behaviour', function(done) {
+      var app = express();
+
+      app.use(function(req, res) {
+        res.send(new ArrayBuffer(3));
+      });
+
+      request(app)
+        .get('/')
+        .expect(200, '{}', done);
+    });
+  });
+
+  describe('.send(Object)', function(){
+    it('should send as application/json', function(done){
       var app = express();
 
       app.use(function(req, res){
