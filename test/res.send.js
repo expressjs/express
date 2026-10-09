@@ -5,6 +5,8 @@ const { Buffer } = require('node:buffer');
 var express = require('..');
 var methods = require('../lib/utils').methods;
 var request = require('supertest');
+var vm = require('node:vm');
+var wetag = require('../lib/utils').wetag;
 var utils = require('./support/utils');
 
 var shouldSkipQuery = require('./support/utils').shouldSkipQuery
@@ -228,6 +230,104 @@ describe('res', function(){
       .get('/')
       .expect('ETag', '"foo"')
       .expect(200, 'hey', done)
+    })
+  })
+
+  describe('.send(DataView)', function () {
+    var cases = [
+      {
+        name: 'a full view',
+        create: function () { return new DataView(new Uint8Array([1, 2, 3]).buffer) },
+        expected: Buffer.from([1, 2, 3])
+      },
+      {
+        name: 'a sliced view',
+        create: function () { return new DataView(new Uint8Array([0, 1, 2, 3, 0]).buffer, 1, 3) },
+        expected: Buffer.from([1, 2, 3])
+      },
+      {
+        name: 'an empty view',
+        create: function () { return new DataView(new ArrayBuffer(3), 1, 0) },
+        expected: Buffer.alloc(0)
+      },
+      {
+        name: 'a cross-realm view',
+        create: function () { return vm.runInNewContext('new DataView(new Uint8Array([0, 1, 2, 3, 0]).buffer, 1, 3)') },
+        expected: Buffer.from([1, 2, 3])
+      }
+    ]
+
+    cases.forEach(function (test) {
+      [false, 'weak'].forEach(function (etag) {
+        it('should send ' + test.name + ' with etag ' + etag, function (done) {
+          var app = express()
+          app.set('etag', etag)
+
+          app.use(function (req, res) {
+            res.send(test.create())
+          })
+
+          var req = request(app)
+            .get('/')
+            .expect(200)
+            .expect('Content-Type', 'application/octet-stream')
+            .expect('Content-Length', String(test.expected.length))
+            .expect(utils.shouldHaveBody(test.expected))
+
+          if (etag) {
+            req.expect('ETag', wetag(test.expected))
+          } else {
+            req.expect(utils.shouldNotHaveHeader('ETag'))
+          }
+
+          req.end(done)
+        })
+      })
+    })
+
+    it('should not override Content-Type', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.type('text/plain').send(new DataView(new Uint8Array([104, 101, 121]).buffer))
+      })
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect('Content-Length', '3')
+        .expect(200, 'hey', done)
+    })
+
+    it('should preserve Content-Length without sending a body for HEAD', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.send(new DataView(new Uint8Array([1, 2, 3]).buffer))
+      })
+
+      request(app)
+        .head('/')
+        .expect(200)
+        .expect('Content-Length', '3')
+        .expect(utils.shouldNotHaveBody())
+        .end(done)
+    })
+
+    it('should preserve element-based conversion for non-byte typed arrays', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.send(new Uint16Array([0x0102, 0x0304]))
+      })
+
+      request(app)
+        .get('/')
+        .expect(200)
+        .expect('Content-Type', 'application/octet-stream')
+        .expect('Content-Length', '2')
+        .expect(utils.shouldHaveBody(Buffer.from([2, 4])))
+        .end(done)
     })
   })
 
