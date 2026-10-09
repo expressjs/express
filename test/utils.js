@@ -65,6 +65,22 @@ describe('utils.setCharset(type, charset)', function () {
   it('should override charset', function () {
     assert.strictEqual(utils.setCharset('text/html; charset=iso-8859-1', 'utf-8'), 'text/html; charset=utf-8');
   });
+
+  it('should normalize charset case', function () {
+    assert.strictEqual(utils.setCharset('text/html; charset=UTF-8', 'utf-8'), 'text/html; charset=utf-8');
+  });
+
+  it('should normalize type case', function () {
+    assert.strictEqual(utils.setCharset('Text/HTML; charset=utf-8', 'utf-8'), 'text/html; charset=utf-8');
+  });
+
+  it('should keep other parameters', function () {
+    assert.strictEqual(utils.setCharset('text/html; charset=utf-8; foo=bar', 'utf-8'), 'text/html; charset=utf-8; foo=bar');
+  });
+
+  it('should return same value for utf-8 content type', function () {
+    assert.strictEqual(utils.setCharset('application/json; charset=utf-8', 'utf-8'), 'application/json; charset=utf-8');
+  });
 });
 
 describe('utils.wetag(body, encoding)', function(){
