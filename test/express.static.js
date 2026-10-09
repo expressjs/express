@@ -81,7 +81,8 @@ describe('express.static()', function () {
     })
 
     it('should support ../', function (done) {
-      utils.getRawPath(request(this.app), '/users/../todo.txt')
+      request(this.app)
+        .get('/users/../todo.txt')
         .expect(200, '- groceries', done)
     })
 
@@ -268,7 +269,8 @@ describe('express.static()', function () {
       })
 
       it('should fall-through when traversing past root', function (done) {
-        utils.getRawPath(request(this.app), '/users/../../todo.txt')
+        request(this.app)
+          .get('/users/../../todo.txt')
           .expect(404, 'Not Found', done)
       })
 
@@ -342,7 +344,8 @@ describe('express.static()', function () {
       })
 
       it('should 403 when traversing past root', function (done) {
-        utils.getRawPath(request(this.app), '/users/../../todo.txt')
+        request(this.app)
+          .get('/users/../../todo.txt')
           .expect(403, /ForbiddenError/, done)
       })
 
@@ -575,12 +578,14 @@ describe('express.static()', function () {
     })
 
     it('should catch urlencoded ../', function (done) {
-      utils.getRawPath(request(this.app), '/users/%2e%2e/%2e%2e/todo.txt')
+      request(this.app)
+        .get('/users/%2e%2e/%2e%2e/todo.txt')
         .expect(403, done)
     })
 
     it('should not allow root path disclosure', function (done) {
-      utils.getRawPath(request(this.app), '/users/../../fixtures/todo.txt')
+      request(this.app)
+        .get('/users/../../fixtures/todo.txt')
         .expect(403, done)
     })
   })
