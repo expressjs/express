@@ -90,6 +90,18 @@ describe('app', function(){
           done();
         });
       })
+
+      it('should provide a helpful error when view name ends in a dot', function(done){
+        var app = createApp();
+
+        app.set('views', path.join(__dirname, 'fixtures'))
+        app.set('view engine', 'tmpl');
+        app.render('rawr.', function (err) {
+          assert.ok(err)
+          assert.equal(err.message, 'Failed to lookup view "rawr." in views directory "' + path.join(__dirname, 'fixtures') + '"')
+          done();
+        });
+      })
     })
 
     describe('when an error occurs', function(){
