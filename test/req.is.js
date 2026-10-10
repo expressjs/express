@@ -166,4 +166,20 @@ describe('req.is()', function () {
       .expect(200, '"application/json"', done)
     })
   })
+
+  describe('when given an array of types', function () {
+    it('should not flatten the argument', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is(['text/*', 'application/json']))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, '"application/json"', done)
+    })
+  })
 })
