@@ -632,4 +632,19 @@ describe('res', function(){
         .expect(200, 'hello', done);
     })
   })
+
+  describe('when chunk is bigint', function(){
+    it('should send the string representation of bigint', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send(123n);
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect(200, '123', done);
+    })
+  })
 })
