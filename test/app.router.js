@@ -448,7 +448,7 @@ describe('app.router', function () {
           .expect('tj', done);
       })
 
-      it('should pass-though middleware', function (done) {
+      it('should pass-through middleware', function (done) {
         var app = express();
 
         app.enable('strict routing');
@@ -468,7 +468,7 @@ describe('app.router', function () {
           .expect(200, 'tj', done);
       })
 
-      it('should pass-though mounted middleware', function (done) {
+      it('should pass-through mounted middleware', function (done) {
         var app = express();
 
         app.enable('strict routing');

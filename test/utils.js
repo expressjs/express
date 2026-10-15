@@ -35,8 +35,15 @@ describe('utils.normalizeType acceptParams method', () => {
       params: {} // No parameters are added since "invalid" has no "="
     });
   });
-});
 
+  it('should default to application/octet-stream when mime lookup fails', () => {
+    const result = utils.normalizeType('unknown-extension-xyz');
+    assert.deepEqual(result, {
+      value: 'application/octet-stream',
+      params: {}
+    });
+  });
+});
 
 describe('utils.setCharset(type, charset)', function () {
   it('should do anything without type', function () {
@@ -81,3 +88,28 @@ describe('utils.wetag(body, encoding)', function(){
       'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
   })
 })
+
+describe('utils.compileETag()', function () {
+  it('should return generateETag for true', function () {
+    const fn = utils.compileETag(true);
+    assert.strictEqual(fn('express!'), utils.wetag('express!'));
+  });
+
+  it('should return undefined for false', function () {
+    assert.strictEqual(utils.compileETag(false), undefined);
+  });
+
+  it('should return generateETag for string values "strong" and "weak"', function () {
+    assert.strictEqual(utils.compileETag('strong')("express"), utils.etag("express"));
+    assert.strictEqual(utils.compileETag('weak')("express"), utils.wetag("express"));
+  });
+
+  it('should throw for unknown string values', function () {
+    assert.throws(() => utils.compileETag('foo'), TypeError);
+  });
+
+  it('should throw for unsupported types like arrays and objects', function () {
+    assert.throws(() => utils.compileETag([]), TypeError);
+    assert.throws(() => utils.compileETag({}), TypeError);
+  });
+});

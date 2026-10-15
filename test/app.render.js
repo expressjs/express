@@ -331,6 +331,24 @@ describe('app', function(){
       })
     })
 
+    it('should accept null or undefined options', function (done) {
+      var app = createApp()
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.locals.user = { name: 'tobi' }
+
+      app.render('user.tmpl', null, function (err, str) {
+        if (err) return done(err);
+        assert.strictEqual(str, '<p>tobi</p>')
+
+        app.render('user.tmpl', undefined, function (err2, str2) {
+          if (err2) return done(err2);
+          assert.strictEqual(str2, '<p>tobi</p>')
+          done()
+        })
+      })
+    })
+
     describe('caching', function(){
       it('should cache with cache option', function(done){
         var app = express();
