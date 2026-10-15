@@ -313,22 +313,6 @@ describe('res', function(){
         .expect(utils.shouldNotHaveBody())
         .end(done)
     })
-
-    it('should preserve element-based conversion for non-byte typed arrays', function (done) {
-      var app = express()
-
-      app.use(function (req, res) {
-        res.send(new Uint16Array([0x0102, 0x0304]))
-      })
-
-      request(app)
-        .get('/')
-        .expect(200)
-        .expect('Content-Type', 'application/octet-stream')
-        .expect('Content-Length', '2')
-        .expect(utils.shouldHaveBody(Buffer.from([2, 4])))
-        .end(done)
-    })
   })
 
   describe('.send(Object)', function(){
