@@ -217,6 +217,36 @@ describe('res', function(){
         .expect(200, "hey", done);
     })
 
+    // Regression test for https://github.com/expressjs/express/issues/7510
+    it('should accept DataView over the whole buffer', function(done){
+      var app = express();
+      app.use(function(req, res){
+        var bytes = new Uint8Array([0x68, 0x65, 0x79]); // "hey"
+        res.set("Content-Type", "text/plain").send(new DataView(bytes.buffer));
+      })
+
+      request(app)
+        .get("/")
+        .expect("Content-Type", "text/plain; charset=utf-8")
+        .expect("Content-Length", "3")
+        .expect(200, "hey", done);
+    })
+
+    it('should accept DataView with offset and length', function(done){
+      var app = express();
+      app.use(function(req, res){
+        // 0xff | "hey" | 0xff -> DataView must select only the three middle bytes
+        var bytes = new Uint8Array([0xff, 0x68, 0x65, 0x79, 0xff]);
+        res.set("Content-Type", "text/plain").send(new DataView(bytes.buffer, 1, 3));
+      })
+
+      request(app)
+        .get("/")
+        .expect("Content-Type", "text/plain; charset=utf-8")
+        .expect("Content-Length", "3")
+        .expect(200, "hey", done);
+    })
+
     it('should not override ETag', function (done) {
       var app = express()
 
