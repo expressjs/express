@@ -242,8 +242,8 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
   * [gireeshpunathil](https://github.com/gireeshpunathil) - **Gireesh Punathil**
   * [jake32321](https://github.com/jake32321) - **Jake Reed**
   * [jonchurch](https://github.com/jonchurch) - **Jon Church**
-  * [lekanikotun](https://github.com/lekanikotun) - **Troy Goode**
-  * [marsonya](https://github.com/marsonya) - **Lekan Ikotun**
+  * [lekanikotun](https://github.com/lekanikotun) - **Lekan Ikotun**
+  * [marsonya](https://github.com/marsonya) - **akhil marsonya**
   * [mastermatt](https://github.com/mastermatt) - **Matt R. Wilson**
   * [maxakuru](https://github.com/maxakuru) - **Max Edell**
   * [mlrawlings](https://github.com/mlrawlings) - **Michael Rawlings**
