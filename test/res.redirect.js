@@ -78,6 +78,32 @@ describe('res', function(){
     })
   })
 
+  describe('when Transfer-Encoding header is present', function(){
+    var transferEncodings = [
+      'chunked',
+      'compress',
+      'deflate',
+      'gzip'
+    ];
+
+    transferEncodings.forEach(function(encoding){
+      it('should not add Content-Length header if Transfer-Encoding header is equal to ' + encoding, function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.set('Transfer-Encoding', encoding).redirect('http://google.com');
+        });
+
+        request(app)
+          .get('/')
+          .expect(utils.shouldNotHaveHeader('Content-Length'))
+          .expect(utils.shouldHaveHeader('Transfer-Encoding'))
+          .expect('Location', 'http://google.com')
+          .expect(302, done);
+      })
+    })
+  })
+
   describe('when accepting html', function(){
     it('should respond with html', function(done){
       var app = express();
