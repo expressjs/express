@@ -280,3 +280,42 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 [ossf-scorecard-visualizer]: https://ossf.github.io/scorecard-visualizer/#/projects/github.com/expressjs/express
 [Code of Conduct]: https://github.com/expressjs/.github/blob/HEAD/CODE_OF_CONDUCT.md
 [Contributing Guide]: https://github.com/expressjs/.github/blob/HEAD/CONTRIBUTING.md
+
+
+
+
+## Quick Start
+
+To create a basic Express application:
+
+```bash
+mkdir my-express-app
+cd my-express-app
+npm init -y
+npm install express
+```
+
+Create an `app.js` file:
+
+```javascript
+const express = require('express');
+
+const app = express();
+const PORT = 3000;
+
+app.get('/', (req, res) => {
+  res.send('Hello, Express!');
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
+```
+
+Run the application:
+
+```bash
+node app.js
+```
+
+Then open `http://localhost:3000` in a web browser.
