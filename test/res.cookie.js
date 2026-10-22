@@ -98,6 +98,20 @@ describe('res', function(){
     })
 
     describe('maxAge', function(){
+      it('should expire immediately when maxAge is zero', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.cookie('name', 'tobi', { maxAge: 0 });
+          res.end();
+        });
+
+        request(app)
+          .get('/')
+          .expect('Set-Cookie', /name=tobi; Max-Age=0; Path=\/; Expires=/)
+          .expect(200, done)
+      })
+
       it('should set relative expires', function(done){
         var app = express();
 
