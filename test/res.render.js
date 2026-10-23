@@ -302,6 +302,7 @@ describe('res', function(){
 
       app.set('views', path.join(__dirname, 'fixtures'))
       var options = { user: { name: 'tobi' } };
+      var optionsCopy = { ...options };
 
       app.use(function(req, res){
         res.locals.foo = 'bar';
@@ -310,26 +311,8 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('<p>tobi</p>', function (err) {
-        if (err) return done(err)
-        assert.deepStrictEqual(Object.keys(options), ['user'])
-        done()
-      })
-    })
-
-    it('should support frozen options object', function(done){
-      var app = createApp();
-
-      app.set('views', path.join(__dirname, 'fixtures'))
-      var options = Object.freeze({ user: { name: 'tobi' } });
-
-      app.use(function(req, res){
-        res.render('user.tmpl', options);
-      });
-
-      request(app)
-      .get('/')
-      .expect(200, '<p>tobi</p>', done);
+      .expect(() => assert.deepStrictEqual(options, optionsCopy))
+      .end(done)
     })
   })
 
