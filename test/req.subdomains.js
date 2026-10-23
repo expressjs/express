@@ -10,7 +10,7 @@ describe('req', function(){
         var app = express();
 
         app.use(function(req, res){
-          res.send(req.subdomains);
+          res.json(req.subdomains);
         });
 
         request(app)
@@ -23,7 +23,7 @@ describe('req', function(){
         var app = express();
 
         app.use(function(req, res){
-          res.send(req.subdomains);
+          res.json(req.subdomains);
         });
 
         request(app)
@@ -36,7 +36,7 @@ describe('req', function(){
         var app = express();
 
         app.use(function(req, res){
-          res.send(req.subdomains);
+          res.json(req.subdomains);
         });
 
         request(app)
@@ -51,7 +51,7 @@ describe('req', function(){
         var app = express();
 
         app.use(function(req, res){
-          res.send(req.subdomains);
+          res.json(req.subdomains);
         });
 
         request(app)
@@ -67,7 +67,7 @@ describe('req', function(){
 
         app.use(function(req, res){
           req.headers.host = null;
-          res.send(req.subdomains);
+          res.json(req.subdomains);
         });
 
         request(app)
@@ -82,7 +82,7 @@ describe('req', function(){
 
         app.set('trust proxy', true);
         app.use(function (req, res) {
-          res.send(req.subdomains);
+          res.json(req.subdomains);
         });
 
         request(app)
@@ -99,7 +99,7 @@ describe('req', function(){
           app.set('subdomain offset', 0);
 
           app.use(function(req, res){
-            res.send(req.subdomains);
+            res.json(req.subdomains);
           });
 
           request(app)
@@ -113,7 +113,7 @@ describe('req', function(){
           app.set('subdomain offset', 0);
 
           app.use(function(req, res){
-            res.send(req.subdomains);
+            res.json(req.subdomains);
           });
 
           request(app)
@@ -127,7 +127,7 @@ describe('req', function(){
           app.set('subdomain offset', 0);
 
           app.use(function(req, res){
-            res.send(req.subdomains);
+            res.json(req.subdomains);
           });
 
           request(app)
@@ -143,7 +143,7 @@ describe('req', function(){
           app.set('subdomain offset', 3);
 
           app.use(function(req, res){
-            res.send(req.subdomains);
+            res.json(req.subdomains);
           });
 
           request(app)
@@ -159,7 +159,7 @@ describe('req', function(){
           app.set('subdomain offset', 3);
 
           app.use(function(req, res){
-            res.send(req.subdomains);
+            res.json(req.subdomains);
           });
 
           request(app)

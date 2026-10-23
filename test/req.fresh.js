@@ -12,7 +12,7 @@ describe('req', function(){
 
       app.use(function(req, res){
         res.set('ETag', etag);
-        res.send(req.fresh);
+        res.json(req.fresh);
       });
 
       request(app)
@@ -26,7 +26,7 @@ describe('req', function(){
 
       app.use(function(req, res){
         res.set('ETag', '"123"');
-        res.send(req.fresh);
+        res.json(req.fresh);
       });
 
       request(app)
@@ -40,7 +40,7 @@ describe('req', function(){
 
       app.disable('x-powered-by')
       app.use(function(req, res){
-        res.send(req.fresh);
+        res.json(req.fresh);
       });
 
       request(app)
@@ -57,7 +57,7 @@ describe('req', function(){
 
       app.use(function(req, res){
         res.set('ETag', etag);
-        res.send(req.fresh);
+        res.json(req.fresh);
       });
 
       request(app)
@@ -75,7 +75,7 @@ describe('req', function(){
 
       app.use(function(req, res){
         res.set('ETag', '"123"');
-        res.send(req.fresh);
+        res.json(req.fresh);
       });
 
       request(app)
@@ -94,7 +94,7 @@ describe('req', function(){
       app.use(function(req, res) {
         res.set('Etag', etag)
         res.set('Last-Modified', new Date(now).toUTCString())
-        res.send(req.fresh);
+        res.json(req.fresh);
       });
 
       request(app)
