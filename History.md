@@ -1,3 +1,16 @@
+# Unreleased Changes
+
+## ⚠️ Breaking changes
+
+* The `X-Powered-By: Express` header is no longer sent and the `x-powered-by` setting is removed. `app.enable('x-powered-by')` and `app.disable('x-powered-by')` no longer have any effect; set the header in a middleware if you need it
+
+    ```js
+    app.use((req, res, next) => {
+      res.set('X-Powered-By', 'Express');
+      next();
+    });
+    ```
+
 5.3.0
 =====
 
