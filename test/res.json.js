@@ -33,6 +33,23 @@ describe('res', function(){
     })
 
     describe('when given primitives', function(){
+      it('should set a single Content-Type header', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.json({ a: 1 });
+          assert.strictEqual(res.getHeader('Content-Type'), 'application/json; charset=utf-8');
+        });
+
+        request(app)
+        .get('/')
+        .expect(200, function(err, res){
+          if (err) return done(err);
+          assert.strictEqual(res.headers['content-type'], 'application/json; charset=utf-8');
+          done();
+        });
+      })
+
       it('should respond with json for null', function(done){
         var app = express();
 
