@@ -5,59 +5,61 @@ var express = require('../')
 
 describe('req', function(){
   describe('.accepts(type)', function(){
-    it('should return true when Accept is not present', function(done){
+    it('should return the type when Accept is not present', function(done){
       var app = express();
 
       app.use(function(req, res, next){
-        res.end(req.accepts('json') ? 'yes' : 'no');
+        res.end(req.accepts('json'));
       });
 
       request(app)
       .get('/')
-      .expect('yes', done);
+      .expect('json', done);
     })
 
-    it('should return true when present', function(done){
+    it('should return the type when present', function(done){
       var app = express();
 
       app.use(function(req, res, next){
-        res.end(req.accepts('json') ? 'yes' : 'no');
+        res.end(req.accepts('json'));
       });
 
       request(app)
       .get('/')
       .set('Accept', 'application/json')
-      .expect('yes', done);
+      .expect('json', done);
     })
 
     it('should return false otherwise', function(done){
       var app = express();
 
       app.use(function(req, res, next){
-        res.end(req.accepts('json') ? 'yes' : 'no');
+        res.json({
+          json: req.accepts('json')
+        });
       });
 
       request(app)
       .get('/')
       .set('Accept', 'text/html')
-      .expect('no', done);
+      .expect({ json: false }, done);
     })
   })
 
-  it('should accept an argument list of type names', function(done){
-    var app = express();
-
-    app.use(function(req, res, next){
-      res.end(req.accepts('json', 'html'));
-    });
-
-    request(app)
-    .get('/')
-    .set('Accept', 'application/json')
-    .expect('json', done);
-  })
-
   describe('.accepts(types)', function(){
+    it('should accept an argument list of type names', function(done){
+      var app = express();
+
+      app.use(function(req, res, next){
+        res.end(req.accepts('json', 'html'));
+      });
+
+      request(app)
+      .get('/')
+      .set('Accept', 'application/json')
+      .expect('json', done);
+    })
+
     it('should return the first when Accept is not present', function(done){
       var app = express();
 
@@ -120,6 +122,33 @@ describe('req', function(){
       .get('/')
       .set('Accept', '*/html')
       .expect('text/html', done);
+    })
+  })
+
+  describe('.accepts()', function(){
+    it('should return an array of accepted types in order of client\'s preference', function(done){
+      var app = express();
+
+      app.use(function(req, res, next){
+        res.send(req.accepts());
+      });
+
+      request(app)
+      .get('/')
+      .set('Accept', '*/html; q=.5, application/json')
+      .expect(['application/json', '*/html'], done);
+    })
+
+    it('should return array with */* when Accept is not present', function(done){
+      var app = express();
+
+      app.use(function(req, res, next){
+        res.send(req.accepts());
+      });
+
+      request(app)
+      .get('/')
+      .expect(['*/*'], done);
     })
   })
 })
