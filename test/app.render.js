@@ -356,7 +356,7 @@ describe('app', function(){
 
         app.render('user.ejs', function (err, str) {
           if (err) return done(err);
-          assert.strictEqual(str, '<p>tobi</p>\n')
+          assert.strictEqual(str, '<p>tobi</p>')
           assert.strictEqual(app.engines['.ejs'], ejs.__express)
           done();
         })
@@ -373,7 +373,7 @@ describe('app', function(){
 
         app.render('user.ejs', function (err, str) {
           if (err) return done(err);
-          assert.strictEqual(str, '<p>tobi</p>\n')
+          assert.strictEqual(str, '<p>tobi</p>')
 
           var engine = app.engines['.ejs'];
           assert.strictEqual(engine, ejs.__express)
@@ -386,7 +386,7 @@ describe('app', function(){
 
           app.render('user.ejs', function (err2, str2) {
             if (err2) return done(err2);
-            assert.strictEqual(str2, '<p>loki</p>\n')
+            assert.strictEqual(str2, '<p>loki</p>')
             assert.strictEqual(calls, 1)
             done();
           })
