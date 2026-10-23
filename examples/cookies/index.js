@@ -8,6 +8,7 @@ var express = require('../../');
 var app = module.exports = express();
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
 // custom log format
 if (process.env.NODE_ENV !== 'test') app.use(logger(':method :url'))
@@ -19,7 +20,7 @@ if (process.env.NODE_ENV !== 'test') app.use(logger(':method :url'))
 app.use(cookieParser('my secret here'));
 
 // parses x-www-form-urlencoded
-app.use(express.urlencoded())
+app.use(bodyParser.urlencoded())
 
 app.get('/', function(req, res){
   if (req.cookies.remember) {

@@ -33,7 +33,6 @@
   ],
   "dependencies": {
     "accepts": "^2.0.0",
-    "body-parser": "^2.3.0",
     "content-disposition": "^2.0.1",
     "content-type": "^2.0.0",
     "cookie": "^0.7.1",
@@ -63,6 +62,7 @@
   },
   "devDependencies": {
     "after": "0.8.2",
+    "body-parser": "^2.3.0",
     "connect-redis": "^8.0.1",
     "cookie-parser": "1.4.7",
     "cookie-session": "2.1.1",
