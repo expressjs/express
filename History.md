@@ -4,6 +4,7 @@
 ## 🐞 Bug fixes
 
 - Fixed HTTP header conflict between Content-Length and Transfer-Encoding in res.send - by [@YuryShkoda](https://github.com/YuryShkoda) in [#4893](https://github.com/expressjs/express/pull/4893)
+- Fixed `res.links()` producing a trailing comma in the `Link` header when a rel value is an empty array - by [@JSap0914](https://github.com/JSap0914)
 
 
     Fixed the behavior of `res.send()` to prevent conflicts between `Content-Length` and `Transfer-Encoding` HTTP headers in responses. The `Content-Length` header in `res.send()` is now only added when a `Transfer-Encoding` header is not present, complying with the HTTP specification that states both headers should not coexist in the same response. ETag generation is unaffected by the presence of a `Transfer-Encoding` header - by [@cuishuang](https://github.com/cuishuang) in [#7459](https://github.com/expressjs/express/pull/7459)
