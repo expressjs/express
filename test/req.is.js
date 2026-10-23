@@ -1,10 +1,24 @@
 'use strict'
 
+var assert = require('node:assert')
 var express = require('..')
 var request = require('supertest')
 var after = require('after')
 
 describe('req.is()', function () {
+  it('should return null when the request has no body, even if content-type matches', function (done) {
+    var app = express()
+
+    app.use(function (req, res) {
+      res.json(req.is('application/json'))
+    })
+
+    request(app)
+      .get('/')
+      .type('application/json')
+      .expect(200, 'null', done)
+  })
+
   describe('when given a mime type', function () {
     it('should return the type when matching', function (done) {
       var app = express()
@@ -68,12 +82,14 @@ describe('req.is()', function () {
       var app = express()
 
       app.use(function (req, res) {
+        assert.strictEqual(req.get('Content-Type'), undefined)
         res.json(req.is('application/json'))
       })
 
       request(app)
       .post('/')
       .send('{}')
+      .unset('Content-Type')
       .expect(200, 'false', done)
     })
 
@@ -81,12 +97,14 @@ describe('req.is()', function () {
       var app = express()
 
       app.use(function (req, res) {
+        assert.strictEqual(req.get('Content-Type'), undefined)
         res.json(req.is(['application/json', 'image/jpeg']))
       })
 
       request(app)
         .post('/')
         .send('{}')
+        .unset('Content-Type')
         .expect(200, 'false', done)
     })
   })
@@ -217,6 +235,26 @@ describe('req.is()', function () {
   })
 
   describe('when given an array of types', function () {
+    it('should return the first match when multiple types match', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json({
+          extensionFirst: req.is(['json', 'application/*']),
+          wildcardFirst: req.is(['application/*', 'json'])
+        })
+      })
+
+      request(app)
+        .post('/')
+        .type('application/json')
+        .send('{}')
+        .expect(200, {
+          extensionFirst: 'json',
+          wildcardFirst: 'application/json'
+        }, done)
+    })
+
     it('should not flatten the argument', function (done) {
       var app = express()
 

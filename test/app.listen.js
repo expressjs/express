@@ -47,10 +47,14 @@ describe('app.listen()', function(){
     var count = 0
     var server = app.listen(0, function () {
       count++
+    })
+
+    server.once('listening', function () {
       server.emit('error', new Error('boom'))
-      setImmediate(function () {
+      server.close(function (err) {
+        assert.ifError(err)
         assert.strictEqual(count, 1)
-        server.close(done)
+        done()
       })
     })
   })

@@ -215,27 +215,64 @@ describe('res', function(){
           .expect('Content-Type', 'text/javascript; charset=utf-8')
           .expect(200, /cb\(42\)/, done)
       })
+    })
 
-      it('should handle non-string stringify return values', function (done) {
+    describe('when given an object with toJSON', function () {
+      it('should serialize the value returned by toJSON', function (done) {
         var app = express()
 
         app.use(function (req, res) {
-          var original = JSON.stringify
-          JSON.stringify = function () {
-            return 42
-          }
-
-          try {
-            res.jsonp('ignored')
-          } finally {
-            JSON.stringify = original
-          }
+          res.jsonp({
+            toJSON: function () {
+              return 42
+            }
+          })
         })
 
         request(app)
           .get('/?callback=cb')
           .expect('Content-Type', 'text/javascript; charset=utf-8')
-          .expect(200, /cb\(42\)/, done)
+          .expect(200, '/**/ typeof cb === \'function\' && cb(42);', done)
+      })
+
+      it('should invoke callback with no arguments when toJSON returns undefined', function (done) {
+        var app = express()
+
+        app.use(function (req, res) {
+          res.jsonp({
+            toJSON: function () {
+              return undefined
+            }
+          })
+        })
+
+        request(app)
+          .get('/?callback=cb')
+          .expect('Content-Type', 'text/javascript; charset=utf-8')
+          .expect(200, '/**/ typeof cb === \'function\' && cb();', done)
+      })
+
+      it('should forward errors thrown by toJSON before sending a response', function (done) {
+        var app = express()
+        var error = new Error('serialization failed')
+
+        app.use(function (req, res) {
+          res.jsonp({
+            toJSON: function () {
+              throw error
+            }
+          })
+        })
+
+        app.use(function (err, req, res, next) {
+          assert.strictEqual(err, error)
+          assert.strictEqual(res.headersSent, false)
+          res.status(500).send('serialization failed')
+        })
+
+        request(app)
+          .get('/?callback=cb')
+          .expect(500, 'serialization failed', done)
       })
     })
 

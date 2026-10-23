@@ -64,6 +64,30 @@ describe('res', function(){
       .expect(500, /No default engine was specified/, done);
     })
 
+    it('should forward errors for a missing view engine module', function(done){
+      var app = express();
+
+      app.set('view engine', 'express-test-missing-engine');
+
+      app.use(function (req, res) {
+        res.render('user');
+      });
+
+      app.use(function (err, req, res, next) {
+        res.status(500).json({
+          code: err.code,
+          message: err.message.split('\n')[0]
+        });
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, {
+        code: 'MODULE_NOT_FOUND',
+        message: "Cannot find module 'express-test-missing-engine'"
+      }, done);
+    })
+
     it('should expose app.locals', function(done){
       var app = createApp();
 
