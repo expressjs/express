@@ -15,7 +15,7 @@ var app = express();
 //     curl http://localhost:3000/user/1/edit (unauthorized since this is not you)
 //     curl -X DELETE http://localhost:3000/user/0 (unauthorized since you are not an admin)
 
-// Dummy users
+// Placeholder users
 var users = [
   { id: 0, name: 'tj', email: 'tj@vision-media.ca', role: 'member' }
   , { id: 1, name: 'ciaran', email: 'ciaranj@gmail.com', role: 'member' }

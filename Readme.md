@@ -1,12 +1,14 @@
-[![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](https://expressjs.com/)
+<a href="https://expressjs.com/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://expressjs.com/images/logos/logo-express-white.svg">
+    <img alt="Express Logo" src="https://expressjs.com/images/logos/logo-express-black.svg" width="280">
+  </picture>
+</a>
 
 **Fast, unopinionated, minimalist web framework for [Node.js](https://nodejs.org).**
 
-**This project has a [Code of Conduct].**
-
 ## Table of contents
 
-- [Table of contents](#table-of-contents)
 - [Installation](#installation)
 - [Features](#features)
 - [Docs \& Community](#docs--community)
@@ -57,7 +59,7 @@ If this is a brand new project, make sure to create a `package.json` first with
 the [`npm init` command](https://docs.npmjs.com/creating-a-package-json-file).
 
 Installation is done using the
-[`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
+[`npm install` command](https://docs.npmjs.com/downloading-and-installing-packages-locally):
 
 ```bash
 npm install express
@@ -80,7 +82,7 @@ for more information.
 
   * [Website and Documentation](https://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
   * [GitHub Organization](https://github.com/expressjs) for Official Middleware & Modules
-  * [Github Discussions](https://github.com/expressjs/discussions) for discussion on the development and usage of Express
+  * [GitHub Discussions](https://github.com/expressjs/discussions) for discussion on the development and usage of Express
 
 **PROTIP** Be sure to read the [migration guide to v5](https://expressjs.com/en/guide/migrating-5)
 
@@ -152,9 +154,11 @@ tests, triaging incoming pull requests and issues, and more!
 
 See the [Contributing Guide] for more technical details on contributing.
 
+This project has a [Code of Conduct]. By participating, you are expected to uphold this code.
+
 ### Security Issues
 
-If you discover a security vulnerability in Express, please see [Security Policies and Procedures](https://github.com/expressjs/express?tab=security-ov-file).
+If you discover a security vulnerability in Express, please see [Security Policies and Procedures](https://github.com/expressjs/express/security/policy).
 
 ### Running Tests
 
@@ -213,7 +217,8 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 * [Phillip9587](https://github.com/Phillip9587) - **Phillip Barta**
 * [efekrskl](https://github.com/efekrskl) - **Efe Karasakal**
 * [rxmarbles](https://github.com/rxmarbles) - **Rick Markins** (he/him)
-
+* [krzysdz](https://github.com/krzysdz)
+* [GroophyLifefor](https://github.com/GroophyLifefor) - **Murat Kirazkaya**
 
 <details>
 <summary>Triagers emeriti members</summary>
@@ -237,8 +242,8 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
   * [gireeshpunathil](https://github.com/gireeshpunathil) - **Gireesh Punathil**
   * [jake32321](https://github.com/jake32321) - **Jake Reed**
   * [jonchurch](https://github.com/jonchurch) - **Jon Church**
-  * [lekanikotun](https://github.com/lekanikotun) - **Troy Goode**
-  * [marsonya](https://github.com/marsonya) - **Lekan Ikotun**
+  * [lekanikotun](https://github.com/lekanikotun) - **Lekan Ikotun**
+  * [marsonya](https://github.com/marsonya) - **akhil marsonya**
   * [mastermatt](https://github.com/mastermatt) - **Matt R. Wilson**
   * [maxakuru](https://github.com/maxakuru) - **Max Edell**
   * [mlrawlings](https://github.com/mlrawlings) - **Michael Rawlings**
@@ -248,7 +253,7 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
   * [tunniclm](https://github.com/tunniclm) - **Mike Tunnicliffe**
   * [enyoghasim](https://github.com/enyoghasim) - **David Enyoghasim**
   * [0ss](https://github.com/0ss) - **Salah**
-  * [import-brain](https://github.com/import-brain) - **Eric Cheng** (he/him)
+  * [ejcheng](https://github.com/ejcheng)- **Eric Cheng** (he/him)
   * [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
   * [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
   * [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
