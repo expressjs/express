@@ -70,6 +70,34 @@ describe('req', function(){
       .expect(200, '[::1]:3000', done);
     })
 
+    describe('with a Host header containing userinfo', function(){
+      it('should return the real host, dropping the userinfo', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.end(req.host);
+        });
+
+        request(app)
+        .post('/')
+        .set('Host', 'evil.com:fake@legitimate.com:3000')
+        .expect(200, 'legitimate.com:3000', done);
+      })
+
+      it('should return undefined for an encoded userinfo separator', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.end(String(req.host));
+        });
+
+        request(app)
+        .post('/')
+        .set('Host', 'evil.com:x%40legitimate.com')
+        .expect(200, 'undefined', done);
+      })
+    })
+
     describe('when "trust proxy" is enabled', function(){
       it('should respect X-Forwarded-Host', function(done){
         var app = express();
