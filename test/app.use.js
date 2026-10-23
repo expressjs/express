@@ -361,6 +361,47 @@ describe('app', function(){
       .expect(200, 'saw POST /bar', cb);
     })
 
+    it('should treat all-slash paths as a root mount', function (done) {
+      var app = express();
+      var sub = express();
+      var cb = after(4, done);
+
+      sub.get('/', function (req, res) {
+        res.send('sub-root');
+      });
+
+      sub.get('/secret', function (req, res) {
+        res.send('sub-secret');
+      });
+
+      app.use('//', sub);
+
+      request(app)
+      .get('/')
+      .expect(200, 'sub-root', cb);
+
+      request(app)
+      .get('/secret')
+      .expect(200, 'sub-secret', cb);
+
+      // unrelated paths must still 404 — '//' must not match every request
+      request(app)
+      .get('/missing')
+      .expect(404, cb);
+
+      // '///' (and longer) must normalize to '/' the same way as '//'
+      var triple = express();
+      var sub2 = express();
+      sub2.get('/', function (req, res) {
+        res.send('triple-root');
+      });
+      triple.use('///', sub2);
+
+      request(triple)
+      .get('/')
+      .expect(200, 'triple-root', cb);
+    })
+
     it('should accept array of middleware', function (done) {
       var app = express();
 
