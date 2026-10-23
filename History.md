@@ -1,3 +1,9 @@
+# Unreleased Changes
+
+## ⚠️ Breaking changes
+
+* Drop support for Node.js 18, 20 and 22. Express now requires Node.js 24 or higher (`engines.node` is `>= 24`). Node.js 18 and 20 are already end of life and Node.js 22 reaches end of life on 2027-04-30, before the expected 6.0 release
+
 5.3.0
 =====
 
