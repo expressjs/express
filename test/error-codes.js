@@ -39,6 +39,41 @@ describe('error codes', function () {
     })
   })
 
+  describe('isExpressError()', function () {
+    it('should be exposed', function () {
+      assert.strictEqual(typeof express.isExpressError, 'function')
+    })
+
+    it('should return true for errors thrown by Express', function () {
+      var app = express()
+      var err
+
+      try {
+        app.use()
+      } catch (e) {
+        err = e
+      }
+
+      assert.strictEqual(express.isExpressError(err), true)
+    })
+
+    it('should return false for errors without a code', function () {
+      assert.strictEqual(express.isExpressError(new Error('boom')), false)
+    })
+
+    it('should return false for errors with a foreign code', function () {
+      var err = new Error('boom')
+      err.code = 'ERR_INVALID_ARG_TYPE'
+      assert.strictEqual(express.isExpressError(err), false)
+    })
+
+    it('should return false for non-error values', function () {
+      assert.strictEqual(express.isExpressError({ code: 'EXPRESS_ERR_MIDDLEWARE_REQUIRED' }), false)
+      assert.strictEqual(express.isExpressError(null), false)
+      assert.strictEqual(express.isExpressError(undefined), false)
+    })
+  })
+
   describe('res.status()', function () {
     it('should have EXPRESS_ERR_INVALID_STATUS_CODE for non-integer', function (done) {
       var app = express()

@@ -2,7 +2,7 @@
 
 ## 🚀 Improvements
 
-* Errors thrown by Express now carry a stable `code` property, exposed as `express.errorCodes`, so error handlers can branch on the code instead of matching message text. Messages and error types are unchanged ([#6951](https://github.com/expressjs/express/issues/6951))
+* Errors thrown by Express now carry a stable `code` property, exposed as `express.errorCodes`, so error handlers can branch on the code instead of matching message text. `express.isExpressError(err)` returns `true` only for errors carrying one of these codes. Messages and error types are unchanged ([#6951](https://github.com/expressjs/express/issues/6951))
 
     ```js
     const { errorCodes } = require('express');
