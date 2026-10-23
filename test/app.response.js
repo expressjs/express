@@ -1,5 +1,6 @@
 'use strict'
 
+var assert = require('node:assert')
 var after = require('after')
 var express = require('../')
   , request = require('supertest');
@@ -140,44 +141,77 @@ describe('app', function(){
         .expect(200, 'FOO', cb)
     })
 
-    it('should deprecate when redirect called without a url', function (done) {
+    it('should deprecate when redirect called with an empty url', function (done) {
       var app = express()
+      var deprecations = []
 
       app.use(function (req, res) {
-        res.redirect('')
+        captureDeprecations(deprecations, function () {
+          res.redirect('')
+        })
       })
 
       request(app)
         .get('/')
         .expect(302)
         .expect('Location', '')
+        .expect(function () {
+          assert.deepStrictEqual(deprecations, ['Provide a url argument'])
+        })
         .expect(/Redirecting to/, done)
     })
 
     it('should deprecate when redirect address is not a string', function (done) {
       var app = express()
+      var deprecations = []
 
       app.use(function (req, res) {
-        res.redirect(302, 123)
+        captureDeprecations(deprecations, function () {
+          res.redirect(302, 123)
+        })
       })
 
       request(app)
         .get('/')
         .expect(302)
         .expect('Location', '123')
+        .expect(function () {
+          assert.deepStrictEqual(deprecations, ['Url must be a string'])
+        })
         .expect(/Redirecting to 123/, done)
     })
 
-    it('should raise when redirect status is not a number', function (done) {
+    it('should deprecate and raise when redirect status is not a number', function (done) {
       var app = express()
+      var deprecations = []
 
       app.use(function (req, res) {
-        res.redirect('foo', '/bar')
+        captureDeprecations(deprecations, function () {
+          res.redirect('foo', '/bar')
+        })
       })
 
       request(app)
         .get('/')
+        .expect(function () {
+          assert.deepStrictEqual(deprecations, ['Status must be a number'])
+        })
         .expect(500, /Invalid status code/, done)
     })
   })
 })
+
+function captureDeprecations (deprecations, fn) {
+  function onDeprecation (warning) {
+    if (warning.namespace === 'express') {
+      deprecations.push(warning.message)
+    }
+  }
+
+  process.on('deprecation', onDeprecation)
+  try {
+    fn()
+  } finally {
+    process.removeListener('deprecation', onDeprecation)
+  }
+}
