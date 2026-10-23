@@ -3,6 +3,7 @@
 var assert = require('node:assert')
 var express = require('..')
 var request = require('supertest')
+var support = require('./support/env')
 
 describe('app', function(){
   it('should inherit from event emitter', function(done){
@@ -71,50 +72,34 @@ describe('app.path()', function(){
   })
 })
 
-describe('in development', function(){
-  before(function () {
-    this.env = process.env.NODE_ENV
-    process.env.NODE_ENV = 'development'
-  })
+describe('default configuration', function(){
+  function createApp () {
+    // bypass the test-suite override of "env" in test/support/env.js
+    var app = express()
+    support.defaultConfiguration.call(app)
+    return app
+  }
 
-  after(function () {
-    process.env.NODE_ENV = this.env
-  })
-
-  it('should disable "view cache"', function(){
-    var app = express();
-    assert.ok(!app.enabled('view cache'))
-  })
-})
-
-describe('in production', function(){
-  before(function () {
-    this.env = process.env.NODE_ENV
-    process.env.NODE_ENV = 'production'
-  })
-
-  after(function () {
-    process.env.NODE_ENV = this.env
+  it('should default "env" to production', function(){
+    var app = createApp()
+    assert.strictEqual(app.get('env'), 'production')
   })
 
   it('should enable "view cache"', function(){
-    var app = express();
+    var app = createApp()
     assert.ok(app.enabled('view cache'))
   })
-})
 
-describe('without NODE_ENV', function(){
-  before(function () {
-    this.env = process.env.NODE_ENV
-    process.env.NODE_ENV = ''
-  })
+  it('should ignore NODE_ENV', function(){
+    var env = process.env.NODE_ENV
+    process.env.NODE_ENV = 'development'
 
-  after(function () {
-    process.env.NODE_ENV = this.env
-  })
-
-  it('should default to development', function(){
-    var app = express();
-    assert.strictEqual(app.get('env'), 'development')
+    try {
+      var app = createApp()
+      assert.strictEqual(app.get('env'), 'production')
+      assert.ok(app.enabled('view cache'))
+    } finally {
+      process.env.NODE_ENV = env
+    }
   })
 })
