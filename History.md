@@ -1,3 +1,18 @@
+# Unreleased Changes
+
+## ⚠️ Breaking changes
+
+* Remove the `serve-static` re-export. `express.static()` is no longer available and `serve-static` is no longer a dependency of Express. Install `serve-static` and use it directly
+
+    ```js
+    // before
+    app.use(express.static('public'));
+
+    // after
+    const serveStatic = require('serve-static');
+    app.use(serveStatic('public'));
+    ```
+
 5.3.0
 =====
 

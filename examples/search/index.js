@@ -12,13 +12,14 @@
  */
 
 var express = require('../..');
+var serveStatic = require('serve-static');
 var path = require('node:path');
 var redis = require('redis');
 
 var db = redis.createClient();
 var app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(serveStatic(path.join(__dirname, 'public')));
 
 // npm install redis
 
