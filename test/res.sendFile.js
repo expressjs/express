@@ -114,6 +114,20 @@ describe('res', function(){
       .expect(200, done);
     });
 
+    it('should not modify the options object', function (done) {
+      var options = {};
+      var app = createApp(path.resolve(fixtures, 'name.txt'), options).disable('etag');
+
+      request(app)
+      .get('/')
+      .expect(utils.shouldNotHaveHeader('ETag'))
+      .expect(200, function (err) {
+        if (err) return done(err);
+        assert.deepStrictEqual(options, {});
+        done();
+      });
+    });
+
     it('should 404 for directory', function (done) {
       var app = createApp(path.resolve(fixtures, 'blog'));
 
