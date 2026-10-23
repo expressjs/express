@@ -183,6 +183,112 @@ describe('res', function(){
       .expect(200, cb);
     })
 
+    it('should invoke the callback once on a socket error during transfer', function (done) {
+      var app = express()
+      var cb = after(2, done)
+      var socketError = new Error('socket failed')
+      socketError.code = 'EPIPE'
+
+      app.use(function (req, res) {
+        res.once('pipe', function () {
+          res.destroy(socketError)
+        })
+
+        res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
+          assert.strictEqual(err, socketError)
+          cb()
+        })
+      })
+
+      var server = app.listen()
+      request(server).get('/').end(function (err) {
+        assert.ok(err)
+        server.close(cb)
+      })
+    })
+
+    ;['ECONNRESET', 'EPIPE'].forEach(function (code) {
+      it('should invoke the callback once when ' + code + ' follows a directory error', function (done) {
+        var app = express()
+        var cb = after(2, done)
+        var socketError = new Error('socket failed')
+        socketError.code = code
+
+        app.use(function (req, res) {
+          res.sendFile(path.resolve(fixtures, 'blog'), function (err) {
+            assert.ok(err)
+            assert.strictEqual(err.code, 'EISDIR')
+            res.destroy(socketError)
+            cb()
+          })
+        })
+
+        var server = app.listen()
+        request(server).get('/').end(function (err) {
+          assert.ok(err)
+          server.close(cb)
+        })
+      })
+    })
+
+    it('should invoke the callback once when a socket error precedes the stream end', function (done) {
+      var app = express()
+      var cb = after(2, done)
+      var socketError = new Error('socket failed')
+      socketError.code = 'EPIPE'
+
+      app.use(function (req, res) {
+        var socket = res.socket
+        res.once('pipe', function (stream) {
+          // Report the error before send handles the stream end event.
+          stream.prependOnceListener('end', function () {
+            socket.emit('error', socketError)
+          })
+        })
+
+        res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
+          assert.strictEqual(err, socketError)
+          cb()
+        })
+      })
+
+      var server = app.listen()
+      request(server).get('/').end(function () {
+        // The client may receive the complete body before the socket error.
+        server.close(cb)
+      })
+    })
+
+    it('should invoke the callback once when a stream error follows response finish', function (done) {
+      var app = express()
+      var cb = after(2, done)
+      var streamError = new Error('read failed')
+      streamError.code = 'EIO'
+
+      app.use(function (req, res) {
+        res.once('pipe', function (stream) {
+          res.once('finish', function () {
+            // Report the error before the deferred completion callback runs.
+            stream.emit('error', streamError)
+          })
+          stream.once('open', function () {
+            res.end()
+          })
+        })
+
+        res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
+          assert.strictEqual(err, streamError)
+          cb()
+        })
+      })
+
+      var server = app.listen()
+      request(server).get('/').end(function (err) {
+        assert.ok(err)
+        server.close(cb)
+      })
+    })
+
     it('should invoke the callback when client aborts', function (done) {
       var cb = after(2, done)
       var app = express();
