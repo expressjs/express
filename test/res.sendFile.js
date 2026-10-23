@@ -92,6 +92,42 @@ describe('res', function(){
       }
     });
 
+    it('should let an explicit etag option turn the ETag off', function (done) {
+      var app = createApp(path.resolve(fixtures, 'name.txt'), { etag: false });
+
+      request(app)
+      .get('/')
+      .expect(handleHeaders)
+      .expect(200, done);
+
+      function handleHeaders (res) {
+        assert(res.headers.etag === undefined);
+      }
+    });
+
+    it('should let an explicit etag option turn the ETag on', function (done) {
+      var app = createApp(path.resolve(fixtures, 'name.txt'), { etag: true }).disable('etag');
+
+      request(app)
+      .get('/')
+      .expect('ETag', /^(?:W\/)?"[^"]+"$/)
+      .expect(200, done);
+    });
+
+    it('should not modify the options object', function (done) {
+      var options = {};
+      var app = createApp(path.resolve(fixtures, 'name.txt'), options).disable('etag');
+
+      request(app)
+      .get('/')
+      .expect(utils.shouldNotHaveHeader('ETag'))
+      .expect(200, function (err) {
+        if (err) return done(err);
+        assert.deepStrictEqual(options, {});
+        done();
+      });
+    });
+
     it('should 404 for directory', function (done) {
       var app = createApp(path.resolve(fixtures, 'blog'));
 
