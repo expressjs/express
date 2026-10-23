@@ -113,3 +113,103 @@ describe('utils.compileETag()', function () {
     assert.throws(() => utils.compileETag({}), TypeError);
   });
 });
+
+describe('utils.compileQueryParser()', function () {
+  it('should return a function for true', function () {
+    var fn = utils.compileQueryParser(true);
+    assert.strictEqual(typeof fn, 'function');
+  });
+
+  it('should return a function for "simple"', function () {
+    var fn = utils.compileQueryParser('simple');
+    assert.strictEqual(typeof fn, 'function');
+  });
+
+  it('should parse simple query strings', function () {
+    var fn = utils.compileQueryParser('simple');
+    var result = fn('foo=bar&baz=qux');
+    assert.strictEqual(result.foo, 'bar');
+    assert.strictEqual(result.baz, 'qux');
+  });
+
+  it('should return a function for "extended"', function () {
+    var fn = utils.compileQueryParser('extended');
+    assert.strictEqual(typeof fn, 'function');
+  });
+
+  it('should parse nested query strings with extended', function () {
+    var fn = utils.compileQueryParser('extended');
+    var result = fn('foo[bar]=baz');
+    assert.deepStrictEqual(result, { foo: { bar: 'baz' } });
+  });
+
+  it('should return undefined for false', function () {
+    assert.strictEqual(utils.compileQueryParser(false), undefined);
+  });
+
+  it('should return the function when given a custom function', function () {
+    var custom = function (str) { return str; };
+    assert.strictEqual(utils.compileQueryParser(custom), custom);
+  });
+
+  it('should throw for unknown string values', function () {
+    assert.throws(function () { utils.compileQueryParser('bogus'); }, TypeError);
+  });
+});
+
+describe('utils.compileTrust()', function () {
+  it('should return a function for true', function () {
+    var fn = utils.compileTrust(true);
+    assert.strictEqual(typeof fn, 'function');
+    assert.strictEqual(fn('127.0.0.1'), true);
+  });
+
+  it('should return the function when given a custom function', function () {
+    var custom = function () { return false; };
+    assert.strictEqual(utils.compileTrust(custom), custom);
+  });
+
+  it('should support numeric trust (hop count)', function () {
+    var fn = utils.compileTrust(2);
+    assert.strictEqual(typeof fn, 'function');
+    assert.strictEqual(fn('127.0.0.1', 0), true);
+    assert.strictEqual(fn('127.0.0.1', 1), true);
+    assert.strictEqual(fn('127.0.0.1', 2), false);
+  });
+
+  it('should support comma-separated string values', function () {
+    var fn = utils.compileTrust('127.0.0.1, 10.0.0.1');
+    assert.strictEqual(typeof fn, 'function');
+  });
+
+  it('should return a function for undefined/falsy', function () {
+    var fn = utils.compileTrust(undefined);
+    assert.strictEqual(typeof fn, 'function');
+  });
+});
+
+describe('utils.normalizeTypes()', function () {
+  it('should normalize an array of types', function () {
+    var result = utils.normalizeTypes(['html', 'json']);
+    assert.strictEqual(result.length, 2);
+    assert.strictEqual(result[0].value, 'text/html');
+    assert.strictEqual(result[1].value, 'application/json');
+  });
+
+  it('should handle full MIME types', function () {
+    var result = utils.normalizeTypes(['text/plain', 'application/json']);
+    assert.strictEqual(result[0].value, 'text/plain');
+    assert.strictEqual(result[1].value, 'application/json');
+  });
+
+  it('should handle an empty array', function () {
+    var result = utils.normalizeTypes([]);
+    assert.strictEqual(result.length, 0);
+  });
+
+  it('should handle MIME types with quality parameters', function () {
+    var result = utils.normalizeTypes(['text/html;q=0.9']);
+    assert.strictEqual(result[0].value, 'text/html');
+    assert.strictEqual(result[0].quality, 0.9);
+  });
+});
