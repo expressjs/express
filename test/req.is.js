@@ -1,9 +1,24 @@
 'use strict'
 
+var assert = require('node:assert')
 var express = require('..')
 var request = require('supertest')
+var after = require('after')
 
 describe('req.is()', function () {
+  it('should return null when the request has no body, even if content-type matches', function (done) {
+    var app = express()
+
+    app.use(function (req, res) {
+      res.json(req.is('application/json'))
+    })
+
+    request(app)
+      .get('/')
+      .type('application/json')
+      .expect(200, 'null', done)
+  })
+
   describe('when given a mime type', function () {
     it('should return the type when matching', function (done) {
       var app = express()
@@ -27,10 +42,24 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .type('application/json')
-      .send('{}')
-      .expect(200, 'false', done)
+        .post('/')
+        .type('application/json')
+        .send('{}')
+        .expect(200, 'false', done)
+    })
+
+    it('should return false when none in list matches', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is(['image/jpeg', 'text/html']))
+      })
+
+      request(app)
+        .post('/')
+        .type('application/json')
+        .send('{}')
+        .expect(200, 'false', done)
     })
 
     it('should ignore charset', function (done) {
@@ -41,25 +70,42 @@ describe('req.is()', function () {
       })
 
       request(app)
-      .post('/')
-      .type('application/json; charset=UTF-8')
-      .send('{}')
-      .expect(200, '"application/json"', done)
+        .post('/')
+        .type('application/json; charset=UTF-8')
+        .send('{}')
+        .expect(200, '"application/json"', done)
     })
   })
 
   describe('when content-type is not present', function(){
-    it('should return false', function (done) {
+    it('should return false for single type', function (done) {
       var app = express()
 
       app.use(function (req, res) {
+        assert.strictEqual(req.get('Content-Type'), undefined)
         res.json(req.is('application/json'))
       })
 
       request(app)
       .post('/')
       .send('{}')
+      .unset('Content-Type')
       .expect(200, 'false', done)
+    })
+
+    it('should return false for multiple types', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        assert.strictEqual(req.get('Content-Type'), undefined)
+        res.json(req.is(['application/json', 'image/jpeg']))
+      })
+
+      request(app)
+        .post('/')
+        .send('{}')
+        .unset('Content-Type')
+        .expect(200, 'false', done)
     })
   })
 
@@ -76,6 +122,27 @@ describe('req.is()', function () {
       .type('application/json')
       .send('{}')
       .expect(200, '"json"', done)
+    })
+
+    it('should lookup the first matching extension from list', function (done) {
+      var app = express()
+      var cb = after(2, done)
+
+      app.use(function (req, res) {
+        res.json(req.is(['json', 'html']))
+      })
+
+      request(app)
+        .post('/')
+        .type('application/json')
+        .send('{}')
+        .expect(200, '"json"', cb)
+
+      request(app)
+        .post('/')
+        .type('text/html')
+        .send('{}')
+        .expect(200, '"html"', cb)
     })
   })
 
@@ -165,5 +232,68 @@ describe('req.is()', function () {
       .send('{}')
       .expect(200, '"application/json"', done)
     })
+  })
+
+  describe('when given an array of types', function () {
+    it('should return the first match when multiple types match', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json({
+          extensionFirst: req.is(['json', 'application/*']),
+          wildcardFirst: req.is(['application/*', 'json'])
+        })
+      })
+
+      request(app)
+        .post('/')
+        .type('application/json')
+        .send('{}')
+        .expect(200, {
+          extensionFirst: 'json',
+          wildcardFirst: 'application/json'
+        }, done)
+    })
+
+    it('should not flatten the argument', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.json(req.is(['text/*', 'application/json']))
+      })
+
+      request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, '"application/json"', done)
+    })
+  })
+
+  it('should match wildcards in list and return full type or false', function (done){
+    var app = express()
+    var cb = after(3, done)
+
+    app.use(function (req, res) {
+      res.json(req.is(['application/*', '*/jpeg']))
+    })
+
+    request(app)
+      .post('/')
+      .type('image/jpeg')
+      .send('{}')
+      .expect(200, '"image/jpeg"', cb)
+
+    request(app)
+      .post('/')
+      .type('text/html')
+      .send('{}')
+      .expect(200, 'false', cb)
+
+    request(app)
+      .post('/')
+      .type('application/json')
+      .send('{}')
+      .expect(200, '"application/json"', cb)
   })
 })
