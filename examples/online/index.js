@@ -4,32 +4,32 @@
 // https://redis.io/
 
 // then:
-// $ npm install redis online
+// $ npm install redis online-new
 // $ redis-server
 
-/**
- * Module dependencies.
- */
+const express = require('../..');
+let online = require('online-new');
+const redis = require('redis');
 
-var express = require('../..');
-var online = require('online');
-var redis = require('redis');
-var db = redis.createClient();
-
-// online
+const db = redis.createClient();
+db.on('connect', () => {
+    console.log('Connected to Redis');
+});
+db.on('error', (err) => {
+    console.error('Redis Client Error', err);
+});
+db.connect();
 
 online = online(db);
 
-// app
-
-var app = express();
+const app = express();
 
 // activity tracking, in this case using
 // the UA string, you would use req.user.id etc
 
-app.use(function(req, res, next){
+app.use(async function(req, res, next){
   // fire-and-forget
-  online.add(req.headers['user-agent']);
+  await online.add(req.headers['user-agent']);
   next();
 });
 
@@ -47,15 +47,12 @@ function list(ids) {
  * GET users online.
  */
 
-app.get('/', function(req, res, next){
-  online.last(5, function(err, ids){
-    if (err) return next(err);
-    res.send('<p>Users online: ' + ids.length + '</p>' + list(ids));
-  });
+app.get('/', async function(req, res, next){
+  const ids = await online.last(5);
+  res.send('<p>Users online: ' + ids.length + '</p>' + list(ids));
 });
 
-/* istanbul ignore next */
-if (!module.parent) {
+if (require.main === module) {
   app.listen(3000);
   console.log('Express started on port 3000');
 }
