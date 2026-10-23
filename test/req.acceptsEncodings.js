@@ -9,7 +9,7 @@ describe('req', function(){
       var app = express();
 
       app.get('/', function (req, res) {
-        res.send({
+        res.json({
           gzip: req.acceptsEncodings('gzip'),
           deflate: req.acceptsEncodings('deflate')
         })
@@ -25,7 +25,7 @@ describe('req', function(){
       var app = express();
 
       app.get('/', function (req, res) {
-        res.send({
+        res.json({
           bogus: req.acceptsEncodings('bogus')
         })
       })

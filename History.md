@@ -1,3 +1,19 @@
+# Unreleased Changes
+
+## ⚠️ Breaking changes
+
+* `res.send()` no longer serializes non-string values as JSON. Passing an object, array, number or boolean now throws a `TypeError`; use `res.json()` instead. `res.send()` only accepts a string, `Buffer`, `ArrayBufferView`, `null` or `undefined`, so a value that is unexpectedly not a string can no longer switch a response from HTML to JSON silently ([#2249](https://github.com/expressjs/express/issues/2249))
+
+    ```js
+    // before
+    res.send({ name: 'tobi' });
+    res.send(1000);
+
+    // after
+    res.json({ name: 'tobi' });
+    res.json(1000);
+    ```
+
 5.3.0
 =====
 

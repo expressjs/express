@@ -21,7 +21,7 @@ app1.use(function(req, res, next){
       assert(req === a)
       assert(res === b)
       assert(next === c)
-      res.send({ message: 'hey' });
+      res.json({ message: 'hey' });
     }
   });
 });
@@ -38,7 +38,7 @@ app2.use(function(req, res, next){
   res.format({
     text: function(){ res.send('hey') },
     html: function(){ res.send('<p>hey</p>') },
-    json: function(){ res.send({ message: 'hey' }) }
+    json: function(){ res.json({ message: 'hey' }) }
   });
 });
 
@@ -67,7 +67,7 @@ app4.get('/', function (req, res) {
   res.format({
     text: function(){ res.send('hey') },
     html: function(){ res.send('<p>hey</p>') },
-    json: function(){ res.send({ message: 'hey' }) }
+    json: function(){ res.json({ message: 'hey' }) }
   });
 });
 
@@ -101,7 +101,7 @@ describe('res', function(){
         res.format({
           'text/plain; charset=utf-8': function(){ res.send('hey') },
           'text/html; foo=bar; bar=baz': function(){ res.send('<p>hey</p>') },
-          'application/json; q=0.5': function(){ res.send({ message: 'hey' }) }
+          'application/json; q=0.5': function(){ res.json({ message: 'hey' }) }
         });
       });
 
@@ -163,7 +163,7 @@ describe('res', function(){
         res.format({
           text: function(){ res.send('hey') },
           html: function(){ res.send('<p>hey</p>') },
-          json: function(){ res.send({ message: 'hey' }) }
+          json: function(){ res.json({ message: 'hey' }) }
         });
       });
 

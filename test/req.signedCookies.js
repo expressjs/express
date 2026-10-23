@@ -16,7 +16,7 @@ describe('req', function(){
           res.cookie('obj', { foo: 'bar' }, { signed: true });
           res.end();
         } else {
-          res.send(req.signedCookies);
+          res.json(req.signedCookies);
         }
       });
 
