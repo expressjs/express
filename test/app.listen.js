@@ -2,6 +2,8 @@
 
 var express = require('../')
 var assert = require('node:assert')
+var http = require('node:http')
+var request = require('supertest')
 
 describe('app.listen()', function(){
   it('should wrap with an HTTP server', function(done){
@@ -56,6 +58,62 @@ describe('app.listen()', function(){
         assert.strictEqual(count, 1)
         done()
       })
+    })
+  })
+
+  it('should create req and res with the app prototypes', function (done) {
+    var app = express()
+    var setPrototypeOf = Object.setPrototypeOf
+    var switches = 0
+
+    Object.setPrototypeOf = function (obj, proto) {
+      if (proto === app.request || proto === app.response) switches++
+      return setPrototypeOf(obj, proto)
+    }
+
+    app.use(function (req, res) {
+      Object.setPrototypeOf = setPrototypeOf
+      assert.strictEqual(Object.getPrototypeOf(req), app.request)
+      assert.strictEqual(Object.getPrototypeOf(res), app.response)
+      assert(req instanceof http.IncomingMessage)
+      assert(res instanceof http.ServerResponse)
+      res.send(String(switches))
+    })
+
+    var server = app.listen(0, function () {
+      request(server)
+        .get('/')
+        .expect(200, '0', function (err) {
+          Object.setPrototypeOf = setPrototypeOf
+          server.close(function () { done(err) })
+        })
+    })
+  })
+
+  it('should switch prototypes for a mounted app', function (done) {
+    var app = express()
+    var blog = express()
+
+    blog.use(function (req, res, next) {
+      assert.strictEqual(Object.getPrototypeOf(req), blog.request)
+      assert.strictEqual(Object.getPrototypeOf(res), blog.response)
+      next()
+    })
+
+    app.use('/blog', blog)
+
+    app.use(function (req, res) {
+      assert.strictEqual(Object.getPrototypeOf(req), app.request)
+      assert.strictEqual(Object.getPrototypeOf(res), app.response)
+      res.send('ok')
+    })
+
+    var server = app.listen(0, function () {
+      request(server)
+        .get('/blog')
+        .expect(200, 'ok', function (err) {
+          server.close(function () { done(err) })
+        })
     })
   })
 
