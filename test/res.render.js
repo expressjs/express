@@ -1,5 +1,7 @@
 'use strict'
 
+var after = require('after')
+var assert = require('node:assert')
 var express = require('..');
 var path = require('node:path')
 var request = require('supertest');
@@ -150,6 +152,29 @@ describe('res', function(){
         request(app)
         .get('/')
         .expect(500, 'got error: RenderError', done)
+      })
+    })
+
+    describe('when the response was already sent', function(){
+      it('should next(err) instead of throwing', function(done){
+        var app = createApp();
+        var cb = after(2, done)
+
+        app.set('views', path.join(__dirname, 'fixtures'))
+
+        app.use(function(req, res){
+          res.end('already sent')
+          res.render('user.tmpl', { user: { name: 'tobi' } });
+        });
+
+        app.use(function(err, req, res, next){
+          assert.strictEqual(err.code, 'ERR_HTTP_HEADERS_SENT')
+          cb()
+        });
+
+        request(app)
+        .get('/')
+        .expect(200, 'already sent', cb)
       })
     })
 
