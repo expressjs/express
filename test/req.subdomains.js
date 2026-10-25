@@ -44,6 +44,19 @@ describe('req', function(){
         .set('Host', '[::1]')
         .expect(200, [], done);
       })
+
+      it('should work with a dotted IPv6 address', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.send(req.subdomains);
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', '[::ffff:127.0.0.1]')
+        .expect(200, [], done);
+      })
     })
 
     describe('otherwise', function(){
