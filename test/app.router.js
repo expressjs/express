@@ -1205,6 +1205,174 @@ describe('app.router', function () {
           .expect(200, 'yee', done);
       });
   })
+  describe('routing settings of mounted sub-apps', function () {
+    // Both settings share the same mechanism: the app router is created
+    // lazily on the first route registration and the options are frozen
+    // at that moment. These tests describe the intended behavior: a
+    // sub-app honors the routing settings it reports through app.get()
+    // after being mounted, regardless of when its routes were added.
+    var cases = [
+      {
+        setting: 'case sensitive routing',
+        route: '/uSer',
+        exact: '/uSer',
+        variant: '/user'
+      },
+      {
+        setting: 'strict routing',
+        route: '/user',
+        exact: '/user',
+        variant: '/user/'
+      }
+    ]
+
+    cases.forEach(function (test) {
+      describe('when "' + test.setting + '" is enabled on the parent', function () {
+        it('should apply to sub-app routes registered after mount', function (done) {
+          var app = express()
+          var blog = express()
+
+          app.enable(test.setting)
+          app.use('/blog', blog)
+
+          blog.get(test.route, function (req, res) {
+            res.end('tj')
+          })
+
+          request(app)
+            .get('/blog' + test.variant)
+            .expect(404, done)
+        })
+
+        it('should apply to sub-app routes registered before mount', function (done) {
+          var app = express()
+          var blog = express()
+
+          app.enable(test.setting)
+
+          blog.get(test.route, function (req, res) {
+            res.end('tj')
+          })
+
+          app.use('/blog', blog)
+
+          request(app)
+            .get('/blog' + test.variant)
+            .expect(404, done)
+        })
+
+        it('should keep the reported setting and the router in agreement', function (done) {
+          var app = express()
+          var blog = express()
+
+          app.enable(test.setting)
+
+          blog.get(test.route, function (req, res) {
+            res.end('tj')
+          })
+
+          app.use('/blog', blog)
+
+          assert.strictEqual(blog.enabled(test.setting), true)
+
+          request(app)
+            .get('/blog' + test.exact)
+            .expect(200, 'tj', function (err) {
+              if (err) return done(err)
+              request(app)
+                .get('/blog' + test.variant)
+                .expect(404, done)
+            })
+        })
+
+        it('should prefer an explicit sub-app setting over the inherited one', function (done) {
+          var app = express()
+          var blog = express()
+
+          app.enable(test.setting)
+          blog.disable(test.setting)
+
+          blog.get(test.route, function (req, res) {
+            res.end('tj')
+          })
+
+          app.use('/blog', blog)
+
+          assert.strictEqual(blog.enabled(test.setting), false)
+
+          request(app)
+            .get('/blog' + test.variant)
+            .expect(200, 'tj', done)
+        })
+
+        it('should not reach a sub-app route that a parent guard on a sub-path does not cover', function (done) {
+          var app = express()
+          var blog = express()
+
+          app.enable(test.setting)
+
+          blog.get(test.route, function (req, res) {
+            res.end('tj')
+          })
+
+          // a route-level guard honors the parent routing settings, so the
+          // variant path is not covered by it and falls through to the sub-app
+          app.all('/blog' + test.route, function (req, res) {
+            res.sendStatus(403)
+          })
+          app.use('/blog', blog)
+
+          request(app)
+            .get('/blog' + test.exact)
+            .expect(403, function (err) {
+              if (err) return done(err)
+              request(app)
+                .get('/blog' + test.variant)
+                .expect(404, done)
+            })
+        })
+
+        it('should always block behind a parent guard on the full mount path', function (done) {
+          var app = express()
+          var blog = express()
+
+          app.enable(test.setting)
+
+          blog.get(test.route, function (req, res) {
+            res.end('tj')
+          })
+
+          app.use('/blog', function (req, res) {
+            res.sendStatus(403)
+          })
+          app.use('/blog', blog)
+
+          request(app)
+            .get('/blog' + test.variant)
+            .expect(403, done)
+        })
+
+        it('should reject mounting the same sub-app under parents with conflicting settings', function () {
+          var strict = express()
+          var loose = express()
+          var blog = express()
+
+          strict.enable(test.setting)
+
+          blog.get(test.route, function (req, res) {
+            res.end('tj')
+          })
+
+          strict.use('/blog', blog)
+
+          assert.throws(function () {
+            loose.use('/blog', blog)
+          }, new RegExp("conflicting '" + test.setting + "'"))
+        })
+      })
+    })
+  })
+
 })
 
 function supportsRegexp(source) {
