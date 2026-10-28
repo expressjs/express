@@ -1,5 +1,6 @@
 'use strict'
 
+var assert = require('node:assert');
 var express = require('..');
 var request = require('supertest');
 var utils = require('./support/utils');
@@ -209,6 +210,83 @@ describe('res', function(){
         .expect(utils.shouldNotHaveHeader('Content-Type'))
         .expect(utils.shouldNotHaveBody())
         .end(done)
+    })
+  })
+
+  describe('when arguments are omitted or invalid', function () {
+    it('should emit deprecation when url is missing', function (done) {
+      var app = express();
+      var warnings = [];
+      function onDeprecation(err) {
+        warnings.push(err.message);
+      }
+      process.on('deprecation', onDeprecation);
+
+      app.use(function (req, res) {
+        res.redirect();
+        res.end();
+      });
+
+      request(app)
+        .get('/')
+        .expect(302)
+        .end(function (err) {
+          process.removeListener('deprecation', onDeprecation);
+          if (err) return done(err);
+          assert.deepStrictEqual(warnings, ['Provide a url argument', 'Url must be a string']);
+          done();
+        });
+    })
+
+    it('should emit deprecation when url is not a string', function (done) {
+      var app = express();
+      var warnings = [];
+      function onDeprecation(err) {
+        warnings.push(err.message);
+      }
+      process.on('deprecation', onDeprecation);
+
+      app.use(function (req, res) {
+        res.redirect(302, 12345);
+        res.end();
+      });
+
+      request(app)
+        .get('/')
+        .expect(302)
+        .end(function (err) {
+          process.removeListener('deprecation', onDeprecation);
+          if (err) return done(err);
+          assert.deepStrictEqual(warnings, ['Url must be a string']);
+          done();
+        });
+    })
+
+    it('should emit deprecation when status is not a number', function (done) {
+      var app = express();
+      var warnings = [];
+      function onDeprecation(err) {
+        warnings.push(err.message);
+      }
+      process.on('deprecation', onDeprecation);
+
+      app.use(function (req, res) {
+        try {
+          res.redirect('301', 'http://google.com');
+        } catch (e) {
+          // status validation throws TypeError in 5.x
+        }
+        res.end();
+      });
+
+      request(app)
+        .get('/')
+        .end(function (err) {
+          process.removeListener('deprecation', onDeprecation);
+          if (err) return done(err);
+          assert.deepStrictEqual(warnings, ['Status must be a number']);
+          done();
+        });
     })
   })
 })
