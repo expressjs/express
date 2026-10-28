@@ -121,11 +121,8 @@ describe('res', function(){
       request(app)
       .get('/')
       .expect(utils.shouldNotHaveHeader('ETag'))
-      .expect(200, function (err) {
-        if (err) return done(err);
-        assert.deepStrictEqual(options, {});
-        done();
-      });
+      .expect(() => assert.deepStrictEqual(options, {}))
+      .expect(200, done);
     });
 
     it('should 404 for directory', function (done) {
