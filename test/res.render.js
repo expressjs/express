@@ -1,6 +1,8 @@
 'use strict'
 
 var express = require('..');
+var fs = require('node:fs');
+var os = require('node:os');
 var path = require('node:path')
 var request = require('supertest');
 var tmpl = require('./support/tmpl');
@@ -379,6 +381,46 @@ describe('res', function(){
         .expect(500, 'got error: RenderError', done)
       })
     })
+  })
+
+  it('should route send errors to the error handler when headers are already sent', function(done){
+    var dir = fs.mkdtempSync(path.join(os.tmpdir(), 'express-7560-'));
+    fs.writeFileSync(path.join(dir, 'index.html'), '<p>hello</p>');
+
+    var app = express();
+    var handled = null;
+
+    app.set('views', dir);
+    app.set('view engine', 'html');
+    app.engine('html', function(file, options, callback){
+      fs.readFile(file, 'utf8', callback);
+    });
+
+    app.use(function(req, res){
+      res.end('already sent');
+      res.render('index');
+    });
+
+    app.use(function(err, req, res, next){
+      handled = err;
+    });
+
+    request(app)
+    .get('/')
+    .expect(200, 'already sent')
+    .end(function(err){
+      if (err) return done(err);
+
+      // the render callback fires asynchronously after the response
+      // has already been sent, so wait for the error to arrive
+      var tries = 0;
+      var check = function(){
+        if (handled) return done();
+        if (++tries >= 100) return done(new Error('error handler was not reached'));
+        setImmediate(check);
+      };
+      check();
+    });
   })
 })
 
