@@ -1,0 +1,70 @@
+name: alpha
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - '4.x'
+      - '5.x'
+      - '5.0'
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Cancel in progress workflows
+# in the scenario where we already had a run going for that PR/branch/tag but then triggered a new run
+concurrency:
+  group: "${{ github.workflow }} ✨ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        # Node.js 27 is in Alpha (Oct 2026 - Mar 2027), with 27.0.0 planned for April 2027.
+        # Workaround for actions/setup-node#1657: `27`, `27.0.0` and `27.0.0-alpha`
+        # are not recognized yet, but `latest` currently resolves to the newest Alpha.
+        # Once setup-node adds `allow-prereleases: true`, switch to `node-version: 27`.
+        node-version: [latest]
+
+    name: Node.js ${{ matrix.node-version }} - ${{ matrix.os }}
+
+    runs-on: ${{ matrix.os }}
+
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Configure npm loglevel
+        run: |
+          npm config set loglevel error
+        shell: bash
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Output Node and NPM versions
+        run: |
+          echo "Node.js version: $(node -v)"
+          echo "NPM version: $(npm -v)"
+
+      - name: Run tests
+        shell: bash
+        run: npm run test-ci
