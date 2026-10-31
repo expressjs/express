@@ -219,9 +219,10 @@ describe('res', function(){
 
     it('should send the bytes of other typed arrays', function(done){
       var app = express();
+      var body = new Uint16Array([0x0102, 0x0304]);
 
       app.use(function(req, res){
-        res.send(new Uint16Array([0x0102, 0x0304]));
+        res.send(body);
       })
 
       request(app)
@@ -229,17 +230,18 @@ describe('res', function(){
         .expect("Content-Type", "application/octet-stream")
         .expect(200)
         .expect(function(res){
-          assert.deepStrictEqual(res.body, Buffer.from([0x02, 0x01, 0x04, 0x03]));
+          assert.deepStrictEqual(res.body, Buffer.from(body.buffer, body.byteOffset, body.byteLength));
         })
         .end(done);
     })
 
     it('should send the bytes of other typed arrays when etag is disabled', function(done){
       var app = express();
+      var body = new Uint16Array([0x0102, 0x0304]);
       app.set('etag', false);
 
       app.use(function(req, res){
-        res.send(new Uint16Array([0x0102, 0x0304]));
+        res.send(body);
       })
 
       request(app)
@@ -247,7 +249,7 @@ describe('res', function(){
         .expect("Content-Type", "application/octet-stream")
         .expect(200)
         .expect(function(res){
-          assert.deepStrictEqual(res.body, Buffer.from([0x02, 0x01, 0x04, 0x03]));
+          assert.deepStrictEqual(res.body, Buffer.from(body.buffer, body.byteOffset, body.byteLength));
         })
         .end(done);
     })
