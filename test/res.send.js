@@ -2,6 +2,7 @@
 
 var assert = require('node:assert')
 const { Buffer } = require('node:buffer');
+var runInNewContext = require('node:vm').runInNewContext;
 var express = require('..');
 var methods = require('../lib/utils').methods;
 var request = require('supertest');
@@ -215,6 +216,38 @@ describe('res', function(){
         .get("/")
         .expect("Content-Type", "text/plain; charset=utf-8")
         .expect(200, "hey", done);
+    })
+
+    it('should accept DataView', function(done){
+      var app = express();
+      var buffer = Buffer.from('xhey!');
+      var dataView = new DataView(buffer.buffer, buffer.byteOffset + 1, 3);
+
+      app.use(function(req, res){
+        res.send(dataView);
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream')
+        .expect('Content-Length', '3')
+        .expect('ETag', 'W/"3-f1UKn0xEFzo3Zk2TjxNV8PkqR6c"')
+        .expect(200, Buffer.from('hey'), done);
+    })
+
+    it('should accept a cross-realm DataView', function(done){
+      var app = express();
+      var dataView = runInNewContext('new DataView(new Uint8Array([1, 2, 3]).buffer)');
+
+      app.use(function(req, res){
+        res.send(dataView);
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream')
+        .expect('Content-Length', '3')
+        .expect(200, Buffer.from([1, 2, 3]), done);
     })
 
     it('should not override ETag', function (done) {
