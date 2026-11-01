@@ -211,4 +211,22 @@ describe('res', function(){
         .end(done)
     })
   })
+
+  describe('when Transfer-Encoding is present', function() {
+    it('should not set Content-Length', function(done) {
+      var app = express();
+
+      app.use(function(req,res) {
+        res.set('Transfer-Encoding', 'chunked');
+        res.redirect('https://expressjs.com');
+      });
+
+      request(app)
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('Content-Length'))
+        .expect(utils.shouldHaveHeader('Transfer-Encoding'))
+        .expect('Location', 'https://expressjs.com')
+        .expect(302, done);
+    })
+  })
 })
