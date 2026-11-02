@@ -5,6 +5,7 @@
  */
 
 var express = require('../..');
+var bodyParser = require('body-parser');
 var hash = require('pbkdf2-password')()
 var path = require('node:path');
 var session = require('express-session');
@@ -18,7 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // middleware
 
-app.use(express.urlencoded())
+app.use(bodyParser.urlencoded())
 app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored

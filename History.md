@@ -1,3 +1,20 @@
+# Unreleased Changes
+
+## ⚠️ Breaking changes
+
+* Remove the `body-parser` re-exports. `express.json()`, `express.urlencoded()`, `express.raw()` and `express.text()` are no longer available and `body-parser` is no longer a dependency of Express. Install `body-parser` and use it directly
+
+    ```js
+    // before
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+
+    // after
+    const bodyParser = require('body-parser');
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
+    ```
+
 5.3.0
 =====
 

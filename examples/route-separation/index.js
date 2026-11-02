@@ -5,6 +5,7 @@
  */
 
 var express = require('../..');
+var bodyParser = require('body-parser');
 var path = require('node:path');
 var app = express();
 var logger = require('morgan');
@@ -28,7 +29,7 @@ if (!module.parent) {
 
 app.use(methodOverride('_method'));
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')));
 
 // General

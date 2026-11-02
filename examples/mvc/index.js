@@ -5,6 +5,7 @@
  */
 
 var express = require('../..');
+var bodyParser = require('body-parser');
 var logger = require('morgan');
 var path = require('node:path');
 var session = require('express-session');
@@ -44,7 +45,7 @@ app.use(session({
 }));
 
 // parse request bodies (req.body)
-app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // allow overriding methods in query (?_method=put)
 app.use(methodOverride('_method'));
