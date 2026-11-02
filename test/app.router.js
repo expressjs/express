@@ -290,7 +290,7 @@ describe('app.router', function () {
       var router = new express.Router();
 
       router.get('/:action', function (req, res) {
-        res.send(req.params);
+        res.json(req.params);
       });
 
       app.use('/user/:user', router);
@@ -306,7 +306,7 @@ describe('app.router', function () {
 
       router.get('/:action', function (req, res) {
         var keys = Object.keys(req.params).sort();
-        res.send(keys.map(function (k) { return [k, req.params[k]] }));
+        res.json(keys.map(function (k) { return [k, req.params[k]] }));
       });
 
       app.use('/user/:user', router);
@@ -322,7 +322,7 @@ describe('app.router', function () {
 
       router.get('/:thing', function (req, res) {
         var keys = Object.keys(req.params).sort();
-        res.send(keys.map(function (k) { return [k, req.params[k]] }));
+        res.json(keys.map(function (k) { return [k, req.params[k]] }));
       });
 
       app.use('/user/:thing', router);
@@ -338,7 +338,7 @@ describe('app.router', function () {
 
       router.get(/^\/(.*)\.(.*)/, function (req, res) {
         var keys = Object.keys(req.params).sort();
-        res.send(keys.map(function (k) { return [k, req.params[k]] }));
+        res.json(keys.map(function (k) { return [k, req.params[k]] }));
       });
 
       app.use(/^\/user\/id:(\d+)/, router);
@@ -354,7 +354,7 @@ describe('app.router', function () {
 
       router.get(/\/(.*)/, function (req, res) {
         var keys = Object.keys(req.params).sort();
-        res.send(keys.map(function (k) { return [k, req.params[k]] }));
+        res.json(keys.map(function (k) { return [k, req.params[k]] }));
       });
 
       app.use(/^\/user\/id:(\d+)\/name:(\w+)/, router);
@@ -370,7 +370,7 @@ describe('app.router', function () {
 
       router.get(/\/name:(\w+)/, function (req, res) {
         var keys = Object.keys(req.params).sort();
-        res.send(keys.map(function (k) { return [k, req.params[k]] }));
+        res.json(keys.map(function (k) { return [k, req.params[k]] }));
       });
 
       app.use(/\/user\/id:(\d+)/, router);
@@ -386,7 +386,7 @@ describe('app.router', function () {
 
       router.get('/:name', function (req, res) {
         var keys = Object.keys(req.params).sort();
-        res.send(keys.map(function (k) { return [k, req.params[k]] }));
+        res.json(keys.map(function (k) { return [k, req.params[k]] }));
       });
 
       app.use('/user/', function (req, res, next) {
@@ -410,7 +410,7 @@ describe('app.router', function () {
       app.use(/\/user\/id:(\d+)/, function (req, res, next) {
         router(req, res, function (err) {
           var keys = Object.keys(req.params).sort();
-          res.send(keys.map(function (k) { return [k, req.params[k]] }));
+          res.json(keys.map(function (k) { return [k, req.params[k]] }));
         });
       });
 

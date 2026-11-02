@@ -40,10 +40,10 @@ var users = [
 
 var User = {
   index: function(req, res){
-    res.send(users);
+    res.json(users);
   },
   show: function(req, res){
-    res.send(users[req.params.id] || { error: 'Cannot find user' });
+    res.json(users[req.params.id] || { error: 'Cannot find user' });
   },
   destroy: function(req, res, id){
     var destroyed = id in users;
@@ -54,7 +54,7 @@ var User = {
     var range = users.slice(a, b + 1);
     switch (format) {
       case 'json':
-        res.send(range);
+        res.json(range);
         break;
       case 'html':
       default:

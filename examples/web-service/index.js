@@ -73,12 +73,12 @@ var userRepos = {
 
 // example: http://localhost:3000/api/users/?api-key=foo
 app.get('/api/users', function (req, res) {
-  res.send(users);
+  res.json(users);
 });
 
 // example: http://localhost:3000/api/repos/?api-key=foo
 app.get('/api/repos', function (req, res) {
-  res.send(repos);
+  res.json(repos);
 });
 
 // example: http://localhost:3000/api/user/tobi/repos/?api-key=foo
@@ -86,7 +86,7 @@ app.get('/api/user/:name/repos', function(req, res, next){
   var name = req.params.name;
   var user = userRepos[name];
 
-  if (user) res.send(user);
+  if (user) res.json(user);
   else next();
 });
 
@@ -99,7 +99,7 @@ app.use(function(err, req, res, next){
   // whatever you want here, feel free to populate
   // properties on `err` to treat it differently in here.
   res.status(err.status || 500);
-  res.send({ error: err.message });
+  res.json({ error: err.message });
 });
 
 // our custom JSON 404 middleware. Since it's placed last
@@ -107,7 +107,7 @@ app.use(function(err, req, res, next){
 // invoke next() and do not respond.
 app.use(function(req, res){
   res.status(404);
-  res.send({ error: "Sorry, can't find that" })
+  res.json({ error: "Sorry, can't find that" })
 });
 
 /* istanbul ignore next */

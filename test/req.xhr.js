@@ -8,7 +8,7 @@ describe('req', function(){
     before(function () {
       this.app = express()
       this.app.get('/', function (req, res) {
-        res.send(req.xhr)
+        res.json(req.xhr)
       })
     })
 

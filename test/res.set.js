@@ -39,7 +39,7 @@ describe('res', function(){
 
       app.use(function(req, res){
         res.set('Set-Cookie', ["type=ninja", "language=javascript"]);
-        res.send(res.get('Set-Cookie'));
+        res.json(res.get('Set-Cookie'));
       });
 
       request(app)

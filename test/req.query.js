@@ -99,7 +99,7 @@ function createApp(setting) {
   }
 
   app.use(function (req, res) {
-    res.send(req.query);
+    res.json(req.query);
   });
 
   return app;

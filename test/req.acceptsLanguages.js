@@ -9,7 +9,7 @@ describe('req', function(){
       var app = express();
 
       app.get('/', function (req, res) {
-        res.send({
+        res.json({
           'en-us': req.acceptsLanguages('en-us'),
           en: req.acceptsLanguages('en')
         })
@@ -25,7 +25,7 @@ describe('req', function(){
       var app = express();
 
       app.get('/', function (req, res) {
-        res.send({
+        res.json({
           es: req.acceptsLanguages('es')
         })
       })
@@ -41,7 +41,7 @@ describe('req', function(){
         var app = express();
 
         app.get('/', function (req, res) {
-          res.send({
+          res.json({
             en: req.acceptsLanguages('en'),
             es: req.acceptsLanguages('es'),
             jp: req.acceptsLanguages('jp')

@@ -11,7 +11,7 @@ describe('req', function(){
 
       app.use(function(req, res){
         res.set('ETag', etag);
-        res.send(req.stale);
+        res.json(req.stale);
       });
 
       request(app)
@@ -25,7 +25,7 @@ describe('req', function(){
 
       app.use(function(req, res){
         res.set('ETag', '"123"');
-        res.send(req.stale);
+        res.json(req.stale);
       });
 
       request(app)
@@ -39,7 +39,7 @@ describe('req', function(){
 
       app.disable('x-powered-by')
       app.use(function(req, res){
-        res.send(req.stale);
+        res.json(req.stale);
       });
 
       request(app)

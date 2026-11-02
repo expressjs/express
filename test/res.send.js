@@ -54,7 +54,7 @@ describe('res', function(){
   })
 
   describe('.send(Number)', function(){
-    it('should send as application/json', function(done){
+    it('should throw a TypeError', function(done){
       var app = express();
 
       app.use(function(req, res){
@@ -63,8 +63,21 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(200, '1000', done)
+      .expect(500, /res\.send\(\) body must be a string, Buffer or ArrayBufferView/, done)
+    })
+  })
+
+  describe('.send(Boolean)', function(){
+    it('should throw a TypeError', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send(true);
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, /res\.send\(\) body must be a string, Buffer or ArrayBufferView/, done)
     })
   })
 
@@ -232,7 +245,7 @@ describe('res', function(){
   })
 
   describe('.send(Object)', function(){
-    it('should send as application/json', function(done){
+    it('should throw a TypeError', function(done){
       var app = express();
 
       app.use(function(req, res){
@@ -241,8 +254,33 @@ describe('res', function(){
 
       request(app)
       .get('/')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(200, '{"name":"tobi"}', done)
+      .expect(500, /res\.send\(\) body must be a string, Buffer or ArrayBufferView/, done)
+    })
+
+    it('should not send JSON for objects with toJSON', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send({ toJSON: function () { return { name: 'tobi' } } });
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, /use res\.json\(\) to send JSON/, done)
+    })
+  })
+
+  describe('.send(Array)', function(){
+    it('should throw a TypeError', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send([1, 2, 3]);
+      });
+
+      request(app)
+      .get('/')
+      .expect(500, /res\.send\(\) body must be a string, Buffer or ArrayBufferView/, done)
     })
   })
 
@@ -364,7 +402,7 @@ describe('res', function(){
     var app = express();
 
     app.use(function(req, res){
-      res.send({ foo: 'bar' });
+      res.send(JSON.stringify({ foo: 'bar' }));
     });
 
     request(app)
