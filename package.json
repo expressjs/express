@@ -56,7 +56,6 @@
     "range-parser": "^1.2.1",
     "router": "^2.2.0",
     "send": "^1.1.0",
-    "serve-static": "^2.2.0",
     "statuses": "^2.0.1",
     "type-is": "^2.1.0",
     "vary": "^1.1.2"
@@ -76,6 +75,7 @@
     "morgan": "1.12.1",
     "nyc": "^17.1.0",
     "pbkdf2-password": "1.2.1",
+    "serve-static": "^2.2.0",
     "supertest": "^6.3.0",
     "vhost": "~3.0.2"
   },

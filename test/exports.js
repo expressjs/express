@@ -19,11 +19,6 @@ describe('exports', function(){
     assert.equal(express.raw.length, 1)
   })
 
-  it('should expose static middleware', function () {
-    assert.equal(typeof express.static, 'function')
-    assert.equal(express.static.length, 2)
-  })
-
   it('should expose text middleware', function () {
     assert.equal(typeof express.text, 'function')
     assert.equal(express.text.length, 1)

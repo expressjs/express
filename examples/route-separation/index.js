@@ -5,6 +5,7 @@
  */
 
 var express = require('../..');
+var serveStatic = require('serve-static');
 var path = require('node:path');
 var app = express();
 var logger = require('morgan');
@@ -29,7 +30,7 @@ if (!module.parent) {
 app.use(methodOverride('_method'));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(serveStatic(path.join(__dirname, 'public')));
 
 // General
 

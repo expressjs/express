@@ -5,6 +5,7 @@
  */
 
 var express = require('../..');
+var serveStatic = require('serve-static');
 var logger = require('morgan');
 var path = require('node:path');
 var session = require('express-session');
@@ -34,7 +35,7 @@ app.response.message = function(msg){
 if (!module.parent) app.use(logger('dev'));
 
 // serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(serveStatic(path.join(__dirname, 'public')));
 
 // session support
 app.use(session({

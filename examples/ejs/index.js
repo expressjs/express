@@ -5,6 +5,7 @@
  */
 
 var express = require('../../');
+var serveStatic = require('serve-static');
 var path = require('node:path');
 
 var app = module.exports = express();
@@ -28,7 +29,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Path to our public directory
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(serveStatic(path.join(__dirname, 'public')));
 
 // Without this you would need to
 // supply the extension to res.render()
