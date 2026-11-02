@@ -38,7 +38,6 @@ describe('req', function(){
     it('should return false without response headers', function(done){
       var app = express();
 
-      app.disable('x-powered-by')
       app.use(function(req, res){
         res.send(req.fresh);
       });
@@ -90,7 +89,6 @@ describe('req', function(){
       const etag = '"FooBar"'
       const now = Date.now()
 
-      app.disable('x-powered-by')
       app.use(function(req, res) {
         res.set('Etag', etag)
         res.set('Last-Modified', new Date(now).toUTCString())
