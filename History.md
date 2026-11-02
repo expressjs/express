@@ -1,3 +1,16 @@
+# Unreleased Changes
+
+## ⚠️ Breaking changes
+
+* The `env` setting is no longer derived from `NODE_ENV` and now defaults to `production`, so the safe behavior is the default: the default error handler never includes error details in responses and `view cache` is enabled. Set `app.set('env', 'development')` to get the previous development behavior, or set `view cache` directly
+
+    ```js
+    const app = express();
+    app.get('env'); // => 'production', regardless of NODE_ENV
+    app.set('env', 'development'); // opt in to error details in responses
+    app.set('view cache', false); // opt out of template caching
+    ```
+
 5.3.0
 =====
 

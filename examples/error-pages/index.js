@@ -8,7 +8,7 @@ var express = require('../../');
 var path = require('node:path');
 var app = module.exports = express();
 var logger = require('morgan');
-var silent = process.env.NODE_ENV === 'test'
+var silent = app.get('env') === 'test'
 
 // general config
 app.set('views', path.join(__dirname, 'views'));
@@ -19,8 +19,8 @@ app.set('view engine', 'ejs');
 // via settings['verbose errors']
 app.enable('verbose errors');
 
-// disable them in production
-// use $ NODE_ENV=production node examples/error-pages
+// disable them in production (the default "env"); enable them by
+// running the example with app.set('env', 'development')
 if (app.settings.env === 'production') app.disable('verbose errors')
 
 silent || app.use(logger('dev'));
