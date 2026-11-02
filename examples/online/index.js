@@ -14,6 +14,7 @@
 var express = require('../..');
 var online = require('online');
 var redis = require('redis');
+var escapeHtml = require('escape-html');
 var db = redis.createClient();
 
 // online
@@ -39,7 +40,7 @@ app.use(function(req, res, next){
 
 function list(ids) {
   return '<ul>' + ids.map(function(id){
-    return '<li>' + id + '</li>';
+    return '<li>' + escapeHtml(id) + '</li>';
   }).join('') + '</ul>';
 }
 
