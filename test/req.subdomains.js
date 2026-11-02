@@ -44,6 +44,19 @@ describe('req', function(){
         .set('Host', '[::1]')
         .expect(200, [], done);
       })
+
+      it('should work with IPv6 address that contains dots', function(done){
+        var app = express();
+
+        app.use(function(req, res){
+          res.send(req.subdomains);
+        });
+
+        request(app)
+        .get('/')
+        .set('Host', '[::ffff:127.0.0.1]')
+        .expect(200, [], done);
+      })
     })
 
     describe('otherwise', function(){
@@ -134,6 +147,20 @@ describe('req', function(){
           .get('/')
           .set('Host', '[::1]')
           .expect(200, ['[::1]'], done);
+        })
+
+        it('should return an array with the whole IPv6 that contains dots', function (done) {
+          var app = express();
+          app.set('subdomain offset', 0);
+
+          app.use(function(req, res){
+            res.send(req.subdomains);
+          });
+
+          request(app)
+          .get('/')
+          .set('Host', '[::ffff:127.0.0.1]')
+          .expect(200, ['[::ffff:127.0.0.1]'], done);
         })
       })
 
