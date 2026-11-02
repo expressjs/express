@@ -70,6 +70,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Use Mocha 11 on Node versions Mocha 12 does not support
+        if: ${{ matrix.node-version == 18 || matrix.node-version == 19 || matrix.node-version == 21 }}
+        run: npm install --no-save mocha@11
+
       - name: Output Node and NPM versions
         run: |
           echo "Node.js version: $(node -v)"
