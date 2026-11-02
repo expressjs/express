@@ -1,6 +1,7 @@
 'use strict'
 
-var express = require('../')
+var assert = require('node:assert')
+  , express = require('../')
   , request = require('supertest');
 
 describe('req', function(){
@@ -97,6 +98,77 @@ describe('req', function(){
 
         var test = request(app).get('/')
         test.expect(200, getExpectedClientAddress(test._server), done)
+      })
+    })
+
+    describe('when "trust proxy" is a function', function(){
+      it('should be called once per hop with an incrementing index', function(done){
+        var app = express();
+        var calls = [];
+
+        app.set('trust proxy', function (addr, i) {
+          calls.push([addr, i]);
+          return true;
+        });
+
+        app.use(function(req, res, next){
+          res.send(req.ip);
+        });
+
+        var test = request(app).get('/')
+        var socketAddr = getExpectedClientAddress(test._server)
+        test.set('X-Forwarded-For', '10.0.0.1, 10.0.0.2, 10.0.0.3')
+        test.expect(200, '10.0.0.1', function (err) {
+          if (err) return done(err);
+          // addrs[0] is the socket address (i === 0), then each
+          // X-Forwarded-For hop outward toward the original client.
+          // The last address is never passed to the trust function.
+          assert.deepEqual(calls, [
+            [socketAddr, 0],
+            ['10.0.0.3', 1],
+            ['10.0.0.2', 2]
+          ]);
+          done();
+        })
+      })
+
+      it('should resolve req.ip to the first untrusted hop', function(done){
+        var app = express();
+
+        // trust every hop except 10.0.0.2, which becomes the boundary
+        app.set('trust proxy', function (addr) {
+          return addr !== '10.0.0.2';
+        });
+
+        app.use(function(req, res, next){
+          res.send(req.ip);
+        });
+
+        request(app)
+        .get('/')
+        .set('X-Forwarded-For', '10.0.0.1, 10.0.0.2, 10.0.0.3')
+        .expect(200, '10.0.0.2', done);
+      })
+
+      it('should not be called when X-Forwarded-For is not present', function(done){
+        var app = express();
+        var calls = [];
+
+        app.set('trust proxy', function (addr, i) {
+          calls.push([addr, i]);
+          return true;
+        });
+
+        app.use(function(req, res, next){
+          res.send(req.ip);
+        });
+
+        var test = request(app).get('/')
+        test.expect(200, getExpectedClientAddress(test._server), function (err) {
+          if (err) return done(err);
+          assert.strictEqual(calls.length, 0);
+          done();
+        })
       })
     })
   })
