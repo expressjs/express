@@ -211,4 +211,21 @@ describe('res', function(){
         .end(done)
     })
   })
+
+  describe('when status is custom or non-standard', function(){
+    it('should use "Redirecting" fallback in response body', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.redirect(399, 'http://google.com');
+      });
+
+      request(app)
+        .get('/')
+        .set('Accept', 'text/plain')
+        .expect(399)
+        .expect('Location', 'http://google.com')
+        .expect('Redirecting. Redirecting to http://google.com', done);
+    })
+  })
 })
