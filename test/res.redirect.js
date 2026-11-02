@@ -211,4 +211,23 @@ describe('res', function(){
         .end(done)
     })
   })
+
+  describe('when Transfer-Encoding is set', function(){
+    it('should not set Content-Length', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.set('Transfer-Encoding', 'chunked');
+        res.redirect('http://google.com');
+      });
+
+      request(app)
+        .get('/')
+        .set('Accept', 'text/plain, */*')
+        .expect(utils.shouldNotHaveHeader('Content-Length'))
+        .expect(utils.shouldHaveHeader('Transfer-Encoding'))
+        .expect('Location', 'http://google.com')
+        .expect(302, 'Found. Redirecting to http://google.com', done);
+    })
+  })
 })
