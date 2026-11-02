@@ -24,6 +24,47 @@ describe('app.listen()', function(){
       })
     })
   })
+  it('should remove the listen error handler after a successful start', function (done) {
+    var app = express()
+
+    var server = app.listen(0, function () {
+      var errorListeners = server.listenerCount('error')
+      server.close(function (err) {
+        assert.ifError(err)
+        assert.strictEqual(errorListeners, 0)
+        done()
+      })
+    })
+  })
+  it('should not retain the listen error handler when listening again fails', function (done) {
+    var app = express()
+
+    var server = app.listen(0, '127.0.0.1', function (err) {
+      if (err) return done(err)
+
+      server.close(function (err) {
+        if (err) return done(err)
+
+        var blocker = app.listen(0, '127.0.0.1', function (err) {
+          if (err) return done(err)
+
+          // Inspect remaining listeners before any stale one-off listener runs.
+          server.prependOnceListener('error', function (err) {
+            var errorListeners = server.listenerCount('error')
+
+            blocker.close(function (closeErr) {
+              assert.ifError(closeErr)
+              assert.strictEqual(err.code, 'EADDRINUSE')
+              assert.strictEqual(errorListeners, 0)
+              done()
+            })
+          })
+
+          server.listen(blocker.address().port, '127.0.0.1')
+        })
+      })
+    })
+  })
   it('accepts port + hostname + backlog + callback', function (done) {
     const app = express();
     const server = app.listen(0, '127.0.0.1', 5, function () {
