@@ -1,3 +1,38 @@
+# Unreleased Changes
+
+## 🚀 Improvements
+
+* Errors thrown by Express now carry a stable `code` property, exposed as `express.errorCodes`, so error handlers can branch on the code instead of matching message text. `express.isExpressError(err)` returns `true` only for errors carrying one of these codes. Messages and error types are unchanged ([#6951](https://github.com/expressjs/express/issues/6951))
+
+    ```js
+    const { errorCodes } = require('express');
+
+    app.use((err, req, res, next) => {
+      if (err.code === errorCodes.EXPRESS_ERR_SENDFILE_PATH_NOT_ABSOLUTE) {
+        // handle it
+      }
+      next(err);
+    });
+    ```
+
+    | Code | Thrown by |
+    |---|---|
+    | `EXPRESS_ERR_INVALID_STATUS_CODE` | `res.status()` with a non-integer |
+    | `EXPRESS_ERR_STATUS_CODE_OUT_OF_RANGE` | `res.status()` outside 100-999 |
+    | `EXPRESS_ERR_SENDFILE_PATH_REQUIRED` | `res.sendFile()` without a path |
+    | `EXPRESS_ERR_SENDFILE_PATH_NOT_STRING` | `res.sendFile()` with a non-string path |
+    | `EXPRESS_ERR_SENDFILE_PATH_NOT_ABSOLUTE` | `res.sendFile()` with a relative path and no `root` |
+    | `EXPRESS_ERR_CONTENT_TYPE_ARRAY` | `res.set('Content-Type', [...])` |
+    | `EXPRESS_ERR_COOKIE_SECRET_REQUIRED` | `res.cookie()` signed without `cookieParser("secret")` |
+    | `EXPRESS_ERR_MIDDLEWARE_REQUIRED` | `app.use()` without a function |
+    | `EXPRESS_ERR_ENGINE_CALLBACK_REQUIRED` | `app.engine()` without a callback |
+    | `EXPRESS_ERR_HEADER_NAME_REQUIRED` | `req.get()` without a name |
+    | `EXPRESS_ERR_HEADER_NAME_NOT_STRING` | `req.get()` with a non-string name |
+    | `EXPRESS_ERR_NO_DEFAULT_ENGINE` | rendering a view with no engine and no extension |
+    | `EXPRESS_ERR_VIEW_ENGINE_NOT_FOUND` | a view engine module without `__express` |
+    | `EXPRESS_ERR_INVALID_ETAG_OPTION` | `app.set('etag', ...)` with an unknown value |
+    | `EXPRESS_ERR_INVALID_QUERY_PARSER_OPTION` | `app.set('query parser', ...)` with an unknown value |
+
 5.3.0
 =====
 
