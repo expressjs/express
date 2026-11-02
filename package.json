@@ -54,7 +54,7 @@
     "proxy-addr": "^2.0.8",
     "qs": "^6.16.0",
     "range-parser": "^1.2.1",
-    "router": "^2.2.0",
+    "router": "git+https://github.com/bjohansebas/router.git#e59071e415da5983ab901f5d81597b424fda4bdf",
     "send": "^1.1.0",
     "serve-static": "^2.2.0",
     "statuses": "^2.0.1",
