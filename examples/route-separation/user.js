@@ -13,8 +13,8 @@ exports.list = function(req, res){
 
 exports.load = function(req, res, next){
   var id = req.params.id;
-  req.user = users[id];
-  if (req.user) {
+  if (/^\d+$/.test(id) && Object.prototype.hasOwnProperty.call(users, id)) {
+    req.user = users[id];
     next();
   } else {
     var err = new Error('cannot find user ' + id);
