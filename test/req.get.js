@@ -20,6 +20,23 @@ describe('req', function(){
       .expect('application/json', done);
     })
 
+    it('should return header field value set with non-lowercase key', function (done) {
+      var app = express()
+
+      app.use(function (req, res, next) {
+        req.headers['X-Filipe'] = 'filipe'
+        next()
+      })
+
+      app.use(function (req, res) {
+        res.end(req.get('x-filipe'))
+      })
+
+      request(app)
+      .get('/')
+      .expect('filipe', done)
+    })
+
     it('should special-case Referer', function(done){
       var app = express();
 
