@@ -79,5 +79,34 @@ describe('app', function(){
         done();
       })
     })
+
+    it('should match engine registered with uppercase ext to lowercase file', function(done){
+      var app = express();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.engine('HTML', render);
+      app.locals.user = { name: 'tobi' };
+
+      app.render('user.html', function(err, str){
+        if (err) return done(err);
+        assert.strictEqual(str, '<p>tobi</p>')
+        done();
+      })
+    })
+
+    it('should match engine registered with mixed case ext', function(done){
+      var app = express();
+
+      app.set('views', path.join(__dirname, 'fixtures'))
+      app.engine('Html', render);
+      app.set('view engine', 'Html');
+      app.locals.user = { name: 'tobi' };
+
+      app.render('user', function(err, str){
+        if (err) return done(err);
+        assert.strictEqual(str, '<p>tobi</p>')
+        done();
+      })
+    })
   })
 })
