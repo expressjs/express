@@ -219,6 +219,34 @@ describe('res', function(){
         .expect(200, "hey", done);
     })
 
+    var etagModes = [false, 'weak']
+    etagModes.forEach(function (etag) {
+      it('should send only the Uint8Array subarray bytes with etag ' + etag, function (done) {
+        var app = express()
+        var expected = Buffer.from([1, 2, 3])
+        app.set('etag', etag)
+
+        app.use(function (req, res) {
+          res.send(new Uint8Array([0, 1, 2, 3, 0]).subarray(1, 4))
+        })
+
+        var req = request(app)
+          .get('/')
+          .expect(200)
+          .expect('Content-Type', 'application/octet-stream')
+          .expect('Content-Length', '3')
+          .expect(utils.shouldHaveBody(expected))
+
+        if (etag) {
+          req.expect('ETag', wetag(expected))
+        } else {
+          req.expect(utils.shouldNotHaveHeader('ETag'))
+        }
+
+        req.end(done)
+      })
+    })
+
     it('should not override ETag', function (done) {
       var app = express()
 
