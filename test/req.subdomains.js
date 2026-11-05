@@ -135,6 +135,20 @@ describe('req', function(){
           .set('Host', '[::1]')
           .expect(200, ['[::1]'], done);
         })
+
+        it('should return the entire IPv6 address with an embedded IPv4', function (done) {
+          var app = express();
+          app.set('subdomain offset', 0);
+
+          app.use(function(req, res){
+            res.send(req.subdomains);
+          });
+
+          request(app)
+          .get('/')
+          .set('Host', '[::ffff:192.168.1.10]')
+          .expect(200, ['[::ffff:192.168.1.10]'], done);
+        })
       })
 
       describe('when present', function(){
