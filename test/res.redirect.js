@@ -1,5 +1,6 @@
 'use strict'
 
+var assert = require('node:assert')
 var express = require('..');
 var request = require('supertest');
 var utils = require('./support/utils');
@@ -209,6 +210,117 @@ describe('res', function(){
         .expect(utils.shouldNotHaveHeader('Content-Type'))
         .expect(utils.shouldNotHaveBody())
         .end(done)
+    })
+  })
+
+  describe('deprecations', function () {
+    var messages
+
+    function onDeprecation (err) {
+      if (err.namespace === 'express') {
+        messages.push(err.message)
+      }
+    }
+
+    beforeEach(function () {
+      messages = []
+      process.on('deprecation', onDeprecation)
+    })
+
+    afterEach(function () {
+      process.removeListener('deprecation', onDeprecation)
+    })
+
+    it('should warn when called without a url', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect()
+      })
+
+      request(app)
+        .get('/')
+        .expect(302)
+        .end(function (err) {
+          if (err) return done(err)
+          assert.deepStrictEqual(messages, [
+            'Provide a url argument',
+            'Url must be a string'
+          ])
+          done()
+        })
+    })
+
+    it('should warn when url is undefined', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect(301, undefined)
+      })
+
+      request(app)
+        .get('/')
+        .expect(301)
+        .end(function (err) {
+          if (err) return done(err)
+          assert.deepStrictEqual(messages, [
+            'Provide a url argument',
+            'Url must be a string'
+          ])
+          done()
+        })
+    })
+
+    it('should warn when url is not a string', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect(301, 42)
+      })
+
+      request(app)
+        .get('/')
+        .expect('Location', '42')
+        .expect(301)
+        .end(function (err) {
+          if (err) return done(err)
+          assert.deepStrictEqual(messages, ['Url must be a string'])
+          done()
+        })
+    })
+
+    it('should warn when status is not a number', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect('301', 'http://google.com')
+      })
+
+      request(app)
+        .get('/')
+        .expect(500)
+        .end(function (err) {
+          if (err) return done(err)
+          assert.deepStrictEqual(messages, ['Status must be a number'])
+          done()
+        })
+    })
+
+    it('should not warn for valid arguments', function (done) {
+      var app = express()
+
+      app.use(function (req, res) {
+        res.redirect(301, 'http://google.com')
+      })
+
+      request(app)
+        .get('/')
+        .expect(301)
+        .end(function (err) {
+          if (err) return done(err)
+          assert.deepStrictEqual(messages, [])
+          done()
+        })
     })
   })
 })
