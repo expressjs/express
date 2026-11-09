@@ -217,6 +217,91 @@ describe('res', function(){
         .expect(200, "hey", done);
     })
 
+    it('should send the bytes of other typed arrays', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send(new Uint16Array(new Uint8Array([0x02, 0x01, 0x04, 0x03]).buffer));
+      })
+
+      request(app)
+        .get("/")
+        .expect("Content-Type", "application/octet-stream")
+        .expect(200)
+        .expect(function(res){
+          assert.deepStrictEqual(res.body, Buffer.from([0x02, 0x01, 0x04, 0x03]));
+        })
+        .end(done);
+    })
+
+    it('should send the bytes of other typed arrays when etag is disabled', function(done){
+      var app = express();
+      app.set('etag', false);
+
+      app.use(function(req, res){
+        res.send(new Uint16Array(new Uint8Array([0x02, 0x01, 0x04, 0x03]).buffer));
+      })
+
+      request(app)
+        .get("/")
+        .expect("Content-Type", "application/octet-stream")
+        .expect(200)
+        .expect(function(res){
+          assert.deepStrictEqual(res.body, Buffer.from([0x02, 0x01, 0x04, 0x03]));
+        })
+        .end(done);
+    })
+
+    it('should respect byteOffset and byteLength on typed array and DataView slices', function(done){
+      var app = express();
+      var raw = new Uint8Array([0xaa, 0xbb, 0x02, 0x01, 0x04, 0x03, 0xcc, 0xdd]).buffer;
+
+      app.get("/typed", function(req, res){
+        res.send(new Uint16Array(raw, 2, 2));
+      })
+
+      app.get("/dataview", function(req, res){
+        res.send(new DataView(raw, 1, 5));
+      })
+
+      request(app)
+        .get("/typed")
+        .expect("Content-Type", "application/octet-stream")
+        .expect("Content-Length", "4")
+        .expect(200)
+        .expect(function(res){
+          assert.deepStrictEqual(res.body, Buffer.from([0x02, 0x01, 0x04, 0x03]));
+        })
+        .end(function(err){
+          if (err) return done(err);
+          request(app)
+            .get("/dataview")
+            .expect("Content-Type", "application/octet-stream")
+            .expect("Content-Length", "5")
+            .expect(200)
+            .expect(function(res){
+              assert.deepStrictEqual(res.body, Buffer.from([0xbb, 0x02, 0x01, 0x04, 0x03]));
+            })
+            .end(done);
+        });
+    })
+
+    it('should send the bytes of a DataView', function(done){
+      var app = express();
+
+      app.use(function(req, res){
+        res.send(new DataView(new Uint8Array([1, 2, 3]).buffer));
+      })
+
+      request(app)
+        .get("/")
+        .expect(200)
+        .expect(function(res){
+          assert.deepStrictEqual(res.body, Buffer.from([1, 2, 3]));
+        })
+        .end(done);
+    })
+
     it('should not override ETag', function (done) {
       var app = express()
 
