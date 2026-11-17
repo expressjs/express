@@ -1,7 +1,8 @@
 'use strict'
 
 var express = require('../')
-  , request = require('supertest');
+  , request = require('supertest')
+  , assert = require('node:assert');
 
 describe('req', function(){
   describe('.ip', function(){
@@ -80,7 +81,9 @@ describe('req', function(){
 
           var test = request(app).get('/')
           test.set('X-Forwarded-For', 'client, p1, p2')
-          test.expect(200, getExpectedClientAddress(test._server), done);
+            .expect(200)
+            .expect(checkExpectedClientAddress(test._server))
+            .end(done)
         })
       })
     })
@@ -96,11 +99,33 @@ describe('req', function(){
         });
 
         var test = request(app).get('/')
-        test.expect(200, getExpectedClientAddress(test._server), done)
+        test.expect(200)
+          .expect(checkExpectedClientAddress(test._server))
+          .end(done)
       })
     })
   })
 })
+
+/**
+ * Compare the address from response with the local client address depending on AF_NET of server.
+ * This function may be called when the server is not yet listening and the returned function
+ * is called by supertest after the server is closed.
+ */
+
+function checkExpectedClientAddress(server) {
+  var expected;
+  if (server.listening) {
+    expected = getExpectedClientAddress(server)
+  } else {
+    server.once('listening', function () {
+      expected = getExpectedClientAddress(server)
+    })
+  }
+  return function (res) {
+    assert.strictEqual(res.text, expected)
+  }
+}
 
 /**
  * Get the local client address depending on AF_NET of server
