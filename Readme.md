@@ -176,7 +176,7 @@ npm test
 
 ## Current project team members
 
-For information about the governance of the express.js project, see [GOVERNANCE.md](https://github.com/expressjs/discussions/blob/HEAD/docs/GOVERNANCE.md).
+For information about the governance of the Express.js project, see [GOVERNANCE.md](https://github.com/expressjs/discussions/blob/HEAD/docs/GOVERNANCE.md).
 
 The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 
