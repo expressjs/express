@@ -13,6 +13,22 @@ describe('app.listRoutes()', function () {
     assert.deepStrictEqual(app.listRoutes(), []);
   });
 
+  it('should capture routing settings when first inspecting an empty application', function (done) {
+    var app = express();
+    var cb = after(2, done);
+
+    assert.deepStrictEqual(app.listRoutes(), []);
+
+    app.enable('case sensitive routing');
+    app.enable('strict routing');
+    app.get('/Users', function (req, res) {
+      res.send('users');
+    });
+
+    request(app).get('/users').expect(200, 'users', cb);
+    request(app).get('/Users/').expect(200, 'users', cb);
+  });
+
   it('should list routes registered through the application APIs', function () {
     var app = express();
 
@@ -155,6 +171,24 @@ describe('app.listRoutes()', function () {
     assert.deepStrictEqual(mountedRouter.listRoutes(), [
       { path: '/users', methods: ['GET', 'HEAD'], router: undefined }
     ]);
+  });
+
+  it('should capture routing settings when first inspecting an empty mounted sub-application', function (done) {
+    var app = express();
+    var admin = express();
+    var cb = after(2, done);
+
+    app.use('/admin', admin);
+    assert.strictEqual(app.listRoutes().length, 1);
+
+    admin.enable('case sensitive routing');
+    admin.enable('strict routing');
+    admin.get('/Users', function (req, res) {
+      res.send('users');
+    });
+
+    request(app).get('/admin/users').expect(200, 'users', cb);
+    request(app).get('/admin/Users/').expect(200, 'users', cb);
   });
 
   it('should defer router creation until after mounting and configuration', function (done) {
