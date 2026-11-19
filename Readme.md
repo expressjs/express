@@ -99,7 +99,7 @@ npm install -g express-generator@4
   Create the app:
 
 ```bash
-express /tmp/foo && cd /tmp/foo
+express myapp && cd myapp
 ```
 
   Install dependencies:
