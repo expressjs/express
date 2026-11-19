@@ -1,5 +1,6 @@
 'use strict';
 
+var after = require('after');
 var assert = require('node:assert');
 var methods = require('node:http').METHODS;
 var express = require('../');
@@ -159,6 +160,7 @@ describe('app.listRoutes()', function () {
   it('should defer router creation until after mounting and configuration', function (done) {
     var app = express();
     var admin = express();
+    var cb = after(3, done);
 
     admin.on('mount', function () {
       this.enable('case sensitive routing');
@@ -174,7 +176,9 @@ describe('app.listRoutes()', function () {
     assert.strictEqual(mountedRouter.caseSensitive, true);
     assert.strictEqual(mountedRouter.strict, true);
 
-    request(app).get('/admin/users').expect(404, done);
+    request(app).get('/admin/Users').expect(200, 'users', cb);
+    request(app).get('/admin/users').expect(404, cb);
+    request(app).get('/admin/Users/').expect(404, cb);
   });
 
   it('should preserve sub-application dispatch and restore the parent application', function (done) {
@@ -208,6 +212,32 @@ describe('app.listRoutes()', function () {
     request(app).get('/admin/users')
       .expect('x-subapp', 'hit')
       .expect(200, 'parent', done);
+  });
+
+  it('should restore the parent application when a sub-application rejects a promise', function (done) {
+    var app = express();
+    var admin = express();
+    var error = new Error('sub-application failure');
+
+    admin.get('/users', function (req, res) {
+      assert.strictEqual(req.app, admin);
+      assert.strictEqual(res.app, admin);
+      return Promise.reject(error);
+    });
+    app.use('/admin', admin);
+    app.use(function (err, req, res, next) {
+      assert.strictEqual(err, error);
+      assert.strictEqual(req.app, app);
+      assert.strictEqual(res.app, app);
+      assert.strictEqual(Object.getPrototypeOf(req), app.request);
+      assert.strictEqual(Object.getPrototypeOf(res), app.response);
+      res.status(500).send(err.message);
+    });
+
+    assert.strictEqual(app.listRoutes()[0].router, admin.router);
+
+    request(app).get('/admin/users')
+      .expect(500, 'sub-application failure', done);
   });
 });
 
