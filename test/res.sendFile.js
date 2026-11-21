@@ -92,6 +92,24 @@ describe('res', function(){
       }
     });
 
+    it('should disable the ETag function when the etag option is false', function (done) {
+      var app = createApp(path.resolve(fixtures, 'name.txt'), { etag: false });
+
+      request(app)
+      .get('/')
+      .expect(utils.shouldNotHaveHeader('ETag'))
+      .expect(200, 'tobi', done);
+    });
+
+    it('should enable the ETag function when the etag option is true', function (done) {
+      var app = createApp(path.resolve(fixtures, 'name.txt'), { etag: true }).disable('etag');
+
+      request(app)
+      .get('/')
+      .expect(utils.shouldHaveHeader('ETag'))
+      .expect(200, 'tobi', done);
+    });
+
     it('should 404 for directory', function (done) {
       var app = createApp(path.resolve(fixtures, 'blog'));
 

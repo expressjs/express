@@ -41,6 +41,19 @@ describe('res', function(){
         .expect(200, '<p>{{user.name}}</p>', done)
     })
 
+    it('should disable the ETag when the etag option is false', function (done) {
+      var app = express()
+
+      app.get('/', function (req, res) {
+        res.download('test/fixtures/user.html', { etag: false })
+      })
+
+      request(app)
+        .get('/')
+        .expect(utils.shouldNotHaveHeader('ETag'))
+        .expect(200, '<p>{{user.name}}</p>', done)
+    })
+
     it('should respond with requested byte range', function (done) {
       var app = express()
 
