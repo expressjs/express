@@ -217,6 +217,129 @@ describe('res', function(){
         .expect(200, "hey", done);
     })
 
+    it('should send only the bytes of a typed array window', function(done){
+      var app = express();
+      var body = new Uint16Array([0xffff, 0x0102, 0x0304, 0xeeee]).subarray(1, 3);
+      var bytes = Buffer.from(body.buffer, body.byteOffset, body.byteLength);
+
+      app.use(function(req, res){
+        res.send(body);
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream')
+        .expect('Content-Length', String(bytes.length))
+        .expect('ETag', app.get('etag fn')(bytes))
+        .expect(200)
+        .expect(function(res){
+          assert.deepStrictEqual(res.body, bytes);
+        })
+        .end(done);
+    })
+
+    it('should send the bytes of other typed arrays when etag is disabled', function(done){
+      var app = express();
+      var body = new Uint16Array([0x0102, 0x0304]);
+      var bytes = Buffer.from(body.buffer);
+      app.set('etag', false);
+
+      app.use(function(req, res){
+        res.send(body);
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream')
+        .expect('Content-Length', String(bytes.length))
+        .expect(200)
+        .expect(function(res){
+          assert.deepStrictEqual(res.body, bytes);
+          assert.strictEqual(res.headers.etag, undefined);
+        })
+        .end(done);
+    })
+
+    it('should send only the bytes of a DataView window', function(done){
+      var app = express();
+      var body = new DataView(new Uint8Array([0xaa, 0, 0xff, 0x80, 0xbb]).buffer, 1, 3);
+
+      app.use(function(req, res){
+        res.send(body);
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Type', 'application/octet-stream')
+        .expect('Content-Length', '3')
+        .expect(200)
+        .expect(function(res){
+          assert.deepStrictEqual(res.body, Buffer.from([0, 0xff, 0x80]));
+        })
+        .end(done);
+    })
+
+    it('should send the raw bytes of a large typed array', function(done){
+      var app = express();
+      var body = new Uint16Array(1001).fill(0x0102);
+      var bytes = Buffer.from(body.buffer);
+
+      app.use(function(req, res){
+        res.send(body);
+      });
+
+      request(app)
+        .get('/')
+        .expect('Content-Length', String(bytes.length))
+        .expect('ETag', app.get('etag fn')(bytes))
+        .expect(200)
+        .expect(function(res){
+          assert.deepStrictEqual(res.body, bytes);
+        })
+        .end(done);
+    })
+
+    it('should report view length and etag without sending a HEAD body', function(done){
+      var app = express();
+      var body = new Uint16Array([0xffff, 0x0102, 0x0304, 0xeeee]).subarray(1, 3);
+      var bytes = Buffer.from(body.buffer, body.byteOffset, body.byteLength);
+
+      app.use(function(req, res){
+        res.send(body);
+      });
+
+      request(app)
+        .head('/')
+        .expect('Content-Length', String(bytes.length))
+        .expect('ETag', app.get('etag fn')(bytes))
+        .expect(200)
+        .expect(function(res){
+          assert.strictEqual(res.text, undefined);
+          assert.deepStrictEqual(res.body, {});
+        })
+        .end(done);
+    })
+
+    it('should return 304 for a matching raw-byte view etag', function(done){
+      var app = express();
+      var body = new Uint16Array([0xffff, 0x0102, 0x0304, 0xeeee]).subarray(1, 3);
+      var bytes = Buffer.from(body.buffer, body.byteOffset, body.byteLength);
+
+      app.use(function(req, res){
+        res.send(body);
+      });
+
+      request(app)
+        .get('/')
+        .set('If-None-Match', app.get('etag fn')(bytes))
+        .expect(304)
+        .expect(function(res){
+          assert.strictEqual(res.headers['content-length'], undefined);
+          assert.strictEqual(res.text, '');
+        })
+        .end(done);
+    })
+
     it('should not override ETag', function (done) {
       var app = express()
 
