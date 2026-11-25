@@ -125,36 +125,36 @@ describe('req', function(){
         .set('Range', 'bytes=0-50,51-100')
         .expect(200, '[{"start":0,"end":100}]', done)
       })
-    })
 
-    it('should return -1 if range is unsatisfiable with options', function (done) {
-      var app = express()
+      it('should return -1 if range is unsatisfiable', function (done) {
+        var app = express()
 
-      app.use(function (req, res) {
-        res.json(req.range(120, {
-          combine: true
-        }))
+        app.use(function (req, res) {
+          res.json(req.range(120, {
+            combine: true
+          }))
+        })
+
+        request(app)
+        .get('/')
+        .set('Range', 'bytes=200-300')
+        .expect(200, '-1', done)
       })
 
-      request(app)
-      .get('/')
-      .set('Range', 'bytes=200-300')
-      .expect(200, '-1', done)
-    })
+      it('should return -2 if range is syntactically invalid', function (done) {
+        var app = express()
 
-    it('should return -2 if range is syntactically invalid with options', function (done) {
-      var app = express()
+        app.use(function (req, res) {
+          res.json(req.range(120, {
+            combine: true
+          }))
+        })
 
-      app.use(function (req, res) {
-        res.json(req.range(120, {
-          combine: true
-        }))
+        request(app)
+        .get('/')
+        .set('Range', 'bytes 0-2')
+        .expect(200, '-2', done)
       })
-
-      request(app)
-      .get('/')
-      .set('Range', 'bytes 0-2')
-      .expect(200, '-2', done)
     })
   })
 })
